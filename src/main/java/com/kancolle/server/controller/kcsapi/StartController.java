@@ -24,7 +24,7 @@ public class StartController {
     }
 
     @RequestMapping(value = "api_start2", method = RequestMethod.GET)
-    public @ResponseBody StartData Start2() {
+    public @ResponseBody StartData Start2() throws Exception {
         StartModel api_data = startService.getStartModel();
 
         StartData response = new StartData();
