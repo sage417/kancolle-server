@@ -11,7 +11,7 @@ import com.kancolle.server.modle.json.APIResponse;
 public class CommonController {
     private static final APIResponse<String> RESONSE = new APIResponse<>();
 
-    @RequestMapping("/badrequest")
+    @RequestMapping("/tokenerror")
     public @ResponseBody APIResponse<String> badRequest() {
         return RESONSE;
     }
