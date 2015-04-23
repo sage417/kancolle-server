@@ -26,6 +26,10 @@
 		<property name="password" value="${jdbc.pass}" />
 	</bean>
 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
 	<!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
 		destroy-method="close"> <property name="driverClass" value="com.mysql.jdbc.Driver"></property> 
 		<property name="jdbcUrl" value="jdbc:mysql://${jdbc.host}:3306/${jdbc.name}"></property> 
