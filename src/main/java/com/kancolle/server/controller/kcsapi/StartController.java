@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kancolle.server.modle.response.kcsapi.StartData;
+
 @Controller
 @RequestMapping("/kcsapi")
 public class StartController {
@@ -16,7 +18,7 @@ public class StartController {
     }
 
     @RequestMapping(value = "api_start2", method = RequestMethod.POST)
-    public @ResponseBody String Start2() {
-        return "";
+    public @ResponseBody StartData Start2() {
+        return new StartData();
     }
 }
