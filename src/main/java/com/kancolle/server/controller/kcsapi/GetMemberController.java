@@ -4,12 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.modle.response.kcsapi.get_member.BasicData;
-import com.kancolle.server.modle.response.kcsapi.get_member.FurnitureData;
-import com.kancolle.server.modle.response.kcsapi.get_member.KdockData;
-import com.kancolle.server.modle.response.kcsapi.get_member.SlotItemData;
-import com.kancolle.server.modle.response.kcsapi.get_member.UnsetSlotData;
-import com.kancolle.server.modle.response.kcsapi.get_member.UseItemData;
+import com.kancolle.server.model.response.kcsapi.get_member.BasicData;
+import com.kancolle.server.model.response.kcsapi.get_member.FurnitureData;
+import com.kancolle.server.model.response.kcsapi.get_member.KdockData;
+import com.kancolle.server.model.response.kcsapi.get_member.SlotItemData;
+import com.kancolle.server.model.response.kcsapi.get_member.UnsetSlotData;
+import com.kancolle.server.model.response.kcsapi.get_member.UseItemData;
 
 @Controller
 @RequestMapping("/kcsapi/api_get_member")

@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.modle.kcsapi.start.StartModel;
-import com.kancolle.server.modle.response.kcsapi.StartData;
+import com.kancolle.server.model.kcsapi.start.StartModel;
+import com.kancolle.server.model.response.kcsapi.StartData;
 import com.kancolle.server.service.start.StartService;
 
 @Controller
