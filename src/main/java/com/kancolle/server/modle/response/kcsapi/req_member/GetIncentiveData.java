@@ -4,6 +4,6 @@ import java.util.Map;
 
 import com.kancolle.server.modle.json.APIResponse;
 
-public class GetncentiveData extends APIResponse<Map<String, Integer>> {
+public class GetIncentiveData extends APIResponse<Map<String, Integer>> {
 
 }
