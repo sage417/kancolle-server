@@ -1,14 +1,10 @@
 package com.kancolle.server.dao.start;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSONObject;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
-import com.kancolle.server.mapper.annotation.Column;
 import com.kancolle.server.model.kcsapi.start.StartModel;
 import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
@@ -29,6 +25,7 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.utils.DaoUtils;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
@@ -56,6 +53,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<ShipModel> getMstShip() {
         getTemplate().query(MST_SHIP_TB, (rs, rn) -> {
             ShipModel model = new ShipModel();
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -65,7 +63,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<ShipGraphModel> getMstShipgraph() {
         getTemplate().query(MST_SHIPGRAPH_TB, (rs, rn) -> {
             ShipGraphModel model = new ShipGraphModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -75,7 +73,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<EquipTypeModel> getMstSlotitemEquiptype() {
         getTemplate().query(MST_SLOTITEMEQUIPTYPE_TB, (rs, rn) -> {
             EquipTypeModel model = new EquipTypeModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -85,34 +83,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<ShipTypeModel> getMstStype() {
         return getTemplate().query(MST_SHIPTYPE_TB, (rs, rn) -> {
             ShipTypeModel model = new ShipTypeModel();
-
-            Arrays.asList(model.getClass().getDeclaredMethods()).stream().filter(method -> method.getName().startsWith("set") && method.getParameterCount() == 1).forEach(method -> {
-                Column columm = method.getAnnotationsByType(Column.class)[0];
-                String name = columm.name();
-                Class<?> type = columm.type();
-                try {
-                    if (type == int.class) {
-                        method.invoke(model, rs.getInt(name));
-                        return;
-                    }
-                    if (type == String.class) {
-                        method.invoke(model, rs.getString(name));
-                        return;
-                    }
-                    if (type == long.class) {
-                        method.invoke(model, rs.getLong(name));
-                        return;
-                    }
-                    if (type == double.class) {
-                        method.invoke(model, rs.getDouble(name));
-                    }
-                    if(type==JSONObject.class){
-                        method.invoke(model, rs.getString(name));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            DaoUtils.setObject(model, rs);
             return model;
         });
     }
@@ -121,7 +92,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<SlotItemModel> getMstSlotitem() {
         getTemplate().query(MST_SLOTITEM_TB, (rs, rn) -> {
             SlotItemModel model = new SlotItemModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -131,7 +102,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
         getTemplate().query(MST_SLOTITEMGRAPH_TB, (rs, rn) -> {
             SlotItemGraphModel model = new SlotItemGraphModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -141,7 +112,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<FurnitureModel> getMstFurniture() {
         getTemplate().query(MST_FURNITURE_TB, (rs, rn) -> {
             FurnitureModel model = new FurnitureModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -151,7 +122,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<FurnitureGraphModel> getMstFurnituregraph() {
         getTemplate().query(MST_FURNITUREGRAPH_TB, (rs, rn) -> {
             ShipModel model = new ShipModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -161,7 +132,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<UseItemModel> getMstUseitem() {
         getTemplate().query(MST_USEITEM_TB, (rs, rn) -> {
             UseItemModel model = new UseItemModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -171,7 +142,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<PayItemModel> getMstPayitem() {
         getTemplate().query(MST_PLAYITEM_TB, (rs, rn) -> {
             PayItemModel model = new PayItemModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -181,6 +152,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public ItemShopModel getMstItemShop() {
         getTemplate().query(MST_ITEMSHOP_TB, (rs, rn) -> {
             ShipModel model = new ShipModel();
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -190,7 +162,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<MapAreaModel> getMstMaparea() {
         getTemplate().query(MST_MAPAREA_TB, (rs, rn) -> {
             MapAreaModel model = new MapAreaModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -200,7 +172,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<MapInfoModel> getMstMapinfo() {
         getTemplate().query(MST_MAPINFO_TB, (rs, rn) -> {
             ShipModel model = new ShipModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -210,7 +182,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<MapBgmModel> getMstMapbgm() {
         getTemplate().query(MST_MAPBGM_TB, (rs, rn) -> {
             MapBgmModel model = new MapBgmModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -220,7 +192,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<MapCellModel> getMstMapcell() {
         getTemplate().query(MST_MAPCELL_TB, (rs, rn) -> {
             MapCellModel model = new MapCellModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -230,7 +202,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<MissionModel> getMstMission() {
         getTemplate().query(MST_MISSION_TB, (rs, rn) -> {
             MissionModel model = new MissionModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -240,7 +212,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public ConstModel getMstConst() {
         getTemplate().query(MST_CONST_TB, (rs, rn) -> {
             ConstModel model = new ConstModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -250,7 +222,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<ShipUpgradeModel> getMstShipupgrade() {
         getTemplate().query(MST_SHIPUPGRADE_TB, (rs, rn) -> {
             ShipUpgradeModel model = new ShipUpgradeModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
@@ -260,7 +232,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<BgmModel> getMstBgm() {
         getTemplate().query(MST_BGM_TB, (rs, rn) -> {
             BgmModel model = new BgmModel();
-
+            DaoUtils.setObject(model, rs);
             return model;
         });
         return null;
