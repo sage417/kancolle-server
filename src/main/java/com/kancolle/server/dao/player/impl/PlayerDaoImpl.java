@@ -10,8 +10,10 @@ import com.kancolle.server.mapper.player.PlayerMapper;
 @Repository
 public class PlayerDaoImpl extends BaseDaoImpl<Player> implements PlayerDao {
 
-    @Override
-    public Player getPlayerByApiToken(String api_token) {
-        return getTemplate().queryForObject("select * from player where player_token = ?", new Object[] { api_token }, new PlayerMapper());
-    }
+	@Override
+	public Player getPlayerByApiToken(String api_token) {
+		return getTemplate().queryForObject(
+				"SELECT * from player where player_token = ?",
+				new Object[] { api_token }, new PlayerMapper());
+	}
 }

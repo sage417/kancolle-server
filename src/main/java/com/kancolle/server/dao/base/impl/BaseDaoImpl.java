@@ -6,11 +6,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.kancolle.server.dao.base.BaseDao;
 
 public class BaseDaoImpl<T> implements BaseDao<T> {
+	protected static final String SELECT_ALL = "SELECT * FROM ";
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+	protected String tableName;
 
-    protected JdbcTemplate getTemplate() {
-        return jdbcTemplate;
-    }
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	protected JdbcTemplate getTemplate() {
+		return jdbcTemplate;
+	}
+
+	protected void setTableName(String tableName) {
+		this.tableName = tableName;
+	};
+
+	protected String getTableName() {
+		return this.tableName;
+	}
 }

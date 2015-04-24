@@ -29,7 +29,7 @@ public interface StartDao extends BaseDao<StartModel> {
 
     List<ShipGraphModel> getMstShipgraph();
 
-    List<EquipTypeModel> getMst_slotitemEquiptype();
+    List<EquipTypeModel> getMstSlotitemEquiptype();
 
     List<ShipTypeModel> getMstStype();
 

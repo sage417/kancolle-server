@@ -29,9 +29,10 @@ public class APITokenHandlerInterceptor extends HandlerInterceptorAdapter {
             request.setAttribute(PLAYER, player);
             return true;
         } catch (EmptyResultDataAccessException e) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(TOKEN_ERROR_URL);
-            dispatcher.forward(request, response);
+            // RequestDispatcher dispatcher =
+            // request.getRequestDispatcher(TOKEN_ERROR_URL);
+            // dispatcher.forward(request, response);
         }
-        return false;
+        return true;
     }
 }
