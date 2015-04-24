@@ -51,32 +51,29 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public List<ShipModel> getMstShip() {
-        getTemplate().query(MST_SHIP_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SHIP_TB, (rs, rn) -> {
             ShipModel model = new ShipModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<ShipGraphModel> getMstShipgraph() {
-        getTemplate().query(MST_SHIPGRAPH_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SHIPGRAPH_TB, (rs, rn) -> {
             ShipGraphModel model = new ShipGraphModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<EquipTypeModel> getMstSlotitemEquiptype() {
-        getTemplate().query(MST_SLOTITEMEQUIPTYPE_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SLOTITEMEQUIPTYPE_TB, (rs, rn) -> {
             EquipTypeModel model = new EquipTypeModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
@@ -90,151 +87,140 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public List<SlotItemModel> getMstSlotitem() {
-        getTemplate().query(MST_SLOTITEM_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SLOTITEM_TB, (rs, rn) -> {
             SlotItemModel model = new SlotItemModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
-        getTemplate().query(MST_SLOTITEMGRAPH_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SLOTITEMGRAPH_TB, (rs, rn) -> {
             SlotItemGraphModel model = new SlotItemGraphModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
+
     }
 
     @Override
     public List<FurnitureModel> getMstFurniture() {
-        getTemplate().query(MST_FURNITURE_TB, (rs, rn) -> {
+        return getTemplate().query(MST_FURNITURE_TB, (rs, rn) -> {
             FurnitureModel model = new FurnitureModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
+
     }
 
     @Override
     public List<FurnitureGraphModel> getMstFurnituregraph() {
-        getTemplate().query(MST_FURNITUREGRAPH_TB, (rs, rn) -> {
-            ShipModel model = new ShipModel();
+        return getTemplate().query(MST_FURNITUREGRAPH_TB, (rs, rn) -> {
+            FurnitureGraphModel model = new FurnitureGraphModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<UseItemModel> getMstUseitem() {
-        getTemplate().query(MST_USEITEM_TB, (rs, rn) -> {
+        return getTemplate().query(MST_USEITEM_TB, (rs, rn) -> {
             UseItemModel model = new UseItemModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
+
     }
 
     @Override
     public List<PayItemModel> getMstPayitem() {
-        getTemplate().query(MST_PLAYITEM_TB, (rs, rn) -> {
+        return getTemplate().query(MST_PLAYITEM_TB, (rs, rn) -> {
             PayItemModel model = new PayItemModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
+
     }
 
     @Override
     public ItemShopModel getMstItemShop() {
-        getTemplate().query(MST_ITEMSHOP_TB, (rs, rn) -> {
-            ShipModel model = new ShipModel();
+        return getTemplate().queryForObject(MST_ITEMSHOP_TB, (rs, rn) -> {
+            ItemShopModel model = new ItemShopModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<MapAreaModel> getMstMaparea() {
-        getTemplate().query(MST_MAPAREA_TB, (rs, rn) -> {
+        return getTemplate().query(MST_MAPAREA_TB, (rs, rn) -> {
             MapAreaModel model = new MapAreaModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<MapInfoModel> getMstMapinfo() {
-        getTemplate().query(MST_MAPINFO_TB, (rs, rn) -> {
-            ShipModel model = new ShipModel();
+        return getTemplate().query(MST_MAPINFO_TB, (rs, rn) -> {
+            MapInfoModel model = new MapInfoModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<MapBgmModel> getMstMapbgm() {
-        getTemplate().query(MST_MAPBGM_TB, (rs, rn) -> {
+        return getTemplate().query(MST_MAPBGM_TB, (rs, rn) -> {
             MapBgmModel model = new MapBgmModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<MapCellModel> getMstMapcell() {
-        getTemplate().query(MST_MAPCELL_TB, (rs, rn) -> {
+        return getTemplate().query(MST_MAPCELL_TB, (rs, rn) -> {
             MapCellModel model = new MapCellModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<MissionModel> getMstMission() {
-        getTemplate().query(MST_MISSION_TB, (rs, rn) -> {
+        return getTemplate().query(MST_MISSION_TB, (rs, rn) -> {
             MissionModel model = new MissionModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public ConstModel getMstConst() {
-        getTemplate().query(MST_CONST_TB, (rs, rn) -> {
+        return getTemplate().queryForObject(MST_CONST_TB, (rs, rn) -> {
             ConstModel model = new ConstModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<ShipUpgradeModel> getMstShipupgrade() {
-        getTemplate().query(MST_SHIPUPGRADE_TB, (rs, rn) -> {
+        return getTemplate().query(MST_SHIPUPGRADE_TB, (rs, rn) -> {
             ShipUpgradeModel model = new ShipUpgradeModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 
     @Override
     public List<BgmModel> getMstBgm() {
-        getTemplate().query(MST_BGM_TB, (rs, rn) -> {
+        return getTemplate().query(MST_BGM_TB, (rs, rn) -> {
             BgmModel model = new BgmModel();
             DaoUtils.setObject(model, rs);
             return model;
         });
-        return null;
     }
 }
