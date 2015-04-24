@@ -37,14 +37,13 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_FURNITURE_TB = SELECT_ALL + "t_furniture";
     private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
     private static final String MST_USEITEM_TB = SELECT_ALL + "t_useitem";
-    private static final String MST_PLAYITEM_TB = SELECT_ALL + "t_play_item";
-    private static final String MST_ITEMSHOP_TB = SELECT_ALL + "t_itemshop";
+    private static final String MST_PAYITEM_TB = SELECT_ALL + "t_pay_item";
+    private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM " + "t_item_shop WHERE NAME = ?";
     private static final String MST_MAPAREA_TB = SELECT_ALL + "t_map_area";
     private static final String MST_MAPINFO_TB = SELECT_ALL + "t_map_info";
     private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
     private static final String MST_MISSION_TB = SELECT_ALL + "t_mission";
-    private static final String MST_CONST_TB = SELECT_ALL + "t_const";
     private static final String MST_SHIPUPGRADE_TB = SELECT_ALL + "t_ship_upgrade";
     private static final String MST_BGM_TB = SELECT_ALL + "t_bgm";
 
@@ -98,13 +97,15 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public List<PayItemModel> getMstPayitem() {
-        return query(PayItemModel.class, MST_PLAYITEM_TB);
+        return query(PayItemModel.class, MST_PAYITEM_TB);
 
     }
 
     @Override
     public ItemShopModel getMstItemShop() {
-        return queryForObject(ItemShopModel.class, MST_ITEMSHOP_TB);
+        List<Integer> api_cabinet_1 = getTemplate().queryForList(MST_ITEMSHOP_TB, Integer.class, "api_cabinet_1");
+        List<Integer> api_cabinet_2 = getTemplate().queryForList(MST_ITEMSHOP_TB, Integer.class, "api_cabinet_2");
+        return new ItemShopModel(api_cabinet_1, api_cabinet_2);
     }
 
     @Override
@@ -134,7 +135,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public ConstModel getMstConst() {
-        return queryForObject(ConstModel.class, MST_CONST_TB);
+        return ConstModel.getInstance();
     }
 
     @Override
