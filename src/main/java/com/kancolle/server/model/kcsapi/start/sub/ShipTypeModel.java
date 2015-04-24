@@ -2,22 +2,29 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 import com.kancolle.server.mapper.annotation.Table;
 
 @Table("t_ship_type")
 public class ShipTypeModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_sortno;
 
+    @JSONField(ordinal = 3)
     private String api_name;
 
+    @JSONField(ordinal = 4)
     private int api_scnt;
 
+    @JSONField(ordinal = 5)
     private int api_kcnt;
 
+    @JSONField(ordinal = 6)
     private JSONObject api_equip_type;
 
     public int getApi_id() {

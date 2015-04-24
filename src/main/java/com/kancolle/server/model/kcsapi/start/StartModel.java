@@ -2,6 +2,7 @@ package com.kancolle.server.model.kcsapi.start;
 
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
 import com.kancolle.server.model.kcsapi.start.sub.EquipTypeModel;
@@ -23,43 +24,43 @@ import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 
 public class StartModel {
-
+    @JSONField(ordinal = 1)
     private List<ShipModel> api_mst_ship;
-
+    @JSONField(ordinal = 2)
     private List<ShipGraphModel> api_mst_shipgraph;
-
+    @JSONField(ordinal = 3)
     private List<EquipTypeModel> api_mst_slotitem_equiptype;
-
+    @JSONField(ordinal = 4)
     private List<ShipTypeModel> api_mst_stype;
-
+    @JSONField(ordinal = 5)
     private List<SlotItemModel> api_mst_slotitem;
-
+    @JSONField(ordinal = 6)
     private List<SlotItemGraphModel> api_mst_slotitemgraph;
-
+    @JSONField(ordinal = 7)
     private List<FurnitureModel> api_mst_furniture;
-
+    @JSONField(ordinal = 8)
     private List<FurnitureGraphModel> api_mst_furnituregraph;
-
+    @JSONField(ordinal = 9)
     private List<UseItemModel> api_mst_useitem;
-
+    @JSONField(ordinal = 10)
     private List<PayItemModel> api_mst_payitem;
-
+    @JSONField(ordinal = 11)
     private ItemShopModel api_mst_item_shop;
-
+    @JSONField(ordinal = 12)
     private List<MapAreaModel> api_mst_maparea;
-
+    @JSONField(ordinal = 13)
     private List<MapInfoModel> api_mst_mapinfo;
-
+    @JSONField(ordinal = 14)
     private List<MapBgmModel> api_mst_mapbgm;
-
+    @JSONField(ordinal = 15)
     private List<MapCellModel> api_mst_mapcell;
-
+    @JSONField(ordinal = 16)
     private List<MissionModel> api_mst_mission;
-
+    @JSONField(ordinal = 17)
     private ConstModel api_mst_const;
-
+    @JSONField(ordinal = 18)
     private List<ShipUpgradeModel> api_mst_shipupgrade;
-
+    @JSONField(ordinal = 19)
     private List<BgmModel> api_mst_bgm;
 
     public List<ShipModel> getApi_mst_ship() {

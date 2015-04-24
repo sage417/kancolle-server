@@ -1,10 +1,15 @@
 package com.kancolle.server.model.json;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class APIResponse<T> {
     private static final String DEFAULT_RESULT_MSG = "成功";
 
+    @JSONField(ordinal = 1)
     private int api_result = 1;
+    @JSONField(ordinal = 2)
     private String api_result_msg = DEFAULT_RESULT_MSG;
+    @JSONField(ordinal = 3)
     private T api_data;
 
     public int getApi_result() {

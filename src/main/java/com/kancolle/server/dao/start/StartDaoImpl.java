@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.alibaba.fastjson.JSON;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.model.kcsapi.start.StartModel;
 import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
@@ -103,9 +104,11 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public ItemShopModel getMstItemShop() {
-        List<Integer> api_cabinet_1 = getTemplate().queryForList(MST_ITEMSHOP_TB, Integer.class, "api_cabinet_1");
-        List<Integer> api_cabinet_2 = getTemplate().queryForList(MST_ITEMSHOP_TB, Integer.class, "api_cabinet_2");
-        return new ItemShopModel(api_cabinet_1, api_cabinet_2);
+        ItemShopModel model = new ItemShopModel();
+        model.setApi_cabinet_1(JSON.parseArray(getTemplate().queryForObject(MST_ITEMSHOP_TB, String.class, "api_cabinet_1")));
+        model.setApi_cabinet_2(JSON.parseArray(getTemplate().queryForObject(MST_ITEMSHOP_TB, String.class, "api_cabinet_2")));
+
+        return model;
     }
 
     @Override

@@ -1,19 +1,26 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 
 public class ConstModel {
 
+    @JSONField(deserialize=false)
     private static final String STRING_KEY = "api_string_value";
 
+    @JSONField(deserialize=false)
     private static final String INT_KEY = "api_int_value";
 
+    @JSONField(ordinal = 1)
     private static final JSONObject api_parallel_quest_max = new JSONObject(2);
 
+    @JSONField(ordinal = 2)
     private static final JSONObject api_boko_max_ships = new JSONObject(2);
 
+    @JSONField(ordinal = 3)
     private static final JSONObject api_dpflag_quest = new JSONObject(2);
 
+    @JSONField(deserialize=false)
     private static final ConstModel SINGLON = new ConstModel();
 
     private ConstModel() {

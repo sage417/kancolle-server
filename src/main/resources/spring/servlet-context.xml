@@ -64,6 +64,7 @@
 				<!-- <value>WriteMapNullValue</value> -->
 				<value>QuoteFieldNames</value>
 				<value>WriteDateUseDateFormat</value>
+				<value>BrowserCompatible</value>
 			</list>
 		</property>
 	</bean>

@@ -1,13 +1,17 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class EquipTypeModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private String api_name;
 
+    @JSONField(ordinal = 3)
     private int api_show_flg;
 
     public int getApi_id() {

@@ -2,30 +2,42 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class MissionModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_maparea_id;
 
+    @JSONField(ordinal = 3)
     private String api_name;
 
+    @JSONField(ordinal = 4)
     private String api_details;
 
+    @JSONField(ordinal = 5)
     private int api_time;
 
+    @JSONField(ordinal = 6)
     private int api_difficulty;
 
+    @JSONField(ordinal = 7)
     private double api_use_fuel;
 
+    @JSONField(ordinal = 8)
     private double api_use_bull;
 
+    @JSONField(ordinal = 9)
     private JSONArray api_win_item1;
 
+    @JSONField(ordinal = 10)
     private JSONArray api_win_item2;
 
+    @JSONField(ordinal = 11)
     private int api_return_flag;
 
     public int getApi_id() {
@@ -86,7 +98,7 @@ public class MissionModel {
         return api_use_fuel;
     }
 
-    @Column(name = "USE_FUEL", type = int.class)
+    @Column(name = "USE_FUEL", type = double.class)
     public void setApi_use_fuel(double api_use_fuel) {
         this.api_use_fuel = api_use_fuel;
     }
@@ -95,7 +107,7 @@ public class MissionModel {
         return api_use_bull;
     }
 
-    @Column(name = "USE_BULL", type = int.class)
+    @Column(name = "USE_BULL", type = double.class)
     public void setApi_use_bull(double api_use_bull) {
         this.api_use_bull = api_use_bull;
     }

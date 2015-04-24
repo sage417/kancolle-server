@@ -55,7 +55,14 @@ public class DaoUtils {
 
     public static void setObject(Object target, ResultSet rs) {
         Arrays.asList(target.getClass().getDeclaredMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
-            Column columm = method.getAnnotationsByType(Column.class)[0];
+            Column[] columms = method.getAnnotationsByType(Column.class);
+            if (columms.length==0) {
+                System.out.println(method);
+                return;
+            }
+
+            Column columm = columms[0];
+
             String name = columm.name();
             Class<?> type = columm.type();
             try {

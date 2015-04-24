@@ -2,62 +2,90 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class ShipModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_sortno;
 
+    @JSONField(ordinal = 3)
     private String api_name;
 
+    @JSONField(ordinal = 4)
     private String api_yomi;
 
+    @JSONField(ordinal = 5)
     private int api_stype;
 
+    @JSONField(ordinal = 6)
     private int api_afterlv;
 
+    @JSONField(ordinal = 7)
     private String api_aftershipid;
 
+    @JSONField(ordinal = 8)
     private JSONArray api_taik;
 
+    @JSONField(ordinal = 9)
     private JSONArray api_souk;
 
+    @JSONField(ordinal = 10)
     private JSONArray api_houg;
 
+    @JSONField(ordinal = 11)
     private JSONArray api_raig;
 
+    @JSONField(ordinal = 12)
     private JSONArray api_tyku;
 
+    @JSONField(ordinal = 13)
     private JSONArray api_luck;
 
+    @JSONField(ordinal = 14)
     private int api_soku;
 
+    @JSONField(ordinal = 15)
     private int api_leng;
 
+    @JSONField(ordinal = 16)
     private int api_slot_num;
 
+    @JSONField(ordinal = 17)
     private JSONArray api_maxeq;
 
+    @JSONField(ordinal = 18)
     private int api_buildtime;
 
+    @JSONField(ordinal = 19)
     private JSONArray api_broken;
 
+    @JSONField(ordinal = 20)
     private JSONArray api_powup;
 
+    @JSONField(ordinal = 21)
     private int api_backs;
 
+    @JSONField(ordinal = 22)
     private String api_getmes;
 
+    @JSONField(ordinal = 23)
     private int api_afterfuel;
 
+    @JSONField(ordinal = 24)
     private int api_afterbull;
 
+    @JSONField(ordinal = 25)
     private int api_fuel_max;
 
+    @JSONField(ordinal = 26)
     private int api_bull_max;
 
+    @JSONField(ordinal = 27)
     private int api_voicef;
 
     public int getApi_id() {

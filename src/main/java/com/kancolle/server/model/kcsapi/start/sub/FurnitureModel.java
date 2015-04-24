@@ -1,29 +1,42 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.mapper.annotation.Column;
+
 public class FurnitureModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 1)
     private int api_type;
 
+    @JSONField(ordinal = 2)
     private int api_no;
 
+    @JSONField(ordinal = 3)
     private String api_title;
 
-    private String api_descrption;
+    @JSONField(ordinal = 4)
+    private String api_description;
 
+    @JSONField(ordinal = 5)
     private int api_rarity;
 
+    @JSONField(ordinal = 6)
     private int api_price;
 
-    private int saleflg;
+    @JSONField(ordinal = 7)
+    private int api_saleflg;
 
+    @JSONField(ordinal = 8)
     private int api_season;
 
     public int getApi_id() {
         return api_id;
     }
 
+    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
@@ -32,6 +45,7 @@ public class FurnitureModel {
         return api_type;
     }
 
+    @Column(name = "TYPE", type = int.class)
     public void setApi_type(int api_type) {
         this.api_type = api_type;
     }
@@ -40,6 +54,7 @@ public class FurnitureModel {
         return api_no;
     }
 
+    @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
     }
@@ -48,22 +63,25 @@ public class FurnitureModel {
         return api_title;
     }
 
+    @Column(name = "TITLE", type = String.class)
     public void setApi_title(String api_title) {
         this.api_title = api_title;
     }
 
-    public String getApi_descrption() {
-        return api_descrption;
+    public String getApi_description() {
+        return api_description;
     }
 
-    public void setApi_descrption(String api_descrption) {
-        this.api_descrption = api_descrption;
+    @Column(name = "DESCRIPTION", type = String.class)
+    public void setApi_description(String api_description) {
+        this.api_description = api_description;
     }
 
     public int getApi_rarity() {
         return api_rarity;
     }
 
+    @Column(name = "RARITY", type = int.class)
     public void setApi_rarity(int api_rarity) {
         this.api_rarity = api_rarity;
     }
@@ -72,22 +90,25 @@ public class FurnitureModel {
         return api_price;
     }
 
+    @Column(name = "PRICE", type = int.class)
     public void setApi_price(int api_price) {
         this.api_price = api_price;
     }
 
-    public int getSaleflg() {
-        return saleflg;
+    public int getApi_saleflg() {
+        return api_saleflg;
     }
 
-    public void setSaleflg(int saleflg) {
-        this.saleflg = saleflg;
+    @Column(name = "SALEFLG", type = int.class)
+    public void setApi_saleflg(int api_saleflg) {
+        this.api_saleflg = api_saleflg;
     }
 
     public int getApi_season() {
         return api_season;
     }
 
+    @Column(name = "SEASON", type = int.class)
     public void setApi_season(int api_season) {
         this.api_season = api_season;
     }

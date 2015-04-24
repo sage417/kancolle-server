@@ -2,60 +2,87 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class SlotItemModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_sortno;
 
+    @JSONField(ordinal = 3)
     private String api_name;
 
+    @JSONField(ordinal = 4)
     private JSONArray api_type;
 
+    @JSONField(ordinal = 5)
     private int api_taik;
 
+    @JSONField(ordinal = 6)
     private int api_souk;
 
+    @JSONField(ordinal = 7)
     private int api_houg;
 
+    @JSONField(ordinal = 8)
     private int api_raig;
 
+    @JSONField(ordinal = 9)
     private int api_soku;
 
+    @JSONField(ordinal = 10)
     private int api_baku;
 
+    @JSONField(ordinal = 11)
     private int api_tyku;
 
+    @JSONField(ordinal = 12)
     private int api_tais;
 
+    @JSONField(ordinal = 13)
     private int api_atap;
 
+    @JSONField(ordinal = 14)
     private int api_houm;
 
+    @JSONField(ordinal = 15)
     private int api_raim;
 
+    @JSONField(ordinal = 16)
     private int api_houk;
 
+    @JSONField(ordinal = 17)
     private int api_raik;
 
+    @JSONField(ordinal = 18)
     private int api_bakk;
 
+    @JSONField(ordinal = 19)
     private int api_saku;
 
+    @JSONField(ordinal = 20)
     private int api_sakb;
 
+    @JSONField(ordinal = 21)
     private int api_luck;
 
+    @JSONField(ordinal = 22)
     private int api_leng;
 
+    @JSONField(ordinal = 23)
     private int api_rare;
 
+    @JSONField(ordinal = 24)
     private JSONArray api_broken;
 
+    @JSONField(ordinal = 25)
     private String api_info;
 
+    @JSONField(ordinal = 26)
     private String api_usebull;
 
     public int getApi_id() {

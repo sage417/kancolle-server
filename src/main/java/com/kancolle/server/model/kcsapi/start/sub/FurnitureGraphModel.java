@@ -1,21 +1,30 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.mapper.annotation.Column;
+
 public class FurnitureGraphModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_type;
 
+    @JSONField(ordinal = 3)
     private int api_no;
 
+    @JSONField(ordinal = 4)
     private String api_filename;
 
+    @JSONField(ordinal = 5)
     private String api_version;
 
     public int getApi_id() {
         return api_id;
     }
 
+    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
@@ -24,6 +33,7 @@ public class FurnitureGraphModel {
         return api_type;
     }
 
+    @Column(name = "TYPE", type = int.class)
     public void setApi_type(int api_type) {
         this.api_type = api_type;
     }
@@ -32,6 +42,7 @@ public class FurnitureGraphModel {
         return api_no;
     }
 
+    @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
     }
@@ -40,6 +51,7 @@ public class FurnitureGraphModel {
         return api_filename;
     }
 
+    @Column(name = "FILENAME", type = String.class)
     public void setApi_filename(String api_filename) {
         this.api_filename = api_filename;
     }
@@ -48,6 +60,7 @@ public class FurnitureGraphModel {
         return api_version;
     }
 
+    @Column(name = "VERSION", type = String.class)
     public void setApi_version(String api_version) {
         this.api_version = api_version;
     }

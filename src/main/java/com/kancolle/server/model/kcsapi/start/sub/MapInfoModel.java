@@ -2,30 +2,42 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class MapInfoModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_maparea_id;
 
+    @JSONField(ordinal = 3)
     private int api_no;
 
+    @JSONField(ordinal = 4)
     private String api_name;
 
+    @JSONField(ordinal = 5)
     private int api_level;
 
+    @JSONField(ordinal = 6)
     private String api_opetext;
 
+    @JSONField(ordinal = 7)
     private String api_infotext;
 
+    @JSONField(ordinal = 8)
     private JSONArray api_item;
 
+    @JSONField(ordinal = 9)
     private int api_max_maphp;
 
+    @JSONField(ordinal = 10)
     private int api_required_defeat_count;
 
+    @JSONField(ordinal = 11)
     private JSONArray api_sally_flag;
 
     public int getApi_id() {
@@ -95,7 +107,7 @@ public class MapInfoModel {
         return api_item;
     }
 
-    @Column(name = "ITEM", type = JSONArray.class)
+    @Column(name = "ITEM", type = String.class)
     public void setApi_item(String api_item) {
         this.api_item = JSON.parseArray(api_item);
     }
@@ -104,7 +116,7 @@ public class MapInfoModel {
         return api_max_maphp;
     }
 
-    @Column(name = "ID", type = int.class)
+    @Column(name = "MAX_MAPHP", type = int.class)
     public void setApi_max_maphp(int api_max_maphp) {
         this.api_max_maphp = api_max_maphp;
     }
@@ -113,7 +125,7 @@ public class MapInfoModel {
         return api_required_defeat_count;
     }
 
-    @Column(name = "ID", type = int.class)
+    @Column(name = "REQUIRED_DEFEAT_COUNT", type = int.class)
     public void setApi_required_defeat_count(int api_required_defeat_count) {
         this.api_required_defeat_count = api_required_defeat_count;
     }
@@ -122,7 +134,7 @@ public class MapInfoModel {
         return api_sally_flag;
     }
 
-    @Column(name = "SALLY_FALG", type = JSONArray.class)
+    @Column(name = "SALLY_FALG", type = String.class)
     public void setApi_sally_flag(String api_sally_flag) {
         this.api_sally_flag = JSON.parseArray(api_sally_flag);
     }

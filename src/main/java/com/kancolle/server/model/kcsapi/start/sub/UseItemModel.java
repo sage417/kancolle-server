@@ -2,20 +2,27 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.mapper.annotation.Column;
 
 public class UseItemModel {
 
+    @JSONField(ordinal = 1)
     private int api_id;
 
+    @JSONField(ordinal = 2)
     private int api_usetype;
 
+    @JSONField(ordinal = 3)
     private int api_category;
 
+    @JSONField(ordinal = 4)
     private String api_name;
 
+    @JSONField(ordinal = 5)
     private JSONArray api_description;
 
+    @JSONField(ordinal = 6)
     private int api_price;
 
     public int getApi_id() {
@@ -49,7 +56,7 @@ public class UseItemModel {
         return api_name;
     }
 
-    @Column(name = "NAME", type = int.class)
+    @Column(name = "NAME", type = String.class)
     public void setApi_name(String api_name) {
         this.api_name = api_name;
     }
@@ -58,7 +65,7 @@ public class UseItemModel {
         return api_description;
     }
 
-    @Column(name = "DESCRIPTION", type = int.class)
+    @Column(name = "DESCRIPTION", type = String.class)
     public void setApi_description(String api_description) {
         this.api_description = JSON.parseArray(api_description);
     }
