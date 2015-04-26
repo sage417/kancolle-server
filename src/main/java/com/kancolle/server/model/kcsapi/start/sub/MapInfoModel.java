@@ -32,10 +32,10 @@ public class MapInfoModel {
     private JSONArray api_item;
 
     @JSONField(ordinal = 9)
-    private int api_max_maphp;
+    private Integer api_max_maphp;
 
     @JSONField(ordinal = 10)
-    private int api_required_defeat_count;
+    private Integer api_required_defeat_count;
 
     @JSONField(ordinal = 11)
     private JSONArray api_sally_flag;
@@ -112,22 +112,24 @@ public class MapInfoModel {
         this.api_item = JSON.parseArray(api_item);
     }
 
-    public int getApi_max_maphp() {
+    public Integer getApi_max_maphp() {
         return api_max_maphp;
     }
 
     @Column(name = "MAX_MAPHP", type = int.class)
-    public void setApi_max_maphp(int api_max_maphp) {
-        this.api_max_maphp = api_max_maphp;
+    public void setApi_max_maphp(Integer api_max_maphp) {
+        if (api_max_maphp > 0)
+            this.api_max_maphp = api_max_maphp;
     }
 
-    public int getApi_required_defeat_count() {
+    public Integer getApi_required_defeat_count() {
         return api_required_defeat_count;
     }
 
     @Column(name = "REQUIRED_DEFEAT_COUNT", type = int.class)
-    public void setApi_required_defeat_count(int api_required_defeat_count) {
-        this.api_required_defeat_count = api_required_defeat_count;
+    public void setApi_required_defeat_count(Integer api_required_defeat_count) {
+        if (api_required_defeat_count > 0)
+            this.api_required_defeat_count = api_required_defeat_count;
     }
 
     public JSONArray getApi_sally_flag() {

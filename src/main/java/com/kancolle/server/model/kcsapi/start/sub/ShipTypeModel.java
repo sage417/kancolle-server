@@ -3,6 +3,7 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.parser.Feature;
 import com.kancolle.server.mapper.annotation.Column;
 import com.kancolle.server.mapper.annotation.Table;
 
@@ -78,6 +79,6 @@ public class ShipTypeModel {
 
     @Column(name = "EQUIP_TYPE", type = JSONObject.class)
     public void setApi_equip_type(String api_equip_type) {
-        this.api_equip_type = JSON.parseObject(api_equip_type);
+        this.api_equip_type = JSON.parseObject(api_equip_type, Feature.OrderedField);
     }
 }
