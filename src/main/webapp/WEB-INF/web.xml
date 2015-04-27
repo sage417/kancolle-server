@@ -27,11 +27,6 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
 	<!-- DruidStatView -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
@@ -50,6 +45,11 @@
 			<param-value>false</param-value>
 		</init-param>
 	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>DruidStatView</servlet-name>

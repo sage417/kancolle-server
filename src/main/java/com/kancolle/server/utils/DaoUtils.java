@@ -1,8 +1,6 @@
 package com.kancolle.server.utils;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.function.Function;
@@ -36,13 +34,12 @@ public class DaoUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T setObject(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters) throws InstantiationException, IllegalAccessException {
-        Type genType = dao.getClass().getGenericSuperclass();
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+    	
+    	Class<T >targetClass = (Class<T>) GenericsUtils.getSuperClassGenricType(dao.getClass(), 0);
+    	
+        T instance = targetClass.newInstance();
 
-        Class<T> clazz = (Class<T>) params[0];
-        T instance = clazz.newInstance();
-
-        Arrays.asList(clazz.getMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
+        Arrays.asList(targetClass.getMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
             try {
                 Method daoMethod = dao.getClass().getMethod(GET_PARAM_NAME.apply(method.getName()), parameterTypes);
                 method.invoke(instance, daoMethod.invoke(dao, parameters));
