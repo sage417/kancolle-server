@@ -13,7 +13,7 @@ public class PlayerDaoImpl extends BaseDaoImpl<Player> implements PlayerDao {
 	@Override
 	public Player getPlayerByApiToken(String api_token) {
 		return getTemplate().queryForObject(
-				"SELECT * from player where player_token = ?",
+				"SELECT * from t_member where member_api_token = ?",
 				new Object[] { api_token }, new PlayerMapper());
 	}
 }
