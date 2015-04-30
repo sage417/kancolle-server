@@ -22,8 +22,7 @@ public class APITokenHandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String api_token = (String) request.getAttribute(API_TOKEN);
-
+        String api_token = (String) request.getParameter(API_TOKEN);
         try {
             Player player = userService.getPlayerByApiToken(api_token);
             request.setAttribute(PLAYER, player);
