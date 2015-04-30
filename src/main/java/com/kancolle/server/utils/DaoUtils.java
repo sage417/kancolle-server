@@ -39,7 +39,7 @@ public class DaoUtils {
 
 		T instance = targetClass.newInstance();
 
-		Arrays.asList(targetClass.getMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
+		Arrays.asList(targetClass.getMethods()).parallelStream().filter(IS_SET_METHOD).forEach(method -> {
 			try {
 				Method daoMethod = dao.getClass().getMethod(GET_PARAM_NAME.apply(method.getName()), parameterTypes);
 				method.invoke(instance, daoMethod.invoke(dao, parameters));
