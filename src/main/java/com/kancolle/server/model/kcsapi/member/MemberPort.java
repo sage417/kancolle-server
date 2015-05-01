@@ -1,70 +1,70 @@
-package com.kancolle.server.model.kcsapi.player;
+package com.kancolle.server.model.kcsapi.member;
 
 import java.util.List;
 
-public class PlayerPort {
+public class MemberPort {
 
-    private List<PlayerMeterial> api_material;
+    private List<MemberMeterial> api_material;
 
-    private List<PlayerDeckPort> api_deck_port;
+    private List<MemberDeckPort> api_deck_port;
 
-    private List<PlayerNDock> api_ndock;
+    private List<MemberNDock> api_ndock;
 
-    private List<PlayerShip> api_ship;
+    private List<MemberShip> api_ship;
 
-    private PlayerBasic api_basic;
+    private MemberBasic api_basic;
 
-    private List<PlayerLog> api_log;
+    private List<MemberLog> api_log;
 
     private int api_p_bgm_id;
 
     private int api_parallel_quest_count;
 
-    public List<PlayerMeterial> getApi_material() {
+    public List<MemberMeterial> getApi_material() {
         return api_material;
     }
 
-    public void setApi_material(List<PlayerMeterial> api_material) {
+    public void setApi_material(List<MemberMeterial> api_material) {
         this.api_material = api_material;
     }
 
-    public List<PlayerDeckPort> getApi_deck_port() {
+    public List<MemberDeckPort> getApi_deck_port() {
         return api_deck_port;
     }
 
-    public void setApi_deck_port(List<PlayerDeckPort> api_deck_port) {
+    public void setApi_deck_port(List<MemberDeckPort> api_deck_port) {
         this.api_deck_port = api_deck_port;
     }
 
-    public List<PlayerNDock> getApi_ndock() {
+    public List<MemberNDock> getApi_ndock() {
         return api_ndock;
     }
 
-    public void setApi_ndock(List<PlayerNDock> api_ndock) {
+    public void setApi_ndock(List<MemberNDock> api_ndock) {
         this.api_ndock = api_ndock;
     }
 
-    public List<PlayerShip> getApi_ship() {
+    public List<MemberShip> getApi_ship() {
         return api_ship;
     }
 
-    public void setApi_ship(List<PlayerShip> api_ship) {
+    public void setApi_ship(List<MemberShip> api_ship) {
         this.api_ship = api_ship;
     }
 
-    public PlayerBasic getApi_basic() {
+    public MemberBasic getApi_basic() {
         return api_basic;
     }
 
-    public void setApi_basic(PlayerBasic api_basic) {
+    public void setApi_basic(MemberBasic api_basic) {
         this.api_basic = api_basic;
     }
 
-    public List<PlayerLog> getApi_log() {
+    public List<MemberLog> getApi_log() {
         return api_log;
     }
 
-    public void setApi_log(List<PlayerLog> api_log) {
+    public void setApi_log(List<MemberLog> api_log) {
         this.api_log = api_log;
     }
 
@@ -85,14 +85,14 @@ public class PlayerPort {
     }
 
     @SuppressWarnings("unused")
-    private static class PlayerMeterial {
+    private static class MemberMeterial {
         public int api_member_id;
         public int api_id;
         public long api_value;
     }
 
     @SuppressWarnings("unused")
-    private static class PlayerDeckPort {
+    private static class MemberDeckPort {
         public int api_member_id;
         public int api_id;
         public String api_name;
@@ -103,7 +103,7 @@ public class PlayerPort {
     }
 
     @SuppressWarnings("unused")
-    private static class PlayerNDock {
+    private static class MemberNDock {
         public int api_member_id;
         public int api_id;
         public int api_state;
@@ -117,7 +117,7 @@ public class PlayerPort {
     }
 
     @SuppressWarnings("unused")
-    private static class PlayerLog {
+    private static class MemberLog {
         public int api_no;
         public String api_type;
         public String api_state;

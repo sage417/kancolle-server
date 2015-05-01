@@ -1,6 +1,6 @@
-package com.kancolle.server.model.kcsapi.player;
+package com.kancolle.server.model.kcsapi.member;
 
-public class PlayerKdock {
+public class MemberKdock {
 
     private String api_member_id;
 

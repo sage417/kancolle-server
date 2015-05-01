@@ -1,4 +1,4 @@
-package com.kancolle.server.model.response.kcsapi.req_member;
+package com.kancolle.server.model.json.kcsapi.req_member;
 
 import java.util.Map;
 

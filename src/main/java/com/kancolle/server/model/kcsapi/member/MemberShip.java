@@ -1,6 +1,6 @@
-package com.kancolle.server.model.kcsapi.player;
+package com.kancolle.server.model.kcsapi.member;
 
-public class PlayerShip {
+public class MemberShip {
 
     private int api_id;
 

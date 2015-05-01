@@ -1,8 +1,8 @@
-package com.kancolle.server.model.kcsapi.player;
+package com.kancolle.server.model.kcsapi.member;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class PlayerUseItem {
+public class MemberUseItem {
 
     @JSONField(ordinal = 1)
     private String api_member_id;
