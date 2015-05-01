@@ -1,8 +1,8 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.mapper.annotation.Column;
-import com.kancolle.server.mapper.annotation.Table;
+import com.kancolle.server.dao.annotation.Column;
+import com.kancolle.server.dao.annotation.Table;
 
 @Table("t_bgm")
 public class BgmModel {

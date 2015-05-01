@@ -1,4 +1,4 @@
-package com.kancolle.server.mapper.annotation;
+package com.kancolle.server.dao.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

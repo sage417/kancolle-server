@@ -1,7 +1,7 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.mapper.annotation.Column;
+import com.kancolle.server.dao.annotation.Column;
 
 public class ShipUpgradeModel {
 

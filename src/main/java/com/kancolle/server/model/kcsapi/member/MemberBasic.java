@@ -3,8 +3,8 @@ package com.kancolle.server.model.kcsapi.member;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.mapper.annotation.Column;
-import com.kancolle.server.mapper.annotation.Id;
+import com.kancolle.server.dao.annotation.Column;
+import com.kancolle.server.dao.annotation.Id;
 
 public class MemberBasic {
 

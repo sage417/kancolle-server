@@ -11,9 +11,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kancolle.server.dao.annotation.Column;
+import com.kancolle.server.dao.annotation.Id;
 import com.kancolle.server.dao.base.BaseDao;
-import com.kancolle.server.mapper.annotation.Column;
-import com.kancolle.server.mapper.annotation.Id;
 
 public class DaoUtils {
 	private static final String PARAM_PREFIX = "api";
