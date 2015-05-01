@@ -41,7 +41,20 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         });
     }
 
-    protected <E> E queryForObject(Class<E> clazz, String sql) {
+    protected <E> E queryForModel(Class<E> clazz, String sql, Object... arg) {
+        return getTemplate().queryForObject(sql, (rs, rn) -> {
+            E instance = null;
+            try {
+                instance = clazz.newInstance();
+                DaoUtils.setObject(instance, rs);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return instance;
+        }, arg);
+    }
+
+    protected <E> E queryForModel(Class<E> clazz, String sql) {
         return getTemplate().queryForObject(sql, (rs, rn) -> {
             E instance = null;
             try {
