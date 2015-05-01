@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import com.alibaba.fastjson.JSONObject;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.mapper.annotation.Column;
+import com.kancolle.server.mapper.annotation.Id;
 
 public class DaoUtils {
 	private static final String PARAM_PREFIX = "api";
@@ -68,16 +69,27 @@ public class DaoUtils {
 
 	public static void setObject(Object target, ResultSet rs) {
 		Arrays.asList(target.getClass().getDeclaredMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
-			Column[] columms = method.getAnnotationsByType(Column.class);
-			if (columms.length == 0) {
-				System.out.println(method);
-				return;
+			String name;
+			Class<?> type;
+
+			Id[] ids = method.getAnnotationsByType(Id.class);
+			if (ids.length != 0) {
+
+				Id id = ids[0];
+				name = id.name();
+				type = id.type();
+			} else {
+				Column[] columms = method.getAnnotationsByType(Column.class);
+				if (columms.length == 0) {
+					System.out.println(method);
+					return;
+				}
+
+				Column columm = columms[0];
+				name = columm.name();
+				type = columm.type();
 			}
 
-			Column columm = columms[0];
-
-			String name = columm.name();
-			Class<?> type = columm.type();
 			try {
 				if (type == int.class) {
 					method.invoke(target, rs.getInt(name));
