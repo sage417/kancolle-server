@@ -1,10 +1,13 @@
 package com.kancolle.server.dao.base.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
 
@@ -14,10 +17,10 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     protected String tableName;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate template;
 
-    protected JdbcTemplate getTemplate() {
-        return jdbcTemplate;
+    protected NamedParameterJdbcTemplate getTemplate() {
+        return template;
     }
 
     protected void setTableName(String tableName) {
@@ -28,8 +31,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return this.tableName;
     }
 
-    protected <E> List<E> query(Class<E> clazz, String sql) {
-        return getTemplate().query(sql, (rs, rn) -> {
+    protected <E> List<E> queryForModels(Class<E> clazz, String sql) {
+        return queryForModels(clazz, sql, null);
+    }
+
+    protected <E> List<E> queryForModels(Class<E> clazz, String sql, Map<String, Object> params) {
+        return getTemplate().query(sql, params, (rs, rn) -> {
             E instance = null;
             try {
                 instance = clazz.newInstance();
@@ -41,21 +48,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         });
     }
 
-    protected <E> E queryForModel(Class<E> clazz, String sql, Object... arg) {
-        return getTemplate().queryForObject(sql, (rs, rn) -> {
-            E instance = null;
-            try {
-                instance = clazz.newInstance();
-                DaoUtils.setObject(instance, rs);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return instance;
-        }, arg);
+    protected <E> E queryForSingleModel(Class<E> clazz, String sql) {
+        return queryForSingleModel(clazz, sql);
     }
 
-    protected <E> E queryForModel(Class<E> clazz, String sql) {
-        return getTemplate().queryForObject(sql, (rs, rn) -> {
+    protected <E> E queryForSingleModel(Class<E> clazz, String sql, Map<String, Object> params) {
+        return template.queryForObject(sql, params, (rs, rn) -> {
             E instance = null;
             try {
                 instance = clazz.newInstance();
@@ -65,5 +63,15 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             }
             return instance;
         });
+    }
+
+    /**
+     * 解析数据库字符串，返回JSONArray对象
+     * @param sql
+     * @param params
+     * @return
+     */
+    protected JSONArray parseJSONArray(String sql, Map<String, Object> params) {
+        return JSON.parseArray(template.queryForObject(sql, params, String.class));
     }
 }

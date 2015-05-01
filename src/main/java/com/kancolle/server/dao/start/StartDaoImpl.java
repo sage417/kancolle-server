@@ -1,10 +1,10 @@
 package com.kancolle.server.dao.start;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSON;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.model.kcsapi.start.StartModel;
 import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
@@ -39,7 +39,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
     private static final String MST_USEITEM_TB = SELECT_ALL + "t_useitem";
     private static final String MST_PAYITEM_TB = SELECT_ALL + "t_pay_item";
-    private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM " + "t_item_shop WHERE NAME = ?";
+    private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM t_item_shop WHERE NAME = :shop_name";
     private static final String MST_MAPAREA_TB = SELECT_ALL + "t_map_area";
     private static final String MST_MAPINFO_TB = SELECT_ALL + "t_map_info";
     private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
@@ -50,90 +50,89 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public List<ShipModel> getMstShip() {
-        return query(ShipModel.class, MST_SHIP_TB);
+        return queryForModels(ShipModel.class, MST_SHIP_TB);
     }
 
     @Override
     public List<ShipGraphModel> getMstShipgraph() {
-        return query(ShipGraphModel.class, MST_SHIPGRAPH_TB);
+        return queryForModels(ShipGraphModel.class, MST_SHIPGRAPH_TB);
     }
 
     @Override
     public List<EquipTypeModel> getMstSlotitemEquiptype() {
-        return query(EquipTypeModel.class, MST_SLOTITEMEQUIPTYPE_TB);
+        return queryForModels(EquipTypeModel.class, MST_SLOTITEMEQUIPTYPE_TB);
     }
 
     @Override
     public List<ShipTypeModel> getMstStype() {
-        return query(ShipTypeModel.class, MST_SHIPTYPE_TB);
+        return queryForModels(ShipTypeModel.class, MST_SHIPTYPE_TB);
     }
 
     @Override
     public List<SlotItemModel> getMstSlotitem() {
-        return query(SlotItemModel.class, MST_SLOTITEM_TB);
+        return queryForModels(SlotItemModel.class, MST_SLOTITEM_TB);
     }
 
     @Override
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
-        return query(SlotItemGraphModel.class, MST_SLOTITEMGRAPH_TB);
+        return queryForModels(SlotItemGraphModel.class, MST_SLOTITEMGRAPH_TB);
 
     }
 
     @Override
     public List<FurnitureModel> getMstFurniture() {
-        return query(FurnitureModel.class, MST_FURNITURE_TB);
+        return queryForModels(FurnitureModel.class, MST_FURNITURE_TB);
 
     }
 
     @Override
     public List<FurnitureGraphModel> getMstFurnituregraph() {
-        return query(FurnitureGraphModel.class, MST_FURNITUREGRAPH_TB);
+        return queryForModels(FurnitureGraphModel.class, MST_FURNITUREGRAPH_TB);
     }
 
     @Override
     public List<UseItemModel> getMstUseitem() {
-        return query(UseItemModel.class, MST_USEITEM_TB);
+        return queryForModels(UseItemModel.class, MST_USEITEM_TB);
 
     }
 
     @Override
     public List<PayItemModel> getMstPayitem() {
-        return query(PayItemModel.class, MST_PAYITEM_TB);
+        return queryForModels(PayItemModel.class, MST_PAYITEM_TB);
 
     }
 
     @Override
     public ItemShopModel getMstItemShop() {
         ItemShopModel model = new ItemShopModel();
-        model.setApi_cabinet_1(JSON.parseArray(getTemplate().queryForObject(MST_ITEMSHOP_TB, String.class, "api_cabinet_1")));
-        model.setApi_cabinet_2(JSON.parseArray(getTemplate().queryForObject(MST_ITEMSHOP_TB, String.class, "api_cabinet_2")));
-
+        model.setApi_cabinet_1(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_1")));
+        model.setApi_cabinet_2(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_2")));
         return model;
     }
 
     @Override
     public List<MapAreaModel> getMstMaparea() {
-        return query(MapAreaModel.class, MST_MAPAREA_TB);
+        return queryForModels(MapAreaModel.class, MST_MAPAREA_TB);
     }
 
     @Override
     public List<MapInfoModel> getMstMapinfo() {
-        return query(MapInfoModel.class, MST_MAPINFO_TB);
+        return queryForModels(MapInfoModel.class, MST_MAPINFO_TB);
     }
 
     @Override
     public List<MapBgmModel> getMstMapbgm() {
-        return query(MapBgmModel.class, MST_MAPBGM_TB);
+        return queryForModels(MapBgmModel.class, MST_MAPBGM_TB);
     }
 
     @Override
     public List<MapCellModel> getMstMapcell() {
-        return query(MapCellModel.class, MST_MAPCELL_TB);
+        return queryForModels(MapCellModel.class, MST_MAPCELL_TB);
     }
 
     @Override
     public List<MissionModel> getMstMission() {
-        return query(MissionModel.class, MST_MISSION_TB);
+        return queryForModels(MissionModel.class, MST_MISSION_TB);
     }
 
     @Override
@@ -143,11 +142,11 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
 
     @Override
     public List<ShipUpgradeModel> getMstShipupgrade() {
-        return query(ShipUpgradeModel.class, MST_SHIPUPGRADE_TB);
+        return queryForModels(ShipUpgradeModel.class, MST_SHIPUPGRADE_TB);
     }
 
     @Override
     public List<BgmModel> getMstBgm() {
-        return query(BgmModel.class, MST_BGM_TB);
+        return queryForModels(BgmModel.class, MST_BGM_TB);
     }
 }

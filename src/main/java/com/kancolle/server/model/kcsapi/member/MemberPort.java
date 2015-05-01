@@ -83,44 +83,4 @@ public class MemberPort {
     public void setApi_parallel_quest_count(int api_parallel_quest_count) {
         this.api_parallel_quest_count = api_parallel_quest_count;
     }
-
-    @SuppressWarnings("unused")
-    private static class MemberMeterial {
-        public int api_member_id;
-        public int api_id;
-        public long api_value;
-    }
-
-    @SuppressWarnings("unused")
-    private static class MemberDeckPort {
-        public int api_member_id;
-        public int api_id;
-        public String api_name;
-        public String api_name_id;
-        public int[] api_mission;
-        public String api_flagship;
-        public int[] api_ship;
-    }
-
-    @SuppressWarnings("unused")
-    private static class MemberNDock {
-        public int api_member_id;
-        public int api_id;
-        public int api_state;
-        public int api_ship_id;
-        public int api_complete_time;
-        public String api_complete_time_str;
-        public int api_item1;
-        public int api_item2;
-        public int api_item3;
-        public int api_item4;
-    }
-
-    @SuppressWarnings("unused")
-    private static class MemberLog {
-        public int api_no;
-        public String api_type;
-        public String api_state;
-        public String api_message;
-    }
 }

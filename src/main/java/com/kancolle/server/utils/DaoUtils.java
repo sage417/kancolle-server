@@ -34,7 +34,7 @@ public class DaoUtils {
 	};
 
 	@SuppressWarnings("unchecked")
-	public static <T> T setObject(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters) throws InstantiationException, IllegalAccessException {
+	public static <T> T setBean(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters) throws InstantiationException, IllegalAccessException {
 
 		Class<T> targetClass = (Class<T>) getSuperClassGenricType(dao.getClass());
 

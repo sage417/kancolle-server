@@ -16,6 +16,6 @@ public class StartServiceImpl implements StartService {
 
     @Override
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
-        return DaoUtils.setObject(startDao, new Class<?>[] {}, new Object[] {});
+        return DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {});
     }
 }

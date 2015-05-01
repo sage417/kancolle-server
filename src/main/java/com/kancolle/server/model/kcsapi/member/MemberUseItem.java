@@ -1,6 +1,9 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.dao.annotation.Column;
 
 public class MemberUseItem {
 
@@ -23,7 +26,7 @@ public class MemberUseItem {
     private String api_name;
 
     @JSONField(ordinal = 7)
-    private String[] api_description;
+    private JSONArray api_description;
 
     @JSONField(ordinal = 8)
     private int api_price;
@@ -35,6 +38,7 @@ public class MemberUseItem {
         return api_member_id;
     }
 
+    @Column(name = "member_id", type = int.class)
     public void setApi_member_id(String api_member_id) {
         this.api_member_id = api_member_id;
     }
@@ -43,6 +47,7 @@ public class MemberUseItem {
         return api_id;
     }
 
+    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
@@ -51,6 +56,7 @@ public class MemberUseItem {
         return api_value;
     }
 
+    @Column(name = "VALUE", type = int.class)
     public void setApi_value(int api_value) {
         this.api_value = api_value;
     }
@@ -59,6 +65,7 @@ public class MemberUseItem {
         return api_usetype;
     }
 
+    @Column(name = "USETYPE", type = int.class)
     public void setApi_usetype(int api_usetype) {
         this.api_usetype = api_usetype;
     }
@@ -67,6 +74,7 @@ public class MemberUseItem {
         return api_category;
     }
 
+    @Column(name = "CATEGORY", type = int.class)
     public void setApi_category(int api_category) {
         this.api_category = api_category;
     }
@@ -75,22 +83,25 @@ public class MemberUseItem {
         return api_name;
     }
 
+    @Column(name = "NAME", type = String.class)
     public void setApi_name(String api_name) {
         this.api_name = api_name;
     }
 
-    public String[] getApi_description() {
+    public JSONArray getApi_description() {
         return api_description;
     }
 
-    public void setApi_description(String[] api_description) {
-        this.api_description = api_description;
+    @Column(name = "DESCRIPTION", type = String.class)
+    public void setApi_description(String api_description) {
+        this.api_description = JSON.parseArray(api_description);
     }
 
     public int getApi_price() {
         return api_price;
     }
 
+    @Column(name = "PRICE", type = int.class)
     public void setApi_price(int api_price) {
         this.api_price = api_price;
     }
@@ -99,6 +110,7 @@ public class MemberUseItem {
         return api_count;
     }
 
+    @Column(name = "COUNT", type = int.class)
     public void setApi_count(int api_count) {
         this.api_count = api_count;
     }
