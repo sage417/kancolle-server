@@ -28,8 +28,9 @@ public class APIResponse<T> {
         return api_data;
     }
 
-    public void setApi_data(T api_data) {
+    public APIResponse<T> setApi_data(T api_data) {
         this.api_data = api_data;
+        return this;
     }
 
     public void setApi_result(int api_result) {
