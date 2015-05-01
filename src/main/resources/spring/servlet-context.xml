@@ -54,8 +54,6 @@
 		class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
 		<property name="features">
 			<list>
-				<!-- <value>WriteMapNullValue</value> -->
-				<value>QuoteFieldNames</value>
 				<!-- <value>WriteDateUseDateFormat</value> -->
 				<value>BrowserCompatible</value>
 				<value>WriteMapNullValue</value>
