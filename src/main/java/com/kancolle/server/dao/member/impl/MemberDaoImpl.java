@@ -19,7 +19,7 @@ import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 @Repository
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
 
-    private Map<String, Object> getMemParamMap(String value) {
+    protected Map<String, Object> getMemParamMap(String value) {
         return Collections.singletonMap("member_id", value);
     }
 
