@@ -278,15 +278,17 @@ DROP TABLE IF EXISTS `t_member_slotitem`;
 
 CREATE TABLE `t_member_slotitem` (
   `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` bigint(20) unsigned NOT NULL DEFAULT '1',
-  `ID` int(11) NOT NULL,
-  `LEVEL` int(11) NOT NULL,
-  `LOCKED` int(11) NOT NULL,
-  `SLOTITEM_ID` int(11) NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `ID` bigint(20) unsigned DEFAULT NULL,
+  `LEVEL` tinyint(3) unsigned NOT NULL,
+  `LOCKED` tinyint(3) unsigned NOT NULL,
+  `SLOTITEM_ID` int(11) unsigned NOT NULL,
   `DELETED` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `index` (`index`,`member_id`)
+  UNIQUE KEY `index` (`index`,`member_id`),
+  KEY `SLOTITEM_ID` (`SLOTITEM_ID`),
+  CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_slotitem` */
@@ -462,7 +464,7 @@ insert  into `t_ship_upgrade`(`ID`,`ORIGINAL_SHIP_ID`,`UPGRADE_TYPE`,`UPGRADE_LE
 DROP TABLE IF EXISTS `t_slotitem`;
 
 CREATE TABLE `t_slotitem` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) unsigned NOT NULL,
   `ATAP` tinyint(4) NOT NULL,
   `BAKK` tinyint(4) NOT NULL,
   `BAKU` tinyint(4) NOT NULL,
@@ -544,6 +546,36 @@ CREATE TABLE `t_useitem` (
 
 insert  into `t_useitem`(`ID`,`USETYPE`,`CATEGORY`,`NAME`,`DESCRIPTION`,`PRICE`) values (1,1,1,'高速修復材','[\"入渠時間を短縮できる。\",\"\"]',0),(2,2,2,'高速建造材','[\"建造時間を短縮できる。\",\"\"]',0),(3,3,3,'開発資材','[\"建造・開発を行うのに使用する資材。\",\"\"]',0),(4,3,4,'改修資材','[\"装備を改修する為の資材、「改修工廠」で使用します。\",\"\"]',0),(5,4,4,'','[\"\",\"\"]',0),(6,4,4,'','[\"\",\"\"]',0),(7,4,5,'','[\"\",\"\"]',0),(8,4,5,'','[\"\",\"\"]',0),(9,4,5,'','[\"\",\"\"]',0),(10,4,6,'家具箱（小）','[\"開けると、中から少量の家具コインが出現する。\",\"200\"]',0),(11,4,6,'家具箱（中）','[\"開けると、中から中量の家具コインが出現する。\",\"400\"]',0),(12,4,6,'家具箱（大）','[\"開けると、中から大量の家具コインが出現する。\",\"700\"]',0),(13,4,7,'','[\"\",\"\"]',0),(14,4,7,'','[\"\",\"\"]',0),(15,4,8,'','[\"\",\"\"]',0),(16,5,9,'','[\"\",\"\"]',0),(17,5,9,'','[\"\",\"\"]',0),(18,5,10,'','[\"\",\"\"]',0),(19,5,10,'','[\"\",\"\"]',0),(20,5,11,'','[\"\",\"\"]',0),(21,5,11,'','[\"\",\"\"]',0),(22,5,11,'','[\"\",\"\"]',0),(23,5,12,'','[\"\",\"\"]',0),(24,5,12,'','[\"\",\"\"]',0),(25,5,13,'','[\"\",\"\"]',0),(26,5,13,'','[\"\",\"\"]',0),(27,5,14,'','[\"\",\"\"]',0),(28,5,15,'','[\"\",\"\"]',0),(29,5,15,'','[\"\",\"\"]',0),(30,5,15,'','[\"\",\"\"]',0),(31,6,16,'燃料','[\"\",\"\"]',0),(32,6,17,'弾薬','[\"\",\"\"]',0),(33,6,18,'鋼材','[\"\",\"\"]',0),(34,6,19,'ボーキサイト','[\"\",\"\"]',0),(35,7,20,'','[\"\",\"\"]',0),(36,7,20,'','[\"\",\"\"]',0),(37,7,20,'','[\"\",\"\"]',0),(38,7,20,'','[\"\",\"\"]',0),(39,7,20,'','[\"\",\"\"]',0),(40,7,20,'','[\"\",\"\"]',0),(41,7,20,'','[\"\",\"\"]',0),(42,7,20,'','[\"\",\"\"]',0),(43,7,20,'','[\"\",\"\"]',0),(44,6,21,'家具コイン','[\"\",\"\"]',0),(45,6,16,'','[\"\",\"\"]',0),(46,6,17,'','[\"\",\"\"]',0),(47,6,18,'','[\"\",\"\"]',0),(48,6,19,'','[\"\",\"\"]',0),(49,0,0,'ドック開放キー','[\"入渠ドックまたは工廠ドックを１個開放できるキー。\",\"\"]',0),(50,0,0,'応急修理要員','[\"艦のスロットに装備する。装備した艦は1度だけ撃沈を回避できる。\",\"\"]',0),(51,0,0,'応急修理女神','[\"応急修理要員がパワーアップ！撃沈回避時に出撃能力が全回復。\",\"\"]',0),(52,0,0,'特注家具職人','[\"特注家具を製作する職人さん。家具屋さんで使用する。\",\"\"]',0),(53,0,0,'母港拡張','[\"最大保有艦娘数＋10(最大240)。最大保有アイテム数＋40(最大1060)。\",\"\"]',0),(54,0,0,'給糧艦「間宮」','[\"艦隊全体の疲労度を回復する給糧艦。編成で使用可能。\",\"\"]',0),(55,0,0,'書類一式＆指輪','[\"ケッコンカッコカリに必要な書類一式と指輪。改装で使用する。\",\"\"]',0),(56,4,0,'艦娘からのチョコ','[\"艦娘から贈られたチョコ。クリックして資源にするのもよし、保存しておくのもよし。\",\"\"]',0),(57,4,0,'勲章','[\"暁の水平線に勝利を刻んだ提督に贈られる「証」。資源や改修資材、または複数集めて改装設計図と交換することも可能です。\",\"\"]',0),(58,0,0,'改装設計図','[\"艦娘の「特別な改造」に使用する設計図。\",\"\"]',0),(59,0,0,'給糧艦「伊良湖」','[\"艦娘たちの士気を高揚させる新型給糧艦。編成で使用可能。\",\"\"]',0),(60,4,0,'プレゼント箱','[\"特別な時期だけ発見が可能となる丁寧に包装された「プレゼント箱」。開封時に希望の中味を選択することが可能です。\",\"\"]',0),(61,4,0,'甲種勲章','[\"難易度の高い作戦を、精鋭の艦娘たちと共に攻略した提督のみに贈られる勝利の証。それが、「甲種勲章」。資材等に交換することも可能です。\",\"\"]',0),(62,4,0,'菱餅','[\"桃の節句の時期だけ発見が可能となる美味しい「菱餅」です。展開時に希望の中味を選択することが可能です。\",\"\"]',0),(63,4,0,'司令部要員','[\"「任務」同時受託可能数を拡張することができる司令部要員です。使用すると、同時受託可能任務数が＋１拡張されます。\",\"\"]',0);
 
+/* Trigger structure for table `t_member_ship` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_on_getship` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_on_getship` BEFORE INSERT ON `t_member_ship` FOR EACH ROW BEGIN
+	DECLARE now_id BIGINT;
+	SET now_id = (SELECT MAX(ID) FROM t_member_ship WHERE member_id = new.member_id);
+	SET new.ID = now_id + 1;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `t_member_slotitem` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_on_getslotitem` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_on_getslotitem` BEFORE INSERT ON `t_member_slotitem` FOR EACH ROW BEGIN
+	DECLARE now_id bigINT;
+	SET now_id = (SELECT max(ID) FROM t_member_slotitem WHERE member_id = new.member_id);
+	SET new.ID = now_id + 1;
+    END */$$
+
+
+DELIMITER ;
+
 /*Table structure for table `v_member_ship` */
 
 DROP TABLE IF EXISTS `v_member_ship`;
@@ -593,10 +625,10 @@ DROP TABLE IF EXISTS `v_member_slotitem`;
 
 /*!50001 CREATE TABLE  `v_member_slotitem`(
  `member_id` bigint(20) unsigned ,
- `ID` int(11) ,
- `LEVEL` int(11) ,
- `LOCKED` int(11) ,
- `SLOTITEM_ID` int(11) 
+ `ID` bigint(20) unsigned ,
+ `LEVEL` tinyint(3) unsigned ,
+ `LOCKED` tinyint(3) unsigned ,
+ `SLOTITEM_ID` int(11) unsigned 
 )*/;
 
 /*Table structure for table `v_member_useitem` */
