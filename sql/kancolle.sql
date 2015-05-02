@@ -201,6 +201,24 @@ CREATE TABLE `t_member` (
 
 insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`) values (8006690,'test_api_token','','',1,1430453725405,7,7,2224,NULL,'','',100,500,NULL,NULL,NULL,'[1,72,102,133,164,221,242]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0);
 
+/*Table structure for table `t_member_deckport` */
+
+DROP TABLE IF EXISTS `t_member_deckport`;
+
+CREATE TABLE `t_member_deckport` (
+  `index` bigint(20) NOT NULL,
+  `member_id` bigint(20) NOT NULL,
+  `ID` tinyint(4) NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  `NAME_ID` varchar(255) NOT NULL,
+  `MISSION` varchar(255) NOT NULL,
+  `FLAGSHIP` varchar(255) NOT NULL,
+  `SHIP` varchar(255) NOT NULL,
+  PRIMARY KEY (`index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_deckport` */
+
 /*Table structure for table `t_member_kdock` */
 
 DROP TABLE IF EXISTS `t_member_kdock`;
@@ -225,6 +243,57 @@ CREATE TABLE `t_member_kdock` (
 
 insert  into `t_member_kdock`(`index`,`member_id`,`ID`,`STATE`,`CREATED_SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`,`ITEM5`) values (1,8006690,1,0,0,0,'0',0,0,0,0,0);
 
+/*Table structure for table `t_member_log` */
+
+DROP TABLE IF EXISTS `t_member_log`;
+
+CREATE TABLE `t_member_log` (
+  `index` bigint(20) NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) NOT NULL,
+  `NO` tinyint(4) NOT NULL,
+  `TYPE` varchar(255) NOT NULL,
+  `STATE` varchar(255) NOT NULL,
+  `MESSAGE` varchar(255) NOT NULL,
+  PRIMARY KEY (`index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_log` */
+
+/*Table structure for table `t_member_material` */
+
+DROP TABLE IF EXISTS `t_member_material`;
+
+CREATE TABLE `t_member_material` (
+  `index` bigint(20) NOT NULL,
+  `member_id` bigint(20) NOT NULL,
+  `ID` tinyint(4) NOT NULL,
+  `VALUE` mediumint(9) NOT NULL,
+  PRIMARY KEY (`index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_material` */
+
+/*Table structure for table `t_member_ndock` */
+
+DROP TABLE IF EXISTS `t_member_ndock`;
+
+CREATE TABLE `t_member_ndock` (
+  `index` bigint(20) NOT NULL,
+  `member_id` bigint(20) NOT NULL,
+  `ID` tinyint(4) NOT NULL,
+  `STATE` tinyint(4) NOT NULL,
+  `SHIP_ID` int(11) NOT NULL,
+  `COMPLETE_TIME` bigint(20) NOT NULL,
+  `COMPLETE_TIME_STR` varchar(255) NOT NULL,
+  `ITEM1` mediumint(9) NOT NULL,
+  `ITEM2` mediumint(9) NOT NULL,
+  `ITEM3` mediumint(9) NOT NULL,
+  `ITEM4` mediumint(9) NOT NULL,
+  PRIMARY KEY (`index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_ndock` */
+
 /*Table structure for table `t_member_ship` */
 
 DROP TABLE IF EXISTS `t_member_ship`;
@@ -243,7 +312,7 @@ CREATE TABLE `t_member_ship` (
   `KYOUKA` longtext NOT NULL,
   `LENG` int(11) NOT NULL,
   `LOCKED` int(11) NOT NULL,
-  `LOCKED_EQUIP` int(11) NOT NULL,
+  `LOCKED_EQUIP` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `LUCKY` longtext NOT NULL,
   `LV` int(11) NOT NULL,
   `MAXHP` int(11) NOT NULL,
@@ -385,7 +454,9 @@ CREATE TABLE `t_ship` (
   `TYKU` varchar(255) NOT NULL,
   `VOICEF` tinyint(4) unsigned NOT NULL,
   `YOMI` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `TYPE` (`TYPE`),
+  CONSTRAINT `t_ship_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_ship_type` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_ship` */
@@ -596,7 +667,7 @@ DROP TABLE IF EXISTS `v_member_ship`;
  `KYOUKA` longtext ,
  `LENG` int(11) ,
  `LOCKED` int(11) ,
- `LOCKED_EQUIP` int(11) ,
+ `LOCKED_EQUIP` tinyint(3) unsigned ,
  `LUCKY` longtext ,
  `LV` int(11) ,
  `MAXHP` int(11) ,
