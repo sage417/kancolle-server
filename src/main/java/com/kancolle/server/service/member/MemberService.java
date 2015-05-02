@@ -1,6 +1,7 @@
 package com.kancolle.server.service.member;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
@@ -24,5 +25,7 @@ public interface MemberService {
     List<MemberKdock> getKdock(String member_id);
 
     MemberPort getPort(String member_id) throws Exception;
+
+    Map<String, Object> getUnsetSlot(String member_id);
 
 }

@@ -3,6 +3,7 @@ package com.kancolle.server.controller.kcsapi;
 import static com.kancolle.server.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,6 +69,7 @@ public class GetMemberController {
 
     @RequestMapping("/unsetslot")
     public @ResponseBody UnsetSlotData unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
-        return new UnsetSlotData();
+        Map<String, Object> api_data = memberService.getUnsetSlot(member_id);
+        return new UnsetSlotData().setApi_data(api_data);
     }
 }

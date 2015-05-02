@@ -1,18 +1,25 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.dao.annotation.Column;
+
 public class MemberMeterial {
 
-    private int api_member_id;
+    @JSONField(ordinal = 1)
+    private long api_member_id;
 
+    @JSONField(ordinal = 2)
     private int api_id;
 
+    @JSONField(ordinal = 3)
     private long api_value;
 
-    public int getApi_member_id() {
+    public long getApi_member_id() {
         return api_member_id;
     }
 
-    public void setApi_member_id(int api_member_id) {
+    @Column(name = "member_id", type = long.class)
+    public void setApi_member_id(long api_member_id) {
         this.api_member_id = api_member_id;
     }
 
@@ -20,6 +27,7 @@ public class MemberMeterial {
         return api_id;
     }
 
+    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
@@ -28,6 +36,7 @@ public class MemberMeterial {
         return api_value;
     }
 
+    @Column(name = "VALUE", type = int.class)
     public void setApi_value(long api_value) {
         this.api_value = api_value;
     }

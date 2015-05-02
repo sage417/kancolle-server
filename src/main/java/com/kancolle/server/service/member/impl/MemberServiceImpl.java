@@ -1,6 +1,7 @@
 package com.kancolle.server.service.member.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
         return DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id });
+    }
+
+    @Override
+    public Map<String, Object> getUnsetSlot(String member_id) {
+        return memberDao.getUnsetSlot(member_id);
     }
 }

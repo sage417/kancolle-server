@@ -2,22 +2,32 @@ package com.kancolle.server.model.kcsapi.member;
 
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class MemberPort {
 
+    @JSONField(ordinal = 1)
     private List<MemberMeterial> api_material;
 
+    @JSONField(ordinal = 2)
     private List<MemberDeckPort> api_deck_port;
 
+    @JSONField(ordinal = 3)
     private List<MemberNDock> api_ndock;
 
+    @JSONField(ordinal = 4)
     private List<MemberShip> api_ship;
 
+    @JSONField(ordinal = 5)
     private MemberBasic api_basic;
 
+    @JSONField(ordinal = 6)
     private List<MemberLog> api_log;
 
+    @JSONField(ordinal = 7)
     private int api_p_bgm_id;
 
+    @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
     public List<MemberMeterial> getApi_material() {

@@ -1,6 +1,7 @@
 package com.kancolle.server.dao.member;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -22,5 +23,7 @@ public interface MemberDao<T> extends BaseDao<T>{
     List<MemberUseItem> getUseItem(String member_id);
 
     List<MemberKdock> getKdock(String member_id);
+
+    Map<String, Object> getUnsetSlot(String member_id);
 
 }

@@ -18,6 +18,7 @@ import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 
 @Repository
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
+    private static final String SLOT_STR = "api_slottype";
 
     protected Map<String, Object> getMemParamMap(String value) {
         return Collections.singletonMap("member_id", value);
@@ -60,5 +61,11 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
     @Override
     public List<MemberKdock> getKdock(String member_id) {
         return queryForModels(MemberKdock.class, "SELECT * FROM t_member_kdock WHERE member_id = :member_id", getMemParamMap(member_id));
+    }
+
+    @Override
+    public Map<String, Object> getUnsetSlot(String member_id) {
+        // TODO
+        return null;
     }
 }
