@@ -25,7 +25,7 @@ import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
     private static final String SLOT_STR = "api_slottype";
 
-    protected Map<String, Object> getMemParamMap(String value) {
+    private Map<String, Object> getMemParamMap(String value) {
         return Collections.singletonMap("member_id", value);
     }
 

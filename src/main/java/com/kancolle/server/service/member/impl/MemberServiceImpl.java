@@ -20,10 +20,10 @@ import com.kancolle.server.utils.DaoUtils;
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
-    MemberDao<?> memberDao;
+    private MemberDao<?> memberDao;
 
     @Autowired
-    PortDao portDao;
+    private PortDao portDao;
 
     @Override
     public String getMemberByApiToken(String api_token) {

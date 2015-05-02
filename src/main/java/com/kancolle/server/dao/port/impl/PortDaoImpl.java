@@ -1,8 +1,14 @@
 package com.kancolle.server.dao.port.impl;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import com.kancolle.server.dao.member.impl.MemberDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.kancolle.server.dao.base.impl.BaseDaoImpl;
+import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
@@ -12,7 +18,15 @@ import com.kancolle.server.model.kcsapi.member.MemberNDock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
 
-public class PortDaoImpl extends MemberDaoImpl<MemberPort> implements PortDao {
+@Repository
+public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
+    @Autowired
+    private MemberDao<?> memberDao;
+
+    private Map<String, Object> getMemParamMap(String value) {
+        return Collections.singletonMap("member_id", value);
+    }
+
     @Override
     public List<MemberMeterial> getApiMaterial(String member_id) {
         return queryForModels(MemberMeterial.class, "SELECT * FROM t_member_meterial WHERE member_id = :member_id", getMemParamMap(member_id));
@@ -35,7 +49,7 @@ public class PortDaoImpl extends MemberDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public MemberBasic getApiBasic(String member_id) {
-        return getBasic(member_id);
+        return memberDao.getBasic(member_id);
     }
 
     @Override
