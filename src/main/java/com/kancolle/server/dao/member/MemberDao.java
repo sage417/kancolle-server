@@ -26,4 +26,6 @@ public interface MemberDao<T> extends BaseDao<T>{
 
     Map<String, Object> getUnsetSlot(String member_id);
 
+    void destroyShip(String member_id, long api_ship_id);
+
 }

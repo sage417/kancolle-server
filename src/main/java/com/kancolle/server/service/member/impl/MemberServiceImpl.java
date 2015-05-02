@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
@@ -63,5 +64,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Map<String, Object> getUnsetSlot(String member_id) {
         return memberDao.getUnsetSlot(member_id);
+    }
+
+    @Override
+    @Transactional
+    public void destroyShip(String member_id, long api_ship_id) {
+        memberDao.destroyShip(member_id, api_ship_id);
     }
 }

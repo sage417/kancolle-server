@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -19,6 +20,7 @@ import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
+import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 
 @Repository
@@ -100,10 +102,37 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
         Map<String, Object> result = new HashMap<>(slotitemTypeCount);
 
         Stream.iterate(1, n -> ++n).limit(slotitemTypeCount).forEach(i -> {
-            List<Long> id = unsetSlotitems.stream().filter(slotitem -> slotitem.getApi_type().getIntValue(2) == i).mapToLong(slotitem -> slotitem.getApi_id())
-                    .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-            result.put(SLOT_STR + i, JSON.toJSONString(id));
-        });
+            List<Long> ids = unsetSlotitems.stream().filter(slotitem -> slotitem.getApi_type().getIntValue(2) == i).map(SlotItemModel::getApi_id).collect(Collectors.toList());
+            // TODO
+                result.put(SLOT_STR + i, JSON.toJSONString(ids));
+            });
         return result;
+    }
+
+    @Override
+    public void destroyShip(String member_id, long api_ship_id) {
+        // 删除舰娘身上装备
+        Map<String, Object> params = new HashMap<String, Object>(5);
+        params.put("member_id", member_id);
+        params.put("api_ship_id", api_ship_id);
+        String str_slotitem_ids = getTemplate().queryForObject("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params, String.class);
+        JSONArray slotitem_ids = JSON.parseArray(str_slotitem_ids);
+        List<Long> ids = Stream.iterate(0, n -> ++n).limit(slotitem_ids.size()).map(i -> slotitem_ids.getLong(i)).collect(Collectors.toList());
+
+        params.put("ids", ids);
+        getTemplate().update("DELETE FROM v_member_itemslot WHERE member_id = :member_id AND ID IN (:ids)", params);
+        // 如果舰娘在舰队中则移除由触发器实现
+        // 删除舰娘
+        int ship_id = getTemplate().queryForObject("SELECT SHIP_ID FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params, int.class);
+        getTemplate().update("DELETE FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params);
+        params.put("ship_id", ship_id);
+        // 返还资源
+        ShipModel ship = queryForSingleModel(ShipModel.class, "SELECT BROKEN FROM t_ship WHERE ID = :ship_id", params);
+        JSONArray rtn_res = ship.getApi_broken();
+        for (int j = 0; j < rtn_res.size(); j++) {
+            params.put("value", rtn_res.getIntValue(j));
+            params.put("id", j);
+            getTemplate().update("UPDATE v_member_useitem SET VALUE = VALUE + :value WHERE member_id = :member_id AND ID = :id", params);
+        }
     }
 }

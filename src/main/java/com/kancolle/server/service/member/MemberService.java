@@ -28,4 +28,6 @@ public interface MemberService {
 
     Map<String, Object> getUnsetSlot(String member_id);
 
+    void destroyShip(String member_id, long api_ship_id);
+
 }

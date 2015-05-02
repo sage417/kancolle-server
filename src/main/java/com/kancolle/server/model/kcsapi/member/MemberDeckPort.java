@@ -1,5 +1,6 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
@@ -68,8 +69,8 @@ public class MemberDeckPort {
     }
 
     @Column(name = "MISSION", type = String.class)
-    public void setApi_mission(JSONArray api_mission) {
-        this.api_mission = api_mission;
+    public void setApi_mission(String api_mission) {
+        this.api_mission = JSON.parseArray(api_mission);
     }
 
     public String getApi_flagship() {
@@ -86,7 +87,7 @@ public class MemberDeckPort {
     }
 
     @Column(name = "SHIP", type = String.class)
-    public void setApi_ship(JSONArray api_ship) {
-        this.api_ship = api_ship;
+    public void setApi_ship(String api_ship) {
+        this.api_ship = JSON.parseArray(api_ship);
     }
 }
