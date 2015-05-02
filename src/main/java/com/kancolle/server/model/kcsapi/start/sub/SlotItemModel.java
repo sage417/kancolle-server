@@ -8,7 +8,7 @@ import com.kancolle.server.dao.annotation.Column;
 public class SlotItemModel {
 
     @JSONField(ordinal = 1)
-    private int api_id;
+    private long api_id;
 
     @JSONField(ordinal = 2)
     private int api_sortno;
@@ -85,12 +85,12 @@ public class SlotItemModel {
     @JSONField(ordinal = 26)
     private String api_usebull;
 
-    public int getApi_id() {
+    public long getApi_id() {
         return api_id;
     }
 
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
+    @Column(name = "ID", type = long.class)
+    public void setApi_id(long api_id) {
         this.api_id = api_id;
     }
 
