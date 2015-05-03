@@ -13,20 +13,20 @@ import com.kancolle.server.model.kcsapi.member.MemberShip;
 
 public interface PortDao extends BaseDao<MemberPort> {
 
-    List<MemberMeterial> getApiMaterial(String member_id) throws Exception;
+    List<MemberMeterial> getMaterial(String member_id) throws Exception;
 
-    List<MemberDeckPort> getApiDeckPort(String member_id);
+    List<MemberDeckPort> getDeckPort(String member_id);
 
-    List<MemberNDock> getApiNdock(String member_id);
+    List<MemberNDock> getNdock(String member_id);
 
-    List<MemberShip> getApiShip(String member_id);
+    List<MemberShip> getShip(String member_id);
 
-    MemberBasic getApiBasic(String member_id);
+    MemberBasic getBasic(String member_id);
 
-    List<MemberLog> getApiLog(String member_id);
+    List<MemberLog> getLog(String member_id);
 
-    int getApi_p_bgm_id(String member_id);
+    Integer getPBgmId(String member_id);
 
-    int getApiParallelQuestCount(String member_id);
+    Integer getParallelQuestCount(String member_id);
 
 }

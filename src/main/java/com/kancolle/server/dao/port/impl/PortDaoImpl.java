@@ -31,8 +31,8 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     }
 
     @Override
-    public List<MemberMeterial> getApiMaterial(String member_id) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        MemberMeterialDto meterialDto = queryForSingleModel(MemberMeterialDto.class, "SELECT * FROM t_member_meterial WHERE member_id = :member_id", getMemParamMap(member_id));
+    public List<MemberMeterial> getMaterial(String member_id) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        MemberMeterialDto meterialDto = queryForSingleModel(MemberMeterialDto.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
 
         long member = Long.valueOf(member_id);
 
@@ -43,37 +43,37 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     }
 
     @Override
-    public List<MemberDeckPort> getApiDeckPort(String member_id) {
-        return queryForModels(MemberDeckPort.class, "SELECT * FROM t_member_deck WHERE member_id = :member_id", getMemParamMap(member_id));
+    public List<MemberDeckPort> getDeckPort(String member_id) {
+        return queryForModels(MemberDeckPort.class, "SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
-    public List<MemberNDock> getApiNdock(String member_id) {
+    public List<MemberNDock> getNdock(String member_id) {
         return queryForModels(MemberNDock.class, "SELECT * FROM t_member_ndock WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
-    public List<MemberShip> getApiShip(String member_id) {
+    public List<MemberShip> getShip(String member_id) {
         return queryForModels(MemberShip.class, "SELECT * FROM t_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
-    public MemberBasic getApiBasic(String member_id) {
+    public MemberBasic getBasic(String member_id) {
         return memberDao.getBasic(member_id);
     }
 
     @Override
-    public List<MemberLog> getApiLog(String member_id) {
+    public List<MemberLog> getLog(String member_id) {
         return queryForModels(MemberLog.class, "SELECT * FROM t_member_log WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
-    public int getApi_p_bgm_id(String member_id) {
-        return getTemplate().queryForObject("SELECT P_BGM_ID FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), int.class);
+    public Integer getPBgmId(String member_id) {
+        return getTemplate().queryForObject("SELECT p_bgm_id FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), Integer.class);
     }
 
     @Override
-    public int getApiParallelQuestCount(String member_id) {
-        return getTemplate().queryForObject("SELECT PARALLEL_QUEST_COUNT FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), int.class);
+    public Integer getParallelQuestCount(String member_id) {
+        return getTemplate().queryForObject("SELECT parallel_quest_count FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), Integer.class);
     }
 }
