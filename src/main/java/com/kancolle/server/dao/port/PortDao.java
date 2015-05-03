@@ -13,7 +13,7 @@ import com.kancolle.server.model.kcsapi.member.MemberShip;
 
 public interface PortDao extends BaseDao<MemberPort> {
 
-    List<MemberMeterial> getApiMaterial(String member_id);
+    List<MemberMeterial> getApiMaterial(String member_id) throws Exception;
 
     List<MemberDeckPort> getApiDeckPort(String member_id);
 

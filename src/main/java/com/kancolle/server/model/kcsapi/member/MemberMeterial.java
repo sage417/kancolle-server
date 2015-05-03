@@ -12,7 +12,7 @@ public class MemberMeterial {
     private int api_id;
 
     @JSONField(ordinal = 3)
-    private long api_value;
+    private int api_value;
 
     public long getApi_member_id() {
         return api_member_id;
@@ -32,12 +32,12 @@ public class MemberMeterial {
         this.api_id = api_id;
     }
 
-    public long getApi_value() {
+    public int getApi_value() {
         return api_value;
     }
 
     @Column(name = "VALUE", type = int.class)
-    public void setApi_value(long api_value) {
+    public void setApi_value(int api_value) {
         this.api_value = api_value;
     }
 }

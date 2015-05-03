@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -25,6 +26,7 @@ import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 
 @Repository
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
+
     private static final String SLOT_STR = "api_slottype";
 
     private Map<String, Object> getMemParamMap(String value) {
@@ -109,6 +111,7 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
         return result;
     }
 
+    @Transactional
     @Override
     public void destroyShip(String member_id, long api_ship_id) {
         // 删除舰娘身上装备

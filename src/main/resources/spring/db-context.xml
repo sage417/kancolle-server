@@ -27,6 +27,19 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" propagation="REQUIRED" isolation="READ_COMMITTED"
+				read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" />
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+	</aop:config>
+
 	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="${jdbc.driverClassName}" /> <property 
 		name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" /> <property 
@@ -72,12 +85,23 @@
 		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
 	</bean>
 
+	<bean id="service-interceptor"
+		class="com.kancolle.server.service.interceptor.ServiceLogInterceptor" />
+
 	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.kancolle.server.service.*</value>
 				<value>com.kancolle.server.dao.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.kancolle.server.service.*</value>
 			</list>
 		</property>
 	</bean>
@@ -85,9 +109,12 @@
 	<aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="druid-stat-interceptor"
 			pointcut-ref="druid-stat-pointcut" />
+		<aop:advisor advice-ref="service-interceptor"
+			pointcut-ref="service-pointcut" />
 	</aop:config>
 
-	<bean id="template" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg ref="dataSource"/>
+	<bean id="template"
+		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
 	</bean>
 </beans>
