@@ -90,4 +90,66 @@ public class MemberDeckPort {
     public void setApi_ship(String api_ship) {
         this.api_ship = JSON.parseArray(api_ship);
     }
+
+    public void removeShip(int ship_idx) {
+        for (int i = ship_idx; i < api_ship.size(); i++) {
+            long next_ship_id = i + 1 == api_ship.size() ? -1L : api_ship.getLongValue(i + 1);
+            api_ship.set(i, next_ship_id);
+
+            if (next_ship_id > 0L) {
+                continue;
+            }
+            break;
+        }
+    }
+
+    public int removeOthers() {
+        int count = 0;
+        for (int i = 1; i < api_ship.size(); i++) {
+            long ship_id = api_ship.getLongValue(i);
+            if (ship_id > 0L) {
+                api_ship.set(i, -1L);
+                count++;
+                continue;
+            }
+            break;
+        }
+        return count;
+    }
+
+    public void addShip(long ship_id) {
+        for (int i = 0; i < api_ship.size(); i++) {
+            long id = api_ship.getLongValue(i);
+            if (id == -1L) {
+                api_ship.set(i, ship_id);
+                break;
+            }
+        }
+    }
+
+    public long replaceShip(int ship_index, long ship_id) {
+        long rship_id = api_ship.getLongValue(ship_index);
+        api_ship.set(ship_index, ship_id);
+        return rship_id;
+    }
+
+    public int indexOf(long ship_id) {
+        for (int i = 0; i < api_ship.size(); i++) {
+            long id = api_ship.getLongValue(i);
+            if (id == ship_id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int size() {
+        for (int i = 0; i < api_ship.size(); i++) {
+            long id = api_ship.getLongValue(i);
+            if (id == -1L) {
+                return i;
+            }
+        }
+        return api_ship.size();
+    }
 }

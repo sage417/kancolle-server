@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
+import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
@@ -26,6 +27,7 @@ import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 
 @Repository
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
+    private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
 
     private static final String SLOT_STR = "api_slottype";
 
@@ -137,5 +139,48 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
             params.put("id", j);
             getTemplate().update("UPDATE v_member_useitem SET VALUE = VALUE + :value WHERE member_id = :member_id AND ID = :id", params);
         }
+    }
+
+    @Override
+    public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
+        Map<String, Object> params = new HashMap<>(3);
+        params.put("member_id", member_id);
+        params.put("fleet_id", fleet_id);
+
+        MemberDeckPort targetDeck = queryForSingleModel(MemberDeckPort.class, "SELECT SHIP FROM v_member_deckport WHERE member_id = :member_id AND ID = :fleet_id", params);
+
+        if ((ship_id == -2L) && (ship_idx == -1)) {
+            // 旗艦以外解除
+            int count = targetDeck.removeOthers();
+        } else if (ship_id == -1L) {
+            targetDeck.removeShip(ship_idx);
+        } else {
+            params.put("ship_id", ship_id);
+
+            long rship_id = targetDeck.indexOf(ship_idx);
+
+            MemberDeckPort otherDock = queryForSingleModel(MemberDeckPort.class, "SELECT * FROM v_member_deckport WHERE member_id = :member_id AND SHIP LIKE '%:ship_id%'", params);
+
+            if (ship_idx < targetDeck.size()) {
+                if (otherDock != null)
+                    otherDock.replaceShip(otherDock.indexOf(rship_id), targetDeck.replaceShip(ship_idx, rship_id));
+                else
+                    targetDeck.replaceShip(ship_idx, ship_id);
+            } else {
+                if (otherDock != null)
+                    otherDock.removeShip(otherDock.indexOf(rship_id));
+                targetDeck.addShip(ship_id);
+            }
+
+            if (otherDock != null && fleet_id != otherDock.getApi_id()) {
+                params.put("fleet_id", otherDock.getApi_id());
+                params.put("ships", otherDock.getApi_ship().toJSONString());
+                getTemplate().update(UPDATE_SHIP, params);
+            }
+        }
+
+        params.put("fleet_id", fleet_id);
+        params.put("ships", targetDeck.getApi_ship().toJSONString());
+        getTemplate().update(UPDATE_SHIP, params);
     }
 }

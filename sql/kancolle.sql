@@ -21,7 +21,7 @@ USE `kancolle`;
 DROP TABLE IF EXISTS `t_bgm`;
 
 CREATE TABLE `t_bgm` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `NAME` varchar(63) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -35,7 +35,7 @@ insert  into `t_bgm`(`ID`,`NAME`) values (101,'母港'),(105,'秋の鎮守府'),
 DROP TABLE IF EXISTS `t_furniture`;
 
 CREATE TABLE `t_furniture` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(3) unsigned NOT NULL,
   `TYPE` tinyint(3) unsigned NOT NULL,
   `NO` tinyint(3) unsigned NOT NULL,
   `TITLE` varchar(63) NOT NULL,
@@ -56,7 +56,7 @@ insert  into `t_furniture`(`ID`,`TYPE`,`NO`,`TITLE`,`DESCRIPTION`,`RARITY`,`PRIC
 DROP TABLE IF EXISTS `t_furniture_graph`;
 
 CREATE TABLE `t_furniture_graph` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `TYPE` tinyint(3) unsigned NOT NULL,
   `NO` tinyint(3) unsigned NOT NULL,
   `FILENAME` varchar(63) NOT NULL,
@@ -87,7 +87,7 @@ insert  into `t_item_shop`(`NAME`,`ITEM_ID`) values ('api_cabinet_1','[1,\n2,\n3
 DROP TABLE IF EXISTS `t_map_area`;
 
 CREATE TABLE `t_map_area` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `NAME` varchar(63) NOT NULL,
   `TYPE` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`ID`)
@@ -102,9 +102,9 @@ insert  into `t_map_area`(`ID`,`NAME`,`TYPE`) values (1,'鎮守府海域',0),(2,
 DROP TABLE IF EXISTS `t_map_bgm`;
 
 CREATE TABLE `t_map_bgm` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `MAPAREA_ID` tinyint(3) unsigned NOT NULL,
-  `NO` tinyint(1) unsigned NOT NULL,
+  `NO` tinyint(3) unsigned NOT NULL,
   `MAP_BGM` varchar(63) NOT NULL,
   `BOSS_BGM` varchar(63) NOT NULL,
   PRIMARY KEY (`ID`)
@@ -119,7 +119,7 @@ insert  into `t_map_bgm`(`ID`,`MAPAREA_ID`,`NO`,`MAP_BGM`,`BOSS_BGM`) values (11
 DROP TABLE IF EXISTS `t_map_cell`;
 
 CREATE TABLE `t_map_cell` (
-  `ID` smallint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `NO` tinyint(3) unsigned NOT NULL,
   `COLOR_NO` tinyint(3) unsigned NOT NULL,
   `MAP_NO` tinyint(3) unsigned NOT NULL,
@@ -137,7 +137,7 @@ insert  into `t_map_cell`(`ID`,`NO`,`COLOR_NO`,`MAP_NO`,`MAPAREA_ID`,`MAPINFO_NO
 DROP TABLE IF EXISTS `t_map_info`;
 
 CREATE TABLE `t_map_info` (
-  `ID` tinyint(3) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `INFOTEXT` varchar(255) NOT NULL,
   `ITEM` varchar(63) NOT NULL,
   `MAX_MAPHP` tinyint(3) unsigned NOT NULL,
@@ -164,19 +164,19 @@ CREATE TABLE `t_member` (
   `api_token` char(36) DEFAULT NULL,
   `nickname` varchar(63) NOT NULL COMMENT '提督名',
   `nickname_id` varbinary(63) NOT NULL,
-  `active_flag` tinyint(4) NOT NULL DEFAULT '1',
+  `active_flag` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `starttime` bigint(20) unsigned DEFAULT NULL,
-  `level` tinyint(4) unsigned NOT NULL DEFAULT '0',
-  `rank` tinyint(4) unsigned NOT NULL DEFAULT '0',
-  `experience` bigint(20) DEFAULT NULL,
+  `level` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `rank` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `experience` bigint(20) unsigned DEFAULT NULL,
   `fleetname` varchar(255) DEFAULT NULL,
   `comment` varchar(255) NOT NULL DEFAULT '',
   `comment_id` varchar(255) NOT NULL DEFAULT '',
-  `max_chara` int(10) unsigned NOT NULL DEFAULT '100' COMMENT '最大保有可能舰娘数',
-  `max_slotitem` int(10) unsigned NOT NULL DEFAULT '497' COMMENT '最大保有可能装备数',
-  `max_kagu` int(11) DEFAULT NULL,
-  `playtime` bigint(20) DEFAULT NULL,
-  `tutorial` int(11) DEFAULT NULL,
+  `max_chara` smallint(5) unsigned NOT NULL DEFAULT '100' COMMENT '最大保有可能舰娘数',
+  `max_slotitem` mediumint(8) unsigned NOT NULL DEFAULT '497' COMMENT '最大保有可能装备数',
+  `max_kagu` int(11) unsigned DEFAULT NULL,
+  `playtime` bigint(20) unsigned DEFAULT NULL,
+  `tutorial` int(4) DEFAULT '100',
   `furniture` varchar(255) NOT NULL DEFAULT '[1,72,102,133,164,221,242]',
   `count_deck` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '最大保有可能舰队数',
   `count_kdock` tinyint(3) unsigned NOT NULL DEFAULT '2',
@@ -194,27 +194,32 @@ CREATE TABLE `t_member` (
   `tutorial_progress` int(10) unsigned NOT NULL DEFAULT '100',
   `pvp` varchar(255) NOT NULL DEFAULT '[0,0]',
   `medals` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '甲徽章',
+  `p_bgm_id` int(10) unsigned NOT NULL DEFAULT '100',
+  `parallel_quest_count` tinyint(3) unsigned NOT NULL DEFAULT '5',
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8006691 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`) values (8006690,'test_api_token','','',1,1430453725405,7,7,2224,NULL,'','',100,500,NULL,NULL,NULL,'[1,72,102,133,164,221,242]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'test_api_token','','',1,1430453725405,7,7,2224,NULL,'','',100,500,NULL,NULL,NULL,'[1,72,102,133,164,221,242]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,100,5);
 
 /*Table structure for table `t_member_deckport` */
 
 DROP TABLE IF EXISTS `t_member_deckport`;
 
 CREATE TABLE `t_member_deckport` (
-  `index` bigint(20) NOT NULL,
-  `member_id` bigint(20) NOT NULL,
-  `ID` tinyint(4) NOT NULL,
-  `NAME` varchar(255) NOT NULL,
-  `NAME_ID` varchar(255) NOT NULL,
-  `MISSION` varchar(255) NOT NULL,
-  `FLAGSHIP` varchar(255) NOT NULL,
-  `SHIP` varchar(255) NOT NULL,
-  PRIMARY KEY (`index`)
+  `index` bigint(20) NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `ID` tinyint(3) unsigned NOT NULL COMMENT '舰队ID',
+  `NAME` varchar(255) NOT NULL COMMENT '舰队名',
+  `NAME_ID` varchar(255) NOT NULL DEFAULT '',
+  `MISSION` varchar(255) NOT NULL DEFAULT '[0,0,0,0]' COMMENT '远征信息',
+  `FLAGSHIP` varchar(255) NOT NULL DEFAULT '0',
+  `SHIP` varchar(255) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1]' COMMENT '舰队信息',
+  `locked` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否可用',
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport` */
@@ -226,22 +231,24 @@ DROP TABLE IF EXISTS `t_member_kdock`;
 CREATE TABLE `t_member_kdock` (
   `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `member_id` bigint(20) unsigned NOT NULL,
-  `ID` int(10) unsigned NOT NULL,
-  `STATE` tinyint(3) unsigned NOT NULL,
+  `ID` tinyint(3) unsigned NOT NULL,
+  `STATE` tinyint(3) NOT NULL DEFAULT '-1',
   `CREATED_SHIP_ID` int(10) unsigned NOT NULL DEFAULT '0',
-  `COMPLETE_TIME` bigint(20) unsigned NOT NULL,
+  `COMPLETE_TIME` bigint(20) unsigned NOT NULL DEFAULT '0',
   `COMPLETE_TIME_STR` varchar(255) NOT NULL DEFAULT '0',
   `ITEM1` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM2` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM3` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM4` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM5` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`index`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  CONSTRAINT `t_member_kdock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_kdock` */
 
-insert  into `t_member_kdock`(`index`,`member_id`,`ID`,`STATE`,`CREATED_SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`,`ITEM5`) values (1,8006690,1,0,0,0,'0',0,0,0,0,0);
+insert  into `t_member_kdock`(`index`,`member_id`,`ID`,`STATE`,`CREATED_SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`,`ITEM5`) values (1,8006690,1,0,0,0,'0',0,0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0,0),(3,8006690,3,-1,0,0,'0',0,0,0,0,0),(4,8006690,4,-1,0,0,'0',0,0,0,0,0);
 
 /*Table structure for table `t_member_log` */
 
@@ -264,32 +271,44 @@ CREATE TABLE `t_member_log` (
 DROP TABLE IF EXISTS `t_member_material`;
 
 CREATE TABLE `t_member_material` (
-  `index` bigint(20) NOT NULL,
-  `member_id` bigint(20) NOT NULL,
-  `ID` tinyint(4) NOT NULL,
-  `VALUE` mediumint(9) NOT NULL,
-  PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `FUEL` mediumint(8) unsigned NOT NULL,
+  `BULL` mediumint(8) unsigned NOT NULL,
+  `STEAL` mediumint(8) unsigned NOT NULL,
+  `BAUXITE` mediumint(8) unsigned NOT NULL,
+  `FAST_REC` mediumint(8) unsigned NOT NULL,
+  `FAST_BUILD` mediumint(8) unsigned NOT NULL,
+  `DEV_ITEM` mediumint(8) unsigned NOT NULL,
+  `ENH_ITEM` mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY (`index`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `t_member_material_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_material` */
+
+insert  into `t_member_material`(`index`,`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (1,8006690,1,2,3,4,5,6,7,8);
 
 /*Table structure for table `t_member_ndock` */
 
 DROP TABLE IF EXISTS `t_member_ndock`;
 
 CREATE TABLE `t_member_ndock` (
-  `index` bigint(20) NOT NULL,
-  `member_id` bigint(20) NOT NULL,
-  `ID` tinyint(4) NOT NULL,
-  `STATE` tinyint(4) NOT NULL,
-  `SHIP_ID` int(11) NOT NULL,
-  `COMPLETE_TIME` bigint(20) NOT NULL,
-  `COMPLETE_TIME_STR` varchar(255) NOT NULL,
-  `ITEM1` mediumint(9) NOT NULL,
-  `ITEM2` mediumint(9) NOT NULL,
-  `ITEM3` mediumint(9) NOT NULL,
-  `ITEM4` mediumint(9) NOT NULL,
-  PRIMARY KEY (`index`)
+  `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `ID` tinyint(3) unsigned NOT NULL,
+  `STATE` tinyint(3) NOT NULL DEFAULT '-1',
+  `SHIP_ID` int(11) unsigned NOT NULL DEFAULT '0',
+  `COMPLETE_TIME` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `COMPLETE_TIME_STR` varchar(255) NOT NULL DEFAULT '0',
+  `ITEM1` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `ITEM2` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `ITEM3` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `ITEM4` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  CONSTRAINT `t_member_ndock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ndock` */
@@ -371,15 +390,16 @@ DROP TABLE IF EXISTS `t_member_useitem`;
 CREATE TABLE `t_member_useitem` (
   `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `member_id` bigint(20) unsigned NOT NULL,
-  `ID` int(10) unsigned NOT NULL,
-  `VALUE` int(10) unsigned NOT NULL DEFAULT '0',
-  `COUNT` int(11) NOT NULL,
-  PRIMARY KEY (`index`)
+  `ID` tinyint(10) unsigned NOT NULL,
+  `COUNT` int(10) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  CONSTRAINT `t_member_useitem_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_useitem` */
 
-insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`VALUE`,`COUNT`) values (1,8006690,10,1,1);
+insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (1,8006690,10,1);
 
 /*Table structure for table `t_mission` */
 
@@ -443,7 +463,7 @@ CREATE TABLE `t_ship` (
   `LUCK` varchar(255) NOT NULL,
   `MAXEQ` varchar(255) NOT NULL,
   `NAME` varchar(255) NOT NULL,
-  `POWUP` char(9) NOT NULL,
+  `POWUP` varchar(63) NOT NULL,
   `RAIG` varchar(255) NOT NULL,
   `SLOT_NUM` tinyint(4) unsigned NOT NULL,
   `SOKU` tinyint(4) unsigned NOT NULL,
@@ -617,6 +637,56 @@ CREATE TABLE `t_useitem` (
 
 insert  into `t_useitem`(`ID`,`USETYPE`,`CATEGORY`,`NAME`,`DESCRIPTION`,`PRICE`) values (1,1,1,'高速修復材','[\"入渠時間を短縮できる。\",\"\"]',0),(2,2,2,'高速建造材','[\"建造時間を短縮できる。\",\"\"]',0),(3,3,3,'開発資材','[\"建造・開発を行うのに使用する資材。\",\"\"]',0),(4,3,4,'改修資材','[\"装備を改修する為の資材、「改修工廠」で使用します。\",\"\"]',0),(5,4,4,'','[\"\",\"\"]',0),(6,4,4,'','[\"\",\"\"]',0),(7,4,5,'','[\"\",\"\"]',0),(8,4,5,'','[\"\",\"\"]',0),(9,4,5,'','[\"\",\"\"]',0),(10,4,6,'家具箱（小）','[\"開けると、中から少量の家具コインが出現する。\",\"200\"]',0),(11,4,6,'家具箱（中）','[\"開けると、中から中量の家具コインが出現する。\",\"400\"]',0),(12,4,6,'家具箱（大）','[\"開けると、中から大量の家具コインが出現する。\",\"700\"]',0),(13,4,7,'','[\"\",\"\"]',0),(14,4,7,'','[\"\",\"\"]',0),(15,4,8,'','[\"\",\"\"]',0),(16,5,9,'','[\"\",\"\"]',0),(17,5,9,'','[\"\",\"\"]',0),(18,5,10,'','[\"\",\"\"]',0),(19,5,10,'','[\"\",\"\"]',0),(20,5,11,'','[\"\",\"\"]',0),(21,5,11,'','[\"\",\"\"]',0),(22,5,11,'','[\"\",\"\"]',0),(23,5,12,'','[\"\",\"\"]',0),(24,5,12,'','[\"\",\"\"]',0),(25,5,13,'','[\"\",\"\"]',0),(26,5,13,'','[\"\",\"\"]',0),(27,5,14,'','[\"\",\"\"]',0),(28,5,15,'','[\"\",\"\"]',0),(29,5,15,'','[\"\",\"\"]',0),(30,5,15,'','[\"\",\"\"]',0),(31,6,16,'燃料','[\"\",\"\"]',0),(32,6,17,'弾薬','[\"\",\"\"]',0),(33,6,18,'鋼材','[\"\",\"\"]',0),(34,6,19,'ボーキサイト','[\"\",\"\"]',0),(35,7,20,'','[\"\",\"\"]',0),(36,7,20,'','[\"\",\"\"]',0),(37,7,20,'','[\"\",\"\"]',0),(38,7,20,'','[\"\",\"\"]',0),(39,7,20,'','[\"\",\"\"]',0),(40,7,20,'','[\"\",\"\"]',0),(41,7,20,'','[\"\",\"\"]',0),(42,7,20,'','[\"\",\"\"]',0),(43,7,20,'','[\"\",\"\"]',0),(44,6,21,'家具コイン','[\"\",\"\"]',0),(45,6,16,'','[\"\",\"\"]',0),(46,6,17,'','[\"\",\"\"]',0),(47,6,18,'','[\"\",\"\"]',0),(48,6,19,'','[\"\",\"\"]',0),(49,0,0,'ドック開放キー','[\"入渠ドックまたは工廠ドックを１個開放できるキー。\",\"\"]',0),(50,0,0,'応急修理要員','[\"艦のスロットに装備する。装備した艦は1度だけ撃沈を回避できる。\",\"\"]',0),(51,0,0,'応急修理女神','[\"応急修理要員がパワーアップ！撃沈回避時に出撃能力が全回復。\",\"\"]',0),(52,0,0,'特注家具職人','[\"特注家具を製作する職人さん。家具屋さんで使用する。\",\"\"]',0),(53,0,0,'母港拡張','[\"最大保有艦娘数＋10(最大240)。最大保有アイテム数＋40(最大1060)。\",\"\"]',0),(54,0,0,'給糧艦「間宮」','[\"艦隊全体の疲労度を回復する給糧艦。編成で使用可能。\",\"\"]',0),(55,0,0,'書類一式＆指輪','[\"ケッコンカッコカリに必要な書類一式と指輪。改装で使用する。\",\"\"]',0),(56,4,0,'艦娘からのチョコ','[\"艦娘から贈られたチョコ。クリックして資源にするのもよし、保存しておくのもよし。\",\"\"]',0),(57,4,0,'勲章','[\"暁の水平線に勝利を刻んだ提督に贈られる「証」。資源や改修資材、または複数集めて改装設計図と交換することも可能です。\",\"\"]',0),(58,0,0,'改装設計図','[\"艦娘の「特別な改造」に使用する設計図。\",\"\"]',0),(59,0,0,'給糧艦「伊良湖」','[\"艦娘たちの士気を高揚させる新型給糧艦。編成で使用可能。\",\"\"]',0),(60,4,0,'プレゼント箱','[\"特別な時期だけ発見が可能となる丁寧に包装された「プレゼント箱」。開封時に希望の中味を選択することが可能です。\",\"\"]',0),(61,4,0,'甲種勲章','[\"難易度の高い作戦を、精鋭の艦娘たちと共に攻略した提督のみに贈られる勝利の証。それが、「甲種勲章」。資材等に交換することも可能です。\",\"\"]',0),(62,4,0,'菱餅','[\"桃の節句の時期だけ発見が可能となる美味しい「菱餅」です。展開時に希望の中味を選択することが可能です。\",\"\"]',0),(63,4,0,'司令部要員','[\"「任務」同時受託可能数を拡張することができる司令部要員です。使用すると、同時受託可能任務数が＋１拡張されます。\",\"\"]',0);
 
+/* Trigger structure for table `t_member` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_after_newmember` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
+	SET UNIQUE_CHECKS=0;
+	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
+	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
+	
+	replace into t_member_kdock (member_id, ID, STATE) values 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	replace into t_member_ndock (member_id, ID, STATE) VALUES 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
+	(new.member_id, 10, 0),
+	(new.member_id, 11, 0),
+	(new.member_id, 12, 0),
+	(new.member_id, 50, 0),
+	(new.member_id, 51, 0),
+	(new.member_id, 52, 0),
+	(new.member_id, 54, 0),
+	(new.member_id, 55, 0),
+	(new.member_id, 56, 0),
+	(new.member_id, 57, 0),
+	(new.member_id, 58, 0),
+	(new.member_id, 59, 0),
+	(new.member_id, 60, 0),
+	(new.member_id, 61, 0),
+	(new.member_id, 62, 0),
+	(new.member_id, 63, 0);
+	
+	SET UNIQUE_CHECKS=1;
+    END */$$
+
+
+DELIMITER ;
+
 /* Trigger structure for table `t_member_ship` */
 
 DELIMITER $$
@@ -627,6 +697,19 @@ DELIMITER $$
 	DECLARE now_id BIGINT;
 	SET now_id = (SELECT MAX(ID) FROM t_member_ship WHERE member_id = new.member_id);
 	SET new.ID = now_id + 1;
+    END */$$
+
+
+DELIMITER ;
+
+/* Trigger structure for table `t_member_ship` */
+
+DELIMITER $$
+
+/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_before_destroyship` */$$
+
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_before_destroyship` BEFORE DELETE ON `t_member_ship` FOR EACH ROW BEGIN
+	update t_member_deckport set SHIP = replace(SHIP,old.ID,'-1') where member_id = old.member_id;
     END */$$
 
 
@@ -646,6 +729,64 @@ DELIMITER $$
 
 
 DELIMITER ;
+
+/*Table structure for table `v_member_deckport` */
+
+DROP TABLE IF EXISTS `v_member_deckport`;
+
+/*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
+/*!50001 DROP TABLE IF EXISTS `v_member_deckport` */;
+
+/*!50001 CREATE TABLE  `v_member_deckport`(
+ `member_id` bigint(20) unsigned ,
+ `ID` tinyint(3) unsigned ,
+ `NAME` varchar(255) ,
+ `NAME_ID` varchar(255) ,
+ `MISSION` varchar(255) ,
+ `FLAGSHIP` varchar(255) ,
+ `SHIP` varchar(255) 
+)*/;
+
+/*Table structure for table `v_member_kdock` */
+
+DROP TABLE IF EXISTS `v_member_kdock`;
+
+/*!50001 DROP VIEW IF EXISTS `v_member_kdock` */;
+/*!50001 DROP TABLE IF EXISTS `v_member_kdock` */;
+
+/*!50001 CREATE TABLE  `v_member_kdock`(
+ `member_id` bigint(20) unsigned ,
+ `ID` tinyint(3) unsigned ,
+ `STATE` tinyint(3) ,
+ `CREATED_SHIP_ID` int(10) unsigned ,
+ `COMPLETE_TIME` bigint(20) unsigned ,
+ `COMPLETE_TIME_STR` varchar(255) ,
+ `ITEM1` mediumint(8) unsigned ,
+ `ITEM2` mediumint(8) unsigned ,
+ `ITEM3` mediumint(8) unsigned ,
+ `ITEM4` mediumint(8) unsigned ,
+ `ITEM5` tinyint(3) unsigned 
+)*/;
+
+/*Table structure for table `v_member_ndock` */
+
+DROP TABLE IF EXISTS `v_member_ndock`;
+
+/*!50001 DROP VIEW IF EXISTS `v_member_ndock` */;
+/*!50001 DROP TABLE IF EXISTS `v_member_ndock` */;
+
+/*!50001 CREATE TABLE  `v_member_ndock`(
+ `member_id` bigint(20) unsigned ,
+ `ID` tinyint(3) unsigned ,
+ `STATE` tinyint(3) ,
+ `SHIP_ID` int(11) unsigned ,
+ `COMPLETE_TIME` bigint(20) unsigned ,
+ `COMPLETE_TIME_STR` varchar(255) ,
+ `ITEM1` mediumint(9) unsigned ,
+ `ITEM2` mediumint(9) unsigned ,
+ `ITEM3` mediumint(9) unsigned ,
+ `ITEM4` mediumint(9) unsigned 
+)*/;
 
 /*Table structure for table `v_member_ship` */
 
@@ -711,15 +852,35 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 
 /*!50001 CREATE TABLE  `v_member_useitem`(
  `member_id` bigint(20) unsigned ,
- `ID` int(10) unsigned ,
- `VALUE` int(10) unsigned ,
+ `ID` tinyint(10) unsigned ,
  `USETYPE` tinyint(4) unsigned ,
  `CATEGORY` smallint(6) unsigned ,
  `NAME` varchar(255) ,
- `DESCRIPTION` varchar(255) ,
+ `DESCRIPTION` varchar(7) ,
  `PRICE` mediumint(9) unsigned ,
- `COUNT` int(11) 
+ `COUNT` int(10) 
 )*/;
+
+/*View structure for view v_member_deckport */
+
+/*!50001 DROP TABLE IF EXISTS `v_member_deckport` */;
+/*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,`t_member_deckport`.`MISSION` AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
+
+/*View structure for view v_member_kdock */
+
+/*!50001 DROP TABLE IF EXISTS `v_member_kdock` */;
+/*!50001 DROP VIEW IF EXISTS `v_member_kdock` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_kdock` AS select `t_member_kdock`.`member_id` AS `member_id`,`t_member_kdock`.`ID` AS `ID`,`t_member_kdock`.`STATE` AS `STATE`,`t_member_kdock`.`CREATED_SHIP_ID` AS `CREATED_SHIP_ID`,`t_member_kdock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_kdock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_kdock`.`ITEM1` AS `ITEM1`,`t_member_kdock`.`ITEM2` AS `ITEM2`,`t_member_kdock`.`ITEM3` AS `ITEM3`,`t_member_kdock`.`ITEM4` AS `ITEM4`,`t_member_kdock`.`ITEM5` AS `ITEM5` from `t_member_kdock` where (`t_member_kdock`.`STATE` > -(1)) */;
+
+/*View structure for view v_member_ndock */
+
+/*!50001 DROP TABLE IF EXISTS `v_member_ndock` */;
+/*!50001 DROP VIEW IF EXISTS `v_member_ndock` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ndock` AS select `t_member_ndock`.`member_id` AS `member_id`,`t_member_ndock`.`ID` AS `ID`,`t_member_ndock`.`STATE` AS `STATE`,`t_member_ndock`.`SHIP_ID` AS `SHIP_ID`,`t_member_ndock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_ndock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_ndock`.`ITEM1` AS `ITEM1`,`t_member_ndock`.`ITEM2` AS `ITEM2`,`t_member_ndock`.`ITEM3` AS `ITEM3`,`t_member_ndock`.`ITEM4` AS `ITEM4` from `t_member_ndock` where (`t_member_ndock`.`STATE` > -(1)) */;
 
 /*View structure for view v_member_ship */
 
@@ -740,7 +901,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_useitem` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_useitem` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_useitem` AS select `t_member_useitem`.`member_id` AS `member_id`,`t_member_useitem`.`ID` AS `ID`,`t_member_useitem`.`VALUE` AS `VALUE`,`t_useitem`.`USETYPE` AS `USETYPE`,`t_useitem`.`CATEGORY` AS `CATEGORY`,`t_useitem`.`NAME` AS `NAME`,`t_useitem`.`DESCRIPTION` AS `DESCRIPTION`,`t_useitem`.`PRICE` AS `PRICE`,`t_member_useitem`.`COUNT` AS `COUNT` from (`t_member_useitem` join `t_useitem` on((`t_member_useitem`.`ID` = `t_useitem`.`ID`))) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_useitem` AS select `t_member_useitem`.`member_id` AS `member_id`,`t_member_useitem`.`ID` AS `ID`,`t_useitem`.`USETYPE` AS `USETYPE`,`t_useitem`.`CATEGORY` AS `CATEGORY`,`t_useitem`.`NAME` AS `NAME`,'["",""]' AS `DESCRIPTION`,`t_useitem`.`PRICE` AS `PRICE`,`t_member_useitem`.`COUNT` AS `COUNT` from (`t_member_useitem` join `t_useitem` on((`t_member_useitem`.`ID` = `t_useitem`.`ID`))) where (`t_member_useitem`.`COUNT` > 0) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

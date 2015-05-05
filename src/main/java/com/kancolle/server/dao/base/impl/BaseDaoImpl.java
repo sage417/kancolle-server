@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -53,20 +54,25 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     protected <E> E queryForSingleModel(Class<E> clazz, String sql, Map<String, Object> params) {
-        return template.queryForObject(sql, params, (rs, rn) -> {
-            E instance = null;
-            try {
-                instance = clazz.newInstance();
-                DaoUtils.setObject(instance, rs);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return instance;
-        });
+        try {
+            return template.queryForObject(sql, params, (rs, rn) -> {
+                E instance = null;
+                try {
+                    instance = clazz.newInstance();
+                    DaoUtils.setObject(instance, rs);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return instance;
+            });
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     /**
      * 解析数据库字符串，返回JSONArray对象
+     * 
      * @param sql
      * @param params
      * @return

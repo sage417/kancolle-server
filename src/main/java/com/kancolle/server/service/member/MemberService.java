@@ -30,4 +30,6 @@ public interface MemberService {
 
     void destroyShip(String member_id, long api_ship_id);
 
+    void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx);
+
 }

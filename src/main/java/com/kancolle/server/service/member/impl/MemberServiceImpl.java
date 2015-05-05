@@ -58,7 +58,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
-        return DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id });
+        MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count");
+        port.setApi_p_bgm_id(port.getApi_basic().getApi_p_bgm_id());
+        port.setApi_parallel_quest_count(port.getApi_basic().getApi_parallel_quest_count());
+        return port;
     }
 
     @Override
@@ -70,5 +73,10 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void destroyShip(String member_id, long api_ship_id) {
         memberDao.destroyShip(member_id, api_ship_id);
+    }
+
+    @Override
+    public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
+        memberDao.changeShip(member_id, fleet_id, ship_id, ship_idx);
     }
 }
