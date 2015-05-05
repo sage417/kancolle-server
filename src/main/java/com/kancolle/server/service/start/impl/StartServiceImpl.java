@@ -1,6 +1,7 @@
 package com.kancolle.server.service.start.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.start.StartDao;
@@ -15,6 +16,7 @@ public class StartServiceImpl implements StartService {
     private StartDao startDao;
 
     @Override
+    @Cacheable(value = "start", key = "#root.methodName")
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
         return DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {});
     }
