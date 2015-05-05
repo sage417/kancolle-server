@@ -56,7 +56,7 @@ public class MemberUseItem {
         return api_value;
     }
 
-    @Column(name = "VALUE", type = int.class)
+    @Column(name = "COUNT", type = int.class)
     public void setApi_value(int api_value) {
         this.api_value = api_value;
     }
