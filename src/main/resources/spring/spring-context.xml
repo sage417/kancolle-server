@@ -9,6 +9,7 @@
 
 	<import resource="classpath:spring/db-context.xml" />
 	<import resource="classpath:spring/service-context.xml" />
+	<import resource="classpath:spring/spring-cache.xml"/>
 
 	<!-- 配置线程池 -->
 	<bean id="taskExecutor"
