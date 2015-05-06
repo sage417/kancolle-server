@@ -8,15 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.logic.DeckPortLogic;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
+import com.kancolle.server.model.json.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
-@RequestMapping("/kcsapi/api_req_hensei")
-public class ReqHensei {
+@RequestMapping("/kcsapi/api_req_furniture")
+public class ReqFurnitureController {
     @Autowired
     private MemberService memberService;
 
@@ -26,14 +27,11 @@ public class ReqHensei {
     }
 
     @RequestMapping("change")
-    public @ResponseBody String change(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_id") int fleet_id, @RequestParam("api_ship_id") long ship_id,
-            @RequestParam("api_ship_idx") int ship_idx) {
-        if (fleet_id < 1 || fleet_id > 4 || ship_id < -2 || ship_idx < -1 || ship_idx > 5) {
-
-        }
-        if (DeckPortLogic.checkChange(fleet_id, ship_idx, ship_id))
-            memberService.changeShip(member_id, fleet_id, ship_id, ship_idx);
-        return "";
+    public String change(@ModelAttribute(MEMBER_ID) String member_id, ChangeFurnitureForm form) {
+        memberService.changeFurniture(member_id, form);
+        return JSON.toJSONString(new APIResponse<Object>(), SerializerFeature.BrowserCompatible);
     }
 
+    public void buy(@ModelAttribute(MEMBER_ID) String member_id) {
+    }
 }

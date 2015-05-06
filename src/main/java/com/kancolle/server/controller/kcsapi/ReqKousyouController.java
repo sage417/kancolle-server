@@ -15,7 +15,7 @@ import com.kancolle.server.service.member.MemberService;
 
 @Controller
 @RequestMapping("/kcsapi/api_req_kousyou")
-public class ReqKousyou {
+public class ReqKousyouController {
     @Autowired
     private MemberService memberService;
 

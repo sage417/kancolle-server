@@ -3,6 +3,7 @@ package com.kancolle.server.dao.member;
 import java.util.List;
 import java.util.Map;
 
+import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
@@ -29,5 +30,7 @@ public interface MemberDao<T> extends BaseDao<T>{
     void destroyShip(String member_id, long api_ship_id);
 
     void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx);
+
+    void changeFurniture(String member_id, ChangeFurnitureForm form);
 
 }
