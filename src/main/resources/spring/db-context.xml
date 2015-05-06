@@ -22,7 +22,7 @@
 	<tx:annotation-driven transaction-manager="txManager" />
 
 	<!-- 1.注解方式配置事务 -->
-	<bean id="txManager"
+	<!-- <bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -38,7 +38,7 @@
 	<aop:config>
 		<aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" />
 		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
-	</aop:config>
+	</aop:config> -->
 
 	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="${jdbc.driverClassName}" /> <property 
@@ -97,20 +97,20 @@
 		</property>
 	</bean>
 
-	<bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+	<!-- <bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
 		scope="prototype">
 		<property name="patterns">
 			<list>
 				<value>com.kancolle.server.service.*</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
 	<aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="druid-stat-interceptor"
 			pointcut-ref="druid-stat-pointcut" />
-		<aop:advisor advice-ref="service-interceptor"
-			pointcut-ref="service-pointcut" />
+		<!-- <aop:advisor advice-ref="service-interceptor"
+			pointcut-ref="service-pointcut" /> -->
 	</aop:config>
 
 	<bean id="template"

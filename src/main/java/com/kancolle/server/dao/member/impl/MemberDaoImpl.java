@@ -47,16 +47,7 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
 
     @Override
     public List<MemberFurniture> getFurniture(String member_id) {
-        String furniture_ids = getTemplate().queryForObject("SELECT furniture FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), String.class);
-        furniture_ids = furniture_ids.substring(1, furniture_ids.length() - 1);
-
-        List<MemberFurniture> furnitures = queryForModels(MemberFurniture.class, "SELECT * FROM t_furniture WHERE ID IN (:ids)",
-                Collections.singletonMap("ids", Arrays.asList(furniture_ids.split(","))));
-
-        return furnitures.parallelStream().map(furniture -> {
-            furniture.setApi_member_id(member_id);
-            return furniture;
-        }).collect(Collectors.toList());
+        return queryForModels(MemberFurniture.class, "SELECT * FROM v_member_furniture WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
