@@ -27,7 +27,7 @@ public class APITokenHandlerInterceptor extends HandlerInterceptorAdapter {
             String member_id = memberService.getMemberByApiToken(api_token);
             request.setAttribute(MEMBER_ID, member_id);
 
-            //int api_verno = Integer.valueOf(request.getParameter(API_VERNO));
+            // int api_verno = Integer.valueOf(request.getParameter(API_VERNO));
 
             return true;
         } catch (EmptyResultDataAccessException e) {

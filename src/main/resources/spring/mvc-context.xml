@@ -41,7 +41,7 @@
 			<list>
 				<!-- <value>WriteDateUseDateFormat</value> -->
 				<value>BrowserCompatible</value>
-				<value>WriteMapNullValue</value>
+				<!-- <value>WriteMapNullValue</value> -->
 				<value>DisableCircularReferenceDetect</value>
 			</list>
 		</property>

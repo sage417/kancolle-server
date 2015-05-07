@@ -3,8 +3,11 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.kancolle.server.dao.annotation.Column;
 
+@JSONType(serialzeFeatures = SerializerFeature.WriteMapNullValue)
 public class MapInfoModel {
 
     @JSONField(ordinal = 1)
@@ -31,10 +34,10 @@ public class MapInfoModel {
     @JSONField(ordinal = 8)
     private JSONArray api_item;
 
-    @JSONField(ordinal = 9)
+    @JSONField(ordinal = 9, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     private Integer api_max_maphp;
 
-    @JSONField(ordinal = 10)
+    @JSONField(ordinal = 10, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     private Integer api_required_defeat_count;
 
     @JSONField(ordinal = 11)
