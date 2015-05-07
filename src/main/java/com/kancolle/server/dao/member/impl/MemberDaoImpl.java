@@ -21,11 +21,11 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
-import com.kancolle.server.utils.BeanUtils;
 
 @Repository
 public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
@@ -181,17 +181,16 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
     public void changeFurniture(String member_id, ChangeFurnitureForm form) {
         List<Integer> ids = Arrays.asList(form.getApi_wallpaper(), form.getApi_floor(), form.getApi_desk(), form.getApi_window(), form.getApi_wallhanging(), form.getApi_shelf());
 
-        Map<String, Object> params = new HashMap<>(3);
+        Map<String, Object> params = new HashMap<>(2);
         params.put("member_id", member_id);
-        params.put("ids", ids);
-        int count = getTemplate().queryForObject("SELECT COUNT(*) FROM v_member_furniture where member_id = :member_id AND furniture_id IN (:ids)", params, int.class);
-
-        if (count != ids.size()) {
-            return;
-        }
-
         params.put("furniture", JSON.toJSONString(ids));
 
         getTemplate().update("UPDATE t_member SET furniture = :furniture where member_id = :member_id", params);
+    }
+
+    @Override
+    public MemberRecord getRecord(String member_id) {
+        // TODO
+        return null;
     }
 }

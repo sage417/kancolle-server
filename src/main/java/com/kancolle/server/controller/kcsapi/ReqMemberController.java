@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
 
 import java.util.Collections;
 
@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.model.json.kcsapi.req_member.GetIncentiveData;
 
 @Controller
-@RequestMapping("/kcsapi/api_req_member")
+@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)
 public class ReqMemberController {
     private static final GetIncentiveData svdata = new GetIncentiveData().setApi_data(Collections.singletonMap("api_count", 0));
 
@@ -24,7 +25,7 @@ public class ReqMemberController {
     }
 
     @RequestMapping("get_incentive")
-    public @ResponseBody GetIncentiveData getIncentive() {
+    public @ResponseBody GetIncentiveData getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
         return svdata;
     }
 }

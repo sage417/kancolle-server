@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
 
 import javax.servlet.http.HttpServletRequest;
 

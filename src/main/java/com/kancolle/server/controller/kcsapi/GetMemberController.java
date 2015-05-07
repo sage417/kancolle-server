@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
 
 import java.util.List;
 import java.util.Map;
@@ -11,23 +11,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.model.json.kcsapi.get_member.BasicData;
 import com.kancolle.server.model.json.kcsapi.get_member.FurnitureData;
 import com.kancolle.server.model.json.kcsapi.get_member.KdockData;
+import com.kancolle.server.model.json.kcsapi.get_member.RecordData;
 import com.kancolle.server.model.json.kcsapi.get_member.SlotItemData;
 import com.kancolle.server.model.json.kcsapi.get_member.UnsetSlotData;
 import com.kancolle.server.model.json.kcsapi.get_member.UseItemData;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
-@RequestMapping("/kcsapi/api_get_member")
+@RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.GET)
 public class GetMemberController {
     @Autowired
     private MemberService memberService;
@@ -71,5 +74,11 @@ public class GetMemberController {
     public @ResponseBody UnsetSlotData unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
         Map<String, Object> api_data = memberService.getUnsetSlot(member_id);
         return new UnsetSlotData().setApi_data(api_data);
+    }
+
+    @RequestMapping("record")
+    public @ResponseBody RecordData record(@ModelAttribute(MEMBER_ID) String member_id) {
+        MemberRecord api_data = memberService.getRecord(member_id);
+        return new RecordData().setApi_data(api_data);
     }
 }

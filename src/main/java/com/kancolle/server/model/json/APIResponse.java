@@ -1,7 +1,9 @@
 package com.kancolle.server.model.json;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 
+@JSONType()
 public class APIResponse<T> {
     private static final String DEFAULT_RESULT_MSG = "成功";
 

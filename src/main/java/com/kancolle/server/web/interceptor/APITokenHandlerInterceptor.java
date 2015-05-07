@@ -1,4 +1,4 @@
-package com.kancolle.server.interceptor;
+package com.kancolle.server.web.interceptor;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

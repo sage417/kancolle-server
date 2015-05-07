@@ -14,6 +14,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
+import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.service.member.MemberService;
@@ -84,5 +85,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void changeFurniture(String member_id, ChangeFurnitureForm form) {
         memberDao.changeFurniture(member_id, form);
+    }
+
+    @Override
+    public MemberRecord getRecord(String member_id) {
+        return memberDao.getRecord(member_id);
     }
 }

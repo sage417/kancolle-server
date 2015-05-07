@@ -11,21 +11,21 @@ import com.kancolle.server.model.kcsapi.start.StartModel;
 import com.kancolle.server.service.start.StartService;
 
 @Controller
-@RequestMapping("/kcsapi")
+@RequestMapping(value = "/kcsapi", method = RequestMethod.GET)
 public class StartController {
 
-	@Autowired
-	private StartService startService;
+    @Autowired
+    private StartService startService;
 
-	@Deprecated
-	@RequestMapping("api_start")
-	public @ResponseBody String Start() {
-		return "";
-	}
+    @Deprecated
+    @RequestMapping("api_start")
+    public @ResponseBody String Start() {
+        return "";
+    }
 
-	@RequestMapping(value = "api_start2", method = RequestMethod.GET)
-	public @ResponseBody StartData Start2() throws Exception {
-		StartModel api_data = startService.getStartModel();
-		return new StartData().setApi_data(api_data);
-	}
+    @RequestMapping("api_start2")
+    public @ResponseBody StartData Start2() throws Exception {
+        StartModel api_data = startService.getStartModel();
+        return new StartData().setApi_data(api_data);
+    }
 }
