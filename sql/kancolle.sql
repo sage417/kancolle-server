@@ -237,11 +237,11 @@ CREATE TABLE `t_member_furniture` (
   KEY `furniture_id` (`furniture_id`),
   CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_furniture` */
 
-insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (1,9007383,1);
+insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (1,9007383,1),(2,9007383,3),(3,9007383,7),(4,9007383,9),(5,9007383,12),(6,9007383,14),(7,9007383,17),(8,9007383,21),(9,9007383,22),(10,9007383,24),(11,9007383,25),(12,9007383,33),(13,9007383,34),(14,9007383,37),(15,9007383,38),(16,9007383,40),(17,9007383,42),(18,9007383,44),(19,9007383,46),(20,9007383,47),(21,9007383,51),(22,9007383,52),(23,9007383,56),(24,9007383,61),(25,9007383,63);
 
 /*Table structure for table `t_member_kdock` */
 
@@ -275,12 +275,14 @@ DROP TABLE IF EXISTS `t_member_log`;
 
 CREATE TABLE `t_member_log` (
   `index` bigint(20) NOT NULL AUTO_INCREMENT,
-  `member_id` bigint(20) NOT NULL,
+  `member_id` bigint(20) unsigned NOT NULL,
   `NO` tinyint(4) NOT NULL,
   `TYPE` varchar(255) NOT NULL,
   `STATE` varchar(255) NOT NULL,
   `MESSAGE` varchar(255) NOT NULL,
-  PRIMARY KEY (`index`)
+  PRIMARY KEY (`index`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `t_member_log_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_log` */
@@ -308,6 +310,26 @@ CREATE TABLE `t_member_material` (
 /*Data for the table `t_member_material` */
 
 insert  into `t_member_material`(`index`,`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (1,9007383,1,2,3,4,5,6,7,8);
+
+/*Table structure for table `t_member_mission` */
+
+DROP TABLE IF EXISTS `t_member_mission`;
+
+CREATE TABLE `t_member_mission` (
+  `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `mission_id` int(10) unsigned NOT NULL,
+  `state` tinyint(4) NOT NULL,
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`mission_id`),
+  KEY `mission_id` (`mission_id`),
+  CONSTRAINT `t_member_mission_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `t_member_mission_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_mission` */
+
+insert  into `t_member_mission`(`index`,`member_id`,`mission_id`,`state`) values (1,9007383,1,2),(2,9007383,2,2),(4,9007383,3,2),(5,9007383,4,2);
 
 /*Table structure for table `t_member_ndock` */
 
@@ -360,7 +382,7 @@ CREATE TABLE `t_member_ship` (
   `ONSLOT` longtext NOT NULL,
   `RAISOU` longtext NOT NULL,
   `SAKUTEKI` longtext NOT NULL,
-  `SHIP_ID` int(11) NOT NULL,
+  `SHIP_ID` int(11) unsigned NOT NULL,
   `SLOT` longtext NOT NULL,
   `SLOTNUM` int(11) NOT NULL,
   `SORTNO` int(11) NOT NULL,
@@ -372,7 +394,9 @@ CREATE TABLE `t_member_ship` (
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`),
-  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `SHIP_ID` (`SHIP_ID`),
+  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship` */
@@ -393,14 +417,13 @@ CREATE TABLE `t_member_slotitem` (
   `DELETED` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `index` (`index`,`member_id`),
   KEY `SLOTITEM_ID` (`SLOTITEM_ID`),
-  CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8;
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `t_member_slotitem_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_slotitem` */
-
-insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,0,1,42,0,NULL),(2,8006690,2,0,1,42,0,NULL),(3,8006690,3,0,0,2,0,NULL),(4,8006690,5,0,0,2,0,NULL),(5,8006690,6,0,0,13,0,NULL),(6,8006690,7,0,0,2,0,NULL),(7,8006690,9,0,0,2,0,NULL),(8,8006690,10,0,0,2,0,NULL),(9,8006690,11,0,0,2,0,NULL),(10,8006690,12,0,0,14,0,NULL),(11,8006690,13,0,0,6,0,NULL),(12,8006690,14,0,0,6,0,NULL),(13,8006690,15,0,0,25,0,NULL),(14,8006690,16,0,0,2,0,NULL),(15,8006690,17,0,0,2,0,NULL),(16,8006690,18,0,0,2,0,NULL),(17,8006690,19,0,0,4,0,NULL),(18,8006690,20,0,0,2,0,NULL),(19,8006690,23,0,0,4,0,NULL),(20,8006690,24,0,0,37,0,NULL),(21,8006690,25,0,0,2,0,NULL),(22,8006690,26,0,0,2,0,NULL),(23,8006690,27,0,0,14,0,NULL),(24,8006690,32,0,1,75,0,NULL),(25,8006690,33,0,1,75,0,NULL),(26,8006690,34,0,1,75,0,NULL),(27,8006690,37,0,0,2,0,NULL),(28,8006690,38,0,0,14,0,NULL),(29,8006690,40,0,0,46,0,NULL),(30,8006690,42,0,0,2,0,NULL),(31,8006690,44,0,0,2,0,NULL),(32,8006690,51,0,0,2,0,NULL),(33,8006690,53,0,0,2,0,NULL),(34,8006690,54,0,0,6,0,NULL),(35,8006690,56,0,0,6,0,NULL),(36,8006690,59,0,0,25,0,NULL),(37,8006690,61,0,0,2,0,NULL),(38,8006690,63,0,0,6,0,NULL),(39,8006690,68,0,1,2,0,NULL),(40,8006690,70,0,0,1,0,NULL),(41,8006690,71,0,1,2,0,NULL),(42,8006690,73,0,0,44,0,NULL),(43,8006690,76,0,0,44,0,NULL),(44,8006690,77,0,0,44,0,NULL),(45,8006690,78,0,0,44,0,NULL),(46,8006690,79,0,0,6,0,NULL),(47,8006690,81,0,0,46,0,NULL),(48,8006690,82,0,0,23,0,NULL),(49,8006690,83,0,0,23,0,NULL),(50,8006690,85,0,0,2,0,NULL),(51,8006690,86,0,1,2,0,NULL),(52,8006690,90,0,0,6,0,NULL),(53,8006690,91,0,0,2,0,NULL),(54,8006690,94,0,0,10,0,NULL),(55,8006690,95,0,0,30,0,NULL),(56,8006690,96,0,0,15,0,NULL),(57,8006690,99,0,0,2,0,NULL),(58,8006690,102,0,0,25,0,NULL),(59,8006690,110,0,0,2,0,NULL),(60,8006690,112,0,0,25,0,NULL),(61,8006690,114,0,0,2,0,NULL),(62,8006690,115,0,0,25,0,NULL),(63,8006690,116,0,0,26,0,NULL),(64,8006690,117,0,0,2,0,NULL),(65,8006690,121,0,1,2,0,NULL),(66,8006690,128,0,0,10,0,NULL),(67,8006690,129,0,0,25,0,NULL),(68,8006690,131,0,0,4,0,NULL),(69,8006690,143,0,0,4,0,NULL),(70,8006690,144,0,0,2,0,NULL),(71,8006690,149,0,0,15,0,NULL),(72,8006690,150,0,0,25,0,NULL),(73,8006690,151,0,0,2,0,NULL),(74,8006690,153,0,0,2,0,NULL),(75,8006690,154,0,1,42,0,NULL),(76,8006690,158,0,0,10,0,NULL),(77,8006690,159,0,0,39,0,NULL),(78,8006690,160,0,0,30,0,NULL),(79,8006690,171,0,0,46,0,NULL),(80,8006690,172,0,0,46,0,NULL),(81,8006690,173,0,0,44,0,NULL),(82,8006690,176,0,0,16,0,NULL),(83,8006690,183,0,0,41,0,NULL),(84,8006690,184,0,0,41,0,NULL),(85,8006690,185,0,1,2,0,NULL),(86,8006690,189,0,0,16,0,NULL),(87,8006690,191,0,0,25,0,NULL),(88,8006690,193,0,0,25,0,NULL),(89,8006690,201,0,0,1,0,NULL),(90,8006690,205,0,0,2,0,NULL),(91,8006690,206,0,0,6,0,NULL),(92,8006690,207,0,0,4,0,NULL),(93,8006690,208,0,0,14,0,NULL),(94,8006690,215,0,0,14,0,NULL),(95,8006690,217,0,1,2,0,NULL),(96,8006690,220,0,0,6,0,NULL),(97,8006690,222,0,0,6,0,NULL),(98,8006690,223,0,0,25,0,NULL),(99,8006690,226,0,0,19,0,NULL),(100,8006690,227,0,0,23,0,NULL),(101,8006690,228,0,0,16,0,NULL),(102,8006690,229,0,0,6,0,NULL),(103,8006690,231,0,0,6,0,NULL),(104,8006690,232,0,0,25,0,NULL),(105,8006690,233,0,0,3,0,NULL),(106,8006690,241,0,0,23,0,NULL),(107,8006690,242,0,0,2,0,NULL),(108,8006690,243,0,0,13,0,NULL),(109,8006690,249,0,0,20,0,NULL),(110,8006690,250,0,0,23,0,NULL),(111,8006690,251,0,0,16,0,NULL),(112,8006690,252,0,0,2,0,NULL),(113,8006690,257,0,0,39,0,NULL),(114,8006690,258,0,0,44,0,NULL),(115,8006690,261,0,0,6,0,NULL),(116,8006690,267,0,0,6,0,NULL),(117,8006690,282,0,0,3,0,NULL),(118,8006690,283,0,0,15,0,NULL),(119,8006690,296,0,0,3,0,NULL),(120,8006690,297,0,0,15,0,NULL),(121,8006690,306,0,0,15,0,NULL),(122,8006690,307,0,0,15,0,NULL),(123,8006690,311,0,0,25,0,NULL),(124,8006690,312,0,0,26,0,NULL),(125,8006690,313,0,1,2,0,NULL),(126,8006690,315,0,0,6,0,NULL),(127,8006690,316,0,0,25,0,NULL),(128,8006690,317,0,0,6,0,NULL),(129,8006690,330,0,0,6,0,NULL),(130,8006690,331,0,0,6,0,NULL),(131,8006690,332,0,0,7,0,NULL),(132,8006690,333,0,0,11,0,NULL),(133,8006690,335,0,0,6,0,NULL),(134,8006690,336,0,0,6,0,NULL),(135,8006690,353,0,0,6,0,NULL),(136,8006690,354,0,0,25,0,NULL),(137,8006690,360,0,0,23,0,NULL),(138,8006690,361,0,0,16,0,NULL),(139,8006690,369,0,0,25,0,NULL),(140,8006690,370,0,0,41,0,NULL),(141,8006690,371,0,0,41,0,NULL),(142,8006690,375,0,0,46,0,NULL),(143,8006690,376,0,0,23,0,NULL),(144,8006690,377,0,0,6,0,NULL),(145,8006690,383,0,0,15,0,NULL),(146,8006690,384,0,0,25,0,NULL),(147,8006690,388,0,0,15,0,NULL),(148,8006690,389,0,0,25,0,NULL),(149,8006690,391,0,0,19,0,NULL),(150,8006690,392,0,0,16,0,NULL),(151,8006690,401,0,0,16,0,NULL),(152,8006690,414,0,0,5,0,NULL),(153,8006690,415,0,0,25,0,NULL),(154,8006690,417,0,0,19,0,NULL),(155,8006690,418,0,0,23,0,NULL),(156,8006690,419,0,0,16,0,NULL),(157,8006690,420,0,0,19,0,NULL),(158,8006690,421,0,0,23,0,NULL),(159,8006690,422,0,0,16,0,NULL),(160,8006690,423,0,0,6,0,NULL),(161,8006690,427,0,0,6,0,NULL),(162,8006690,430,0,0,7,0,NULL),(163,8006690,431,0,0,11,0,NULL),(164,8006690,435,0,0,6,0,NULL),(165,8006690,436,0,0,25,0,NULL),(166,8006690,437,0,0,10,0,NULL),(167,8006690,438,0,0,30,0,NULL),(168,8006690,439,0,0,15,0,NULL),(169,8006690,440,0,0,3,0,NULL),(170,8006690,441,0,0,13,0,NULL),(171,8006690,444,0,0,7,0,NULL),(172,8006690,445,0,0,11,0,NULL),(173,8006690,446,0,0,37,0,NULL),(174,8006690,447,0,0,46,0,NULL),(175,8006690,450,0,0,7,0,NULL),(176,8006690,451,0,0,11,0,NULL),(177,8006690,452,0,0,37,0,NULL),(178,8006690,453,0,0,6,0,NULL),(179,8006690,460,0,0,4,0,NULL),(180,8006690,461,0,0,14,0,NULL),(181,8006690,463,0,0,25,0,NULL),(182,8006690,465,0,0,4,0,NULL),(183,8006690,466,0,0,6,0,NULL),(184,8006690,467,0,0,6,0,NULL),(185,8006690,468,0,0,6,0,NULL),(186,8006690,469,0,0,19,0,NULL),(187,8006690,470,0,0,23,0,NULL),(188,8006690,471,0,0,16,0,NULL),(189,8006690,476,0,0,7,0,NULL),(190,8006690,477,0,0,11,0,NULL),(191,8006690,478,0,0,37,0,NULL),(192,8006690,481,0,0,6,0,NULL),(193,8006690,482,0,0,2,0,NULL),(194,8006690,483,0,0,13,0,NULL),(195,8006690,486,0,0,6,0,NULL),(196,8006690,487,0,0,6,0,NULL),(197,8006690,489,0,0,6,0,NULL),(198,8006690,490,0,0,25,0,NULL),(199,8006690,491,0,0,6,0,NULL),(200,8006690,492,0,0,37,0,NULL),(201,8006690,493,0,1,2,0,NULL),(202,8006690,494,0,0,6,0,NULL),(203,8006690,495,0,0,4,0,NULL),(204,8006690,496,0,0,7,0,NULL),(205,8006690,497,0,0,11,0,NULL),(206,8006690,498,0,0,37,0,NULL),(207,8006690,499,0,0,19,0,NULL),(208,8006690,500,0,0,23,0,NULL),(209,8006690,501,0,0,16,0,NULL),(210,8006690,502,0,1,2,0,NULL),(211,8006690,503,0,0,5,0,NULL),(212,8006690,504,0,0,25,0,NULL),(213,8006690,505,0,0,20,0,NULL),(214,8006690,506,0,0,23,0,NULL),(215,8006690,507,0,0,16,0,NULL),(216,8006690,508,0,0,4,0,NULL),(217,8006690,509,0,0,25,0,NULL),(218,8006690,510,0,0,6,0,NULL),(219,8006690,511,0,0,25,0,NULL),(220,8006690,512,0,0,19,0,NULL),(221,8006690,513,0,0,23,0,NULL),(222,8006690,514,0,0,16,0,NULL),(223,8006690,515,0,0,4,0,NULL),(224,8006690,516,0,0,4,0,NULL),(225,8006690,524,0,0,6,0,NULL),(226,8006690,525,0,0,10,0,NULL),(227,8006690,526,0,0,25,0,NULL),(228,8006690,527,0,0,2,0,NULL),(229,8006690,528,0,0,4,0,NULL),(230,8006690,529,0,0,37,0,NULL),(231,8006690,530,0,0,4,0,NULL),(232,8006690,531,0,0,37,0,NULL),(233,8006690,532,0,0,4,0,NULL),(234,8006690,533,0,0,6,0,NULL),(235,8006690,534,0,0,25,0,NULL),(236,8006690,535,0,0,4,0,NULL),(237,8006690,536,0,0,44,0,NULL),(238,8006690,537,0,0,2,0,NULL),(239,8006690,538,0,0,1,0,NULL),(240,8006690,539,0,0,44,0,NULL),(241,8006690,540,0,0,4,0,NULL),(242,8006690,541,0,0,42,0,NULL),(243,8006690,542,0,0,2,0,NULL),(244,8006690,543,0,0,2,0,NULL),(245,8006690,544,0,0,6,0,NULL),(246,8006690,545,0,0,4,0,NULL),(247,8006690,546,0,0,4,0,NULL);
 
 /*Table structure for table `t_member_useitem` */
 
@@ -409,11 +432,13 @@ DROP TABLE IF EXISTS `t_member_useitem`;
 CREATE TABLE `t_member_useitem` (
   `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `member_id` bigint(20) unsigned NOT NULL,
-  `ID` tinyint(10) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `COUNT` int(10) NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`),
-  CONSTRAINT `t_member_useitem_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `ID` (`ID`),
+  CONSTRAINT `t_member_useitem_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `t_member_useitem_ibfk_2` FOREIGN KEY (`ID`) REFERENCES `t_useitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_useitem` */
@@ -425,7 +450,7 @@ insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (1,9007
 DROP TABLE IF EXISTS `t_mission`;
 
 CREATE TABLE `t_mission` (
-  `ID` tinyint(4) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `NAME` varchar(255) NOT NULL,
   `DIFFICULTY` tinyint(4) unsigned NOT NULL,
   `MAPAREA_ID` tinyint(4) unsigned NOT NULL,
@@ -466,7 +491,7 @@ insert  into `t_pay_item`(`ID`,`TYPE`,`NAME`,`DESCRIPTION`,`ITEM`,`PRICE`) value
 DROP TABLE IF EXISTS `t_ship`;
 
 CREATE TABLE `t_ship` (
-  `ID` smallint(4) unsigned NOT NULL,
+  `ID` int(10) unsigned NOT NULL,
   `AFTERBULL` smallint(4) unsigned NOT NULL,
   `AFTERFUEL` smallint(4) unsigned NOT NULL,
   `AFTERLV` tinyint(4) unsigned NOT NULL,
@@ -643,7 +668,7 @@ insert  into `t_slotitem_graph`(`ID`,`SORTNO`,`FILENAME`,`VERSION`) values (1,1,
 DROP TABLE IF EXISTS `t_useitem`;
 
 CREATE TABLE `t_useitem` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) unsigned NOT NULL,
   `USETYPE` tinyint(4) unsigned NOT NULL,
   `CATEGORY` smallint(6) unsigned NOT NULL,
   `NAME` varchar(255) NOT NULL,
@@ -801,6 +826,19 @@ DROP TABLE IF EXISTS `v_member_kdock`;
  `ITEM5` tinyint(3) unsigned 
 )*/;
 
+/*Table structure for table `v_member_mission` */
+
+DROP TABLE IF EXISTS `v_member_mission`;
+
+/*!50001 DROP VIEW IF EXISTS `v_member_mission` */;
+/*!50001 DROP TABLE IF EXISTS `v_member_mission` */;
+
+/*!50001 CREATE TABLE  `v_member_mission`(
+ `member_id` bigint(20) unsigned ,
+ `mission_id` int(10) unsigned ,
+ `state` tinyint(4) 
+)*/;
+
 /*Table structure for table `v_member_ndock` */
 
 DROP TABLE IF EXISTS `v_member_ndock`;
@@ -851,7 +889,7 @@ DROP TABLE IF EXISTS `v_member_ship`;
  `ONSLOT` longtext ,
  `RAISOU` longtext ,
  `SAKUTEKI` longtext ,
- `SHIP_ID` int(11) ,
+ `SHIP_ID` int(11) unsigned ,
  `SLOT` longtext ,
  `SLOTNUM` int(11) ,
  `SORTNO` int(11) ,
@@ -885,7 +923,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 
 /*!50001 CREATE TABLE  `v_member_useitem`(
  `member_id` bigint(20) unsigned ,
- `ID` tinyint(10) unsigned ,
+ `ID` int(10) unsigned ,
  `USETYPE` tinyint(4) unsigned ,
  `CATEGORY` smallint(6) unsigned ,
  `NAME` varchar(255) ,
@@ -906,42 +944,49 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_furniture` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_furniture` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_furniture` AS select `t_member_furniture`.`member_id` AS `member_id`,`t_furniture`.`TYPE` AS `furniture_type`,`t_furniture`.`NO` AS `furniture_no`,`t_furniture`.`ID` AS `furniture_id` from (`t_furniture` join `t_member_furniture` on((`t_member_furniture`.`furniture_id` = `t_furniture`.`ID`))) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_furniture` AS select `t_member_furniture`.`member_id` AS `member_id`,`t_furniture`.`TYPE` AS `furniture_type`,`t_furniture`.`NO` AS `furniture_no`,`t_furniture`.`ID` AS `furniture_id` from (`t_furniture` join `t_member_furniture` on((`t_member_furniture`.`furniture_id` = `t_furniture`.`ID`))) order by `t_member_furniture`.`member_id`,`t_furniture`.`ID` */;
 
 /*View structure for view v_member_kdock */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_kdock` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_kdock` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_kdock` AS select `t_member_kdock`.`member_id` AS `member_id`,`t_member_kdock`.`ID` AS `ID`,`t_member_kdock`.`STATE` AS `STATE`,`t_member_kdock`.`CREATED_SHIP_ID` AS `CREATED_SHIP_ID`,`t_member_kdock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_kdock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_kdock`.`ITEM1` AS `ITEM1`,`t_member_kdock`.`ITEM2` AS `ITEM2`,`t_member_kdock`.`ITEM3` AS `ITEM3`,`t_member_kdock`.`ITEM4` AS `ITEM4`,`t_member_kdock`.`ITEM5` AS `ITEM5` from `t_member_kdock` where (`t_member_kdock`.`STATE` > -(1)) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_kdock` AS select `t_member_kdock`.`member_id` AS `member_id`,`t_member_kdock`.`ID` AS `ID`,`t_member_kdock`.`STATE` AS `STATE`,`t_member_kdock`.`CREATED_SHIP_ID` AS `CREATED_SHIP_ID`,`t_member_kdock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_kdock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_kdock`.`ITEM1` AS `ITEM1`,`t_member_kdock`.`ITEM2` AS `ITEM2`,`t_member_kdock`.`ITEM3` AS `ITEM3`,`t_member_kdock`.`ITEM4` AS `ITEM4`,`t_member_kdock`.`ITEM5` AS `ITEM5` from `t_member_kdock` where (`t_member_kdock`.`STATE` > -(1)) order by `t_member_kdock`.`member_id`,`t_member_kdock`.`ID` */;
+
+/*View structure for view v_member_mission */
+
+/*!50001 DROP TABLE IF EXISTS `v_member_mission` */;
+/*!50001 DROP VIEW IF EXISTS `v_member_mission` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_mission` AS select `t_member_mission`.`member_id` AS `member_id`,`t_member_mission`.`mission_id` AS `mission_id`,`t_member_mission`.`state` AS `state` from `t_member_mission` where (`t_member_mission`.`state` > 0) */;
 
 /*View structure for view v_member_ndock */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_ndock` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_ndock` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ndock` AS select `t_member_ndock`.`member_id` AS `member_id`,`t_member_ndock`.`ID` AS `ID`,`t_member_ndock`.`STATE` AS `STATE`,`t_member_ndock`.`SHIP_ID` AS `SHIP_ID`,`t_member_ndock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_ndock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_ndock`.`ITEM1` AS `ITEM1`,`t_member_ndock`.`ITEM2` AS `ITEM2`,`t_member_ndock`.`ITEM3` AS `ITEM3`,`t_member_ndock`.`ITEM4` AS `ITEM4` from `t_member_ndock` where (`t_member_ndock`.`STATE` > -(1)) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ndock` AS select `t_member_ndock`.`member_id` AS `member_id`,`t_member_ndock`.`ID` AS `ID`,`t_member_ndock`.`STATE` AS `STATE`,`t_member_ndock`.`SHIP_ID` AS `SHIP_ID`,`t_member_ndock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_ndock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_ndock`.`ITEM1` AS `ITEM1`,`t_member_ndock`.`ITEM2` AS `ITEM2`,`t_member_ndock`.`ITEM3` AS `ITEM3`,`t_member_ndock`.`ITEM4` AS `ITEM4` from `t_member_ndock` where (`t_member_ndock`.`STATE` > -(1)) order by `t_member_ndock`.`member_id`,`t_member_ndock`.`ID` */;
 
 /*View structure for view v_member_ship */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_ship` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_ship` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `t_member_ship`.`member_id` AS `member_id`,`t_member_ship`.`ID` AS `ID`,`t_member_ship`.`BACKS` AS `BACKS`,`t_member_ship`.`BULL` AS `BULL`,`t_member_ship`.`COND` AS `COND`,`t_member_ship`.`EXP` AS `EXP`,`t_member_ship`.`FUEL` AS `FUEL`,`t_member_ship`.`KAIHI` AS `KAIHI`,`t_member_ship`.`KARYOKU` AS `KARYOKU`,`t_member_ship`.`KYOUKA` AS `KYOUKA`,`t_member_ship`.`LENG` AS `LENG`,`t_member_ship`.`LOCKED` AS `LOCKED`,`t_member_ship`.`LOCKED_EQUIP` AS `LOCKED_EQUIP`,`t_member_ship`.`LUCKY` AS `LUCKY`,`t_member_ship`.`LV` AS `LV`,`t_member_ship`.`MAXHP` AS `MAXHP`,`t_member_ship`.`NDOCK_ITEM` AS `NDOCK_ITEM`,`t_member_ship`.`NDOCK_TIME` AS `NDOCK_TIME`,`t_member_ship`.`NOWHP` AS `NOWHP`,`t_member_ship`.`ONSLOT` AS `ONSLOT`,`t_member_ship`.`RAISOU` AS `RAISOU`,`t_member_ship`.`SAKUTEKI` AS `SAKUTEKI`,`t_member_ship`.`SHIP_ID` AS `SHIP_ID`,`t_member_ship`.`SLOT` AS `SLOT`,`t_member_ship`.`SLOTNUM` AS `SLOTNUM`,`t_member_ship`.`SORTNO` AS `SORTNO`,`t_member_ship`.`SOUKOU` AS `SOUKOU`,`t_member_ship`.`SRATE` AS `SRATE`,`t_member_ship`.`TAIKU` AS `TAIKU`,`t_member_ship`.`TAISEN` AS `TAISEN` from `t_member_ship` where (`t_member_ship`.`DELETED` = 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `t_member_ship`.`member_id` AS `member_id`,`t_member_ship`.`ID` AS `ID`,`t_member_ship`.`BACKS` AS `BACKS`,`t_member_ship`.`BULL` AS `BULL`,`t_member_ship`.`COND` AS `COND`,`t_member_ship`.`EXP` AS `EXP`,`t_member_ship`.`FUEL` AS `FUEL`,`t_member_ship`.`KAIHI` AS `KAIHI`,`t_member_ship`.`KARYOKU` AS `KARYOKU`,`t_member_ship`.`KYOUKA` AS `KYOUKA`,`t_member_ship`.`LENG` AS `LENG`,`t_member_ship`.`LOCKED` AS `LOCKED`,`t_member_ship`.`LOCKED_EQUIP` AS `LOCKED_EQUIP`,`t_member_ship`.`LUCKY` AS `LUCKY`,`t_member_ship`.`LV` AS `LV`,`t_member_ship`.`MAXHP` AS `MAXHP`,`t_member_ship`.`NDOCK_ITEM` AS `NDOCK_ITEM`,`t_member_ship`.`NDOCK_TIME` AS `NDOCK_TIME`,`t_member_ship`.`NOWHP` AS `NOWHP`,`t_member_ship`.`ONSLOT` AS `ONSLOT`,`t_member_ship`.`RAISOU` AS `RAISOU`,`t_member_ship`.`SAKUTEKI` AS `SAKUTEKI`,`t_member_ship`.`SHIP_ID` AS `SHIP_ID`,`t_member_ship`.`SLOT` AS `SLOT`,`t_member_ship`.`SLOTNUM` AS `SLOTNUM`,`t_member_ship`.`SORTNO` AS `SORTNO`,`t_member_ship`.`SOUKOU` AS `SOUKOU`,`t_member_ship`.`SRATE` AS `SRATE`,`t_member_ship`.`TAIKU` AS `TAIKU`,`t_member_ship`.`TAISEN` AS `TAISEN` from `t_member_ship` where (`t_member_ship`.`DELETED` = 0) order by `t_member_ship`.`member_id`,`t_member_ship`.`ID` */;
 
 /*View structure for view v_member_slotitem */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_slotitem` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_slotitem` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_slotitem` AS select `t_member_slotitem`.`member_id` AS `member_id`,`t_member_slotitem`.`ID` AS `ID`,`t_member_slotitem`.`LEVEL` AS `LEVEL`,`t_member_slotitem`.`LOCKED` AS `LOCKED`,`t_member_slotitem`.`SLOTITEM_ID` AS `SLOTITEM_ID` from `t_member_slotitem` where (`t_member_slotitem`.`DELETED` = 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_slotitem` AS select `t_member_slotitem`.`member_id` AS `member_id`,`t_member_slotitem`.`ID` AS `ID`,`t_member_slotitem`.`LEVEL` AS `LEVEL`,`t_member_slotitem`.`LOCKED` AS `LOCKED`,`t_member_slotitem`.`SLOTITEM_ID` AS `SLOTITEM_ID` from `t_member_slotitem` where (`t_member_slotitem`.`DELETED` = 0) order by `t_member_slotitem`.`member_id`,`t_member_slotitem`.`ID` */;
 
 /*View structure for view v_member_useitem */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_useitem` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_useitem` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_useitem` AS select `t_member_useitem`.`member_id` AS `member_id`,`t_member_useitem`.`ID` AS `ID`,`t_useitem`.`USETYPE` AS `USETYPE`,`t_useitem`.`CATEGORY` AS `CATEGORY`,`t_useitem`.`NAME` AS `NAME`,'["",""]' AS `DESCRIPTION`,`t_useitem`.`PRICE` AS `PRICE`,`t_member_useitem`.`COUNT` AS `COUNT` from (`t_member_useitem` join `t_useitem` on((`t_member_useitem`.`ID` = `t_useitem`.`ID`))) where (`t_member_useitem`.`COUNT` > 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_useitem` AS select `t_member_useitem`.`member_id` AS `member_id`,`t_member_useitem`.`ID` AS `ID`,`t_useitem`.`USETYPE` AS `USETYPE`,`t_useitem`.`CATEGORY` AS `CATEGORY`,`t_useitem`.`NAME` AS `NAME`,'["",""]' AS `DESCRIPTION`,`t_useitem`.`PRICE` AS `PRICE`,`t_member_useitem`.`COUNT` AS `COUNT` from (`t_member_useitem` join `t_useitem` on((`t_member_useitem`.`ID` = `t_useitem`.`ID`))) where (`t_member_useitem`.`COUNT` > 0) order by `t_member_useitem`.`member_id`,`t_member_useitem`.`ID` */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
