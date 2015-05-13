@@ -21,6 +21,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -74,8 +75,7 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
         // 获取舰娘装备信息(未处理)
         List<String> str_onslotitem_ids = getTemplate().queryForList("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id", getMemParamMap(member_id), String.class);
         // 获取舰娘装备信息(处理)
-        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(JSON::parseArray)
-                .flatMap(array -> Arrays.asList(array.toArray(new Long[array.size()])).stream().filter(value -> value > 0)).collect(Collectors.toList());
+        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(JSON::parseArray).flatMap(array -> Arrays.asList(array.toArray(new Long[array.size()])).stream().filter(value -> value > 0)).collect(Collectors.toList());
         // 获取未装备ID
         all_slotitem_ids.removeAll(onslotitem_ids);
 
@@ -192,5 +192,10 @@ public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
     public MemberRecord getRecord(String member_id) {
         // TODO
         return null;
+    }
+
+    @Override
+    public List<MemberMission> getMission(String member_id) {
+        return queryForModels(MemberMission.class, "SELECT * FROM v_member_mission WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 }

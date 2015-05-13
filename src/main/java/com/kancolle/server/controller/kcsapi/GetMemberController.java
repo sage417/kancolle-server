@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kancolle.server.model.json.kcsapi.get_member.BasicData;
 import com.kancolle.server.model.json.kcsapi.get_member.FurnitureData;
 import com.kancolle.server.model.json.kcsapi.get_member.KdockData;
+import com.kancolle.server.model.json.kcsapi.get_member.MissionData;
 import com.kancolle.server.model.json.kcsapi.get_member.RecordData;
 import com.kancolle.server.model.json.kcsapi.get_member.SlotItemData;
 import com.kancolle.server.model.json.kcsapi.get_member.UnsetSlotData;
@@ -24,6 +25,7 @@ import com.kancolle.server.model.json.kcsapi.get_member.UseItemData;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -80,5 +82,11 @@ public class GetMemberController {
     public @ResponseBody RecordData record(@ModelAttribute(MEMBER_ID) String member_id) {
         MemberRecord api_data = memberService.getRecord(member_id);
         return new RecordData().setApi_data(api_data);
+    }
+
+    @RequestMapping("mission")
+    public @ResponseBody MissionData mission(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMission> api_data = memberService.getMission(member_id);
+        return new MissionData().setApi_data(api_data);
     }
 }

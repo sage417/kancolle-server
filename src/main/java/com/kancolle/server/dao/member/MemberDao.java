@@ -8,6 +8,7 @@ import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -35,5 +36,7 @@ public interface MemberDao<T> extends BaseDao<T>{
     void changeFurniture(String member_id, ChangeFurnitureForm form);
 
     MemberRecord getRecord(String member_id);
+
+    List<MemberMission> getMission(String member_id);
 
 }

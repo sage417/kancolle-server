@@ -13,6 +13,7 @@ import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
@@ -90,5 +91,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberRecord getRecord(String member_id) {
         return memberDao.getRecord(member_id);
+    }
+
+    @Override
+    public List<MemberMission> getMission(String member_id) {
+        return memberDao.getMission(member_id);
     }
 }

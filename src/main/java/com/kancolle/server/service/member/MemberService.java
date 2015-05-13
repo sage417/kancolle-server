@@ -7,6 +7,7 @@ import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
+import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
@@ -37,4 +38,6 @@ public interface MemberService {
     void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx);
 
     void changeFurniture(String member_id, ChangeFurnitureForm form);
+
+    List<MemberMission> getMission(String member_id);
 }
