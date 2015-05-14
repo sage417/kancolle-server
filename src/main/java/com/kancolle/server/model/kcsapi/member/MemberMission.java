@@ -4,6 +4,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
 public class MemberMission {
+    public static final int STATUS_NEW = 0;
+    
+    public static final int STATUS_PROCESSING =1;
+    
+    public static final int STATUS_COMPLETE=2;
 
     @JSONField(ordinal = 1)
     private int api_mission_id;
