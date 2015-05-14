@@ -15,7 +15,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.kancolle.server.model.json.APIResponse;
+import com.kancolle.server.model.response.APIResponse;
 
 public class FastJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 

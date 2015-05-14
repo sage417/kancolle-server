@@ -1,4 +1,4 @@
-package com.kancolle.server.model.json;
+package com.kancolle.server.model.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
-import com.kancolle.server.model.json.APIResponse;
+import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller

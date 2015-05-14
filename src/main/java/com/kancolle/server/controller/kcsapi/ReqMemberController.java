@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.model.json.APIResponse;
+import com.kancolle.server.model.response.APIResponse;
 
 @Controller
 @RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.model.json.APIResponse;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
+import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
