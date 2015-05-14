@@ -28,8 +28,23 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Autowired
     private MemberDao<?> memberDao;
 
-    private Map<String, Object> getMemParamMap(String value) {
-        return Collections.singletonMap("member_id", value);
+    @Override
+    public MemberBasic getBasic(String member_id) {
+        return memberDao.getBasic(member_id);
+    }
+
+    @Override
+    public List<MemberDeckPort> getDeckPort(String member_id) {
+        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
+            MemberDeckPort deck_port = DaoUtils.setObject(new MemberDeckPort(), rs);
+            deck_port.setApi_mission(JSON.toJSONString(new long[] { rs.getInt("MISSION_STATUS"), rs.getInt("MISSION_ID"), rs.getLong("MISSION_COMPLETE_TIME"), rs.getInt("MISSION_FLAG") }));
+            return deck_port;
+        });
+    }
+
+    @Override
+    public List<MemberLog> getLog(String member_id) {
+        return queryForModels(MemberLog.class, "SELECT * FROM t_member_log WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
@@ -44,13 +59,8 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
         }).collect(Collectors.toList());
     }
 
-    @Override
-    public List<MemberDeckPort> getDeckPort(String member_id) {
-        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id),(rs,ns)->{
-            MemberDeckPort deck_port =DaoUtils.setObject(new MemberDeckPort(), rs);
-            deck_port.setApi_mission(JSON.toJSONString(new long[]{rs.getInt("MISSION_STATUS"),rs.getInt("MISSION_ID"),rs.getLong("MISSION_COMPLETE_TIME"),rs.getInt("MISSION_FLAG")}));
-            return deck_port;
-        });
+    private Map<String, Object> getMemParamMap(String value) {
+        return Collections.singletonMap("member_id", value);
     }
 
     @Override
@@ -61,15 +71,5 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Override
     public List<MemberShip> getShip(String member_id) {
         return queryForModels(MemberShip.class, "SELECT * FROM t_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
-    }
-
-    @Override
-    public MemberBasic getBasic(String member_id) {
-        return memberDao.getBasic(member_id);
-    }
-
-    @Override
-    public List<MemberLog> getLog(String member_id) {
-        return queryForModels(MemberLog.class, "SELECT * FROM t_member_log WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 }

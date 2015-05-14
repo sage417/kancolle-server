@@ -31,25 +31,12 @@ public class FastJsonHttpMessageConverter extends AbstractHttpMessageConverter<O
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
     }
 
-    @Override
-    protected boolean supports(Class<?> clazz) {
-        return true;
-    }
-
     public Charset getCharset() {
         return this.charset;
     }
 
-    public void setCharset(Charset charset) {
-        this.charset = charset;
-    }
-
     public SerializerFeature[] getFeatures() {
         return features;
-    }
-
-    public void setFeatures(SerializerFeature... features) {
-        this.features = features;
     }
 
     @Override
@@ -73,6 +60,19 @@ public class FastJsonHttpMessageConverter extends AbstractHttpMessageConverter<O
 
         byte[] bytes = baos.toByteArray();
         return JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
+    }
+
+    public void setCharset(Charset charset) {
+        this.charset = charset;
+    }
+
+    public void setFeatures(SerializerFeature... features) {
+        this.features = features;
+    }
+
+    @Override
+    protected boolean supports(Class<?> clazz) {
+        return true;
     }
 
     @Override

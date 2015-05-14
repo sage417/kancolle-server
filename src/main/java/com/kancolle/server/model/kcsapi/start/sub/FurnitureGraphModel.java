@@ -20,35 +20,24 @@ public class FurnitureGraphModel {
     @JSONField(ordinal = 5)
     private String api_version;
 
+    public String getApi_filename() {
+        return api_filename;
+    }
+
     public int getApi_id() {
         return api_id;
-    }
-
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
-    }
-
-    public int getApi_type() {
-        return api_type;
-    }
-
-    @Column(name = "TYPE", type = int.class)
-    public void setApi_type(int api_type) {
-        this.api_type = api_type;
     }
 
     public int getApi_no() {
         return api_no;
     }
 
-    @Column(name = "NO", type = int.class)
-    public void setApi_no(int api_no) {
-        this.api_no = api_no;
+    public int getApi_type() {
+        return api_type;
     }
 
-    public String getApi_filename() {
-        return api_filename;
+    public String getApi_version() {
+        return api_version;
     }
 
     @Column(name = "FILENAME", type = String.class)
@@ -56,8 +45,19 @@ public class FurnitureGraphModel {
         this.api_filename = api_filename;
     }
 
-    public String getApi_version() {
-        return api_version;
+    @Column(name = "ID", type = int.class)
+    public void setApi_id(int api_id) {
+        this.api_id = api_id;
+    }
+
+    @Column(name = "NO", type = int.class)
+    public void setApi_no(int api_no) {
+        this.api_no = api_no;
+    }
+
+    @Column(name = "TYPE", type = int.class)
+    public void setApi_type(int api_type) {
+        this.api_type = api_type;
     }
 
     @Column(name = "VERSION", type = String.class)

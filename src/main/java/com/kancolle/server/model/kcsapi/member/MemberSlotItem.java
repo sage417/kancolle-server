@@ -21,22 +21,26 @@ public class MemberSlotItem {
         return api_id;
     }
 
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
+    public int getApi_level() {
+        return api_level;
+    }
+
+    public int getApi_locked() {
+        return api_locked;
     }
 
     public int getApi_slotitem_id() {
         return api_slotitem_id;
     }
 
-    @Column(name = "SLOTITEM_ID", type = int.class)
-    public void setApi_slotitem_id(int api_slotitem_id) {
-        this.api_slotitem_id = api_slotitem_id;
+    @Column(name = "ID", type = int.class)
+    public void setApi_id(int api_id) {
+        this.api_id = api_id;
     }
 
-    public int getApi_locked() {
-        return api_locked;
+    @Column(name = "LEVEL", type = int.class)
+    public void setApi_level(int api_level) {
+        this.api_level = api_level;
     }
 
     @Column(name = "LOCKED", type = int.class)
@@ -44,12 +48,8 @@ public class MemberSlotItem {
         this.api_locked = api_locked;
     }
 
-    public int getApi_level() {
-        return api_level;
-    }
-
-    @Column(name = "LEVEL", type = int.class)
-    public void setApi_level(int api_level) {
-        this.api_level = api_level;
+    @Column(name = "SLOTITEM_ID", type = int.class)
+    public void setApi_slotitem_id(int api_slotitem_id) {
+        this.api_slotitem_id = api_slotitem_id;
     }
 }

@@ -15,12 +15,12 @@ public class ItemShopModel {
         return api_cabinet_1;
     }
 
-    public void setApi_cabinet_1(JSONArray api_cabinet_1) {
-        this.api_cabinet_1 = api_cabinet_1;
-    }
-
     public JSONArray getApi_cabinet_2() {
         return api_cabinet_2;
+    }
+
+    public void setApi_cabinet_1(JSONArray api_cabinet_1) {
+        this.api_cabinet_1 = api_cabinet_1;
     }
 
     public void setApi_cabinet_2(JSONArray api_cabinet_2) {

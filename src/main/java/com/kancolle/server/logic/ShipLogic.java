@@ -1,6 +1,5 @@
 package com.kancolle.server.logic;
 
-
 public class ShipLogic {
 
     public static boolean checkDestory(String member_id, long api_ship_id) {

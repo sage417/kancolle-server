@@ -25,42 +25,42 @@ import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 
 public interface StartDao extends BaseDao<StartModel> {
-    List<ShipModel> getMstShip();
+    List<BgmModel> getMstBgm();
 
-    List<ShipGraphModel> getMstShipgraph();
-
-    List<EquipTypeModel> getMstSlotitemEquiptype();
-
-    List<ShipTypeModel> getMstStype();
-
-    List<SlotItemModel> getMstSlotitem();
-
-    List<SlotItemGraphModel> getMstSlotitemgraph();
+    ConstModel getMstConst();
 
     List<FurnitureModel> getMstFurniture();
 
     List<FurnitureGraphModel> getMstFurnituregraph();
 
-    List<UseItemModel> getMstUseitem();
-
-    List<PayItemModel> getMstPayitem();
-
     ItemShopModel getMstItemShop();
 
     List<MapAreaModel> getMstMaparea();
-
-    List<MapInfoModel> getMstMapinfo();
 
     List<MapBgmModel> getMstMapbgm();
 
     List<MapCellModel> getMstMapcell();
 
+    List<MapInfoModel> getMstMapinfo();
+
     List<MissionModel> getMstMission();
 
-    ConstModel getMstConst();
+    List<PayItemModel> getMstPayitem();
+
+    List<ShipModel> getMstShip();
+
+    List<ShipGraphModel> getMstShipgraph();
 
     List<ShipUpgradeModel> getMstShipupgrade();
 
-    List<BgmModel> getMstBgm();
+    List<SlotItemModel> getMstSlotitem();
+
+    List<EquipTypeModel> getMstSlotitemEquiptype();
+
+    List<SlotItemGraphModel> getMstSlotitemgraph();
+
+    List<ShipTypeModel> getMstStype();
+
+    List<UseItemModel> getMstUseitem();
 
 }

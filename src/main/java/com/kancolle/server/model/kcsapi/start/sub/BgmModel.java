@@ -17,13 +17,13 @@ public class BgmModel {
         return api_id;
     }
 
+    public String getApi_name() {
+        return api_name;
+    }
+
     @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
-    }
-
-    public String getApi_name() {
-        return api_name;
     }
 
     @Column(name = "NAME", type = String.class)

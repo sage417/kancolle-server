@@ -34,6 +34,22 @@ public class DaoUtils {
         return BeanUtils.STR_GET + raw_name;
     };
 
+    public static Class<?> getSuperClassGenricType(Class<?> clazz) {
+        return getSuperClassGenricType(clazz, 0);
+    }
+
+    public static Class<?> getSuperClassGenricType(Class<?> clazz, int index) {
+        Type genType = clazz.getGenericSuperclass();
+
+        while (!(genType instanceof ParameterizedType)) {
+            clazz = clazz.getSuperclass();
+            genType = clazz.getGenericSuperclass();
+        }
+
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<?>) params[index];
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T setBean(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters, String... exclude) throws InstantiationException, IllegalAccessException {
 
@@ -52,22 +68,6 @@ public class DaoUtils {
             }
         });
         return instance;
-    }
-
-    public static Class<?> getSuperClassGenricType(Class<?> clazz) {
-        return getSuperClassGenricType(clazz, 0);
-    }
-
-    public static Class<?> getSuperClassGenricType(Class<?> clazz, int index) {
-        Type genType = clazz.getGenericSuperclass();
-
-        while (!(genType instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-            genType = clazz.getGenericSuperclass();
-        }
-
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-        return (Class<?>) params[index];
     }
 
     public static <T> T setObject(T target, ResultSet rs) {

@@ -18,22 +18,22 @@ public class EquipTypeModel {
         return api_id;
     }
 
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public int getApi_show_flg() {
+        return api_show_flg;
+    }
+
     @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    public String getApi_name() {
-        return api_name;
-    }
-
     @Column(name = "Type", type = String.class)
     public void setApi_name(String api_name) {
         this.api_name = api_name;
-    }
-
-    public int getApi_show_flg() {
-        return api_show_flg;
     }
 
     @Column(name = "SHOW_FLAG", type = int.class)

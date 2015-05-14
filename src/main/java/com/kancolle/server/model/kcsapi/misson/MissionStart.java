@@ -22,12 +22,12 @@ public class MissionStart {
         return api_complatetime;
     }
 
-    public void setApi_complatetime(long api_complatetime) {
-        this.api_complatetime = api_complatetime;
-    }
-
     public String getApi_complatetime_str() {
         return api_complatetime_str;
+    }
+
+    public void setApi_complatetime(long api_complatetime) {
+        this.api_complatetime = api_complatetime;
     }
 
     public void setApi_complatetime_str(String api_complatetime_str) {

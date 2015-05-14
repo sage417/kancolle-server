@@ -30,11 +30,6 @@ public class GetMemberController {
     @Autowired
     private MemberService memberService;
 
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
-    }
-
     @RequestMapping("/basic")
     public @ResponseBody APIResponse<MemberBasic> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         MemberBasic api_data = memberService.getBasic(member_id);
@@ -47,16 +42,9 @@ public class GetMemberController {
         return new APIResponse<List<MemberFurniture>>().setApi_data(api_data);
     }
 
-    @RequestMapping("/slot_item")
-    public @ResponseBody APIResponse<List<MemberSlotItem>> slot_item(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberSlotItem> api_data = memberService.getSlotItem(member_id);
-        return new APIResponse<List<MemberSlotItem>>().setApi_data(api_data);
-    }
-
-    @RequestMapping("/useitem")
-    public @ResponseBody APIResponse<List<MemberUseItem>> useitem(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberUseItem> api_data = memberService.getUseItem(member_id);
-        return new APIResponse<List<MemberUseItem>>().setApi_data(api_data);
+    @ModelAttribute(MEMBER_ID)
+    public String getMemberId(HttpServletRequest request) {
+        return (String) request.getAttribute(MEMBER_ID);
     }
 
     @RequestMapping("/kdock")
@@ -65,10 +53,10 @@ public class GetMemberController {
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
     }
 
-    @RequestMapping("/unsetslot")
-    public @ResponseBody APIResponse<Map<String, Object>> unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
-        Map<String, Object> api_data = memberService.getUnsetSlot(member_id);
-        return new APIResponse<Map<String, Object>>().setApi_data(api_data);
+    @RequestMapping("mission")
+    public @ResponseBody APIResponse<List<MemberMission>> mission(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMission> api_data = memberService.getMission(member_id);
+        return new APIResponse<List<MemberMission>>().setApi_data(api_data);
     }
 
     @RequestMapping("record")
@@ -77,9 +65,21 @@ public class GetMemberController {
         return new APIResponse<MemberRecord>().setApi_data(api_data);
     }
 
-    @RequestMapping("mission")
-    public @ResponseBody APIResponse<List<MemberMission>> mission(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberMission> api_data = memberService.getMission(member_id);
-        return new APIResponse<List<MemberMission>>().setApi_data(api_data);
+    @RequestMapping("/slot_item")
+    public @ResponseBody APIResponse<List<MemberSlotItem>> slot_item(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberSlotItem> api_data = memberService.getSlotItem(member_id);
+        return new APIResponse<List<MemberSlotItem>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/unsetslot")
+    public @ResponseBody APIResponse<Map<String, Object>> unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
+        Map<String, Object> api_data = memberService.getUnsetSlot(member_id);
+        return new APIResponse<Map<String, Object>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/useitem")
+    public @ResponseBody APIResponse<List<MemberUseItem>> useitem(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberUseItem> api_data = memberService.getUseItem(member_id);
+        return new APIResponse<List<MemberUseItem>>().setApi_data(api_data);
     }
 }

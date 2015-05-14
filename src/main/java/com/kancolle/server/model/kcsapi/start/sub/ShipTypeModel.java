@@ -28,8 +28,33 @@ public class ShipTypeModel {
     @JSONField(ordinal = 6)
     private JSONObject api_equip_type;
 
+    public JSONObject getApi_equip_type() {
+        return api_equip_type;
+    }
+
     public int getApi_id() {
         return api_id;
+    }
+
+    public int getApi_kcnt() {
+        return api_kcnt;
+    }
+
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public int getApi_scnt() {
+        return api_scnt;
+    }
+
+    public int getApi_sortno() {
+        return api_sortno;
+    }
+
+    @Column(name = "EQUIP_TYPE", type = JSONObject.class)
+    public void setApi_equip_type(String api_equip_type) {
+        this.api_equip_type = JSON.parseObject(api_equip_type, Feature.OrderedField);
     }
 
     @Column(name = "ID", type = int.class)
@@ -37,17 +62,9 @@ public class ShipTypeModel {
         this.api_id = api_id;
     }
 
-    public int getApi_sortno() {
-        return api_sortno;
-    }
-
-    @Column(name = "SORTNO", type = int.class)
-    public void setApi_sortno(int api_sortno) {
-        this.api_sortno = api_sortno;
-    }
-
-    public String getApi_name() {
-        return api_name;
+    @Column(name = "KCNT", type = int.class)
+    public void setApi_kcnt(int api_kcnt) {
+        this.api_kcnt = api_kcnt;
     }
 
     @Column(name = "NAME", type = String.class)
@@ -55,30 +72,13 @@ public class ShipTypeModel {
         this.api_name = api_name;
     }
 
-    public int getApi_scnt() {
-        return api_scnt;
-    }
-
     @Column(name = "SCNT", type = int.class)
     public void setApi_scnt(int api_scnt) {
         this.api_scnt = api_scnt;
     }
 
-    public int getApi_kcnt() {
-        return api_kcnt;
-    }
-
-    @Column(name = "KCNT", type = int.class)
-    public void setApi_kcnt(int api_kcnt) {
-        this.api_kcnt = api_kcnt;
-    }
-
-    public JSONObject getApi_equip_type() {
-        return api_equip_type;
-    }
-
-    @Column(name = "EQUIP_TYPE", type = JSONObject.class)
-    public void setApi_equip_type(String api_equip_type) {
-        this.api_equip_type = JSON.parseObject(api_equip_type, Feature.OrderedField);
+    @Column(name = "SORTNO", type = int.class)
+    public void setApi_sortno(int api_sortno) {
+        this.api_sortno = api_sortno;
     }
 }

@@ -14,7 +14,11 @@
 		timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false"
 		memoryStoreEvictionPolicy="LFU" />
 		
-	<cache name="mission" maxEntriesLocalHeap="10" eternal="true"
+	<cache name="mission" maxEntriesLocalHeap="10" eternal="false"
+		timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false"
+		memoryStoreEvictionPolicy="LFU" />
+		
+	<cache name="map" maxEntriesLocalHeap="100" eternal="false"
 		timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false"
 		memoryStoreEvictionPolicy="LFU" />
 </ehcache>

@@ -14,17 +14,16 @@ public class MemberMeterial {
     @JSONField(ordinal = 3)
     private int api_value;
 
+    public int getApi_id() {
+        return api_id;
+    }
+
     public long getApi_member_id() {
         return api_member_id;
     }
 
-    @Column(name = "member_id", type = long.class)
-    public void setApi_member_id(long api_member_id) {
-        this.api_member_id = api_member_id;
-    }
-
-    public int getApi_id() {
-        return api_id;
+    public int getApi_value() {
+        return api_value;
     }
 
     @Column(name = "ID", type = int.class)
@@ -32,8 +31,9 @@ public class MemberMeterial {
         this.api_id = api_id;
     }
 
-    public int getApi_value() {
-        return api_value;
+    @Column(name = "member_id", type = long.class)
+    public void setApi_member_id(long api_member_id) {
+        this.api_member_id = api_member_id;
     }
 
     @Column(name = "VALUE", type = int.class)

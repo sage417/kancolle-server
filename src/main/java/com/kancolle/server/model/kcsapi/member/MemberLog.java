@@ -17,8 +17,25 @@ public class MemberLog {
     @JSONField(ordinal = 4)
     private String api_message;
 
+    public String getApi_message() {
+        return api_message;
+    }
+
     public int getApi_no() {
         return api_no;
+    }
+
+    public String getApi_state() {
+        return api_state;
+    }
+
+    public String getApi_type() {
+        return api_type;
+    }
+
+    @Column(name = "MESSAGE", type = String.class)
+    public void setApi_message(String api_message) {
+        this.api_message = api_message;
     }
 
     @Column(name = "NO", type = int.class)
@@ -26,30 +43,13 @@ public class MemberLog {
         this.api_no = api_no;
     }
 
-    public String getApi_type() {
-        return api_type;
-    }
-
-    @Column(name = "NO", type = int.class)
-    public void setApi_type(String api_type) {
-        this.api_type = api_type;
-    }
-
-    public String getApi_state() {
-        return api_state;
-    }
-
     @Column(name = "STATE", type = String.class)
     public void setApi_state(String api_state) {
         this.api_state = api_state;
     }
 
-    public String getApi_message() {
-        return api_message;
-    }
-
-    @Column(name = "MESSAGE", type = String.class)
-    public void setApi_message(String api_message) {
-        this.api_message = api_message;
+    @Column(name = "NO", type = int.class)
+    public void setApi_type(String api_type) {
+        this.api_type = api_type;
     }
 }

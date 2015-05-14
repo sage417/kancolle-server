@@ -5,10 +5,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class ConstModel {
 
-    @JSONField(deserialize=false)
+    @JSONField(deserialize = false)
     private static final String STRING_KEY = "api_string_value";
 
-    @JSONField(deserialize=false)
+    @JSONField(deserialize = false)
     private static final String INT_KEY = "api_int_value";
 
     @JSONField(ordinal = 1)
@@ -20,15 +20,8 @@ public class ConstModel {
     @JSONField(ordinal = 3)
     private static final JSONObject api_dpflag_quest = new JSONObject(2);
 
-    @JSONField(deserialize=false)
+    @JSONField(deserialize = false)
     private static final ConstModel SINGLON = new ConstModel();
-
-    private ConstModel() {
-    }
-
-    public static ConstModel getInstance() {
-        return SINGLON;
-    }
 
     static {
         api_parallel_quest_max.put(STRING_KEY, "");
@@ -39,8 +32,11 @@ public class ConstModel {
         api_dpflag_quest.put(INT_KEY, 1);
     }
 
-    public JSONObject getApi_parallel_quest_max() {
-        return api_parallel_quest_max;
+    public static ConstModel getInstance() {
+        return SINGLON;
+    }
+
+    private ConstModel() {
     }
 
     public JSONObject getApi_boko_max_ships() {
@@ -49,5 +45,9 @@ public class ConstModel {
 
     public JSONObject getApi_dpflag_quest() {
         return api_dpflag_quest;
+    }
+
+    public JSONObject getApi_parallel_quest_max() {
+        return api_parallel_quest_max;
     }
 }

@@ -13,15 +13,15 @@ import com.kancolle.server.model.kcsapi.member.MemberShip;
 
 public interface PortDao extends BaseDao<MemberPort> {
 
-    List<MemberMeterial> getMaterial(String member_id) throws Exception;
+    MemberBasic getBasic(String member_id);
 
     List<MemberDeckPort> getDeckPort(String member_id);
+
+    List<MemberLog> getLog(String member_id);
+
+    List<MemberMeterial> getMaterial(String member_id) throws Exception;
 
     List<MemberNDock> getNdock(String member_id);
 
     List<MemberShip> getShip(String member_id);
-
-    MemberBasic getBasic(String member_id);
-
-    List<MemberLog> getLog(String member_id);
 }

@@ -17,26 +17,20 @@ public class SlotItemGraphModel {
     @JSONField(ordinal = 4)
     private String api_version;
 
-    public int getApi_id() {
-        return api_id;
+    public String getApi_filename() {
+        return api_filename;
     }
 
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
+    public int getApi_id() {
+        return api_id;
     }
 
     public int getApi_sortno() {
         return api_sortno;
     }
 
-    @Column(name = "SORTNO", type = int.class)
-    public void setApi_sortno(int api_sortno) {
-        this.api_sortno = api_sortno;
-    }
-
-    public String getApi_filename() {
-        return api_filename;
+    public String getApi_version() {
+        return api_version;
     }
 
     @Column(name = "FILENAME", type = String.class)
@@ -44,8 +38,14 @@ public class SlotItemGraphModel {
         this.api_filename = api_filename;
     }
 
-    public String getApi_version() {
-        return api_version;
+    @Column(name = "ID", type = int.class)
+    public void setApi_id(int api_id) {
+        this.api_id = api_id;
+    }
+
+    @Column(name = "SORTNO", type = int.class)
+    public void setApi_sortno(int api_sortno) {
+        this.api_sortno = api_sortno;
     }
 
     @Column(name = "VERSION", type = String.class)

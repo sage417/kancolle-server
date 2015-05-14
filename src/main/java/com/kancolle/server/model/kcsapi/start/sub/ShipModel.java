@@ -88,215 +88,112 @@ public class ShipModel {
     @JSONField(ordinal = 27)
     private int api_voicef;
 
-    public int getApi_id() {
-        return api_id;
-    }
-
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
-    }
-
-    public int getApi_sortno() {
-        return api_sortno;
-    }
-
-    @Column(name = "SORTNO", type = int.class)
-    public void setApi_sortno(int api_sortno) {
-        this.api_sortno = api_sortno;
-    }
-
-    public String getApi_name() {
-        return api_name;
-    }
-
-    @Column(name = "NAME", type = String.class)
-    public void setApi_name(String api_name) {
-        this.api_name = api_name;
-    }
-
-    public String getApi_yomi() {
-        return api_yomi;
-    }
-
-    @Column(name = "YOMI", type = String.class)
-    public void setApi_yomi(String api_yomi) {
-        this.api_yomi = api_yomi;
-    }
-
-    public int getApi_stype() {
-        return api_stype;
-    }
-
-    @Column(name = "TYPE", type = int.class)
-    public void setApi_stype(int api_stype) {
-        this.api_stype = api_stype;
-    }
-
-    public int getApi_afterlv() {
-        return api_afterlv;
-    }
-
-    @Column(name = "AFTERLV", type = int.class)
-    public void setApi_afterlv(int api_afterlv) {
-        this.api_afterlv = api_afterlv;
-    }
-
-    public String getApi_aftershipid() {
-        return api_aftershipid;
-    }
-
-    @Column(name = "AFTERSHIPID", type = String.class)
-    public void setApi_aftershipid(String api_aftershipid) {
-        this.api_aftershipid = api_aftershipid;
-    }
-
-    public JSONArray getApi_taik() {
-        return api_taik;
-    }
-
-    @Column(name = "TAIK", type = String.class)
-    public void setApi_taik(String api_taik) {
-        this.api_taik = JSON.parseArray(api_taik);
-    }
-
-    public JSONArray getApi_souk() {
-        return api_souk;
-    }
-
-    @Column(name = "SOUK", type = String.class)
-    public void setApi_souk(String api_souk) {
-        this.api_souk = JSON.parseArray(api_souk);
-    }
-
-    public JSONArray getApi_houg() {
-        return api_houg;
-    }
-
-    @Column(name = "HOUG", type = String.class)
-    public void setApi_houg(String api_houg) {
-        this.api_houg = JSON.parseArray(api_houg);
-    }
-
-    public JSONArray getApi_raig() {
-        return api_raig;
-    }
-
-    @Column(name = "RAIG", type = String.class)
-    public void setApi_raig(String api_raig) {
-        this.api_raig = JSON.parseArray(api_raig);
-    }
-
-    public JSONArray getApi_tyku() {
-        return api_tyku;
-    }
-
-    @Column(name = "TYKU", type = String.class)
-    public void setApi_tyku(String api_tyku) {
-        this.api_tyku = JSON.parseArray(api_tyku);
-    }
-
-    public JSONArray getApi_luck() {
-        return api_luck;
-    }
-
-    @Column(name = "LUCK", type = String.class)
-    public void setApi_luck(String api_luck) {
-        this.api_luck = JSON.parseArray(api_luck);
-    }
-
-    public int getApi_soku() {
-        return api_soku;
-    }
-
-    @Column(name = "SOKU", type = int.class)
-    public void setApi_soku(int api_soku) {
-        this.api_soku = api_soku;
-    }
-
-    public int getApi_leng() {
-        return api_leng;
-    }
-
-    @Column(name = "LENG", type = int.class)
-    public void setApi_leng(int api_leng) {
-        this.api_leng = api_leng;
-    }
-
-    public int getApi_slot_num() {
-        return api_slot_num;
-    }
-
-    @Column(name = "SLOT_NUM", type = int.class)
-    public void setApi_slot_num(int api_slot_num) {
-        this.api_slot_num = api_slot_num;
-    }
-
-    public JSONArray getApi_maxeq() {
-        return api_maxeq;
-    }
-
-    @Column(name = "MAXEQ", type = String.class)
-    public void setApi_maxeq(String api_maxeq) {
-        this.api_maxeq = JSON.parseArray(api_maxeq);
-    }
-
-    public int getApi_buildtime() {
-        return api_buildtime;
-    }
-
-    @Column(name = "BUILDTIME", type = int.class)
-    public void setApi_buildtime(int api_buildtime) {
-        this.api_buildtime = api_buildtime;
-    }
-
-    public JSONArray getApi_broken() {
-        return api_broken;
-    }
-
-    @Column(name = "BROKEN", type = String.class)
-    public void setApi_broken(String api_broken) {
-        this.api_broken = JSON.parseArray(api_broken);
-    }
-
-    public JSONArray getApi_powup() {
-        return api_powup;
-    }
-
-    @Column(name = "POWUP", type = String.class)
-    public void setApi_powup(String api_powup) {
-        this.api_powup = JSON.parseArray(api_powup);
-    }
-
-    public int getApi_backs() {
-        return api_backs;
-    }
-
-    @Column(name = "BACKS", type = int.class)
-    public void setApi_backs(int api_backs) {
-        this.api_backs = api_backs;
-    }
-
-    public String getApi_getmes() {
-        return api_getmes;
-    }
-
-    @Column(name = "GETMES", type = String.class)
-    public void setApi_getmes(String api_getmes) {
-        this.api_getmes = api_getmes;
+    public int getApi_afterbull() {
+        return api_afterbull;
     }
 
     public int getApi_afterfuel() {
         return api_afterfuel;
     }
 
-    @Column(name = "AFTERFUEL", type = int.class)
-    public void setApi_afterfuel(int api_afterfuel) {
-        this.api_afterfuel = api_afterfuel;
+    public int getApi_afterlv() {
+        return api_afterlv;
     }
 
-    public int getApi_afterbull() {
-        return api_afterbull;
+    public String getApi_aftershipid() {
+        return api_aftershipid;
+    }
+
+    public int getApi_backs() {
+        return api_backs;
+    }
+
+    public JSONArray getApi_broken() {
+        return api_broken;
+    }
+
+    public int getApi_buildtime() {
+        return api_buildtime;
+    }
+
+    public int getApi_bull_max() {
+        return api_bull_max;
+    }
+
+    public int getApi_fuel_max() {
+        return api_fuel_max;
+    }
+
+    public String getApi_getmes() {
+        return api_getmes;
+    }
+
+    public JSONArray getApi_houg() {
+        return api_houg;
+    }
+
+    public int getApi_id() {
+        return api_id;
+    }
+
+    public int getApi_leng() {
+        return api_leng;
+    }
+
+    public JSONArray getApi_luck() {
+        return api_luck;
+    }
+
+    public JSONArray getApi_maxeq() {
+        return api_maxeq;
+    }
+
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public JSONArray getApi_powup() {
+        return api_powup;
+    }
+
+    public JSONArray getApi_raig() {
+        return api_raig;
+    }
+
+    public int getApi_slot_num() {
+        return api_slot_num;
+    }
+
+    public int getApi_soku() {
+        return api_soku;
+    }
+
+    public int getApi_sortno() {
+        return api_sortno;
+    }
+
+    public JSONArray getApi_souk() {
+        return api_souk;
+    }
+
+    public int getApi_stype() {
+        return api_stype;
+    }
+
+    public JSONArray getApi_taik() {
+        return api_taik;
+    }
+
+    public JSONArray getApi_tyku() {
+        return api_tyku;
+    }
+
+    public int getApi_voicef() {
+        return api_voicef;
+    }
+
+    public String getApi_yomi() {
+        return api_yomi;
     }
 
     @Column(name = "AFTERBULL", type = int.class)
@@ -304,17 +201,34 @@ public class ShipModel {
         this.api_afterbull = api_afterbull;
     }
 
-    public int getApi_fuel_max() {
-        return api_fuel_max;
+    @Column(name = "AFTERFUEL", type = int.class)
+    public void setApi_afterfuel(int api_afterfuel) {
+        this.api_afterfuel = api_afterfuel;
     }
 
-    @Column(name = "FUEL_MAX", type = int.class)
-    public void setApi_fuel_max(int api_fuel_max) {
-        this.api_fuel_max = api_fuel_max;
+    @Column(name = "AFTERLV", type = int.class)
+    public void setApi_afterlv(int api_afterlv) {
+        this.api_afterlv = api_afterlv;
     }
 
-    public int getApi_bull_max() {
-        return api_bull_max;
+    @Column(name = "AFTERSHIPID", type = String.class)
+    public void setApi_aftershipid(String api_aftershipid) {
+        this.api_aftershipid = api_aftershipid;
+    }
+
+    @Column(name = "BACKS", type = int.class)
+    public void setApi_backs(int api_backs) {
+        this.api_backs = api_backs;
+    }
+
+    @Column(name = "BROKEN", type = String.class)
+    public void setApi_broken(String api_broken) {
+        this.api_broken = JSON.parseArray(api_broken);
+    }
+
+    @Column(name = "BUILDTIME", type = int.class)
+    public void setApi_buildtime(int api_buildtime) {
+        this.api_buildtime = api_buildtime;
     }
 
     @Column(name = "BULL_MAX", type = int.class)
@@ -322,12 +236,98 @@ public class ShipModel {
         this.api_bull_max = api_bull_max;
     }
 
-    public int getApi_voicef() {
-        return api_voicef;
+    @Column(name = "FUEL_MAX", type = int.class)
+    public void setApi_fuel_max(int api_fuel_max) {
+        this.api_fuel_max = api_fuel_max;
+    }
+
+    @Column(name = "GETMES", type = String.class)
+    public void setApi_getmes(String api_getmes) {
+        this.api_getmes = api_getmes;
+    }
+
+    @Column(name = "HOUG", type = String.class)
+    public void setApi_houg(String api_houg) {
+        this.api_houg = JSON.parseArray(api_houg);
+    }
+
+    @Column(name = "ID", type = int.class)
+    public void setApi_id(int api_id) {
+        this.api_id = api_id;
+    }
+
+    @Column(name = "LENG", type = int.class)
+    public void setApi_leng(int api_leng) {
+        this.api_leng = api_leng;
+    }
+
+    @Column(name = "LUCK", type = String.class)
+    public void setApi_luck(String api_luck) {
+        this.api_luck = JSON.parseArray(api_luck);
+    }
+
+    @Column(name = "MAXEQ", type = String.class)
+    public void setApi_maxeq(String api_maxeq) {
+        this.api_maxeq = JSON.parseArray(api_maxeq);
+    }
+
+    @Column(name = "NAME", type = String.class)
+    public void setApi_name(String api_name) {
+        this.api_name = api_name;
+    }
+
+    @Column(name = "POWUP", type = String.class)
+    public void setApi_powup(String api_powup) {
+        this.api_powup = JSON.parseArray(api_powup);
+    }
+
+    @Column(name = "RAIG", type = String.class)
+    public void setApi_raig(String api_raig) {
+        this.api_raig = JSON.parseArray(api_raig);
+    }
+
+    @Column(name = "SLOT_NUM", type = int.class)
+    public void setApi_slot_num(int api_slot_num) {
+        this.api_slot_num = api_slot_num;
+    }
+
+    @Column(name = "SOKU", type = int.class)
+    public void setApi_soku(int api_soku) {
+        this.api_soku = api_soku;
+    }
+
+    @Column(name = "SORTNO", type = int.class)
+    public void setApi_sortno(int api_sortno) {
+        this.api_sortno = api_sortno;
+    }
+
+    @Column(name = "SOUK", type = String.class)
+    public void setApi_souk(String api_souk) {
+        this.api_souk = JSON.parseArray(api_souk);
+    }
+
+    @Column(name = "TYPE", type = int.class)
+    public void setApi_stype(int api_stype) {
+        this.api_stype = api_stype;
+    }
+
+    @Column(name = "TAIK", type = String.class)
+    public void setApi_taik(String api_taik) {
+        this.api_taik = JSON.parseArray(api_taik);
+    }
+
+    @Column(name = "TYKU", type = String.class)
+    public void setApi_tyku(String api_tyku) {
+        this.api_tyku = JSON.parseArray(api_tyku);
     }
 
     @Column(name = "VOICEF", type = int.class)
     public void setApi_voicef(int api_voicef) {
         this.api_voicef = api_voicef;
+    }
+
+    @Column(name = "YOMI", type = String.class)
+    public void setApi_yomi(String api_yomi) {
+        this.api_yomi = api_yomi;
     }
 }

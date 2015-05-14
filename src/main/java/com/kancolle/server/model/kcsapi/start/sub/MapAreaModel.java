@@ -18,22 +18,22 @@ public class MapAreaModel {
         return api_id;
     }
 
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public int getApi_type() {
+        return api_type;
+    }
+
     @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    public String getApi_name() {
-        return api_name;
-    }
-
     @Column(name = "NAME", type = String.class)
     public void setApi_name(String api_name) {
         this.api_name = api_name;
-    }
-
-    public int getApi_type() {
-        return api_type;
     }
 
     @Column(name = "TYPE", type = int.class)

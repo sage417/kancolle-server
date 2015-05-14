@@ -22,8 +22,29 @@ public class MapBgmModel {
     @JSONField(ordinal = 5)
     private JSONArray api_boss_bgm;
 
+    public JSONArray getApi_boss_bgm() {
+        return api_boss_bgm;
+    }
+
     public int getApi_id() {
         return api_id;
+    }
+
+    public JSONArray getApi_map_bgm() {
+        return api_map_bgm;
+    }
+
+    public int getApi_maparea_id() {
+        return api_maparea_id;
+    }
+
+    public int getApi_no() {
+        return api_no;
+    }
+
+    @Column(name = "BOSS_BGM", type = String.class)
+    public void setApi_boss_bgm(String api_boss_bgm) {
+        this.api_boss_bgm = JSON.parseArray(api_boss_bgm);
     }
 
     @Column(name = "ID", type = int.class)
@@ -31,8 +52,9 @@ public class MapBgmModel {
         this.api_id = api_id;
     }
 
-    public int getApi_maparea_id() {
-        return api_maparea_id;
+    @Column(name = "MAP_BGM", type = String.class)
+    public void setApi_map_bgm(String api_map_bgm) {
+        this.api_map_bgm = JSON.parseArray(api_map_bgm);
     }
 
     @Column(name = "MAPAREA_ID", type = int.class)
@@ -40,30 +62,8 @@ public class MapBgmModel {
         this.api_maparea_id = api_maparea_id;
     }
 
-    public int getApi_no() {
-        return api_no;
-    }
-
     @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
-    }
-
-    public JSONArray getApi_map_bgm() {
-        return api_map_bgm;
-    }
-
-    @Column(name = "MAP_BGM", type = String.class)
-    public void setApi_map_bgm(String api_map_bgm) {
-        this.api_map_bgm = JSON.parseArray(api_map_bgm);
-    }
-
-    public JSONArray getApi_boss_bgm() {
-        return api_boss_bgm;
-    }
-
-    @Column(name = "BOSS_BGM", type = String.class)
-    public void setApi_boss_bgm(String api_boss_bgm) {
-        this.api_boss_bgm = JSON.parseArray(api_boss_bgm);
     }
 }

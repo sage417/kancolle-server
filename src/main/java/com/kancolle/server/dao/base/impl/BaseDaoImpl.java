@@ -20,16 +20,23 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    protected NamedParameterJdbcTemplate getTemplate() {
-        return template;
-    }
-
-    protected void setTableName(String tableName) {
-        this.tableName = tableName;
-    };
-
     protected String getTableName() {
         return this.tableName;
+    }
+
+    protected NamedParameterJdbcTemplate getTemplate() {
+        return template;
+    };
+
+    /**
+     * 解析数据库字符串，返回JSONArray对象
+     * 
+     * @param sql
+     * @param params
+     * @return
+     */
+    protected JSONArray parseJSONArray(String sql, Map<String, Object> params) {
+        return JSON.parseArray(template.queryForObject(sql, params, String.class));
     }
 
     protected <E> List<E> queryForModels(Class<E> clazz, String sql) {
@@ -70,14 +77,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         }
     }
 
-    /**
-     * 解析数据库字符串，返回JSONArray对象
-     * 
-     * @param sql
-     * @param params
-     * @return
-     */
-    protected JSONArray parseJSONArray(String sql, Map<String, Object> params) {
-        return JSON.parseArray(template.queryForObject(sql, params, String.class));
+    protected void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }

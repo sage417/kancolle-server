@@ -21,9 +21,7 @@ public class ReqFurnitureController {
     @Autowired
     private MemberService memberService;
 
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
+    public void buy(@ModelAttribute(MEMBER_ID) String member_id) {
     }
 
     @RequestMapping("change")
@@ -32,6 +30,8 @@ public class ReqFurnitureController {
         return JSON.toJSONString(new APIResponse<Object>(), SerializerFeature.BrowserCompatible);
     }
 
-    public void buy(@ModelAttribute(MEMBER_ID) String member_id) {
+    @ModelAttribute(MEMBER_ID)
+    public String getMemberId(HttpServletRequest request) {
+        return (String) request.getAttribute(MEMBER_ID);
     }
 }

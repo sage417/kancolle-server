@@ -28,78 +28,52 @@ public class MemberDeckPort {
     @JSONField(ordinal = 7)
     private JSONArray api_ship;
 
-    public long getApi_member_id() {
-        return api_member_id;
-    }
-
-    @Column(name = "member_id", type = long.class)
-    public void setApi_member_id(long api_member_id) {
-        this.api_member_id = api_member_id;
-    }
-
-    public int getApi_id() {
-        return api_id;
-    }
-
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
-    }
-
-    public String getApi_name() {
-        return api_name;
-    }
-
-    @Column(name = "NAME", type = String.class)
-    public void setApi_name(String api_name) {
-        this.api_name = api_name;
-    }
-
-    public String getApi_name_id() {
-        return api_name_id;
-    }
-
-    @Column(name = "NAME_ID", type = String.class)
-    public void setApi_name_id(String api_name_id) {
-        this.api_name_id = api_name_id;
-    }
-
-    public String getApi_mission() {
-        return api_mission;
-    }
-
-    public void setApi_mission(String api_mission) {
-        this.api_mission = api_mission;
+    public void addShip(long ship_id) {
+        for (int i = 0; i < api_ship.size(); i++) {
+            long id = api_ship.getLongValue(i);
+            if (id == -1L) {
+                api_ship.set(i, ship_id);
+                break;
+            }
+        }
     }
 
     public String getApi_flagship() {
         return api_flagship;
     }
 
-    @Column(name = "FLAGSHIP", type = String.class)
-    public void setApi_flagship(String api_flagship) {
-        this.api_flagship = api_flagship;
+    public int getApi_id() {
+        return api_id;
+    }
+
+    public long getApi_member_id() {
+        return api_member_id;
+    }
+
+    public String getApi_mission() {
+        return api_mission;
+    }
+
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public String getApi_name_id() {
+        return api_name_id;
     }
 
     public JSONArray getApi_ship() {
         return api_ship;
     }
 
-    @Column(name = "SHIP", type = String.class)
-    public void setApi_ship(String api_ship) {
-        this.api_ship = JSON.parseArray(api_ship);
-    }
-
-    public void removeShip(int ship_idx) {
-        for (int i = ship_idx; i < api_ship.size(); i++) {
-            long next_ship_id = i + 1 == api_ship.size() ? -1L : api_ship.getLongValue(i + 1);
-            api_ship.set(i, next_ship_id);
-
-            if (next_ship_id > 0L) {
-                continue;
+    public int indexOf(long ship_id) {
+        for (int i = 0; i < api_ship.size(); i++) {
+            long id = api_ship.getLongValue(i);
+            if (id == ship_id) {
+                return i;
             }
-            break;
         }
+        return -1;
     }
 
     public int removeOthers() {
@@ -116,13 +90,15 @@ public class MemberDeckPort {
         return count;
     }
 
-    public void addShip(long ship_id) {
-        for (int i = 0; i < api_ship.size(); i++) {
-            long id = api_ship.getLongValue(i);
-            if (id == -1L) {
-                api_ship.set(i, ship_id);
-                break;
+    public void removeShip(int ship_idx) {
+        for (int i = ship_idx; i < api_ship.size(); i++) {
+            long next_ship_id = i + 1 == api_ship.size() ? -1L : api_ship.getLongValue(i + 1);
+            api_ship.set(i, next_ship_id);
+
+            if (next_ship_id > 0L) {
+                continue;
             }
+            break;
         }
     }
 
@@ -132,14 +108,38 @@ public class MemberDeckPort {
         return rship_id;
     }
 
-    public int indexOf(long ship_id) {
-        for (int i = 0; i < api_ship.size(); i++) {
-            long id = api_ship.getLongValue(i);
-            if (id == ship_id) {
-                return i;
-            }
-        }
-        return -1;
+    @Column(name = "FLAGSHIP", type = String.class)
+    public void setApi_flagship(String api_flagship) {
+        this.api_flagship = api_flagship;
+    }
+
+    @Column(name = "ID", type = int.class)
+    public void setApi_id(int api_id) {
+        this.api_id = api_id;
+    }
+
+    @Column(name = "member_id", type = long.class)
+    public void setApi_member_id(long api_member_id) {
+        this.api_member_id = api_member_id;
+    }
+
+    public void setApi_mission(String api_mission) {
+        this.api_mission = api_mission;
+    }
+
+    @Column(name = "NAME", type = String.class)
+    public void setApi_name(String api_name) {
+        this.api_name = api_name;
+    }
+
+    @Column(name = "NAME_ID", type = String.class)
+    public void setApi_name_id(String api_name_id) {
+        this.api_name_id = api_name_id;
+    }
+
+    @Column(name = "SHIP", type = String.class)
+    public void setApi_ship(String api_ship) {
+        this.api_ship = JSON.parseArray(api_ship);
     }
 
     public int size() {

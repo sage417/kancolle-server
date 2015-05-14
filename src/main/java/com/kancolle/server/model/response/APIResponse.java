@@ -14,20 +14,16 @@ public class APIResponse<T> {
     @JSONField(ordinal = 3)
     private T api_data;
 
+    public T getApi_data() {
+        return api_data;
+    }
+
     public int getApi_result() {
         return api_result;
     }
 
     public String getApi_result_msg() {
         return api_result_msg;
-    }
-
-    public void setApi_result_msg(String api_result_msg) {
-        this.api_result_msg = api_result_msg;
-    }
-
-    public T getApi_data() {
-        return api_data;
     }
 
     public APIResponse<T> setApi_data(T api_data) {
@@ -37,5 +33,9 @@ public class APIResponse<T> {
 
     public void setApi_result(int api_result) {
         this.api_result = api_result;
+    }
+
+    public void setApi_result_msg(String api_result_msg) {
+        this.api_result_msg = api_result_msg;
     }
 }

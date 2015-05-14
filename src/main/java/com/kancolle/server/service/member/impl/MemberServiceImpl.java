@@ -30,8 +30,19 @@ public class MemberServiceImpl implements MemberService {
     private PortDao portDao;
 
     @Override
-    public String getMemberByApiToken(String api_token) {
-        return memberDao.getMemberByApiToken(api_token);
+    public void changeFurniture(String member_id, ChangeFurnitureForm form) {
+        memberDao.changeFurniture(member_id, form);
+    }
+
+    @Override
+    public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
+        memberDao.changeShip(member_id, fleet_id, ship_id, ship_idx);
+    }
+
+    @Override
+    @Transactional
+    public void destroyShip(String member_id, long api_ship_id) {
+        memberDao.destroyShip(member_id, api_ship_id);
     }
 
     @Override
@@ -45,18 +56,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberSlotItem> getSlotItem(String member_id) {
-        return memberDao.getSlotItem(member_id);
-    }
-
-    @Override
-    public List<MemberUseItem> getUseItem(String member_id) {
-        return memberDao.getUseItem(member_id);
-    }
-
-    @Override
     public List<MemberKdock> getKdock(String member_id) {
         return memberDao.getKdock(member_id);
+    }
+
+    @Override
+    public String getMemberByApiToken(String api_token) {
+        return memberDao.getMemberByApiToken(api_token);
+    }
+
+    @Override
+    public List<MemberMission> getMission(String member_id) {
+        return memberDao.getMission(member_id);
     }
 
     @Override
@@ -68,33 +79,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Map<String, Object> getUnsetSlot(String member_id) {
-        return memberDao.getUnsetSlot(member_id);
-    }
-
-    @Override
-    @Transactional
-    public void destroyShip(String member_id, long api_ship_id) {
-        memberDao.destroyShip(member_id, api_ship_id);
-    }
-
-    @Override
-    public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
-        memberDao.changeShip(member_id, fleet_id, ship_id, ship_idx);
-    }
-
-    @Override
-    public void changeFurniture(String member_id, ChangeFurnitureForm form) {
-        memberDao.changeFurniture(member_id, form);
-    }
-
-    @Override
     public MemberRecord getRecord(String member_id) {
         return memberDao.getRecord(member_id);
     }
 
     @Override
-    public List<MemberMission> getMission(String member_id) {
-        return memberDao.getMission(member_id);
+    public List<MemberSlotItem> getSlotItem(String member_id) {
+        return memberDao.getSlotItem(member_id);
     }
+
+    @Override
+    public Map<String, Object> getUnsetSlot(String member_id) {
+        return memberDao.getUnsetSlot(member_id);
+    }
+
+    @Override
+    public List<MemberUseItem> getUseItem(String member_id) {
+        return memberDao.getUseItem(member_id);
+    }
+
 }
