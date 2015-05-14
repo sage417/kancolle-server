@@ -21,7 +21,6 @@ import com.kancolle.server.model.kcsapi.member.MemberMeterial;
 import com.kancolle.server.model.kcsapi.member.MemberNDock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
-import com.kancolle.server.model.mapper.MemberDeckPortMapper;
 import com.kancolle.server.utils.DaoUtils;
 
 @Repository
@@ -47,7 +46,11 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberDeckPort> getDeckPort(String member_id) {
-        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id),new MemberDeckPortMapper());
+        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id),(rs,ns)->{
+            MemberDeckPort deck_port =DaoUtils.setObject(new MemberDeckPort(), rs);
+            deck_port.setApi_mission(JSON.toJSONString(new long[]{rs.getInt("MISSION_STATUS"),rs.getInt("MISSION_ID"),rs.getLong("MISSION_COMPLETE_TIME"),rs.getInt("MISSION_FLAG")}));
+            return deck_port;
+        });
     }
 
     @Override

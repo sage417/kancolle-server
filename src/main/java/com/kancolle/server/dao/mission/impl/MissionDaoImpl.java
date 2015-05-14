@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.mission.MissionDao;
+import com.kancolle.server.model.po.DeckPortMission;
 
 @Repository
 public class MissionDaoImpl<T> extends BaseDaoImpl<T>implements MissionDao<T> {
@@ -22,14 +23,22 @@ public class MissionDaoImpl<T> extends BaseDaoImpl<T>implements MissionDao<T> {
     }
 
     @Override
-    public int updateDeckPortMission(String member_id, int deck_id, int mission_status,int mission_id,long mission_complete_time,int mission_flag) {
+    public int updateDeckPortMission(String member_id, int deck_id, DeckPortMission deckPortMission) {
         Map<String, Object> params = new HashMap<String, Object>(6);
         params.put("member_id", member_id);
         params.put("deck_id", deck_id);
-        params.put("mission_status", mission_status);
-        params.put("mission_id", mission_id);
-        params.put("mission_complete_time", mission_complete_time);
-        params.put("mission_flag", mission_flag);
+        params.put("mission_status", deckPortMission.getMissionStatus());
+        params.put("mission_id", deckPortMission.getMissionId());
+        params.put("mission_complete_time", deckPortMission.getMission_complete_time());
+        params.put("mission_flag", deckPortMission.getMission_flag());
         return getTemplate().update("UPDATE v_member_deckport SET MISSION_STATUS = :mission_status, MISSION_ID = :mission_id, MISSION_COMPLETE_TIME = :mission_complete_time, MISSION_FLAG = :mission_flag WHERE member_id = :member_id AND ID = :deck_id", params);
+    }
+
+    @Override
+    public DeckPortMission getDeckPortMission(String member_id, int deck_id) {
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("member_id", member_id);
+        params.put("deck_id", deck_id);
+        return queryForSingleModel(DeckPortMission.class, "SELECT MISSION_STATUS , MISSION_ID , MISSION_COMPLETE_TIME, MISSION_FLAG FROM v_member_deckport WHERE member_id = :member_id AND ID = :deck_id", params);
     }
 }

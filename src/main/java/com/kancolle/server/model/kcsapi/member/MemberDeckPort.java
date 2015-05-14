@@ -20,7 +20,7 @@ public class MemberDeckPort {
     private String api_name_id;
 
     @JSONField(ordinal = 5)
-    private JSONArray api_mission;
+    private String api_mission;
 
     @JSONField(ordinal = 6)
     private String api_flagship;
@@ -64,12 +64,12 @@ public class MemberDeckPort {
         this.api_name_id = api_name_id;
     }
 
-    public JSONArray getApi_mission() {
+    public String getApi_mission() {
         return api_mission;
     }
 
     public void setApi_mission(String api_mission) {
-        this.api_mission = JSON.parseArray(api_mission);
+        this.api_mission = api_mission;
     }
 
     public String getApi_flagship() {

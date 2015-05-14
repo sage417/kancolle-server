@@ -1,6 +1,7 @@
 package com.kancolle.server.dao.mission;
 
 import com.kancolle.server.dao.base.BaseDao;
+import com.kancolle.server.model.po.DeckPortMission;
 
 public interface MissionDao<T> extends BaseDao<T>{
 
@@ -11,6 +12,8 @@ public interface MissionDao<T> extends BaseDao<T>{
      */
     int getMissionTime(int mission_id);
     
-    int updateDeckPortMission(String member_id, int deck_id, int mission_status,int mission_id,long mission_complete_time,int mission_flag);
+    int updateDeckPortMission(String member_id, int deck_id, DeckPortMission deckPortMission);
+    
+    DeckPortMission getDeckPortMission(String member_id, int deck_id);
 
 }
