@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.42 (64 bit)
-MySQL - 5.6.21 : Database - kancolle
+SQLyog Ultimate v11.4 (64 bit)
+MySQL - 5.6.24 : Database - kancolle
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 5.6.21 : Database - kancolle
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`kancolle` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`kancolle` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `kancolle`;
 
@@ -29,6 +29,48 @@ CREATE TABLE `t_bgm` (
 /*Data for the table `t_bgm` */
 
 insert  into `t_bgm`(`ID`,`NAME`) values (101,'母港'),(105,'秋の鎮守府'),(106,'武蔵の帰投'),(107,'冬の抜錨'),(108,'迎春の鎮守府'),(109,'第五戦隊の出撃'),(110,'節分の鎮守府'),(111,'艦娘のお菓子作り'),(112,'桃の節句と艦娘'),(205,'秋月の空'),(206,'明石の工廠'),(207,'冬の抜錨'),(208,'海上護衛戦'),(209,'索敵機、発艦始め！'),(210,'連合艦隊の出撃'),(211,'冬の艦隊'),(212,'迎春の鎮守府'),(213,'士魂の護り'),(214,'特型駆逐艦'),(215,'艦娘のお菓子作り'),(216,'桃の節句と艦娘'),(217,'武蔵の帰投');
+
+/*Table structure for table `t_exp_member` */
+
+DROP TABLE IF EXISTS `t_exp_member`;
+
+CREATE TABLE `t_exp_member` (
+  `LEVEL` int(10) unsigned NOT NULL,
+  `EXP` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`LEVEL`,`EXP`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_exp_member` */
+
+insert  into `t_exp_member`(`LEVEL`,`EXP`) values (1,0),(2,100),(3,300),(4,600),(5,1000);
+
+/*Table structure for table `t_exp_mission` */
+
+DROP TABLE IF EXISTS `t_exp_mission`;
+
+CREATE TABLE `t_exp_mission` (
+  `ID` int(10) unsigned NOT NULL,
+  `EXP` bigint(20) unsigned NOT NULL,
+  `SHIP_EXP` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  CONSTRAINT `t_exp_mission_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_exp_mission` */
+
+insert  into `t_exp_mission`(`ID`,`EXP`,`SHIP_EXP`) values (1,10,10),(2,20,15),(3,30,30),(4,30,40),(5,40,40),(6,30,50),(7,60,120),(8,120,140),(9,60,60),(10,40,50),(11,40,40),(12,60,50),(13,70,60),(14,90,100),(15,100,160),(16,120,200),(17,30,40),(18,60,60),(19,60,70),(20,40,50),(21,45,55),(22,45,400),(23,70,420),(25,80,180),(26,150,200),(27,80,60),(28,100,140),(29,100,100),(30,100,150),(31,50,50),(32,300,0),(33,0,0),(34,0,0),(35,100,100),(36,100,100),(37,50,65),(38,50,70),(39,130,160);
+
+/*Table structure for table `t_exp_ship` */
+
+DROP TABLE IF EXISTS `t_exp_ship`;
+
+CREATE TABLE `t_exp_ship` (
+  `LEVEL` int(10) unsigned NOT NULL,
+  `EXP` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`LEVEL`,`EXP`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_exp_ship` */
 
 /*Table structure for table `t_furniture` */
 
@@ -213,13 +255,18 @@ CREATE TABLE `t_member_deckport` (
   `ID` tinyint(3) unsigned NOT NULL COMMENT '舰队ID',
   `NAME` varchar(255) NOT NULL COMMENT '舰队名',
   `NAME_ID` varchar(255) NOT NULL DEFAULT '',
-  `MISSION` varchar(255) NOT NULL DEFAULT '[0,0,0,0]' COMMENT '远征信息',
+  `MISSION_STATUS` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  `MISSION_ID` int(11) unsigned NOT NULL DEFAULT '0',
+  `MISSION_COMPLETE_TIME` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `MISSION_FLAG` tinyint(4) unsigned NOT NULL DEFAULT '0',
   `FLAGSHIP` varchar(255) NOT NULL DEFAULT '0',
   `SHIP` varchar(255) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1]' COMMENT '舰队信息',
   `locked` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否可用',
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`),
-  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `MISSION_ID` (`MISSION_ID`),
+  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport` */
@@ -786,9 +833,13 @@ DROP TABLE IF EXISTS `v_member_deckport`;
  `ID` tinyint(3) unsigned ,
  `NAME` varchar(255) ,
  `NAME_ID` varchar(255) ,
- `MISSION` varchar(255) ,
+ `MISSION_STATUS` tinyint(4) unsigned ,
+ `MISSION_ID` int(11) unsigned ,
+ `MISSION_COMPLETE_TIME` bigint(20) unsigned ,
+ `MISSION_FLAG` tinyint(4) unsigned ,
  `FLAGSHIP` varchar(255) ,
- `SHIP` varchar(255) 
+ `SHIP` varchar(255) ,
+ `locked` tinyint(3) unsigned 
 )*/;
 
 /*Table structure for table `v_member_furniture` */
@@ -937,7 +988,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_deckport` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,`t_member_deckport`.`MISSION` AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,`t_member_deckport`.`MISSION_STATUS` AS `MISSION_STATUS`,`t_member_deckport`.`MISSION_ID` AS `MISSION_ID`,`t_member_deckport`.`MISSION_COMPLETE_TIME` AS `MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG` AS `MISSION_FLAG`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
 
 /*View structure for view v_member_furniture */
 
