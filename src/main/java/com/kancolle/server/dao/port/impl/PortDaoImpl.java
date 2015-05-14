@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.alibaba.fastjson.JSON;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
@@ -20,6 +21,8 @@ import com.kancolle.server.model.kcsapi.member.MemberMeterial;
 import com.kancolle.server.model.kcsapi.member.MemberNDock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
+import com.kancolle.server.model.mapper.MemberDeckPortMapper;
+import com.kancolle.server.utils.DaoUtils;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
@@ -44,7 +47,7 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberDeckPort> getDeckPort(String member_id) {
-        return queryForModels(MemberDeckPort.class, "SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id));
+        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id),new MemberDeckPortMapper());
     }
 
     @Override
@@ -65,15 +68,5 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Override
     public List<MemberLog> getLog(String member_id) {
         return queryForModels(MemberLog.class, "SELECT * FROM t_member_log WHERE member_id = :member_id", getMemParamMap(member_id));
-    }
-
-    @Override
-    public Integer getPBgmId(String member_id) {
-        return getTemplate().queryForObject("SELECT p_bgm_id FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), Integer.class);
-    }
-
-    @Override
-    public Integer getParallelQuestCount(String member_id) {
-        return getTemplate().queryForObject("SELECT parallel_quest_count FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id), Integer.class);
     }
 }

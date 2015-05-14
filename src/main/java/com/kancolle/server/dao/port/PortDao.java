@@ -24,10 +24,4 @@ public interface PortDao extends BaseDao<MemberPort> {
     MemberBasic getBasic(String member_id);
 
     List<MemberLog> getLog(String member_id);
-
-    @Deprecated
-    Integer getPBgmId(String member_id);
-
-    @Deprecated
-    Integer getParallelQuestCount(String member_id);
 }

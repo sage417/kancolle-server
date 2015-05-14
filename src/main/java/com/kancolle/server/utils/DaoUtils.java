@@ -70,7 +70,7 @@ public class DaoUtils {
         return (Class<?>) params[index];
     }
 
-    public static void setObject(Object target, ResultSet rs) {
+    public static <T> T setObject(T target, ResultSet rs) {
         Arrays.asList(target.getClass().getDeclaredMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
             String name;
             Class<?> type;
@@ -116,5 +116,6 @@ public class DaoUtils {
                 e.printStackTrace();
             }
         });
+        return target;
     }
 }

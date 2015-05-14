@@ -68,7 +68,6 @@ public class MemberDeckPort {
         return api_mission;
     }
 
-    @Column(name = "MISSION", type = String.class)
     public void setApi_mission(String api_mission) {
         this.api_mission = JSON.parseArray(api_mission);
     }
