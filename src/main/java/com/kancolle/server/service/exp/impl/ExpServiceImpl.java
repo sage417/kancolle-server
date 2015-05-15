@@ -1,6 +1,7 @@
 package com.kancolle.server.service.exp.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.exp.ExpDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -10,6 +11,7 @@ import com.kancolle.server.service.exp.ExpService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.ShipService;
 
+@Service
 public class ExpServiceImpl implements ExpService {
     @Autowired
     private ExpDao<?> expDao;

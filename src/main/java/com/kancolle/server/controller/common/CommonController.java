@@ -11,7 +11,7 @@ import com.kancolle.server.model.response.APIResponse;
 public class CommonController {
 
     @RequestMapping("/tokenerror")
-    public @ResponseBody() APIResponse<Object> badRequest() {
+    public @ResponseBody() APIResponse<Object> tokenerror() {
         APIResponse<Object> api_response = new APIResponse<Object>();
         return api_response;
     }

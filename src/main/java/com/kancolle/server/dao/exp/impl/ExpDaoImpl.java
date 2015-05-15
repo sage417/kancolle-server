@@ -4,12 +4,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.alibaba.fastjson.JSON;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.exp.ExpDao;
 import com.kancolle.server.model.po.MissionExp;
 
-public class ExpDapImpl<T> extends BaseDaoImpl<T> implements ExpDao<T> {
+@Repository
+public class ExpDaoImpl<T> extends BaseDaoImpl<T> implements ExpDao<T> {
 
     @Override
     public int getMemberLevel(long exp) {
