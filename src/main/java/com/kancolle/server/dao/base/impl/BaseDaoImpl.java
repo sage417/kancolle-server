@@ -3,6 +3,8 @@ package com.kancolle.server.dao.base.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,7 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
 
-public class BaseDaoImpl<T> implements BaseDao<T> {
+public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
     protected static final String SELECT_ALL = "SELECT * FROM ";
 
     protected String tableName;
@@ -79,5 +81,11 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     protected void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    @Autowired
+    @Override
+    public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+        super.setSqlSessionFactory(sqlSessionFactory);
     }
 }

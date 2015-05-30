@@ -250,9 +250,8 @@ public class MemberShip {
         this.api_karyoku = JSON.parseArray(api_karyoku);
     }
 
-    @Column(name = "KYOUKA", type = String.class)
-    public void setApi_kyouka(String api_kyouka) {
-        this.api_kyouka = JSON.parseArray(api_kyouka);
+    public void setApi_kyouka(JSONArray api_kyouka) {
+        this.api_kyouka = api_kyouka;
     }
 
     @Column(name = "LENG", type = int.class)

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
+import com.kancolle.server.model.po.ship.Ship;
 
 @Repository
 public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
@@ -20,4 +21,11 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
         return queryForSingleModel(MemberShip.class, "SELECT * FROM v_member_ship WHERE member_id = :member_id AND ID = :ship_id", params);
     }
 
+    /* (non-Javadoc)
+     * @see com.kancolle.server.dao.ship.ShipDao#getShipById(int)
+     */
+    @Override
+    public Ship getShipById(int ship_id) {
+        return getSqlSession().selectOne("selectShipById", ship_id);
+    }
 }
