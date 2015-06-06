@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.port.dto.MemberMeterialDto;
+import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
@@ -21,12 +24,16 @@ import com.kancolle.server.model.kcsapi.member.MemberMeterial;
 import com.kancolle.server.model.kcsapi.member.MemberNDock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
+import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.utils.DaoUtils;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Autowired
     private MemberDao<?> memberDao;
+    
+    @Autowired
+    private ShipDao shipDao;
 
     @Override
     public MemberBasic getBasic(String member_id) {
@@ -59,10 +66,6 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
         }).collect(Collectors.toList());
     }
 
-    private Map<String, Object> getMemParamMap(String value) {
-        return Collections.singletonMap("member_id", value);
-    }
-
     @Override
     public List<MemberNDock> getNdock(String member_id) {
         return queryForModels(MemberNDock.class, "SELECT * FROM t_member_ndock WHERE member_id = :member_id", getMemParamMap(member_id));
@@ -70,6 +73,32 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberShip> getShip(String member_id) {
-        return queryForModels(MemberShip.class, "SELECT * FROM t_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
+        List<MemberShip> memberShips = queryForModels(MemberShip.class, "SELECT * FROM t_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
+        for (MemberShip memberShip : memberShips) {
+            Ship ship = shipDao.getShipById(memberShip.getApi_ship_id());
+            // 火力
+            int min_houg = ship.getHoug().getMinValue();
+            int now_houg = memberShip.getApi_karyoku().getIntValue(0);
+            // 雷装
+            int min_raig = ship.getRaig().getMinValue();
+            int now_raig = memberShip.getApi_raisou().getIntValue(0);
+            // 对空
+            int min_tyku = ship.getTyku().getMinValue();
+            int now_tyku = memberShip.getApi_taiku().getIntValue(0);
+            // 装甲
+            int min_souk = ship.getSouk().getMinValue();
+            int now_souk = memberShip.getApi_soukou().getIntValue(0);
+            // 幸运
+            int min_luck = ship.getLuck().getMinValue();
+            int now_luck = memberShip.getApi_lucky().getIntValue(0);
+
+            JSONArray api_kyouka = new JSONArray(Lists.newArrayList(now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck));
+            memberShip.setApi_kyouka(api_kyouka);
+        }
+        return memberShips;
+    }
+
+    private Map<String, Object> getMemParamMap(String value) {
+        return Collections.singletonMap("member_id", value);
     }
 }
