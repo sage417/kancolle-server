@@ -30,6 +30,11 @@ public class GetMemberController {
     @Autowired
     private MemberService memberService;
 
+    @ModelAttribute(MEMBER_ID)
+    public String getMemberId(HttpServletRequest request) {
+        return (String) request.getAttribute(MEMBER_ID);
+    }
+
     @RequestMapping("/basic")
     public @ResponseBody APIResponse<MemberBasic> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         MemberBasic api_data = memberService.getBasic(member_id);
@@ -42,24 +47,19 @@ public class GetMemberController {
         return new APIResponse<List<MemberFurniture>>().setApi_data(api_data);
     }
 
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
-    }
-
     @RequestMapping("/kdock")
     public @ResponseBody APIResponse<List<MemberKdock>> kdock(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberKdock> api_data = memberService.getKdock(member_id);
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
     }
 
-    @RequestMapping("mission")
+    @RequestMapping("/mission")
     public @ResponseBody APIResponse<List<MemberMission>> mission(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberMission> api_data = memberService.getMission(member_id);
         return new APIResponse<List<MemberMission>>().setApi_data(api_data);
     }
 
-    @RequestMapping("record")
+    @RequestMapping("/record")
     public @ResponseBody APIResponse<MemberRecord> record(@ModelAttribute(MEMBER_ID) String member_id) {
         MemberRecord api_data = memberService.getRecord(member_id);
         return new APIResponse<MemberRecord>().setApi_data(api_data);

@@ -31,7 +31,7 @@ public class ReqMissionController {
         return (String) request.getAttribute(MEMBER_ID);
     }
 
-    @RequestMapping("result")
+    @RequestMapping("/result")
     public @ResponseBody APIResponse<?> result(@ModelAttribute(MEMBER_ID) String member_id, int api_deck_id) {
         if (api_deck_id < 2) {
             // TODO 惡意請求記錄
@@ -42,7 +42,7 @@ public class ReqMissionController {
         return new APIResponse<MissionResult>().setApi_data(api_data);
     }
 
-    @RequestMapping("return_instruction")
+    @RequestMapping("/return_instruction")
     public @ResponseBody APIResponse<?> return_instruction(@ModelAttribute(MEMBER_ID) String member_id, int api_deck_id) {
         if (api_deck_id < 2) {
             // TODO 惡意請求記錄
@@ -53,7 +53,7 @@ public class ReqMissionController {
         return new APIResponse<MissionReturn>().setApi_data(api_data);
     }
 
-    @RequestMapping("start")
+    @RequestMapping("/start")
     public @ResponseBody APIResponse<?> start(@ModelAttribute(MEMBER_ID) String member_id, @Valid MissionStartForm form, BindingResult result) {
         if (result.hasErrors()) {
             // TODO 惡意請求記錄

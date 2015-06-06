@@ -20,13 +20,13 @@ import com.kancolle.server.model.response.APIResponse;
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
 
-    @RequestMapping("get_incentive")
-    public @ResponseBody APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
-        return svdata;
-    }
-
     @ModelAttribute(MEMBER_ID)
     public String getMemberId(HttpServletRequest request) {
         return (String) request.getAttribute(MEMBER_ID);
+    }
+
+    @RequestMapping("get_incentive")
+    public @ResponseBody APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
+        return svdata;
     }
 }

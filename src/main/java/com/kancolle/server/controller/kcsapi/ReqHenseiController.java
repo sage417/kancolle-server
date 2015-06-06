@@ -20,7 +20,12 @@ public class ReqHenseiController {
     @Autowired
     private MemberService memberService;
 
-    @RequestMapping("change")
+    @ModelAttribute(MEMBER_ID)
+    public String getMemberId(HttpServletRequest request) {
+        return (String) request.getAttribute(MEMBER_ID);
+    }
+
+    @RequestMapping("/change")
     public @ResponseBody String change(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_id") int fleet_id, @RequestParam("api_ship_id") long ship_id, @RequestParam("api_ship_idx") int ship_idx) {
         if (fleet_id < 1 || fleet_id > 4 || ship_id < -2 || ship_idx < -1 || ship_idx > 5) {
 
@@ -29,10 +34,4 @@ public class ReqHenseiController {
             memberService.changeShip(member_id, fleet_id, ship_id, ship_idx);
         return "";
     }
-
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
-    }
-
 }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.exp.ExpDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
-import com.kancolle.server.model.kcsapi.member.MemberShip;
 import com.kancolle.server.model.po.MissionExp;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.exp.ExpService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.ShipService;
@@ -64,7 +64,7 @@ public class ExpServiceImpl implements ExpService {
     public long[] updateShipExpAndLevel(String member_id, long ship_id, int exp) {
         MemberShip memberShip = shipService.getMemberShip(member_id, ship_id);
 
-        long experience = memberShip.getApi_exp().getLong(1) + exp;
+        long experience = memberShip.getExp()[0]+exp;
 
         int level = this.getShipLevel(experience);
 

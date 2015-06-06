@@ -23,7 +23,7 @@ public class StartController {
         return "";
     }
 
-    @RequestMapping("api_start2")
+    @RequestMapping("/api_start2")
     public @ResponseBody APIResponse<StartModel> Start2() throws Exception {
         StartModel api_data = startService.getStartModel();
         return new APIResponse<StartModel>().setApi_data(api_data);

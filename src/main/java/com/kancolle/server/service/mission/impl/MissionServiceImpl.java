@@ -102,7 +102,7 @@ public class MissionServiceImpl implements MissionService {
         result.setApi_detail(missionModel.getApi_details());
         result.setApi_quest_name(missionModel.getApi_name());
 
-        if (condition) {
+        /*if (condition) {
             // 召回
             result.setApi_clear_result(RESULT_FAILED);
             result.setApi_get_exp(0);
@@ -201,7 +201,7 @@ public class MissionServiceImpl implements MissionService {
 
             result.setApi_get_material(new int[] { missionModel.getApi_win_item1().getIntValue(1) * 3 / 2, missionModel.getApi_win_item1().getIntValue(2) * 3 / 2, missionModel.getApi_win_item2().getIntValue(1) * 3 / 2, missionModel.getApi_win_item2().getIntValue(2) * 3 / 2 });
             result.setApi_useitem_flag(new int[] { 0, 1 });
-        }
+        }*/
 
         return result;
     }

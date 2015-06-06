@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.google.common.collect.Lists;
 import com.kancolle.server.dao.ship.ShipDao;
-import com.kancolle.server.model.kcsapi.member.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.ship.ShipService;
 
@@ -16,8 +13,8 @@ public class ShipServiceImpl implements ShipService {
     @Autowired
     private ShipDao shipDao;
 
-    @Override
-    public MemberShip getMemberShip(String member_id, long ship_id) {
+    /*@Override
+    public MemberShip getMemberShip2(String member_id, long ship_id) {
         MemberShip memberShip = shipDao.getMemberShip(member_id, ship_id);
         Ship ship = this.getShipById(memberShip.getApi_ship_id());
         // 火力
@@ -39,7 +36,7 @@ public class ShipServiceImpl implements ShipService {
         JSONArray api_kyouka = new JSONArray(Lists.newArrayList(now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck));
         memberShip.setApi_kyouka(api_kyouka);
         return memberShip;
-    }
+    }*/
 
     @Cacheable(value = "ship", key = "#ship_id")
     @Override
@@ -51,7 +48,7 @@ public class ShipServiceImpl implements ShipService {
      * @see com.kancolle.server.service.ship.ShipService#getMemberShip2(java.lang.String, long)
      */
     @Override
-    public com.kancolle.server.model.po.ship.MemberShip getMemberShip2(String member_id, long ship_id) {
+    public com.kancolle.server.model.po.ship.MemberShip getMemberShip(String member_id, long ship_id) {
         return shipDao.getMemberShip2(member_id, ship_id);
     }
 }

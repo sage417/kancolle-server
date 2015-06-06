@@ -19,16 +19,16 @@ public class ReqKousyouController {
     @Autowired
     private MemberService memberService;
 
+    @ModelAttribute(MEMBER_ID)
+    public String getMemberId(HttpServletRequest request) {
+        return (String) request.getAttribute(MEMBER_ID);
+    }
+
     public void destroyShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_ship_id") long api_ship_id) {
         if (api_ship_id < 0L) {
 
         }
         if (ShipLogic.checkDestory(member_id, api_ship_id))
             memberService.destroyShip(member_id, api_ship_id);
-    }
-
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
     }
 }
