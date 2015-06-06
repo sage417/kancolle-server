@@ -46,4 +46,12 @@ public class ShipServiceImpl implements ShipService {
     public Ship getShipById(int ship_id) {
         return shipDao.getShipById(ship_id);
     }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.ship.ShipService#getMemberShip2(java.lang.String, long)
+     */
+    @Override
+    public com.kancolle.server.model.po.ship.MemberShip getMemberShip2(String member_id, long ship_id) {
+        return shipDao.getMemberShip2(member_id, ship_id);
+    }
 }

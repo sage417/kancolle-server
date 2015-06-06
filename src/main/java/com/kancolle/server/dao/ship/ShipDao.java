@@ -10,4 +10,11 @@ public interface ShipDao extends BaseDao<MemberShip> {
     
     Ship getShipById(int ship_id);
 
+    /**
+     * @param member_id
+     * @param ship_id
+     * @return
+     */
+    com.kancolle.server.model.po.ship.MemberShip getMemberShip2(String member_id, long ship_id);
+
 }

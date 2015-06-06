@@ -3,9 +3,13 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import com.kancolle.server.model.po.common.MaxMinValue;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
  * @author J.K.SAGE
@@ -29,11 +33,9 @@ public class MemberShip {
 
     private int leng;
 
-    private long[] slot;
+    private List<MemberSlotItem> slot;
 
     private int[] onslot;
-
-    private int[] kyouka;
 
     private int fuel;
 
@@ -127,11 +129,11 @@ public class MemberShip {
         this.leng = leng;
     }
 
-    public long[] getSlot() {
+    public List<MemberSlotItem> getSlot() {
         return slot;
     }
 
-    public void setSlot(long[] slot) {
+    public void setSlot(List<MemberSlotItem> slot) {
         this.slot = slot;
     }
 
@@ -141,14 +143,6 @@ public class MemberShip {
 
     public void setOnslot(int[] onslot) {
         this.onslot = onslot;
-    }
-
-    public int[] getKyouka() {
-        return kyouka;
-    }
-
-    public void setKyouka(int[] kyouka) {
-        this.kyouka = kyouka;
     }
 
     public int getFuel() {

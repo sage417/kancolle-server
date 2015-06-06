@@ -8,5 +8,6 @@ public interface ShipService {
     MemberShip getMemberShip(String member_id, long ship_id);
     
     Ship getShipById(int ship_id);
-
+    
+    com.kancolle.server.model.po.ship.MemberShip getMemberShip2(String member_id, long ship_id);
 }

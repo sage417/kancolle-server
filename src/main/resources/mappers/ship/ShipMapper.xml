@@ -1,30 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.shipDao">
+<mapper namespace="com.kancolle.server.dao.ship.ShipDao">
+
 	<resultMap type="Ship" id="shipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
 		<result property="afterLv" column="AFTERLV" />
-		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler"/>
-		<result property="souk" column="SOUK" typeHandler="MaxMinValueHandler"/>
-		<result property="houg" column="HOUG" typeHandler="MaxMinValueHandler"/>
-		<result property="raig" column="RAIG" typeHandler="MaxMinValueHandler"/>
-		<result property="tyku" column="TYKU" typeHandler="MaxMinValueHandler"/>
-		<result property="luck" column="LUCK" typeHandler="MaxMinValueHandler"/>
-		<result property="soltNum" column="SLOTNUM"/>
-		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHanlder"/>
+		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler" />
+		<result property="souk" column="SOUK" typeHandler="MaxMinValueHandler" />
+		<result property="houg" column="HOUG" typeHandler="MaxMinValueHandler" />
+		<result property="raig" column="RAIG" typeHandler="MaxMinValueHandler" />
+		<result property="tyku" column="TYKU" typeHandler="MaxMinValueHandler" />
+		<result property="luck" column="LUCK" typeHandler="MaxMinValueHandler" />
+		<result property="soltNum" column="SLOTNUM" />
+		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHanlder" />
 		<result property="buildTime" column="BUILDTIME" />
-		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler"/>
-		<result property="powUp" column="POWUP" typeHandler="PowUpHanlder"/>
+		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
+		<result property="powUp" column="POWUP" typeHandler="PowUpHanlder" />
 		<result property="afterFuel" column="AFTERFUEL" />
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
-		<association property="afterShip" column="AFTERSHIPID"
-			javaType="Ship" select="selectShipById" />
+		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipById" />
 	</resultMap>
 
+	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
+		<result property="memberShipId" column="ID" />
+		<result property="exp" column="EXP" typeHandler="LongJsonArrayHanlder" />
+		<result property="nowHp" column="NOWHP" />
+		<result property="maxHp" column="MAXHP" />
+		<!-- <result property="slot" column="SLOT" typeHandler="LongJsonArrayHanlder" /> -->
+		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHanlder" />
+		<result property="ndockTime" column="NDOCK_TIME" />
+		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHanlder" />
+		<result property="karyoku" column="KARYOKU" typeHandler="MaxMinValueHandler" />
+		<result property="raisou" column="RAISOU" typeHandler="MaxMinValueHandler" />
+		<result property="taiku" column="TAIKU" typeHandler="MaxMinValueHandler" />
+		<result property="soukou" column="SOUKOU" typeHandler="MaxMinValueHandler" />
+		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
+		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
+		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
+		<result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler" />
+		<association property="ship" column="SHIP_ID" javaType="Ship" select="selectShipById" />
+	</resultMap>
+
+	<!-- -->
 	<select id="selectShipById" resultMap="shipRM">
-		SELECT * FROM t_ship WHERE
-		ID = #{shipId}
+		SELECT * FROM t_ship
+		<where>
+			ID = #{shipId}
+		</where>
+	</select>
+
+	<!-- -->
+	<select id="selectMemberShipByCond" resultMap="memberShipRM">
+		SELECT * FROM v_member_ship
+		<where>
+			<if test="ship_id != null">
+					ID = #{ship_id}
+			</if>
+			<if test="member_id != null">
+				AND member_id = #{member_id}
+			</if>
+		</where>
 	</select>
 </mapper>

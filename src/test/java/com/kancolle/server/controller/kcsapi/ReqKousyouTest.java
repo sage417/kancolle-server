@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration(value = "src/main/spring")
-@ContextHierarchy({ @ContextConfiguration(name = "parent", locations = "classpath:spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath:servlet-context.xml") })
+@ContextHierarchy({ @ContextConfiguration(name = "parent", locations = "classpath:*/spring/spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath:*/spring/servlet-context.xml") })
 public class ReqKousyouTest {
 
     @Autowired
