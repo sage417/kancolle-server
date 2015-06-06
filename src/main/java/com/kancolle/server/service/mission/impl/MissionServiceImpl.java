@@ -1,15 +1,10 @@
 package com.kancolle.server.service.mission.impl;
 
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_FAILED;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_GREAT_SUCCESS;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_SUCCESS;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,9 +19,7 @@ import com.kancolle.server.model.kcsapi.misson.MissionStart;
 import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.po.DeckPortMission;
-import com.kancolle.server.model.po.MissionExp;
 import com.kancolle.server.service.deck.DeckPortService;
-import com.kancolle.server.service.exp.ExpService;
 import com.kancolle.server.service.map.MapAreaService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionService;
@@ -44,7 +37,7 @@ public class MissionServiceImpl implements MissionService {
     public static final int MISSION_FLAG = 0;
 
     @Autowired
-    private MissionDao<?> missionDao;
+    private MissionDao missionDao;
 
     @Autowired
     private MapAreaService mapAreaService;
@@ -54,9 +47,6 @@ public class MissionServiceImpl implements MissionService {
 
     @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private ExpService expService;
 
     @Override
     public MissionReturn callbackMission(String member_id, int deck_id) {

@@ -30,7 +30,7 @@ import com.kancolle.server.utils.DaoUtils;
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Autowired
-    private MemberDao<?> memberDao;
+    private MemberDao memberDao;
     
     @Autowired
     private ShipDao shipDao;

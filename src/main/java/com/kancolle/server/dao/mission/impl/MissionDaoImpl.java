@@ -12,7 +12,7 @@ import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.po.DeckPortMission;
 
 @Repository
-public class MissionDaoImpl<T> extends BaseDaoImpl<T> implements MissionDao<T> {
+public class MissionDaoImpl extends BaseDaoImpl<MissionModel> implements MissionDao {
 
     @Override
     public DeckPortMission getDeckPortMission(String member_id, int deck_id) {

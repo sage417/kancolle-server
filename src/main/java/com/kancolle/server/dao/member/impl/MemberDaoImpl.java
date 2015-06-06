@@ -29,7 +29,7 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 
 @Repository
-public class MemberDaoImpl<T> extends BaseDaoImpl<T> implements MemberDao<T> {
+public class MemberDaoImpl extends BaseDaoImpl<Object> implements MemberDao {
     private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
 
     private static final String SLOT_STR = "api_slottype";

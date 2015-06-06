@@ -15,4 +15,16 @@ public interface ShipDao extends BaseDao<MemberShip> {
      */
     MemberShip getMemberShip(String member_id, long ship_id);
 
+    /**
+     * @param afterLv
+     * @return
+     */
+    long getNeedExpByLevel(int afterLv);
+
+    /**
+     * @param afterExp
+     * @return
+     */
+    int getShipLVByExp(long afterExp);
+
 }

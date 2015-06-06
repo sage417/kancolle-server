@@ -24,7 +24,8 @@
 	</resultMap>
 
 	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
-		<result property="memberShipId" column="ID" />
+		<id property="memberId" column="member_id" />
+		<id property="memberShipId" column="ID" />
 		<result property="exp" column="EXP" typeHandler="LongJsonArrayHanlder" />
 		<result property="nowHp" column="NOWHP" />
 		<result property="maxHp" column="MAXHP" />
@@ -40,6 +41,7 @@
 		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
 		<result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler" />
+		<result property="lockedEquip" column="LOCKED_EQUIP" />
 		<association property="ship" column="SHIP_ID" javaType="Ship" select="selectShipById" />
 	</resultMap>
 
@@ -56,11 +58,52 @@
 		SELECT * FROM v_member_ship
 		<where>
 			<if test="ship_id != null">
-					ID = #{ship_id}
+				ID = #{ship_id}
 			</if>
 			<if test="member_id != null">
 				AND member_id = #{member_id}
 			</if>
 		</where>
+	</select>
+
+	<update id="updateMemberShip">
+		UPDATE v_member_ship SET
+		BULL = #{bull},
+		COND = #{cond},
+		EXP = #{exp, typeHandler=LongJsonArrayHanlder},
+		FUEL = #{fuel},
+		KAIHI = #{kaihi, typeHandler=MaxMinValueHandler},
+		KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
+		LENG = #{leng},
+		LOCKED = #{locked},
+		LOCKED_EQUIP = #{lockedEquip},
+		LUCKY = #{lucky, typeHandler=MaxMinValueHandler},
+		LV = #{lv},
+		MAXHP = #{maxHp},
+		NDOCK_ITEM = #{ndockItem, typeHandler=IntJsonArrayHanlder},
+		NDOCK_TIME = #{ndockTime},
+		NOWHP = #{nowHp},
+		ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder},
+		RAISOU = #{raisou, typeHandler=MaxMinValueHandler},
+		SAKUTEKI = #{sakuteki, typeHandler=MaxMinValueHandler},
+		SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
+		SRATE = #{srate},
+		TAIKU = #{taiku, typeHandler=MaxMinValueHandler},
+		TAISEN = #{taisen, typeHandler=MaxMinValueHandler}
+		WHERE member_id = #{memberId} AND ID = #{memberShipId}
+	</update>
+
+	<update id="updateMemberShipSlot">
+		UPDATE v_member_ship SET
+		SLOT = #{slot}
+		WHERE member_id = #{memberShip.memberId} AND ID = #{memberShip.memberShipId}
+	</update>
+
+	<select id="selectNeedExpByLevel" resultType="long">
+		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
+	</select>
+
+	<select id="selectShipLVByExp" resultType="int">
+		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
 </mapper>

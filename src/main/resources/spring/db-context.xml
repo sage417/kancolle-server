@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
@@ -22,32 +20,14 @@
 	<tx:annotation-driven transaction-manager="txManager" />
 
 	<!-- 1.注解方式配置事务 -->
-	<!-- <bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<!-- <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> <property name="dataSource" ref="dataSource" /> </bean> <tx:advice id="txAdvice" transaction-manager="txManager"> 
+		<tx:attributes> <tx:method name="get*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="true" /> <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" /> </tx:attributes> </tx:advice> 
+		<aop:config> <aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" /> <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" /> </aop:config> -->
 
-	<tx:advice id="txAdvice" transaction-manager="txManager">
-		<tx:attributes>
-			<tx:method name="get*" propagation="REQUIRED" isolation="READ_COMMITTED"
-				read-only="true" />
-			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" />
-		</tx:attributes>
-	</tx:advice>
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> <property name="driverClassName" value="${jdbc.driverClassName}" /> <property name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" 
+		/> <property name="username" value="${jdbc.user}" /> <property name="password" value="${jdbc.pass}" /> </bean> -->
 
-	<aop:config>
-		<aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" />
-		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
-	</aop:config> -->
-
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="${jdbc.driverClassName}" /> <property 
-		name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" /> <property 
-		name="username" value="${jdbc.user}" /> <property name="password" value="${jdbc.pass}" 
-		/> </bean> -->
-
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<!-- 基本属性 url、user、password -->
 		<property name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" />
 		<property name="username" value="${jdbc.user}" />
@@ -74,22 +54,18 @@
 
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
 		<property name="poolPreparedStatements" value="false" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="20" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="stat" />
 	</bean>
 
-	<bean id="druid-stat-interceptor"
-		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
 	</bean>
 
-	<bean id="service-interceptor"
-		class="com.kancolle.server.service.interceptor.ServiceLogInterceptor" />
+	<bean id="service-interceptor" class="com.kancolle.server.service.interceptor.ServiceLogInterceptor" />
 
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
 		<property name="patterns">
 			<list>
 				<value>com.kancolle.server.dao.*</value>
@@ -97,27 +73,18 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
-		<property name="patterns">
-			<list>
-				<value>com.kancolle.server.service.*</value>
-			</list>
-		</property>
-	</bean> -->
+	<!-- <bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype"> <property name="patterns"> <list> <value>com.kancolle.server.service.*</value> </list> 
+		</property> </bean> -->
 
 	<aop:config proxy-target-class="true">
-		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
-		<!-- <aop:advisor advice-ref="service-interceptor"
-			pointcut-ref="service-pointcut" /> -->
+		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+		<!-- <aop:advisor advice-ref="service-interceptor" pointcut-ref="service-pointcut" /> -->
 	</aop:config>
 
-	<bean id="template"
-		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+	<bean id="template" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>
-	
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:orm/mybatis.xml"></property>
 		<property name="dataSource" ref="dataSource" />

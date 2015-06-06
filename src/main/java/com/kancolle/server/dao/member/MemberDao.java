@@ -13,7 +13,7 @@ import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 
-public interface MemberDao<T> extends BaseDao<T> {
+public interface MemberDao extends BaseDao<Object> {
 
     void changeFurniture(String member_id, ChangeFurnitureForm form);
 

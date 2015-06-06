@@ -8,4 +8,9 @@ public interface ShipService {
     Ship getShipById(int ship_id);
 
     MemberShip getMemberShip(String member_id, long ship_id);
+
+    /** 舰娘获得经验 */
+    MemberShip addMemberShipExp(MemberShip memberShip, int exp);
+
+    long getSumExpByLevel(int level);
 }

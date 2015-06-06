@@ -24,7 +24,7 @@ import com.kancolle.server.utils.DaoUtils;
 @Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
-    private MemberDao<?> memberDao;
+    private MemberDao memberDao;
 
     @Autowired
     private PortDao portDao;

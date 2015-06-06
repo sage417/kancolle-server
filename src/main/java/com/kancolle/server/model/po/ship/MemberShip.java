@@ -9,7 +9,6 @@ import org.apache.ibatis.type.Alias;
 
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
  * @author J.K.SAGE
@@ -18,6 +17,8 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
  */
 @Alias("MemberShip")
 public class MemberShip {
+
+    private long memberId;
 
     private long memberShipId;
 
@@ -72,6 +73,18 @@ public class MemberShip {
 
     /** 运 */
     private MaxMinValue lucky;
+
+    private boolean locked;
+
+    private boolean lockedEquip;
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
+    }
 
     public long getMemberShipId() {
         return memberShipId;
@@ -257,10 +270,27 @@ public class MemberShip {
         this.lucky = lucky;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isLockedEquip() {
+        return lockedEquip;
+    }
+
+    public void setLockedEquip(boolean lockedEquip) {
+        this.lockedEquip = lockedEquip;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (int) (memberId ^ (memberId >>> 32));
         result = prime * result + (int) (memberShipId ^ (memberShipId >>> 32));
         return result;
     }
@@ -274,6 +304,8 @@ public class MemberShip {
         if (getClass() != obj.getClass())
             return false;
         MemberShip other = (MemberShip) obj;
+        if (memberId != other.memberId)
+            return false;
         if (memberShipId != other.memberShipId)
             return false;
         return true;
@@ -281,6 +313,6 @@ public class MemberShip {
 
     @Override
     public String toString() {
-        return String.format("MemberShip [ship=%s, lv=%s, cond=%s]", ship, lv, cond);
+        return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
     }
 }
