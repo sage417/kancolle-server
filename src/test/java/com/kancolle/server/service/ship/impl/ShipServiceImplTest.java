@@ -30,6 +30,6 @@ public class ShipServiceImplTest {
      */
     @Test
     public void testGetMemberShip() {
-       MemberShip ship =  shipService.getMemberShip2("9007383", 1);
+       MemberShip ship =  shipService.getMemberShip("9007383", 1);
     }
 }
