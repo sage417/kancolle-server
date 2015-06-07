@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -34,17 +33,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
 
     private static final String SLOT_STR = "api_slottype";
-
-    @Override
-    public void changeFurniture(String member_id, ChangeFurnitureForm form) {
-        List<Integer> ids = Arrays.asList(form.getApi_wallpaper(), form.getApi_floor(), form.getApi_desk(), form.getApi_window(), form.getApi_wallhanging(), form.getApi_shelf());
-
-        Map<String, Object> params = new HashMap<>(2);
-        params.put("member_id", member_id);
-        params.put("furniture", JSON.toJSONString(ids));
-
-        getTemplate().update("UPDATE t_member SET furniture = :furniture where member_id = :member_id", params);
-    }
 
     @Override
     public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
@@ -129,7 +117,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Override
     public List<MemberKdock> getKdock(String member_id) {
-        return queryForModels(MemberKdock.class, "SELECT * FROM t_member_kdock WHERE member_id = :member_id", getMemParamMap(member_id));
+        return queryForModels(MemberKdock.class, "SELECT * FROM v_member_kdock WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override

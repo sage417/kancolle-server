@@ -8,7 +8,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -31,11 +30,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private PortDao portDao;
-
-    @Override
-    public void changeFurniture(String member_id, ChangeFurnitureForm form) {
-        memberDao.changeFurniture(member_id, form);
-    }
 
     @Override
     public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {

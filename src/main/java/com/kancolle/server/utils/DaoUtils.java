@@ -5,16 +5,18 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.alibaba.fastjson.JSONObject;
 import com.kancolle.server.dao.annotation.Column;
 import com.kancolle.server.dao.annotation.Id;
 import com.kancolle.server.dao.base.BaseDao;
+import com.kancolle.server.dao.lambda.ThrowingFunction;
 
 public class DaoUtils {
     private static final String PARAM_PREFIX = "api";
@@ -22,6 +24,17 @@ public class DaoUtils {
     private static final Pattern METHOD_NAME_PATTERN_REPLACER = Pattern.compile("_[a-zA-Z0-9]");
 
     private static final Predicate<Method> IS_SET_METHOD = method -> method.getName().startsWith(BeanUtils.STR_SET) && method.getParameterCount() == 1;
+
+    private static final Map<Class<?>, Function<String, ThrowingFunction<ResultSet, ?>>> resultMap = new HashMap<>(6);
+
+    static {
+        resultMap.put(int.class, name -> rs -> rs.getInt(name));
+        resultMap.put(long.class, name -> rs -> rs.getLong(name));
+        resultMap.put(String.class, name -> rs -> rs.getString(name));
+        resultMap.put(boolean.class, name -> rs -> rs.getBoolean(name));
+        resultMap.put(double.class, name -> rs -> rs.getDouble(name));
+        resultMap.put(float.class, name -> rs -> rs.getFloat(name));
+    }
 
     private static final Function<String, String> GET_PARAM_NAME = method_name -> {
         String raw_name = method_name.substring(BeanUtils.STR_SET.length() + PARAM_PREFIX.length());
@@ -94,24 +107,7 @@ public class DaoUtils {
             }
 
             try {
-                if (type == int.class) {
-                    method.invoke(target, rs.getInt(name));
-                    return;
-                }
-                if (type == String.class) {
-                    method.invoke(target, rs.getString(name));
-                    return;
-                }
-                if (type == long.class) {
-                    method.invoke(target, rs.getLong(name));
-                    return;
-                }
-                if (type == double.class) {
-                    method.invoke(target, rs.getDouble(name));
-                }
-                if (type == JSONObject.class) {
-                    method.invoke(target, rs.getString(name));
-                }
+                method.invoke(target, resultMap.get(type).apply(name).apply(rs));
             } catch (Exception e) {
                 e.printStackTrace();
             }

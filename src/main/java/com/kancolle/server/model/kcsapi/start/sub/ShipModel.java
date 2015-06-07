@@ -286,7 +286,7 @@ public class ShipModel {
         this.api_raig = JSON.parseArray(api_raig);
     }
 
-    @Column(name = "SLOT_NUM", type = int.class)
+    @Column(name = "SLOTNUM", type = int.class)
     public void setApi_slot_num(int api_slot_num) {
         this.api_slot_num = api_slot_num;
     }
