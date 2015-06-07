@@ -102,9 +102,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void increaseMemberExp(String member_id, int exp) {
-        Member member = this.getMember(Long.valueOf(member_id));
-
+    public void increaseMemberExp(Member member, long exp) {
+        if (member == null || exp < 0) {
+            throw new IllegalArgumentException();
+        }
         // 当前等级
         int nowLv = member.getLevel();
         // 150级不获得经验

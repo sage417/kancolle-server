@@ -27,12 +27,16 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public MemberShip increaseMemberShipExp(MemberShip memberShip, int exp) {
+    public void increaseMemberShipExp(MemberShip memberShip, int exp) {
+        if (memberShip == null || exp < 0) {
+            throw new IllegalArgumentException();
+        }
+
         // 当前等级
         int nowLv = memberShip.getLv();
         // 99级和150级不获得经验
         if (LVUtil.isShipLVOver(nowLv))
-            return memberShip;
+            return;
         // 当前总经验
         long[] exps = memberShip.getExp();
         // 获得经验后总经验（未修正前）
@@ -52,9 +56,9 @@ public class ShipServiceImpl implements ShipService {
         memberShip.setLv(afterLv);
         memberShip.setExp(new long[] { afterExp, nextLvExp - afterExp, progress });
 
-        shipDao.update(memberShip);
+        // TODO 舰娘属性增长
 
-        return memberShip;
+        shipDao.update(memberShip);
     }
 
     /**

@@ -3,8 +3,6 @@
  */
 package com.kancolle.server.service.ship.impl;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,10 +47,8 @@ public class ShipServiceImplTest {
     public void testGetMembetShipExp() {
         MemberShip memberShip = new MemberShip();
         memberShip.setLv(99);
-        assertEquals(memberShip, shipService.increaseMemberShipExp(memberShip, 1000));
+        shipService.increaseMemberShipExp(memberShip, 1000);
         memberShip.setLv(150);
-        assertEquals(memberShip, shipService.increaseMemberShipExp(memberShip, 1000));
         shipService.increaseMemberShipExp(testMemberShip, 1932);
-        //assertEquals(2,testMemberShip.getLv());
     }
 }

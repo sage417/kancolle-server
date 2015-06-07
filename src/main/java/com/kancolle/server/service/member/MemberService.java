@@ -42,7 +42,7 @@ public interface MemberService {
 
     List<MemberUseItem> getUseItem(String member_id);
 
-    void increaseMemberExp(String member_id, int exp);
+    void increaseMemberExp(Member member, long exp);
 
     long getSumExpByLV(int lv);
 

@@ -10,7 +10,7 @@ public interface ShipService {
     MemberShip getMemberShip(String member_id, long ship_id);
 
     /** 舰娘获得经验 */
-    MemberShip increaseMemberShipExp(MemberShip memberShip, int exp);
+    void increaseMemberShipExp(MemberShip memberShip, int exp);
 
     long getSumExpByLevel(int level);
 }
