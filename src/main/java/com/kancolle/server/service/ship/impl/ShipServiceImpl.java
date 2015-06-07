@@ -27,7 +27,7 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public MemberShip addMemberShipExp(MemberShip memberShip, int exp) {
+    public MemberShip increaseMemberShipExp(MemberShip memberShip, int exp) {
         // 当前等级
         int nowLv = memberShip.getLv();
         // 99级和150级不获得经验
@@ -41,13 +41,13 @@ public class ShipServiceImpl implements ShipService {
         int afterLv = shipDao.getShipLVByExp(afterExp);
 
         if (LVUtil.isShipLVOver(afterLv))
-            // 获得经验后总经验（修正后）
+            // 获得经验后总经验（经过修正）
             afterExp = this.getSumExpByLevel(afterLv);
 
         // 下一级所需总经验
         long nextLvExp = afterLv > nowLv ? this.getSumExpByLevel(afterLv + 1) : exps[1];
 
-        int progress = (int) Math.floorDiv(100L * (afterExp - this.getSumExpByLevel(afterLv)), this.getNextExpByLevel(afterLv));
+        int progress = (int) Math.floorDiv(100L * (afterExp - this.getSumExpByLevel(afterLv)), this.getNextLVExp(afterLv));
 
         memberShip.setLv(afterLv);
         memberShip.setExp(new long[] { afterExp, nextLvExp - afterExp, progress });
@@ -58,14 +58,21 @@ public class ShipServiceImpl implements ShipService {
     }
 
     /**
-     * 
+     * 获取舰娘升级到下一级所需经验（差分经验）
      * @param nowLevel 当前等级
      * @return
      */
-    private long getNextExpByLevel(int nowLevel) {
-        return this.getSumExpByLevel(nowLevel + 1) - this.getSumExpByLevel(nowLevel);
+    private long getNextLVExp(int nowLevel) {
+        return getTargetLVExp(nowLevel, nowLevel + 1);
+    }
+    
+    private long getTargetLVExp(int startLevel, int targetLevel) {
+        return getSumExpByLevel(targetLevel) - getSumExpByLevel(startLevel);
     }
 
+    /**
+     * 获取舰娘所需要到此等级的总经验
+     */
     @Override
     @Cacheable(value = "shipExp", key = "#level")
     public long getSumExpByLevel(int level) {

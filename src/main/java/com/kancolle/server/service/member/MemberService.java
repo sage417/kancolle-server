@@ -12,6 +12,7 @@ import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
+import com.kancolle.server.model.po.member.Member;
 
 public interface MemberService {
 
@@ -40,4 +41,10 @@ public interface MemberService {
     Map<String, Object> getUnsetSlot(String member_id);
 
     List<MemberUseItem> getUseItem(String member_id);
+
+    void increaseMemberExp(String member_id, int exp);
+
+    long getSumExpByLV(int lv);
+
+    Member getMember(long memberId);
 }

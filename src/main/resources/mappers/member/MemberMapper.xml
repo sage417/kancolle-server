@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.member.MemberDao">
+	<resultMap type="Member" id="memberRM" autoMapping="true">
+		<id property="memberId" column="member_id" />
+		<id property="token" column="api_token" />
+		<result property="nickName" column="nickname" />
+		<result property="nickNameId" column="nickname_id" />
+		<result property="activeFlag" column="active_flag" />
+		<result property="startTime" column="starttime" />
+		<result property="fleetName" column="fleetname" />
+		<result property="commentId" column="comment_id" />
+		<result property="maxChara" column="max_chara" />
+		<result property="maxSlotItem" column="max_slotitem" />
+		<result property="maxKagu" column="max_kagu" />
+		<result property="playTime" column="playtime" />
+		<result property="furniture" column="furniture" typeHandler="IntJsonArrayHanlder" />
+		<result property="deckCount" column="count_deck" />
+		<result property="kdockCount" column="count_kdock" />
+		<result property="ndockCount" column="count_ndock" />
+		<result property="fCoin" column="fcoin" />
+		<result property="attackWin" column="st_win" />
+		<result property="attackLose" column="st_lose" />
+		<result property="missionCount" column="ms_count" />
+		<result property="missionSuccess" column="ms_success" />
+		<result property="practiceWin" column="pt_win" />
+		<result property="practiceLose" column="pt_lose" />
+		<result property="practiceChallenged" column="pt_challenged" />
+		<result property="practiceChallengedWin" column="pt_challenged_win" />
+		<result property="firstFlag" column="firstflag" />
+		<result property="tutorialProgress" column="tutorial_progress" />
+		<result property="pvp" column="pvp" typeHandler="IntJsonArrayHanlder" />
+		<result property="medals" column="medals" />
+		<result property="portBGMId" column="p_bgm_id" />
+		<result property="parallelQuestCount" column="parallel_quest_count" />
+	</resultMap>
+	
+	<select id="selectMemberById" resultMap="memberRM">
+		SELECT * FROM t_member WHERE member_id = #{member_id}
+	</select>
+
+	<select id="selectNeedMemberExpByLevel" resultType="long">
+		SELECT EXP FROM t_exp_member WHERE LV = #{level}
+	</select>
+
+	<select id="selectMemberLVByExp" resultType="int">
+		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
+	</select>
+
+	<update id="updateMember">
+		UPDATE t_member SET
+		api_token=#{token},
+		nickname=#{nickName},
+		nickname_id=#{nickNameId},
+		active_flag=#{activeFlag},
+		starttime=#{startTime},
+		level=#{level},
+		rank=#{rank},
+		experience=#{experience},
+		fleetname=#{fleetName},
+		comment=#{comment},
+		comment_id=#{commentId},
+		max_chara=#{maxChara},
+		max_slotitem=#{maxSlotItem},
+		max_kagu=#{maxKagu},
+		playtime=#{playTime},
+		tutorial=#{tutorial},
+		furniture=#{furniture, typeHandler=IntJsonArrayHanlder},
+		count_deck=#{deckCount},
+		count_kdock=#{kdockCount},
+		count_ndock=#{ndockCount},
+		fcoin=#{fCoin},
+		st_win=#{attackWin},
+		st_lose=#{attackLose},
+		ms_count=#{missionCount},
+		ms_success=#{missionSuccess},
+		pt_win=#{practiceWin},
+		pt_lose=#{practiceLose},
+		pt_challenged=#{practiceChallenged},
+		pt_challenged_win=#{practiceChallengedWin},
+		firstflag=#{firstFlag},
+		tutorial_progress=#{tutorialProgress},
+		pvp=#{pvp, typeHandler=IntJsonArrayHanlder},
+		medals=#{medals},
+		p_bgm_id=#{portBGMId},
+		parallel_quest_count=#{parallelQuestCount}
+		WHERE member_id = #{memberId}
+	</update>
+</mapper>

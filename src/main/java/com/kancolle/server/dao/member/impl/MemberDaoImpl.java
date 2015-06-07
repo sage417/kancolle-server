@@ -27,9 +27,10 @@ import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
+import com.kancolle.server.model.po.member.Member;
 
 @Repository
-public class MemberDaoImpl extends BaseDaoImpl<Object> implements MemberDao {
+public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
 
     private static final String SLOT_STR = "api_slottype";
@@ -197,5 +198,20 @@ public class MemberDaoImpl extends BaseDaoImpl<Object> implements MemberDao {
     @Override
     public List<MemberUseItem> getUseItem(String member_id) {
         return queryForModels(MemberUseItem.class, "SELECT * FROM v_member_useitem WHERE member_id = :member_id", getMemParamMap(member_id));
+    }
+
+    @Override
+    public long getNeedExpByLevel(int nowLv) {
+        return getSqlSession().selectOne("selectNeedMemberExpByLevel", nowLv);
+    }
+
+    @Override
+    public int getMemberLVByExp(long nowExp) {
+        return getSqlSession().selectOne("selectMemberLVByExp", nowExp);
+    }
+
+    @Override
+    public Member getMemberById(long memberId) {
+        return getSqlSession().selectOne("selectMemberById", memberId);
     }
 }

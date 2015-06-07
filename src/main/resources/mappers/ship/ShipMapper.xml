@@ -99,7 +99,7 @@
 		WHERE member_id = #{memberShip.memberId} AND ID = #{memberShip.memberShipId}
 	</update>
 
-	<select id="selectNeedExpByLevel" resultType="long">
+	<select id="selectNeedShipExpByLevel" resultType="long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
 	</select>
 

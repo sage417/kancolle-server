@@ -12,8 +12,9 @@ import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
+import com.kancolle.server.model.po.member.Member;
 
-public interface MemberDao extends BaseDao<Object> {
+public interface MemberDao extends BaseDao<Member> {
 
     void changeFurniture(String member_id, ChangeFurnitureForm form);
 
@@ -38,4 +39,22 @@ public interface MemberDao extends BaseDao<Object> {
     Map<String, Object> getUnsetSlot(String member_id);
 
     List<MemberUseItem> getUseItem(String member_id);
+
+    /**
+     * @param lv
+     * @return
+     */
+    long getNeedExpByLevel(int lv);
+
+    /**
+     * @param afterExp
+     * @return
+     */
+    int getMemberLVByExp(long afterExp);
+
+    /**
+     * @param memberId
+     * @return
+     */
+    Member getMemberById(long memberId);
 }

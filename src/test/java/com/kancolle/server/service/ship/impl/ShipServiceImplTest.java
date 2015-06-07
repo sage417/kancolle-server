@@ -49,10 +49,10 @@ public class ShipServiceImplTest {
     public void testGetMembetShipExp() {
         MemberShip memberShip = new MemberShip();
         memberShip.setLv(99);
-        assertEquals(memberShip, shipService.addMemberShipExp(memberShip, 1000));
+        assertEquals(memberShip, shipService.increaseMemberShipExp(memberShip, 1000));
         memberShip.setLv(150);
-        assertEquals(memberShip, shipService.addMemberShipExp(memberShip, 1000));
-        shipService.addMemberShipExp(testMemberShip, 1932);
+        assertEquals(memberShip, shipService.increaseMemberShipExp(memberShip, 1000));
+        shipService.increaseMemberShipExp(testMemberShip, 1932);
         //assertEquals(2,testMemberShip.getLv());
     }
 }

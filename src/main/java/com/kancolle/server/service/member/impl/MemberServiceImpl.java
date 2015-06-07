@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +19,10 @@ import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.utils.DaoUtils;
+import com.kancolle.server.utils.logic.LVUtil;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -98,4 +101,40 @@ public class MemberServiceImpl implements MemberService {
         return memberDao.getUseItem(member_id);
     }
 
+    @Override
+    public void increaseMemberExp(String member_id, int exp) {
+        Member member = this.getMember(Long.valueOf(member_id));
+
+        // 当前等级
+        int nowLv = member.getLevel();
+        // 150级不获得经验
+        if (LVUtil.isMemberLVOver(nowLv))
+            return;
+        // 当前总经验
+        long nowExp = member.getExperience();
+        // 获得经验后总经验（未修正前）
+        long afterExp = nowExp + exp;
+        // 获得经验后等级（经过修正）
+        int afterLv = memberDao.getMemberLVByExp(afterExp);
+
+        if (LVUtil.isMemberLVOver(afterLv))
+            // 获得经验后总经验（经过修正）
+            afterExp = this.getSumExpByLV(afterLv);
+
+        member.setLevel(afterLv);
+        member.setExperience(afterExp);
+
+        memberDao.update(member);
+    }
+
+    @Override
+    @Cacheable(value = "memberExp", key = "#lv")
+    public long getSumExpByLV(int lv) {
+        return memberDao.getNeedExpByLevel(lv);
+    }
+
+    @Override
+    public Member getMember(long memberId) {
+        return memberDao.getMemberById(memberId);
+    }
 }

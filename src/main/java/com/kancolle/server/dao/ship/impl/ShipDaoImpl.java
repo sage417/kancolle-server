@@ -59,12 +59,12 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
     }
 
     @Override
-    public long getNeedExpByLevel(int afterLv) {
-        return getSqlSession().selectOne("selectNeedExpByLevel", afterLv);
+    public long getNeedExpByLevel(int nowLv) {
+        return getSqlSession().selectOne("selectNeedShipExpByLevel", nowLv);
     }
 
     @Override
-    public int getShipLVByExp(long afterExp) {
-        return getSqlSession().selectOne("selectShipLVByExp", afterExp);
+    public int getShipLVByExp(long nowExp) {
+        return getSqlSession().selectOne("selectShipLVByExp", nowExp);
     }
 }
