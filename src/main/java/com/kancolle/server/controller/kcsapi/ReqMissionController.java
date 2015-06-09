@@ -2,7 +2,6 @@ package com.kancolle.server.controller.kcsapi;
 
 import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,6 @@ import com.kancolle.server.service.mission.MissionService;
 public class ReqMissionController {
     @Autowired
     private MissionService missionService;
-
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
-    }
 
     @RequestMapping("/result")
     public @ResponseBody APIResponse<?> result(@ModelAttribute(MEMBER_ID) String member_id, int api_deck_id) {

@@ -5,8 +5,6 @@ import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEM
 import java.util.Collections;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +17,6 @@ import com.kancolle.server.model.response.APIResponse;
 @RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
-
-    @ModelAttribute(MEMBER_ID)
-    public String getMemberId(HttpServletRequest request) {
-        return (String) request.getAttribute(MEMBER_ID);
-    }
 
     @RequestMapping("get_incentive")
     public @ResponseBody APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
