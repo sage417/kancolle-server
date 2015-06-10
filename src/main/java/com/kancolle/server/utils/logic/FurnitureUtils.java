@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
-import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
+import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.po.furniture.FurnitureType;
 import com.kancolle.server.utils.BeanUtils;
 
@@ -26,26 +26,26 @@ import com.kancolle.server.utils.BeanUtils;
  *
  */
 public class FurnitureUtils {
-    private static final Map<FurnitureType, Function<ChangeFurnitureForm, Integer>> typeToFurnitureId;
+    private static final Map<FurnitureType, Function<FurnitureChangeForm, Integer>> typeToFurnitureId;
 
     static {
-        typeToFurnitureId = new HashMap<FurnitureType, Function<ChangeFurnitureForm, Integer>>(6);
-        typeToFurnitureId.put(FLOOR, ChangeFurnitureForm::getApi_floor);
-        typeToFurnitureId.put(WALLPAPER, ChangeFurnitureForm::getApi_wallpaper);
-        typeToFurnitureId.put(WINDOW, ChangeFurnitureForm::getApi_window);
-        typeToFurnitureId.put(WALLHANGING, ChangeFurnitureForm::getApi_wallhanging);
-        typeToFurnitureId.put(SHELF, ChangeFurnitureForm::getApi_shelf);
-        typeToFurnitureId.put(DESK, ChangeFurnitureForm::getApi_desk);
+        typeToFurnitureId = new HashMap<FurnitureType, Function<FurnitureChangeForm, Integer>>(6);
+        typeToFurnitureId.put(FLOOR, FurnitureChangeForm::getApi_floor);
+        typeToFurnitureId.put(WALLPAPER, FurnitureChangeForm::getApi_wallpaper);
+        typeToFurnitureId.put(WINDOW, FurnitureChangeForm::getApi_window);
+        typeToFurnitureId.put(WALLHANGING, FurnitureChangeForm::getApi_wallhanging);
+        typeToFurnitureId.put(SHELF, FurnitureChangeForm::getApi_shelf);
+        typeToFurnitureId.put(DESK, FurnitureChangeForm::getApi_desk);
     }
 
-    public static Integer getFurnitureIdByType(ChangeFurnitureForm form, FurnitureType type) {
+    public static Integer getFurnitureIdByType(FurnitureChangeForm form, FurnitureType type) {
         return typeToFurnitureId.get(type).apply(form);
     }
 
-    public static List<Integer> getChangeFurnitureIds(ChangeFurnitureForm form) {
-        int furnitureCount = (int) BeanUtils.getGetMethodStream(ChangeFurnitureForm.class, int.class).count();
+    public static List<Integer> getChangeFurnitureIds(FurnitureChangeForm form) {
+        int furnitureCount = (int) BeanUtils.getGetMethodStream(FurnitureChangeForm.class, int.class).count();
         List<Integer> furnitureIds = Lists.newArrayListWithCapacity(furnitureCount);
-        BeanUtils.getGetMethodStream(ChangeFurnitureForm.class, int.class).forEach(method -> {
+        BeanUtils.getGetMethodStream(FurnitureChangeForm.class, int.class).forEach(method -> {
             try {
                 furnitureIds.add((int) method.invoke(form, new Object[] {}));
             } catch (Exception e) {

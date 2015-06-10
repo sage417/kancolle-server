@@ -1,8 +1,8 @@
-package com.kancolle.server.controller.kcsapi.form;
+package com.kancolle.server.controller.kcsapi.form.forniture;
 
 import javax.validation.constraints.Min;
 
-public class ChangeFurnitureForm {
+public class FurnitureChangeForm {
 
     @Min(1)
     private int api_wallpaper;

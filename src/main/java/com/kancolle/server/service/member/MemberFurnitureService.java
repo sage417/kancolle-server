@@ -3,7 +3,8 @@
  */
 package com.kancolle.server.service.member;
 
-import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
+import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
+import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 
 /**
  * @author J.K.SAGE
@@ -12,5 +13,11 @@ import com.kancolle.server.controller.kcsapi.form.ChangeFurnitureForm;
  */
 public interface MemberFurnitureService {
 
-    void changeFurniture(String member_id, ChangeFurnitureForm form);
+    void changeFurniture(String member_id, FurnitureChangeForm form);
+
+    /**
+     * @param member_id
+     * @param form
+     */
+    void buyFurniture(String member_id, FurnitureBuyForm form);
 }
