@@ -2,31 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.furniture.FurnitureDao">
 	<resultMap type="Furniture" id="FurnitureRM" autoMapping="true">
-		<id property="furnitureId" column="ID"/>
+		<id property="furnitureId" column="ID" />
 	</resultMap>
 
-	<select id="countMemberFurnitureByCond" resultType="int">
-		SELECT COUNT(*) FROM v_member_furniture
-		<where>
-			<if test="member_id != null ">
-				member_id = #{member_id}
-			</if>
-			<choose>
-				<when test="furnitureIds != null ">
-					AND furniture_id IN
-					<foreach collection="furnitureIds" item="furniture_id" open="(" separator="," close=")">
-						${furniture_id}
-					</foreach>
-				</when>
-				<when test="furniture_id != null">
-					AND furniture_id = #{furniture_id}
-				</when>
-			</choose>
-		</where>
-	</select>
-
-	<select id="selectMemberFurnitureByCond" resultType="int">
-		SELECT mf.index FROM t_member_furniture mf INNER JOIN t_furniture f ON mf.`furniture_id` = f.`ID`
+	<select id="selectMemberFurnitureByCond" resultType="FurnitureRM">
+		SELECT f.* FROM t_member_furniture mf INNER JOIN t_furniture f ON mf.furniture_id = f.ID
 		<where>
 			<if test="member_id != null ">
 				mf.member_id = #{member_id}
@@ -34,28 +14,25 @@
 			<if test="furniture_id != null">
 				AND mf.furniture_id = #{furniture_id}
 			</if>
-			<if test="furniture_type != null">
-				AND f.type = #{furniture_type}
-			</if>
 		</where>
 	</select>
-	
+
 	<select id="selectFurnitureByCond" resultMap="FurnitureRM">
 		SELECT * FROM t_furniture
-			<where>
-				<if test="furniture_type != null">
-					TYPE = #{furniture_type}
-				</if>
-				<if test="furniture_type != null">
-					AND NO = #{furniture_no}
-				</if>
-			</where>
+		<where>
+			<if test="furniture_type != null">
+				TYPE = #{furniture_type}
+			</if>
+			<if test="furniture_type != null">
+				AND NO = #{furniture_no}
+			</if>
+		</where>
 	</select>
 
 	<insert id="insertMemberFurniture">
 		INSERT INTO t_member_furniture (member_id, furniture_id) VALUES (#{member_id}, #{furniture_id})
 	</insert>
-	
+
 	<update id="costMemberFurnitureCoin">
 		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
 	</update>

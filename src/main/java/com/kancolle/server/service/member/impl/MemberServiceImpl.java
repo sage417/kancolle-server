@@ -119,7 +119,7 @@ public class MemberServiceImpl implements MemberService {
         member.setLevel(afterLv);
         member.setExperience(afterExp);
 
-        memberDao.update(member);
+        updateMember(member);
     }
 
     @Override
@@ -131,5 +131,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getMember(long memberId) {
         return memberDao.getMemberById(memberId);
+    }
+
+    @Override
+    public void updateMember(Member member) {
+        memberDao.update(member);
     }
 }

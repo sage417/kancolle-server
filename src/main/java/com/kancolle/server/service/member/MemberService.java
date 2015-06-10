@@ -44,4 +44,6 @@ public interface MemberService {
     long getSumExpByLV(int lv);
 
     Member getMember(long memberId);
+
+    void updateMember(Member member);
 }
