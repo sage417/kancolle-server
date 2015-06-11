@@ -52,7 +52,7 @@ public class ShipTypeModel {
         return api_sortno;
     }
 
-    @Column(name = "EQUIP_TYPE", type = JSONObject.class)
+    @Column(name = "EQUIP_TYPE", type = String.class)
     public void setApi_equip_type(String api_equip_type) {
         this.api_equip_type = JSON.parseObject(api_equip_type, Feature.OrderedField);
     }
