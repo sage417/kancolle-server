@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.dao.member.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,7 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements Membe
 
     @Override
     public void changeMemberFurniture(String member_id, List<Integer> furnitureIds) {
-        Map<String, Object> params = new HashMap<>(2);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("furniture", JSON.toJSONString(furnitureIds));
         getTemplate().update("UPDATE t_member SET furniture = :furniture where member_id = :member_id", params);
@@ -40,12 +39,13 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements Membe
 
     @Override
     public Furniture selectMemberFurnitureById(String member_id, Integer furniture_id) {
-        return getSqlSession().selectOne("selectMemberFurnitureByCond", getMemberIdFurnitureIdParamMap(member_id, furniture_id));
+        Map<String, Object> params = getMemberIdFurnitureIdParamMap(member_id, furniture_id);
+        return getSqlSession().selectOne("selectMemberFurnitureByCond", params);
     }
 
     @Override
     public Furniture selectFurnitureByTypeAndNo(Integer type, Integer no) {
-        Map<String, Object> params = new HashMap<String, Object>(2);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("furniture_type", type);
         params.put("furniture_no", no);
         return getSqlSession().selectOne("selectFurnitureByCond", params);
@@ -53,6 +53,7 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements Membe
 
     @Override
     public void insertMemberFurniture(String member_id, Integer furniture_id) {
-        getSqlSession().insert("insertMemberFurniture", getMemberIdFurnitureIdParamMap(member_id, furniture_id));
+        Map<String, Object> params = getMemberIdFurnitureIdParamMap(member_id, furniture_id);
+        getSqlSession().insert("insertMemberFurniture", params);
     }
 }
