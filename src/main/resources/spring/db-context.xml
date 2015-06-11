@@ -17,20 +17,6 @@
 
 	<context:component-scan base-package="com.kancolle.server.dao" />
 
-	<tx:annotation-driven transaction-manager="txManager" />
-	
-	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-
-	<!-- 1.注解方式配置事务 -->
-	<!-- <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> <property name="dataSource" ref="dataSource" /> </bean> <tx:advice id="txAdvice" transaction-manager="txManager"> 
-		<tx:attributes> <tx:method name="get*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="true" /> <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" /> </tx:attributes> </tx:advice> 
-		<aop:config> <aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" /> <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" /> </aop:config> -->
-
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> <property name="driverClassName" value="${jdbc.driverClassName}" /> <property name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" 
-		/> <property name="username" value="${jdbc.user}" /> <property name="password" value="${jdbc.pass}" /> </bean> -->
-
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<!-- 基本属性 url、user、password -->
 		<property name="url" value="jdbc:mysql://localhost:3306/${jdbc.name}" />
@@ -61,29 +47,10 @@
 		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 
 		<!-- 配置监控统计拦截的filters -->
-		<property name="filters" value="stat" />
+		<property name="filters" value="config,stat" />
+
+		<property name="connectionProperties" value="config.file=jdbc.properties" />
 	</bean>
-
-	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-	</bean>
-
-	<bean id="service-interceptor" class="com.kancolle.server.service.interceptor.ServiceLogInterceptor" />
-
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
-		<property name="patterns">
-			<list>
-				<value>com.kancolle.server.dao.*</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- <bean id="service-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype"> <property name="patterns"> <list> <value>com.kancolle.server.service.*</value> </list> 
-		</property> </bean> -->
-
-	<aop:config proxy-target-class="true">
-		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
-		<!-- <aop:advisor advice-ref="service-interceptor" pointcut-ref="service-pointcut" /> -->
-	</aop:config>
 
 	<bean id="template" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource" />
@@ -94,4 +61,48 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml"></property>
 	</bean>
+
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+<!-- 	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="count*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="list*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice> -->
+
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.kancolle.server.dao.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<aop:config proxy-target-class="true">
+		<aop:advisor pointcut-ref="druid-stat-pointcut" advice-ref="druid-stat-interceptor" />
+	</aop:config>
+
+	<!-- <aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(* com..service..*.*(..))" />
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+	</aop:config> -->
 </beans>

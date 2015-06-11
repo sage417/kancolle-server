@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
@@ -39,7 +41,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
         for (FurnitureType type : FurnitureType.values()) {
             Integer furnitureId = FurnitureUtils.getFurnitureIdByType(form, type);
-            Furniture furniture = memberFurnitureDao.selectMemberFurnitureById(member_id, furnitureId);
+            Furniture furniture = getMemberFurniture(member_id, furnitureId);
             if (furniture == null) {
                 throw new IllegalArgumentException("不拥有该家具");
             }
@@ -53,10 +55,10 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void buyFurniture(String member_id, FurnitureBuyForm form) {
 
-        Furniture furniture = memberFurnitureDao.selectFurnitureByTypeAndNo(form.getApi_type(), form.getApi_no());
+        Furniture furniture = getFurniture(form.getApi_type(), form.getApi_no());
         if (furniture == null) {
             // TODO
             throw new NullPointerException("家具不存在");
@@ -64,7 +66,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
         Integer furnitureId = furniture.getFurnitureId();
 
-        if (memberFurnitureDao.selectMemberFurnitureById(member_id, furnitureId) != null) {
+        if (getMemberFurniture(member_id, furnitureId) != null) {
             throw new IllegalArgumentException("已拥有该家具");
         }
 
@@ -85,5 +87,17 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
             String msg = e.getMessage();
             throw new RuntimeException("购买家具失败");
         }
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
+    public Furniture getMemberFurniture(String member_id, Integer furniture_id) {
+        return memberFurnitureDao.selectMemberFurnitureById(member_id, furniture_id);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
+    public Furniture getFurniture(Integer type, Integer no) {
+        return memberFurnitureDao.selectFurnitureByTypeAndNo(type, no);
     }
 }
