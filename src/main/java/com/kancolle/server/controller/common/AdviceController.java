@@ -8,6 +8,7 @@ import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEM
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,7 @@ import com.kancolle.server.model.response.APIResponse;
  * @Date 2015年6月9日
  *
  */
-@org.springframework.web.bind.annotation.ControllerAdvice
+@ControllerAdvice
 public class AdviceController {
 
     @ModelAttribute(MEMBER_ID)

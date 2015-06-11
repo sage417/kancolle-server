@@ -5,7 +5,7 @@
 		<id property="furnitureId" column="ID" />
 	</resultMap>
 
-	<select id="selectMemberFurnitureByCond" resultType="FurnitureRM">
+	<select id="selectMemberFurnitureByCond" resultMap="FurnitureRM">
 		SELECT f.* FROM t_member_furniture mf INNER JOIN t_furniture f ON mf.furniture_id = f.ID
 		<where>
 			<if test="member_id != null ">
