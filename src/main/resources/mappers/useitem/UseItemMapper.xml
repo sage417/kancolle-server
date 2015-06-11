@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.member.MemberUseItemDao">
+
+<select id="selectCountOfMemberItem" resultType="int">
+	SELECT COUNT FROM t_member_useitem WHERE member_id = #{member_id} AND ID = #{useItem_id}
+</select>
+</mapper>
