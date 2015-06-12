@@ -29,7 +29,7 @@ public interface MemberDao extends BaseDao<Member> {
 
     List<MemberMission> getMission(String member_id);
 
-    MemberRecord getRecord(String member_id);
+    MemberRecord selectMemberRecord(String member_id);
 
     List<MemberSlotItem> getSlotItem(String member_id);
 
@@ -53,5 +53,5 @@ public interface MemberDao extends BaseDao<Member> {
      * @param memberId
      * @return
      */
-    Member getMemberById(long memberId);
+    Member getMemberById(String memberId);
 }

@@ -70,7 +70,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
             throw new IllegalArgumentException("已拥有该家具");
         }
 
-        Member member = memberService.getMember(Long.valueOf(member_id));
+        Member member = memberService.getMember(member_id);
 
         if (furniture.getPrice() > 0) {
             int remainFCoin = member.getfCoin() - furniture.getPrice();

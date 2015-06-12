@@ -135,9 +135,8 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public MemberRecord getRecord(String member_id) {
-        // TODO
-        return null;
+    public MemberRecord selectMemberRecord(String member_id) {
+        return getSqlSession().selectOne("selectMemberRecord", member_id);
     }
 
     @Override
@@ -199,7 +198,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public Member getMemberById(long memberId) {
+    public Member getMemberById(String memberId) {
         return getSqlSession().selectOne("selectMemberById", memberId);
     }
 }
