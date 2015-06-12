@@ -57,7 +57,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
             } else if (useItemId == 12) {
                 getItem = new FurnitureCoin(700 * itemCount);
             }
-            Member member = memberService.getMember(Long.valueOf(member_id));
+            Member member = memberService.getMember(member_id);
             member.setfCoin(member.getfCoin() + getItem.getApi_getcount());
             memberService.updateMember(member);
         }
