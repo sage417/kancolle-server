@@ -58,6 +58,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Member getMember(String memberId) {
+        return memberDao.getMemberById(memberId);
+    }
+
+    @Override
     public String getMemberByApiToken(String api_token) {
         return memberDao.getMemberByApiToken(api_token);
     }
@@ -77,12 +82,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberRecord getRecord(String member_id) {
-        return memberDao.getRecord(member_id);
+        return memberDao.selectMemberRecord(member_id);
     }
 
     @Override
     public List<MemberSlotItem> getSlotItem(String member_id) {
         return memberDao.getSlotItem(member_id);
+    }
+
+    @Override
+    @Cacheable(value = "memberExp", key = "#lv")
+    public long getSumExpByLV(int lv) {
+        return memberDao.getNeedExpByLevel(lv);
     }
 
     @Override
@@ -120,17 +131,6 @@ public class MemberServiceImpl implements MemberService {
         member.setExperience(afterExp);
 
         updateMember(member);
-    }
-
-    @Override
-    @Cacheable(value = "memberExp", key = "#lv")
-    public long getSumExpByLV(int lv) {
-        return memberDao.getNeedExpByLevel(lv);
-    }
-
-    @Override
-    public Member getMember(long memberId) {
-        return memberDao.getMemberById(memberId);
     }
 
     @Override

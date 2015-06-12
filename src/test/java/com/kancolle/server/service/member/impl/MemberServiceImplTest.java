@@ -22,7 +22,7 @@ import com.kancolle.server.service.member.MemberService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/spring/spring-context.xml" })
 public class MemberServiceImplTest {
-    private static final long TEST_MEMBER_ID = 9007383;
+    private static final String TEST_MEMBER_ID = "9007383";
     private static final int INIT_LEVEL = 1;
     private static final long INIT_EXP = 0L;
     private static final long INCREASE_EXP = 1282555;

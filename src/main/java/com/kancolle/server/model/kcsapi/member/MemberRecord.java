@@ -1,7 +1,5 @@
 package com.kancolle.server.model.kcsapi.member;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class MemberRecord {
@@ -31,16 +29,16 @@ public class MemberRecord {
     private int api_rank;
 
     @JSONField(ordinal = 9)
-    private JSONArray api_experience;
+    private String api_experience;
 
     @JSONField(ordinal = 10)
-    private JSONArray api_war;
+    private String api_war;
 
     @JSONField(ordinal = 11)
-    private JSONArray api_mission;
+    private String api_mission;
 
     @JSONField(ordinal = 12)
-    private JSONArray api_practice;
+    private String api_practice;
 
     @JSONField(ordinal = 13)
     private int api_friend;
@@ -55,16 +53,16 @@ public class MemberRecord {
     private int api_ndoc;
 
     @JSONField(ordinal = 17)
-    private JSONArray api_ship;
+    private String api_ship;
 
     @JSONField(ordinal = 18)
-    private JSONArray api_slotitem;
+    private String api_slotitem;
 
     @JSONField(ordinal = 19)
     private int api_furniture;
 
     @JSONField(ordinal = 20)
-    private JSONArray api_complate;
+    private String api_complate;
 
     @JSONField(ordinal = 21)
     private int api_large_dock;
@@ -80,7 +78,7 @@ public class MemberRecord {
         return api_cmt_id;
     }
 
-    public JSONArray getApi_complate() {
+    public String getApi_complate() {
         return api_complate;
     }
 
@@ -88,7 +86,7 @@ public class MemberRecord {
         return api_deck;
     }
 
-    public JSONArray getApi_experience() {
+    public String getApi_experience() {
         return api_experience;
     }
 
@@ -120,7 +118,7 @@ public class MemberRecord {
         return api_member_id;
     }
 
-    public JSONArray getApi_mission() {
+    public String getApi_mission() {
         return api_mission;
     }
 
@@ -140,7 +138,7 @@ public class MemberRecord {
         return api_photo_url;
     }
 
-    public JSONArray getApi_practice() {
+    public String getApi_practice() {
         return api_practice;
     }
 
@@ -148,15 +146,15 @@ public class MemberRecord {
         return api_rank;
     }
 
-    public JSONArray getApi_ship() {
+    public String getApi_ship() {
         return api_ship;
     }
 
-    public JSONArray getApi_slotitem() {
+    public String getApi_slotitem() {
         return api_slotitem;
     }
 
-    public JSONArray getApi_war() {
+    public String getApi_war() {
         return api_war;
     }
 
@@ -169,7 +167,7 @@ public class MemberRecord {
     }
 
     public void setApi_complate(String api_complate) {
-        this.api_complate = JSON.parseArray(api_complate);
+        this.api_complate = api_complate;
     }
 
     public void setApi_deck(int api_deck) {
@@ -177,7 +175,7 @@ public class MemberRecord {
     }
 
     public void setApi_experience(String api_experience) {
-        this.api_experience = JSON.parseArray(api_experience);
+        this.api_experience = api_experience;
     }
 
     public void setApi_friend(int api_friend) {
@@ -209,7 +207,7 @@ public class MemberRecord {
     }
 
     public void setApi_mission(String api_mission) {
-        this.api_mission = JSON.parseArray(api_mission);
+        this.api_mission = api_mission;
     }
 
     public void setApi_ndoc(int api_ndoc) {
@@ -229,7 +227,7 @@ public class MemberRecord {
     }
 
     public void setApi_practice(String api_practice) {
-        this.api_practice = JSON.parseArray(api_practice);
+        this.api_practice = api_practice;
     }
 
     public void setApi_rank(int api_rank) {
@@ -237,14 +235,14 @@ public class MemberRecord {
     }
 
     public void setApi_ship(String api_ship) {
-        this.api_ship = JSON.parseArray(api_ship);
+        this.api_ship = api_ship;
     }
 
     public void setApi_slotitem(String api_slotitem) {
-        this.api_slotitem = JSON.parseArray(api_slotitem);
+        this.api_slotitem = api_slotitem;
     }
 
     public void setApi_war(String api_war) {
-        this.api_war = JSON.parseArray(api_war);
+        this.api_war = api_war;
     }
 }

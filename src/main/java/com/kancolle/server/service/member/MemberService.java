@@ -41,9 +41,10 @@ public interface MemberService {
 
     void increaseMemberExp(Member member, long exp);
 
+    /** 获取到达等级所需总经验 */
     long getSumExpByLV(int lv);
 
-    Member getMember(long memberId);
+    Member getMember(String memberId);
 
     void updateMember(Member member);
 }
