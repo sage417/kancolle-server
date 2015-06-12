@@ -17,6 +17,8 @@ import com.kancolle.server.dao.member.MemberUseItemDao;
 import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
 import com.kancolle.server.model.kcsapi.useitem.item.FurnitureCoin;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
+import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.member.MemberUseItemService;
 
 /**
@@ -32,6 +34,9 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
     @Autowired
     private MemberUseItemDao memberUseItemDao;
 
+    @Autowired
+    private MemberService memberService;
+
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public UseItemResult useItem(String member_id, UseItemForm form) {
@@ -41,6 +46,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
         UseItemResult result = new UseItemResult(0, 1);
         GetItem getItem = null;
 
+        // 家具币
         if (FURNITURE_COIN_BOX.contains(useItemId)) {
             int itemCount = getCountOfMemberUseItem(member_id, useItemId);
 
@@ -51,6 +57,24 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
             } else if (useItemId == 12) {
                 getItem = new FurnitureCoin(700 * itemCount);
             }
+            Member member = memberService.getMember(Long.valueOf(member_id));
+            member.setfCoin(member.getfCoin() + getItem.getApi_getcount());
+            memberService.updateMember(member);
+        }
+
+        // 甲级徽章
+        if (useItemId == 61) {
+
+        }
+
+        // 菱饼
+        if (useItemId == 62) {
+
+        }
+
+        // 司令部要员
+        if (useItemId == 63) {
+
         }
 
         result.setApi_getitem(getItem);

@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v11.42 (64 bit)
+SQLyog Ultimate v11.4 (64 bit)
 MySQL - 5.6.21 : Database - kancolle
 *********************************************************************
 */
@@ -258,7 +258,7 @@ CREATE TABLE `t_member` (
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[1,38,72,102,133,164]',4,2,4,16630,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,100,5);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[1,38,72,102,133,164]',4,2,4,911999,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,100,5);
 
 /*Table structure for table `t_member_deckport` */
 
@@ -300,11 +300,11 @@ CREATE TABLE `t_member_furniture` (
   KEY `furniture_id` (`furniture_id`),
   CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_furniture` */
 
-insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (1,9007383,1),(2,9007383,38),(8,9007383,68),(3,9007383,72),(4,9007383,102),(5,9007383,133),(6,9007383,164);
+insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (1,9007383,1),(2,9007383,38),(8,9007383,68),(3,9007383,72),(4,9007383,102),(5,9007383,133),(11,9007383,160),(6,9007383,164);
 
 /*Table structure for table `t_member_kdock` */
 
@@ -388,7 +388,7 @@ CREATE TABLE `t_member_mission` (
   KEY `mission_id` (`mission_id`),
   CONSTRAINT `t_member_mission_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `t_member_mission_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_mission` */
 
