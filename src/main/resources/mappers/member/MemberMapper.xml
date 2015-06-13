@@ -3,7 +3,7 @@
 <mapper namespace="com.kancolle.server.dao.member.MemberDao">
 	<resultMap type="Member" id="memberRM" autoMapping="true">
 		<id property="memberId" column="member_id" />
-		<id property="token" column="api_token" />
+		<result property="token" column="api_token" />
 		<result property="nickName" column="nickname" />
 		<result property="nickNameId" column="nickname_id" />
 		<result property="activeFlag" column="active_flag" />
@@ -33,6 +33,31 @@
 		<result property="medals" column="medals" />
 		<result property="portBGMId" column="p_bgm_id" />
 		<result property="parallelQuestCount" column="parallel_quest_count" />
+	</resultMap>
+	
+	<resultMap type="MemberRecord" id="MemberRecordRM">
+		<id property="api_member_id" column="member_id"/>
+		<result property="api_nickname" column="nickname"/>
+		<result property="api_nickname_id" column="nickname_id"/>
+		<result property="api_cmt" column="comment"/>
+		<result property="api_cmt_id" column="comment_id"/>
+		<result property="api_photo_url" column=""/>
+		<result property="api_level" column="level"/>
+		<result property="api_rank" column="rank"/>
+		<result property="api_experience" column="experience"/>
+		<result property="api_war" column=""/>
+		<result property="api_mission" column=""/>
+		<result property="api_practice" column=""/>
+		<result property="api_friend" column=""/>
+		<result property="api_deck" column=""/>
+		<result property="api_kdoc" column=""/>
+		<result property="api_ndoc" column=""/>
+		<result property="api_ship" column=""/>
+		<result property="api_slotitem" column=""/>
+		<result property="api_furniture" column="furniture"/>
+		<result property="api_complate" column=""/>
+		<result property="api_large_dock" column=""/>
+		<result property="api_material_max" column=""/>
 	</resultMap>
 	
 	<select id="selectMemberById" resultMap="memberRM">
