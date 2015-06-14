@@ -82,4 +82,9 @@ public class ShipServiceImpl implements ShipService {
     public long getSumExpByLevel(int level) {
         return shipDao.getNeedExpByLevel(level);
     }
+
+    @Override
+    public int getCountOfMemberShip(String member_id) {
+        return shipDao.selectCountOfMemberShip(member_id);
+    }
 }

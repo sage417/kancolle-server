@@ -42,4 +42,6 @@ public interface MemberFurnitureDao extends BaseDao<Object> {
      */
     void changeMemberFurniture(String member_id, List<Integer> furnitureIds);
 
+    int selectCountOfMemberFurniture(String member_id);
+
 }

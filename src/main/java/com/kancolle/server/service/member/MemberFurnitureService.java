@@ -25,4 +25,6 @@ public interface MemberFurnitureService {
      * @param form
      */
     void buyFurniture(String member_id, FurnitureBuyForm form);
+
+    int getCountOfMemberFurniture(String member_id);
 }

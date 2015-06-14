@@ -3,11 +3,13 @@ package com.kancolle.server.service.member.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -15,11 +17,16 @@ import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
-import com.kancolle.server.model.kcsapi.member.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
+import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
+import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
+import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DaoUtils;
 import com.kancolle.server.utils.logic.LVUtil;
 
@@ -30,6 +37,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private PortDao portDao;
+
+    @Autowired
+    private MemberFurnitureService memberFurnitureService;
+
+    @Autowired
+    private ShipService ShipService;
 
     @Override
     public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
@@ -82,7 +95,29 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberRecord getRecord(String member_id) {
-        return memberDao.selectMemberRecord(member_id);
+        MemberBasic basic = memberDao.getBasic(member_id);
+        MemberRecord record = new MemberRecord();
+        BeanUtils.copyProperties(basic, record);
+        record.setApi_member_id(Long.valueOf(basic.getApi_member_id()));
+        record.setApi_cmt(basic.getApi_comment());
+        record.setApi_cmt_id(basic.getApi_comment_id());
+        record.setApi_experience(Lists.newArrayList(basic.getApi_experience(), getSumExpByLV(basic.getApi_level() + 1)));
+        record.setApi_war(new MemberRecordFight(basic.getApi_st_win(), basic.getApi_st_lose()));
+        record.setApi_mission(new MemberRecordMission(basic.getApi_ms_success(), basic.getApi_ms_count()));
+        record.setApi_practice(new MemberRecordPractise(basic.getApi_pt_win(), basic.getApi_pt_lose()));
+        record.setApi_deck(basic.getApi_count_deck());
+        record.setApi_kdoc(basic.getApi_count_kdock());
+        record.setApi_ndoc(basic.getApi_count_ndock());
+        int ship_count = ShipService.getCountOfMemberShip(member_id);
+
+        int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
+
+        record.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
+        record.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));
+        record.setApi_large_dock(1);
+        record.setApi_material_max(750 + 250 * basic.getApi_level());
+
+        return record;
     }
 
     @Override

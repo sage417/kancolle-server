@@ -27,4 +27,6 @@ public interface ShipDao extends BaseDao<MemberShip> {
      */
     int getShipLVByExp(long afterExp);
 
+    int selectCountOfMemberShip(String member_id);
+
 }

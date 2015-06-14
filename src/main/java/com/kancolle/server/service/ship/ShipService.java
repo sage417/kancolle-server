@@ -13,4 +13,6 @@ public interface ShipService {
     void increaseMemberShipExp(MemberShip memberShip, int exp);
 
     long getSumExpByLevel(int level);
+
+    int getCountOfMemberShip(String member_id);
 }

@@ -67,4 +67,9 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
     public int getShipLVByExp(long nowExp) {
         return getSqlSession().selectOne("selectShipLVByExp", nowExp);
     }
+
+    @Override
+    public int selectCountOfMemberShip(String member_id) {
+        return getSqlSession().selectOne("selectCountOfMemberShip", member_id);
+    }
 }

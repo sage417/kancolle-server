@@ -106,4 +106,8 @@
 	<select id="selectShipLVByExp" resultType="int">
 		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
+	
+	<select id="selectCountOfMemberShip" resultType="int">
+		SELECT COUNT(*) FROM t_member_ship WHERE member_id = #{member_id}
+	</select>
 </mapper>

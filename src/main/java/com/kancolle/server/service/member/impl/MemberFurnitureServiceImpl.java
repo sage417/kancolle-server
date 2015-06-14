@@ -100,4 +100,9 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     public Furniture getFurniture(Integer type, Integer no) {
         return memberFurnitureDao.selectFurnitureByTypeAndNo(type, no);
     }
+
+    @Override
+    public int getCountOfMemberFurniture(String member_id) {
+        return memberFurnitureDao.selectCountOfMemberFurniture(member_id);
+    }
 }

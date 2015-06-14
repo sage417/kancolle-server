@@ -102,7 +102,7 @@ public class MemberBasic {
     private int api_tutorial_progress;
 
     @JSONField(ordinal = 32)
-    private JSONArray api_pvp;
+    private String api_pvp;
 
     @JSONField(ordinal = 33)
     private int api_medals;
@@ -225,7 +225,7 @@ public class MemberBasic {
         return api_pt_win;
     }
 
-    public JSONArray getApi_pvp() {
+    public String getApi_pvp() {
         return api_pvp;
     }
 
@@ -395,7 +395,7 @@ public class MemberBasic {
 
     @Column(name = "pvp", type = String.class)
     public void setApi_pvp(String api_pvp) {
-        this.api_pvp = JSON.parseArray(api_pvp);
+        this.api_pvp = api_pvp;
     }
 
     @Column(name = "rank", type = int.class)

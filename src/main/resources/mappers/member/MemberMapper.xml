@@ -34,42 +34,20 @@
 		<result property="portBGMId" column="p_bgm_id" />
 		<result property="parallelQuestCount" column="parallel_quest_count" />
 	</resultMap>
-	
-	<resultMap type="MemberRecord" id="MemberRecordRM">
-		<id property="api_member_id" column="member_id"/>
-		<result property="api_nickname" column="nickname"/>
-		<result property="api_nickname_id" column="nickname_id"/>
-		<result property="api_cmt" column="comment"/>
-		<result property="api_cmt_id" column="comment_id"/>
-		<result property="api_photo_url" column=""/>
-		<result property="api_level" column="level"/>
-		<result property="api_rank" column="rank"/>
-		<result property="api_experience" column="experience"/>
-		<result property="api_war" column=""/>
-		<result property="api_mission" column=""/>
-		<result property="api_practice" column=""/>
-		<result property="api_friend" column=""/>
-		<result property="api_deck" column=""/>
-		<result property="api_kdoc" column=""/>
-		<result property="api_ndoc" column=""/>
-		<result property="api_ship" column=""/>
-		<result property="api_slotitem" column=""/>
-		<result property="api_furniture" column="furniture"/>
-		<result property="api_complate" column=""/>
-		<result property="api_large_dock" column=""/>
-		<result property="api_material_max" column=""/>
-	</resultMap>
-	
+
 	<select id="selectMemberById" resultMap="memberRM">
-		SELECT * FROM t_member WHERE member_id = #{member_id}
+		SELECT * FROM t_member
+		WHERE member_id = #{member_id}
 	</select>
 
 	<select id="selectNeedMemberExpByLevel" resultType="long">
-		SELECT EXP FROM t_exp_member WHERE LV = #{level}
+		SELECT EXP
+		FROM t_exp_member WHERE LV = #{level}
 	</select>
 
 	<select id="selectMemberLVByExp" resultType="int">
-		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
+		SELECT LV FROM
+		t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
 
 	<update id="updateMember">
@@ -90,7 +68,8 @@
 		max_kagu=#{maxKagu},
 		playtime=#{playTime},
 		tutorial=#{tutorial},
-		furniture=#{furniture, typeHandler=IntJsonArrayHanlder},
+		furniture=#{furniture,
+		typeHandler=IntJsonArrayHanlder},
 		count_deck=#{deckCount},
 		count_kdock=#{kdockCount},
 		count_ndock=#{ndockCount},
@@ -105,10 +84,12 @@
 		pt_challenged_win=#{practiceChallengedWin},
 		firstflag=#{firstFlag},
 		tutorial_progress=#{tutorialProgress},
-		pvp=#{pvp, typeHandler=IntJsonArrayHanlder},
+		pvp=#{pvp,
+		typeHandler=IntJsonArrayHanlder},
 		medals=#{medals},
 		p_bgm_id=#{portBGMId},
 		parallel_quest_count=#{parallelQuestCount}
-		WHERE member_id = #{memberId}
+		WHERE
+		member_id = #{memberId}
 	</update>
 </mapper>

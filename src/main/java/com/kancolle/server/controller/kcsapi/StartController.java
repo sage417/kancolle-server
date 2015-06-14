@@ -18,7 +18,7 @@ public class StartController {
     private StartService startService;
 
     @Deprecated
-    @RequestMapping("api_start")
+    @RequestMapping("/api_start")
     public @ResponseBody String Start() {
         return "";
     }
