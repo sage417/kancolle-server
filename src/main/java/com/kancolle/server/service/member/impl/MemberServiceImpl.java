@@ -115,6 +115,7 @@ public class MemberServiceImpl implements MemberService {
 
         record.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
         record.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));
+        // 是否能够大型建造
         record.setApi_large_dock(1);
         record.setApi_material_max(750 + 250 * basic.getApi_level());
 

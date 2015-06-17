@@ -25,11 +25,7 @@ public class MemberRecordPractise {
         this.api_win = Integer.toString(api_win);
         this.api_lose = Integer.toString(api_lose);
         int api_count = api_win + api_lose;
-        if (api_count == 0) {
-            this.api_rate = Double.toString(api_count);
-        } else {
-            this.api_rate = Double.toString(Math.round((100d * api_win) / (api_win + api_lose)));
-        }
+        this.api_rate = String.format("%.2f", api_count == 0 ? 0d : (100d * api_win) / api_count);
     }
 
     public String getApi_win() {
