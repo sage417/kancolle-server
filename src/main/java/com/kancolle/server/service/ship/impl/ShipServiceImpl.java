@@ -3,10 +3,14 @@ package com.kancolle.server.service.ship.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.logic.LVUtil;
 
@@ -14,6 +18,9 @@ import com.kancolle.server.utils.logic.LVUtil;
 public class ShipServiceImpl implements ShipService {
     @Autowired
     private ShipDao shipDao;
+
+    @Autowired
+    private MemberService memberService;
 
     @Cacheable(value = "ship", key = "#ship_id")
     @Override
@@ -69,7 +76,7 @@ public class ShipServiceImpl implements ShipService {
     private long getNextLVExp(int nowLevel) {
         return getTargetLVExp(nowLevel, nowLevel + 1);
     }
-    
+
     private long getTargetLVExp(int startLevel, int targetLevel) {
         return getSumExpByLevel(targetLevel) - getSumExpByLevel(startLevel);
     }
@@ -86,5 +93,44 @@ public class ShipServiceImpl implements ShipService {
     @Override
     public int getCountOfMemberShip(String member_id) {
         return shipDao.selectCountOfMemberShip(member_id);
+    }
+
+    @Override
+    public void consume(MemberShip memberShip, boolean fuel, boolean bull) {
+        Ship ship = memberShip.getShip();
+        if (fuel)
+            memberShip.setFuel(memberShip.getFuel() - Math.round(0.2f * ship.getFuelMax()));
+
+        if (bull)
+            memberShip.setBull(memberShip.getBull() - Math.round(0.2f * ship.getBullMax()));
+        shipDao.update(memberShip);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public void charge(MemberShip memberShip, boolean fuel, boolean bull) {
+        Ship ship = memberShip.getShip();
+        int chargeFuel = 0;
+        int chargeBull = 0;
+        int comsumeBauxite = 0;
+        if (fuel) {
+            chargeFuel = ship.getFuelMax() - memberShip.getFuel();
+            memberShip.setFuel(ship.getFuelMax());
+
+            for (int i = 0; i < ship.getMaxEq().length; i++) {
+                int comsumePlaneCount = ship.getMaxEq()[i] - memberShip.getOnslot()[i];
+                if (comsumePlaneCount > 0)
+                    comsumeBauxite += 5 * comsumePlaneCount;
+            }
+        }
+
+        if (bull) {
+            chargeBull = ship.getBullMax() - memberShip.getBull();
+            memberShip.setBull(ship.getBullMax());
+        }
+        // 扣除资源
+        // TODO 资源不足不足以补给
+        memberService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite);
+        shipDao.update(memberShip);
     }
 }

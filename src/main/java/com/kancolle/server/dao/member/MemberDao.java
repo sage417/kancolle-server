@@ -54,4 +54,12 @@ public interface MemberDao extends BaseDao<Member> {
      * @return
      */
     Member getMemberById(String memberId);
+
+    /**
+     * @param chargeFuel
+     * @param chargeBull
+     * @param comsumeSteal
+     * @param comsumeBauxite
+     */
+    void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite);
 }

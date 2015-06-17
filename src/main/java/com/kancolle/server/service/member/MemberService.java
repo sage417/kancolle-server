@@ -47,4 +47,13 @@ public interface MemberService {
     Member getMember(String memberId);
 
     void updateMember(Member member);
+
+    /**
+     * @param memberId
+     * @param chargeFuel
+     * @param chargeBull
+     * @param comsumeSteal
+     * @param comsumeBauxite
+     */
+    void consumeResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite);
 }

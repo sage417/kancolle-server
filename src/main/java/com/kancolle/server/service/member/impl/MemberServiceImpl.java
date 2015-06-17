@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
@@ -50,7 +49,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public void destroyShip(String member_id, long api_ship_id) {
         memberDao.destroyShip(member_id, api_ship_id);
     }
@@ -173,5 +171,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
+    }
+
+    @Override
+    public void consumeResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite) {
+        memberDao.updateMemberResource(memberId, chargeFuel, chargeBull, comsumeSteal, comsumeBauxite);
     }
 }

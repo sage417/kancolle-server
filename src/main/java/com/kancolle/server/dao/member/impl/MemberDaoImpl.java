@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -77,7 +77,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         getTemplate().update(UPDATE_SHIP, params);
     }
 
-    @Transactional
     @Override
     public void destroyShip(String member_id, long api_ship_id) {
         // 删除舰娘身上装备
@@ -200,5 +199,16 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public Member getMemberById(String memberId) {
         return getSqlSession().selectOne("selectMemberById", memberId);
+    }
+
+    @Override
+    public void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
+        params.put("member_id", memberId);
+        params.put("fuel", chargeFuel);
+        params.put("bull", chargeBull);
+        params.put("steal", comsumeSteal);
+        params.put("bauxite", comsumeBauxite);
+        getSqlSession().update("updateMemberResource", params);
     }
 }

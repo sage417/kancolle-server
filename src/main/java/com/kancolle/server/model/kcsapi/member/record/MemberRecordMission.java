@@ -24,7 +24,7 @@ public class MemberRecordMission {
     public MemberRecordMission(int api_success, int api_count) {
         this.api_success = Integer.toString(api_success);
         this.api_count = Integer.toString(api_count);
-        this.api_rate = String.format("%.2f", api_count == 0 ? 0d : (100d * api_success) / api_count);
+        this.api_rate = String.format("%.2f", api_count == 0 ? 0f : (100f * api_success) / api_count);
     }
 
     public String getApi_count() {

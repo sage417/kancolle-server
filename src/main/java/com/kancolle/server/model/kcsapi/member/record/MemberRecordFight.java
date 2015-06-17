@@ -25,7 +25,7 @@ public class MemberRecordFight {
         this.api_win = Integer.toString(api_win);
         this.api_lose = Integer.toString(api_lose);
         int api_count = api_win + api_lose;
-        this.api_rate = String.format("%.2f", api_count == 0 ? 0d : (1d * api_win) / api_count);
+        this.api_rate = String.format("%.2f", api_count == 0 ? 0f : (1f * api_win) / api_count);
     }
 
     public String getApi_win() {

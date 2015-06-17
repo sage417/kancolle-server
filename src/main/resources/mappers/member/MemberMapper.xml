@@ -92,4 +92,13 @@
 		WHERE
 		member_id = #{memberId}
 	</update>
+	
+	<update id="updateMemberResource">
+		UPDATE t_member_material SET 
+			FUEL = FUEL - #{fuel}, 
+			BULL = BULL - #{bull}, 
+			STEAL = STEAL - #{steal} , 
+			BAUXITE = BAUXITE - #{bauxite} 
+		WHERE member_id = #{member_id}
+	</update>
 </mapper>
