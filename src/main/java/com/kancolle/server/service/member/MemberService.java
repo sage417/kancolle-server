@@ -12,6 +12,7 @@ import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.resource.Resource;
 
 public interface MemberService {
 
@@ -56,4 +57,10 @@ public interface MemberService {
      * @param comsumeBauxite
      */
     void consumeResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite);
+
+    /**
+     * @param memberId
+     * @return
+     */
+    Resource getMemberResouce(long memberId);
 }

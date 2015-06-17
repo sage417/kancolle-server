@@ -27,6 +27,7 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.resource.Resource;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
@@ -124,8 +125,8 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         return getTemplate().queryForObject("SELECT member_id FROM t_member WHERE api_token = :token", Collections.singletonMap("token", api_token), String.class);
     }
 
-    private Map<String, Object> getMemParamMap(String value) {
-        return Collections.singletonMap("member_id", value);
+    private Map<String, Object> getMemParamMap(Object memberId) {
+        return Collections.singletonMap("member_id", memberId);
     }
 
     @Override
@@ -150,7 +151,8 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         // 获取舰娘装备信息(未处理)
         List<String> str_onslotitem_ids = getTemplate().queryForList("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id", getMemParamMap(member_id), String.class);
         // 获取舰娘装备信息(处理)
-        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(JSON::parseArray).flatMap(array -> Arrays.asList(array.toArray(new Long[array.size()])).stream().filter(value -> value > 0)).collect(Collectors.toList());
+        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(JSON::parseArray)
+                .flatMap(array -> Arrays.asList(array.toArray(new Long[array.size()])).stream().filter(value -> value > 0)).collect(Collectors.toList());
         // 获取未装备ID
         all_slotitem_ids.removeAll(onslotitem_ids);
 
@@ -210,5 +212,10 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         params.put("steal", comsumeSteal);
         params.put("bauxite", comsumeBauxite);
         getSqlSession().update("updateMemberResource", params);
+    }
+
+    @Override
+    public Resource selectMemberResource(long memberId) {
+        return getSqlSession().selectOne("selectMemberResource", memberId);
     }
 }

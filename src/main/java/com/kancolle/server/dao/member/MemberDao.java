@@ -12,6 +12,7 @@ import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.resource.Resource;
 
 public interface MemberDao extends BaseDao<Member> {
 
@@ -62,4 +63,10 @@ public interface MemberDao extends BaseDao<Member> {
      * @param comsumeBauxite
      */
     void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite);
+
+    /**
+     * @param memberId
+     * @return
+     */
+    Resource selectMemberResource(long memberId);
 }
