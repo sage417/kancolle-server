@@ -76,6 +76,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    /* @Cacheable(value = "token2MemberId", key = "#api_token") */
     public String getMemberByApiToken(String api_token) {
         return memberDao.getMemberByApiToken(api_token);
     }
