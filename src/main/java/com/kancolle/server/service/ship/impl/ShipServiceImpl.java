@@ -11,7 +11,7 @@ import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
-import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.logic.LVUtil;
 import com.kancolle.server.utils.logic.ResourceUtils;
@@ -22,7 +22,7 @@ public class ShipServiceImpl implements ShipService {
     private ShipDao shipDao;
 
     @Autowired
-    private MemberService memberService;
+    private MemberResourceService memberResourceService;
 
     @Cacheable(value = "ship", key = "#ship_id")
     @Override
@@ -132,13 +132,13 @@ public class ShipServiceImpl implements ShipService {
             memberShip.setBull(ship.getBullMax());
         }
         // TODO 资源不足不足以补给
-        Resource resource = memberService.getMemberResouce(memberShip.getMemberId());
+        Resource resource = memberResourceService.getMemberResouce(memberShip.getMemberId());
         if (!ResourceUtils.hasEnoughFuel(resource, chargeFuel) && !ResourceUtils.hasEnoughBull(resource, chargeBull) && !ResourceUtils.hasEnoughBauxite(resource, comsumeBauxite)) {
             // TODO LOG
             throw new IllegalArgumentException();
         }
         // 扣除资源
-        memberService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite);
+        memberResourceService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite);
         shipDao.update(memberShip);
     }
 }

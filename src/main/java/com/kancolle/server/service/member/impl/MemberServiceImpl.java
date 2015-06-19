@@ -23,7 +23,6 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.ShipService;
@@ -172,15 +171,5 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
-    }
-
-    @Override
-    public void consumeResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite) {
-        memberDao.updateMemberResource(memberId, chargeFuel, chargeBull, comsumeSteal, comsumeBauxite);
-    }
-
-    @Override
-    public Resource getMemberResouce(long memberId) {
-        return memberDao.selectMemberResource(memberId);
     }
 }

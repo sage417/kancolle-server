@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -27,7 +26,6 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.resource.Resource;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
@@ -201,21 +199,5 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public Member getMemberById(String memberId) {
         return getSqlSession().selectOne("selectMemberById", memberId);
-    }
-
-    @Override
-    public void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
-        params.put("member_id", memberId);
-        params.put("fuel", chargeFuel);
-        params.put("bull", chargeBull);
-        params.put("steal", comsumeSteal);
-        params.put("bauxite", comsumeBauxite);
-        getSqlSession().update("updateMemberResource", params);
-    }
-
-    @Override
-    public Resource selectMemberResource(long memberId) {
-        return getSqlSession().selectOne("selectMemberResource", memberId);
     }
 }

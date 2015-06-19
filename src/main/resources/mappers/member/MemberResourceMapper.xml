@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.member.MemberResourceDao">
+	<resultMap type="Resource" id="ResourceRM" autoMapping="true">
+		<id property="memberId" column="member_id" />
+		<result property="fastRecovery" column="FAST_REC" />
+		<result property="fastBuild" column="FAST_BUILD" />
+		<result property="devItem" column="DEV_ITEM" />
+		<result property="ehItem" column="ENH_ITEM" />
+	</resultMap>
+
+	<select id="selectMemberResource" resultMap="ResourceRM">
+		SELECT * FROM t_member_material WHERE member_id = #{memberId}
+	</select>
+
+	<update id="updateMemberResource">
+		UPDATE t_member_material SET 
+			FUEL = FUEL + #{fuel}, 
+			BULL = BULL + #{bull}, 
+			STEAL = STEAL + #{steal} , 
+			BAUXITE = BAUXITE + #{bauxite} 
+		WHERE member_id = #{member_id}
+	</update>
+</mapper>
