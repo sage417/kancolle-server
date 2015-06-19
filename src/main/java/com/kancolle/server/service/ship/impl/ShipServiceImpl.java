@@ -8,13 +8,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.dao.ship.ShipDao;
-import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.logic.LVUtil;
-import com.kancolle.server.utils.logic.ResourceUtils;
 
 @Service
 public class ShipServiceImpl implements ShipService {
@@ -72,7 +70,9 @@ public class ShipServiceImpl implements ShipService {
 
     /**
      * 获取舰娘升级到下一级所需经验（差分经验）
-     * @param nowLevel 当前等级
+     * 
+     * @param nowLevel
+     *            当前等级
      * @return
      */
     private long getNextLVExp(int nowLevel) {
@@ -131,14 +131,8 @@ public class ShipServiceImpl implements ShipService {
             chargeBull = ship.getBullMax() - memberShip.getBull();
             memberShip.setBull(ship.getBullMax());
         }
-        // TODO 资源不足不足以补给
-        Resource resource = memberResourceService.getMemberResouce(memberShip.getMemberId());
-        if (!ResourceUtils.hasEnoughFuel(resource, chargeFuel) && !ResourceUtils.hasEnoughBull(resource, chargeBull) && !ResourceUtils.hasEnoughBauxite(resource, comsumeBauxite)) {
-            // TODO LOG
-            throw new IllegalArgumentException();
-        }
         // 扣除资源
-        memberResourceService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite);
+        memberResourceService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
         shipDao.update(memberShip);
     }
 }

@@ -21,18 +21,22 @@ import com.kancolle.server.model.po.resource.Resource;
 public class MemberResourceDaoImpl extends BaseDaoImpl<Resource> implements MemberResourceDao {
 
     @Override
-    public void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
+    public Resource selectMemberResource(long memberId) {
+        return getSqlSession().selectOne("selectMemberResource", memberId);
+    }
+
+    @Override
+    public void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(9);
         params.put("member_id", memberId);
         params.put("fuel", chargeFuel);
         params.put("bull", chargeBull);
         params.put("steal", comsumeSteal);
         params.put("bauxite", comsumeBauxite);
-        getSqlSession().update("updateMemberResource", params);
-    }
-
-    @Override
-    public Resource selectMemberResource(long memberId) {
-        return getSqlSession().selectOne("selectMemberResource", memberId);
+        params.put("fastRecovery", fastRecovery);
+        params.put("fastBuild", fastBuild);
+        params.put("devItem", devItem);
+        params.put("ehItem", ehItem);
+        getSqlSession().update("updateResource", params);
     }
 }

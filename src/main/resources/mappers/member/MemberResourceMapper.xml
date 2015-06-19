@@ -14,11 +14,28 @@
 	</select>
 
 	<update id="updateMemberResource">
-		UPDATE t_member_material SET 
-			FUEL = FUEL + #{fuel}, 
-			BULL = BULL + #{bull}, 
-			STEAL = STEAL + #{steal} , 
-			BAUXITE = BAUXITE + #{bauxite} 
+		UPDATE t_member_material SET
+			FUEL = #{fuel},
+			BULL = #{bull},
+			STEAL = #{steal} ,
+			BAUXITE = #{bauxite},
+			FAST_REC = #{fastRecovery},
+			FAST_BUILD = #{fastBuild},
+			DEV_ITEM = #{devItem},
+			ENH_ITEM = #{ehItem}
+		WHERE member_id = #{member_id}
+	</update>
+
+	<update id="updateResource">
+		UPDATE t_member_material SET
+			FUEL = FUEL + #{fuel},
+			BULL = BULL + #{bull},
+			STEAL = STEAL + #{steal} ,
+			BAUXITE = BAUXITE + #{bauxite},
+			FAST_REC = FAST_REC + #{fastRecovery},
+			FAST_BUILD = FAST_BUILD + #{fastBuild},
+			DEV_ITEM = DEV_ITEM + #{devItem},
+			ENH_ITEM = ENH_ITEM + #{ehItem}
 		WHERE member_id = #{member_id}
 	</update>
 </mapper>

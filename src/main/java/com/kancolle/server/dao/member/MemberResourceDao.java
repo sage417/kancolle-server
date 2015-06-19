@@ -17,8 +17,12 @@ public interface MemberResourceDao extends BaseDao<Resource> {
      * @param chargeBull
      * @param comsumeSteal
      * @param comsumeBauxite
+     * @param ehItem
+     * @param devItem
+     * @param fastBuild
+     * @param fastRecovery
      */
-    void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite);
+    void updateMemberResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem);
 
     /**
      * @param memberId

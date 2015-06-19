@@ -12,6 +12,9 @@ import org.apache.ibatis.type.Alias;
  */
 @Alias("Resource")
 public class Resource {
+    public static final int MAX_RESOURCE_VALUE = 300000;
+
+    public static final int MAX_METERIAL_VALUE = 3000;
 
     private long memberId;
 
@@ -127,6 +130,40 @@ public class Resource {
 
     @Override
     public String toString() {
-        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steal=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steal, bauxite, fastRecovery, fastBuild, devItem, ehItem);
+        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steal=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steal, bauxite,
+                fastRecovery, fastBuild, devItem, ehItem);
     }
+
+    public boolean hasEnoughFuel(int target) {
+        return this.fuel > target;
+    }
+
+    public boolean hasEnoughBull(int target) {
+        return this.bull > target;
+    }
+
+    public boolean hasEnoughSteal(int target) {
+        return this.steal > target;
+    }
+
+    public boolean hasEnoughBauxite(int target) {
+        return this.bauxite > target;
+    }
+
+    public boolean hasEnoughFastRecovery(int target) {
+        return this.fastRecovery > target;
+    }
+
+    public boolean hasEnoughFastBuild(int target) {
+        return this.fastBuild > target;
+    }
+
+    public boolean hasEnoughDevItem(int target) {
+        return this.devItem > target;
+    }
+
+    public boolean hasEnoughEhItem(int target) {
+        return this.ehItem > target;
+    }
+
 }
