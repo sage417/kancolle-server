@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
@@ -17,7 +18,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberFurnitureService;
 
 @Controller
-@RequestMapping("/kcsapi/api_req_furniture")
+@RequestMapping(value = "/kcsapi/api_req_furniture", method = RequestMethod.POST)
 public class ReqFurnitureController {
     private static final APIResponse<Object> SUCCESS_RESPONSE = new APIResponse<Object>();
 

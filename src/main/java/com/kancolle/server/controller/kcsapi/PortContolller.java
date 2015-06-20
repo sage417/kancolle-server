@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.model.kcsapi.member.MemberPort;
@@ -13,7 +14,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
-@RequestMapping("/kcsapi/api_port")
+@RequestMapping(value = "/kcsapi/api_port", method = RequestMethod.POST)
 public class PortContolller {
     @Autowired
     private MemberService memberService;

@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kancolle.server.logic.ShipLogic;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
-@RequestMapping("/kcsapi/api_req_kousyou")
+@RequestMapping(value = "/kcsapi/api_req_kousyou", method = RequestMethod.POST)
 public class ReqKousyouController {
     @Autowired
     private MemberService memberService;

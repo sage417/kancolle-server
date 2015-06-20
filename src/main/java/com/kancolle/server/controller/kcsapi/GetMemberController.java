@@ -23,7 +23,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
-@RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.GET)
+@RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.POST)
 public class GetMemberController {
     @Autowired
     private MemberService memberService;

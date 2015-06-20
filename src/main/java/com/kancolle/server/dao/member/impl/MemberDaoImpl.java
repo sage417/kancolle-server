@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -149,8 +150,9 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         // 获取舰娘装备信息(未处理)
         List<String> str_onslotitem_ids = getTemplate().queryForList("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id", getMemParamMap(member_id), String.class);
         // 获取舰娘装备信息(处理)
-        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(JSON::parseArray)
-                .flatMap(array -> Arrays.asList(array.toArray(new Long[array.size()])).stream().filter(value -> value > 0)).collect(Collectors.toList());
+
+        List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(onslotitemIds -> JSON.parseArray(onslotitemIds, Long.class))
+                .flatMap(array -> Arrays.asList(array.toArray(new Long[] {})).stream().filter(value -> value > 0)).collect(Collectors.toList());
         // 获取未装备ID
         all_slotitem_ids.removeAll(onslotitem_ids);
 
@@ -169,9 +171,9 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
             unsetSlotitems.addAll(queryForModels(SlotItemModel.class, "SELECT ID,TYPE FROM v_member_slotitem WHERE member_id = :member_id AND ID IN (:ids)", params));
         });
 
-        int slotitemTypeCount = getTemplate().queryForObject("SELECT count(*) FROM t_slotitem_equiptype", Collections.emptyMap(), int.class);
+        Integer slotitemTypeCount = getTemplate().queryForObject("SELECT COUNT(*) FROM t_slotitem_equiptype", Collections.emptyMap(), Integer.class);
 
-        Map<String, Object> result = new HashMap<>(slotitemTypeCount);
+        Map<String, Object> result = Maps.newHashMapWithExpectedSize(slotitemTypeCount.intValue());
 
         Stream.iterate(1, n -> ++n).limit(slotitemTypeCount).forEach(i -> {
             List<Long> ids = unsetSlotitems.stream().filter(slotitem -> slotitem.getApi_type().getIntValue(2) == i).map(SlotItemModel::getApi_id).collect(Collectors.toList());

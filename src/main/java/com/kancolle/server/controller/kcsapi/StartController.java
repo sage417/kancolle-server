@@ -11,7 +11,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.start.StartService;
 
 @Controller
-@RequestMapping(value = "/kcsapi", method = RequestMethod.GET)
+@RequestMapping(value = "/kcsapi", method = RequestMethod.POST)
 public class StartController {
 
     @Autowired

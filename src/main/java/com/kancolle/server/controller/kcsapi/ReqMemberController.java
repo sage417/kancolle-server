@@ -21,7 +21,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberUseItemService;
 
 @Controller
-@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)
+@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
 
