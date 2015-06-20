@@ -43,6 +43,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     public void increaseResource(long memberId, int increaseFuel, int increaseBull, int increaseSteal, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
             int increaseEhItem) {
         Resource resource = getMemberResouce(memberId);
+
         if (resource.getFuel() + increaseFuel > MAX_RESOURCE_VALUE) {
             increaseFuel = MAX_RESOURCE_VALUE - resource.getFuel();
         }
@@ -74,6 +75,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
         if (resource.getEhItem() + increaseEhItem > MAX_METERIAL_VALUE) {
             increaseEhItem = MAX_METERIAL_VALUE - resource.getEhItem();
         }
+
         memberResourceDao.updateMemberResource(memberId, increaseFuel, increaseBull, increaseSteal, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
     }
 }

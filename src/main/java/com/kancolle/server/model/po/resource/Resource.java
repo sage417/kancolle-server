@@ -135,35 +135,35 @@ public class Resource {
     }
 
     public boolean hasEnoughFuel(int target) {
-        return this.fuel > target;
+        return this.fuel >= target;
     }
 
     public boolean hasEnoughBull(int target) {
-        return this.bull > target;
+        return this.bull >= target;
     }
 
     public boolean hasEnoughSteal(int target) {
-        return this.steal > target;
+        return this.steal >= target;
     }
 
     public boolean hasEnoughBauxite(int target) {
-        return this.bauxite > target;
+        return this.bauxite >= target;
     }
 
     public boolean hasEnoughFastRecovery(int target) {
-        return this.fastRecovery > target;
+        return this.fastRecovery >= target;
     }
 
     public boolean hasEnoughFastBuild(int target) {
-        return this.fastBuild > target;
+        return this.fastBuild >= target;
     }
 
     public boolean hasEnoughDevItem(int target) {
-        return this.devItem > target;
+        return this.devItem >= target;
     }
 
     public boolean hasEnoughEhItem(int target) {
-        return this.ehItem > target;
+        return this.ehItem >= target;
     }
 
 }
