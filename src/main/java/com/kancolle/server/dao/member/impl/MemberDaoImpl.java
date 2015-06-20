@@ -1,9 +1,9 @@
 package com.kancolle.server.dao.member.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -31,7 +31,6 @@ import com.kancolle.server.model.po.member.Member;
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
-
     private static final String SLOT_STR = "api_slottype";
 
     @Override
@@ -150,13 +149,12 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         // 获取舰娘装备信息(未处理)
         List<String> str_onslotitem_ids = getTemplate().queryForList("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id", getMemParamMap(member_id), String.class);
         // 获取舰娘装备信息(处理)
-
         List<Long> onslotitem_ids = str_onslotitem_ids.parallelStream().map(onslotitemIds -> JSON.parseArray(onslotitemIds, Long.class))
                 .flatMap(array -> Arrays.asList(array.toArray(new Long[] {})).stream().filter(value -> value > 0)).collect(Collectors.toList());
         // 获取未装备ID
         all_slotitem_ids.removeAll(onslotitem_ids);
 
-        List<SlotItemModel> unsetSlotitems = new ArrayList<>(all_slotitem_ids.size());
+        List<SlotItemModel> unsetSlotitems = Lists.newArrayListWithExpectedSize(all_slotitem_ids.size());
 
         Map<String, Object> params = new HashMap<>(2);
         params.put("member_id", member_id);
@@ -173,12 +171,12 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
         Integer slotitemTypeCount = getTemplate().queryForObject("SELECT COUNT(*) FROM t_slotitem_equiptype", Collections.emptyMap(), Integer.class);
 
-        Map<String, Object> result = Maps.newHashMapWithExpectedSize(slotitemTypeCount.intValue());
+        Map<String, Object> result = new LinkedHashMap<String, Object>(slotitemTypeCount.intValue());
 
         Stream.iterate(1, n -> ++n).limit(slotitemTypeCount).forEach(i -> {
             List<Long> ids = unsetSlotitems.stream().filter(slotitem -> slotitem.getApi_type().getIntValue(2) == i).map(SlotItemModel::getApi_id).collect(Collectors.toList());
             // TODO
-                result.put(SLOT_STR + i, JSON.toJSONString(ids));
+                result.put(SLOT_STR + i, ids.isEmpty() ? -1 : ids);
             });
         return result;
     }
