@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,7 @@ public class ShipServiceImplTest {
     @Test
     public void testGetMemberShip() {
         MemberShip ship = shipService.getMemberShip("9007383", 1);
+        Assert.assertNotNull(ship);
     }
 
     @Test

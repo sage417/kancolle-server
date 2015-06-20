@@ -5,6 +5,8 @@ package com.kancolle.server.service.member.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -29,6 +31,8 @@ import com.kancolle.server.utils.logic.FurnitureUtils;
  */
 @Service
 public class MemberFurnitureServiceImpl implements MemberFurnitureService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemberFurnitureServiceImpl.class);
+
     @Autowired
     private MemberFurnitureDao memberFurnitureDao;
 
@@ -58,23 +62,29 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void buyFurniture(String member_id, FurnitureBuyForm form) {
 
-        Furniture furniture = getFurniture(form.getApi_type(), form.getApi_no());
+        Integer furnitureType = form.getApi_type();
+        Integer furnitureNo = form.getApi_no();
+
+        Furniture furniture = getFurniture(furnitureType, furnitureNo);
         if (furniture == null) {
-            // TODO
-            throw new NullPointerException("家具不存在");
+            LOGGER.warn("用户Id:{} 查询不存在的家具，type = {}, no = {}", member_id, furnitureType, furnitureNo);
+            throw new IllegalArgumentException("家具不存在");
         }
 
         Integer furnitureId = furniture.getFurnitureId();
 
         if (getMemberFurniture(member_id, furnitureId) != null) {
+            LOGGER.warn("用户Id:{} 购买已拥有的家具，furnitureId = {}", member_id, furnitureId);
             throw new IllegalArgumentException("已拥有该家具");
         }
 
-        Member member = memberService.getMember(member_id);
-
         if (furniture.getPrice() > 0) {
+            Member member = memberService.getMember(member_id);
+
             int remainFCoin = member.getfCoin() - furniture.getPrice();
+
             if (remainFCoin < 0) {
+                LOGGER.warn("用户Id:{} 家具币不足，furnitureId = {}", member_id, furnitureId);
                 throw new IllegalArgumentException("家具币不足");
             }
             member.setfCoin(remainFCoin);
@@ -84,8 +94,8 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
         try {
             memberFurnitureDao.insertMemberFurniture(member_id, furnitureId);
         } catch (RuntimeException e) {
-            String msg = e.getMessage();
-            throw new RuntimeException("购买家具失败");
+            LOGGER.warn("Id:{} 购买家具失败，原因：{}", member_id, e.getMessage(), e);
+            throw e;
         }
     }
 

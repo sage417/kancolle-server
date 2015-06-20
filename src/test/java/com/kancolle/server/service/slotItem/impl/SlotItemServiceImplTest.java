@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.slotItem.impl;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,6 @@ public class SlotItemServiceImplTest {
     @Test
     public void testGetSlotItemById() {
         SlotItem slotItem = slotitemService.getSlotItemById(1);
+        Assert.assertNotNull(slotItem);
     }
 }
