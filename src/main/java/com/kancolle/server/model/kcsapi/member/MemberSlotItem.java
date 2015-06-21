@@ -6,7 +6,7 @@ import com.kancolle.server.dao.annotation.Column;
 public class MemberSlotItem {
 
     @JSONField(ordinal = 1)
-    private int api_id;
+    private long api_id;
 
     @JSONField(ordinal = 2)
     private int api_slotitem_id;
@@ -17,7 +17,7 @@ public class MemberSlotItem {
     @JSONField(ordinal = 4)
     private int api_level;
 
-    public int getApi_id() {
+    public long getApi_id() {
         return api_id;
     }
 
@@ -33,8 +33,8 @@ public class MemberSlotItem {
         return api_slotitem_id;
     }
 
-    @Column(name = "ID", type = int.class)
-    public void setApi_id(int api_id) {
+    @Column(name = "ID", type = long.class)
+    public void setApi_id(long api_id) {
         this.api_id = api_id;
     }
 

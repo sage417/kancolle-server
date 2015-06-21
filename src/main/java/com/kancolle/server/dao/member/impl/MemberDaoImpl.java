@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
+import com.kancolle.server.dao.slotitem.SlotItemDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
@@ -25,11 +27,14 @@ import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
-import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
+    @Autowired
+    private SlotItemDao slotItemDao;
+
     private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
     private static final String SLOT_STR = "api_slottype";
 
@@ -154,7 +159,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         // 获取未装备ID
         all_slotitem_ids.removeAll(onslotitem_ids);
 
-        List<SlotItemModel> unsetSlotitems = Lists.newArrayListWithExpectedSize(all_slotitem_ids.size());
+        List<MemberSlotItem> unsetSlotitems = Lists.newArrayListWithExpectedSize(all_slotitem_ids.size());
 
         Map<String, Object> params = new HashMap<>(2);
         params.put("member_id", member_id);
@@ -166,15 +171,18 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
             List<Long> ids = all_slotitem_ids.subList(i * 100, end);
             params.put("ids", ids);
 
-            unsetSlotitems.addAll(queryForModels(SlotItemModel.class, "SELECT ms.ID, s.TYPE FROM v_member_slotitem ms INNER JOIN t_slotitem s ON s.ID = ms.SLOTITEM_ID WHERE ms.member_id = :member_id AND ms.ID IN (:ids)", params));
+            unsetSlotitems.addAll(queryForModels(MemberSlotItem.class, "SELECT * FROM v_member_slotitem WHERE member_id = :member_id AND ID IN (:ids)", params));
         });
 
         Integer slotitemTypeCount = getTemplate().queryForObject("SELECT COUNT(*) FROM t_slotitem_equiptype", Collections.emptyMap(), Integer.class);
 
         Map<String, Object> result = new LinkedHashMap<String, Object>(slotitemTypeCount.intValue());
 
-        Stream.iterate(1, n -> ++n).limit(slotitemTypeCount).forEach(i -> {
-            List<Long> ids = unsetSlotitems.stream().filter(slotitem -> slotitem.getApi_type().getIntValue(2) == i).map(SlotItemModel::getApi_id).collect(Collectors.toList());
+        Stream.iterate(1, n -> ++n).limit(slotitemTypeCount.intValue()).forEach(i -> {
+            List<Long> ids = unsetSlotitems.stream().filter(slotitem -> {
+                SlotItem slotitem2 = slotItemDao.getSlotItemById(slotitem.getApi_slotitem_id());
+                return slotitem2.getType()[2] == i;
+            }).map(MemberSlotItem::getApi_id).collect(Collectors.toList());
             // TODO
                 result.put(SLOT_STR + i, ids.isEmpty() ? -1 : ids);
             });

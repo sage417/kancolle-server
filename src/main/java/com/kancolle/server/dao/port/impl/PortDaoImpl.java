@@ -72,7 +72,7 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberShip> getShip(String member_id) {
-        List<MemberShip> memberShips = queryForModels(MemberShip.class, "SELECT * FROM t_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
+        List<MemberShip> memberShips = queryForModels(MemberShip.class, "SELECT * FROM v_member_ship WHERE member_id = :member_id", getMemParamMap(member_id));
         for (MemberShip memberShip : memberShips) {
             Ship ship = shipDao.getShipById(memberShip.getApi_ship_id());
             // 火力
