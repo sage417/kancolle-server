@@ -102,7 +102,6 @@ public class DaoUtils {
             } else {
                 Column[] columms = method.getAnnotationsByType(Column.class);
                 if (columms.length == 0) {
-                    System.out.println(method);
                     return;
                 }
 
