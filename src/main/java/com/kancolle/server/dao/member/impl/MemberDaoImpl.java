@@ -166,7 +166,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
             List<Long> ids = all_slotitem_ids.subList(i * 100, end);
             params.put("ids", ids);
 
-            unsetSlotitems.addAll(queryForModels(SlotItemModel.class, "SELECT ID,TYPE FROM v_member_slotitem WHERE member_id = :member_id AND ID IN (:ids)", params));
+            unsetSlotitems.addAll(queryForModels(SlotItemModel.class, "SELECT ms.ID, s.TYPE FROM v_member_slotitem ms INNER JOIN t_slotitem s ON s.ID = ms.SLOTITEM_ID WHERE ms.member_id = :member_id AND ms.ID IN (:ids)", params));
         });
 
         Integer slotitemTypeCount = getTemplate().queryForObject("SELECT COUNT(*) FROM t_slotitem_equiptype", Collections.emptyMap(), Integer.class);

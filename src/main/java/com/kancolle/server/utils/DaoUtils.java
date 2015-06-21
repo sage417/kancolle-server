@@ -13,12 +13,17 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kancolle.server.dao.annotation.Column;
 import com.kancolle.server.dao.annotation.Id;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.dao.lambda.ThrowingFunction;
 
 public class DaoUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DaoUtils.class);
+
     private static final String PARAM_PREFIX = "api";
 
     private static final Pattern METHOD_NAME_PATTERN_REPLACER = Pattern.compile("_[a-zA-Z0-9]");
@@ -109,7 +114,7 @@ public class DaoUtils {
             try {
                 method.invoke(target, resultMap.get(type).apply(name).apply(rs));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.warn("error when JDBC SQL", e);
             }
         });
         return target;

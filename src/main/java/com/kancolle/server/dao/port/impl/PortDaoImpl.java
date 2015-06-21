@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
@@ -31,7 +30,7 @@ import com.kancolle.server.utils.DaoUtils;
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Autowired
     private MemberDao memberDao;
-    
+
     @Autowired
     private ShipDao shipDao;
 
@@ -42,9 +41,9 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberDeckPort> getDeckPort(String member_id) {
-        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
+        return getTemplate().query("SELECT * FROM v_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
             MemberDeckPort deck_port = DaoUtils.setObject(new MemberDeckPort(), rs);
-            deck_port.setApi_mission(JSON.toJSONString(new long[] { rs.getInt("MISSION_STATUS"), rs.getInt("MISSION_ID"), rs.getLong("MISSION_COMPLETE_TIME"), rs.getInt("MISSION_FLAG") }));
+            deck_port.setApi_mission(new Long[] { rs.getLong("MISSION_STATUS"), rs.getLong("MISSION_ID"), rs.getLong("MISSION_COMPLETE_TIME"), rs.getLong("MISSION_FLAG") });
             return deck_port;
         });
     }

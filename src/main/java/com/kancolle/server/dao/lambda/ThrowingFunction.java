@@ -20,7 +20,7 @@ public interface ThrowingFunction<T, R> extends Function<T, R> {
         try {
             return acceptThrows(elem);
         } catch (final Exception e) {
-            System.out.println("handling an exception...");
+            System.out.println("ThrowingFunction handling an exception...");
             throw new RuntimeException(e);
         }
     }
