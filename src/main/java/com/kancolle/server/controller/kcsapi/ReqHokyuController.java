@@ -26,7 +26,7 @@ import com.kancolle.server.service.ship.ShipService;
  *
  */
 @Controller
-@RequestMapping(value = "/api_req_hokyu", method = RequestMethod.POST)
+@RequestMapping(value = "/kcsapi/api_req_hokyu", method = RequestMethod.POST)
 public class ReqHokyuController {
     @Autowired
     private ShipService shipService;

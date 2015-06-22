@@ -111,20 +111,24 @@ public class ShipServiceImpl implements ShipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     private void charge(MemberShip memberShip, boolean fuel, boolean bull) {
-
         Ship ship = memberShip.getShip();
+
         int chargeFuel = 0;
         int chargeBull = 0;
         int comsumeBauxite = 0;
+
         if (fuel) {
             chargeFuel = ship.getFuelMax() - memberShip.getFuel();
             memberShip.setFuel(ship.getFuelMax());
 
             for (int i = 0; i < ship.getMaxEq().length; i++) {
-                int comsumePlaneCount = ship.getMaxEq()[i] - memberShip.getOnslot()[i];
-                if (comsumePlaneCount > 0)
-                    comsumeBauxite += 5 * comsumePlaneCount;
+                if (ship.getMaxEq()[i] > 0) {
+                    int comsumePlaneCount = ship.getMaxEq()[i] - memberShip.getOnslot()[i];
+                    if (comsumePlaneCount > 0)
+                        comsumeBauxite += 5 * comsumePlaneCount;
+                }
             }
+            memberShip.setOnslot(memberShip.getShip().getMaxEq());
         }
 
         if (bull) {
@@ -165,6 +169,7 @@ public class ShipServiceImpl implements ShipService {
 
         ChargeModel result = new ChargeModel();
         List<ShipChargeModel> scm = Lists.newArrayListWithExpectedSize(actualMemberShips.size());
+        result.setApi_ship(scm);
         for (MemberShip memberShip : actualMemberShips) {
             charge(memberShip, fuel, bull);
             scm.add(new ShipChargeModel(memberShip));

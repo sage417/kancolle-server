@@ -180,6 +180,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
         Stream.iterate(1, n -> ++n).limit(slotitemTypeCount.intValue()).forEach(i -> {
             List<Long> ids = unsetSlotitems.stream().filter(slotitem -> {
+                // TODO
                 SlotItem slotitem2 = slotItemDao.getSlotItemById(slotitem.getApi_slotitem_id());
                 return slotitem2.getType()[2] == i;
             }).map(MemberSlotItem::getApi_id).collect(Collectors.toList());
