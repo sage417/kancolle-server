@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.member.MemberNdockDao">
+
+	<resultMap type="MemberNdock" id="MemberNdockRM" autoMapping="true">
+		<id property="api_member_id" column="member_id" />
+		<id property="api_id" column="ID" />
+		<result property="api_state" column="STATE" />
+		<result property="api_ship_id" column="SHIP_ID" />
+		<result property="api_complete_time" column="COMPLETE_TIME" />
+		<result property="api_complete_time_str" column="COMPLETE_TIME_STR" />
+		<result property="api_item1" column="ITEM1" />
+		<result property="api_item2" column="ITEM2" />
+		<result property="api_item3" column="ITEM3" />
+		<result property="api_item4" column="ITEM4" />
+	</resultMap>
+
+	<select id="selectMemberNdockByCond" resultMap="MemberNdockRM">
+		SELECT * FROM t_member_ndock WHERE member_id = #{member_id}
+	</select>
+</mapper>

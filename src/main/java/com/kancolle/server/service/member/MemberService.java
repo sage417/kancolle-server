@@ -7,7 +7,6 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -25,8 +24,6 @@ public interface MemberService {
     List<MemberFurniture> getFurniture(String member_id);
 
     List<MemberKdock> getKdock(String member_id);
-
-    List<MemberNdock> getNdock(String member_id);
 
     String getMemberByApiToken(String api_token);
 

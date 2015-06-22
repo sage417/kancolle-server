@@ -15,7 +15,6 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -25,6 +24,7 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.member.MemberFurnitureService;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DaoUtils;
@@ -40,6 +40,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberFurnitureService memberFurnitureService;
+
+    @Autowired
+    private MemberNdockService memberNdockService;
 
     @Autowired
     private ShipService ShipService;
@@ -87,7 +90,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
-        MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count");
+        MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count", "setApi_ndock");
+        port.setApi_ndock(memberNdockService.getMemberNdock(member_id));
         port.setApi_p_bgm_id(port.getApi_basic().getApi_p_bgm_id());
         port.setApi_parallel_quest_count(port.getApi_basic().getApi_parallel_quest_count());
         return port;
@@ -169,10 +173,5 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
-    }
-
-    @Override
-    public List<MemberNdock> getNdock(String member_id) {
-        return portDao.getNdock(member_id);
     }
 }

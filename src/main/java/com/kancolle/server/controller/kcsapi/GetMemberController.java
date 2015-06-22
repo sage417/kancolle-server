@@ -26,6 +26,7 @@ import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 
 @Controller
@@ -33,6 +34,9 @@ import com.kancolle.server.service.member.MemberService;
 public class GetMemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MemberNdockService memberNdockService;
 
     @RequestMapping("/basic")
     public @ResponseBody APIResponse<MemberBasic> basic(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -54,7 +58,7 @@ public class GetMemberController {
 
     @RequestMapping("/ndock")
     public @ResponseBody APIResponse<List<MemberNdock>> ndock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberNdock> api_data = memberService.getNdock(member_id);
+        List<MemberNdock> api_data = memberNdockService.getMemberNdock(member_id);
         return new APIResponse<List<MemberNdock>>().setApi_data(api_data);
     }
 

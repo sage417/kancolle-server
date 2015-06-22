@@ -32,6 +32,7 @@
 	</settings>
 
 	<typeAliases>
+		<typeAlias alias="MemberNdock" type="com.kancolle.server.model.kcsapi.member.MemberNdock"/>
 		<package name="com.kancolle.server.model.po" />
 	</typeAliases>
 
