@@ -81,6 +81,11 @@ public class GetMemberController {
         return new APIResponse<List<MemberUseItem>>().setApi_data(api_data);
     }
 
+    @RequestMapping("/payitem")
+    public @ResponseBody APIResponse<List<Object>> payitem(@ModelAttribute(MEMBER_ID) String member_id) {
+        return new APIResponse<List<Object>>();
+    }
+
     @RequestMapping("/picture_book")
     public @ResponseBody APIResponse<List<ShipPictureBook>> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
         return null;
