@@ -1,5 +1,7 @@
 package com.kancolle.server.service.ship;
 
+import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
+import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 
@@ -19,6 +21,11 @@ public interface ShipService {
     /** 消耗油弹 */
     void consume(MemberShip memberShip, boolean fuel, boolean bull);
 
-    /** 补给 */
-    void charge(MemberShip memberShip, boolean fuel, boolean bull);
+    /**
+     * 补给
+     * 
+     * @param form
+     * @return
+     */
+    ChargeModel chargeShips(String member_id, ShipChargeForm form);
 }

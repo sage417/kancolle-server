@@ -1,5 +1,8 @@
 package com.kancolle.server.service.ship.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -7,7 +10,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
+import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.model.kcsapi.charge.ChargeModel;
+import com.kancolle.server.model.kcsapi.charge.ShipChargeModel;
+import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
@@ -22,13 +30,14 @@ public class ShipServiceImpl implements ShipService {
     @Autowired
     private MemberResourceService memberResourceService;
 
-    @Cacheable(value = "ship", key = "#ship_id")
     @Override
+    @Cacheable(value = "ship", key = "#ship_id")
     public Ship getShipById(int ship_id) {
         return shipDao.getShipById(ship_id);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberShip getMemberShip(String member_id, long ship_id) {
         return shipDao.getMemberShip(member_id, ship_id);
     }
@@ -108,9 +117,8 @@ public class ShipServiceImpl implements ShipService {
         shipDao.update(memberShip);
     }
 
-    @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void charge(MemberShip memberShip, boolean fuel, boolean bull) {
+    private void charge(MemberShip memberShip, boolean fuel, boolean bull) {
 
         Ship ship = memberShip.getShip();
         int chargeFuel = 0;
@@ -134,5 +142,44 @@ public class ShipServiceImpl implements ShipService {
         // 扣除资源
         memberResourceService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
         shipDao.update(memberShip);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
+        boolean fuel = false;
+        boolean bull = false;
+        switch (form.getApi_kind()) {
+        case 1:
+            fuel = true;
+            break;
+        case 2:
+            bull = true;
+            break;
+        case 3:
+            fuel = true;
+            bull = true;
+            break;
+        default:
+            break;
+        }
+
+        List<MemberShip> actualMemberShips = form.getApi_id_items().stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
+                .collect(Collectors.toList());
+        if (actualMemberShips.size() != form.getApi_id_items().size()) {
+            // TODO
+            throw new IllegalArgumentException();
+        }
+
+        ChargeModel result = new ChargeModel();
+        List<ShipChargeModel> scm = Lists.newArrayListWithExpectedSize(actualMemberShips.size());
+        for (MemberShip memberShip : actualMemberShips) {
+            charge(memberShip, fuel, bull);
+            scm.add(new ShipChargeModel(memberShip));
+        }
+
+        Resource rescource = memberResourceService.getMemberResouce(Long.valueOf(member_id));
+        result.setApi_material(new int[] { rescource.getFuel(), rescource.getBull(), rescource.getSteel(), rescource.getBauxite() });
+        return result;
     }
 }

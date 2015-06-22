@@ -52,8 +52,8 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             increaseBull = MAX_RESOURCE_VALUE - resource.getBull();
         }
 
-        if (resource.getSteal() + increaseSteal > MAX_RESOURCE_VALUE) {
-            increaseSteal = MAX_RESOURCE_VALUE - resource.getSteal();
+        if (resource.getSteel() + increaseSteal > MAX_RESOURCE_VALUE) {
+            increaseSteal = MAX_RESOURCE_VALUE - resource.getSteel();
         }
 
         if (resource.getBauxite() + increaseBauxite > MAX_RESOURCE_VALUE) {

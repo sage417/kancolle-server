@@ -58,7 +58,7 @@ public class Resource {
         this.bull = bull;
     }
 
-    public int getSteal() {
+    public int getSteel() {
         return steal;
     }
 
@@ -165,5 +165,4 @@ public class Resource {
     public boolean hasEnoughEhItem(int target) {
         return this.ehItem >= target;
     }
-
 }
