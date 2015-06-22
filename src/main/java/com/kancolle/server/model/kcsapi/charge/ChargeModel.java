@@ -6,6 +6,9 @@ package com.kancolle.server.model.kcsapi.charge;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.collect.Lists;
+import com.kancolle.server.model.po.resource.Resource;
+import com.kancolle.server.model.po.ship.MemberShip;
 
 /**
  * @author J.K.SAGE
@@ -21,7 +24,20 @@ public class ChargeModel {
     private int[] api_material;
 
     @JSONField(ordinal = 3)
-    private int api_use_bou = 0;
+    private int api_use_bou;
+
+    /**
+     * @param memberShips
+     * @param rescource
+     */
+    public ChargeModel(List<MemberShip> memberShips, Resource rescource, boolean useBauxite) {
+        this.api_ship = Lists.newArrayListWithCapacity(memberShips.size());
+        for (MemberShip memberShip : memberShips) {
+            this.api_ship.add(new ShipChargeModel(memberShip));
+        }
+        this.api_material = new int[] { rescource.getFuel(), rescource.getBull(), rescource.getSteel(), rescource.getBauxite() };
+        this.api_use_bou = useBauxite ? 1 : 0;
+    }
 
     public List<ShipChargeModel> getApi_ship() {
         return api_ship;

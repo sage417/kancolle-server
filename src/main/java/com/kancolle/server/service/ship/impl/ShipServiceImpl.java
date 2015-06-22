@@ -9,11 +9,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
-import com.kancolle.server.model.kcsapi.charge.ShipChargeModel;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
@@ -111,7 +109,7 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    private void charge(MemberShip memberShip, ChargeType chargeType) {
+    private boolean charge(MemberShip memberShip, ChargeType chargeType) {
         Ship ship = memberShip.getShip();
 
         int chargeFuel = 0;
@@ -139,30 +137,29 @@ public class ShipServiceImpl implements ShipService {
         // 扣除资源
         memberResourceService.consumeResource(memberShip.getMemberId(), chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
         shipDao.update(memberShip);
+
+        return comsumeBauxite > 0;
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
-        ChargeType chargeType = ChargeType.getChargeType(form.getApi_kind());
 
         List<MemberShip> actualMemberShips = form.getApi_id_items().stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
                 .collect(Collectors.toList());
         if (actualMemberShips.size() != form.getApi_id_items().size()) {
-            // TODO
+            // TODO 记录
             throw new IllegalArgumentException();
         }
 
-        ChargeModel result = new ChargeModel();
-        List<ShipChargeModel> scm = Lists.newArrayListWithExpectedSize(actualMemberShips.size());
-        result.setApi_ship(scm);
+        ChargeType chargeType = ChargeType.getChargeType(form.getApi_kind());
+
+        boolean useBauxite = false;
         for (MemberShip memberShip : actualMemberShips) {
-            charge(memberShip, chargeType);
-            scm.add(new ShipChargeModel(memberShip));
+            useBauxite = useBauxite | charge(memberShip, chargeType);
         }
 
         Resource rescource = memberResourceService.getMemberResouce(Long.valueOf(member_id));
-        result.setApi_material(new int[] { rescource.getFuel(), rescource.getBull(), rescource.getSteel(), rescource.getBauxite() });
-        return result;
+        return new ChargeModel(actualMemberShips, rescource, useBauxite);
     }
 }
