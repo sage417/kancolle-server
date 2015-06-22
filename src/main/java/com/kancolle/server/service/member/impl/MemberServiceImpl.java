@@ -91,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
         MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count", "setApi_ndock");
-        port.setApi_ndock(memberNdockService.getMemberNdock(member_id));
+        port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
         port.setApi_p_bgm_id(port.getApi_basic().getApi_p_bgm_id());
         port.setApi_parallel_quest_count(port.getApi_basic().getApi_parallel_quest_count());
         return port;

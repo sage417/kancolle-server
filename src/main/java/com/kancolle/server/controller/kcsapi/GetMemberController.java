@@ -58,7 +58,7 @@ public class GetMemberController {
 
     @RequestMapping("/ndock")
     public @ResponseBody APIResponse<List<MemberNdock>> ndock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberNdock> api_data = memberNdockService.getMemberNdock(member_id);
+        List<MemberNdock> api_data = memberNdockService.getMemberNdocks(member_id);
         return new APIResponse<List<MemberNdock>>().setApi_data(api_data);
     }
 
@@ -99,6 +99,9 @@ public class GetMemberController {
 
     @RequestMapping("/picture_book")
     public @ResponseBody APIResponse<List<ShipPictureBook>> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
+        if (result.hasErrors()) {
+
+        }
         return null;
     }
 }

@@ -1,9 +1,6 @@
 package com.kancolle.server.service.mission.impl;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +20,10 @@ import com.kancolle.server.service.deck.DeckPortService;
 import com.kancolle.server.service.map.MapAreaService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionService;
+import com.kancolle.server.utils.DateUtils;
 
 @Service
 public class MissionServiceImpl implements MissionService {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static final int MISSION_PROCESSING = 1;
 
@@ -220,7 +217,7 @@ public class MissionServiceImpl implements MissionService {
 
         this.updateDeckPortMission(member_id, deck_id, deckPortMission);
 
-        return new MissionStart(mission_complete_longtime, FORMATTER.format(LocalDateTime.ofInstant(mission_complete_instant, ZoneId.systemDefault())));
+        return new MissionStart(mission_complete_longtime, DateUtils.format(mission_complete_instant));
     }
 
     @Override

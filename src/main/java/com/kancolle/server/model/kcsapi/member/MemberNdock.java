@@ -6,123 +6,129 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberNdock")
 public class MemberNdock {
+    /** 未开启 */
+    public static final int STATE_UNAVILABLE = -1;
+    /** 可用 */
+    public static final int STATE_AVILABLE = 0;
+    /** 占用中 */
+    public static final int STATE_USING = 1;
 
-    @JSONField(ordinal = 1)
-    private long api_member_id;
+    @JSONField(ordinal = 1, name = "api_member_id")
+    private long memberId;
 
-    @JSONField(ordinal = 2)
-    private int api_id;
+    @JSONField(ordinal = 2, name = "api_id")
+    private int dockId;
 
-    @JSONField(ordinal = 3)
-    private int api_state;
+    @JSONField(ordinal = 3, name = "api_state")
+    private int state;
 
-    @JSONField(ordinal = 4)
-    private long api_ship_id;
+    @JSONField(ordinal = 4, name = "api_ship_id")
+    private long memberShipId;
 
-    @JSONField(ordinal = 5)
-    private long api_complete_time;
+    @JSONField(ordinal = 5, name = "api_complete_time")
+    private long completeTime;
 
-    @JSONField(ordinal = 6)
-    private String api_complete_time_str;
+    @JSONField(ordinal = 6, name = "api_complete_time_str")
+    private String completeTimeStr;
 
-    @JSONField(ordinal = 7)
-    private int api_item1;
+    @JSONField(ordinal = 7, name = "api_item1")
+    private int item1;
 
-    @JSONField(ordinal = 8)
-    private int api_item2;
+    @JSONField(ordinal = 8, name = "api_item2")
+    private int item2;
 
-    @JSONField(ordinal = 9)
-    private int api_item3;
+    @JSONField(ordinal = 9, name = "api_item3")
+    private int item3;
 
-    @JSONField(ordinal = 10)
-    private int api_item4;
+    @JSONField(ordinal = 10, name = "api_item4")
+    private int item4;
 
-    public long getApi_complete_time() {
-        return api_complete_time;
+    public long getMemberId() {
+        return memberId;
     }
 
-    public String getApi_complete_time_str() {
-        return api_complete_time_str;
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
     }
 
-    public int getApi_id() {
-        return api_id;
+    public int getDockId() {
+        return dockId;
     }
 
-    public int getApi_item1() {
-        return api_item1;
+    public void setDockId(int dockId) {
+        this.dockId = dockId;
     }
 
-    public int getApi_item2() {
-        return api_item2;
+    public int getState() {
+        return state;
     }
 
-    public int getApi_item3() {
-        return api_item3;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public int getApi_item4() {
-        return api_item4;
+    public long getMemberShipId() {
+        return memberShipId;
     }
 
-    public long getApi_member_id() {
-        return api_member_id;
+    public void setMemberShipId(long memberShipId) {
+        this.memberShipId = memberShipId;
     }
 
-    public long getApi_ship_id() {
-        return api_ship_id;
+    public long getCompleteTime() {
+        return completeTime;
     }
 
-    public int getApi_state() {
-        return api_state;
+    public void setCompleteTime(long completeTime) {
+        this.completeTime = completeTime;
     }
 
-    public void setApi_complete_time(long api_complete_time) {
-        this.api_complete_time = api_complete_time;
+    public String getCompleteTimeStr() {
+        return completeTimeStr;
     }
 
-    public void setApi_complete_time_str(String api_complete_time_str) {
-        this.api_complete_time_str = api_complete_time_str;
+    public void setCompleteTimeStr(String completeTimeStr) {
+        this.completeTimeStr = completeTimeStr;
     }
 
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
+    public int getItem1() {
+        return item1;
     }
 
-    public void setApi_item1(int api_item1) {
-        this.api_item1 = api_item1;
+    public void setItem1(int item1) {
+        this.item1 = item1;
     }
 
-    public void setApi_item2(int api_item2) {
-        this.api_item2 = api_item2;
+    public int getItem2() {
+        return item2;
     }
 
-    public void setApi_item3(int api_item3) {
-        this.api_item3 = api_item3;
+    public void setItem2(int item2) {
+        this.item2 = item2;
     }
 
-    public void setApi_item4(int api_item4) {
-        this.api_item4 = api_item4;
+    public int getItem3() {
+        return item3;
     }
 
-    public void setApi_member_id(long api_member_id) {
-        this.api_member_id = api_member_id;
+    public void setItem3(int item3) {
+        this.item3 = item3;
     }
 
-    public void setApi_ship_id(long api_ship_id) {
-        this.api_ship_id = api_ship_id;
+    public int getItem4() {
+        return item4;
     }
 
-    public void setApi_state(int api_state) {
-        this.api_state = api_state;
+    public void setItem4(int item4) {
+        this.item4 = item4;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + api_id;
-        result = prime * result + (int) (api_member_id ^ (api_member_id >>> 32));
+        result = prime * result + dockId;
+        result = prime * result + (int) (memberId ^ (memberId >>> 32));
         return result;
     }
 
@@ -135,16 +141,15 @@ public class MemberNdock {
         if (getClass() != obj.getClass())
             return false;
         MemberNdock other = (MemberNdock) obj;
-        if (api_id != other.api_id)
+        if (dockId != other.dockId)
             return false;
-        if (api_member_id != other.api_member_id)
+        if (memberId != other.memberId)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("MemberNdock [api_member_id=%s, api_id=%s, api_state=%s, api_ship_id=%s, api_complete_time_str=%s, api_item1=%s, api_item2=%s, api_item3=%s, api_item4=%s]",
-                api_member_id, api_id, api_state, api_ship_id, api_complete_time_str, api_item1, api_item2, api_item3, api_item4);
+        return String.format("MemberNdock [memberId=%s, dockId=%s, state=%s, completeTimeStr=%s]", memberId, dockId, state, completeTimeStr);
     }
 }

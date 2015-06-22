@@ -53,7 +53,7 @@ public class MemberShip {
     private int api_slotnum;
 
     @JSONField(ordinal = 16)
-    private int api_ndock_time;
+    private long api_ndock_time;
 
     @JSONField(ordinal = 17)
     private JSONArray api_ndock_item;
@@ -158,7 +158,7 @@ public class MemberShip {
         return api_ndock_item;
     }
 
-    public int getApi_ndock_time() {
+    public long getApi_ndock_time() {
         return api_ndock_time;
     }
 
@@ -289,8 +289,8 @@ public class MemberShip {
         this.api_ndock_item = JSON.parseArray(api_ndock_item);
     }
 
-    @Column(name = "NDOCK_TIME", type = int.class)
-    public void setApi_ndock_time(int api_ndock_time) {
+    @Column(name = "NDOCK_TIME", type = long.class)
+    public void setApi_ndock_time(long api_ndock_time) {
         this.api_ndock_time = api_ndock_time;
     }
 

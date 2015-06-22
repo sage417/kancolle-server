@@ -3,19 +3,41 @@
 <mapper namespace="com.kancolle.server.dao.member.MemberNdockDao">
 
 	<resultMap type="MemberNdock" id="MemberNdockRM" autoMapping="true">
-		<id property="api_member_id" column="member_id" />
-		<id property="api_id" column="ID" />
-		<result property="api_state" column="STATE" />
-		<result property="api_ship_id" column="SHIP_ID" />
-		<result property="api_complete_time" column="COMPLETE_TIME" />
-		<result property="api_complete_time_str" column="COMPLETE_TIME_STR" />
-		<result property="api_item1" column="ITEM1" />
-		<result property="api_item2" column="ITEM2" />
-		<result property="api_item3" column="ITEM3" />
-		<result property="api_item4" column="ITEM4" />
+		<id property="memberId" column="member_id" />
+		<id property="dockId" column="ID" />
+		<result property="memberShipId" column="SHIP_ID" />
+		<result property="completeTime" column="COMPLETE_TIME" />
+		<result property="completeTimeStr" column="COMPLETE_TIME_STR" />
 	</resultMap>
 
-	<select id="selectMemberNdockByCond" resultMap="MemberNdockRM">
+	<select id="selectMemberNdocks" resultMap="MemberNdockRM">
 		SELECT * FROM t_member_ndock WHERE member_id = #{member_id}
 	</select>
+
+	<select id="selectMemberNdockByCond" resultMap="MemberNdockRM">
+		SELECT * FROM t_member_ndock
+			<where>
+				<if test="member_id != null">
+					member_id = #{member_id}
+				</if>
+				<if test="ndock_id != null">
+					AND ID = #{ndock_id}
+				</if>
+			</where>
+	</select>
+	
+	<update id="updateMemberNdock">
+		UPDATE t_member_ndock SET
+			STATE = #{state},
+			SHIP_ID = #{memberShipId},
+			COMPLETE_TIME = #{completeTime},
+			COMPLETE_TIME_STR = #{completeTimeStr},
+			ITEM1 = #{item1},
+			ITEM2 = #{item2},
+			ITEM3 = #{item3},
+			ITEM4 = #{item4}
+		WHERE
+			member_id = #{memberId}
+			AND ID = #{dockId}
+	</update>
 </mapper>

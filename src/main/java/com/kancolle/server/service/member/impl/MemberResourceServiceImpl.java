@@ -8,6 +8,9 @@ import static com.kancolle.server.model.po.resource.Resource.MAX_RESOURCE_VALUE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.dao.member.MemberResourceDao;
 import com.kancolle.server.model.po.resource.Resource;
@@ -29,6 +32,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void consumeResource(long memberId, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
         Resource resource = getMemberResouce(memberId);
         if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteal(comsumeSteal) && !resource.hasEnoughBauxite(comsumeBauxite)
