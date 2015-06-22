@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,7 +30,7 @@ public class AdviceController {
         return (String) request.getAttribute(MEMBER_ID);
     }
 
-    // @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody APIResponse<Object> processRuntimeException(NativeWebRequest request, RuntimeException e) {
         APIResponse<Object> api_response = new APIResponse<Object>();
