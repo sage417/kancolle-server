@@ -1,4 +1,4 @@
-package com.kancolle.server.controller.kcsapi.form;
+package com.kancolle.server.controller.kcsapi.form.mission;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

@@ -95,29 +95,26 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberRecord getRecord(String member_id) {
         MemberBasic basic = memberDao.getBasic(member_id);
-        MemberRecord record = new MemberRecord();
-        BeanUtils.copyProperties(basic, record);
-        record.setApi_member_id(Long.valueOf(basic.getApi_member_id()));
-        record.setApi_cmt(basic.getApi_comment());
-        record.setApi_cmt_id(basic.getApi_comment_id());
-        record.setApi_experience(Lists.newArrayList(basic.getApi_experience(), getSumExpByLV(basic.getApi_level() + 1)));
-        record.setApi_war(new MemberRecordFight(basic.getApi_st_win(), basic.getApi_st_lose()));
-        record.setApi_mission(new MemberRecordMission(basic.getApi_ms_success(), basic.getApi_ms_count()));
-        record.setApi_practice(new MemberRecordPractise(basic.getApi_pt_win(), basic.getApi_pt_lose()));
-        record.setApi_deck(basic.getApi_count_deck());
-        record.setApi_kdoc(basic.getApi_count_kdock());
-        record.setApi_ndoc(basic.getApi_count_ndock());
+        MemberRecord memberRecord = new MemberRecord();
+        BeanUtils.copyProperties(basic, memberRecord);
+        memberRecord.setApi_member_id(Long.valueOf(basic.getApi_member_id()));
+        memberRecord.setApi_cmt(basic.getApi_comment());
+        memberRecord.setApi_cmt_id(basic.getApi_comment_id());
+        memberRecord.setApi_experience(Lists.newArrayList(basic.getApi_experience(), getSumExpByLV(basic.getApi_level() + 1)));
+        memberRecord.setApi_war(new MemberRecordFight(basic.getApi_st_win(), basic.getApi_st_lose()));
+        memberRecord.setApi_mission(new MemberRecordMission(basic.getApi_ms_success(), basic.getApi_ms_count()));
+        memberRecord.setApi_practice(new MemberRecordPractise(basic.getApi_pt_win(), basic.getApi_pt_lose()));
+        memberRecord.setApi_deck(basic.getApi_count_deck());
+        memberRecord.setApi_kdoc(basic.getApi_count_kdock());
+        memberRecord.setApi_ndoc(basic.getApi_count_ndock());
         int ship_count = ShipService.getCountOfMemberShip(member_id);
-
         int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
-
-        record.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
-        record.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));
-        // 是否能够大型建造
-        record.setApi_large_dock(1);
-        record.setApi_material_max(750 + 250 * basic.getApi_level());
-
-        return record;
+        memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
+        memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));
+        // TODO 是否能够大型建造
+        memberRecord.setApi_large_dock(1);
+        memberRecord.setApi_material_max(750 + 250 * basic.getApi_level());
+        return memberRecord;
     }
 
     @Override

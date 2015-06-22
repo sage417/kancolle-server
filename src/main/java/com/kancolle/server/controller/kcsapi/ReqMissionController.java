@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.controller.kcsapi.form.MissionStartForm;
+import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;

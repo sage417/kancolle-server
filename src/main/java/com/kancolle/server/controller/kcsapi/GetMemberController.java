@@ -5,13 +5,17 @@ import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEM
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
@@ -19,6 +23,7 @@ import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberService;
 
@@ -74,5 +79,10 @@ public class GetMemberController {
     public @ResponseBody APIResponse<List<MemberUseItem>> useitem(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberUseItem> api_data = memberService.getUseItem(member_id);
         return new APIResponse<List<MemberUseItem>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/picture_book")
+    public @ResponseBody APIResponse<List<ShipPictureBook>> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
+        return null;
     }
 }
