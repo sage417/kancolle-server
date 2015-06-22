@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,12 +28,6 @@ public class ShipServiceImpl implements ShipService {
 
     @Autowired
     private MemberResourceService memberResourceService;
-
-    @Override
-    @Cacheable(value = "ship", key = "#ship_id")
-    public Ship getShipById(int ship_id) {
-        return shipDao.getShipById(ship_id);
-    }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
@@ -96,7 +89,6 @@ public class ShipServiceImpl implements ShipService {
      * 获取舰娘所需要到此等级的总经验
      */
     @Override
-    @Cacheable(value = "shipExp", key = "#level")
     public long getSumExpByLevel(int level) {
         return shipDao.getNeedExpByLevel(level);
     }

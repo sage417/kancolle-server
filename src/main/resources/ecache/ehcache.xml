@@ -13,9 +13,5 @@
 
 	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
 
-	<cache name="ship" maxEntriesLocalHeap="200" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
-
-	<cache name="shipExp" maxEntriesLocalHeap="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
-
 	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
 </ehcache>

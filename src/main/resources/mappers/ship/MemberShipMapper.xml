@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.ship.MemberShipDao">
+
+	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
+		<id property="memberId" column="member_id" />
+		<id property="memberShipId" column="ID" />
+		<result property="exp" column="EXP" typeHandler="LongJsonArrayHanlder" />
+		<result property="nowHp" column="NOWHP" />
+		<result property="maxHp" column="MAXHP" />
+		<!-- <result property="slot" column="SLOT" typeHandler="LongJsonArrayHanlder" /> -->
+		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHanlder" />
+		<result property="ndockTime" column="NDOCK_TIME" />
+		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHanlder" />
+		<result property="karyoku" column="KARYOKU" typeHandler="MaxMinValueHandler" />
+		<result property="raisou" column="RAISOU" typeHandler="MaxMinValueHandler" />
+		<result property="taiku" column="TAIKU" typeHandler="MaxMinValueHandler" />
+		<result property="soukou" column="SOUKOU" typeHandler="MaxMinValueHandler" />
+		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
+		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
+		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
+		<result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler" />
+		<result property="lockedEquip" column="LOCKED_EQUIP" />
+		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipById" />
+	</resultMap>
+
+	<select id="selectMemberShipByCond" resultMap="memberShipRM">
+		SELECT * FROM v_member_ship
+		<where>
+			<if test="ship_id != null">
+				ID = #{ship_id}
+			</if>
+			<if test="member_id != null">
+				AND member_id = #{member_id}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateMemberShip">
+		UPDATE v_member_ship SET
+			BULL = #{bull},
+			COND = #{cond},
+			EXP = #{exp, typeHandler=LongJsonArrayHanlder},
+			FUEL = #{fuel},
+			KAIHI = #{kaihi, typeHandler=MaxMinValueHandler},
+			KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
+			LENG = #{leng},
+			LOCKED = #{locked},
+			LOCKED_EQUIP = #{lockedEquip},
+			LUCKY = #{lucky, typeHandler=MaxMinValueHandler},
+			LV = #{lv},
+			MAXHP = #{maxHp},
+			NDOCK_ITEM = #{ndockItem, typeHandler=IntJsonArrayHanlder},
+			NDOCK_TIME = #{ndockTime},
+			NOWHP = #{nowHp},
+			ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder},
+			RAISOU = #{raisou, typeHandler=MaxMinValueHandler},
+			SAKUTEKI = #{sakuteki, typeHandler=MaxMinValueHandler},
+			SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
+			SRATE = #{srate},
+			TAIKU = #{taiku, typeHandler=MaxMinValueHandler},
+			TAISEN = #{taisen, typeHandler=MaxMinValueHandler}
+		WHERE member_id = #{memberId} AND ID = #{memberShipId}
+	</update>
+
+	<update id="updateMemberShipSlot">
+		UPDATE v_member_ship SET
+			SLOT = #{slot}
+		WHERE member_id = #{memberShip.memberId} AND ID = #{memberShip.memberShipId}
+	</update>
+
+	<select id="selectCountOfMemberShip" resultType="int">
+		SELECT COUNT(*) FROM t_member_ship WHERE member_id = #{member_id}
+	</select>
+</mapper>
