@@ -19,6 +19,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.ShipService;
+import com.kancolle.server.service.ship.enums.ChargeType;
 import com.kancolle.server.utils.logic.LVUtil;
 
 @Service
@@ -110,14 +111,14 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    private void charge(MemberShip memberShip, boolean fuel, boolean bull) {
+    private void charge(MemberShip memberShip, ChargeType chargeType) {
         Ship ship = memberShip.getShip();
 
         int chargeFuel = 0;
         int chargeBull = 0;
         int comsumeBauxite = 0;
 
-        if (fuel) {
+        if (chargeType == ChargeType.ALL || chargeType == ChargeType.FUEL) {
             chargeFuel = ship.getFuelMax() - memberShip.getFuel();
             memberShip.setFuel(ship.getFuelMax());
 
@@ -131,7 +132,7 @@ public class ShipServiceImpl implements ShipService {
             memberShip.setOnslot(memberShip.getShip().getMaxEq());
         }
 
-        if (bull) {
+        if (chargeType == ChargeType.ALL || chargeType == ChargeType.BULL) {
             chargeBull = ship.getBullMax() - memberShip.getBull();
             memberShip.setBull(ship.getBullMax());
         }
@@ -143,22 +144,7 @@ public class ShipServiceImpl implements ShipService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
-        boolean fuel = false;
-        boolean bull = false;
-        switch (form.getApi_kind()) {
-        case 1:
-            fuel = true;
-            break;
-        case 2:
-            bull = true;
-            break;
-        case 3:
-            fuel = true;
-            bull = true;
-            break;
-        default:
-            break;
-        }
+        ChargeType chargeType = ChargeType.getChargeType(form.getApi_kind());
 
         List<MemberShip> actualMemberShips = form.getApi_id_items().stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
                 .collect(Collectors.toList());
@@ -171,7 +157,7 @@ public class ShipServiceImpl implements ShipService {
         List<ShipChargeModel> scm = Lists.newArrayListWithExpectedSize(actualMemberShips.size());
         result.setApi_ship(scm);
         for (MemberShip memberShip : actualMemberShips) {
-            charge(memberShip, fuel, bull);
+            charge(memberShip, chargeType);
             scm.add(new ShipChargeModel(memberShip));
         }
 

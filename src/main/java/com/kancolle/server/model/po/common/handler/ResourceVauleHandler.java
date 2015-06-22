@@ -31,7 +31,6 @@ private static final Function<String, ResourceValue> toResourceValue = str->{
      */
     @Override
     public ResourceValue getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        // TODO Auto-generated method stub
         String raw = rs.getString(columnName);
         return toResourceValue.apply(raw);
     }
@@ -41,7 +40,6 @@ private static final Function<String, ResourceValue> toResourceValue = str->{
      */
     @Override
     public ResourceValue getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        // TODO Auto-generated method stub
         String raw = rs.getString(columnIndex);
         return toResourceValue.apply(raw);
     }
@@ -51,7 +49,6 @@ private static final Function<String, ResourceValue> toResourceValue = str->{
      */
     @Override
     public ResourceValue getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        // TODO Auto-generated method stub
         String raw = cs.getString(columnIndex);
         return toResourceValue.apply(raw);
     }
