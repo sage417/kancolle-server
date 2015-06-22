@@ -7,7 +7,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterial;
-import com.kancolle.server.model.kcsapi.member.MemberNDock;
+import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
 
@@ -21,7 +21,7 @@ public interface PortDao extends BaseDao<MemberPort> {
 
     List<MemberMeterial> getMaterial(String member_id) throws Exception;
 
-    List<MemberNDock> getNdock(String member_id);
+    List<MemberNdock> getNdock(String member_id);
 
     List<MemberShip> getShip(String member_id);
 }

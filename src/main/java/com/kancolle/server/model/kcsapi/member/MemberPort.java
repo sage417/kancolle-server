@@ -13,7 +13,7 @@ public class MemberPort {
     private List<MemberDeckPort> api_deck_port;
 
     @JSONField(ordinal = 3)
-    private List<MemberNDock> api_ndock;
+    private List<MemberNdock> api_ndock;
 
     @JSONField(ordinal = 4)
     private List<MemberShip> api_ship;
@@ -46,7 +46,7 @@ public class MemberPort {
         return api_material;
     }
 
-    public List<MemberNDock> getApi_ndock() {
+    public List<MemberNdock> getApi_ndock() {
         return api_ndock;
     }
 
@@ -78,7 +78,7 @@ public class MemberPort {
         this.api_material = api_material;
     }
 
-    public void setApi_ndock(List<MemberNDock> api_ndock) {
+    public void setApi_ndock(List<MemberNdock> api_ndock) {
         this.api_ndock = api_ndock;
     }
 

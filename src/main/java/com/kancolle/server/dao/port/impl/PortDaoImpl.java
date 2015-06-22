@@ -20,7 +20,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterial;
-import com.kancolle.server.model.kcsapi.member.MemberNDock;
+import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
@@ -66,8 +66,8 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     }
 
     @Override
-    public List<MemberNDock> getNdock(String member_id) {
-        return queryForModels(MemberNDock.class, "SELECT * FROM t_member_ndock WHERE member_id = :member_id", getMemParamMap(member_id));
+    public List<MemberNdock> getNdock(String member_id) {
+        return queryForModels(MemberNdock.class, "SELECT * FROM t_member_ndock WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override

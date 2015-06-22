@@ -1,9 +1,12 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import org.apache.ibatis.type.Alias;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class MemberNDock {
+@Alias("MemberNdock")
+public class MemberNdock {
 
     @JSONField(ordinal = 1)
     private long api_member_id;

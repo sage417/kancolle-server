@@ -15,6 +15,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
+import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -168,5 +169,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
+    }
+
+    @Override
+    public List<MemberNdock> getNdock(String member_id) {
+        return portDao.getNdock(member_id);
     }
 }

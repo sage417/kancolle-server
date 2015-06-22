@@ -20,6 +20,7 @@ import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
+import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -49,6 +50,12 @@ public class GetMemberController {
     public @ResponseBody APIResponse<List<MemberKdock>> kdock(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberKdock> api_data = memberService.getKdock(member_id);
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/ndock")
+    public @ResponseBody APIResponse<List<MemberNdock>> ndock(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberNdock> api_data = memberService.getNdock(member_id);
+        return new APIResponse<List<MemberNdock>>().setApi_data(api_data);
     }
 
     @RequestMapping("/mission")

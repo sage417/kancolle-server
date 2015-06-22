@@ -28,6 +28,8 @@ public class Ship {
     /** 改造等级 */
     private int afterLv;
 
+    private int type;
+
     /** 改造后 */
     private Ship afterShip;
 
@@ -132,6 +134,14 @@ public class Ship {
 
     public void setAfterShip(Ship afterShip) {
         this.afterShip = afterShip;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public MaxMinValue getTaik() {
