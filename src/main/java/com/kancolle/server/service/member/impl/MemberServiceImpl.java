@@ -26,6 +26,7 @@ import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.member.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DaoUtils;
 import com.kancolle.server.utils.logic.LVUtil;
@@ -46,6 +47,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private ShipService ShipService;
+
+    @Autowired
+    private MemberShipService memberShipService;
 
     @Override
     public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
@@ -91,6 +95,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
         MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count", "setApi_ndock");
+        port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
         port.setApi_p_bgm_id(port.getApi_basic().getApi_p_bgm_id());
         port.setApi_parallel_quest_count(port.getApi_basic().getApi_parallel_quest_count());

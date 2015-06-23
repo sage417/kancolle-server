@@ -8,7 +8,7 @@
 		<result property="exp" column="EXP" typeHandler="LongJsonArrayHanlder" />
 		<result property="nowHp" column="NOWHP" />
 		<result property="maxHp" column="MAXHP" />
-		<!-- <result property="slot" column="SLOT" typeHandler="LongJsonArrayHanlder" /> -->
+		<result property="api_slot" column="SLOT" typeHandler="LongJsonArrayHanlder" />
 		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHanlder" />
 		<result property="ndockTime" column="NDOCK_TIME" />
 		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHanlder" />

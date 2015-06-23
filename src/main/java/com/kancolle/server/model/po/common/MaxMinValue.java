@@ -69,4 +69,8 @@ public class MaxMinValue {
     public String toString() {
         return String.format("[%s,%s]", minValue, MaxValue);
     }
+
+    public int[] toArray() {
+        return new int[] { minValue, MaxValue };
+    }
 }

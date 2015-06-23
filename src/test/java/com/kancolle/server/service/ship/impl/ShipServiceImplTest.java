@@ -36,12 +36,12 @@ public class ShipServiceImplTest {
     @Before
     public void createTestMemvberShip() {
         // TODO 真正创建一个
-        testMemberShip = shipService.getMemberShip("9007383", 9999);
+        testMemberShip = shipService.getMemberShip("8006690", 1);
     }
 
     @Test
     public void testGetMemberShip() {
-        MemberShip ship = shipService.getMemberShip("9007383", 1);
+        MemberShip ship = shipService.getMemberShip("8006690", 1);
         Assert.assertNotNull(ship);
     }
 

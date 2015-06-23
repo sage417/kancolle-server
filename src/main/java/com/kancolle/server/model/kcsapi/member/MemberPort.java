@@ -16,7 +16,7 @@ public class MemberPort {
     private List<MemberNdock> api_ndock;
 
     @JSONField(ordinal = 4)
-    private List<MemberShip> api_ship;
+    private List<com.kancolle.server.model.po.ship.MemberShip> api_ship;
 
     @JSONField(ordinal = 5)
     private MemberBasic api_basic;
@@ -58,7 +58,7 @@ public class MemberPort {
         return api_parallel_quest_count;
     }
 
-    public List<MemberShip> getApi_ship() {
+    public List<com.kancolle.server.model.po.ship.MemberShip> getApi_ship() {
         return api_ship;
     }
 
@@ -90,7 +90,7 @@ public class MemberPort {
         this.api_parallel_quest_count = api_parallel_quest_count;
     }
 
-    public void setApi_ship(List<MemberShip> api_ship) {
+    public void setApi_ship(List<com.kancolle.server.model.po.ship.MemberShip> api_ship) {
         this.api_ship = api_ship;
     }
 }
