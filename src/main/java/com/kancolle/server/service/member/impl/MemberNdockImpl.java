@@ -70,7 +70,7 @@ public class MemberNdockImpl implements MemberNdockService {
             memberNdock.setState(MemberNdock.STATE_USING);
             memberNdock.setMemberShipId(memberShip.getMemberShipId());
 
-            long seconds = NdockUtils.getNdockTime(memberShip);
+            long seconds = NdockUtils.getNdockTime(memberShip.getLv(), memberShip.getMaxHp() - memberShip.getNowHp(), memberShip.getShip().getType());
 
             Instant now = Instant.now();
 

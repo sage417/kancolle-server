@@ -300,9 +300,9 @@ CREATE TABLE `t_member_furniture` (
   UNIQUE KEY `unique_index` (`member_id`,`furniture_id`),
   KEY `member_id` (`member_id`),
   KEY `furniture_id` (`furniture_id`),
-  CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8;
+  CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_furniture` */
 
@@ -373,7 +373,7 @@ CREATE TABLE `t_member_material` (
 
 /*Data for the table `t_member_material` */
 
-insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,300000,300000,300000,300000,3000,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
+insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299972,299840,300000,299975,3000,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
 
 /*Table structure for table `t_member_mission` */
 
@@ -418,7 +418,7 @@ CREATE TABLE `t_member_ndock` (
 
 /*Data for the table `t_member_ndock` */
 
-insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,-1,0,0,'0',0,0,0,0),(4,8006690,4,-1,0,0,'0',0,0,0,0);
+insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,1,1,1435054627463,'2015-06-23 18:17:07',0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
 
 /*Table structure for table `t_member_ship` */
 
@@ -441,8 +441,6 @@ CREATE TABLE `t_member_ship` (
   `LUCKY` varchar(255) NOT NULL,
   `LV` tinyint(3) unsigned NOT NULL,
   `MAXHP` smallint(6) unsigned NOT NULL,
-  `NDOCK_ITEM` varchar(255) NOT NULL DEFAULT '[0,0]',
-  `NDOCK_TIME` bigint(20) unsigned NOT NULL DEFAULT '0',
   `NOWHP` smallint(6) unsigned NOT NULL,
   `ONSLOT` varchar(255) NOT NULL,
   `RAISOU` varchar(255) NOT NULL,
@@ -464,7 +462,7 @@ CREATE TABLE `t_member_ship` (
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NDOCK_ITEM`,`NDOCK_TIME`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',16,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,'[0,0]',0,16,'[-1,-1,-1,-1,-1]','[29,49]','[6,17]',46,'[0,0,0,0,0]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,0,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[-1,-1,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
 
 /*Table structure for table `t_member_slotitem` */
 
@@ -950,26 +948,6 @@ DROP TABLE IF EXISTS `v_member_mission`;
  `state` tinyint(4) 
 )*/;
 
-/*Table structure for table `v_member_ndock` */
-
-DROP TABLE IF EXISTS `v_member_ndock`;
-
-/*!50001 DROP VIEW IF EXISTS `v_member_ndock` */;
-/*!50001 DROP TABLE IF EXISTS `v_member_ndock` */;
-
-/*!50001 CREATE TABLE  `v_member_ndock`(
- `member_id` bigint(20) unsigned ,
- `ID` tinyint(3) unsigned ,
- `STATE` tinyint(3) ,
- `SHIP_ID` int(11) unsigned ,
- `COMPLETE_TIME` bigint(20) unsigned ,
- `COMPLETE_TIME_STR` varchar(255) ,
- `ITEM1` mediumint(9) unsigned ,
- `ITEM2` mediumint(9) unsigned ,
- `ITEM3` mediumint(9) unsigned ,
- `ITEM4` mediumint(9) unsigned 
-)*/;
-
 /*Table structure for table `v_member_ship` */
 
 DROP TABLE IF EXISTS `v_member_ship`;
@@ -994,8 +972,6 @@ DROP TABLE IF EXISTS `v_member_ship`;
  `LUCKY` varchar(255) ,
  `LV` tinyint(3) unsigned ,
  `MAXHP` smallint(6) unsigned ,
- `NDOCK_ITEM` varchar(255) ,
- `NDOCK_TIME` bigint(20) unsigned ,
  `NOWHP` smallint(6) unsigned ,
  `ONSLOT` varchar(255) ,
  `RAISOU` varchar(255) ,
@@ -1071,19 +1047,12 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_mission` AS select `t_member_mission`.`member_id` AS `member_id`,`t_member_mission`.`mission_id` AS `mission_id`,`t_member_mission`.`state` AS `state` from `t_member_mission` where (`t_member_mission`.`state` > 0) */;
 
-/*View structure for view v_member_ndock */
-
-/*!50001 DROP TABLE IF EXISTS `v_member_ndock` */;
-/*!50001 DROP VIEW IF EXISTS `v_member_ndock` */;
-
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ndock` AS select `t_member_ndock`.`member_id` AS `member_id`,`t_member_ndock`.`ID` AS `ID`,`t_member_ndock`.`STATE` AS `STATE`,`t_member_ndock`.`SHIP_ID` AS `SHIP_ID`,`t_member_ndock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_ndock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_ndock`.`ITEM1` AS `ITEM1`,`t_member_ndock`.`ITEM2` AS `ITEM2`,`t_member_ndock`.`ITEM3` AS `ITEM3`,`t_member_ndock`.`ITEM4` AS `ITEM4` from `t_member_ndock` where (`t_member_ndock`.`STATE` > -(1)) order by `t_member_ndock`.`member_id`,`t_member_ndock`.`ID` */;
-
 /*View structure for view v_member_ship */
 
 /*!50001 DROP TABLE IF EXISTS `v_member_ship` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_ship` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `ms`.`member_id` AS `member_id`,`ms`.`ID` AS `ID`,`s`.`BACKS` AS `BACKS`,`ms`.`BULL` AS `BULL`,`ms`.`COND` AS `COND`,`ms`.`EXP` AS `EXP`,`ms`.`FUEL` AS `FUEL`,`ms`.`KAIHI` AS `KAIHI`,`ms`.`KARYOKU` AS `KARYOKU`,`ms`.`KYOUKA` AS `KYOUKA`,`ms`.`LENG` AS `LENG`,`ms`.`LOCKED` AS `LOCKED`,`ms`.`LOCKED_EQUIP` AS `LOCKED_EQUIP`,`ms`.`LUCKY` AS `LUCKY`,`ms`.`LV` AS `LV`,`ms`.`MAXHP` AS `MAXHP`,`ms`.`NDOCK_ITEM` AS `NDOCK_ITEM`,`ms`.`NDOCK_TIME` AS `NDOCK_TIME`,`ms`.`NOWHP` AS `NOWHP`,`ms`.`ONSLOT` AS `ONSLOT`,`ms`.`RAISOU` AS `RAISOU`,`ms`.`SAKUTEKI` AS `SAKUTEKI`,`ms`.`SHIP_ID` AS `SHIP_ID`,`ms`.`SLOT` AS `SLOT`,`s`.`SLOTNUM` AS `SLOTNUM`,`s`.`SORTNO` AS `SORTNO`,`ms`.`SOUKOU` AS `SOUKOU`,`ms`.`SRATE` AS `SRATE`,`ms`.`TAIKU` AS `TAIKU`,`ms`.`TAISEN` AS `TAISEN` from (`t_member_ship` `ms` join `t_ship` `s` on((`ms`.`SHIP_ID` = `s`.`ID`))) where (`ms`.`DELETED` = 0) order by `ms`.`member_id`,`ms`.`ID` */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `ms`.`member_id` AS `member_id`,`ms`.`ID` AS `ID`,`s`.`BACKS` AS `BACKS`,`ms`.`BULL` AS `BULL`,`ms`.`COND` AS `COND`,`ms`.`EXP` AS `EXP`,`ms`.`FUEL` AS `FUEL`,`ms`.`KAIHI` AS `KAIHI`,`ms`.`KARYOKU` AS `KARYOKU`,`ms`.`KYOUKA` AS `KYOUKA`,`ms`.`LENG` AS `LENG`,`ms`.`LOCKED` AS `LOCKED`,`ms`.`LOCKED_EQUIP` AS `LOCKED_EQUIP`,`ms`.`LUCKY` AS `LUCKY`,`ms`.`LV` AS `LV`,`ms`.`MAXHP` AS `MAXHP`,`ms`.`NOWHP` AS `NOWHP`,`ms`.`ONSLOT` AS `ONSLOT`,`ms`.`RAISOU` AS `RAISOU`,`ms`.`SAKUTEKI` AS `SAKUTEKI`,`ms`.`SHIP_ID` AS `SHIP_ID`,`ms`.`SLOT` AS `SLOT`,`s`.`SLOTNUM` AS `SLOTNUM`,`s`.`SORTNO` AS `SORTNO`,`ms`.`SOUKOU` AS `SOUKOU`,`ms`.`SRATE` AS `SRATE`,`ms`.`TAIKU` AS `TAIKU`,`ms`.`TAISEN` AS `TAISEN` from (`t_member_ship` `ms` join `t_ship` `s` on((`ms`.`SHIP_ID` = `s`.`ID`))) where (`ms`.`DELETED` = 0) order by `ms`.`member_id`,`ms`.`ID` */;
 
 /*View structure for view v_member_slotitem */
 

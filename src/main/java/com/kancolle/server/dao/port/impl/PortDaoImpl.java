@@ -24,6 +24,7 @@ import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.utils.DaoUtils;
+import com.kancolle.server.utils.logic.NdockUtils;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
@@ -87,6 +88,10 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
             JSONArray api_kyouka = new JSONArray(Lists.newArrayList(now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck));
             memberShip.setApi_kyouka(api_kyouka);
+
+            memberShip.getApi_ndock_item()[0] = 0;
+            memberShip.getApi_ndock_item()[1] = 0;
+            memberShip.setApi_ndock_time(NdockUtils.getNdockTime(memberShip.getApi_lv(), memberShip.getApi_maxhp() - memberShip.getApi_nowhp(), ship.getType()) * 1000L);
         }
         return memberShips;
     }

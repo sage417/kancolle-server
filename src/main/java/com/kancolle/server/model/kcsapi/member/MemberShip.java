@@ -56,7 +56,7 @@ public class MemberShip {
     private long api_ndock_time;
 
     @JSONField(ordinal = 17)
-    private JSONArray api_ndock_item;
+    private final int[] api_ndock_item = new int[] { 0, 0 };
 
     @JSONField(ordinal = 18)
     private int api_srate;
@@ -154,7 +154,7 @@ public class MemberShip {
         return api_maxhp;
     }
 
-    public JSONArray getApi_ndock_item() {
+    public int[] getApi_ndock_item() {
         return api_ndock_item;
     }
 
@@ -284,12 +284,6 @@ public class MemberShip {
         this.api_maxhp = api_maxhp;
     }
 
-    @Column(name = "NDOCK_ITEM", type = String.class)
-    public void setApi_ndock_item(String api_ndock_item) {
-        this.api_ndock_item = JSON.parseArray(api_ndock_item);
-    }
-
-    @Column(name = "NDOCK_TIME", type = long.class)
     public void setApi_ndock_time(long api_ndock_time) {
         this.api_ndock_time = api_ndock_time;
     }

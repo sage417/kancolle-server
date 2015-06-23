@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.utils.logic;
 
-import com.kancolle.server.model.po.ship.MemberShip;
 
 /**
  * @author J.K.SAGE
@@ -33,17 +32,14 @@ public class NdockUtils {
         }
     }
 
-    public static long getNdockTime(MemberShip memberShip) {
-        int nowLv = memberShip.getLv();
-        int missHp = memberShip.getMaxHp() - memberShip.getNowHp();
-
+    public static long getNdockTime(int nowLv, int loseHp, int shipType) {
         long ndockTime = 0L;
         if (nowLv > 11) {
             ndockTime = (nowLv * 5L + (int) Math.sqrt(nowLv - 11) * 10L + 50);
         } else {
             ndockTime = (nowLv * 10L);
         }
-        ndockTime = (long) (ndockTime * getOverride(memberShip.getShip().getType()) * missHp + 30L);
+        ndockTime = (long) (ndockTime * getOverride(shipType) * loseHp + 30L);
         return ndockTime;
     }
 }
