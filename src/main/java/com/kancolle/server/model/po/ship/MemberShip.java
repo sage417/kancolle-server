@@ -10,6 +10,7 @@ import org.apache.ibatis.type.Alias;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.utils.logic.NdockUtils;
 
 /**
  * @author J.K.SAGE
@@ -269,7 +270,7 @@ public class MemberShip {
 
     public void setKaryoku(MaxMinValue karyoku) {
         this.karyoku = karyoku;
-        this.api_karyoku = karyoku.toArray();
+        setApi_karyoku(karyoku.toArray());
     }
 
     public MaxMinValue getRaisou() {
@@ -278,7 +279,7 @@ public class MemberShip {
 
     public void setRaisou(MaxMinValue raisou) {
         this.raisou = raisou;
-        this.api_raisou = raisou.toArray();
+        setApi_raisou(raisou.toArray());
     }
 
     public MaxMinValue getTaiku() {
@@ -287,7 +288,7 @@ public class MemberShip {
 
     public void setTaiku(MaxMinValue taiku) {
         this.taiku = taiku;
-        this.api_taiku = taiku.toArray();
+        setApi_taiku(taiku.toArray());
     }
 
     public MaxMinValue getSoukou() {
@@ -296,7 +297,7 @@ public class MemberShip {
 
     public void setSoukou(MaxMinValue soukou) {
         this.soukou = soukou;
-        this.api_soukou = soukou.toArray();
+        setApi_soukou(soukou.toArray());
     }
 
     public MaxMinValue getKaihi() {
@@ -305,7 +306,7 @@ public class MemberShip {
 
     public void setKaihi(MaxMinValue kaihi) {
         this.kaihi = kaihi;
-        this.api_kaihi = kaihi.toArray();
+        setApi_kaihi(kaihi.toArray());
     }
 
     public MaxMinValue getTaisen() {
@@ -314,7 +315,7 @@ public class MemberShip {
 
     public void setTaisen(MaxMinValue taisen) {
         this.taisen = taisen;
-        this.api_taisen = taisen.toArray();
+        setApi_taisen(taisen.toArray());
     }
 
     public MaxMinValue getSakuteki() {
@@ -323,7 +324,7 @@ public class MemberShip {
 
     public void setSakuteki(MaxMinValue sakuteki) {
         this.sakuteki = sakuteki;
-        this.api_sakuteki = sakuteki.toArray();
+        setApi_sakuteki(sakuteki.toArray());
     }
 
     public MaxMinValue getLucky() {
@@ -332,7 +333,7 @@ public class MemberShip {
 
     public void setLucky(MaxMinValue lucky) {
         this.lucky = lucky;
-        this.api_lucky = lucky.toArray();
+        setApi_lucky(lucky.toArray());
     }
 
     public boolean isLocked() {
@@ -351,65 +352,18 @@ public class MemberShip {
         this.lockedEquip = lockedEquip;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (int) (memberId ^ (memberId >>> 32));
-        result = prime * result + (int) (memberShipId ^ (memberShipId >>> 32));
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        MemberShip other = (MemberShip) obj;
-        if (memberId != other.memberId)
-            return false;
-        if (memberShipId != other.memberShipId)
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
-    }
-
     public long getApi_ndock_time() {
-        return api_ndock_time;
+        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().getType()) * 1000L;
+        return this.api_ndock_time;
     }
 
     public int[] getApi_ndock_item() {
-        return api_ndock_item;
+        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getType());
+        return this.api_ndock_item;
     }
 
     public int[] getApi_kyouka() {
-        if (this.getShip() != null) {
-            // 火力
-            int min_houg = this.getShip().getHoug().getMinValue();
-            int now_houg = this.getKaryoku().getMinValue();
-            // 雷装
-            int min_raig = this.getShip().getRaig().getMinValue();
-            int now_raig = this.getRaisou().getMinValue();
-            // 对空
-            int min_tyku = this.getShip().getTyku().getMinValue();
-            int now_tyku = this.getTaiku().getMinValue();
-            // 装甲
-            int min_souk = this.getShip().getSouk().getMinValue();
-            int now_souk = this.getSoukou().getMinValue();
-            // 幸运
-            int min_luck = this.getShip().getLuck().getMinValue();
-            int now_luck = this.getLucky().getMinValue();
-
-            this.api_kyouka = new int[] {now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck};
-        }
-        return api_kyouka;
+        return updateKyouka();
     }
 
     public int getApi_sortno() {
@@ -516,15 +470,65 @@ public class MemberShip {
         this.api_lucky = api_lucky;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (memberId ^ (memberId >>> 32));
+        result = prime * result + (int) (memberShipId ^ (memberShipId >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MemberShip other = (MemberShip) obj;
+        if (memberId != other.memberId)
+            return false;
+        if (memberShipId != other.memberShipId)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
+    }
+
     public void setApi_kyouka(int[] api_kyouka) {
-        this.api_kyouka = api_kyouka;
+        throw new UnsupportedOperationException();
     }
 
     public void setApi_ndock_time(long api_ndock_time) {
-        this.api_ndock_time = api_ndock_time;
+        throw new UnsupportedOperationException();
     }
 
     public void setApi_ndock_item(int[] api_ndock_item) {
-        this.api_ndock_item = api_ndock_item;
+        throw new UnsupportedOperationException();
+    }
+
+    private int[] updateKyouka() {
+        // 火力
+        int min_houg = this.getShip().getHoug().getMinValue();
+        int now_houg = this.getKaryoku().getMinValue();
+        // 雷装
+        int min_raig = this.getShip().getRaig().getMinValue();
+        int now_raig = this.getRaisou().getMinValue();
+        // 对空
+        int min_tyku = this.getShip().getTyku().getMinValue();
+        int now_tyku = this.getTaiku().getMinValue();
+        // 装甲
+        int min_souk = this.getShip().getSouk().getMinValue();
+        int now_souk = this.getSoukou().getMinValue();
+        // 幸运
+        int min_luck = this.getShip().getLuck().getMinValue();
+        int now_luck = this.getLucky().getMinValue();
+
+        return new int[] { now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck };
     }
 }
