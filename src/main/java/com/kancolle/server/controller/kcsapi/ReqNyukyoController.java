@@ -39,4 +39,10 @@ public class ReqNyukyoController {
         memberNdockService.start(member_id, form);
         return RESPONSE;
     }
+
+    @RequestMapping("/speedchange")
+    public @ResponseBody APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) String member_id, int api_ndock_id) {
+        memberNdockService.speedchange(member_id, api_ndock_id);
+        return RESPONSE;
+    }
 }

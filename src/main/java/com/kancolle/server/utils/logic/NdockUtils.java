@@ -131,6 +131,6 @@ public class NdockUtils {
     }
 
     public static int[] getNdockItem(int loseHp, int shipType) {
-        return new int[] { loseHp * (int) getFuelOverride(shipType), loseHp * (int) getSteelOverride(shipType) };
+        return new int[] { (int) (loseHp * getFuelOverride(shipType)), (int) (loseHp * getSteelOverride(shipType)) };
     }
 }

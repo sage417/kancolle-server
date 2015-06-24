@@ -19,9 +19,9 @@ import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DateUtils;
-import com.kancolle.server.utils.logic.NdockUtils;
 
 /**
  * @author J.K.SAGE
@@ -30,6 +30,7 @@ import com.kancolle.server.utils.logic.NdockUtils;
  */
 @Service
 public class MemberNdockImpl implements MemberNdockService {
+
     @Autowired
     MemberNdockDao memberNdockDao;
 
@@ -38,6 +39,9 @@ public class MemberNdockImpl implements MemberNdockService {
 
     @Autowired
     private MemberResourceService memberResourceService;
+
+    @Autowired
+    private MemberShipService memberShipService;
 
     @Override
     public List<MemberNdock> getMemberNdocks(String member_id) {
@@ -53,45 +57,63 @@ public class MemberNdockImpl implements MemberNdockService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void start(String member_id, NdockStartForm form) {
-        MemberNdock memberNdock = getMemberNdockByCond(member_id, form.getApi_ndock_id());
-        if (memberNdock == null || memberNdock.getState() != MemberNdock.STATE_AVILABLE) {
-            // TODO log
-            throw new IllegalArgumentException();
-        }
-
         MemberShip memberShip = shipService.getMemberShip(member_id, form.getApi_ship_id());
         if (memberShip == null || memberShip.getNowHp() >= memberShip.getMaxHp()) {
             // TODO log
             throw new IllegalArgumentException();
         }
-        boolean useFastRecovery = form.getApi_highspeed().intValue() == 1;
 
-        if (!useFastRecovery) {
-            memberNdock.setState(MemberNdock.STATE_USING);
-            memberNdock.setMemberShipId(memberShip.getMemberShipId());
+        memberResourceService.consumeResource(Long.valueOf(member_id), memberShip.getApi_ndock_item()[0], 0, memberShip.getApi_ndock_item()[1], 0, form.getApi_highspeed().intValue(), 0, 0, 0);
 
-            long seconds = NdockUtils.getNdockTime(memberShip.getLv(), memberShip.getMaxHp() - memberShip.getNowHp(), memberShip.getShip().getType());
+        useNdock(member_id, form.getApi_ndock_id(), memberShip);
 
-            Instant now = Instant.now();
+        if (form.getApi_highspeed().intValue() == 1)
+            clearNdock(member_id, form.getApi_ndock_id());
+    }
 
-            Instant completeInstant = now.plus(seconds, ChronoUnit.SECONDS);
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
+    private void updateMemberNdock(MemberNdock memberNdock) {
+        memberNdockDao.update(memberNdock);
+    }
 
-            memberNdock.setCompleteTime(completeInstant.toEpochMilli());
-            memberNdock.setCompleteTimeStr(DateUtils.format(completeInstant));
-
-            // TODO 消耗资源
-            memberNdock.setItem1(0);
-            memberNdock.setItem3(0);
-
-            updateMemberNdock(memberNdock);
+    private void useNdock(String member_id, int ndock_id, MemberShip memberShip) {
+        MemberNdock memberNdock = getMemberNdockByCond(member_id, ndock_id);
+        if (memberNdock == null || memberNdock.getState() != MemberNdock.STATE_AVILABLE) {
+            // TODO log
+            throw new IllegalArgumentException();
         }
+        memberNdock.setState(MemberNdock.STATE_USING);
+        memberNdock.setMemberShipId(memberShip.getMemberShipId());
 
-        memberResourceService.consumeResource(Long.valueOf(member_id), memberNdock.getItem1(), 0, memberNdock.getItem3(), form.getApi_highspeed().intValue(), 0, 0, 0, 0);
+        Instant now = Instant.now();
+        Instant completeInstant = now.plus(memberShip.getApi_ndock_time(), ChronoUnit.MILLIS);
+
+        memberNdock.setCompleteTime(completeInstant.toEpochMilli());
+        memberNdock.setCompleteTimeStr(DateUtils.format(completeInstant));
+
+        memberNdock.setItem1(memberShip.getApi_ndock_item()[0]);
+        memberNdock.setItem3(memberShip.getApi_ndock_item()[1]);
+
+        updateMemberNdock(memberNdock);
+    }
+
+    private void clearNdock(String member_id, int ndock_id) {
+        MemberNdock memberNdock = getMemberNdockByCond(member_id, ndock_id);
+        if (memberNdock == null || memberNdock.getState() != MemberNdock.STATE_USING) {
+            // TODO log
+            throw new IllegalArgumentException();
+        }
+        memberNdock.setState(MemberNdock.STATE_AVILABLE);
+        memberNdock.setMemberShipId(0L);
+        memberNdock.setCompleteTime(0L);
+        memberNdock.setCompleteTimeStr("0");
+        updateMemberNdock(memberNdock);
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void updateMemberNdock(MemberNdock memberNdock) {
-        memberNdockDao.update(memberNdock);
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public void speedchange(String member_id, int api_ndock_id) {
+        memberResourceService.consumeResource(Long.valueOf(member_id), 0, 0, 0, 0, 1, 0, 0, 0);
+        clearNdock(member_id, api_ndock_id);
     }
 }

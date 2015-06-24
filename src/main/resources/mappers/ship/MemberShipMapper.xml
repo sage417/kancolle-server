@@ -50,8 +50,6 @@
 			LUCKY = #{lucky, typeHandler=MaxMinValueHandler},
 			LV = #{lv},
 			MAXHP = #{maxHp},
-			NDOCK_ITEM = #{ndockItem, typeHandler=IntJsonArrayHanlder},
-			NDOCK_TIME = #{ndockTime},
 			NOWHP = #{nowHp},
 			ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder},
 			RAISOU = #{raisou, typeHandler=MaxMinValueHandler},

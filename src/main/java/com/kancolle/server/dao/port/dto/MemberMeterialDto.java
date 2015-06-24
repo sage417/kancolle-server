@@ -22,8 +22,8 @@ public class MemberMeterialDto {
         methodMap.put("2", MemberMeterialDto::getBull);
         methodMap.put("3", MemberMeterialDto::getSteal);
         methodMap.put("4", MemberMeterialDto::getBauxite);
-        methodMap.put("5", MemberMeterialDto::getFast_rec);
-        methodMap.put("6", MemberMeterialDto::getFast_build);
+        methodMap.put("5", MemberMeterialDto::getFast_build);
+        methodMap.put("6", MemberMeterialDto::getFast_rec);
         methodMap.put("7", MemberMeterialDto::getDev_item);
         methodMap.put("8", MemberMeterialDto::getEnh_item);
         methodMap = Collections.unmodifiableMap(methodMap);

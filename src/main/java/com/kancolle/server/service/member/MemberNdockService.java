@@ -19,7 +19,7 @@ public interface MemberNdockService {
 
     MemberNdock getMemberNdockByCond(String member_id, int ndockId);
 
-    void updateMemberNdock(MemberNdock memberNdock);
-
     void start(String member_id, NdockStartForm form);
+
+    void speedchange(String member_id, int api_ndock_id);
 }
