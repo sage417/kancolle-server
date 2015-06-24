@@ -373,7 +373,7 @@ CREATE TABLE `t_member_material` (
 
 /*Data for the table `t_member_material` */
 
-insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299972,299840,300000,299975,3000,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
+insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299965,299840,299901,299972,2993,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
 
 /*Table structure for table `t_member_mission` */
 
@@ -418,7 +418,7 @@ CREATE TABLE `t_member_ndock` (
 
 /*Data for the table `t_member_ndock` */
 
-insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
+insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',7,0,16,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
 
 /*Table structure for table `t_member_ship` */
 
@@ -462,7 +462,7 @@ CREATE TABLE `t_member_ship` (
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,16,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[1,2,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,0,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[1,2,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
 
 /*Table structure for table `t_member_slotitem` */
 
@@ -843,7 +843,9 @@ DELIMITER $$
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_on_finsih_ndock` */$$
 
 /*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_on_finsih_ndock` BEFORE UPDATE ON `t_member_ndock` FOR EACH ROW BEGIN
+    if old.member_id != 0 and old.SHIP_ID != 0 then
 	update t_member_ship set nowHP = maxHp where member_id = old.member_id and ID = old.SHIP_ID;
+	end if;
     END */$$
 
 
