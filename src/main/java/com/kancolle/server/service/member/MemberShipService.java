@@ -14,9 +14,4 @@ import com.kancolle.server.model.po.ship.MemberShip;
  */
 public interface MemberShipService {
     List<MemberShip> getMemberShips(String memberId);
-
-    /**
-     * @param memberShip
-     */
-    void repairShip(MemberShip memberShip);
 }

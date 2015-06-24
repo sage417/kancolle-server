@@ -121,6 +121,9 @@ public class NdockUtils {
 
     public static long getNdockTime(int nowLv, int loseHp, int shipType) {
         long ndockTime = 0L;
+        if (loseHp == 0) {
+            return ndockTime;
+        }
         if (nowLv > 11) {
             ndockTime = (nowLv * 5L + (int) Math.sqrt(nowLv - 11) * 10L + 50);
         } else {
