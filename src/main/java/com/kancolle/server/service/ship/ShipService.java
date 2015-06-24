@@ -6,8 +6,6 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 public interface ShipService {
 
-    MemberShip getMemberShip(String member_id, long ship_id);
-
     /** 舰娘获得经验 */
     void increaseMemberShipExp(MemberShip memberShip, int exp);
 

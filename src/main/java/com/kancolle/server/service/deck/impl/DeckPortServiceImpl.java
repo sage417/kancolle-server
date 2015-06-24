@@ -17,5 +17,4 @@ public class DeckPortServiceImpl implements DeckPortService {
     public MemberDeckPort getMemberDeckPort(String member_id, int deck_id) {
         return deckPortDao.getMemberDeckPort(member_id, deck_id);
     }
-
 }

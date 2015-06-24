@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 
 /**
@@ -25,6 +26,9 @@ public class ShipServiceImplTest {
     @Autowired
     private ShipService shipService;
 
+    @Autowired
+    private MemberShipService memberShipService;
+
     private MemberShip testMemberShip;
 
     /**
@@ -36,12 +40,12 @@ public class ShipServiceImplTest {
     @Before
     public void createTestMemvberShip() {
         // TODO 真正创建一个
-        testMemberShip = shipService.getMemberShip("8006690", 1);
+        testMemberShip = memberShipService.getMemberShip("8006690", 1);
     }
 
     @Test
     public void testGetMemberShip() {
-        MemberShip ship = shipService.getMemberShip("8006690", 1);
+        MemberShip ship = memberShipService.getMemberShip("8006690", 1);
         Assert.assertNotNull(ship);
     }
 

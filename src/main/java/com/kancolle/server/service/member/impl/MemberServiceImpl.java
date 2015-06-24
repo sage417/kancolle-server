@@ -26,7 +26,7 @@ import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.service.member.MemberShipService;
+import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DaoUtils;
 import com.kancolle.server.utils.logic.LVUtil;

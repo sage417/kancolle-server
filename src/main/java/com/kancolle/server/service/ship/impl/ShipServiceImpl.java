@@ -16,6 +16,7 @@ import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.enums.ChargeType;
 import com.kancolle.server.utils.logic.LVUtil;
@@ -28,11 +29,8 @@ public class ShipServiceImpl implements ShipService {
     @Autowired
     private MemberResourceService memberResourceService;
 
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberShip getMemberShip(String member_id, long ship_id) {
-        return shipDao.getMemberShip(member_id, ship_id);
-    }
+    @Autowired
+    private MemberShipService memberShipService;
 
     @Override
     public void increaseMemberShipExp(MemberShip memberShip, int exp) {
@@ -145,7 +143,7 @@ public class ShipServiceImpl implements ShipService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
 
-        List<MemberShip> actualMemberShips = form.getApi_id_items().stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
+        List<MemberShip> actualMemberShips = form.getApi_id_items().stream().map(memberShipId -> memberShipService.getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
                 .collect(Collectors.toList());
         if (actualMemberShips.size() != form.getApi_id_items().size()) {
             // TODO 记录

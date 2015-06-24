@@ -19,7 +19,7 @@ import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
-import com.kancolle.server.service.member.MemberShipService;
+import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DateUtils;
 
@@ -57,7 +57,7 @@ public class MemberNdockImpl implements MemberNdockService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void start(String member_id, NdockStartForm form) {
-        MemberShip memberShip = shipService.getMemberShip(member_id, form.getApi_ship_id());
+        MemberShip memberShip = memberShipService.getMemberShip(member_id, form.getApi_ship_id());
         if (memberShip == null || memberShip.getNowHp() >= memberShip.getMaxHp()) {
             // TODO log
             throw new IllegalArgumentException();
