@@ -91,11 +91,6 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public int getCountOfMemberShip(String member_id) {
-        return shipDao.selectCountOfMemberShip(member_id);
-    }
-
-    @Override
     public void consume(MemberShip memberShip, boolean fuel, boolean bull) {
         Ship ship = memberShip.getShip();
         if (fuel)

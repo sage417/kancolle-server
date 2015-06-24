@@ -4,7 +4,6 @@
 package com.kancolle.server.service.ship.impl;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class ShipServiceImplTest {
      * .
      */
 
-    @Before
     public void createTestMemvberShip() {
         // TODO 真正创建一个
         testMemberShip = memberShipService.getMemberShip("8006690", 1);
@@ -46,10 +44,9 @@ public class ShipServiceImplTest {
     @Test
     public void testGetMemberShip() {
         MemberShip ship = memberShipService.getMemberShip("8006690", 1);
-        Assert.assertNotNull(ship);
+        Assert.assertTrue(!ship.getSlot().isEmpty());
     }
 
-    @Test
     public void testGetMembetShipExp() {
         MemberShip memberShip = new MemberShip();
         memberShip.setLv(99);

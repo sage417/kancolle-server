@@ -11,8 +11,6 @@ public interface ShipService {
 
     long getSumExpByLevel(int level);
 
-    int getCountOfMemberShip(String member_id);
-
     /** 消耗油弹 */
     void consume(MemberShip memberShip, boolean fuel, boolean bull);
 

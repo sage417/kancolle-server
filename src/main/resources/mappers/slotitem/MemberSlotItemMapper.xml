@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.slotitem.MemberSlotItemDao">
+
+	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
+		<id property="memberSlotItemId" column="ID" />
+		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.getSlotItemById" />
+	</resultMap>
+
+	<!-- 查询指定舰娘装备 -->
+	<select id="selectMemberShipSlotId" resultType="String">
+		SELECT SLOT FROM v_member_ship WHERE member_id = #{member_id} AND ID = #{ship_id}
+	</select>
+	
+	<select id="selectMemberShipSlots" resultMap="memberSlotItemRM">
+		SELECT mem_slot.* FROM v_member_slotitem mem_slot 
+			INNER JOIN t_member_ship_slotitem_mapping m ON mem_slot.`member_id` = m.`member_id` 	AND mem_slot.`ID` = m.`member_slotitem_id`
+			INNER JOIN v_member_ship mem_ship ON mem_ship.`member_id` = m.`member_id` AND mem_ship.`ID` = m.`member_ship_id`
+		WHERE
+			mem_slot.`member_id` = #{member_id}
+			AND m.`member_ship_id` = #{ship_id}
+		ORDER BY POSITION( CAST(mem_slot.`ID` AS CHAR) IN mem_ship.`SLOT`)
+	</select>
+</mapper>

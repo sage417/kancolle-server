@@ -27,7 +27,6 @@ import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
-import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DaoUtils;
 import com.kancolle.server.utils.logic.LVUtil;
 
@@ -44,9 +43,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberNdockService memberNdockService;
-
-    @Autowired
-    private ShipService ShipService;
 
     @Autowired
     private MemberShipService memberShipService;
@@ -117,7 +113,7 @@ public class MemberServiceImpl implements MemberService {
         memberRecord.setApi_deck(basic.getApi_count_deck());
         memberRecord.setApi_kdoc(basic.getApi_count_kdock());
         memberRecord.setApi_ndoc(basic.getApi_count_ndock());
-        int ship_count = ShipService.getCountOfMemberShip(member_id);
+        int ship_count = memberShipService.getCountOfMemberShip(member_id);
         int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
         memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
         memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));

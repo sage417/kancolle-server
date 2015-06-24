@@ -19,7 +19,7 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
 
     @Override
-    public Ship getShipById(int ship_id) {
+    public Ship selectShipById(int ship_id) {
         return getSqlSession().selectOne("selectShipById", ship_id);
     }
 
@@ -54,11 +54,5 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
     public int getShipLVByExp(long nowExp) {
         return getSqlSession().selectOne("selectShipLVByExp", nowExp);
     }
-
-    @Override
-    public int selectCountOfMemberShip(String member_id) {
-        return getSqlSession().selectOne("selectCountOfMemberShip", member_id);
-    }
-
 
 }

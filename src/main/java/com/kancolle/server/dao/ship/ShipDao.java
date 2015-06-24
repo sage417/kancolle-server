@@ -6,20 +6,10 @@ import com.kancolle.server.model.po.ship.Ship;
 
 public interface ShipDao extends BaseDao<MemberShip> {
 
-    Ship getShipById(int ship_id);
+    Ship selectShipById(int ship_id);
 
-    /**
-     * @param afterLv
-     * @return
-     */
-    long getNeedExpByLevel(int afterLv);
+    long getNeedExpByLevel(int after_lv);
 
-    /**
-     * @param afterExp
-     * @return
-     */
-    int getShipLVByExp(long afterExp);
-
-    int selectCountOfMemberShip(String member_id);
+    int getShipLVByExp(long after_exp);
 
 }

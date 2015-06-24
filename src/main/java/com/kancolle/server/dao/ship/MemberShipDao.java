@@ -7,8 +7,10 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 public interface MemberShipDao extends BaseDao<MemberShip> {
 
-    MemberShip getMemberShip(String member_id, long ship_id);
+    MemberShip selectMemberShip(String member_id, long ship_id);
 
     List<MemberShip> selectMemberShips(String member_id);
+
+    int selectCountOfMemberShips(String member_id);
 
 }

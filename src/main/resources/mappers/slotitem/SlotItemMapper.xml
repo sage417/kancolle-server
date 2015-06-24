@@ -9,30 +9,7 @@
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
 	</resultMap>
 
-	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
-		<id property="memberSlotItemId" column="ID" />
-		<association property="slotItem" column="SLOTITEM_ID" select="getSlotItemById" />
-	</resultMap>
-
 	<select id="getSlotItemById" resultMap="slotItemRM">
 		SELECT * FROM t_slotitem WHERE ID = #{slotItemId}
-	</select>
-
-	<!-- 查询指定舰娘装备 -->
-	<select id="selectMemberShipSlotId" resultType="String">
-		SELECT SLOT FROM v_member_ship WHERE member_id = #{member_id} AND ID = #{ship_id}
-	</select>
-
-	<!-- 查询指定装备 -->
-	<select id="selectMemberShipSlot" resultMap="memberSlotItemRM">
-		SELECT * FROM v_member_slotitem WHERE member_id = #{member_id} AND ID IN
-		<foreach collection="slotitem_ids" item="slotitem_id" open="(" close=")" separator=",">
-			#{slotitem_id}
-		</foreach>
-		ORDER BY POSITION(CONCAT(',',CAST(ID AS CHAR),',') IN CONCAT(',',
-		<foreach collection="slotitem_ids" item="slotitem_id" open="" close="" separator=",">
-			#{slotitem_id}
-		</foreach>
-		,','));
 	</select>
 </mapper>

@@ -19,4 +19,7 @@ public interface MemberShipService {
 
     /** 获取提督所有舰娘 */
     List<MemberShip> getMemberShips(String memberId);
+
+    /** 获取提督舰娘数 */
+    int getCountOfMemberShip(String member_id);
 }
