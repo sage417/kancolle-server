@@ -35,7 +35,7 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
     private void updateShipSlotItem(MemberShip memberShip) {
 
         List<Long> slot_ids = memberShip.getSlot().stream().mapToLong(MemberSlotItem::getMemberSlotItemId).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-        Stream.iterate(0, i -> i++).limit(6 - slot_ids.size()).forEach(index -> slot_ids.add(Long.valueOf(-1L)));
+        Stream.iterate(0, i -> i++).limit(MemberShip.SLOT_SIZE_MAX - slot_ids.size()).forEach(index -> slot_ids.add(Long.valueOf(-1L)));
 
         String slot = JSON.toJSONString(slot_ids);
 

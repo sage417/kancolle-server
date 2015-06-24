@@ -69,6 +69,6 @@
 	</update>
 
 	<select id="selectCountOfMemberShip" resultType="int">
-		SELECT COUNT(*) FROM t_member_ship WHERE member_id = #{member_id}
+		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
 </mapper>

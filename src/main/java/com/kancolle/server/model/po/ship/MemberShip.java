@@ -19,6 +19,7 @@ import com.kancolle.server.utils.logic.NdockUtils;
  */
 @Alias("MemberShip")
 public class MemberShip {
+    public static final int SLOT_SIZE_MAX = 5;
 
     @JSONField(serialize = false, deserialize = false)
     private long memberId;

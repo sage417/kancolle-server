@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.kancolle.server.model.po.common.MaxMinValue;
@@ -15,7 +17,9 @@ import com.kancolle.server.model.po.common.ResourceValue;
  *
  */
 @Alias("Ship")
-public class Ship {
+public class Ship implements Serializable{
+
+    private static final long serialVersionUID = 6562446366794002946L;
 
     private int shipId;
 
