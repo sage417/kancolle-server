@@ -71,4 +71,14 @@
 	<select id="selectCountOfMemberShip" resultType="int">
 		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
+	
+	<update id="chargeMemberShips">
+		UPDATE v_member_ship
+		<set>
+			<if test="charge_kind == 1 or charge_kind == 3">FUEL = #{},ONSLOT = #{}</if>
+			<if test="charge_kind == 2 or charge_kind == 3">BULL = #{}</if>
+		</set>
+		WHERE member_id = #{member_id}
+		AND ID IN <foreach collection="memberShip_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+	</update>
 </mapper>
