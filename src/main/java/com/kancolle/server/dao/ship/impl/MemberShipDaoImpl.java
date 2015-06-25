@@ -71,7 +71,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         while (slot.size() < MemberShip.SLOT_SIZE_MAX) {
             slot.add(Long.valueOf(-1L));
         }
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
         params.put("length", length.getAsInt());
@@ -83,19 +83,31 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     @Override
     public void addSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
         updateSlot(memberShip);
-        getSqlSession().insert("", parameter);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
+        params.put("member_slotitem_id", memberSlotItem.getMemberSlotItemId());
+        getSqlSession().insert("insertMemberSlotItemMapping", params);
     }
 
     @Override
-    public void removeSlot(MemberShip memberShip, MemberSlotItem slotItem) {
+    public void removeSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
         updateSlot(memberShip);
-        getSqlSession().delete(statement, parameter);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
+        params.put("member_slotitem_id", memberSlotItem.getMemberSlotItemId());
+        getSqlSession().delete("deleteMemberSlotItemMapping", params);
     }
 
     @Override
-    public void replaceSlot(MemberShip memberShip, MemberSlotItem repalcedSlotItem, MemberSlotItem memberSlotItem) {
+    public void replaceSlot(MemberShip memberShip, MemberSlotItem removedMemberSlotItem, MemberSlotItem replaceMemberSlotItem) {
         updateSlot(memberShip);
-        getSqlSession().insert(statement, parameter);
-        getSqlSession().delete(statement, parameter);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
+        params.put("removed_slotitem_id", removedMemberSlotItem.getMemberSlotItemId());
+        params.put("replace_slotitem_id", replaceMemberSlotItem.getMemberSlotItemId());
+        getSqlSession().update("updateMemberSlotItemMapping", params);
     }
 }
