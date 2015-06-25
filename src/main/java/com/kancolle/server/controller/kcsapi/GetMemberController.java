@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
+import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
@@ -24,10 +25,12 @@ import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.ship.MemberShipService;
 
 @Controller
 @RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.POST)
@@ -37,6 +40,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberNdockService memberNdockService;
+
+    @Autowired
+    private MemberShipService memberShipService;
 
     @RequestMapping("/basic")
     public @ResponseBody APIResponse<MemberBasic> basic(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -100,8 +106,18 @@ public class GetMemberController {
     @RequestMapping("/picture_book")
     public @ResponseBody APIResponse<List<ShipPictureBook>> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
         if (result.hasErrors()) {
-
+            throw new IllegalArgumentException();
         }
         return null;
+    }
+
+    @RequestMapping("/ship3")
+    public @ResponseBody APIResponse<Ship3Result> ship3(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship3Form form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException();
+        }
+
+        Ship3Result api_data = memberShipService.getShip3(member_id, form);
+        return new APIResponse<Ship3Result>().setApi_data(api_data);
     }
 }

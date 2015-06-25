@@ -29,7 +29,7 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     public MemberSlotItem selectMemberSlotItem(String member_id, Long memberSlotItem_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
-        params.put("memberSlotItem_id", "memberSlotItem_id");
+        params.put("member_slotitem_id", memberSlotItem_id);
         return getSqlSession().selectOne("selectMemberSlotItem", params);
     }
 

@@ -12,7 +12,7 @@
 		SELECT * FROM v_member_slotitem
 		<where>
 			<if test="member_id != null">member_id = #{member_id}</if>
-			<if test="memberSlotItem_id != null">AND ID = #{memberSlotItem_id}</if>
+			<if test="member_slotitem_id != null">AND ID = #{member_slotitem_id}</if>
 		</where>
 	</select>
 

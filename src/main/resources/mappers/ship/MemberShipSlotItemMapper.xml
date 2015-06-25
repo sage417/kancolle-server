@@ -3,7 +3,8 @@
 <mapper namespace="com.kancolle.server.dao.ship.MemberShipSlotItemDao">
 
 	<insert id="insertMemberSlotItemMapping">
-		INSERT INTO t_member_ship_slotitem_mapping VALUES (#{member_id}, #{member_ship_id}, #{member_slotitem_id})
+		INSERT INTO t_member_ship_slotitem_mapping (member_id,member_ship_id,member_slotitem_id) VALUES 
+		(#{member_id}, #{member_ship_id}, #{member_slotitem_id})
 	</insert>
 	
 	<delete id="deleteMemberSlotItemMapping">

@@ -12,14 +12,18 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
+import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
+import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
@@ -38,7 +42,13 @@ public class MemberShipServiceImpl implements MemberShipService {
     private MemberShipDao memberShipDao;
 
     @Autowired
+    private PortDao portDao;
+
+    @Autowired
     private ShipService shipService;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private MemberResourceService memberResourceService;
@@ -67,6 +77,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
         List<Long> memberShipIds = form.getApi_id_items();
         int chargeKind = form.getApi_kind();
+        int onslot = form.getApi_onslot();
 
         List<MemberShip> memberShips = memberShipIds.stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null).collect(Collectors.toList());
         if (memberShips.size() != form.getApi_id_items().size()) {
@@ -165,7 +176,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         } else {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
             List<MemberSlotItem> slotItems = memberShip.getSlot();
-            if (slotIndex > slotItems.size()) {
+            if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);
                 memberShipDao.addSlot(memberShip, memberSlotItem);
             } else {
@@ -174,5 +185,13 @@ public class MemberShipServiceImpl implements MemberShipService {
             }
         }
 
+    }
+
+    @Override
+    public Ship3Result getShip3(String member_id, Ship3Form form) {
+        Long memberShipId = form.getApi_shipid();
+        int sortKey = form.getApi_sort_key();
+        int sort_order = form.getSpi_sort_order();
+        return new Ship3Result(getMemberShip(member_id, memberShipId), portDao.getDeckPort(member_id), memberService.getUnsetSlot(member_id));
     }
 }

@@ -5,9 +5,11 @@ package com.kancolle.server.service.ship;
 
 import java.util.List;
 
+import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
+import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 /**
@@ -34,4 +36,7 @@ public interface MemberShipService {
 
     /** 改装 */
     void setSlot(String member_id, ShipSetSlotForm form);
+
+    /** 改装结果 */
+    Ship3Result getShip3(String member_id, Ship3Form form);
 }
