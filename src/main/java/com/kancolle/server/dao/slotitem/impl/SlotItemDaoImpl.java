@@ -17,11 +17,14 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
 @Repository
 public class SlotItemDaoImpl extends BaseDaoImpl<SlotItem> implements SlotItemDao {
 
-    /* (non-Javadoc)
-     * @see com.kancolle.server.dao.slotItem.SlotItemDao#getSlotItemById(int)
-     */
+    @Override
+    public void update(SlotItem t) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public SlotItem getSlotItemById(int slotitem_id) {
         return getSqlSession().selectOne("getSlotItemById", slotitem_id);
     }
+
 }

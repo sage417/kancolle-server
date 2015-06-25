@@ -6,12 +6,16 @@
 		<id property="memberSlotItemId" column="ID" />
 		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.getSlotItemById" />
 	</resultMap>
-
-	<!-- 查询指定舰娘装备 -->
-	<select id="selectMemberShipSlotId" resultType="String">
-		SELECT SLOT FROM v_member_ship WHERE member_id = #{member_id} AND ID = #{ship_id}
-	</select>
 	
+	<!-- 查询指定装备 -->
+	<select id="selectMemberSlotItem" resultMap="memberSlotItemRM">
+		SELECT * FROM v_member_slotitem
+		<where>
+			<if test="member_id != null">member_id = #{member_id}</if>
+			<if test="memberSlotItem_id != null">AND ID = #{memberSlotItem_id}</if>
+		</where>
+	</select>
+
 	<select id="selectMemberShipSlots" resultMap="memberSlotItemRM">
 		SELECT mem_slot.* FROM v_member_slotitem mem_slot 
 			INNER JOIN t_member_ship_slotitem_mapping m ON mem_slot.`member_id` = m.`member_id` 	AND mem_slot.`ID` = m.`member_slotitem_id`

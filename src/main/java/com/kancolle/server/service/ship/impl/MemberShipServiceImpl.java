@@ -13,14 +13,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
+import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
+import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.utils.logic.LVUtil;
 
 /**
@@ -39,6 +42,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberResourceService memberResourceService;
+
+    @Autowired
+    private MemberSlotItemService memberSlotItemService;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
@@ -136,5 +142,36 @@ public class MemberShipServiceImpl implements MemberShipService {
         // TODO 舰娘属性增长
 
         memberShipDao.updateMemberExp(memberShip);
+    }
+
+    @Override
+    public void setSlot(String member_id, ShipSetSlotForm form) {
+        Long memberShipId = form.getApi_id();
+        Long memberSlotItemId = form.getApi_item_id();
+        Integer slotIndex = form.getApi_slot_idx();
+
+        MemberShip memberShip = getMemberShip(member_id, memberShipId);
+        if (memberShip == null) {
+            // TODO
+            throw new IllegalArgumentException();
+        }
+
+        if (memberSlotItemId == -1L) {
+            // 移除装备
+            MemberSlotItem slotItem = memberShip.getSlot().get(slotIndex);
+            memberShip.getSlot().remove(slotIndex);
+            memberShipDao.removeSlot(memberShip, slotItem);
+        } else {
+            MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
+            List<MemberSlotItem> slotItems = memberShip.getSlot();
+            if (slotIndex > slotItems.size()) {
+                slotItems.add(memberSlotItem);
+                memberShipDao.addSlot(memberShip, memberSlotItem);
+            } else {
+                MemberSlotItem repalcedSlotItem = slotItems.set(slotIndex, memberSlotItem);
+                memberShipDao.replaceSlot(memberShip, repalcedSlotItem, memberSlotItem);
+            }
+        }
+
     }
 }
