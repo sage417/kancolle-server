@@ -15,4 +15,6 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
 
     void chargeMemberShips(String member_id, List<Long> memberShip_ids, int charge_kind);
 
+    void updateMemberExp(MemberShip memberShip);
+
 }

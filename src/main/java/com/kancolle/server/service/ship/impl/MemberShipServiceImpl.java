@@ -15,12 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
-import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.enums.ChargeType;
+import com.kancolle.server.utils.logic.LVUtil;
 
 /**
  * @author J.K.SAGE
@@ -32,6 +33,10 @@ import com.kancolle.server.service.ship.enums.ChargeType;
 public class MemberShipServiceImpl implements MemberShipService {
     @Autowired
     private MemberShipDao memberShipDao;
+
+    @Autowired
+    private ShipService shipService;
+
     @Autowired
     private MemberResourceService memberResourceService;
 
@@ -57,8 +62,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         List<Long> memberShipIds = form.getApi_id_items();
         int chargeKind = form.getApi_kind();
 
-        List<MemberShip> memberShips = memberShipIds.stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null)
-                .collect(Collectors.toList());
+        List<MemberShip> memberShips = memberShipIds.stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null).collect(Collectors.toList());
         if (memberShips.size() != form.getApi_id_items().size()) {
             // TODO 记录
             throw new IllegalArgumentException();
@@ -97,5 +101,40 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShipDao.chargeMemberShips(member_id, memberShipIds, chargeKind);
 
         return new ChargeModel(memberShips, memberResourceService.getMemberResouce(Long.valueOf(member_id)), comsumeBauxite > 0);
+    }
+
+    @Override
+    public void increaseMemberShipExp(MemberShip memberShip, int exp) {
+        if (memberShip == null || exp < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        // 当前等级
+        int nowLv = memberShip.getLv();
+        // 99级和150级不获得经验
+        if (LVUtil.isShipLVOver(nowLv))
+            return;
+        // 当前总经验
+        long[] exps = memberShip.getExp();
+        // 获得经验后总经验（未修正前）
+        long afterExp = exps[0] + exp;
+        // 获得经验后等级（经过修正）
+        int afterLv = shipService.getShipLVByExp(afterExp);
+
+        if (LVUtil.isShipLVOver(afterLv))
+            // 获得经验后总经验（经过修正）
+            afterExp = shipService.getSumExpByLevel(afterLv);
+
+        // 下一级所需总经验
+        long nextLvExp = afterLv > nowLv ? shipService.getSumExpByLevel(afterLv + 1) : exps[1];
+
+        int progress = (int) Math.floorDiv(100L * (afterExp - shipService.getSumExpByLevel(afterLv)), shipService.getNextLVExp(afterLv));
+
+        memberShip.setLv(afterLv);
+        memberShip.setExp(new long[] { afterExp, nextLvExp - afterExp, progress });
+
+        // TODO 舰娘属性增长
+
+        memberShipDao.updateMemberExp(memberShip);
     }
 }

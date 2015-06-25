@@ -27,4 +27,7 @@ public interface MemberShipService {
     
     /** 补给燃弹 */
     ChargeModel chargeShips(String member_id, ShipChargeForm form);
+
+    /** 舰娘获得经验 */
+    void increaseMemberShipExp(MemberShip memberShip, int exp);
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.ship.ShipService;
+import com.kancolle.server.service.ship.MemberShipService;
 
 /**
  * @author J.K.SAGE
@@ -29,14 +29,14 @@ import com.kancolle.server.service.ship.ShipService;
 @RequestMapping(value = "/kcsapi/api_req_hokyu", method = RequestMethod.POST)
 public class ReqHokyuController {
     @Autowired
-    private ShipService shipService;
+    private MemberShipService memberShipService;
 
     @RequestMapping("/charge")
     public @ResponseBody APIResponse<ChargeModel> charge(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChargeForm form, BindingResult result) {
         if (result.hasErrors()) {
             // TODO
         }
-        ChargeModel api_data = shipService.chargeShips(member_id, form);
+        ChargeModel api_data = memberShipService.chargeShips(member_id, form);
         return new APIResponse<ChargeModel>().setApi_data(api_data);
     }
 }

@@ -37,48 +37,25 @@
 		</where>
 	</select>
 
-	<update id="updateMemberShip">
-		UPDATE v_member_ship SET
-			BULL = #{bull},
-			COND = #{cond},
-			EXP = #{exp, typeHandler=LongJsonArrayHanlder},
-			FUEL = #{fuel},
-			KAIHI = #{kaihi, typeHandler=MaxMinValueHandler},
-			KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
-			LENG = #{leng},
-			LOCKED = #{locked},
-			LOCKED_EQUIP = #{lockedEquip},
-			LUCKY = #{lucky, typeHandler=MaxMinValueHandler},
-			LV = #{lv},
-			MAXHP = #{maxHp},
-			NOWHP = #{nowHp},
-			ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder},
-			RAISOU = #{raisou, typeHandler=MaxMinValueHandler},
-			SAKUTEKI = #{sakuteki, typeHandler=MaxMinValueHandler},
-			SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
-			SRATE = #{srate},
-			TAIKU = #{taiku, typeHandler=MaxMinValueHandler},
-			TAISEN = #{taisen, typeHandler=MaxMinValueHandler}
-		WHERE member_id = #{memberId} AND ID = #{memberShipId}
-	</update>
-
-	<update id="updateMemberShipSlot">
-		UPDATE v_member_ship SET
-			SLOT = #{slot}
-		WHERE member_id = #{memberShip.memberId} AND ID = #{memberShip.memberShipId}
-	</update>
-
 	<select id="selectCountOfMemberShip" resultType="int">
 		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
 	
 	<update id="chargeMemberShips">
-		UPDATE v_member_ship
+		UPDATE v_member_ship ms, t_ship s
 		<set>
-			<if test="charge_kind == 1 or charge_kind == 3">FUEL = #{},ONSLOT = #{}</if>
-			<if test="charge_kind == 2 or charge_kind == 3">BULL = #{}</if>
+			<if test="charge_kind == 1 or charge_kind == 3">ms.FUEL = s.FUEL_MAX, ms.ONSLOT = s.MAXEQ,</if>
+			<if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX</if>
 		</set>
-		WHERE member_id = #{member_id}
-		AND ID IN <foreach collection="memberShip_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+		WHERE ms.`SHIP_ID` = s.ID
+		AND ms.member_id = #{member_id}
+		AND ms.ID IN <foreach collection="memberShip_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+	</update>
+	
+	<update id="updateMemberExp">
+		UPDATE v_member_ship SET
+			LV = #{lv},
+			EXP = #{exp, typeHandler=LongJsonArrayHanlder}
+		WHERE member_id = #{member_id} AND ID = #{memberShip_id}
 	</update>
 </mapper>

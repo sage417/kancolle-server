@@ -1,22 +1,13 @@
 package com.kancolle.server.dao.ship.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSON;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.ship.ShipDao;
-import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 @Repository
-public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
+public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
 
     @Override
     public Ship selectShipById(int ship_id) {
@@ -24,25 +15,8 @@ public class ShipDaoImpl extends BaseDaoImpl<MemberShip> implements ShipDao {
     }
 
     @Override
-    public void update(MemberShip memberShip) {
-        updateShipSlotItem(memberShip);
-        super.update(memberShip);
-    }
-
-    /**
-     * @param memberShip
-     */
-    private void updateShipSlotItem(MemberShip memberShip) {
-
-        List<Long> slot_ids = memberShip.getSlot().stream().mapToLong(MemberSlotItem::getMemberSlotItemId).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
-        Stream.iterate(0, i -> i++).limit(MemberShip.SLOT_SIZE_MAX - slot_ids.size()).forEach(index -> slot_ids.add(Long.valueOf(-1L)));
-
-        String slot = JSON.toJSONString(slot_ids);
-
-        Map<String, Object> params = new HashMap<String, Object>(2);
-        params.put("memberShip", memberShip);
-        params.put("slot", slot);
-        getSqlSession().update("updateMemberShipSlot", params);
+    public void update(Ship ship) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

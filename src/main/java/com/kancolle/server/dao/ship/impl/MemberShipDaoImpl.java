@@ -15,6 +15,12 @@ import com.kancolle.server.model.po.ship.MemberShip;
 public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements MemberShipDao {
 
     @Override
+    @Deprecated
+    public void update(MemberShip memberShip) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public MemberShip selectMemberShip(String member_id, long ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
@@ -39,5 +45,15 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("memberShip_ids", memberShip_ids);
         params.put("charge_kind", charge_kind);
         getSqlSession().update("chargeMemberShips", params);
+    }
+
+    @Override
+    public void updateMemberExp(MemberShip memberShip) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(8);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("memberShp_id", memberShip.getMemberShipId());
+        params.put("lv", memberShip.getLv());
+        params.put("exp", memberShip.getExp());
+        getSqlSession().update("updateMemberExp", params);
     }
 }
