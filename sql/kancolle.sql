@@ -373,7 +373,7 @@ CREATE TABLE `t_member_material` (
 
 /*Data for the table `t_member_material` */
 
-insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299965,299840,299901,299972,2993,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
+insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299958,299840,299885,299972,2992,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
 
 /*Table structure for table `t_member_mission` */
 
@@ -462,7 +462,7 @@ CREATE TABLE `t_member_ship` (
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,0,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[1,2,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,16,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[-1,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
 
 /*Table structure for table `t_member_ship_slotitem_mapping` */
 
@@ -475,11 +475,9 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
-
-insert  into `t_member_ship_slotitem_mapping`(`index`,`member_id`,`member_ship_id`,`member_slotitem_id`) values (1,8006690,1,1),(2,8006690,1,2);
 
 /*Table structure for table `t_member_slotitem` */
 
@@ -504,7 +502,7 @@ CREATE TABLE `t_member_slotitem` (
 
 /*Data for the table `t_member_slotitem` */
 
-insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (2,8006690,1,0,0,42,0,NULL),(3,8006690,2,0,0,42,0,NULL);
+insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (2,8006690,1,0,1,42,0,NULL),(3,8006690,2,0,0,42,0,NULL);
 
 /*Table structure for table `t_member_useitem` */
 
