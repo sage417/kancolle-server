@@ -25,4 +25,12 @@
 			AND m.`member_ship_id` = #{ship_id}
 		ORDER BY POSITION( CAST(mem_slot.`ID` AS CHAR) IN mem_ship.`SLOT`)
 	</select>
+	
+	<update id="updateLockStatue">
+		UPDATE v_member_slotitem SET
+			LOCKED = #{lock}
+		WHERE
+			member_id = #{member_id}
+			AND ID = #{member_slotitem_id}
+	</update>
 </mapper>

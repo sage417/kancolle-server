@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.slotitem;
 
+import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 /**
@@ -13,5 +14,8 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 public interface MemberSlotItemService {
 
     MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId);
+
+    /** 裝備加鎖、解鎖 */
+    MemberSlotItemLockResult lock(String member_id, long slotitem_id);
 
 }

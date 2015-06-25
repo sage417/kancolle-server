@@ -33,4 +33,13 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
         return getSqlSession().selectOne("selectMemberSlotItem", params);
     }
 
+    @Override
+    public void updateLockStatue(String member_id, long slotitem_id, boolean lock) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", member_id);
+        params.put("member_slotitem_id", slotitem_id);
+        params.put("lock", lock);
+        getSqlSession().update("updateLockStatue", params);
+    }
+
 }

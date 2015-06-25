@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
+import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.slotitem.MemberSlotItemService;
 
 /**
  * @author J.K.SAGE
@@ -28,9 +30,10 @@ import com.kancolle.server.service.ship.MemberShipService;
 @Controller
 @RequestMapping(value = "/kcsapi/api_req_kaisou", method = RequestMethod.POST)
 public class ReqKaisouController {
-
     @Autowired
     private MemberShipService memberShipService;
+    @Autowired
+    private MemberSlotItemService memberSlotItemService;
 
     @RequestMapping("/slotset")
     public @ResponseBody APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipSetSlotForm form, BindingResult result) {
@@ -43,9 +46,15 @@ public class ReqKaisouController {
     }
 
     @RequestMapping("/unsetslot_all")
-    public @ResponseBody APIResponse<Object> unsetslotAll(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_id", required = true) Long memberShip_id) {
+    public @ResponseBody APIResponse<Object> unsetslotAll(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_id", required = true) long memberShip_id) {
         memberShipService.unsetslotAll(member_id, memberShip_id);
         return new APIResponse<Object>();
+    }
+
+    @RequestMapping("/lock")
+    public @ResponseBody APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_slotitem_id", required = true) long slotitem_id) {
+        MemberSlotItemLockResult api_data = memberSlotItemService.lock(member_id, slotitem_id);
+        return new APIResponse<MemberSlotItemLockResult>().setApi_data(api_data);
     }
 
 }
