@@ -50,8 +50,8 @@ public class ShipServiceImplTest {
     public void testGetMembetShipExp() {
         MemberShip memberShip = new MemberShip();
         memberShip.setLv(99);
-        shipService.increaseMemberShipExp(memberShip, 1000);
+        memberShipService.increaseMemberShipExp(memberShip, 1000);
         memberShip.setLv(150);
-        shipService.increaseMemberShipExp(testMemberShip, 1932);
+        memberShipService.increaseMemberShipExp(testMemberShip, 1932);
     }
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.ship.enums;
+package com.kancolle.server.service.ship.utils;
 
 /**
  * @author J.K.SAGE

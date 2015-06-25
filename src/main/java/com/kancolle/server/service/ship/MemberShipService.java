@@ -24,7 +24,7 @@ public interface MemberShipService {
 
     /** 获取提督舰娘数 */
     int getCountOfMemberShip(String member_id);
-    
+
     /** 补给燃弹 */
     ChargeModel chargeShips(String member_id, ShipChargeForm form);
 

@@ -20,7 +20,6 @@ public class ShipServiceImpl implements ShipService {
      * 获取舰娘升级到下一级所需经验（差分经验）
      * 
      * @param nowLevel
-     *            当前等级
      * @return
      */
     @Override

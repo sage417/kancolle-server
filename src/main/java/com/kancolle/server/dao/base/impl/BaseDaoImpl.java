@@ -19,12 +19,16 @@ import com.kancolle.server.utils.DaoUtils;
 public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
     protected static final String SELECT_ALL = "SELECT * FROM ";
 
-    protected String tableName;
+    private String className;
 
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    private String className;
+    @Autowired
+    @Override
+    public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+        super.setSqlSessionFactory(sqlSessionFactory);
+    }
 
     @SuppressWarnings("unchecked")
     public BaseDaoImpl() {
@@ -33,10 +37,6 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
 
         Class<T> entityClass = (Class<T>) params[0];
         className = entityClass.getSimpleName();
-    }
-
-    protected String getTableName() {
-        return this.tableName;
     }
 
     protected NamedParameterJdbcTemplate getTemplate() {
@@ -94,15 +94,5 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
-    }
-
-    protected void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    @Autowired
-    @Override
-    public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-        super.setSqlSessionFactory(sqlSessionFactory);
     }
 }

@@ -20,7 +20,7 @@ import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
-import com.kancolle.server.service.ship.enums.ChargeType;
+import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.utils.logic.LVUtil;
 
 /**

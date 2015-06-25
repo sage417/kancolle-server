@@ -10,11 +10,6 @@ import com.kancolle.server.model.po.ship.Ship;
 public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
 
     @Override
-    public Ship selectShipById(int ship_id) {
-        return getSqlSession().selectOne("selectShipById", ship_id);
-    }
-
-    @Override
     public void update(Ship ship) {
         throw new UnsupportedOperationException();
     }
