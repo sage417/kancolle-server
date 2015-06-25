@@ -35,7 +35,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         boolean lock = memberSlotItem.getLocked() == 0;
 
-        memberSlotItemDao.updateLockStatue(member_id, slotitem_id, lock);
+        memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
         return new MemberSlotItemLockResult(lock);
     }
 }

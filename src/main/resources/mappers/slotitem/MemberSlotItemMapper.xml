@@ -26,7 +26,7 @@
 		ORDER BY POSITION( CAST(mem_slot.`ID` AS CHAR) IN mem_ship.`SLOT`)
 	</select>
 	
-	<update id="updateLockStatue">
+	<update id="updateMemberSlotItemLockStatue">
 		UPDATE v_member_slotitem SET
 			LOCKED = #{lock}
 		WHERE

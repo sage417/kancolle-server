@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.kancolle.server.model.po.slotitem.SlotItem;
-import com.kancolle.server.service.slotitem.SlotItemService;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.service.slotitem.MemberSlotItemService;
 
 /**
  * @author J.K.SAGE
@@ -23,13 +23,13 @@ import com.kancolle.server.service.slotitem.SlotItemService;
 public class SlotItemServiceImplTest {
 
     @Autowired
-    private SlotItemService slotitemService;
+    private MemberSlotItemService slotitemService;
     /**
      * Test method for {@link com.kancolle.server.service.slotitem.impl.SlotItemServiceImpl#getSlotItemById(int)}.
      */
     @Test
     public void testGetSlotItemById() {
-        SlotItem slotItem = slotitemService.getSlotItemById(1);
+        MemberSlotItem slotItem = slotitemService.getMemberSlotItem("8006690", 1L);
         Assert.assertNotNull(slotItem);
     }
 }

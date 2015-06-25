@@ -15,6 +15,6 @@ public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
     MemberSlotItem selectMemberSlotItem(String member_id, Long memberSlotItem_id);
 
-    void updateLockStatue(String member_id, long slotitem_id, boolean lock);
+    void updateMemberSlotItemLockStatue(String member_id, long slotitem_id, boolean lock);
 
 }
