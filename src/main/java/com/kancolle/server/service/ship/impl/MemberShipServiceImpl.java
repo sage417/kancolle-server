@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -172,7 +173,7 @@ public class MemberShipServiceImpl implements MemberShipService {
             // 移除装备
             MemberSlotItem slotItem = memberShip.getSlot().get(slotIndex);
             memberShip.getSlot().remove(slotIndex);
-            memberShipDao.removeSlot(memberShip, slotItem);
+            memberShipDao.removeSlot(memberShip, Collections.singletonList(slotItem));
         } else {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
             List<MemberSlotItem> slotItems = memberShip.getSlot();
@@ -193,5 +194,19 @@ public class MemberShipServiceImpl implements MemberShipService {
         int sortKey = form.getApi_sort_key();
         int sort_order = form.getSpi_sort_order();
         return new Ship3Result(getMemberShip(member_id, memberShipId), portDao.getDeckPort(member_id), memberService.getUnsetSlot(member_id));
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public void unsetslotAll(String member_id, Long memberShip_id) {
+        MemberShip memberShip = getMemberShip(member_id, memberShip_id);
+        if (memberShip == null) {
+            // TODO
+            throw new IllegalArgumentException();
+        }
+
+        List<MemberSlotItem> memberSlotItems = memberShip.getSlot();
+        memberShip.setSlot(Collections.emptyList());
+        memberShipDao.removeSlot(memberShip, memberSlotItems);
     }
 }

@@ -39,4 +39,7 @@ public interface MemberShipService {
 
     /** 改装结果 */
     Ship3Result getShip3(String member_id, Ship3Form form);
+
+    /** 移除所有裝備 */
+    void unsetslotAll(String member_id, Long memberShip_id);
 }

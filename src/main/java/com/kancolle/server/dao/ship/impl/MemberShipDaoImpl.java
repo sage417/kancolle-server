@@ -92,12 +92,12 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     }
 
     @Override
-    public void removeSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
+    public void removeSlot(MemberShip memberShip, List<MemberSlotItem> memberSlotItem) {
         updateSlot(memberShip);
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
-        params.put("member_slotitem_id", memberSlotItem.getMemberSlotItemId());
+        params.put("member_slotitem_ids", memberSlotItem);
         getSqlSession().delete("deleteMemberSlotItemMapping", params);
     }
 

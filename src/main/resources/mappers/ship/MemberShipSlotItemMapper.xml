@@ -12,7 +12,7 @@
 		WHERE
 			member_id = #{member_id}
 			AND member_ship_id = #{member_ship_id}
-			AND member_slotitem_id = #{member_slotitem_id}
+			AND member_slotitem_id IN <foreach collection="member_slotitem_ids" item="slotitem" open="(" separator="," close=")">#{slotitem.memberSlotItemId}</foreach>
 	</delete>
 	
 	<update id="updateMemberSlotItemMapping">

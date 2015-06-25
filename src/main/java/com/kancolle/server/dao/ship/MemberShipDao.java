@@ -20,7 +20,7 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
 
     void addSlot(MemberShip memberShip, MemberSlotItem memberSlotItem);
 
-    void removeSlot(MemberShip memberShip, MemberSlotItem slotItem);
+    void removeSlot(MemberShip memberShip, List<MemberSlotItem> memberSlotItems);
 
     void replaceSlot(MemberShip memberShip, MemberSlotItem repalcedSlotItem, MemberSlotItem memberSlotItem);
 
