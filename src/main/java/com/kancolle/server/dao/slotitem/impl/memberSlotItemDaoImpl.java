@@ -5,6 +5,8 @@ package com.kancolle.server.dao.slotitem.impl;
 
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
@@ -15,12 +17,12 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  * @Date 2015年6月25日
  *
  */
+@Repository
 public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implements MemberSlotItemDao {
 
     @Override
     public void update(MemberSlotItem t) {
-        // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException();
     }
 
     @Override

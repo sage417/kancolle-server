@@ -3,11 +3,11 @@
 <mapper namespace="com.kancolle.server.dao.ship.MemberShipSlotItemDao">
 
 	<insert id="insertMemberSlotItemMapping">
-		INSERT INTO t_member_ship_slot_mapping VALUES (#{member_id}, #{member_ship_id}, #{member_slotitem_id})
+		INSERT INTO t_member_ship_slotitem_mapping VALUES (#{member_id}, #{member_ship_id}, #{member_slotitem_id})
 	</insert>
 	
 	<delete id="deleteMemberSlotItemMapping">
-		DELETE FROM t_member_ship_slot_mapping
+		DELETE FROM t_member_ship_slotitem_mapping
 		WHERE
 			member_id = #{member_id}
 			AND member_ship_id = #{member_ship_id}
@@ -15,7 +15,7 @@
 	</delete>
 	
 	<update id="updateMemberSlotItemMapping">
-		UPDATE t_member_ship_slot_mapping
+		UPDATE t_member_ship_slotitem_mapping
 			SET member_slotitem_id = #{replace_slotitem_id}
 		WHERE
 			member_id = #{member_id}

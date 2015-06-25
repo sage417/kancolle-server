@@ -63,12 +63,7 @@
 		UPDATE v_member_ship SET
 			LENG = #{leng},
 			LOCKED_EQUIP = #{lockedEquip},
-			SLOT = #{SLOT}
-		WHERE member_id = #{memberId} AND ID = #{memberShipId}
-	</update>
-	
-	<update id="updateMemberShipSlotMapping">
-		UPDATE t_member_ship_slot_mapping SET
-			
+			SLOT = #{slot}
+		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
 </mapper>

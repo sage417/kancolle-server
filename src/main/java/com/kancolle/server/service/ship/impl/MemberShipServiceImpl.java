@@ -145,10 +145,11 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void setSlot(String member_id, ShipSetSlotForm form) {
         Long memberShipId = form.getApi_id();
         Long memberSlotItemId = form.getApi_item_id();
-        Integer slotIndex = form.getApi_slot_idx();
+        int slotIndex = form.getApi_slot_idx();
 
         MemberShip memberShip = getMemberShip(member_id, memberShipId);
         if (memberShip == null) {

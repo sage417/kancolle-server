@@ -65,6 +65,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         List<Long> slot = memberShip.getSlot().stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
 
         OptionalInt length = memberShip.getSlot().stream().mapToInt(memberSlotItem -> memberSlotItem.getSlotItem().getLeng()).max();
+        int memberShipLength = Math.max(length.orElse(0), memberShip.getShip().getLeng());
 
         boolean lockedEquip = memberShip.getSlot().stream().filter(memberSlotItem -> memberSlotItem.getLocked() == 1).count() > 0L;
 
@@ -74,7 +75,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
-        params.put("length", length.getAsInt());
+        params.put("leng", memberShipLength);
         params.put("lockedEquip", lockedEquip);
         params.put("slot", JSON.toJSONString(slot));
         getSqlSession().update("updateMemberShipSlot", params);
