@@ -169,14 +169,19 @@ public class MemberShipServiceImpl implements MemberShipService {
             throw new IllegalArgumentException();
         }
 
+        List<MemberSlotItem> slotItems = memberShip.getSlot();
+
         if (memberSlotItemId == -1L) {
-            // 移除装备
-            MemberSlotItem slotItem = memberShip.getSlot().get(slotIndex);
-            memberShip.getSlot().remove(slotIndex);
-            memberShipDao.removeSlot(memberShip, Collections.singletonList(slotItem));
+            MemberSlotItem memberSlotItem = slotItems.remove(slotIndex);
+            memberShipDao.removeSlot(memberShip, Collections.singletonList(memberSlotItem));
         } else {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
-            List<MemberSlotItem> slotItems = memberShip.getSlot();
+
+            if (memberSlotItem == null) {
+                // TODO
+                throw new IllegalArgumentException();
+            }
+
             if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);
                 memberShipDao.addSlot(memberShip, memberSlotItem);
