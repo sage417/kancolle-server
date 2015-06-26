@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.service.slotitem.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import com.kancolle.server.service.slotitem.MemberSlotItemService;
  */
 @Service
 public class MemberSLotItemServiceImpl implements MemberSlotItemService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemberSLotItemServiceImpl.class);
+
     @Autowired
     private MemberSlotItemDao memberSlotItemDao;
 
@@ -27,15 +31,15 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public MemberSlotItemLockResult lock(String member_id, long slotitem_id) {
+    public MemberSlotItemLockResult lock(String member_id, Long slotitem_id) {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
         if (memberSlotItem == null) {
+            LOGGER.warn("用户ID{}请求不存在的装备ID{}", member_id, slotitem_id);
             throw new IllegalArgumentException();
         }
 
-        boolean lock = memberSlotItem.getLocked() == 0;
-
+        Boolean lock = Boolean.valueOf(!memberSlotItem.getLocked());
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
-        return new MemberSlotItemLockResult(lock);
+        return new MemberSlotItemLockResult(lock.booleanValue());
     }
 }

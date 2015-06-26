@@ -17,7 +17,7 @@ public class MemberSlotItem {
 
     private SlotItem slotItem;
 
-    private int locked;
+    private boolean locked;
 
     private int level;
 
@@ -37,11 +37,11 @@ public class MemberSlotItem {
         this.slotItem = slotItem;
     }
 
-    public int getLocked() {
+    public boolean getLocked() {
         return locked;
     }
 
-    public void setLocked(int locked) {
+    public void setLocked(boolean locked) {
         this.locked = locked;
     }
 

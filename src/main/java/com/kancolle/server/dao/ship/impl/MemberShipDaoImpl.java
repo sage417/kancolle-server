@@ -67,7 +67,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         OptionalInt length = memberShip.getSlot().stream().mapToInt(memberSlotItem -> memberSlotItem.getSlotItem().getLeng()).max();
         int memberShipLength = Math.max(length.orElse(0), memberShip.getShip().getLeng());
 
-        boolean lockedEquip = memberShip.getSlot().stream().filter(memberSlotItem -> memberSlotItem.getLocked() == 1).count() > 0L;
+        boolean lockedEquip = memberShip.getSlot().stream().filter(MemberSlotItem::getLocked).count() > 0L;
 
         while (slot.size() < MemberShip.SLOT_SIZE_MAX) {
             slot.add(Long.valueOf(-1L));

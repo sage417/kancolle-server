@@ -52,9 +52,8 @@ public class ReqKaisouController {
     }
 
     @RequestMapping("/lock")
-    public @ResponseBody APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_slotitem_id", required = true) long slotitem_id) {
+    public @ResponseBody APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_slotitem_id", required = true) Long slotitem_id) {
         MemberSlotItemLockResult api_data = memberSlotItemService.lock(member_id, slotitem_id);
         return new APIResponse<MemberSlotItemLockResult>().setApi_data(api_data);
     }
-
 }

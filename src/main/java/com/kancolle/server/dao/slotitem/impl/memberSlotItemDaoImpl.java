@@ -26,20 +26,19 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public MemberSlotItem selectMemberSlotItem(String member_id, Long memberSlotItem_id) {
+    public MemberSlotItem selectMemberSlotItem(String member_id, Long member_slotitem_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
-        params.put("member_slotitem_id", memberSlotItem_id);
+        params.put("member_slotitem_id", member_slotitem_id);
         return getSqlSession().selectOne("selectMemberSlotItem", params);
     }
 
     @Override
-    public void updateMemberSlotItemLockStatue(String member_id, long slotitem_id, boolean lock) {
+    public int updateMemberSlotItemLockStatue(String member_id, Long member_slotitem_id, Boolean lock) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", member_id);
-        params.put("member_slotitem_id", slotitem_id);
+        params.put("member_slotitem_id", member_slotitem_id);
         params.put("lock", lock);
-        getSqlSession().update("updateMemberSlotItemLockStatue", params);
+        return getSqlSession().update("updateMemberSlotItemLockStatue", params);
     }
-
 }

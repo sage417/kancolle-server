@@ -15,5 +15,4 @@ public class MemberSlotItemLockResult {
     public void setApi_locked(int api_locked) {
         this.api_locked = api_locked;
     }
-
 }

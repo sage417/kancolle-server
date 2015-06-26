@@ -13,8 +13,8 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  */
 public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
-    MemberSlotItem selectMemberSlotItem(String member_id, Long memberSlotItem_id);
+    MemberSlotItem selectMemberSlotItem(String member_id, Long member_slotitem_id);
 
-    void updateMemberSlotItemLockStatue(String member_id, long slotitem_id, boolean lock);
+    int updateMemberSlotItemLockStatue(String member_id, Long member_slotitem_id, Boolean lock);
 
 }
