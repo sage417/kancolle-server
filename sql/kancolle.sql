@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.4 (64 bit)
-MySQL - 5.6.24 : Database - kancolle
+MySQL - 5.6.21 : Database - kancolle
 *********************************************************************
 */
 
@@ -260,6 +260,26 @@ CREATE TABLE `t_member` (
 
 insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2385,NULL,'','',100,497,0,0,0,'[6,57,210,120,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,101,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[1,38,72,102,133,164]',4,2,4,911999,100,1,0,0,0,0,0,0,1,101,'[0,0]',0,101,5);
 
+/*Table structure for table `t_member_battle_status` */
+
+DROP TABLE IF EXISTS `t_member_battle_status`;
+
+CREATE TABLE `t_member_battle_status` (
+  `member_id` bigint(20) unsigned NOT NULL,
+  `battle` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `map_area_id` int(10) unsigned DEFAULT NULL,
+  `map_cell_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`member_id`),
+  KEY `map_area_id` (`map_area_id`),
+  KEY `map_cell_id` (`map_cell_id`),
+  CONSTRAINT `t_member_battle_status_ibfk_1` FOREIGN KEY (`map_area_id`) REFERENCES `t_map_area` (`ID`),
+  CONSTRAINT `t_member_battle_status_ibfk_2` FOREIGN KEY (`map_cell_id`) REFERENCES `t_map_cell` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_battle_status` */
+
+insert  into `t_member_battle_status`(`member_id`,`battle`,`map_area_id`,`map_cell_id`) values (8006690,0,NULL,NULL);
+
 /*Table structure for table `t_member_deckport` */
 
 DROP TABLE IF EXISTS `t_member_deckport`;
@@ -373,7 +393,7 @@ CREATE TABLE `t_member_material` (
 
 /*Data for the table `t_member_material` */
 
-insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299958,299840,299885,299972,2992,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
+insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEAL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,299965,299840,299901,299972,2993,3000,3000,3000),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
 
 /*Table structure for table `t_member_mission` */
 
@@ -462,7 +482,7 @@ CREATE TABLE `t_member_ship` (
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,16,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[-1,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`BULL`,`COND`,`EXP`,`FUEL`,`KAIHI`,`KARYOKU`,`KYOUKA`,`LENG`,`LOCKED`,`LOCKED_EQUIP`,`LUCKY`,`LV`,`MAXHP`,`NOWHP`,`ONSLOT`,`RAISOU`,`SAKUTEKI`,`SHIP_ID`,`SLOT`,`SOUKOU`,`SRATE`,`TAIKU`,`TAISEN`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,20,49,'[11841,159,89]',15,'[48,79]','[15,29]','[8,11,6,4,0]',1,0,0,'[12,49]',11,16,0,'[0,0,0,0,0]','[29,49]','[6,17]',46,'[1,2,-1,-1,-1,-1]','[9,18]',1,'[15,29]','[19,39]',0,NULL);
 
 /*Table structure for table `t_member_ship_slotitem_mapping` */
 
@@ -475,9 +495,11 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
+
+insert  into `t_member_ship_slotitem_mapping`(`index`,`member_id`,`member_ship_id`,`member_slotitem_id`) values (1,8006690,1,1),(2,8006690,1,2);
 
 /*Table structure for table `t_member_slotitem` */
 
@@ -502,7 +524,7 @@ CREATE TABLE `t_member_slotitem` (
 
 /*Data for the table `t_member_slotitem` */
 
-insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (2,8006690,1,0,1,42,0,NULL),(3,8006690,2,0,0,42,0,NULL);
+insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (2,8006690,1,0,0,42,0,NULL),(3,8006690,2,0,0,42,0,NULL);
 
 /*Table structure for table `t_member_useitem` */
 
@@ -806,12 +828,17 @@ DELIMITER $$
 	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
 	
+	/** 创建出击状态记录 */
+	replace into t_member_battle_status (member_id) VALUES (new.member_id);
+	
+	/** 创建工厂 */
 	replace into t_member_kdock (member_id, ID, STATE) values 
 	(new.member_id, 1, 0),
 	(new.member_id, 2, 0),
 	(new.member_id, 3, -1),
 	(new.member_id, 4, -1);
 	
+	/** 创建渠 */
 	replace into t_member_ndock (member_id, ID, STATE) VALUES 
 	(new.member_id, 1, 0),
 	(new.member_id, 2, 0),
