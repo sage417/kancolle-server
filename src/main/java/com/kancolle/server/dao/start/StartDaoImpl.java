@@ -21,11 +21,11 @@ import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.model.po.ship.ShipType;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
@@ -140,8 +140,8 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     }
 
     @Override
-    public List<ShipTypeModel> getMstStype() {
-        return queryForModels(ShipTypeModel.class, MST_SHIPTYPE_TB);
+    public List<ShipType> getMstStype() {
+        return getSqlSession().selectList("selectShipTypes");
     }
 
     @Override

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.ship.ShipTypeDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+	<resultMap type="ShipType" id="ShipTypeRM" autoMapping="true">
+		<constructor>
+			<arg javaType="String" column="EQUIP_TYPE" />
+		</constructor>
+		<id property="shipTypeId" column="ID" />
+		<id property="sortNo" column="SORTNO" />
+	</resultMap>
+
+	<select id="selectShipTypes" resultMap="ShipTypeRM">
+		SELECT * FROM t_ship_type
+	</select>
+
+	<select id="selectCountOfShipTypes" resultType="int">
+		SELECT COUNT(*) FROM t_slotitem_equiptype
+	</select>
+</mapper>

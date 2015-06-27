@@ -17,11 +17,11 @@ import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.model.po.ship.ShipType;
 
 public class StartModel {
     @JSONField(ordinal = 1)
@@ -31,7 +31,7 @@ public class StartModel {
     @JSONField(ordinal = 3)
     private List<EquipTypeModel> api_mst_slotitem_equiptype;
     @JSONField(ordinal = 4)
-    private List<ShipTypeModel> api_mst_stype;
+    private List<ShipType> api_mst_stype;
     @JSONField(ordinal = 5)
     private List<SlotItemModel> api_mst_slotitem;
     @JSONField(ordinal = 6)
@@ -131,7 +131,7 @@ public class StartModel {
         return api_mst_slotitemgraph;
     }
 
-    public List<ShipTypeModel> getApi_mst_stype() {
+    public List<ShipType> getApi_mst_stype() {
         return api_mst_stype;
     }
 
@@ -207,7 +207,7 @@ public class StartModel {
         this.api_mst_slotitemgraph = api_mst_slotitemgraph;
     }
 
-    public void setApi_mst_stype(List<ShipTypeModel> api_mst_stype) {
+    public void setApi_mst_stype(List<ShipType> api_mst_stype) {
         this.api_mst_stype = api_mst_stype;
     }
 

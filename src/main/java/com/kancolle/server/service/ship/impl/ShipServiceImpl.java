@@ -1,15 +1,28 @@
 package com.kancolle.server.service.ship.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.service.ship.ShipService;
 
 @Service
 public class ShipServiceImpl implements ShipService {
     @Autowired
     private ShipDao shipDao;
+
+    @Override
+    public List<ShipType> getShipTypes() {
+        return shipDao.selectShipTypes();
+    }
+
+    @Override
+    public int getCountOfShipTypes() {
+        return shipDao.selectCountOfShipTypes();
+    }
 
     @Override
     public int getShipLVByExp(long afterExp) {
