@@ -18,11 +18,11 @@ import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.model.po.ship.ShipType;
 
 public interface StartDao extends BaseDao<StartModel> {
     List<BgmModel> getMstBgm();
@@ -59,7 +59,7 @@ public interface StartDao extends BaseDao<StartModel> {
 
     List<SlotItemGraphModel> getMstSlotitemgraph();
 
-    List<ShipTypeModel> getMstStype();
+    List<ShipType> getMstStype();
 
     List<UseItemModel> getMstUseitem();
 

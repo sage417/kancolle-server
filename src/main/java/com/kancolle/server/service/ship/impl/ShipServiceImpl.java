@@ -51,4 +51,15 @@ public class ShipServiceImpl implements ShipService {
     public long getSumExpByLevel(int level) {
         return shipDao.getNeedExpByLevel(level);
     }
+
+    @Override
+    public ShipType getShipType(int typeId) {
+        return shipDao.selectShipTypeByCond(typeId);
+    }
+
+    @Override
+    public boolean canEquip(int shipTypeId, int slotitemId) {
+        ShipType shipType = shipDao.selectShipTypeByCond(shipTypeId);
+        return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
+    }
 }

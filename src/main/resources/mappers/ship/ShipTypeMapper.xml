@@ -15,6 +15,10 @@
 	<select id="selectShipTypes" resultMap="ShipTypeRM">
 		SELECT * FROM t_ship_type
 	</select>
+	
+	<select id="selectShipTypeByCond" resultMap="ShipTypeRM">
+		SELECT * FROM t_ship_type WHERE ID = #{type_id}
+	</select>
 
 	<select id="selectCountOfShipTypes" resultType="int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype

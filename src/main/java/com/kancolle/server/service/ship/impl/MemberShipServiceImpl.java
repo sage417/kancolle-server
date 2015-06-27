@@ -182,6 +182,11 @@ public class MemberShipServiceImpl implements MemberShipService {
                 throw new IllegalArgumentException();
             }
 
+            if (!shipService.canEquip(memberShip.getShip().getType(), memberSlotItem.getSlotItem().getType()[2])) {
+                // TODO
+                throw new IllegalArgumentException();
+            }
+
             if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);
                 memberShipDao.addSlot(memberShip, memberSlotItem);

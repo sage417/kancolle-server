@@ -32,7 +32,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_SHIP_TB = SELECT_ALL + "t_ship";
     private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
-    private static final String MST_SHIPTYPE_TB = SELECT_ALL + "t_ship_type";
     private static final String MST_SLOTITEM_TB = SELECT_ALL + "t_slotitem";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
     private static final String MST_FURNITURE_TB = SELECT_ALL + "t_furniture";

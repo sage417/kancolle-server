@@ -8,6 +8,8 @@ public interface ShipService {
 
     List<ShipType> getShipTypes();
 
+    ShipType getShipType(int typeId);
+
     int getCountOfShipTypes();
 
     long getSumExpByLevel(int level);
@@ -15,5 +17,7 @@ public interface ShipService {
     long getNextLVExp(int nowLevel);
 
     int getShipLVByExp(long afterExp);
+
+    boolean canEquip(int shipTypeId, int slotitemId);
 
 }
