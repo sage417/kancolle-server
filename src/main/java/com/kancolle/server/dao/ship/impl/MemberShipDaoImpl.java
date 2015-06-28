@@ -111,4 +111,19 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("replace_slotitem_id", replaceMemberSlotItem.getMemberSlotItemId());
         getSqlSession().update("updateMemberSlotItemMapping", params);
     }
+
+    @Override
+    public void updateMemberShipSlotValue(MemberShip memberShip) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(9);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
+        params.put("soukou", memberShip.getSoukou());
+        params.put("karyoku", memberShip.getKaryoku());
+        params.put("raisou", memberShip.getRaisou());
+        params.put("taiku", memberShip.getTaiku());
+        params.put("taisen", memberShip.getTaisen());
+        params.put("kaihi", memberShip.getKaihi());
+        params.put("sakuteki", memberShip.getSakuteki());
+        getSqlSession().update("updateMemberShipSlotValue", params);
+    }
 }

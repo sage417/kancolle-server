@@ -66,4 +66,16 @@
 			SLOT = #{slot}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
+	
+	<update id="updateMemberShipSlotValue">
+		UPDATE v_member_ship SET
+			SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
+			KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
+			KAIHI = #{kaihi, typeHandler=MaxMinValueHandler},
+			RAISOU = #{raisou, typeHandler=MaxMinValueHandler},
+			TAIKU = #{taiku, typeHandler=MaxMinValueHandler},
+			TAISEN = #{taisen, typeHandler=MaxMinValueHandler},
+			SAKUTEKI = #{sakuteki, typeHandler=MaxMinValueHandler}
+		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
+	</update>
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
@@ -205,6 +206,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 memberShipReplaceSlot(memberShip, replacedSlotItem, memberSlotItem);
             }
         }
+        memberShipDao.updateMemberShipSlotValue(memberShip);
     }
 
     @Override
@@ -216,9 +218,9 @@ public class MemberShipServiceImpl implements MemberShipService {
             throw new IllegalArgumentException();
         }
 
-        List<MemberSlotItem> memberSlotItems = memberShip.getSlot();
-        memberShip.setSlot(Collections.emptyList());
+        List<MemberSlotItem> memberSlotItems = ImmutableList.copyOf(memberShip.getSlot());
         memberShipRemoveSlots(memberShip, memberSlotItems);
+        memberShipDao.updateMemberShipSlotValue(memberShip);
     }
 
     private void memberShipAddSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
@@ -239,7 +241,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     private void memberShipRemoveSlots(MemberShip memberShip, List<MemberSlotItem> memberSlotItems) {
         memberShipChangeSlot(memberShip, memberSlotItems, false);
-        memberShip.getSlot().remove(memberSlotItems);
+        memberShip.getSlot().removeAll(memberSlotItems);
         memberShipDao.removeSlot(memberShip, memberSlotItems);
     }
 
@@ -276,7 +278,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 MaxMinValue taiku = memberShip.getTaiku();
                 int newTaiku = 0;
                 if (slotitem.getType()[2] == 6) {
-                    int changeValue = (slotTyku * Math.round((float) Math.sqrt(memberShip.getOnslot()[memberShip.getSlot().indexOf(memberSlotItem)])));
+                    int changeValue = (slotTyku * Math.round((float) Math.sqrt(memberShip.getShip().getMaxEq()[memberShip.getSlot().indexOf(memberSlotItem)])));
                     newTaiku = add ? taiku.getMinValue() + changeValue : taiku.getMinValue() - changeValue;
                 } else {
                     newTaiku = add ? taiku.getMinValue() + slotTyku : taiku.getMinValue() - slotTyku;
