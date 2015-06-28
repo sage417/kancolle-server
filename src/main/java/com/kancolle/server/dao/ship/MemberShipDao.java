@@ -23,5 +23,4 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
     void removeSlot(MemberShip memberShip, List<MemberSlotItem> memberSlotItems);
 
     void replaceSlot(MemberShip memberShip, MemberSlotItem repalcedSlotItem, MemberSlotItem memberSlotItem);
-
 }

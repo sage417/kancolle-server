@@ -20,6 +20,7 @@ import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -156,6 +157,15 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShipDao.updateMemberExp(memberShip);
     }
 
+    /**
+     * 改装舰娘的装备到底会发生什么？<br>
+     * 1.t_member_ship slot 装备顺序发生改变<br>
+     * 2. t_member_ship_slot 增删改装备记录<br>
+     * 3. 舰娘的属性根据对应装备的属性发生变化<br>
+     * <br>
+     * 注意：<br>
+     * 根据舰娘船只种类所装备的装备种类有限制<br>
+     */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void setSlot(String member_id, ShipSetSlotForm form) {
@@ -173,7 +183,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         if (memberSlotItemId == -1L) {
             MemberSlotItem memberSlotItem = slotItems.remove(slotIndex);
-            memberShipDao.removeSlot(memberShip, Collections.singletonList(memberSlotItem));
+            memberShipRemoveSlots(memberShip, Collections.singletonList(memberSlotItem));
         } else {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
 
@@ -189,21 +199,12 @@ public class MemberShipServiceImpl implements MemberShipService {
 
             if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);
-                memberShipDao.addSlot(memberShip, memberSlotItem);
+                memberShipAddSlot(memberShip, memberSlotItem);
             } else {
-                MemberSlotItem repalcedSlotItem = slotItems.set(slotIndex, memberSlotItem);
-                memberShipDao.replaceSlot(memberShip, repalcedSlotItem, memberSlotItem);
+                MemberSlotItem replacedSlotItem = slotItems.set(slotIndex, memberSlotItem);
+                memberShipReplaceSlot(memberShip, replacedSlotItem, memberSlotItem);
             }
         }
-
-    }
-
-    @Override
-    public Ship3Result getShip3(String member_id, Ship3Form form) {
-        Long memberShipId = form.getApi_shipid();
-        int sortKey = form.getApi_sort_key();
-        int sort_order = form.getSpi_sort_order();
-        return new Ship3Result(getMemberShip(member_id, memberShipId), portDao.getDeckPort(member_id), memberService.getUnsetSlot(member_id));
     }
 
     @Override
@@ -217,6 +218,70 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         List<MemberSlotItem> memberSlotItems = memberShip.getSlot();
         memberShip.setSlot(Collections.emptyList());
+        memberShipRemoveSlots(memberShip, memberSlotItems);
+    }
+
+    private void memberShipAddSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
+        memberShipChangeSlot(memberShip, Collections.singletonList(memberSlotItem), true);
+        memberShipDao.addSlot(memberShip, memberSlotItem);
+    }
+
+    private void memberShipReplaceSlot(MemberShip memberShip, MemberSlotItem replacedSlotItem, MemberSlotItem memberSlotItem) {
+        memberShipChangeSlot(memberShip, Collections.singletonList(replacedSlotItem), false);
+        memberShipChangeSlot(memberShip, Collections.singletonList(memberSlotItem), true);
+        memberShipDao.replaceSlot(memberShip, replacedSlotItem, memberSlotItem);
+    }
+
+    private void memberShipRemoveSlots(MemberShip memberShip, List<MemberSlotItem> memberSlotItems) {
+        memberShipChangeSlot(memberShip, memberSlotItems, false);
         memberShipDao.removeSlot(memberShip, memberSlotItems);
+    }
+
+    private void memberShipChangeSlot(MemberShip memberShip, List<MemberSlotItem> memberSlotItems, boolean add) {
+        memberSlotItems.stream().map(MemberSlotItem::getSlotItem).forEach(slotitem -> {
+            // 装甲
+                MaxMinValue souku = memberShip.getSoukou();
+                int newSouku = add ? souku.getMinValue() + slotitem.getSouk() : souku.getMinValue() - slotitem.getSouk();
+                souku.setMinValue(newSouku);
+                memberShip.setSoukou(souku);
+                // 火力
+                MaxMinValue karyoku = memberShip.getKaryoku();
+                int newKaryoku = add ? karyoku.getMinValue() + slotitem.getHoug() : karyoku.getMinValue() - slotitem.getHoug();
+                karyoku.setMinValue(newKaryoku);
+                memberShip.setKaryoku(karyoku);
+                // 雷装
+                MaxMinValue raisou = memberShip.getRaisou();
+                int newRaisou = add ? raisou.getMinValue() + slotitem.getRaig() : raisou.getMinValue() - slotitem.getRaig();
+                raisou.setMinValue(newRaisou);
+                memberShip.setRaisou(raisou);
+                // 对空
+                MaxMinValue taiku = memberShip.getTaiku();
+                int newTaiku = add ? taiku.getMinValue() + slotitem.getTyku() : taiku.getMinValue() - slotitem.getTyku();
+                taiku.setMinValue(newTaiku);
+                memberShip.setTaiku(taiku);
+                // 对潜
+                MaxMinValue taisen = memberShip.getTaisen();
+                int newTaisen = add ? taisen.getMinValue() + slotitem.getTais() : taisen.getMinValue() - slotitem.getTais();
+                taisen.setMinValue(newTaisen);
+                memberShip.setTaisen(taisen);
+                // 回避
+                MaxMinValue kaihi = memberShip.getKaihi();
+                int newKaihi = add ? kaihi.getMinValue() + slotitem.getHouk() : kaihi.getMinValue() - slotitem.getHouk();
+                kaihi.setMinValue(newKaihi);
+                memberShip.setKaihi(kaihi);
+                // 索敌
+                MaxMinValue sakuteki = memberShip.getSakuteki();
+                int newSakuteki = add ? sakuteki.getMinValue() + slotitem.getSaku() : sakuteki.getMinValue() - slotitem.getSaku();
+                sakuteki.setMinValue(newSakuteki);
+                memberShip.setSakuteki(sakuteki);
+            });
+    }
+
+    @Override
+    public Ship3Result getShip3(String member_id, Ship3Form form) {
+        Long memberShipId = form.getApi_shipid();
+        int sortKey = form.getApi_sort_key();
+        int sort_order = form.getSpi_sort_order();
+        return new Ship3Result(getMemberShip(member_id, memberShipId), portDao.getDeckPort(member_id), memberService.getUnsetSlot(member_id));
     }
 }

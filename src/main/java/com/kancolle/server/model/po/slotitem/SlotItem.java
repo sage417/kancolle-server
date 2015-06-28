@@ -25,38 +25,48 @@ public class SlotItem {
 
     private int taik;
 
+    /** 装甲 */
     private int souk;
 
+    /** 火力 */
     private int houg;
 
+    /** 雷装 */
     private int raig;
 
     private int soku;
-
+    /** 爆装 */
     private int baku;
 
+    /** 对空 */
     private int tyku;
 
+    /** 对潜 */
     private int tais;
 
     private int atap;
 
+    /** 命中 */
     private int houm;
 
     private int raim;
 
+    /* 回避 */
     private int houk;
 
     private int raik;
 
     private int bakk;
 
+    /** 索敌 */
     private int saku;
 
     private int sakb;
 
+    /** 运 */
     private int luck;
 
+    /** 射程 */
     private int leng;
 
     private int rare;
