@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.dao.slotitem.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
@@ -23,8 +25,12 @@ public class SlotItemDaoImpl extends BaseDaoImpl<SlotItem> implements SlotItemDa
     }
 
     @Override
-    public SlotItem getSlotItemById(int slotitem_id) {
-        return getSqlSession().selectOne("getSlotItemById", slotitem_id);
+    public List<SlotItem> getSlotItems() {
+        return getSqlSession().selectList("selectSlotItems");
     }
 
+    @Override
+    public SlotItem getSlotItemById(int slotitem_id) {
+        return getSqlSession().selectOne("selectSlotItemByCond", slotitem_id);
+    }
 }

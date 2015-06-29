@@ -23,7 +23,6 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 import com.kancolle.server.model.po.ship.ShipType;
 
@@ -32,7 +31,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_SHIP_TB = SELECT_ALL + "t_ship";
     private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
-    private static final String MST_SLOTITEM_TB = SELECT_ALL + "t_slotitem";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
     private static final String MST_FURNITURE_TB = SELECT_ALL + "t_furniture";
     private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
@@ -120,11 +118,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     @Override
     public List<ShipUpgradeModel> getMstShipupgrade() {
         return queryForModels(ShipUpgradeModel.class, MST_SHIPUPGRADE_TB);
-    }
-
-    @Override
-    public List<SlotItemModel> getMstSlotitem() {
-        return queryForModels(SlotItemModel.class, MST_SLOTITEM_TB);
     }
 
     @Override

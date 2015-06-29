@@ -5,6 +5,7 @@ package com.kancolle.server.model.po.slotitem;
 
 import org.apache.ibatis.type.Alias;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.common.ResourceValue;
 
 /**
@@ -15,73 +16,100 @@ import com.kancolle.server.model.po.common.ResourceValue;
 @Alias("SlotItem")
 public class SlotItem {
 
-    private int slotItemId;
+    @JSONField(ordinal = 1, name = "api_id")
+    private long slotItemId;
 
+    @JSONField(ordinal = 2, name = "api_sortno")
     private int sortno;
 
+    @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JSONField(ordinal = 4, name = "api_type")
     private int[] type;
 
+    @JSONField(ordinal = 5, name = "api_taik")
     private int taik;
 
     /** 装甲 */
+    @JSONField(ordinal = 6, name = "api_souk")
     private int souk;
 
     /** 火力 */
+    @JSONField(ordinal = 7, name = "api_houg")
     private int houg;
 
     /** 雷装 */
+    @JSONField(ordinal = 8, name = "api_raig")
     private int raig;
 
+    @JSONField(ordinal = 9, name = "api_soku")
     private int soku;
+
     /** 爆装 */
+    @JSONField(ordinal = 10, name = "api_baku")
     private int baku;
 
     /** 对空 */
+    @JSONField(ordinal = 11, name = "api_tyku")
     private int tyku;
 
     /** 对潜 */
+    @JSONField(ordinal = 12, name = "api_tais")
     private int tais;
 
+    @JSONField(ordinal = 13, name = "api_atap")
     private int atap;
 
     /** 命中 */
+    @JSONField(ordinal = 14, name = "api_houm")
     private int houm;
 
+    @JSONField(ordinal = 15, name = "api_raim")
     private int raim;
 
     /* 回避 */
+    @JSONField(ordinal = 16, name = "api_houk")
     private int houk;
 
+    @JSONField(ordinal = 17, name = "api_raik")
     private int raik;
 
+    @JSONField(ordinal = 18, name = "api_bakk")
     private int bakk;
 
     /** 索敌 */
+    @JSONField(ordinal = 19, name = "api_saku")
     private int saku;
 
+    @JSONField(ordinal = 20, name = "api_sakb")
     private int sakb;
 
     /** 运 */
+    @JSONField(ordinal = 21, name = "api_luck")
     private int luck;
 
     /** 射程 */
+    @JSONField(ordinal = 22, name = "api_leng")
     private int leng;
 
+    @JSONField(ordinal = 23, name = "api_rare")
     private int rare;
 
+    @JSONField(ordinal = 24, name = "api_broken")
     private ResourceValue broken;
 
+    @JSONField(ordinal = 25, name = "api_info")
     private String info;
 
+    @JSONField(ordinal = 26, name = "api_usebull")
     private String useBull;
 
-    public int getSlotItemId() {
+    public long getSlotItemId() {
         return slotItemId;
     }
 
-    public void setSlotItemId(int slotItemId) {
+    public void setSlotItemId(long slotItemId) {
         this.slotItemId = slotItemId;
     }
 
@@ -289,7 +317,7 @@ public class SlotItem {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + slotItemId;
+        result = prime * result + (int) (slotItemId ^ (slotItemId >>> 32));
         return result;
     }
 

@@ -19,9 +19,9 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 import com.kancolle.server.model.po.ship.ShipType;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 
 public class StartModel {
     @JSONField(ordinal = 1)
@@ -33,7 +33,7 @@ public class StartModel {
     @JSONField(ordinal = 4)
     private List<ShipType> api_mst_stype;
     @JSONField(ordinal = 5)
-    private List<SlotItemModel> api_mst_slotitem;
+    private List<SlotItem> api_mst_slotitem;
     @JSONField(ordinal = 6)
     private List<SlotItemGraphModel> api_mst_slotitemgraph;
     @JSONField(ordinal = 7)
@@ -119,7 +119,7 @@ public class StartModel {
         return api_mst_shipupgrade;
     }
 
-    public List<SlotItemModel> getApi_mst_slotitem() {
+    public List<SlotItem> getApi_mst_slotitem() {
         return api_mst_slotitem;
     }
 
@@ -195,7 +195,7 @@ public class StartModel {
         this.api_mst_shipupgrade = api_mst_shipupgrade;
     }
 
-    public void setApi_mst_slotitem(List<SlotItemModel> api_mst_slotitem) {
+    public void setApi_mst_slotitem(List<SlotItem> api_mst_slotitem) {
         this.api_mst_slotitem = api_mst_slotitem;
     }
 

@@ -20,7 +20,6 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.SlotItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 import com.kancolle.server.model.po.ship.ShipType;
 
@@ -52,8 +51,6 @@ public interface StartDao extends BaseDao<StartModel> {
     List<ShipGraphModel> getMstShipgraph();
 
     List<ShipUpgradeModel> getMstShipupgrade();
-
-    List<SlotItemModel> getMstSlotitem();
 
     List<EquipTypeModel> getMstSlotitemEquiptype();
 

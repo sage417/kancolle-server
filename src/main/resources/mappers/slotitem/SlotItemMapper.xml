@@ -9,7 +9,14 @@
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
 	</resultMap>
 
-	<select id="getSlotItemById" resultMap="slotItemRM">
-		SELECT * FROM t_slotitem WHERE ID = #{slotItemId}
+	<select id="selectSlotItems" resultMap="slotItemRM">
+		SELECT * FROM t_slotitem
+	</select>
+
+	<select id="selectSlotItemByCond" parameterType="_int" resultMap="slotItemRM">
+		SELECT * FROM t_slotitem
+		<where>
+			<if test="slotitem_id != 0">ID = #{slotitem_id}</if>
+		</where>
 	</select>
 </mapper>
