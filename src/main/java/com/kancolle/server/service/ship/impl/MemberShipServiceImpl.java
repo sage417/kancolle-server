@@ -184,8 +184,9 @@ public class MemberShipServiceImpl implements MemberShipService {
         List<MemberSlotItem> slotItems = memberShip.getSlot();
 
         if (memberSlotItemId == -1L) {
-            MemberSlotItem memberSlotItem = slotItems.get(slotIndex);
-            memberShipRemoveSlots(memberShip, Collections.singletonList(memberSlotItem));
+            List<MemberSlotItem> rmSlot = Collections.singletonList(slotItems.get(slotIndex));
+            slotItems.removeAll(rmSlot);
+            memberShipDao.removeSlot(memberShip, rmSlot);
         } else {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
 
@@ -200,12 +201,14 @@ public class MemberShipServiceImpl implements MemberShipService {
             }
 
             if (slotIndex >= slotItems.size()) {
-                memberShipAddSlot(memberShip, memberSlotItem);
+                slotItems.add(memberSlotItem);
+                memberShipDao.addSlot(memberShip, memberSlotItem);
             } else {
-                MemberSlotItem replacedSlotItem = slotItems.get(slotIndex);
-                memberShipReplaceSlot(memberShip, replacedSlotItem, memberSlotItem);
+                MemberSlotItem replacedSlotItem = slotItems.set(slotIndex, memberSlotItem);
+                memberShipDao.replaceSlot(memberShip, replacedSlotItem, memberSlotItem);
             }
         }
+        calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
     }
 
@@ -217,31 +220,11 @@ public class MemberShipServiceImpl implements MemberShipService {
             // TODO
             throw new IllegalArgumentException();
         }
-
-        memberShipRemoveSlots(memberShip, ImmutableList.copyOf(memberShip.getSlot()));
+        List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
+        memberShip.getSlot().removeAll(removeSlots);
+        memberShipDao.removeSlot(memberShip, removeSlots);
+        calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
-    }
-
-    private void memberShipAddSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
-        memberShip.getSlot().add(memberSlotItem);
-        calMemberShipPropertiesViaSlot(memberShip, memberSlotItem, true);
-        memberShipDao.addSlot(memberShip, memberSlotItem);
-    }
-
-    private void memberShipReplaceSlot(MemberShip memberShip, MemberSlotItem replacedSlotItem, MemberSlotItem memberSlotItem) {
-        calMemberShipPropertiesViaSlot(memberShip, replacedSlotItem, false);
-        memberShip.getSlot().remove(replacedSlotItem);
-
-        memberShip.getSlot().add(memberSlotItem);
-        calMemberShipPropertiesViaSlot(memberShip, memberSlotItem, true);
-
-        memberShipDao.replaceSlot(memberShip, replacedSlotItem, memberSlotItem);
-    }
-
-    private void memberShipRemoveSlots(MemberShip memberShip, List<MemberSlotItem> memberSlotItems) {
-        memberSlotItems.stream().forEach(slotitem -> calMemberShipPropertiesViaSlot(memberShip, slotitem, false));
-        memberShip.getSlot().removeAll(memberSlotItems);
-        memberShipDao.removeSlot(memberShip, memberSlotItems);
     }
 
     @Override
