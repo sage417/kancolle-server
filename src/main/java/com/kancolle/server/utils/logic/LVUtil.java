@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.utils.logic;
 
+import com.kancolle.server.model.po.common.MaxMinValue;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月6日
@@ -10,11 +12,15 @@ package com.kancolle.server.utils.logic;
  */
 public class LVUtil {
 
-    public static boolean isShipLVOver(int level) {
-        return level == 99 || level == 150;
+    public static boolean isShipLVOver(int lv) {
+        return lv == 99 || lv == 150;
     }
 
-    public static boolean isMemberLVOver(int level) {
-        return level == 120;
+    public static boolean isMemberLVOver(int lv) {
+        return lv == 120;
+    }
+
+    public static int returnLvValue(MaxMinValue value, int lv) {
+        return lv * (value.getMaxValue() - value.getMinValue()) / 99;
     }
 }

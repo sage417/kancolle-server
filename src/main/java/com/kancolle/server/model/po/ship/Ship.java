@@ -17,7 +17,7 @@ import com.kancolle.server.model.po.common.ResourceValue;
  *
  */
 @Alias("Ship")
-public class Ship implements Serializable{
+public class Ship implements Serializable {
 
     private static final long serialVersionUID = 6562446366794002946L;
 
@@ -54,6 +54,15 @@ public class Ship implements Serializable{
 
     /** 幸运 */
     private MaxMinValue luck;
+
+    /** 回避 */
+    private MaxMinValue kaihi;
+
+    /** 对潜 */
+    private MaxMinValue taisen;
+
+    /** 索敌 */
+    private MaxMinValue sakuteki;
 
     /** 速力 */
     private int soku;
@@ -194,6 +203,30 @@ public class Ship implements Serializable{
 
     public void setLuck(MaxMinValue luck) {
         this.luck = luck;
+    }
+
+    public MaxMinValue getKaihi() {
+        return kaihi;
+    }
+
+    public void setKaihi(MaxMinValue kaihi) {
+        this.kaihi = kaihi;
+    }
+
+    public MaxMinValue getTaisen() {
+        return taisen;
+    }
+
+    public void setTaisen(MaxMinValue taisen) {
+        this.taisen = taisen;
+    }
+
+    public MaxMinValue getSakuteki() {
+        return sakuteki;
+    }
+
+    public void setSakuteki(MaxMinValue sakuteki) {
+        this.sakuteki = sakuteki;
     }
 
     public int getSoku() {

@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +23,9 @@ import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
-import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -161,9 +161,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     /**
      * 改装舰娘的装备到底会发生什么？<br>
-     * 1.t_member_ship slot 装备顺序发生改变<br>
-     * 2. t_member_ship_slot 增删改装备记录<br>
-     * 3. 舰娘的属性根据对应装备的属性发生变化<br>
+     * 1. t_member_ship slot 装备顺序发生改变<br>
+     * 2. t_member_ship_slot_mapping 增删改装备记录<br>
+     * 3. t_member 舰娘的属性根据对应装备的属性发生变化<br>
      * <br>
      * 注意：<br>
      * 根据舰娘船只种类所装备的装备种类有限制<br>
@@ -218,99 +218,30 @@ public class MemberShipServiceImpl implements MemberShipService {
             throw new IllegalArgumentException();
         }
 
-        List<MemberSlotItem> memberSlotItems = ImmutableList.copyOf(memberShip.getSlot());
-        memberShipRemoveSlots(memberShip, memberSlotItems);
+        memberShipRemoveSlots(memberShip, ImmutableList.copyOf(memberShip.getSlot()));
         memberShipDao.updateMemberShipSlotValue(memberShip);
     }
 
     private void memberShipAddSlot(MemberShip memberShip, MemberSlotItem memberSlotItem) {
         memberShip.getSlot().add(memberSlotItem);
-        memberShipChangeSlot(memberShip, Collections.singletonList(memberSlotItem), true);
+        calMemberShipPropertiesViaSlot(memberShip, memberSlotItem, true);
         memberShipDao.addSlot(memberShip, memberSlotItem);
     }
 
     private void memberShipReplaceSlot(MemberShip memberShip, MemberSlotItem replacedSlotItem, MemberSlotItem memberSlotItem) {
-        memberShipChangeSlot(memberShip, Collections.singletonList(replacedSlotItem), false);
+        calMemberShipPropertiesViaSlot(memberShip, replacedSlotItem, false);
         memberShip.getSlot().remove(replacedSlotItem);
 
         memberShip.getSlot().add(memberSlotItem);
-        memberShipChangeSlot(memberShip, Collections.singletonList(memberSlotItem), true);
+        calMemberShipPropertiesViaSlot(memberShip, memberSlotItem, true);
 
         memberShipDao.replaceSlot(memberShip, replacedSlotItem, memberSlotItem);
     }
 
     private void memberShipRemoveSlots(MemberShip memberShip, List<MemberSlotItem> memberSlotItems) {
-        memberShipChangeSlot(memberShip, memberSlotItems, false);
+        memberSlotItems.stream().forEach(slotitem -> calMemberShipPropertiesViaSlot(memberShip, slotitem, false));
         memberShip.getSlot().removeAll(memberSlotItems);
         memberShipDao.removeSlot(memberShip, memberSlotItems);
-    }
-
-    private void memberShipChangeSlot(MemberShip memberShip, List<MemberSlotItem> memberSlotItems, boolean add) {
-        for (MemberSlotItem memberSlotItem : memberSlotItems) {
-            SlotItem slotitem = memberSlotItem.getSlotItem();
-            // 装甲
-            int slotSouk = slotitem.getSouk();
-            if (slotSouk != 0) {
-                MaxMinValue souku = memberShip.getSoukou();
-                int newSouku = add ? souku.getMinValue() + slotSouk : souku.getMinValue() - slotSouk;
-                souku.setMinValue(newSouku);
-                memberShip.setSoukou(souku);
-            }
-            // 火力
-            int slotHoug = slotitem.getHoug();
-            if (slotHoug != 0) {
-                MaxMinValue karyoku = memberShip.getKaryoku();
-                int newKaryoku = add ? karyoku.getMinValue() + slotHoug : karyoku.getMinValue() - slotHoug;
-                karyoku.setMinValue(newKaryoku);
-                memberShip.setKaryoku(karyoku);
-            }
-            // 雷装
-            int slotRaig = slotitem.getRaig();
-            if (slotRaig != 0) {
-                MaxMinValue raisou = memberShip.getRaisou();
-                int newRaisou = add ? raisou.getMinValue() + slotRaig : raisou.getMinValue() - slotRaig;
-                raisou.setMinValue(newRaisou);
-                memberShip.setRaisou(raisou);
-            }
-            // 对空
-            int slotTyku = slotitem.getTyku();
-            if (slotTyku != 0) {
-                MaxMinValue taiku = memberShip.getTaiku();
-                int newTaiku = 0;
-                if (slotitem.getType()[2] == 6) {
-                    int changeValue = (slotTyku * Math.round((float) Math.sqrt(memberShip.getShip().getMaxEq()[memberShip.getSlot().indexOf(memberSlotItem)])));
-                    newTaiku = add ? taiku.getMinValue() + changeValue : taiku.getMinValue() - changeValue;
-                } else {
-                    newTaiku = add ? taiku.getMinValue() + slotTyku : taiku.getMinValue() - slotTyku;
-                }
-                taiku.setMinValue(newTaiku);
-                memberShip.setTaiku(taiku);
-            }
-            // 对潜
-            int slotTais = slotitem.getTais();
-            if (slotTais != 0) {
-                MaxMinValue taisen = memberShip.getTaisen();
-                int newTaisen = add ? taisen.getMinValue() + slotTais : taisen.getMinValue() - slotTais;
-                taisen.setMinValue(newTaisen);
-                memberShip.setTaisen(taisen);
-            }
-            // 回避
-            int slotHouk = slotitem.getHouk();
-            if (slotHouk != 0) {
-                MaxMinValue kaihi = memberShip.getKaihi();
-                int newKaihi = add ? kaihi.getMinValue() + slotHouk : kaihi.getMinValue() - slotHouk;
-                kaihi.setMinValue(newKaihi);
-                memberShip.setKaihi(kaihi);
-            }
-            // 索敌
-            int slotSaku = slotitem.getSaku();
-            if (slotSaku != 0) {
-                MaxMinValue sakuteki = memberShip.getSakuteki();
-                int newSakuteki = add ? sakuteki.getMinValue() + slotSaku : sakuteki.getMinValue() - slotSaku;
-                sakuteki.setMinValue(newSakuteki);
-                memberShip.setSakuteki(sakuteki);
-            }
-        }
     }
 
     @Override

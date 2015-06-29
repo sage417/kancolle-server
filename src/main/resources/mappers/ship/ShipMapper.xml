@@ -13,6 +13,9 @@
 		<result property="raig" column="RAIG" typeHandler="MaxMinValueHandler" />
 		<result property="tyku" column="TYKU" typeHandler="MaxMinValueHandler" />
 		<result property="luck" column="LUCK" typeHandler="MaxMinValueHandler" />
+		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
+		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
+		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
 		<result property="soltNum" column="SLOTNUM" />
 		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHanlder" />
 		<result property="buildTime" column="BUILDTIME" />
