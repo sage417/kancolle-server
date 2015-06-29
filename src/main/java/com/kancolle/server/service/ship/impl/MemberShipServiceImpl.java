@@ -154,9 +154,17 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShip.setLv(afterLv);
         memberShip.setExp(new long[] { afterExp, nextLvExp - afterExp, progress });
 
-        // TODO 舰娘属性增长
-
         memberShipDao.updateMemberExp(memberShip);
+        // ----------属性成长-----------//
+        Ship ship = memberShip.getShip();
+        int shipKaihi = LVUtil.getLvValue(ship.getKaihi(), afterLv);
+        int shipTaisen = LVUtil.getLvValue(ship.getKaihi(), afterLv);
+        int shipSakuteki = LVUtil.getLvValue(ship.getKaihi(), afterLv);
+        memberShip.getTaisen().setMinValue(shipTaisen);
+        memberShip.getKaihi().setMinValue(shipKaihi);
+        memberShip.getSakuteki().setMinValue(shipSakuteki);
+        memberShipDao.updateMemberShipSlotValue(memberShip);
+        // ----------属性成长-----------//
     }
 
     /**

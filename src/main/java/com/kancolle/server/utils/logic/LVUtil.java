@@ -20,7 +20,7 @@ public class LVUtil {
         return lv == 120;
     }
 
-    public static int returnLvValue(MaxMinValue value, int lv) {
+    public static int getLvValue(MaxMinValue value, int lv) {
         return lv * (value.getMaxValue() - value.getMinValue()) / 99;
     }
 }
