@@ -21,7 +21,7 @@
 	</Appenders>
 
 	<Loggers>
-		<Root level="error">
+		<Root level="debug">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="DevLog" />
 		</Root>

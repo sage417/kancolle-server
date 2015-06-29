@@ -60,8 +60,8 @@ public class MemberShip {
     @JSONField(ordinal = 10, name = "api_onslot")
     private int[] onslot;
 
-    @JSONField(ordinal = 11)
-    private int[] api_kyouka;
+    @JSONField(ordinal = 11, name = "api_kyouka")
+    private int[] kyouka;
 
     @JSONField(ordinal = 12)
     private int api_backs;
@@ -171,10 +171,6 @@ public class MemberShip {
 
     public void setShip(Ship ship) {
         this.ship = ship;
-        this.api_ship_id = ship.getShipId();
-        this.api_sortno = ship.getSortno();
-        this.api_slotnum = ship.getSoltNum();
-        this.api_backs = ship.getBacks();
     }
 
     public int getLv() {
@@ -358,29 +354,41 @@ public class MemberShip {
         return this.api_ndock_time;
     }
 
+    public void setApi_ndock_time(long api_ndock_time) {
+        throw new UnsupportedOperationException();
+    }
+
     public int[] getApi_ndock_item() {
         this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getType());
         return this.api_ndock_item;
     }
 
-    public int[] getApi_kyouka() {
-        return updateKyouka();
+    public void setApi_ndock_item(int[] api_ndock_item) {
+        throw new UnsupportedOperationException();
+    }
+
+    public int[] getKyouka() {
+        return this.kyouka;
+    }
+
+    public void setKyouka(int[] kyouka) {
+        this.kyouka = kyouka;
     }
 
     public int getApi_sortno() {
-        return api_sortno;
+        return getShip().getSortno();
     }
 
     public void setApi_sortno(int api_sortno) {
-        this.api_sortno = api_sortno;
+        throw new UnsupportedOperationException();
     }
 
     public int getApi_ship_id() {
-        return api_ship_id;
+        return getShip().getShipId();
     }
 
     public void setApi_ship_id(int api_ship_id) {
-        this.api_ship_id = api_ship_id;
+        throw new UnsupportedOperationException();
     }
 
     public long[] getApi_slot() {
@@ -392,19 +400,19 @@ public class MemberShip {
     }
 
     public int getApi_backs() {
-        return api_backs;
+        return getShip().getBacks();
     }
 
     public void setApi_backs(int api_backs) {
-        this.api_backs = api_backs;
+        throw new UnsupportedOperationException();
     }
 
     public int getApi_slotnum() {
-        return api_slotnum;
+        return getShip().getSoltNum();
     }
 
     public void setApi_slotnum(int api_slotnum) {
-        this.api_slotnum = api_slotnum;
+        throw new UnsupportedOperationException();
     }
 
     public int[] getApi_karyoku() {
@@ -499,37 +507,5 @@ public class MemberShip {
     @Override
     public String toString() {
         return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
-    }
-
-    public void setApi_kyouka(int[] api_kyouka) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void setApi_ndock_time(long api_ndock_time) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void setApi_ndock_item(int[] api_ndock_item) {
-        throw new UnsupportedOperationException();
-    }
-
-    private int[] updateKyouka() {
-        // 火力
-        int min_houg = this.getShip().getHoug().getMinValue();
-        int now_houg = this.getKaryoku().getMinValue();
-        // 雷装
-        int min_raig = this.getShip().getRaig().getMinValue();
-        int now_raig = this.getRaisou().getMinValue();
-        // 对空
-        int min_tyku = this.getShip().getTyku().getMinValue();
-        int now_tyku = this.getTaiku().getMinValue();
-        // 装甲
-        int min_souk = this.getShip().getSouk().getMinValue();
-        int now_souk = this.getSoukou().getMinValue();
-        // 幸运
-        int min_luck = this.getShip().getLuck().getMinValue();
-        int now_luck = this.getLucky().getMinValue();
-
-        return new int[] { now_houg - min_houg, now_raig - min_raig, now_tyku - min_tyku, now_souk - min_souk, now_luck - min_luck };
     }
 }

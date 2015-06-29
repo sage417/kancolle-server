@@ -449,27 +449,28 @@ CREATE TABLE `t_member_ship` (
   `member_id` bigint(20) unsigned NOT NULL,
   `ID` bigint(20) unsigned NOT NULL,
   `SHIP_ID` int(11) unsigned NOT NULL,
-  `LV` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `EXP` varchar(255) NOT NULL DEFAULT '[0,0,0]',
-  `NOWHP` smallint(6) unsigned NOT NULL,
-  `MAXHP` smallint(6) unsigned NOT NULL,
-  `LENG` tinyint(3) unsigned NOT NULL,
-  `SLOT` varchar(255) NOT NULL,
-  `ONSLOT` varchar(255) NOT NULL,
-  `FUEL` smallint(4) unsigned NOT NULL,
-  `BULL` smallint(4) unsigned NOT NULL,
+  `LV` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '等级',
+  `EXP` varchar(255) NOT NULL DEFAULT '[0,0,0]' COMMENT '经验总和,next经验，百分比',
+  `NOWHP` smallint(6) unsigned NOT NULL COMMENT '当前血量',
+  `MAXHP` smallint(6) unsigned NOT NULL COMMENT '最大血量',
+  `LENG` tinyint(3) unsigned NOT NULL COMMENT '射程',
+  `SLOT` varchar(255) NOT NULL COMMENT '装备',
+  `ONSLOT` varchar(255) NOT NULL COMMENT '搭载量',
+  `KYOUKA` varchar(255) NOT NULL DEFAULT '[0,0,0,0,0]' COMMENT '成长(火雷空甲运)',
+  `FUEL` smallint(4) unsigned NOT NULL COMMENT '燃油',
+  `BULL` smallint(4) unsigned NOT NULL COMMENT '弹药',
   `SRATE` tinyint(3) unsigned NOT NULL,
-  `COND` tinyint(3) unsigned NOT NULL DEFAULT '40',
-  `KARYOKU` varchar(255) NOT NULL,
-  `RAISOU` varchar(255) NOT NULL,
-  `TAIKU` varchar(255) NOT NULL,
-  `SOUKOU` varchar(255) NOT NULL,
-  `KAIHI` varchar(255) NOT NULL,
-  `TAISEN` varchar(255) NOT NULL,
-  `SAKUTEKI` varchar(255) NOT NULL,
-  `LUCKY` varchar(255) NOT NULL,
-  `LOCKED` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `LOCKED_EQUIP` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `COND` tinyint(3) unsigned NOT NULL DEFAULT '40' COMMENT '状态',
+  `KARYOKU` varchar(255) NOT NULL COMMENT '火力',
+  `RAISOU` varchar(255) NOT NULL COMMENT '雷装',
+  `TAIKU` varchar(255) NOT NULL COMMENT '对空',
+  `SOUKOU` varchar(255) NOT NULL COMMENT '装甲',
+  `KAIHI` varchar(255) NOT NULL COMMENT '回避',
+  `TAISEN` varchar(255) NOT NULL COMMENT '对潜',
+  `SAKUTEKI` varchar(255) NOT NULL COMMENT '索敌',
+  `LUCKY` varchar(255) NOT NULL COMMENT '幸运',
+  `LOCKED` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '上锁',
+  `LOCKED_EQUIP` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否拥有上锁装备',
   `DELETED` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
@@ -481,7 +482,7 @@ CREATE TABLE `t_member_ship` (
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,156,1,'[0,0,0]',70,70,1,'[1,2,3,4,-1]','[30,24,24,8,0]',90,75,1,40,'[0,59]','[0,0]','[45,86]','[44,84]','[50,50]','[50,50]','[50,50]','[4,39]',0,0,0,NULL),(2,8006690,2,136,1,'[0,0,0]',96,96,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]',250,325,1,40,'[92,139]','[0,0]','[68,104]','[92,118]','[50,50]','[50,50]','[50,50]','[13,79]',0,0,0,NULL),(3,8006690,3,148,1,'[0,0,0]',97,97,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]',250,325,1,40,'[92,139]','[0,0]','[60,99]','[92,119]','[50,50]','[50,50]','[50,50]','[9,79]',0,0,0,NULL),(4,8006690,4,171,1,'[0,0,0]',90,90,3,'[-1,-1,-1,-1,-1]','[4,4,4,4,0]',90,110,1,40,'[64,88]','[0,0]','[18,48]','[67,83]','[50,50]','[50,50]','[50,50]','[8,69]',0,0,0,NULL),(6,8006690,5,155,1,'[0,0,0]',20,20,1,'[-1,-1,-1,-1,-1]','[3,0,0,0,0]',20,15,1,40,'[2,9]','[36,72]','[0,0]','[5,24]','[50,50]','[50,50]','[50,50]','[20,59]',0,0,0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`KYOUKA`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,156,1,'[0,0,0]',70,70,1,'[1,2,3,4,-1]','[30,24,24,8,0]','[0,0,0,0,0]',90,75,1,40,'[0,59]','[0,0]','[315,86]','[44,84]','[50,50]','[50,50]','[50,50]','[4,39]',0,0,0,NULL),(2,8006690,2,136,1,'[0,0,0]',96,96,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[92,139]','[0,0]','[68,104]','[92,118]','[50,50]','[50,50]','[50,50]','[13,79]',0,0,0,NULL),(3,8006690,3,148,1,'[0,0,0]',97,97,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[92,139]','[0,0]','[60,99]','[92,119]','[50,50]','[50,50]','[50,50]','[9,79]',0,0,0,NULL),(4,8006690,4,171,1,'[0,0,0]',90,90,3,'[-1,-1,-1,-1,-1]','[4,4,4,4,0]','[0,0,0,0,0]',90,110,1,40,'[64,88]','[0,0]','[18,48]','[67,83]','[50,50]','[50,50]','[50,50]','[8,69]',0,0,0,NULL),(6,8006690,5,155,1,'[0,0,0]',20,20,1,'[-1,-1,-1,-1,-1]','[3,0,0,0,0]','[0,0,0,0,0]',20,15,1,40,'[2,9]','[36,72]','[0,0]','[5,24]','[50,50]','[50,50]','[50,50]','[20,59]',0,0,0,NULL);
 
 /*Table structure for table `t_member_ship_slotitem_mapping` */
 
@@ -494,11 +495,11 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
 
-insert  into `t_member_ship_slotitem_mapping`(`index`,`member_id`,`member_ship_id`,`member_slotitem_id`) values (6,8006690,1,1),(7,8006690,1,2),(8,8006690,1,3),(9,8006690,1,4);
+insert  into `t_member_ship_slotitem_mapping`(`index`,`member_id`,`member_ship_id`,`member_slotitem_id`) values (32,8006690,1,1),(33,8006690,1,2),(34,8006690,1,3),(35,8006690,1,4);
 
 /*Table structure for table `t_member_slotitem` */
 
@@ -1096,6 +1097,7 @@ DROP TABLE IF EXISTS `v_member_ship`;
  `LENG` tinyint(3) unsigned ,
  `SLOT` varchar(255) ,
  `ONSLOT` varchar(255) ,
+ `KYOUKA` varchar(255) ,
  `FUEL` smallint(4) unsigned ,
  `BULL` smallint(4) unsigned ,
  `SRATE` tinyint(3) unsigned ,
@@ -1109,10 +1111,7 @@ DROP TABLE IF EXISTS `v_member_ship`;
  `SAKUTEKI` varchar(255) ,
  `LUCKY` varchar(255) ,
  `LOCKED` tinyint(3) unsigned ,
- `LOCKED_EQUIP` tinyint(3) unsigned ,
- `BACKS` tinyint(4) unsigned ,
- `SORTNO` smallint(4) unsigned ,
- `SLOTNUM` tinyint(4) unsigned 
+ `LOCKED_EQUIP` tinyint(3) unsigned 
 )*/;
 
 /*Table structure for table `v_member_slotitem` */
@@ -1181,7 +1180,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_ship` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_ship` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `t_member_ship`.`member_id` AS `member_id`,`t_member_ship`.`ID` AS `ID`,`t_member_ship`.`SHIP_ID` AS `SHIP_ID`,`t_member_ship`.`LV` AS `LV`,`t_member_ship`.`EXP` AS `EXP`,`t_member_ship`.`NOWHP` AS `NOWHP`,`t_member_ship`.`MAXHP` AS `MAXHP`,`t_member_ship`.`LENG` AS `LENG`,`t_member_ship`.`SLOT` AS `SLOT`,`t_member_ship`.`ONSLOT` AS `ONSLOT`,`t_member_ship`.`FUEL` AS `FUEL`,`t_member_ship`.`BULL` AS `BULL`,`t_member_ship`.`SRATE` AS `SRATE`,`t_member_ship`.`COND` AS `COND`,`t_member_ship`.`KARYOKU` AS `KARYOKU`,`t_member_ship`.`RAISOU` AS `RAISOU`,`t_member_ship`.`TAIKU` AS `TAIKU`,`t_member_ship`.`SOUKOU` AS `SOUKOU`,`t_member_ship`.`KAIHI` AS `KAIHI`,`t_member_ship`.`TAISEN` AS `TAISEN`,`t_member_ship`.`SAKUTEKI` AS `SAKUTEKI`,`t_member_ship`.`LUCKY` AS `LUCKY`,`t_member_ship`.`LOCKED` AS `LOCKED`,`t_member_ship`.`LOCKED_EQUIP` AS `LOCKED_EQUIP`,`t_ship`.`BACKS` AS `BACKS`,`t_ship`.`SORTNO` AS `SORTNO`,`t_ship`.`SLOTNUM` AS `SLOTNUM` from (`t_member_ship` join `t_ship` on((`t_member_ship`.`SHIP_ID` = `t_ship`.`ID`))) where (`t_member_ship`.`DELETED` = 0) order by `t_member_ship`.`member_id`,`t_member_ship`.`ID` */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_ship` AS select `t_member_ship`.`member_id` AS `member_id`,`t_member_ship`.`ID` AS `ID`,`t_member_ship`.`SHIP_ID` AS `SHIP_ID`,`t_member_ship`.`LV` AS `LV`,`t_member_ship`.`EXP` AS `EXP`,`t_member_ship`.`NOWHP` AS `NOWHP`,`t_member_ship`.`MAXHP` AS `MAXHP`,`t_member_ship`.`LENG` AS `LENG`,`t_member_ship`.`SLOT` AS `SLOT`,`t_member_ship`.`ONSLOT` AS `ONSLOT`,`t_member_ship`.`KYOUKA` AS `KYOUKA`,`t_member_ship`.`FUEL` AS `FUEL`,`t_member_ship`.`BULL` AS `BULL`,`t_member_ship`.`SRATE` AS `SRATE`,`t_member_ship`.`COND` AS `COND`,`t_member_ship`.`KARYOKU` AS `KARYOKU`,`t_member_ship`.`RAISOU` AS `RAISOU`,`t_member_ship`.`TAIKU` AS `TAIKU`,`t_member_ship`.`SOUKOU` AS `SOUKOU`,`t_member_ship`.`KAIHI` AS `KAIHI`,`t_member_ship`.`TAISEN` AS `TAISEN`,`t_member_ship`.`SAKUTEKI` AS `SAKUTEKI`,`t_member_ship`.`LUCKY` AS `LUCKY`,`t_member_ship`.`LOCKED` AS `LOCKED`,`t_member_ship`.`LOCKED_EQUIP` AS `LOCKED_EQUIP` from `t_member_ship` where (`t_member_ship`.`DELETED` = 0) order by `t_member_ship`.`member_id`,`t_member_ship`.`ID` */;
 
 /*View structure for view v_member_slotitem */
 
