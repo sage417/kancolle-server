@@ -21,9 +21,12 @@
 	</Appenders>
 
 	<Loggers>
-		<Root level="warn">
+		<Root level="WARN">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="DevLog" />
 		</Root>
+		<logger name="com.kancolle.server.dao" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+		</logger>
 	</Loggers>
 </Configuration>
