@@ -3,12 +3,16 @@
  */
 package com.kancolle.server.model.po.common;
 
+import java.io.Serializable;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
  *
  */
-public class MaxMinValue {
+public class MaxMinValue implements Serializable {
+
+    private static final long serialVersionUID = 4788796975717664083L;
 
     private int minValue;
 

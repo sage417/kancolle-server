@@ -3,12 +3,17 @@
  */
 package com.kancolle.server.model.po.common;
 
+import java.io.Serializable;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
  *
  */
-public class PowUpValue {
+public class PowUpValue implements Serializable {
+
+    private static final long serialVersionUID = 3413235819803368244L;
+
     /** 火力 */
     private int houg;
 

@@ -3,12 +3,16 @@
  */
 package com.kancolle.server.model.po.common;
 
+import java.io.Serializable;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
  *
  */
-public class ResourceValue {
+public class ResourceValue implements Serializable {
+
+    private static final long serialVersionUID = -8819379300218819433L;
 
     private int fuel;
 
