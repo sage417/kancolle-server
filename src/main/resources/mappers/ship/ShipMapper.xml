@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.ship.ShipDao">
 
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
 
 	<resultMap type="Ship" id="shipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
@@ -28,11 +28,8 @@
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipById" />
 	</resultMap>
 
-	<select id="selectShipById" resultMap="shipRM">
-		SELECT * FROM t_ship
-		<where>
-			ID = #{shipId}
-		</where>
+	<select id="selectShipById" resultMap="shipRM" parameterType="_int">
+		SELECT * FROM t_ship WHERE ID = #{ship_id}
 	</select>
 
 	<select id="selectNeedShipExpByLevel" resultType="long">
