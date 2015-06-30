@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
+import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.dao.slotitem.SlotItemDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
@@ -23,7 +24,6 @@ import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
-import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
@@ -37,6 +37,9 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Autowired
     private MemberSlotItemDao memberSlotItemDao;
+
+    @Autowired
+    private ShipDao shipDao;
 
     @Override
     public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
@@ -99,13 +102,15 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         getTemplate().update("DELETE FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params);
         params.put("ship_id", ship_id);
         // 返还资源
-        ShipModel ship = queryForSingleModel(ShipModel.class, "SELECT BROKEN FROM t_ship WHERE ID = :ship_id", params);
-        JSONArray rtn_res = ship.getApi_broken();
-        for (int j = 0; j < rtn_res.size(); j++) {
-            params.put("value", rtn_res.getIntValue(j));
-            params.put("id", j);
-            getTemplate().update("UPDATE v_member_useitem SET VALUE = VALUE + :value WHERE member_id = :member_id AND ID = :id", params);
-        }
+        /*
+         * Ship ship = queryForSingleModel(ShipModel.class,
+         * "SELECT BROKEN FROM t_ship WHERE ID = :ship_id", params); JSONArray
+         * rtn_res = ship.getApi_broken(); for (int j = 0; j < rtn_res.size();
+         * j++) { params.put("value", rtn_res.getIntValue(j)); params.put("id",
+         * j); getTemplate().update(
+         * "UPDATE v_member_useitem SET VALUE = VALUE + :value WHERE member_id = :member_id AND ID = :id"
+         * , params); }
+         */
     }
 
     @Override

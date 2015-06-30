@@ -25,11 +25,14 @@
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
-		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipById" />
+		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
-	<select id="selectShipById" resultMap="shipRM" parameterType="_int">
-		SELECT * FROM t_ship WHERE ID = #{ship_id}
+	<select id="selectShipsByCond" resultMap="shipRM">
+		SELECT * FROM t_ship
+		<where>
+			<if test="_parameter != null">ID = #{ship_id}</if>
+		</where>
 	</select>
 
 	<select id="selectNeedShipExpByLevel" resultType="long">

@@ -16,16 +16,16 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 
 public class StartModel {
     @JSONField(ordinal = 1)
-    private List<ShipModel> api_mst_ship;
+    private List<Ship> api_mst_ship;
     @JSONField(ordinal = 2)
     private List<ShipGraphModel> api_mst_shipgraph;
     @JSONField(ordinal = 3)
@@ -107,7 +107,7 @@ public class StartModel {
         return api_mst_payitem;
     }
 
-    public List<ShipModel> getApi_mst_ship() {
+    public List<Ship> getApi_mst_ship() {
         return api_mst_ship;
     }
 
@@ -183,7 +183,7 @@ public class StartModel {
         this.api_mst_payitem = api_mst_payitem;
     }
 
-    public void setApi_mst_ship(List<ShipModel> api_mst_ship) {
+    public void setApi_mst_ship(List<Ship> api_mst_ship) {
         this.api_mst_ship = api_mst_ship;
     }
 

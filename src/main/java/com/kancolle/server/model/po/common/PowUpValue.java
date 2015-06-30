@@ -105,4 +105,8 @@ public class PowUpValue implements Serializable {
     public String toString() {
         return String.format("[%s,%s,%s,%s]", houg, raig, tyku, souk);
     }
+
+    public int[] toArray() {
+        return new int[] { houg, raig, tyku, souk };
+    }
 }

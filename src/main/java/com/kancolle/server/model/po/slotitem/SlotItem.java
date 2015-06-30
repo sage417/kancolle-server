@@ -17,7 +17,7 @@ import com.kancolle.server.model.po.common.ResourceValue;
 public class SlotItem {
 
     @JSONField(ordinal = 1, name = "api_id")
-    private long slotItemId;
+    private int slotItemId;
 
     @JSONField(ordinal = 2, name = "api_sortno")
     private int sortno;
@@ -96,8 +96,13 @@ public class SlotItem {
     @JSONField(ordinal = 23, name = "api_rare")
     private int rare;
 
-    @JSONField(ordinal = 24, name = "api_broken")
+    @JSONField(serialize = false, deserialize = false)
     private ResourceValue broken;
+
+    @JSONField(ordinal = 24, name = "api_broken")
+    public int[] getBrokenArray() {
+        return broken.toArray();
+    }
 
     @JSONField(ordinal = 25, name = "api_info")
     private String info;
@@ -105,11 +110,11 @@ public class SlotItem {
     @JSONField(ordinal = 26, name = "api_usebull")
     private String useBull;
 
-    public long getSlotItemId() {
+    public int getSlotItemId() {
         return slotItemId;
     }
 
-    public void setSlotItemId(long slotItemId) {
+    public void setSlotItemId(int slotItemId) {
         this.slotItemId = slotItemId;
     }
 
@@ -317,7 +322,7 @@ public class SlotItem {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (slotItemId ^ (slotItemId >>> 32));
+        result = prime * result + (slotItemId ^ (slotItemId >>> 32));
         return result;
     }
 

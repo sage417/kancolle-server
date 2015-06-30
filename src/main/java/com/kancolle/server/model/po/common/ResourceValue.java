@@ -18,7 +18,7 @@ public class ResourceValue implements Serializable {
 
     private int bull;
 
-    private int steal;
+    private int steel;
 
     private int baxuite;
 
@@ -26,11 +26,11 @@ public class ResourceValue implements Serializable {
         super();
     }
 
-    public ResourceValue(int fuel, int bull, int steal, int baxuite) {
+    public ResourceValue(int fuel, int bull, int steel, int baxuite) {
         super();
         this.fuel = fuel;
         this.bull = bull;
-        this.steal = steal;
+        this.steel = steel;
         this.baxuite = baxuite;
     }
 
@@ -50,12 +50,12 @@ public class ResourceValue implements Serializable {
         this.bull = bull;
     }
 
-    public int getSteal() {
-        return steal;
+    public int getSteel() {
+        return steel;
     }
 
-    public void setSteal(int steal) {
-        this.steal = steal;
+    public void setSteel(int steel) {
+        this.steel = steel;
     }
 
     public int getBaxuite() {
@@ -73,7 +73,7 @@ public class ResourceValue implements Serializable {
         result = prime * result + baxuite;
         result = prime * result + bull;
         result = prime * result + fuel;
-        result = prime * result + steal;
+        result = prime * result + steel;
         return result;
     }
 
@@ -92,13 +92,17 @@ public class ResourceValue implements Serializable {
             return false;
         if (fuel != other.fuel)
             return false;
-        if (steal != other.steal)
+        if (steel != other.steel)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s,%s,%s,%s]", fuel, bull, steal, baxuite);
+        return String.format("[%s,%s,%s,%s]", fuel, bull, steel, baxuite);
+    }
+
+    public int[] toArray() {
+        return new int[] { fuel, bull, steel, baxuite };
     }
 }

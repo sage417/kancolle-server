@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.service.ship.ShipService;
 
@@ -13,6 +14,11 @@ import com.kancolle.server.service.ship.ShipService;
 public class ShipServiceImpl implements ShipService {
     @Autowired
     private ShipDao shipDao;
+
+    @Override
+    public List<Ship> getShips() {
+        return shipDao.selectShips();
+    }
 
     @Override
     public List<ShipType> getShipTypes() {

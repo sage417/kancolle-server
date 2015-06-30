@@ -8,6 +8,8 @@ import com.kancolle.server.model.po.ship.ShipType;
 
 public interface ShipDao extends BaseDao<Ship> {
 
+    List<Ship> selectShips();
+
     List<ShipType> selectShipTypes();
 
     int selectCountOfShipTypes();
@@ -17,5 +19,4 @@ public interface ShipDao extends BaseDao<Ship> {
     int getShipLVByExp(long after_exp);
 
     ShipType selectShipTypeByCond(int typeId);
-
 }

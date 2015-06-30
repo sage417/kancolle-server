@@ -20,7 +20,6 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
@@ -28,7 +27,6 @@ import com.kancolle.server.model.po.ship.ShipType;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
-    private static final String MST_SHIP_TB = SELECT_ALL + "t_ship";
     private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
@@ -103,11 +101,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<PayItemModel> getMstPayitem() {
         return queryForModels(PayItemModel.class, MST_PAYITEM_TB);
 
-    }
-
-    @Override
-    public List<ShipModel> getMstShip() {
-        return queryForModels(ShipModel.class, MST_SHIP_TB);
     }
 
     @Override

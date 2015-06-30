@@ -18,6 +18,11 @@ public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
     }
 
     @Override
+    public List<Ship> selectShips() {
+        return getSqlSession().selectList("selectShipsByCond");
+    }
+
+    @Override
     public List<ShipType> selectShipTypes() {
         return getSqlSession().selectList("selectShipTypes");
     }
