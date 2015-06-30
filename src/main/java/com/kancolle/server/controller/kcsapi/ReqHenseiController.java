@@ -12,20 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kancolle.server.controller.kcsapi.form.ship.ShipChangeForm;
-import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberDeckPortService;
 
 @Controller
 @RequestMapping(value = "/kcsapi/api_req_hensei", method = RequestMethod.POST)
 public class ReqHenseiController {
     @Autowired
-    private MemberService memberService;
+    private MemberDeckPortService memberDeckPortService;
 
     @RequestMapping("/change")
-    public @ResponseBody String change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
+    public @ResponseBody APIResponse<T> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
         if (result.hasErrors()) {
 
         }
-        return "";
+        memberDeckPortService.changeShip(member_id, form);
+        return new APIResponse<T>();
     }
 }

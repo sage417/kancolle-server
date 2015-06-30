@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.map.MapAreaDao">
+
+	<resultMap type="MapArea" id="MapAreaRM" autoMapping="true">
+		<id property="mapareaId" column="ID"/>
+	</resultMap>
+	
+	<select id="selectMapAreasByCond" resultMap="MapAreaRM">
+		SELECT * FROM t_map_area
+		<where>
+			<if test="_parameter != null">ID = #{maparea_id}</if>
+		</where>
+	</select>	
+</mapper>
