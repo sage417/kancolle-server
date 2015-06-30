@@ -4,7 +4,7 @@
 
 	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
 		<id property="memberSlotItemId" column="ID" />
-		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemById" />
+		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
 	</resultMap>
 	
 	<!-- 查询指定装备 -->

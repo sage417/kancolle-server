@@ -23,7 +23,7 @@
 			<if test="furniture_type != null">
 				TYPE = #{furniture_type}
 			</if>
-			<if test="furniture_type != null">
+			<if test="furniture_no != null">
 				AND NO = #{furniture_no}
 			</if>
 		</where>

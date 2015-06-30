@@ -9,15 +9,14 @@
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
 	</resultMap>
 
-	<select id="selectSlotItems" resultMap="slotItemRM">
+	<select id="selectSlotItemsByCond" resultMap="slotItemRM">
 		SELECT * FROM t_slotitem
+		<where>
+			<if test="_parameter != null">ID = #{slotitem_id}</if>
+		</where>
 	</select>
 
 	<select id="selectCountOfSlotItemTypes" resultType="int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype
-	</select>
-
-	<select id="selectSlotItemById" resultMap="slotItemRM">
-		SELECT * FROM t_slotitem WHERE ID = #{slotitem_id}
 	</select>
 </mapper>
