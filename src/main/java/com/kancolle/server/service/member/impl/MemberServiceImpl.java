@@ -1,7 +1,6 @@
 package com.kancolle.server.service.member.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,13 @@ import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
-import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
@@ -32,6 +31,7 @@ import com.kancolle.server.utils.logic.LVUtil;
 
 @Service
 public class MemberServiceImpl implements MemberService {
+
     @Autowired
     private MemberDao memberDao;
 
@@ -132,11 +132,6 @@ public class MemberServiceImpl implements MemberService {
     @Cacheable(value = "memberExp", key = "#lv")
     public long getSumExpByLV(int lv) {
         return memberDao.getNeedExpByLevel(lv);
-    }
-
-    @Override
-    public Map<String, Object> getUnsetSlot(String member_id) {
-        return memberDao.getUnsetSlot(member_id);
     }
 
     @Override

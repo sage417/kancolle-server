@@ -30,7 +30,7 @@ public class SlotItemDaoImpl extends BaseDaoImpl<SlotItem> implements SlotItemDa
     }
 
     @Override
-    public SlotItem getSlotItemById(int slotitem_id) {
-        return getSqlSession().selectOne("selectSlotItemByCond", slotitem_id);
+    public int selectCountOfSlotItemTypes() {
+        return getSqlSession().selectOne("selectCountOfSlotItemTypes");
     }
 }

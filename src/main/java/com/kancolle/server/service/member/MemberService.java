@@ -1,17 +1,16 @@
 package com.kancolle.server.service.member;
 
 import java.util.List;
-import java.util.Map;
 
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
-import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 public interface MemberService {
 
@@ -34,8 +33,6 @@ public interface MemberService {
     MemberRecord getRecord(String member_id);
 
     List<MemberSlotItem> getSlotItem(String member_id);
-
-    Map<String, Object> getUnsetSlot(String member_id);
 
     List<MemberUseItem> getUseItem(String member_id);
 

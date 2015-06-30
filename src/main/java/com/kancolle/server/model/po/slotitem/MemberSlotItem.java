@@ -5,6 +5,8 @@ package com.kancolle.server.model.po.slotitem;
 
 import org.apache.ibatis.type.Alias;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年5月31日
@@ -13,12 +15,19 @@ import org.apache.ibatis.type.Alias;
 @Alias("MemberSlotItem")
 public class MemberSlotItem {
 
+    @JSONField(ordinal = 1, name = "api_id")
     private long memberSlotItemId;
 
+    @JSONField(ordinal = 2, name = "api_slotitem_id")
+    private long slotItemId;
+
+    @JSONField(serialize = false, deserialize = false)
     private SlotItem slotItem;
 
+    @JSONField(ordinal = 3, name = "api_locked")
     private boolean locked;
 
+    @JSONField(ordinal = 4, name = "api_level")
     private int level;
 
     public long getMemberSlotItemId() {
@@ -29,12 +38,21 @@ public class MemberSlotItem {
         this.memberSlotItemId = memberSlotItemId;
     }
 
+    public long getSlotItemId() {
+        return slotItemId;
+    }
+
+    public void setSlotItemId(long slotItemId) {
+        throw new UnsupportedOperationException();
+    }
+
     public SlotItem getSlotItem() {
         return slotItem;
     }
 
     public void setSlotItem(SlotItem slotItem) {
         this.slotItem = slotItem;
+        this.slotItemId = slotItem.getSlotItemId();
     }
 
     public boolean getLocked() {
@@ -79,5 +97,4 @@ public class MemberSlotItem {
     public String toString() {
         return String.format("MemberSlotItem [slotItem=%s, level=%s]", slotItem, level);
     }
-
 }

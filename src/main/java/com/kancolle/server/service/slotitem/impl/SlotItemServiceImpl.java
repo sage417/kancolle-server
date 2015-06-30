@@ -26,4 +26,9 @@ public class SlotItemServiceImpl implements SlotItemService {
     public List<SlotItem> getSlotItems() {
         return slotItemDao.getSlotItems();
     }
+
+    @Override
+    public int getCountOfSlotItemTypes() {
+        return slotItemDao.selectCountOfSlotItemTypes();
+    }
 }

@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.dao.slotitem.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -23,6 +24,16 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     @Override
     public void update(MemberSlotItem t) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<MemberSlotItem> selectMemberSlotItems(String member_id) {
+        return getSqlSession().selectList("selectMemberSlotItem", member_id);
+    }
+
+    @Override
+    public List<MemberSlotItem> selectMemberUnSlots(String member_id) {
+        return getSqlSession().selectList("selectMemberUnslot", member_id);
     }
 
     @Override

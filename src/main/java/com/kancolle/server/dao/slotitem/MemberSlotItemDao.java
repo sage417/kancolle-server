@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.dao.slotitem;
 
+import java.util.List;
+
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
@@ -12,6 +14,10 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  *
  */
 public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
+
+    List<MemberSlotItem> selectMemberSlotItems(String member_id);
+
+    List<MemberSlotItem> selectMemberUnSlots(String member_id);
 
     MemberSlotItem selectMemberSlotItem(String member_id, Long member_slotitem_id);
 

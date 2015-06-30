@@ -22,15 +22,16 @@ import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberNdock;
-import com.kancolle.server.model.kcsapi.member.MemberSlotItem;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.slotitem.MemberSlotItemService;
 
 @Controller
 @RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.POST)
@@ -43,6 +44,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberShipService memberShipService;
+
+    @Autowired
+    private MemberSlotItemService memberSlotItemService;
 
     @RequestMapping("/basic")
     public @ResponseBody APIResponse<MemberBasic> basic(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -88,7 +92,7 @@ public class GetMemberController {
 
     @RequestMapping("/unsetslot")
     public @ResponseBody APIResponse<Map<String, Object>> unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
-        Map<String, Object> api_data = memberService.getUnsetSlot(member_id);
+        Map<String, Object> api_data = memberSlotItemService.getUnsetSlot(member_id);
         return new APIResponse<Map<String, Object>>().setApi_data(api_data);
     }
 

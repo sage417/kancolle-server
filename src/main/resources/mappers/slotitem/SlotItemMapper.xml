@@ -13,10 +13,11 @@
 		SELECT * FROM t_slotitem
 	</select>
 
-	<select id="selectSlotItemByCond" parameterType="_int" resultMap="slotItemRM">
-		SELECT * FROM t_slotitem
-		<where>
-			<if test="slotitem_id != 0">ID = #{slotitem_id}</if>
-		</where>
+	<select id="selectCountOfSlotItemTypes" resultType="int">
+		SELECT COUNT(*) FROM t_slotitem_equiptype
+	</select>
+
+	<select id="selectSlotItemById" resultMap="slotItemRM">
+		SELECT * FROM t_slotitem WHERE ID = #{slotitem_id}
 	</select>
 </mapper>
