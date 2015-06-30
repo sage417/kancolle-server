@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 
@@ -53,5 +56,11 @@ public class ShipServiceImplTest {
         memberShipService.increaseMemberShipExp(memberShip, 1000);
         memberShip.setLv(150);
         memberShipService.increaseMemberShipExp(testMemberShip, 1932);
+    }
+
+    @Test
+    public void testSelectNullIDShip() {
+        List<Ship> ships = shipService.getShips();
+        Assert.assertTrue(ships.size() > 2);
     }
 }
