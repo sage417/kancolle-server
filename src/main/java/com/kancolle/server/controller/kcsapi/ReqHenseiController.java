@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
+import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberDeckPortService;
 
@@ -23,11 +24,11 @@ public class ReqHenseiController {
     private MemberDeckPortService memberDeckPortService;
 
     @RequestMapping("/change")
-    public @ResponseBody APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
+    public @ResponseBody APIResponse<MemberDeckPortChangeResult> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException();
         }
-        memberDeckPortService.changeShip(member_id, form);
-        return new APIResponse<Object>();
+        MemberDeckPortChangeResult api_data = memberDeckPortService.changeShip(member_id, form);
+        return new APIResponse<MemberDeckPortChangeResult>().setApi_data(api_data);
     }
 }

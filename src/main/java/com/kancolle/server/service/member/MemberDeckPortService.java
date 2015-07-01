@@ -6,6 +6,7 @@ package com.kancolle.server.service.member;
 import java.util.List;
 
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
+import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 
 /**
@@ -21,5 +22,5 @@ public interface MemberDeckPortService {
 
     MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id);
 
-    void changeShip(String member_id, ShipChangeForm form);
+    MemberDeckPortChangeResult changeShip(String member_id, ShipChangeForm form);
 }

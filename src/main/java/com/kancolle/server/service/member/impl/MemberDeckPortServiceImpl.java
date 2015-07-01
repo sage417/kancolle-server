@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
+import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.member.MemberDeckPortService;
@@ -45,7 +46,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void changeShip(String member_id, ShipChangeForm form) {
+    public MemberDeckPortChangeResult changeShip(String member_id, ShipChangeForm form) {
         Integer fleet_id = form.getApi_id();
         long member_ship_id = form.getApi_ship_id();
         int ship_idx = form.getApi_ship_idx();
@@ -60,7 +61,13 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
 
         if ((member_ship_id == -2L) && (ship_idx == -1)) {
             List<MemberShip> removeShips = targetShips.stream().skip(1L).collect(Collectors.toList());
+
+            if (removeShips.isEmpty()) {
+                // TODO
+                throw new IllegalArgumentException();
+            }
             removeDeckPortShip(targetDeck, removeShips);
+            return new MemberDeckPortChangeResult(removeShips.size());
         } else if (member_ship_id == -1L) {
             MemberShip removeShip = targetShips.get(ship_idx);
             removeDeckPortShip(targetDeck, Collections.singletonList(removeShip));
@@ -88,6 +95,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
                     addDeckportShip(targetDeck, memberShip);
             }
         }
+        return null;
     }
 
     private void removeDeckPortShip(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
