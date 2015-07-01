@@ -32,11 +32,13 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     private MemberShipService memberShipService;
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public List<MemberDeckPort> getMemberDeckPorts(String member_id) {
         return memberDeckPortDao.selectMemberDeckPorts(member_id);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberDeckPort getMemberDeckPort(String member_id, Integer deck_id) {
         return memberDeckPortDao.selectMemberDeckPort(member_id, deck_id);
     }
@@ -80,21 +82,14 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
                 else
                     moveDeckPortShip(targetDeck, otherDock, memberShip);
             } else {
-                if (ship_idx < targetShips.size()) {
-
+                if (ship_idx < targetShips.size())
                     replaceDeckPortShip(targetDeck, ship_idx, memberShip);
-                } else {
-
+                else
                     addDeckportShip(targetDeck, memberShip);
-                }
             }
         }
     }
 
-    /**
-     * @param targetDeck
-     * @param removeShips
-     */
     private void removeDeckPortShip(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
         List<MemberShip> targetShips = targetDeck.getShips();
         targetShips.removeAll(removeShips);
@@ -140,6 +135,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id) {
         return memberDeckPortDao.selectMemberDeckPortContainsMemberShip(member_id, member_ship_id);
     }

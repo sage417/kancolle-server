@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="selectMemberUnslot"  resultMap="memberSlotItemRM">
-		SELECT * FROM v_member_slotitem WHERE ID NOT IN (SELECT SLOTITEM_ID from t_member_ship_slotitem_mapping WHERE member_id = #{member_id})
+		SELECT * FROM v_member_slotitem WHERE ID NOT IN (SELECT member_slotitem_id from t_member_ship_slotitem_mapping WHERE member_id = #{member_id})
 	</select>
 	
 	<update id="updateMemberSlotItemLockStatue">
