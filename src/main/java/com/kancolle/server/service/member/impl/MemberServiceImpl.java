@@ -21,7 +21,6 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
@@ -118,11 +117,6 @@ public class MemberServiceImpl implements MemberService {
         memberRecord.setApi_large_dock(1);
         memberRecord.setApi_material_max(750 + 250 * basic.getApi_level());
         return memberRecord;
-    }
-
-    @Override
-    public List<MemberSlotItem> getSlotItem(String member_id) {
-        return memberDao.getSlotItem(member_id);
     }
 
     @Override

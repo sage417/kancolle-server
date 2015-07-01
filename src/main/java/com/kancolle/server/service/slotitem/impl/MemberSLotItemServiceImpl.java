@@ -43,6 +43,11 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
+    public List<MemberSlotItem> getSlotItem(String member_id) {
+        return memberSlotItemDao.selectMemberSlotItems(member_id);
+    }
+
+    @Override
     public Map<String, Object> getUnsetSlot(String member_id) {
         List<MemberSlotItem> unsetSlots = memberSlotItemDao.selectMemberUnSlots(member_id);
 

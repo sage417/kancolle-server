@@ -16,6 +16,8 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  */
 public interface MemberSlotItemService {
 
+    List<MemberSlotItem> getSlotItem(String member_id);
+
     Map<String, Object> getUnsetSlot(String member_id);
 
     MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId);

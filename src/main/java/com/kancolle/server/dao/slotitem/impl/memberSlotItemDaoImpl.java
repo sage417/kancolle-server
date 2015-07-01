@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.dao.slotitem.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
 
     @Override
     public List<MemberSlotItem> selectMemberSlotItems(String member_id) {
-        return getSqlSession().selectList("selectMemberSlotItem", member_id);
+        return getSqlSession().selectList("selectMemberSlotItem", Collections.singletonMap("member_id", member_id));
     }
 
     @Override

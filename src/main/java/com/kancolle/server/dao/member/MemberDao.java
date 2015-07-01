@@ -10,7 +10,6 @@ import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 public interface MemberDao extends BaseDao<Member> {
 
@@ -25,8 +24,6 @@ public interface MemberDao extends BaseDao<Member> {
     List<MemberMission> getMission(String member_id);
 
     MemberRecord selectMemberRecord(String member_id);
-
-    List<MemberSlotItem> getSlotItem(String member_id);
 
     List<MemberUseItem> getUseItem(String member_id);
 

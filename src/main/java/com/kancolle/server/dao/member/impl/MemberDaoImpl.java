@@ -19,7 +19,6 @@ import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
@@ -65,11 +64,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public MemberRecord selectMemberRecord(String member_id) {
         return getSqlSession().selectOne("selectMemberRecord", member_id);
-    }
-
-    @Override
-    public List<MemberSlotItem> getSlotItem(String member_id) {
-        return queryForModels(MemberSlotItem.class, "SELECT * FROM v_member_slotitem WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override

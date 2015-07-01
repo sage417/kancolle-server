@@ -86,7 +86,7 @@ public class GetMemberController {
 
     @RequestMapping("/slot_item")
     public @ResponseBody APIResponse<List<MemberSlotItem>> slot_item(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberSlotItem> api_data = memberService.getSlotItem(member_id);
+        List<MemberSlotItem> api_data = memberSlotItemService.getSlotItem(member_id);
         return new APIResponse<List<MemberSlotItem>>().setApi_data(api_data);
     }
 

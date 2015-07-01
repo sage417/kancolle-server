@@ -24,8 +24,13 @@ public class MemberSlotItem {
     @JSONField(serialize = false, deserialize = false)
     private SlotItem slotItem;
 
-    @JSONField(ordinal = 3, name = "api_locked")
+    @JSONField(serialize = false, deserialize = false)
     private boolean locked;
+
+    @JSONField(ordinal = 3, name = "api_locked")
+    public int returnLocked() {
+        return locked == true ? 1 : 0;
+    }
 
     @JSONField(ordinal = 4, name = "api_level")
     private int level;
