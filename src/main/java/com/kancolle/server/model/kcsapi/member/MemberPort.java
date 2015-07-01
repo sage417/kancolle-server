@@ -9,7 +9,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 public class MemberPort {
 
     @JSONField(ordinal = 1)
-    private List<MemberMeterial> api_material;
+    private List<MemberMeterialDto> api_material;
 
     @JSONField(ordinal = 2)
     private List<MemberDeckPort> api_deck_port;
@@ -44,7 +44,7 @@ public class MemberPort {
         return api_log;
     }
 
-    public List<MemberMeterial> getApi_material() {
+    public List<MemberMeterialDto> getApi_material() {
         return api_material;
     }
 
@@ -76,7 +76,7 @@ public class MemberPort {
         this.api_log = api_log;
     }
 
-    public void setApi_material(List<MemberMeterial> api_material) {
+    public void setApi_material(List<MemberMeterialDto> api_material) {
         this.api_material = api_material;
     }
 

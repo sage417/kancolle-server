@@ -27,7 +27,6 @@ import com.kancolle.server.service.member.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
-import com.kancolle.server.utils.DaoUtils;
 import com.kancolle.server.utils.logic.LVUtil;
 
 @Service
@@ -83,8 +82,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberPort getPort(String member_id) throws InstantiationException, IllegalAccessException {
-        MemberPort port = DaoUtils.setBean(portDao, new Class<?>[] { String.class }, new Object[] { member_id }, "setApi_p_bgm_id", "setApi_parallel_quest_count", "setApi_ndock", "setApi_ship");
+    public MemberPort getPort(String member_id) {
+        MemberPort port = new MemberPort();
+        port.setApi_basic(portDao.getBasic(member_id));
+        port.setApi_material(portDao.getMaterial(member_id));
+        port.setApi_log(portDao.getLog(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
         port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));

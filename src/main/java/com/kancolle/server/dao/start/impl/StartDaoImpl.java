@@ -1,4 +1,4 @@
-package com.kancolle.server.dao.start;
+package com.kancolle.server.dao.start.impl;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
+import com.kancolle.server.dao.start.StartDao;
 import com.kancolle.server.model.kcsapi.start.StartModel;
 import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
@@ -23,7 +24,6 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
-import com.kancolle.server.model.po.ship.ShipType;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
@@ -122,11 +122,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
         return queryForModels(SlotItemGraphModel.class, MST_SLOTITEMGRAPH_TB);
 
-    }
-
-    @Override
-    public List<ShipType> getMstStype() {
-        return getSqlSession().selectList("selectShipTypes");
     }
 
     @Override

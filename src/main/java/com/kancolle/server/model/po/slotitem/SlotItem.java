@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.slotitem;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -14,7 +16,9 @@ import com.kancolle.server.model.po.common.ResourceValue;
  *
  */
 @Alias("SlotItem")
-public class SlotItem {
+public class SlotItem implements Serializable {
+
+    private static final long serialVersionUID = -673912175570307175L;
 
     @JSONField(ordinal = 1, name = "api_id")
     private int slotItemId;

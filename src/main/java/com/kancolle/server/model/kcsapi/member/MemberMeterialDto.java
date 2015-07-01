@@ -3,7 +3,7 @@ package com.kancolle.server.model.kcsapi.member;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class MemberMeterial {
+public class MemberMeterialDto {
 
     @JSONField(ordinal = 1)
     private long api_member_id;
