@@ -36,7 +36,7 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberDeckPort> getDeckPort(String member_id) {
-        return getTemplate().query("SELECT * FROM v_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
+        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
             MemberDeckPort deck_port = DaoUtils.setObject(new MemberDeckPort(), rs);
             deck_port.setApi_mission(new Long[] { rs.getLong("MISSION_STATUS"), rs.getLong("MISSION_ID"), rs.getLong("MISSION_COMPLETE_TIME"), rs.getLong("MISSION_FLAG") });
             return deck_port;

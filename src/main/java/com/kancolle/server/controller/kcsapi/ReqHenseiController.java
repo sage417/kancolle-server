@@ -23,11 +23,11 @@ public class ReqHenseiController {
     private MemberDeckPortService memberDeckPortService;
 
     @RequestMapping("/change")
-    public @ResponseBody APIResponse<T> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
+    public @ResponseBody APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
         if (result.hasErrors()) {
 
         }
         memberDeckPortService.changeShip(member_id, form);
-        return new APIResponse<T>();
+        return new APIResponse<Object>();
     }
 }
