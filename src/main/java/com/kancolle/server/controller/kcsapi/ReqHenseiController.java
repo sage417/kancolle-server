@@ -25,7 +25,7 @@ public class ReqHenseiController {
     @RequestMapping("/change")
     public @ResponseBody APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
         if (result.hasErrors()) {
-
+            throw new IllegalArgumentException();
         }
         memberDeckPortService.changeShip(member_id, form);
         return new APIResponse<Object>();

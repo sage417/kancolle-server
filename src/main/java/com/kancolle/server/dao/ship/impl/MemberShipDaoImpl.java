@@ -25,7 +25,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     }
 
     @Override
-    public MemberShip selectMemberShip(String member_id, long ship_id) {
+    public MemberShip selectMemberShip(String member_id, Long ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("ship_id", ship_id);

@@ -6,8 +6,8 @@
 		<id property="memberId" column="member_id" />
 		<id property="deckId" column="ID" />
 		<result property="name_id" column="NAME_ID" />
-		<result property="mission" column="MISSION" typeHandler="LongJsonArrayHanlder"/>
-		<result property="ship" column="SHIP" typeHandler="LongJsonArrayHanlder"/>
+		<result property="mission" column="MISSION" typeHandler="LongJsonArrayHanlder" />
+		<result property="ship" column="SHIP" typeHandler="LongJsonArrayHanlder" />
 		<collection property="ships" ofType="MemberShip" column="{member_id=member_id,deck_id=ID}" select="com.kancolle.server.dao.ship.MemberShipDao.selectMemberDeckPortShips" />
 	</resultMap>
 
@@ -18,4 +18,39 @@
 			<if test="deck_id != null">AND ID = #{deck_id}</if>
 		</where>
 	</select>
+
+	<select id="selectMemberDeckPortContainsMemberShip" resultMap="MemberDeckPortRM">
+		SELECT
+			dp.*
+		FROM
+			v_member_deckport dp
+		INNER JOIN t_member_deckport_ship_mapping m ON m.member_id = dp.member_id
+		AND m.deck_id = dp.ID
+		WHERE
+			member_ship_id = #{member_ship_id}
+	</select>
+	
+	<update id="updateMemberDeckPortShip">
+		UPDATE v_member_deckport SET
+			SHIP = #{ship}
+		WHERE
+			member_id = #{member_id} AND ID = #{deck_id}
+	</update>
+	
+	<insert id="insertDeckPortShip">
+		INSERT INTO t_member_deckport_ship_mapping (member_id, deck_id, member_ship_id) VALUES (#{member_id}, #{deck_id}, #{member_ship_id})
+	</insert>
+	
+	<update id="updateDeckPortShip">
+		UPDATE t_member_deckport_ship_mapping SET
+			member_ship_id = #{new_member_ship_id}
+		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id = #{member_ship_id}
+	</update>
+	
+	<delete id="deleteDeckPortShip">
+		DELETE FROM t_member_deckport_ship_mapping WHERE member_id = #{member_id } AND deck_id = #{deck_id} AND member_ship_id IN
+		<foreach collection="removeShips" item="memberShip" open="(" separator="," close=")">
+			#{memberShip.memberShipId}
+		</foreach>
+	</delete>
 </mapper>

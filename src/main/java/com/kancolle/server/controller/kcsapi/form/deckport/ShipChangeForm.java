@@ -7,35 +7,35 @@ import org.hibernate.validator.constraints.Range;
 public class ShipChangeForm {
 
     @Range(min = 1L, max = 4L)
-    private Integer fleet_id;
+    private Integer api_id;
 
-    @Min(value = -1L)
-    private Long ship_id;
+    @Min(value = -2L)
+    private Long api_ship_id;
 
-    @Range(min = 0L, max = 5L)
-    private Integer ship_idx;
+    @Range(min = -1L, max = 5L)
+    private Integer api_ship_idx;
 
-    public Integer getFleet_id() {
-        return fleet_id;
+    public Integer getApi_id() {
+        return api_id;
     }
 
-    public void setFleet_id(Integer fleet_id) {
-        this.fleet_id = fleet_id;
+    public void setApi_id(Integer api_id) {
+        this.api_id = api_id;
     }
 
-    public Long getShip_id() {
-        return ship_id;
+    public Long getApi_ship_id() {
+        return api_ship_id;
     }
 
-    public void setShip_id(Long ship_id) {
-        this.ship_id = ship_id;
+    public void setApi_ship_id(Long api_ship_id) {
+        this.api_ship_id = api_ship_id;
     }
 
-    public Integer getShip_idx() {
-        return ship_idx;
+    public Integer getApi_ship_idx() {
+        return api_ship_idx;
     }
 
-    public void setShip_idx(Integer ship_idx) {
-        this.ship_idx = ship_idx;
+    public void setApi_ship_idx(Integer api_ship_idx) {
+        this.api_ship_idx = api_ship_idx;
     }
 }

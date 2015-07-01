@@ -8,7 +8,7 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 public interface MemberShipDao extends BaseDao<MemberShip> {
 
-    MemberShip selectMemberShip(String member_id, long ship_id);
+    MemberShip selectMemberShip(String member_id, Long ship_id);
 
     List<MemberShip> selectMemberShips(String member_id);
 

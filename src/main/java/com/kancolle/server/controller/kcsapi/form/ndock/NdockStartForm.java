@@ -16,19 +16,19 @@ import org.hibernate.validator.constraints.Range;
 public class NdockStartForm {
 
     @Min(1L)
-    private long api_ship_id;
+    private Long api_ship_id;
 
     @NotNull
     private Integer api_highspeed;
 
     @Range(min = 1L, max = 4L)
-    private int api_ndock_id;
+    private Integer api_ndock_id;
 
-    public long getApi_ship_id() {
+    public Long getApi_ship_id() {
         return api_ship_id;
     }
 
-    public void setApi_ship_id(long api_ship_id) {
+    public void setApi_ship_id(Long api_ship_id) {
         this.api_ship_id = api_ship_id;
     }
 
@@ -40,11 +40,11 @@ public class NdockStartForm {
         this.api_highspeed = api_highspeed;
     }
 
-    public int getApi_ndock_id() {
+    public Integer getApi_ndock_id() {
         return api_ndock_id;
     }
 
-    public void setApi_ndock_id(int api_ndock_id) {
+    public void setApi_ndock_id(Integer api_ndock_id) {
         this.api_ndock_id = api_ndock_id;
     }
 }

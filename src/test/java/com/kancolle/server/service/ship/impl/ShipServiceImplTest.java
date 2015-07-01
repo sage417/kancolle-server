@@ -41,12 +41,12 @@ public class ShipServiceImplTest {
 
     public void createTestMemvberShip() {
         // TODO 真正创建一个
-        testMemberShip = memberShipService.getMemberShip("8006690", 1);
+        testMemberShip = memberShipService.getMemberShip("8006690", 1L);
     }
 
     @Test
     public void testGetMemberShip() {
-        MemberShip ship = memberShipService.getMemberShip("8006690", 1);
+        MemberShip ship = memberShipService.getMemberShip("8006690", 1L);
         Assert.assertTrue(!ship.getSlot().isEmpty());
     }
 

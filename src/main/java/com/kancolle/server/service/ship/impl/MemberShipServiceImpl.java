@@ -66,7 +66,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberShip getMemberShip(String member_id, long ship_id) {
+    public MemberShip getMemberShip(String member_id, Long ship_id) {
         return memberShipDao.selectMemberShip(member_id, ship_id);
     }
 

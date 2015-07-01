@@ -25,7 +25,7 @@ public class StartServiceImpl implements StartService {
     @Override
     @Cacheable(value = "start", key = "#root.methodName")
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
-        StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem");
+        StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem", "setApi_mst_ship", "setApi_mst_stype");
         startModel.setApi_mst_ship(shipService.getShips());
         startModel.setApi_mst_stype(shipService.getShipTypes());
         startModel.setApi_mst_slotitem(slotItemService.getSlotItems());

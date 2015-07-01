@@ -19,6 +19,7 @@ public interface MemberDeckPortService {
 
     MemberDeckPort getMemberDeckPort(String member_id, Integer deck_id);
 
-    void changeShip(String member_id, ShipChangeForm form);
+    MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id);
 
+    void changeShip(String member_id, ShipChangeForm form);
 }
