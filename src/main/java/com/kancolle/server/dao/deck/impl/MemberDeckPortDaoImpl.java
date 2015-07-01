@@ -81,9 +81,10 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     @Override
     public void updateDeckPortShip(MemberDeckPort targetDeck, MemberShip repalcedMemberShip, MemberShip memberShip) {
         updateMemberDeckPortShip(targetDeck);
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(4);
         params.put("member_id", targetDeck.getMemberId());
         params.put("deck_id", targetDeck.getDeckId());
+        params.put("new_member_ship_id", memberShip.getMemberShipId());
         params.put("member_ship_id", repalcedMemberShip.getMemberShipId());
         getSqlSession().update("updateDeckPortShip", params);
     }
