@@ -5,6 +5,8 @@ package com.kancolle.server.model.po.mission;
 
 import java.io.Serializable;
 
+import org.apache.ibatis.type.Alias;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.map.MapArea;
 
@@ -13,46 +15,58 @@ import com.kancolle.server.model.po.map.MapArea;
  * @Date 2015年6月30日
  *
  */
+@Alias("Mission")
 public class Mission implements Serializable {
 
     private static final long serialVersionUID = 8823401708226251266L;
 
-    @JSONField(ordinal = 1)
+    @JSONField(ordinal = 1, name = "api_id")
     private int missionId;
 
     @JSONField(serialize = false, deserialize = false)
     private MapArea maparea;
 
-    @JSONField(ordinal = 2)
+    @JSONField(ordinal = 2, name = "api_maparea_id")
     public int getMapareaId() {
         return maparea.getMapareaId();
     }
 
+    @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JSONField(ordinal = 4, name = "api_details")
     private String details;
 
+    @JSONField(ordinal = 5, name = "api_time")
     private int time;
 
+    @JSONField(ordinal = 6, name = "api_difficulty")
     private int difficulty;
 
+    @JSONField(ordinal = 7, name = "api_use_fuel")
     private double useFuel;
 
+    @JSONField(ordinal = 8, name = "api_use_bull")
     private double useBull;
 
+    @JSONField(serialize = false, deserialize = false)
     private MissionItem winItem1;
 
+    @JSONField(ordinal = 9, name = "api_win_item1")
     public int[] getItemWin1() {
         return winItem1.toArray();
     }
 
+    @JSONField(serialize = false, deserialize = false)
     private MissionItem winItem2;
 
+    @JSONField(ordinal = 10, name = "api_win_item2")
     public int[] getItemWin2() {
         return winItem2.toArray();
     }
 
-    private boolean returnFlag;
+    @JSONField(ordinal = 11, name = "api_return_flag")
+    private int returnFlag;
 
     public int getMissionId() {
         return missionId;
@@ -134,11 +148,11 @@ public class Mission implements Serializable {
         this.winItem2 = winItem2;
     }
 
-    public boolean isReturnFlag() {
+    public int getReturnFlag() {
         return returnFlag;
     }
 
-    public void setReturnFlag(boolean returnFlag) {
+    public void setReturnFlag(int returnFlag) {
         this.returnFlag = returnFlag;
     }
 

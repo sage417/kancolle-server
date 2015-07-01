@@ -8,16 +8,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.mission.MissionDao;
-import com.kancolle.server.model.kcsapi.member.MemberBasic;
-import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
-import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.po.DeckPortMission;
-import com.kancolle.server.service.deck.DeckPortService;
 import com.kancolle.server.service.map.MapAreaService;
+import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.utils.DateUtils;
@@ -40,7 +37,7 @@ public class MissionServiceImpl implements MissionService {
     private MapAreaService mapAreaService;
 
     @Autowired
-    private DeckPortService deckPortService;
+    private MemberDeckPortService memberDeckPortService;
 
     @Autowired
     private MemberService memberService;
@@ -68,26 +65,29 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public MissionResult calMissionResult(String member_id, int deck_id) {
-        MemberDeckPort memberDeckPort = deckPortService.getMemberDeckPort(member_id, deck_id);
-
-        DeckPortMission deckPortMission = this.getDeckPortMission(member_id, deck_id);
-        MissionModel missionModel = this.getMission(deckPortMission.getMissionId());
-
-        MapAreaModel mapAreaModel = mapAreaService.getMapArea(missionModel.getApi_maparea_id());
-
-        MemberBasic memberBasic = memberService.getBasic(member_id);
-
-        long[] ship_ids = new long[memberDeckPort.size() + 1];
-        ship_ids[0] = -1;
-        for (int i = 1; i < ship_ids.length; i++) {
-            ship_ids[i] = memberDeckPort.getApi_ship().getLongValue(i - 1);
-        }
-
-        MissionResult result = new MissionResult();
-        result.setApi_ship_id(ship_ids);
-        result.setApi_maparea_name(mapAreaModel.getApi_name());
-        result.setApi_detail(missionModel.getApi_details());
-        result.setApi_quest_name(missionModel.getApi_name());
+        /*
+         * MemberDeckPort memberDeckPort =
+         * deckPortService.getMemberDeckPort(member_id, deck_id);
+         * 
+         * DeckPortMission deckPortMission = this.getDeckPortMission(member_id,
+         * deck_id); MissionModel missionModel =
+         * this.getMission(deckPortMission.getMissionId());
+         * 
+         * MapAreaModel mapAreaModel =
+         * mapAreaService.getMapArea(missionModel.getApi_maparea_id());
+         * 
+         * MemberBasic memberBasic = memberService.getBasic(member_id);
+         * 
+         * long[] ship_ids = new long[memberDeckPort.size() + 1]; ship_ids[0] =
+         * -1; for (int i = 1; i < ship_ids.length; i++) { ship_ids[i] =
+         * memberDeckPort.getApi_ship().getLongValue(i - 1); }
+         * 
+         * MissionResult result = new MissionResult();
+         * result.setApi_ship_id(ship_ids);
+         * result.setApi_maparea_name(mapAreaModel.getApi_name());
+         * result.setApi_detail(missionModel.getApi_details());
+         * result.setApi_quest_name(missionModel.getApi_name());
+         */
 
         /*if (condition) {
             // 召回
@@ -190,7 +190,7 @@ public class MissionServiceImpl implements MissionService {
             result.setApi_useitem_flag(new int[] { 0, 1 });
         }*/
 
-        return result;
+        return null;
     }
 
     @Override

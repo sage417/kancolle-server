@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.mission.MissionDao">
+	<resultMap type="Mission" id="MissionRM" autoMapping="true">
+		<id property="missionId" column="ID" />
+		<result property="useFuel" column="USE_FUEL" />
+		<result property="useBull" column="USE_BULL" />
+		<result property="winItem1" column="WIN_ITEM1"  typeHandler="MissionItemHandler"/>
+		<result property="winItem2" column="WIN_ITEM2" typeHandler="MissionItemHandler"/>
+		<result property="returnFlag" column="RETURN_FLAG" />
+		<association property="maparea" column="MAPAREA_ID" select="selectMapAreasByCond" />
+	</resultMap>
+</mapper>

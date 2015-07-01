@@ -42,6 +42,17 @@
 		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
 	
+	<select id="selectMemberDeckPortShips" resultMap="memberShipRM">
+		SELECT
+			s.*
+		FROM
+			t_member_deckport_ship_mapping m
+		INNER JOIN v_member_ship s ON m.member_id = s.member_id AND m.member_ship_id = s.ID
+		WHERE
+			m.member_id = #{member_id}
+		AND m.deck_id = #{deck_id}
+	</select>
+	
 	<update id="chargeMemberShips">
 		UPDATE v_member_ship ms, t_ship s
 		<set>

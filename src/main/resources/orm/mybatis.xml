@@ -43,5 +43,6 @@
 		<typeHandler handler="com.kancolle.server.model.po.common.handler.MaxMinValueHandler" />
 		<typeHandler handler="com.kancolle.server.model.po.common.handler.PowUpHanlder" />
 		<typeHandler handler="com.kancolle.server.model.po.common.handler.ResourceVauleHandler" />
+		<typeHandler handler="com.kancolle.server.model.po.common.handler.MissionItemHandler" />
 	</typeHandlers>
 </configuration>

@@ -13,7 +13,7 @@ public class MemberMission {
     @JSONField(ordinal = 1)
     private int api_mission_id;
 
-    @JSONField(ordinal = 1)
+    @JSONField(ordinal = 2)
     private int api_state;
 
     public int getApi_mission_id() {
