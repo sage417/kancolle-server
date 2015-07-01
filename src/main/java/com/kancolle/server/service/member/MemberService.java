@@ -14,10 +14,6 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 public interface MemberService {
 
-    void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx);
-
-    void destroyShip(String member_id, long api_ship_id);
-
     MemberBasic getBasic(String member_id);
 
     List<MemberFurniture> getFurniture(String member_id);

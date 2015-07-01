@@ -23,6 +23,6 @@ public class ReqKousyouController {
 
         }
         if (ShipLogic.checkDestory(member_id, api_ship_id))
-            memberService.destroyShip(member_id, api_ship_id);
+            ;
     }
 }

@@ -15,11 +15,9 @@ import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.port.dto.MemberMeterialDto;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
-import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterial;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
-import com.kancolle.server.utils.DaoUtils;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
@@ -32,15 +30,6 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     @Override
     public MemberBasic getBasic(String member_id) {
         return memberDao.getBasic(member_id);
-    }
-
-    @Override
-    public List<MemberDeckPort> getDeckPort(String member_id) {
-        return getTemplate().query("SELECT * FROM t_member_deckport WHERE member_id = :member_id", getMemParamMap(member_id), (rs, ns) -> {
-            MemberDeckPort deck_port = DaoUtils.setObject(new MemberDeckPort(), rs);
-            deck_port.setApi_mission(new Long[] { rs.getLong("MISSION_STATUS"), rs.getLong("MISSION_ID"), rs.getLong("MISSION_COMPLETE_TIME"), rs.getLong("MISSION_FLAG") });
-            return deck_port;
-        });
     }
 
     @Override

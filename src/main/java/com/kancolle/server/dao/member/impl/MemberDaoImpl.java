@@ -1,24 +1,18 @@
 package com.kancolle.server.dao.member.impl;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.dao.slotitem.SlotItemDao;
 import com.kancolle.server.model.kcsapi.member.MemberBasic;
-import com.kancolle.server.model.kcsapi.member.MemberDeckPort;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
@@ -30,8 +24,6 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
-    private static final String UPDATE_SHIP = "UPDATE v_member_deckport SET SHIP = :ships WHERE member_id = :member_id AND ID = :fleet_id";
-
     @Autowired
     private SlotItemDao slotItemDao;
 
@@ -40,78 +32,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Autowired
     private ShipDao shipDao;
-
-    @Override
-    public void changeShip(String member_id, int fleet_id, long ship_id, int ship_idx) {
-        Map<String, Object> params = new HashMap<>(3);
-        params.put("member_id", member_id);
-        params.put("fleet_id", fleet_id);
-
-        MemberDeckPort targetDeck = queryForSingleModel(MemberDeckPort.class, "SELECT SHIP FROM v_member_deckport WHERE member_id = :member_id AND ID = :fleet_id", params);
-
-        if ((ship_id == -2L) && (ship_idx == -1)) {
-            // 旗艦以外解除
-            int count = targetDeck.removeOthers();
-        } else if (ship_id == -1L) {
-            targetDeck.removeShip(ship_idx);
-        } else {
-            params.put("ship_id", ship_id);
-
-            long rship_id = targetDeck.indexOf(ship_idx);
-
-            MemberDeckPort otherDock = queryForSingleModel(MemberDeckPort.class, "SELECT * FROM v_member_deckport WHERE member_id = :member_id AND SHIP LIKE '%:ship_id%'", params);
-
-            if (ship_idx < targetDeck.size()) {
-                if (otherDock != null)
-                    otherDock.replaceShip(otherDock.indexOf(rship_id), targetDeck.replaceShip(ship_idx, rship_id));
-                else
-                    targetDeck.replaceShip(ship_idx, ship_id);
-            } else {
-                if (otherDock != null)
-                    otherDock.removeShip(otherDock.indexOf(rship_id));
-                targetDeck.addShip(ship_id);
-            }
-
-            if (otherDock != null && fleet_id != otherDock.getApi_id()) {
-                params.put("fleet_id", otherDock.getApi_id());
-                params.put("ships", otherDock.getApi_ship().toJSONString());
-                getTemplate().update(UPDATE_SHIP, params);
-            }
-        }
-
-        params.put("fleet_id", fleet_id);
-        params.put("ships", targetDeck.getApi_ship().toJSONString());
-        getTemplate().update(UPDATE_SHIP, params);
-    }
-
-    @Override
-    public void destroyShip(String member_id, long api_ship_id) {
-        // 删除舰娘身上装备
-        Map<String, Object> params = new HashMap<String, Object>(5);
-        params.put("member_id", member_id);
-        params.put("api_ship_id", api_ship_id);
-        String str_slotitem_ids = getTemplate().queryForObject("SELECT SLOT FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params, String.class);
-        JSONArray slotitem_ids = JSON.parseArray(str_slotitem_ids);
-        List<Long> ids = Stream.iterate(0, n -> ++n).limit(slotitem_ids.size()).map(i -> slotitem_ids.getLong(i)).collect(Collectors.toList());
-
-        params.put("ids", ids);
-        getTemplate().update("DELETE FROM v_member_itemslot WHERE member_id = :member_id AND ID IN (:ids)", params);
-        // 如果舰娘在舰队中则移除由触发器实现
-        // 删除舰娘
-        int ship_id = getTemplate().queryForObject("SELECT SHIP_ID FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params, int.class);
-        getTemplate().update("DELETE FROM v_member_ship WHERE member_id = :member_id AND ID = :api_ship_id", params);
-        params.put("ship_id", ship_id);
-        // 返还资源
-        /*
-         * Ship ship = queryForSingleModel(ShipModel.class,
-         * "SELECT BROKEN FROM t_ship WHERE ID = :ship_id", params); JSONArray
-         * rtn_res = ship.getApi_broken(); for (int j = 0; j < rtn_res.size();
-         * j++) { params.put("value", rtn_res.getIntValue(j)); params.put("id",
-         * j); getTemplate().update(
-         * "UPDATE v_member_useitem SET VALUE = VALUE + :value WHERE member_id = :member_id AND ID = :id"
-         * , params); }
-         */
-    }
 
     @Override
     public MemberBasic getBasic(String member_id) {

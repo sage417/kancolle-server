@@ -3,6 +3,7 @@ package com.kancolle.server.model.kcsapi.member;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 public class MemberPort {

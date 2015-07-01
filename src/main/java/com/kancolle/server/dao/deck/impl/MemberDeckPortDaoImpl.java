@@ -1,5 +1,6 @@
 package com.kancolle.server.dao.deck.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
 
     @Override
     public List<MemberDeckPort> selectMemberDeckPorts(String member_id) {
-        return getSqlSession().selectList("selectMemberDecksPortByCond", member_id);
+        return getSqlSession().selectList("selectMemberDecksPortByCond", Collections.singletonMap("member_id", member_id));
     }
 
     @Override

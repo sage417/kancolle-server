@@ -26,6 +26,7 @@ import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -59,6 +60,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberSlotItemService memberSlotItemService;
+
+    @Autowired
+    private MemberDeckPortService memberDeckPortService;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
@@ -240,6 +244,6 @@ public class MemberShipServiceImpl implements MemberShipService {
         Long memberShipId = form.getApi_shipid();
         int sortKey = form.getApi_sort_key();
         int sort_order = form.getSpi_sort_order();
-        return new Ship3Result(getMemberShip(member_id, memberShipId), portDao.getDeckPort(member_id), memberSlotItemService.getUnsetSlot(member_id));
+        return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlot(member_id));
     }
 }
