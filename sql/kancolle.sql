@@ -1038,10 +1038,7 @@ DROP TABLE IF EXISTS `v_member_deckport`;
  `ID` tinyint(3) unsigned ,
  `NAME` varchar(255) ,
  `NAME_ID` varchar(255) ,
- `MISSION_STATUS` tinyint(4) unsigned ,
- `MISSION_ID` int(11) unsigned ,
- `MISSION_COMPLETE_TIME` bigint(20) unsigned ,
- `MISSION_FLAG` tinyint(4) unsigned ,
+ `MISSION` varchar(45) ,
  `FLAGSHIP` varchar(255) ,
  `SHIP` varchar(255) ,
  `locked` tinyint(3) unsigned 
@@ -1168,7 +1165,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_deckport` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,`t_member_deckport`.`MISSION_STATUS` AS `MISSION_STATUS`,`t_member_deckport`.`MISSION_ID` AS `MISSION_ID`,`t_member_deckport`.`MISSION_COMPLETE_TIME` AS `MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG` AS `MISSION_FLAG`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
 
 /*View structure for view v_member_furniture */
 
