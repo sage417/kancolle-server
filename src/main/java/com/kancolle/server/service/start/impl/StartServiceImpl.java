@@ -27,6 +27,7 @@ public class StartServiceImpl implements StartService {
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
         StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem");
         startModel.setApi_mst_ship(shipService.getShips());
+        startModel.setApi_mst_stype(shipService.getShipTypes());
         startModel.setApi_mst_slotitem(slotItemService.getSlotItems());
         return startModel;
     }
