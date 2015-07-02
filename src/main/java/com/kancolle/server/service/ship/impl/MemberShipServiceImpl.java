@@ -22,6 +22,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
+import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
@@ -245,5 +246,16 @@ public class MemberShipServiceImpl implements MemberShipService {
         int sortKey = form.getApi_sort_key();
         int sort_order = form.getSpi_sort_order();
         return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlot(member_id));
+    }
+
+    @Override
+    public MemberShipLockResult lock(String member_id, Long member_ship_id) {
+        MemberShip memberShip = getMemberShip(member_id, member_ship_id);
+        if (memberShip == null) {
+            throw new IllegalArgumentException();
+        }
+        Boolean lock = Boolean.valueOf(!memberShip.isLocked());
+        memberShipDao.updateMemberShipLockStatue(member_id, member_ship_id, lock);
+        return new MemberShipLockResult(lock);
     }
 }

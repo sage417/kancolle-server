@@ -25,4 +25,6 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
     void replaceSlot(MemberShip memberShip, MemberSlotItem repalcedSlotItem, MemberSlotItem memberSlotItem);
 
     void updateMemberShipSlotValue(MemberShip memberShip);
+
+    void updateMemberShipLockStatue(String member_id, Long member_ship_id, Boolean lock);
 }

@@ -19,7 +19,6 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements MemberShipDao {
 
     @Override
-    @Deprecated
     public void update(MemberShip memberShip) {
         throw new UnsupportedOperationException();
     }
@@ -125,5 +124,14 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("kaihi", memberShip.getKaihi());
         params.put("sakuteki", memberShip.getSakuteki());
         getSqlSession().update("updateMemberShipSlotValue", params);
+    }
+
+    @Override
+    public void updateMemberShipLockStatue(String member_id, Long member_ship_id, Boolean lock) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", member_id);
+        params.put("member_ship_id", member_ship_id);
+        params.put("lock", lock);
+        getSqlSession().update("updateMemberShipLockStatue", params);
     }
 }

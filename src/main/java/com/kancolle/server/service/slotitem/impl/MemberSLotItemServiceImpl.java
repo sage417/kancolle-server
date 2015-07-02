@@ -63,11 +63,6 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public List<MemberSlotItem> getMemberUnSlots(String member_id) {
-        return memberSlotItemDao.selectMemberUnSlots(member_id);
-    }
-
-    @Override
     public MemberSlotItemLockResult lock(String member_id, Long slotitem_id) {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
         if (memberSlotItem == null) {
