@@ -3,6 +3,7 @@ package com.kancolle.server.model.kcsapi.member;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
@@ -21,7 +22,7 @@ public class MemberPort {
     private List<MemberShip> api_ship;
 
     @JSONField(ordinal = 5)
-    private MemberBasic api_basic;
+    private Member api_basic;
 
     @JSONField(ordinal = 6)
     private List<MemberLog> api_log;
@@ -32,7 +33,7 @@ public class MemberPort {
     @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
-    public MemberBasic getApi_basic() {
+    public Member getApi_basic() {
         return api_basic;
     }
 
@@ -64,7 +65,7 @@ public class MemberPort {
         return api_ship;
     }
 
-    public void setApi_basic(MemberBasic api_basic) {
+    public void setApi_basic(Member api_basic) {
         this.api_basic = api_basic;
     }
 

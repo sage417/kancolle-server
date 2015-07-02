@@ -12,7 +12,6 @@ import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.dao.slotitem.SlotItemDao;
-import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
@@ -31,11 +30,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Autowired
     private ShipDao shipDao;
-
-    @Override
-    public MemberBasic getBasic(String member_id) {
-        return queryForSingleModel(MemberBasic.class, "SELECT * FROM t_member WHERE member_id = :member_id", getMemParamMap(member_id));
-    }
 
     @Override
     public List<MemberFurniture> getFurniture(String member_id) {

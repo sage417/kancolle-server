@@ -5,6 +5,9 @@ package com.kancolle.server.model.po.member;
 
 import org.apache.ibatis.type.Alias;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月7日
@@ -13,83 +16,119 @@ import org.apache.ibatis.type.Alias;
 @Alias("Member")
 public class Member {
 
-    private long memberId;
+    @JSONField(ordinal = 1, name = "api_member_id")
+    private String memberId;
 
+    @JSONField(serialize = false, deserialize = false)
     private String token;
 
+    @JSONField(ordinal = 2, name = "api_nickname")
     private String nickName;
 
+    @JSONField(ordinal = 3, name = "api_nickname_id")
     private String nickNameId;
 
+    @JSONField(ordinal = 4, name = "api_active_flag")
     private int activeFlag;
 
+    @JSONField(ordinal = 5, name = "api_starttime")
     private long startTime;
 
+    @JSONField(ordinal = 6, name = "api_level")
     private int level;
 
+    @JSONField(ordinal = 7, name = "api_rank")
     private int rank;
 
+    @JSONField(ordinal = 8, name = "api_experience")
     private long experience;
 
+    @JSONField(ordinal = 9, name = "api_fleetname", serialzeFeatures = { SerializerFeature.WriteMapNullValue })
     private String fleetName;
 
+    @JSONField(ordinal = 10, name = "api_comment")
     private String comment;
 
+    @JSONField(ordinal = 11, name = "api_comment_id")
     private String commentId;
 
+    @JSONField(ordinal = 12, name = "api_max_chara")
     private int maxChara;
 
+    @JSONField(ordinal = 13, name = "api_max_slotitem")
     private int maxSlotItem;
 
+    @JSONField(ordinal = 14, name = "api_max_kagu")
     private int maxKagu;
 
+    @JSONField(ordinal = 15, name = "api_playtime")
     private long playTime;
 
+    @JSONField(ordinal = 16, name = "api_tutorial")
     private int tutorial;
 
+    @JSONField(ordinal = 17, name = "api_furniture")
     private int[] furniture;
 
+    @JSONField(ordinal = 18, name = "api_count_deck")
     private int deckCount;
 
+    @JSONField(ordinal = 19, name = "api_count_kdock")
     private int kdockCount;
 
+    @JSONField(ordinal = 20, name = "api_count_ndock")
     private int ndockCount;
 
+    @JSONField(ordinal = 21, name = "api_fcoin")
     private int fCoin;
 
+    @JSONField(ordinal = 22, name = "api_st_win")
     private int attackWin;
 
+    @JSONField(ordinal = 23, name = "api_st_lose")
     private int attackLose;
 
+    @JSONField(ordinal = 24, name = "api_ms_count")
     private int missionCount;
 
+    @JSONField(ordinal = 25, name = "api_ms_success")
     private int missionSuccess;
 
+    @JSONField(ordinal = 26, name = "api_pt_win")
     private int practiceWin;
 
+    @JSONField(ordinal = 27, name = "api_pt_lose")
     private int practiceLose;
 
+    @JSONField(ordinal = 28, name = "api_pt_challenged")
     private int practiceChallenged;
 
+    @JSONField(ordinal = 29, name = "api_pt_challenged_win")
     private int practiceChallengedWin;
 
+    @JSONField(ordinal = 30, name = "api_firstflag")
     private int firstFlag;
 
+    @JSONField(ordinal = 31, name = "api_tutorial_progress")
     private int tutorialProgress;
 
+    @JSONField(ordinal = 32, name = "api_pvp")
     private int[] pvp;
 
+    @JSONField(ordinal = 33, name = "api_medals")
     private int medals;
 
+    @JSONField(serialize = false, deserialize = false)
     private int portBGMId;
 
+    @JSONField(serialize = false, deserialize = false)
     private int parallelQuestCount;
 
-    public long getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 
@@ -377,7 +416,7 @@ public class Member {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (memberId ^ (memberId >>> 32));
+        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
         return result;
     }
 
@@ -390,7 +429,10 @@ public class Member {
         if (getClass() != obj.getClass())
             return false;
         Member other = (Member) obj;
-        if (memberId != other.memberId)
+        if (memberId == null) {
+            if (other.memberId != null)
+                return false;
+        } else if (!memberId.equals(other.memberId))
             return false;
         return true;
     }

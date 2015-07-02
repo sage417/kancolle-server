@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
-import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
@@ -50,8 +49,8 @@ public class MemberServiceImpl implements MemberService {
     private MemberDeckPortService memberDeckPortService;
 
     @Override
-    public MemberBasic getBasic(String member_id) {
-        return memberDao.getBasic(member_id);
+    public Member getBasic(String member_id) {
+        return getMember(member_id);
     }
 
     @Override
@@ -83,39 +82,40 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberPort getPort(String member_id) {
         MemberPort port = new MemberPort();
-        port.setApi_basic(portDao.getBasic(member_id));
+        getMember(member_id);
+        port.setApi_basic(getBasic(member_id));
         port.setApi_material(portDao.getMaterial(member_id));
         port.setApi_log(portDao.getLog(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
         port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
-        port.setApi_p_bgm_id(port.getApi_basic().getApi_p_bgm_id());
-        port.setApi_parallel_quest_count(port.getApi_basic().getApi_parallel_quest_count());
+        port.setApi_p_bgm_id(port.getApi_basic().getPortBGMId());
+        port.setApi_parallel_quest_count(port.getApi_basic().getParallelQuestCount());
         return port;
     }
 
     @Override
     public MemberRecord getRecord(String member_id) {
-        MemberBasic basic = memberDao.getBasic(member_id);
+        Member basic = getBasic(member_id);
         MemberRecord memberRecord = new MemberRecord();
         BeanUtils.copyProperties(basic, memberRecord);
-        memberRecord.setApi_member_id(Long.valueOf(basic.getApi_member_id()));
-        memberRecord.setApi_cmt(basic.getApi_comment());
-        memberRecord.setApi_cmt_id(basic.getApi_comment_id());
-        memberRecord.setApi_experience(Lists.newArrayList(basic.getApi_experience(), getSumExpByLV(basic.getApi_level() + 1)));
-        memberRecord.setApi_war(new MemberRecordFight(basic.getApi_st_win(), basic.getApi_st_lose()));
-        memberRecord.setApi_mission(new MemberRecordMission(basic.getApi_ms_success(), basic.getApi_ms_count()));
-        memberRecord.setApi_practice(new MemberRecordPractise(basic.getApi_pt_win(), basic.getApi_pt_lose()));
-        memberRecord.setApi_deck(basic.getApi_count_deck());
-        memberRecord.setApi_kdoc(basic.getApi_count_kdock());
-        memberRecord.setApi_ndoc(basic.getApi_count_ndock());
+        memberRecord.setApi_member_id(Long.valueOf(basic.getMemberId()));
+        memberRecord.setApi_cmt(basic.getComment());
+        memberRecord.setApi_cmt_id(basic.getCommentId());
+        memberRecord.setApi_experience(Lists.newArrayList(basic.getExperience(), getSumExpByLV(basic.getLevel() + 1)));
+        memberRecord.setApi_war(new MemberRecordFight(basic.getAttackWin(), basic.getAttackLose()));
+        memberRecord.setApi_mission(new MemberRecordMission(basic.getMissionSuccess(), basic.getMissionCount()));
+        memberRecord.setApi_practice(new MemberRecordPractise(basic.getPracticeWin(), basic.getPracticeLose()));
+        memberRecord.setApi_deck(basic.getDeckCount());
+        memberRecord.setApi_kdoc(basic.getKdockCount());
+        memberRecord.setApi_ndoc(basic.getNdockCount());
         int ship_count = memberShipService.getCountOfMemberShip(member_id);
         int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
-        memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getApi_max_chara()));
-        memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getApi_max_slotitem()));
+        memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getMaxChara()));
+        memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getMaxSlotItem()));
         // TODO 是否能够大型建造
         memberRecord.setApi_large_dock(1);
-        memberRecord.setApi_material_max(750 + 250 * basic.getApi_level());
+        memberRecord.setApi_material_max(750 + 250 * basic.getLevel());
         return memberRecord;
     }
 

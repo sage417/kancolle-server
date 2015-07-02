@@ -5,31 +5,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
-import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.port.dto.MemberMeterial;
-import com.kancolle.server.dao.ship.ShipDao;
-import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
-    @Autowired
-    private MemberDao memberDao;
-
-    @Autowired
-    private ShipDao shipDao;
-
-    @Override
-    public MemberBasic getBasic(String member_id) {
-        return memberDao.getBasic(member_id);
-    }
 
     @Override
     public List<MemberLog> getLog(String member_id) {

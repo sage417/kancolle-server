@@ -2,7 +2,6 @@ package com.kancolle.server.service.member;
 
 import java.util.List;
 
-import com.kancolle.server.model.kcsapi.member.MemberBasic;
 import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
@@ -13,7 +12,7 @@ import com.kancolle.server.model.po.member.Member;
 
 public interface MemberService {
 
-    MemberBasic getBasic(String member_id);
+    Member getBasic(String member_id);
 
     List<MemberFurniture> getFurniture(String member_id);
 
