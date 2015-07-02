@@ -44,7 +44,7 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements Membe
     }
 
     @Override
-    public Furniture selectMemberFurnitureById(String member_id, Integer furniture_id) {
+    public MemberFurniture selectMemberFurnitureById(String member_id, Integer furniture_id) {
         Map<String, Object> params = getMemberIdFurnitureIdParamMap(member_id, furniture_id);
         return getSqlSession().selectOne("selectMemberFurnitureByCond", params);
     }

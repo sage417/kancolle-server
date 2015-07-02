@@ -19,7 +19,7 @@ public interface MemberFurnitureService {
 
     List<MemberFurniture> getFurniture(String member_id);
 
-    Furniture getMemberFurniture(String member_id, Integer furniture_id);
+    MemberFurniture getMemberFurniture(String member_id, Integer furniture_id);
 
     Furniture getFurniture(Integer type, Integer no);
 

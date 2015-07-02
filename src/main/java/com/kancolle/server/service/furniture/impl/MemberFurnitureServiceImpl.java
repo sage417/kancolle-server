@@ -51,11 +51,11 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
         for (FurnitureType type : FurnitureType.values()) {
             Integer furnitureId = FurnitureUtils.getFurnitureIdByType(form, type);
-            Furniture furniture = getMemberFurniture(member_id, furnitureId);
-            if (furniture == null) {
+            MemberFurniture memberFurniture = getMemberFurniture(member_id, furnitureId);
+            if (memberFurniture == null) {
                 throw new IllegalArgumentException("不拥有该家具");
             }
-            if (type.getTypeId() != furniture.getType()) {
+            if (type.getTypeId() != memberFurniture.getFurniture().getType()) {
                 throw new IllegalArgumentException("家具类型错误");
             }
             furnitureIds.add(furnitureId);
@@ -107,7 +107,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public Furniture getMemberFurniture(String member_id, Integer furniture_id) {
+    public MemberFurniture getMemberFurniture(String member_id, Integer furniture_id) {
         return memberFurnitureDao.selectMemberFurnitureById(member_id, furniture_id);
     }
 

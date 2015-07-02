@@ -18,7 +18,7 @@ public interface MemberFurnitureDao extends BaseDao<Object> {
 
     List<MemberFurniture> getFurniture(String member_id);
 
-    Furniture selectMemberFurnitureById(String member_id, Integer furniture_id);
+    MemberFurniture selectMemberFurnitureById(String member_id, Integer furniture_id);
 
     Furniture selectFurnitureByTypeAndNo(Integer type, Integer no);
 
