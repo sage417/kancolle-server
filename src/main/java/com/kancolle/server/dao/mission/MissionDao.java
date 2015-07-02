@@ -2,7 +2,7 @@ package com.kancolle.server.dao.mission;
 
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
-import com.kancolle.server.model.po.DeckPortMission;
+import com.kancolle.server.model.po.deck.DeckPortMission;
 
 public interface MissionDao extends BaseDao<MissionModel> {
 

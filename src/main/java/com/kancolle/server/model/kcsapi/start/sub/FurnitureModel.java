@@ -8,28 +8,28 @@ public class FurnitureModel {
     @JSONField(ordinal = 1)
     private int api_id;
 
-    @JSONField(ordinal = 1)
+    @JSONField(ordinal = 2)
     private int api_type;
 
-    @JSONField(ordinal = 2)
+    @JSONField(ordinal = 3)
     private int api_no;
 
-    @JSONField(ordinal = 3)
+    @JSONField(ordinal = 4)
     private String api_title;
 
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 5)
     private String api_description;
 
-    @JSONField(ordinal = 5)
+    @JSONField(ordinal = 6)
     private int api_rarity;
 
-    @JSONField(ordinal = 6)
+    @JSONField(ordinal = 7)
     private int api_price;
 
-    @JSONField(ordinal = 7)
+    @JSONField(ordinal = 8)
     private int api_saleflg;
 
-    @JSONField(ordinal = 8)
+    @JSONField(ordinal = 9)
     private int api_season;
 
     public String getApi_description() {

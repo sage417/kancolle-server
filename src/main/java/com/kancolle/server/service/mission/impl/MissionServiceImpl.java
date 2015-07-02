@@ -12,7 +12,7 @@ import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
-import com.kancolle.server.model.po.DeckPortMission;
+import com.kancolle.server.model.po.deck.DeckPortMission;
 import com.kancolle.server.service.map.MapAreaService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;

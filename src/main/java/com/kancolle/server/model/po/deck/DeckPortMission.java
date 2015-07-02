@@ -1,4 +1,4 @@
-package com.kancolle.server.model.po;
+package com.kancolle.server.model.po.deck;
 
 import com.kancolle.server.dao.annotation.Column;
 

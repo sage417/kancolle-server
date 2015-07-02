@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
-import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;

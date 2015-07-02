@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.mission.MissionDao;
 import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
-import com.kancolle.server.model.po.DeckPortMission;
+import com.kancolle.server.model.po.deck.DeckPortMission;
 
 @Repository
 public class MissionDaoImpl extends BaseDaoImpl<MissionModel> implements MissionDao {

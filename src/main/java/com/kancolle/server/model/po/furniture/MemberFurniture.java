@@ -1,4 +1,4 @@
-package com.kancolle.server.model.kcsapi.member;
+package com.kancolle.server.model.po.furniture;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;

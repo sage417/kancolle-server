@@ -12,11 +12,11 @@ import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.dao.slotitem.SlotItemDao;
-import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 
 @Repository

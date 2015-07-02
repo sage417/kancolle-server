@@ -2,12 +2,12 @@ package com.kancolle.server.service.member;
 
 import java.util.List;
 
-import com.kancolle.server.model.kcsapi.member.MemberFurniture;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 
 public interface MemberService {
