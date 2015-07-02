@@ -258,7 +258,7 @@ CREATE TABLE `t_member` (
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2385,NULL,'','',100,497,0,0,0,'[6,57,210,120,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,101,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[1,38,72,102,133,164]',4,2,4,911999,100,1,0,0,0,0,0,0,1,101,'[0,0]',0,101,5);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2385,NULL,'','',100,497,0,0,0,'[6,57,210,120,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[1,38,72,102,133,164]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5);
 
 /*Table structure for table `t_member_battle_status` */
 
@@ -306,7 +306,7 @@ CREATE TABLE `t_member_deckport` (
 
 /*Data for the table `t_member_deckport` */
 
-insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (1,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[1,2,3,4,5,-1]',0),(2,8006690,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',0),(3,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(4,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
+insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (1,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[1,-1,-1,-1,-1]',0),(2,8006690,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',0),(3,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(4,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
 
 /*Table structure for table `t_member_deckport_ship_mapping` */
 
@@ -320,11 +320,11 @@ CREATE TABLE `t_member_deckport_ship_mapping` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`),
   CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport_ship_mapping` */
 
-insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (1,8006690,1,1),(2,8006690,1,2),(3,8006690,1,3),(4,8006690,1,4),(5,8006690,1,5);
+insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (14,8006690,1,1);
 
 /*Table structure for table `t_member_furniture` */
 
@@ -494,13 +494,13 @@ CREATE TABLE `t_member_ship` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`),
   KEY `SHIP_ID` (`SHIP_ID`),
-  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`KYOUKA`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,156,1,'[0,0,0]',70,70,1,'[-1,-1,-1,-1,-1]','[30,24,24,8,0]','[0,0,0,0,0]',90,75,1,40,'[0,59]','[0,0]','[45,86]','[44,84]','[0,50]','[0,50]','[0,50]','[4,39]',0,0,0,NULL),(2,8006690,2,136,1,'[0,0,0]',96,96,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[92,139]','[0,0]','[68,104]','[92,118]','[0,50]','[0,50]','[0,50]','[13,79]',0,0,0,NULL),(3,8006690,3,148,1,'[0,0,0]',97,97,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[92,139]','[0,0]','[60,99]','[92,119]','[0,50]','[0,50]','[0,50]','[9,79]',0,0,0,NULL),(4,8006690,4,171,1,'[0,0,0]',90,90,3,'[-1,-1,-1,-1,-1]','[4,4,4,4,0]','[0,0,0,0,0]',90,110,1,40,'[64,88]','[0,0]','[18,48]','[67,83]','[0,50]','[0,50]','[0,50]','[8,69]',0,0,0,NULL),(6,8006690,5,155,1,'[0,0,0]',20,20,1,'[-1,-1,-1,-1,-1]','[3,0,0,0,0]','[0,0,0,0,0]',20,15,1,40,'[2,9]','[36,72]','[0,0]','[5,24]','[0,50]','[0,50]','[0,50]','[20,59]',0,0,0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`KYOUKA`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,156,1,'[0,0,0]',70,70,1,'[1,-1,-1,-1,-1]','[30,24,24,8,0]','[0,0,0,0,0]',90,75,1,40,'[0,59]','[0,0]','[120,86]','[44,84]','[0,50]','[0,50]','[0,50]','[4,39]',1,0,0,NULL),(2,8006690,2,136,1,'[0,0,0]',96,96,4,'[6,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[118,139]','[0,0]','[73,104]','[92,118]','[0,50]','[0,50]','[0,50]','[13,79]',0,0,0,NULL),(3,8006690,3,148,1,'[0,0,0]',97,97,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0,0]',250,325,1,40,'[92,139]','[0,0]','[60,99]','[92,119]','[0,50]','[0,50]','[0,50]','[9,79]',0,0,0,NULL),(4,8006690,4,171,1,'[0,0,0]',90,90,3,'[-1,-1,-1,-1,-1]','[4,4,4,4,0]','[0,0,0,0,0]',90,110,1,40,'[64,88]','[0,0]','[18,48]','[67,83]','[0,50]','[0,50]','[0,50]','[8,69]',0,0,0,NULL),(6,8006690,5,155,1,'[0,0,0]',20,20,1,'[-1,-1,-1,-1,-1]','[3,0,0,0,0]','[0,0,0,0,0]',20,15,1,40,'[2,9]','[36,72]','[0,0]','[5,24]','[0,50]','[0,50]','[0,50]','[20,59]',0,0,0,NULL),(7,8006690,6,450,1,'[0,0,0]',36,36,1,'[-1,-1,-1,-1,-1]','[1,1,1,0,0]','[0,0,0,0,0]',60,15,1,40,'[8,28]','[0,0]','[16,44]','[13,42]','[50,50]','[50,50]','[50,50]','[14,72]',0,0,0,NULL);
 
 /*Table structure for table `t_member_ship_slotitem_mapping` */
 
@@ -513,9 +513,11 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
+
+insert  into `t_member_ship_slotitem_mapping`(`index`,`member_id`,`member_ship_id`,`member_slotitem_id`) values (1,8006690,1,1),(13,8006690,2,6);
 
 /*Table structure for table `t_member_slotitem` */
 
