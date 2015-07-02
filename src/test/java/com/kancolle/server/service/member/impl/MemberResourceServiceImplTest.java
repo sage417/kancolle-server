@@ -31,7 +31,7 @@ public class MemberResourceServiceImplTest {
      */
     @Test
     public void testGetMemberResouce() {
-        Resource resource = memberResourceService.getMemberResouce(9007383);
+        Resource resource = memberResourceService.getMemberResouce("9007383");
         Assert.assertNotNull(resource);
         /*
          * Assert.assertEquals(1, resource.getFuel()); Assert.assertEquals(2,
@@ -45,17 +45,17 @@ public class MemberResourceServiceImplTest {
 
     @Test
     public void testUpdateResource() {
-        memberResourceService.consumeResource(9007383, 1, 2, 3, 4, 5, 6, 7, 8);
-        Resource resource = memberResourceService.getMemberResouce(9007383);
-        memberResourceService.increaseResource(9007383, 1, 2, 3, 4, 5, 6, 7, 8);
-        resource = memberResourceService.getMemberResouce(9007383);
+        memberResourceService.consumeResource("9007383", 1, 2, 3, 4, 5, 6, 7, 8);
+        Resource resource = memberResourceService.getMemberResouce("9007383");
+        memberResourceService.increaseResource("9007383", 1, 2, 3, 4, 5, 6, 7, 8);
+        resource = memberResourceService.getMemberResouce("9007383");
     }
 
     @Test
     public void testIncreaseMaxResource() {
-        Resource resource = memberResourceService.getMemberResouce(9007383);
-        memberResourceService.increaseResource(9007383, Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE,
+        Resource resource = memberResourceService.getMemberResouce("9007383");
+        memberResourceService.increaseResource("9007383", Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE, Resource.MAX_RESOURCE_VALUE,
                 Resource.MAX_METERIAL_VALUE, Resource.MAX_METERIAL_VALUE, Resource.MAX_METERIAL_VALUE, Resource.MAX_METERIAL_VALUE);
-        Resource new_resource = memberResourceService.getMemberResouce(9007383);
+        Resource new_resource = memberResourceService.getMemberResouce("9007383");
     }
 }

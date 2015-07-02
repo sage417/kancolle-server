@@ -67,6 +67,8 @@ public class MemberPort {
 
     public void setApi_basic(Member api_basic) {
         this.api_basic = api_basic;
+        this.api_p_bgm_id = api_basic.getPortBGMId();
+        this.api_parallel_quest_count = api_basic.getParallelQuestCount();
     }
 
     public void setApi_deck_port(List<MemberDeckPort> api_deck_port) {
@@ -86,11 +88,11 @@ public class MemberPort {
     }
 
     public void setApi_p_bgm_id(int api_p_bgm_id) {
-        this.api_p_bgm_id = api_p_bgm_id;
+        throw new UnsupportedOperationException();
     }
 
     public void setApi_parallel_quest_count(int api_parallel_quest_count) {
-        this.api_parallel_quest_count = api_parallel_quest_count;
+        throw new UnsupportedOperationException();
     }
 
     public void setApi_ship(List<MemberShip> api_ship) {

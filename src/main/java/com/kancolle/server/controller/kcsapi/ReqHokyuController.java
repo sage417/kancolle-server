@@ -8,12 +8,11 @@ import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEM
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
@@ -25,14 +24,14 @@ import com.kancolle.server.service.ship.MemberShipService;
  * @Date 2015年6月22日
  *
  */
-@Controller
+@RestController
 @RequestMapping(value = "/kcsapi/api_req_hokyu", method = RequestMethod.POST)
 public class ReqHokyuController {
     @Autowired
     private MemberShipService memberShipService;
 
     @RequestMapping("/charge")
-    public @ResponseBody APIResponse<ChargeModel> charge(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChargeForm form, BindingResult result) {
+    public APIResponse<ChargeModel> charge(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChargeForm form, BindingResult result) {
         if (result.hasErrors()) {
             // TODO
         }

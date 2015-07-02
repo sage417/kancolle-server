@@ -8,19 +8,18 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
 import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberUseItemService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
@@ -29,12 +28,12 @@ public class ReqMemberController {
     private MemberUseItemService memberUseItemService;
 
     @RequestMapping("/get_incentive")
-    public @ResponseBody APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
+    public APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
         return svdata;
     }
 
     @RequestMapping("/itemuse")
-    public @ResponseBody APIResponse<Object> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
+    public APIResponse<Object> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
         if (result.hasErrors()) {
 
             throw new IllegalArgumentException();

@@ -5,19 +5,18 @@ import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEM
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberFurnitureService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/kcsapi/api_req_furniture", method = RequestMethod.POST)
 public class ReqFurnitureController {
     private static final APIResponse<Object> SUCCESS_RESPONSE = new APIResponse<Object>();
@@ -26,7 +25,7 @@ public class ReqFurnitureController {
     private MemberFurnitureService furnitureService;
 
     @RequestMapping("/buy")
-    public @ResponseBody APIResponse<Object> buy(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureBuyForm form, BindingResult result) {
+    public APIResponse<Object> buy(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureBuyForm form, BindingResult result) {
         if (result.hasErrors()) {
             // TODO
             throw new IllegalArgumentException("do not be evil");
@@ -37,7 +36,7 @@ public class ReqFurnitureController {
     }
 
     @RequestMapping("/change")
-    public @ResponseBody APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureChangeForm form, BindingResult result) {
+    public APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureChangeForm form, BindingResult result) {
         if (result.hasErrors()) {
             // TODO
             throw new IllegalArgumentException("do not be evil");

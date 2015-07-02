@@ -82,15 +82,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberPort getPort(String member_id) {
         MemberPort port = new MemberPort();
-        getMember(member_id);
-        port.setApi_basic(getBasic(member_id));
+        Member member = getBasic(member_id);
+        port.setApi_basic(member);
         port.setApi_material(portDao.getMaterial(member_id));
         port.setApi_log(portDao.getLog(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
         port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
-        port.setApi_p_bgm_id(port.getApi_basic().getPortBGMId());
-        port.setApi_parallel_quest_count(port.getApi_basic().getParallelQuestCount());
         return port;
     }
 
