@@ -31,7 +31,7 @@
 	</select>
 	
 	<update id="updateMemberSlotItemLockStatue">
-		UPDATE v_member_slotitem SET
+		UPDATE t_member_slotitem SET
 			LOCKED = #{lock}
 		WHERE
 			member_id = #{member_id}

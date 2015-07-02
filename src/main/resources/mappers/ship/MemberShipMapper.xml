@@ -54,7 +54,7 @@
 	</select>
 	
 	<update id="chargeMemberShips">
-		UPDATE v_member_ship ms, t_ship s
+		UPDATE t_member_ship ms, t_ship s
 		<set>
 			<if test="charge_kind == 1 or charge_kind == 3">ms.FUEL = s.FUEL_MAX, ms.ONSLOT = s.MAXEQ,</if>
 			<if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX</if>
@@ -65,14 +65,14 @@
 	</update>
 	
 	<update id="updateMemberExp">
-		UPDATE v_member_ship SET
+		UPDATE t_member_ship SET
 			LV = #{lv},
 			EXP = #{exp, typeHandler=LongJsonArrayHanlder}
 		WHERE member_id = #{member_id} AND ID = #{memberShip_id}
 	</update>
 	
 	<update id="updateMemberShipSlot">
-		UPDATE v_member_ship SET
+		UPDATE t_member_ship SET
 			LENG = #{leng},
 			LOCKED_EQUIP = #{lockedEquip},
 			SLOT = #{slot}
@@ -80,7 +80,7 @@
 	</update>
 	
 	<update id="updateMemberShipSlotValue">
-		UPDATE v_member_ship SET
+		UPDATE t_member_ship SET
 			SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
 			KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
 			KAIHI = #{kaihi, typeHandler=MaxMinValueHandler},
@@ -92,7 +92,7 @@
 	</update>
 	
 	<update id="updateMemberShipLockStatue">
-		UPDATE v_member_ship SET
+		UPDATE t_member_ship SET
 			LOCKED = #{lock}
 		WHERE
 			member_id = #{member_id}
