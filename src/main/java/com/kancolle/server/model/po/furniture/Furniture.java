@@ -5,6 +5,8 @@ package com.kancolle.server.model.po.furniture;
 
 import org.apache.ibatis.type.Alias;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月10日
@@ -13,18 +15,36 @@ import org.apache.ibatis.type.Alias;
 @Alias("Furniture")
 public class Furniture {
 
+    @JSONField(ordinal = 1, name = "api_id")
     private int furnitureId;
 
+    @JSONField(ordinal = 2, name = "api_type")
     private int type;
 
+    @JSONField(ordinal = 3, name = "api_no")
     private int no;
 
+    @JSONField(ordinal = 4, name = "api_title")
+    private String title;
+
+    @JSONField(ordinal = 5, name = "api_description")
+    private String description;
+
+    @JSONField(ordinal = 6, name = "api_rarity")
     private int rarity;
 
+    @JSONField(ordinal = 7, name = "api_price")
     private int price;
 
+    @JSONField(serialize = false, deserialize = false)
     private boolean saleFalg;
 
+    @JSONField(ordinal = 8, name = "api_saleflg")
+    public int getSaleState() {
+        return saleFalg ? 1 : 0;
+    }
+
+    @JSONField(ordinal = 9, name = "api_season")
     private int season;
 
     public int getFurnitureId() {
@@ -49,6 +69,22 @@ public class Furniture {
 
     public void setNo(int no) {
         this.no = no;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getRarity() {
@@ -125,6 +161,6 @@ public class Furniture {
 
     @Override
     public String toString() {
-        return String.format("Furniture [furnitureId=%s, type=%s, no=%s]", furnitureId, type, no);
+        return String.format("Furniture [title=%s]", title);
     }
 }

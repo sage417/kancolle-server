@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.member.impl;
+package com.kancolle.server.service.furniture.impl;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import com.kancolle.server.dao.member.MemberFurnitureDao;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.furniture.FurnitureType;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.service.member.MemberFurnitureService;
+import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.utils.logic.FurnitureUtils;
 

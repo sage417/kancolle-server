@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberFurnitureService;
+import com.kancolle.server.service.furniture.MemberFurnitureService;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_furniture", method = RequestMethod.POST)

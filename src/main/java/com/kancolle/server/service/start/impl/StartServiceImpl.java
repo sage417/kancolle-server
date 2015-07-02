@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.start.StartDao;
 import com.kancolle.server.model.kcsapi.start.StartModel;
+import com.kancolle.server.service.furniture.FurnitureService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.service.start.StartService;
@@ -22,13 +23,17 @@ public class StartServiceImpl implements StartService {
     @Autowired
     private ShipService shipService;
 
+    @Autowired
+    private FurnitureService furnitureService;
+
     @Override
     @Cacheable(value = "start", key = "#root.methodName")
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
-        StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem", "setApi_mst_ship", "setApi_mst_stype");
+        StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem", "setApi_mst_ship", "setApi_mst_stype", "setApi_mst_furniture");
         startModel.setApi_mst_ship(shipService.getShips());
         startModel.setApi_mst_stype(shipService.getShipTypes());
         startModel.setApi_mst_slotitem(slotItemService.getSlotItems());
+        startModel.setApi_mst_furniture(furnitureService.getFurnitures());
         return startModel;
     }
 }

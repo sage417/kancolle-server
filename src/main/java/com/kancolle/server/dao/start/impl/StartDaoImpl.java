@@ -12,7 +12,6 @@ import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
 import com.kancolle.server.model.kcsapi.start.sub.EquipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.FurnitureGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.FurnitureModel;
 import com.kancolle.server.model.kcsapi.start.sub.ItemShopModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
@@ -30,7 +29,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
-    private static final String MST_FURNITURE_TB = SELECT_ALL + "t_furniture";
     private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
     private static final String MST_USEITEM_TB = SELECT_ALL + "t_useitem";
     private static final String MST_PAYITEM_TB = SELECT_ALL + "t_pay_item";
@@ -51,12 +49,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     @Override
     public ConstModel getMstConst() {
         return ConstModel.getInstance();
-    }
-
-    @Override
-    public List<FurnitureModel> getMstFurniture() {
-        return queryForModels(FurnitureModel.class, MST_FURNITURE_TB);
-
     }
 
     @Override

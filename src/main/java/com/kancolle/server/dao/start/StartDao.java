@@ -8,7 +8,6 @@ import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
 import com.kancolle.server.model.kcsapi.start.sub.EquipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.FurnitureGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.FurnitureModel;
 import com.kancolle.server.model.kcsapi.start.sub.ItemShopModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
@@ -25,8 +24,6 @@ public interface StartDao extends BaseDao<StartModel> {
     List<BgmModel> getMstBgm();
 
     ConstModel getMstConst();
-
-    List<FurnitureModel> getMstFurniture();
 
     List<FurnitureGraphModel> getMstFurnituregraph();
 

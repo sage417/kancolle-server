@@ -7,7 +7,6 @@ import com.kancolle.server.model.kcsapi.start.sub.BgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
 import com.kancolle.server.model.kcsapi.start.sub.EquipTypeModel;
 import com.kancolle.server.model.kcsapi.start.sub.FurnitureGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.FurnitureModel;
 import com.kancolle.server.model.kcsapi.start.sub.ItemShopModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
@@ -19,6 +18,7 @@ import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
+import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
@@ -37,7 +37,7 @@ public class StartModel {
     @JSONField(ordinal = 6)
     private List<SlotItemGraphModel> api_mst_slotitemgraph;
     @JSONField(ordinal = 7)
-    private List<FurnitureModel> api_mst_furniture;
+    private List<Furniture> api_mst_furniture;
     @JSONField(ordinal = 8)
     private List<FurnitureGraphModel> api_mst_furnituregraph;
     @JSONField(ordinal = 9)
@@ -71,7 +71,7 @@ public class StartModel {
         return api_mst_const;
     }
 
-    public List<FurnitureModel> getApi_mst_furniture() {
+    public List<Furniture> getApi_mst_furniture() {
         return api_mst_furniture;
     }
 
@@ -147,7 +147,7 @@ public class StartModel {
         this.api_mst_const = api_mst_const;
     }
 
-    public void setApi_mst_furniture(List<FurnitureModel> api_mst_furniture) {
+    public void setApi_mst_furniture(List<Furniture> api_mst_furniture) {
         this.api_mst_furniture = api_mst_furniture;
     }
 

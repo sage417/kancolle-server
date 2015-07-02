@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.member;
+package com.kancolle.server.service.furniture;
 
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
@@ -20,10 +20,6 @@ public interface MemberFurnitureService {
 
     void changeFurniture(String member_id, FurnitureChangeForm form);
 
-    /**
-     * @param member_id
-     * @param form
-     */
     void buyFurniture(String member_id, FurnitureBuyForm form);
 
     int getCountOfMemberFurniture(String member_id);
