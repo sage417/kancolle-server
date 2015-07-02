@@ -143,11 +143,21 @@ public class MemberShip {
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue lucky;
 
-    @JSONField(ordinal = 28, name = "api_locked")
+    @JSONField(serialize = false, deserialize = false)
     private boolean locked;
 
-    @JSONField(ordinal = 29, name = "api_locked_equip")
+    @JSONField(ordinal = 28, name = "api_locked")
+    public int getLockStatue() {
+        return locked ? 1 : 0;
+    }
+
+    @JSONField(serialize = false, deserialize = false)
     private boolean lockedEquip;
+
+    @JSONField(ordinal = 29, name = "api_locked_equip")
+    public int getEquipLockStatue() {
+        return lockedEquip ? 1 : 0;
+    }
 
     public long getMemberId() {
         return memberId;
