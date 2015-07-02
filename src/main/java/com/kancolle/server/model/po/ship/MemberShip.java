@@ -22,7 +22,7 @@ public class MemberShip {
     public static final int SLOT_SIZE_MAX = 5;
 
     @JSONField(serialize = false, deserialize = false)
-    private long memberId;
+    private String memberId;
 
     @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
@@ -159,11 +159,11 @@ public class MemberShip {
         return lockedEquip ? 1 : 0;
     }
 
-    public long getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 
@@ -493,7 +493,7 @@ public class MemberShip {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (memberId ^ (memberId >>> 32));
+        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
         result = prime * result + (int) (memberShipId ^ (memberShipId >>> 32));
         return result;
     }
@@ -507,7 +507,10 @@ public class MemberShip {
         if (getClass() != obj.getClass())
             return false;
         MemberShip other = (MemberShip) obj;
-        if (memberId != other.memberId)
+        if (memberId == null) {
+            if (other.memberId != null)
+                return false;
+        } else if (!memberId.equals(other.memberId))
             return false;
         if (memberShipId != other.memberShipId)
             return false;

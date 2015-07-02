@@ -1,12 +1,14 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
 public class MemberUseItem {
 
     @JSONField(ordinal = 1)
-    private String api_member_id;
+    private long api_member_id;
 
     @JSONField(ordinal = 2)
     private int api_id;
@@ -24,7 +26,7 @@ public class MemberUseItem {
     private String api_name;
 
     @JSONField(ordinal = 7)
-    private String api_description;
+    private JSONArray api_description;
 
     @JSONField(ordinal = 8)
     private int api_price;
@@ -40,7 +42,7 @@ public class MemberUseItem {
         return api_count;
     }
 
-    public String getApi_description() {
+    public JSONArray getApi_description() {
         return api_description;
     }
 
@@ -48,7 +50,7 @@ public class MemberUseItem {
         return api_id;
     }
 
-    public String getApi_member_id() {
+    public long getApi_member_id() {
         return api_member_id;
     }
 
@@ -80,7 +82,7 @@ public class MemberUseItem {
 
     @Column(name = "DESCRIPTION", type = String.class)
     public void setApi_description(String api_description) {
-        this.api_description = api_description;
+        this.api_description = JSON.parseArray(api_description);
     }
 
     @Column(name = "ID", type = int.class)
@@ -88,8 +90,8 @@ public class MemberUseItem {
         this.api_id = api_id;
     }
 
-    @Column(name = "member_id", type = String.class)
-    public void setApi_member_id(String api_member_id) {
+    @Column(name = "member_id", type = long.class)
+    public void setApi_member_id(long api_member_id) {
         this.api_member_id = api_member_id;
     }
 

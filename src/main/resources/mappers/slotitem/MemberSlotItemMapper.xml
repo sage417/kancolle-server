@@ -3,6 +3,7 @@
 <mapper namespace="com.kancolle.server.dao.slotitem.MemberSlotItemDao">
 
 	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
+		<id property="memberId" column="member_id"/>
 		<id property="memberSlotItemId" column="ID" />
 		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
 	</resultMap>

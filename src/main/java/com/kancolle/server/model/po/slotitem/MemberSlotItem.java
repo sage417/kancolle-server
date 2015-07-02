@@ -15,6 +15,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 @Alias("MemberSlotItem")
 public class MemberSlotItem {
 
+    @JSONField(serialize = false, deserialize = false)
+    private String memberId;
+
     @JSONField(ordinal = 1, name = "api_id")
     private long memberSlotItemId;
 
@@ -34,6 +37,14 @@ public class MemberSlotItem {
 
     @JSONField(ordinal = 4, name = "api_level")
     private int level;
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
 
     public long getMemberSlotItemId() {
         return memberSlotItemId;
@@ -80,7 +91,8 @@ public class MemberSlotItem {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (memberSlotItemId ^ (memberSlotItemId >>> 32));
+        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
+        result = prime * result + (int) (slotItemId ^ (slotItemId >>> 32));
         return result;
     }
 
@@ -93,7 +105,12 @@ public class MemberSlotItem {
         if (getClass() != obj.getClass())
             return false;
         MemberSlotItem other = (MemberSlotItem) obj;
-        if (memberSlotItemId != other.memberSlotItemId)
+        if (memberId == null) {
+            if (other.memberId != null)
+                return false;
+        } else if (!memberId.equals(other.memberId))
+            return false;
+        if (slotItemId != other.slotItemId)
             return false;
         return true;
     }
