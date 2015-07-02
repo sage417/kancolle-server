@@ -63,7 +63,7 @@ public class MemberNdockImpl implements MemberNdockService {
             throw new IllegalArgumentException();
         }
 
-        memberResourceService.consumeResource(Long.valueOf(member_id), memberShip.getApi_ndock_item()[0], 0, memberShip.getApi_ndock_item()[1], 0, form.getApi_highspeed().intValue(), 0, 0, 0);
+        memberResourceService.consumeResource(member_id, memberShip.getApi_ndock_item()[0], 0, memberShip.getApi_ndock_item()[1], 0, form.getApi_highspeed().intValue(), 0, 0, 0);
 
         useNdock(member_id, form.getApi_ndock_id(), memberShip);
 
@@ -113,7 +113,7 @@ public class MemberNdockImpl implements MemberNdockService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void speedchange(String member_id, int api_ndock_id) {
-        memberResourceService.consumeResource(Long.valueOf(member_id), 0, 0, 0, 0, 1, 0, 0, 0);
+        memberResourceService.consumeResource(member_id, 0, 0, 0, 0, 1, 0, 0, 0);
         clearNdock(member_id, api_ndock_id);
     }
 }

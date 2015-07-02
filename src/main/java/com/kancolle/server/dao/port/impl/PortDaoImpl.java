@@ -24,11 +24,11 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberMeterialDto> getMaterial(String member_id) {
-        MemberMeterial meterialDto = queryForSingleModel(MemberMeterial.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
+        MemberMeterial memberMeterial = queryForSingleModel(MemberMeterial.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
 
         long member = Long.valueOf(member_id);
 
-        return meterialDto.toModel().stream().map(meterial -> {
+        return memberMeterial.toModel().stream().map(meterial -> {
             meterial.setApi_member_id(member);
             return meterial;
         }).collect(Collectors.toList());

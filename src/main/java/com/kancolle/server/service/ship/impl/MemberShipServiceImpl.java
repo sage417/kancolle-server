@@ -123,10 +123,10 @@ public class MemberShipServiceImpl implements MemberShipService {
             }
 
         }
-        memberResourceService.consumeResource(Long.valueOf(member_id), chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
+        memberResourceService.consumeResource(member_id, chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
         memberShipDao.chargeMemberShips(member_id, memberShipIds, chargeKind);
 
-        return new ChargeModel(memberShips, memberResourceService.getMemberResouce(Long.valueOf(member_id)), comsumeBauxite > 0);
+        return new ChargeModel(memberShips, memberResourceService.getMemberResouce(member_id), comsumeBauxite > 0);
     }
 
     @Override
