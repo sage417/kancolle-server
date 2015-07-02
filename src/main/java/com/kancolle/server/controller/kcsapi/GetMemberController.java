@@ -27,6 +27,7 @@ import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -47,6 +48,9 @@ public class GetMemberController {
     @Autowired
     private MemberSlotItemService memberSlotItemService;
 
+    @Autowired
+    private MemberFurnitureService memberFurnitureService;
+
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         Member api_data = memberService.getBasic(member_id);
@@ -55,7 +59,7 @@ public class GetMemberController {
 
     @RequestMapping("/furniture")
     public APIResponse<List<MemberFurniture>> furniture(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberFurniture> api_data = memberService.getFurniture(member_id);
+        List<MemberFurniture> api_data = memberFurnitureService.getFurniture(member_id);
         return new APIResponse<List<MemberFurniture>>().setApi_data(api_data);
     }
 

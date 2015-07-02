@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.furniture;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -13,7 +15,9 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 @Alias("Furniture")
-public class Furniture {
+public class Furniture implements Serializable {
+
+    private static final long serialVersionUID = -6302293499953139928L;
 
     @JSONField(ordinal = 1, name = "api_id")
     private int furnitureId;

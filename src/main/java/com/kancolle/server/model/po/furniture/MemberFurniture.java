@@ -1,67 +1,84 @@
 package com.kancolle.server.model.po.furniture;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+@Alias("MemberFurniture")
 public class MemberFurniture {
 
-    @JSONField(ordinal = 1)
-    private long api_member_id;
+    @JSONField(ordinal = 1, name = "api_member_id")
+    private long member_id;
 
-    @JSONField(ordinal = 2)
-    private int api_id;
+    @JSONField(serialize = false, deserialize = false)
+    private Furniture furniture;
 
-    @JSONField(ordinal = 3)
-    private int api_furniture_type;
-
-    @JSONField(ordinal = 4)
-    private int api_furniture_no;
-
-    @JSONField(ordinal = 5)
-    private int api_furniture_id;
-
-    public int getApi_furniture_id() {
-        return api_furniture_id;
+    @JSONField(ordinal = 2, name = "api_id")
+    public int returnId() {
+        return furniture.getFurnitureId();
     }
 
-    public int getApi_furniture_no() {
-        return api_furniture_no;
+    @JSONField(ordinal = 3, name = "api_furniture_type")
+    public int returnFurnitureType() {
+        return furniture.getType();
     }
 
-    public int getApi_furniture_type() {
-        return api_furniture_type;
+    @JSONField(ordinal = 4, name = "api_furniture_no")
+    public int returnFurniureNo() {
+        return furniture.getNo();
     }
 
-    public long getApi_id() {
-        return api_id;
+    @JSONField(ordinal = 5, name = "api_furniture_id")
+    public int returnFurnitureId() {
+        return furniture.getFurnitureId();
     }
 
-    public long getApi_member_id() {
-        return api_member_id;
+    public long getMember_id() {
+        return member_id;
     }
 
-    @Column(name = "furniture_id", type = int.class)
-    public void setApi_furniture_id(int api_furniture_id) {
-        this.api_furniture_id = api_furniture_id;
+    public void setMember_id(long member_id) {
+        this.member_id = member_id;
     }
 
-    @Column(name = "furniture_no", type = int.class)
-    public void setApi_furniture_no(int api_furniture_no) {
-        this.api_furniture_no = api_furniture_no;
+    public Furniture getFurniture() {
+        return furniture;
     }
 
-    @Column(name = "furniture_type", type = int.class)
-    public void setApi_furniture_type(int api_furniture_type) {
-        this.api_furniture_type = api_furniture_type;
+    public void setFurniture(Furniture furniture) {
+        this.furniture = furniture;
     }
 
-    @Column(name = "furniture_id", type = int.class)
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((furniture == null) ? 0 : furniture.hashCode());
+        result = prime * result + (int) (member_id ^ (member_id >>> 32));
+        return result;
     }
 
-    @Column(name = "member_id", type = long.class)
-    public void setApi_member_id(long api_member_id) {
-        this.api_member_id = api_member_id;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MemberFurniture other = (MemberFurniture) obj;
+        if (furniture == null) {
+            if (other.furniture != null)
+                return false;
+        } else if (!furniture.equals(other.furniture))
+            return false;
+        if (member_id != other.member_id)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("MemberFurniture [member_id=%s, furniture=%s]", member_id, furniture);
     }
 }

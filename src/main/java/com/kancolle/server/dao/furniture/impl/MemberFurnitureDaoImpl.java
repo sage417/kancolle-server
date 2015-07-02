@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.dao.member.impl;
+package com.kancolle.server.dao.furniture.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +11,9 @@ import org.springframework.stereotype.Repository;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
-import com.kancolle.server.dao.member.MemberFurnitureDao;
+import com.kancolle.server.dao.furniture.MemberFurnitureDao;
 import com.kancolle.server.model.po.furniture.Furniture;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 
 /**
  * @author J.K.SAGE
@@ -27,6 +28,11 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements Membe
         params.put("member_id", member_id);
         params.put("furniture_id", furniture_id);
         return params;
+    }
+
+    @Override
+    public List<MemberFurniture> getFurniture(String member_id) {
+        return getSqlSession().selectList("selectMemberFurnitures", member_id);
     }
 
     @Override

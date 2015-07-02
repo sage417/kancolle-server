@@ -16,7 +16,6 @@ import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
-import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 
 @Repository
@@ -30,11 +29,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Autowired
     private ShipDao shipDao;
-
-    @Override
-    public List<MemberFurniture> getFurniture(String member_id) {
-        return queryForModels(MemberFurniture.class, "SELECT * FROM v_member_furniture WHERE member_id = :member_id", getMemParamMap(member_id));
-    }
 
     @Override
     public List<MemberKdock> getKdock(String member_id) {

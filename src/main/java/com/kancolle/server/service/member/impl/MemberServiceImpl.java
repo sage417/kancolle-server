@@ -18,7 +18,6 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
-import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberDeckPortService;
@@ -51,11 +50,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getBasic(String member_id) {
         return getMember(member_id);
-    }
-
-    @Override
-    public List<MemberFurniture> getFurniture(String member_id) {
-        return memberDao.getFurniture(member_id);
     }
 
     @Override

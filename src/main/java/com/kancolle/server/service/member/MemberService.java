@@ -7,14 +7,11 @@ import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
-import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 
 public interface MemberService {
 
     Member getBasic(String member_id);
-
-    List<MemberFurniture> getFurniture(String member_id);
 
     List<MemberKdock> getKdock(String member_id);
 

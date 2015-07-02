@@ -16,9 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
-import com.kancolle.server.dao.member.MemberFurnitureDao;
+import com.kancolle.server.dao.furniture.MemberFurnitureDao;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.furniture.FurnitureType;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
@@ -38,6 +39,11 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
     @Autowired
     private MemberService memberService;
+
+    @Override
+    public List<MemberFurniture> getFurniture(String member_id) {
+        return memberFurnitureDao.getFurniture(member_id);
+    }
 
     @Override
     public void changeFurniture(String member_id, FurnitureChangeForm form) {

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.furniture.FurnitureDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
 	<resultMap type="Furniture" id="FurnitureRM" autoMapping="true">
 		<id property="furnitureId" column="ID" />
 		<result property="saleFalg" column="SALEFLG"/>
@@ -17,6 +20,10 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="selectFurnitureById" resultMap="FurnitureRM">
+		SELECT * FROM t_furniture WHERE ID = #{furniture_id}
+	</select>
 
 	<select id="selectFurnitureByCond" resultMap="FurnitureRM">
 		SELECT * FROM t_furniture
@@ -28,17 +35,5 @@
 				AND NO = #{furniture_no}
 			</if>
 		</where>
-	</select>
-
-	<insert id="insertMemberFurniture">
-		INSERT INTO t_member_furniture (member_id, furniture_id) VALUES (#{member_id}, #{furniture_id})
-	</insert>
-
-	<update id="costMemberFurnitureCoin">
-		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
-	</update>
-	
-	<select id="selectCountOfMemberFurniture" resultType="int">
-		SELECT COUNT(*) FROM t_member_furniture WHERE member_id = #{member_id}
 	</select>
 </mapper>

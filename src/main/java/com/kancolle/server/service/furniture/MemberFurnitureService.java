@@ -3,9 +3,12 @@
  */
 package com.kancolle.server.service.furniture;
 
+import java.util.List;
+
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.po.furniture.Furniture;
+import com.kancolle.server.model.po.furniture.MemberFurniture;
 
 /**
  * @author J.K.SAGE
@@ -13,6 +16,8 @@ import com.kancolle.server.model.po.furniture.Furniture;
  *
  */
 public interface MemberFurnitureService {
+
+    List<MemberFurniture> getFurniture(String member_id);
 
     Furniture getMemberFurniture(String member_id, Integer furniture_id);
 
