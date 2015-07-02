@@ -562,7 +562,7 @@ CREATE TABLE `t_member_useitem` (
 
 /*Data for the table `t_member_useitem` */
 
-insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (2,8006690,10,0),(3,8006690,11,0),(4,8006690,12,0),(5,8006690,50,0),(6,8006690,51,0),(7,8006690,52,0),(8,8006690,54,0),(9,8006690,55,0),(10,8006690,56,0),(11,8006690,57,0),(12,8006690,58,0),(13,8006690,59,0),(14,8006690,60,0),(15,8006690,61,0),(16,8006690,62,0),(17,8006690,63,0);
+insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (2,8006690,10,0),(3,8006690,11,0),(4,8006690,12,0),(5,8006690,50,0),(6,8006690,51,0),(7,8006690,52,0),(8,8006690,54,0),(9,8006690,55,0),(10,8006690,56,0),(11,8006690,57,0),(12,8006690,58,0),(13,8006690,59,0),(14,8006690,60,1),(15,8006690,61,0),(16,8006690,62,0),(17,8006690,63,0);
 
 /*Table structure for table `t_mission` */
 
@@ -1046,20 +1046,6 @@ DROP TABLE IF EXISTS `v_member_deckport`;
  `locked` tinyint(3) unsigned 
 )*/;
 
-/*Table structure for table `v_member_furniture` */
-
-DROP TABLE IF EXISTS `v_member_furniture`;
-
-/*!50001 DROP VIEW IF EXISTS `v_member_furniture` */;
-/*!50001 DROP TABLE IF EXISTS `v_member_furniture` */;
-
-/*!50001 CREATE TABLE  `v_member_furniture`(
- `member_id` bigint(20) unsigned ,
- `furniture_type` smallint(3) unsigned ,
- `furniture_no` smallint(3) unsigned ,
- `furniture_id` int(10) unsigned 
-)*/;
-
 /*Table structure for table `v_member_kdock` */
 
 DROP TABLE IF EXISTS `v_member_kdock`;
@@ -1168,13 +1154,6 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
-
-/*View structure for view v_member_furniture */
-
-/*!50001 DROP TABLE IF EXISTS `v_member_furniture` */;
-/*!50001 DROP VIEW IF EXISTS `v_member_furniture` */;
-
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_furniture` AS select `t_member_furniture`.`member_id` AS `member_id`,`t_furniture`.`TYPE` AS `furniture_type`,`t_furniture`.`NO` AS `furniture_no`,`t_furniture`.`ID` AS `furniture_id` from (`t_furniture` join `t_member_furniture` on((`t_member_furniture`.`furniture_id` = `t_furniture`.`ID`))) order by `t_member_furniture`.`member_id`,`t_furniture`.`ID` */;
 
 /*View structure for view v_member_kdock */
 

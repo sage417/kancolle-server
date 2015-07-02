@@ -9,18 +9,6 @@
 		<result property="saleFalg" column="SALEFLG"/>
 	</resultMap>
 
-	<select id="selectMemberFurnitureByCond" resultMap="FurnitureRM">
-		SELECT f.* FROM t_member_furniture mf INNER JOIN t_furniture f ON mf.furniture_id = f.ID
-		<where>
-			<if test="member_id != null ">
-				mf.member_id = #{member_id}
-			</if>
-			<if test="furniture_id != null">
-				AND mf.furniture_id = #{furniture_id}
-			</if>
-		</where>
-	</select>
-	
 	<select id="selectFurnitureById" resultMap="FurnitureRM">
 		SELECT * FROM t_furniture WHERE ID = #{furniture_id}
 	</select>
