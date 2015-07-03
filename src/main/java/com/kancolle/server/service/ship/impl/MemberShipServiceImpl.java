@@ -130,6 +130,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void increaseMemberShipExp(MemberShip memberShip, int exp) {
         if (memberShip == null || exp < 0) {
             throw new IllegalArgumentException();
@@ -259,19 +260,30 @@ public class MemberShipServiceImpl implements MemberShipService {
         return new MemberShipLockResult(lock);
     }
 
+    /**
+     * 近现代改修需要做些什么？<br>
+     * 检查舰娘是否上锁<br>
+     * 检查舰娘身上是否有上锁装备<br>
+     * 如果舰娘在舰队中则检查舰队状态是否为空闲状态<br>
+     * 删除舰队中舰娘的信息（两处）<br>
+     * 删除舰娘身上装备信息（两处）<br>
+     * 删除舰娘<br>
+     * 更新增加的属性<br>
+     */
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form) {
         Long ship_id = form.getApi_id();
         List<Long> member_ship_ids = form.getApi_id_items();
 
         MemberShip memberShip = getMemberShip(member_id, ship_id);
-        if (memberShip == null) {
+        if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
             throw new IllegalArgumentException();
         }
         Ship ship = memberShip.getShip();
 
         // length = 5
-        int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTaik().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
+        int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
         // length = 4
         int[] powUpArray = new int[] { 0, 0, 0, 0 };
         float powupLuck = 0f;
@@ -327,6 +339,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         }
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
+
         return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 }
