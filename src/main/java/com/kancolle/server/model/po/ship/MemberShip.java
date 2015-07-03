@@ -30,11 +30,15 @@ public class MemberShip {
     @JSONField(serialize = false, deserialize = false)
     private Ship ship;
 
-    @JSONField(ordinal = 2)
-    private int api_sortno;
+    @JSONField(ordinal = 2, name = "api_sortno")
+    public int returnSortNo() {
+        return getShip().getSortno();
+    }
 
-    @JSONField(ordinal = 3)
-    private int api_ship_id;
+    @JSONField(ordinal = 3, name = "api_ship_id")
+    public int returnShipId() {
+        return getShip().getShipId();
+    }
 
     @JSONField(ordinal = 4, name = "api_lv")
     private int lv;
@@ -63,8 +67,10 @@ public class MemberShip {
     @JSONField(ordinal = 11, name = "api_kyouka")
     private int[] kyouka;
 
-    @JSONField(ordinal = 12)
-    private int api_backs;
+    @JSONField(ordinal = 12, name = "api_backs")
+    public int returnBacks() {
+        return getShip().getBacks();
+    }
 
     @JSONField(ordinal = 13, name = "api_fuel")
     private int fuel;
@@ -72,8 +78,10 @@ public class MemberShip {
     @JSONField(ordinal = 14, name = "api_bull")
     private int bull;
 
-    @JSONField(ordinal = 15)
-    private int api_slotnum;
+    @JSONField(ordinal = 15, name = "api_slotnum")
+    public int returnslotNum() {
+        return getShip().getSoltNum();
+    }
 
     @JSONField(ordinal = 16)
     private long api_ndock_time;
@@ -87,29 +95,45 @@ public class MemberShip {
     @JSONField(ordinal = 19, name = "api_cond")
     private int cond;
 
-    @JSONField(ordinal = 20)
-    private int[] api_karyoku;
+    @JSONField(ordinal = 20, name = "api_karyoku")
+    public int[] returnKaryoku() {
+        return getKaryoku().toArray();
+    }
 
-    @JSONField(ordinal = 21)
-    private int[] api_raisou;
+    @JSONField(ordinal = 21, name = "api_raisou")
+    public int[] returnRaisou() {
+        return getRaisou().toArray();
+    }
 
-    @JSONField(ordinal = 22)
-    private int[] api_taiku;
+    @JSONField(ordinal = 22, name = "api_taiku")
+    public int[] returnTaiku() {
+        return getTaiku().toArray();
+    }
 
-    @JSONField(ordinal = 23)
-    private int[] api_soukou;
+    @JSONField(ordinal = 23, name = "api_soukou")
+    public int[] returnSoukou() {
+        return getSoukou().toArray();
+    }
 
-    @JSONField(ordinal = 24)
-    private int[] api_kaihi;
+    @JSONField(ordinal = 24, name = "api_kaihi")
+    public int[] returnKaihi() {
+        return getKaihi().toArray();
+    }
 
-    @JSONField(ordinal = 25)
-    private int[] api_taisen;
+    @JSONField(ordinal = 25, name = "api_taisen")
+    public int[] returnTaisen() {
+        return getTaisen().toArray();
+    }
 
-    @JSONField(ordinal = 26)
-    private int[] api_sakuteki;
+    @JSONField(ordinal = 26, name = "api_sakuteki")
+    public int[] returnSakuteki() {
+        return getSakuteki().toArray();
+    }
 
-    @JSONField(ordinal = 27)
-    private int[] api_lucky;
+    @JSONField(ordinal = 27, name = "api_lucky")
+    public int[] returnLuck() {
+        return getLucky().toArray();
+    }
 
     /** 火力 */
     @JSONField(serialize = false, deserialize = false)
@@ -277,7 +301,6 @@ public class MemberShip {
 
     public void setKaryoku(MaxMinValue karyoku) {
         this.karyoku = karyoku;
-        setApi_karyoku(karyoku.toArray());
     }
 
     public MaxMinValue getRaisou() {
@@ -286,7 +309,6 @@ public class MemberShip {
 
     public void setRaisou(MaxMinValue raisou) {
         this.raisou = raisou;
-        setApi_raisou(raisou.toArray());
     }
 
     public MaxMinValue getTaiku() {
@@ -295,7 +317,6 @@ public class MemberShip {
 
     public void setTaiku(MaxMinValue taiku) {
         this.taiku = taiku;
-        setApi_taiku(taiku.toArray());
     }
 
     public MaxMinValue getSoukou() {
@@ -304,7 +325,6 @@ public class MemberShip {
 
     public void setSoukou(MaxMinValue soukou) {
         this.soukou = soukou;
-        setApi_soukou(soukou.toArray());
     }
 
     public MaxMinValue getKaihi() {
@@ -313,7 +333,6 @@ public class MemberShip {
 
     public void setKaihi(MaxMinValue kaihi) {
         this.kaihi = kaihi;
-        setApi_kaihi(kaihi.toArray());
     }
 
     public MaxMinValue getTaisen() {
@@ -322,7 +341,6 @@ public class MemberShip {
 
     public void setTaisen(MaxMinValue taisen) {
         this.taisen = taisen;
-        setApi_taisen(taisen.toArray());
     }
 
     public MaxMinValue getSakuteki() {
@@ -331,7 +349,6 @@ public class MemberShip {
 
     public void setSakuteki(MaxMinValue sakuteki) {
         this.sakuteki = sakuteki;
-        setApi_sakuteki(sakuteki.toArray());
     }
 
     public MaxMinValue getLucky() {
@@ -340,7 +357,6 @@ public class MemberShip {
 
     public void setLucky(MaxMinValue lucky) {
         this.lucky = lucky;
-        setApi_lucky(lucky.toArray());
     }
 
     public boolean isLocked() {
@@ -385,108 +401,12 @@ public class MemberShip {
         this.kyouka = kyouka;
     }
 
-    public int getApi_sortno() {
-        return getShip().getSortno();
-    }
-
-    public void setApi_sortno(int api_sortno) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int getApi_ship_id() {
-        return getShip().getShipId();
-    }
-
-    public void setApi_ship_id(int api_ship_id) {
-        throw new UnsupportedOperationException();
-    }
-
     public long[] getApi_slot() {
         return api_slot;
     }
 
     public void setApi_slot(long[] api_slot) {
         this.api_slot = api_slot;
-    }
-
-    public int getApi_backs() {
-        return getShip().getBacks();
-    }
-
-    public void setApi_backs(int api_backs) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int getApi_slotnum() {
-        return getShip().getSoltNum();
-    }
-
-    public void setApi_slotnum(int api_slotnum) {
-        throw new UnsupportedOperationException();
-    }
-
-    public int[] getApi_karyoku() {
-        return api_karyoku;
-    }
-
-    public void setApi_karyoku(int[] api_karyoku) {
-        this.api_karyoku = api_karyoku;
-    }
-
-    public int[] getApi_raisou() {
-        return api_raisou;
-    }
-
-    public void setApi_raisou(int[] api_raisou) {
-        this.api_raisou = api_raisou;
-    }
-
-    public int[] getApi_taiku() {
-        return api_taiku;
-    }
-
-    public void setApi_taiku(int[] api_taiku) {
-        this.api_taiku = api_taiku;
-    }
-
-    public int[] getApi_soukou() {
-        return api_soukou;
-    }
-
-    public void setApi_soukou(int[] api_soukou) {
-        this.api_soukou = api_soukou;
-    }
-
-    public int[] getApi_kaihi() {
-        return api_kaihi;
-    }
-
-    public void setApi_kaihi(int[] api_kaihi) {
-        this.api_kaihi = api_kaihi;
-    }
-
-    public int[] getApi_taisen() {
-        return api_taisen;
-    }
-
-    public void setApi_taisen(int[] api_taisen) {
-        this.api_taisen = api_taisen;
-    }
-
-    public int[] getApi_sakuteki() {
-        return api_sakuteki;
-    }
-
-    public void setApi_sakuteki(int[] api_sakuteki) {
-        this.api_sakuteki = api_sakuteki;
-    }
-
-    public int[] getApi_lucky() {
-        return api_lucky;
-    }
-
-    public void setApi_lucky(int[] api_lucky) {
-        this.api_lucky = api_lucky;
     }
 
     @Override

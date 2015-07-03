@@ -113,7 +113,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
 
     @Override
     public void updateMemberShipSlotValue(MemberShip memberShip) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(9);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(10);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
         params.put("soukou", memberShip.getSoukou());
@@ -123,7 +123,9 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("taisen", memberShip.getTaisen());
         params.put("kaihi", memberShip.getKaihi());
         params.put("sakuteki", memberShip.getSakuteki());
-        getSqlSession().update("updateMemberShipSlotValue", params);
+        params.put("luck", memberShip.getLucky());
+        params.put("kyouka", JSON.toJSONString(memberShip.getKyouka()));
+        getSqlSession().update("updateMemberShipValue", params);
     }
 
     @Override

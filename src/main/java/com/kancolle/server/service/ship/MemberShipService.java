@@ -7,11 +7,13 @@ import java.util.List;
 
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
+import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 
 /**
  * @author J.K.SAGE
@@ -46,4 +48,7 @@ public interface MemberShipService {
 
     /** 上锁 */
     MemberShipLockResult lock(String member_id, Long member_ship_id);
+
+    /** 合成 */
+    MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form);
 }

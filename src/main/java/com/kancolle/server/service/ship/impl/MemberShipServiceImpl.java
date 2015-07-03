@@ -5,8 +5,10 @@ package com.kancolle.server.service.ship.impl;
 
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
+import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
@@ -25,6 +28,7 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
@@ -44,6 +48,8 @@ import com.kancolle.server.utils.logic.LVUtil;
 
 @Service
 public class MemberShipServiceImpl implements MemberShipService {
+    private static final Random r = new Random();
+
     @Autowired
     private MemberShipDao memberShipDao;
 
@@ -257,5 +263,71 @@ public class MemberShipServiceImpl implements MemberShipService {
         Boolean lock = Boolean.valueOf(!memberShip.isLocked());
         memberShipDao.updateMemberShipLockStatue(member_id, member_ship_id, lock);
         return new MemberShipLockResult(lock);
+    }
+
+    @Override
+    public MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form) {
+        Long ship_id = form.getApi_id();
+        List<Long> member_ship_ids = form.getApi_id_items();
+
+        MemberShip memberShip = getMemberShip(member_id, ship_id);
+        if (memberShip == null) {
+            throw new IllegalArgumentException();
+        }
+        Ship ship = memberShip.getShip();
+
+        int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTaik().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
+        int[] powUpArray = new int[] { 0, 0, 0, 0, 0 };
+        BigDecimal powupLuck = new BigDecimal(0);
+
+        for (Long id : member_ship_ids) {
+            MemberShip powupShip = getMemberShip(member_id, id);
+            if (powupShip == null) {
+                throw new IllegalArgumentException();
+            }
+            int[] shippowup = powupShip.getShip().getPowUpArray();
+            for (int i = 0; i < shippowup.length; i++) {
+                powUpArray[i] += shippowup[i];
+            }
+            if (powupShip.getShip().getShipId() == 163) {
+                powupLuck = powupLuck.add(new BigDecimal("1.2"));
+            } else if (powupShip.getShip().getShipId() == 402) {
+                powupLuck = powupLuck.add(new BigDecimal("1.6"));
+            }
+        }
+        powUpArray[4] = powupLuck.intValue();
+
+        for (int i = 0; i < powUpArray.length; i++) {
+            // ----------------奖励补正------------------//
+            if (powUpArray[i] == 0 || i == powUpArray.length - 1) {
+            } else if (powUpArray[i] > 18) {
+                powUpArray[i] += 4;
+            } else if (powUpArray[i] > 13) {
+                powUpArray[i] += 3;
+            } else if (powUpArray[i] > 8) {
+                powUpArray[i] += 2;
+            } else if (powUpArray[i] > 3) {
+                powUpArray[i] += 1;
+            }
+            // ----------------奖励补正------------------//
+
+            // ----------------随机补正------------------//
+            if (powUpArray[i] == 0 || (i == powUpArray.length - 1 && powUpArray[powUpArray.length - 1] >= 8)) {
+            } else {
+                powUpArray[i] /= (r.nextInt(2) + 1);
+            }
+            // ----------------随机补正------------------//
+
+            // ----------------最大值补正------------------//
+            if (powUpArray[i] != 0) {
+                memberShip.getKyouka()[i] = memberShip.getKyouka()[i] + powUpArray[i];
+                if (memberShip.getKyouka()[i] > powUpMaxArray[i])
+                    memberShip.getKyouka()[i] = powUpMaxArray[i];
+            }
+            // ----------------最大值补正------------------//
+        }
+        calMemberShipPropertiesViaSlot(memberShip);
+        memberShipDao.updateMemberShipSlotValue(memberShip);
+        return new MemberShipPowerupResult(MemberShipPowerupResult.RESULT_SUCCESS, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 }

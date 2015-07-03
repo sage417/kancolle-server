@@ -60,5 +60,6 @@ public class MemberShipUtils {
         memberShip.getTaisen().setMinValue(shipTaisen);
         memberShip.getKaihi().setMinValue(shipKaihi);
         memberShip.getSakuteki().setMinValue(shipSakuteki);
+        memberShip.getLucky().setMinValue(shipLuck);
     }
 }

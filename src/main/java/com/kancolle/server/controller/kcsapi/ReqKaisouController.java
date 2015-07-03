@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
+import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
@@ -54,5 +56,15 @@ public class ReqKaisouController {
     public APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_slotitem_id", required = true) Long slotitem_id) {
         MemberSlotItemLockResult api_data = memberSlotItemService.lock(member_id, slotitem_id);
         return new APIResponse<MemberSlotItemLockResult>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/powerup")
+    public APIResponse<MemberShipPowerupResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipPowerUpForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException();
+        }
+
+        MemberShipPowerupResult api_data = memberShipService.powerup(member_id, form);
+        return new APIResponse<MemberShipPowerupResult>().setApi_data(api_data);
     }
 }

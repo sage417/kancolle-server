@@ -46,7 +46,7 @@ public class ShipServiceImplTest {
 
     @Test
     public void testGetMemberShip() {
-        MemberShip ship = memberShipService.getMemberShip("8006690", 1L);
+        MemberShip ship = memberShipService.getMemberShip("8006690", 6L);
         Assert.assertTrue(!ship.getSlot().isEmpty());
     }
 
