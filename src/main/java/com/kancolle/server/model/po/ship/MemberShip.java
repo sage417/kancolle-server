@@ -280,7 +280,25 @@ public class MemberShip {
     }
 
     public int getSrate() {
-        return srate;
+        int grownSum = getShip().getHoug().getGrowValue() + getShip().getRaig().getGrowValue() + getShip().getTaik().getGrowValue() + getShip().getSouk().getGrowValue();
+        int grownValue = 0;
+        for (int value : getKyouka()) {
+            grownValue += value;
+        }
+
+        float div = 1f * grownValue / grownSum;
+
+        if (div == 1) {
+            return 5;
+        } else if (div > 0.6f) {
+            return 4;
+        } else if (div > 0.4f) {
+            return 3;
+        } else if (div > 0.2f) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     public void setSrate(int srate) {

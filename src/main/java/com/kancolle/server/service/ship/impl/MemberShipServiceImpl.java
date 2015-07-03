@@ -27,6 +27,7 @@ import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.ship.Ship;
@@ -277,7 +278,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         Ship ship = memberShip.getShip();
 
         int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTaik().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
-        int[] powUpArray = new int[] { 0, 0, 0, 0, 0 };
+        int[] powUpArray = new int[] { 0, 0, 0, 0 };
         BigDecimal powupLuck = new BigDecimal(0);
 
         for (Long id : member_ship_ids) {
@@ -295,11 +296,10 @@ public class MemberShipServiceImpl implements MemberShipService {
                 powupLuck = powupLuck.add(new BigDecimal("1.6"));
             }
         }
-        powUpArray[4] = powupLuck.intValue();
 
         for (int i = 0; i < powUpArray.length; i++) {
             // ----------------奖励补正------------------//
-            if (powUpArray[i] == 0 || i == powUpArray.length - 1) {
+            if (powUpArray[i] == 0) {
             } else if (powUpArray[i] > 18) {
                 powUpArray[i] += 4;
             } else if (powUpArray[i] > 13) {
@@ -312,10 +312,8 @@ public class MemberShipServiceImpl implements MemberShipService {
             // ----------------奖励补正------------------//
 
             // ----------------随机补正------------------//
-            if (powUpArray[i] == 0 || (i == powUpArray.length - 1 && powUpArray[powUpArray.length - 1] >= 8)) {
-            } else {
+            if (powUpArray[i] > 0)
                 powUpArray[i] /= (r.nextInt(2) + 1);
-            }
             // ----------------随机补正------------------//
 
             // ----------------最大值补正------------------//
@@ -326,6 +324,22 @@ public class MemberShipServiceImpl implements MemberShipService {
             }
             // ----------------最大值补正------------------//
         }
+
+        // ----------------幸运随机补正------------------//
+        int truepowupLuck = powupLuck.intValue();
+        if (truepowupLuck != 8) {
+            truepowupLuck /= (r.nextInt(2) + 1);
+        }
+        // ----------------幸运随机补正------------------//
+
+        // ----------------幸运最大值补正------------------//
+        if (truepowupLuck != 0) {
+            MaxMinValue luck = memberShip.getLucky();
+            luck.setMinValue(luck.getMinValue() + truepowupLuck);
+            if (luck.getMinValue() > luck.getMaxValue())
+                luck.setMinValue(luck.getMaxValue());
+        }
+        // ----------------幸运最大值补正------------------//
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
         return new MemberShipPowerupResult(MemberShipPowerupResult.RESULT_SUCCESS, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));

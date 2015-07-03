@@ -22,7 +22,6 @@ public class MemberShipUtils {
         int shipRaig = ship.getRaig().getMinValue() + memberShip.getKyouka()[1];
         int shipTaiku = ship.getTyku().getMinValue() + memberShip.getKyouka()[2];
         int shipSouk = ship.getSouk().getMinValue() + memberShip.getKyouka()[3];
-        int shipLuck = ship.getLuck().getMinValue() + memberShip.getKyouka()[4];
         // ---------------可改造属性-------------//
 
         // --------------根据等级成长属性---------------//
@@ -60,6 +59,6 @@ public class MemberShipUtils {
         memberShip.getTaisen().setMinValue(shipTaisen);
         memberShip.getKaihi().setMinValue(shipKaihi);
         memberShip.getSakuteki().setMinValue(shipSakuteki);
-        memberShip.getLucky().setMinValue(shipLuck);
+        // memberShip.getLucky().setMinValue(shipLuck);
     }
 }
