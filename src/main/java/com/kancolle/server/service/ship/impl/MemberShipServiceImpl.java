@@ -3,9 +3,10 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_FAILED;
+import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +23,6 @@ import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
-import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
@@ -34,7 +34,6 @@ import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
-import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
@@ -55,13 +54,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     private MemberShipDao memberShipDao;
 
     @Autowired
-    private PortDao portDao;
-
-    @Autowired
     private ShipService shipService;
-
-    @Autowired
-    private MemberService memberService;
 
     @Autowired
     private MemberResourceService memberResourceService;
@@ -277,9 +270,11 @@ public class MemberShipServiceImpl implements MemberShipService {
         }
         Ship ship = memberShip.getShip();
 
+        // length = 5
         int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTaik().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
+        // length = 4
         int[] powUpArray = new int[] { 0, 0, 0, 0 };
-        BigDecimal powupLuck = new BigDecimal(0);
+        float powupLuck = 0f;
 
         for (Long id : member_ship_ids) {
             MemberShip powupShip = getMemberShip(member_id, id);
@@ -291,57 +286,47 @@ public class MemberShipServiceImpl implements MemberShipService {
                 powUpArray[i] += shippowup[i];
             }
             if (powupShip.getShip().getShipId() == 163) {
-                powupLuck = powupLuck.add(new BigDecimal("1.2"));
+                powupLuck += 1.2f;
             } else if (powupShip.getShip().getShipId() == 402) {
-                powupLuck = powupLuck.add(new BigDecimal("1.6"));
+                powupLuck += 1.6f;
             }
         }
+
+        boolean powUpResult = false;
 
         for (int i = 0; i < powUpArray.length; i++) {
-            // ----------------奖励补正------------------//
-            if (powUpArray[i] == 0) {
-            } else if (powUpArray[i] > 18) {
-                powUpArray[i] += 4;
-            } else if (powUpArray[i] > 13) {
-                powUpArray[i] += 3;
-            } else if (powUpArray[i] > 8) {
-                powUpArray[i] += 2;
-            } else if (powUpArray[i] > 3) {
-                powUpArray[i] += 1;
-            }
-            // ----------------奖励补正------------------//
-
-            // ----------------随机补正------------------//
-            if (powUpArray[i] > 0)
+            if (powUpArray[i] > 0) {
+                // 奖励补正
+                powUpArray[i] += (powUpArray[i] + 1) / 5;
+                // 随机补正
                 powUpArray[i] /= (r.nextInt(2) + 1);
-            // ----------------随机补正------------------//
-
-            // ----------------最大值补正------------------//
-            if (powUpArray[i] != 0) {
-                memberShip.getKyouka()[i] = memberShip.getKyouka()[i] + powUpArray[i];
-                if (memberShip.getKyouka()[i] > powUpMaxArray[i])
-                    memberShip.getKyouka()[i] = powUpMaxArray[i];
+                // 最大值补正
+                if (powUpArray[i] > 0) {
+                    powUpResult = true;
+                    memberShip.getKyouka()[i] = memberShip.getKyouka()[i] + powUpArray[i];
+                    if (memberShip.getKyouka()[i] > powUpMaxArray[i])
+                        memberShip.getKyouka()[i] = powUpMaxArray[i];
+                }
             }
-            // ----------------最大值补正------------------//
         }
 
-        // ----------------幸运随机补正------------------//
-        int truepowupLuck = powupLuck.intValue();
-        if (truepowupLuck != 8) {
-            truepowupLuck /= (r.nextInt(2) + 1);
-        }
-        // ----------------幸运随机补正------------------//
+        int addLuck = (int) powupLuck;
 
-        // ----------------幸运最大值补正------------------//
-        if (truepowupLuck != 0) {
-            MaxMinValue luck = memberShip.getLucky();
-            luck.setMinValue(luck.getMinValue() + truepowupLuck);
-            if (luck.getMinValue() > luck.getMaxValue())
-                luck.setMinValue(luck.getMaxValue());
+        if (addLuck > 0) {
+            if (addLuck < 8)
+                // 幸运随机补正
+                addLuck /= (r.nextInt(2) + 1);
+            if (addLuck > 0) {
+                powUpResult = true;
+                MaxMinValue luck = memberShip.getLucky();
+                luck.setMinValue(luck.getMinValue() + addLuck);
+                if (luck.getMinValue() > luck.getMaxValue())
+                    // 幸运最大值补正
+                    luck.setMinValue(luck.getMaxValue());
+            }
         }
-        // ----------------幸运最大值补正------------------//
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
-        return new MemberShipPowerupResult(MemberShipPowerupResult.RESULT_SUCCESS, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
+        return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 }
