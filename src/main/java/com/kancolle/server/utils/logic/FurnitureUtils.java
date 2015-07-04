@@ -10,12 +10,16 @@ import static com.kancolle.server.model.po.furniture.FurnitureType.WALLHANGING;
 import static com.kancolle.server.model.po.furniture.FurnitureType.WALLPAPER;
 import static com.kancolle.server.model.po.furniture.FurnitureType.WINDOW;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.po.furniture.FurnitureType;
 import com.kancolle.server.utils.BeanUtils;
@@ -26,10 +30,12 @@ import com.kancolle.server.utils.BeanUtils;
  *
  */
 public class FurnitureUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FurnitureUtils.class);
+
     private static final Map<FurnitureType, Function<FurnitureChangeForm, Integer>> typeToFurnitureId;
 
     static {
-        typeToFurnitureId = new HashMap<FurnitureType, Function<FurnitureChangeForm, Integer>>(6);
+        typeToFurnitureId = Maps.newHashMapWithExpectedSize(6);
         typeToFurnitureId.put(FLOOR, FurnitureChangeForm::getApi_floor);
         typeToFurnitureId.put(WALLPAPER, FurnitureChangeForm::getApi_wallpaper);
         typeToFurnitureId.put(WINDOW, FurnitureChangeForm::getApi_window);
@@ -47,10 +53,9 @@ public class FurnitureUtils {
         List<Integer> furnitureIds = Lists.newArrayListWithCapacity(furnitureCount);
         BeanUtils.getGetMethodStream(FurnitureChangeForm.class, int.class).forEach(method -> {
             try {
-                furnitureIds.add((int) method.invoke(form, new Object[] {}));
+                furnitureIds.add((int) method.invoke(form, ArrayUtils.EMPTY_OBJECT_ARRAY));
             } catch (Exception e) {
-                // TODO LOG
-                e.printStackTrace();
+                LOGGER.error("Error Happen in FurnitureUtils", e);
             }
         });
         return furnitureIds;

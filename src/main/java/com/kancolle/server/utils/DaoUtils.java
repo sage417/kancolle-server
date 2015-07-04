@@ -82,7 +82,7 @@ public class DaoUtils {
                 Method daoMethod = dao.getClass().getMethod(GET_PARAM_NAME.apply(method.getName()), parameterTypes);
                 method.invoke(instance, daoMethod.invoke(dao, parameters));
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Error Happen in setBean", e);
             }
         });
         return instance;
