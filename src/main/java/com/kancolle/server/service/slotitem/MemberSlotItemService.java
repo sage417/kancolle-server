@@ -25,4 +25,7 @@ public interface MemberSlotItemService {
     /** 裝備加鎖、解鎖 */
     MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
 
+    /** 解体装备 */
+    void distorySlotitems(String member_id, List<Long> slotitems);
+
 }

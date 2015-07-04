@@ -51,4 +51,7 @@ public interface MemberShipService {
 
     /** 合成 */
     MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form);
+
+    /** 解体 */
+    void destoryShips(String member_id, List<Long> memberShipIds);
 }

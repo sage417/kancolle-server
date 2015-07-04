@@ -136,4 +136,12 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("lock", lock);
         getSqlSession().update("updateMemberShipLockStatue", params);
     }
+
+    @Override
+    public void deleteMemberShips(String member_id, List<Long> member_ship_ids) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("member_ship_ids", member_ship_ids);
+        getSqlSession().update("deleteMemberShips", params);
+    }
 }

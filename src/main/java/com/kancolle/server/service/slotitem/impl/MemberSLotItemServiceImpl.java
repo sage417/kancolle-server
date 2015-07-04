@@ -74,4 +74,14 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
         return new MemberSlotItemLockResult(lock.booleanValue());
     }
+
+    @Override
+    public void distorySlotitems(String member_id, List<Long> slotitem_ids) {
+        for (Long slotitem_id : slotitem_ids) {
+            MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
+            if (slotitem == null || slotitem.getLocked())
+                throw new IllegalStateException();
+        }
+        memberSlotItemDao.delete(member_id, slotitem_ids);
+    }
 }

@@ -38,4 +38,16 @@
 			member_id = #{member_id}
 			AND ID = #{member_slotitem_id}
 	</update>
+	
+	<update id="deleteMemberSlotitems">
+		UDPATE t_member_slotitem SET
+			DELETED = 1,
+			DELETED_TIME = NOW()
+		WHERE
+			member_id = #{member_id}
+			AND ID IN
+			<foreach collection="slotitem_ids" item="slotitem_id" open="(" separator="," close=")">
+				${slotitem_id}
+			</foreach>
+	</update>
 </mapper>

@@ -102,4 +102,16 @@
 			member_id = #{member_id}
 			AND ID = #{member_ship_id}
 	</update>
-</mapper>
+	
+	<update id="deleteMemberShips">
+		UPDATE t_member_ship SET
+			DELETED = 1,
+			DELETED_TIME = NOW()
+		WHERE
+			member_id = #{member_id}
+			AND ID IN
+		<foreach collection="member_ship_ids" item="member_ship_id" open="(" separator="," close=")">
+			${member_ship_id}
+		</foreach>
+	</update>
+	</mapper>

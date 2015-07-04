@@ -23,4 +23,6 @@ public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
     int updateMemberSlotItemLockStatue(String member_id, Long member_slotitem_id, Boolean lock);
 
+    void delete(String member_id, List<Long> slotitem_ids);
+
 }

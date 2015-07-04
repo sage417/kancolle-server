@@ -53,4 +53,12 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
         params.put("lock", lock);
         return getSqlSession().update("updateMemberSlotItemLockStatue", params);
     }
+
+    @Override
+    public void delete(String member_id, List<Long> slotitem_ids) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("slotitem_ids", slotitem_ids);
+        getSqlSession().update("deleteMemberSlotitems", params);
+    }
 }

@@ -305,6 +305,13 @@ public class MemberShipServiceImpl implements MemberShipService {
                     throw new IllegalStateException();
                 memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
             }
+
+            if (!powupShip.getSlot().isEmpty()) {
+                List<Long> slotitem_ids = powupShip.getSlot().stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
+                unsetslotAll(member_id, id);
+                memberSlotItemService.distorySlotitems(member_id, slotitem_ids);
+            }
+
             int[] shippowup = powupShip.getShip().getPowUpArray();
             for (int i = 0; i < shippowup.length; i++) {
                 powUpArray[i] += shippowup[i];
@@ -352,6 +359,19 @@ public class MemberShipServiceImpl implements MemberShipService {
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
 
+        destoryShips(member_id, member_ship_ids);
+
         return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
+    }
+
+    @Override
+    public void destoryShips(String member_id, List<Long> member_ship_ids) {
+        for (Long member_ship_id : member_ship_ids) {
+            MemberShip memberShip = getMemberShip(member_id, member_ship_id);
+            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
+                throw new IllegalStateException();
+            }
+        }
+        memberShipDao.deleteMemberShips(member_id, member_ship_ids);
     }
 }

@@ -27,4 +27,6 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
     void updateMemberShipSlotValue(MemberShip memberShip);
 
     void updateMemberShipLockStatue(String member_id, Long member_ship_id, Boolean lock);
+
+    void deleteMemberShips(String member_id, List<Long> member_ship_ids);
 }
