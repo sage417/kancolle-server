@@ -66,11 +66,11 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
                 // TODO
                 throw new IllegalArgumentException();
             }
-            removeDeckPortShip(targetDeck, removeShips);
+            removeDeckPortShips(targetDeck, removeShips);
             return new MemberDeckPortChangeResult(removeShips.size());
         } else if (member_ship_id == -1L) {
             MemberShip removeShip = targetShips.get(ship_idx);
-            removeDeckPortShip(targetDeck, Collections.singletonList(removeShip));
+            removeDeckPortShips(targetDeck, Collections.singletonList(removeShip));
         } else {
             MemberShip memberShip = memberShipService.getMemberShip(member_id, member_ship_id);
 
@@ -98,37 +98,47 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         return null;
     }
 
-    private void removeDeckPortShip(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
+    public void removeDeckPortShips(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
         List<MemberShip> targetShips = targetDeck.getShips();
         targetShips.removeAll(removeShips);
         memberDeckPortDao.deleteDeckPortShip(targetDeck, removeShips);
     }
 
-    private void addDeckportShip(MemberDeckPort targetDeck, MemberShip memberShip) {
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
+    public void addDeckportShip(MemberDeckPort targetDeck, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         targetShips.add(memberShip);
         memberDeckPortDao.insertDeckPortShip(targetDeck, memberShip);
     }
 
-    private void replaceDeckPortShip(MemberDeckPort targetDeck, int ship_idx, MemberShip memberShip) {
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
+    public void replaceDeckPortShip(MemberDeckPort targetDeck, int ship_idx, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         memberDeckPortDao.updateDeckPortShip(targetDeck, targetShips.set(ship_idx, memberShip), memberShip);
     }
 
-    private void moveDeckPortShip(MemberDeckPort targetDeck, MemberDeckPort otherDock, MemberShip memberShip) {
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
+    public void moveDeckPortShip(MemberDeckPort targetDeck, MemberDeckPort otherDock, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         List<MemberShip> otherShips = otherDock.getShips();
         otherShips.remove(memberShip);
         targetShips.add(memberShip);
         if (!targetShips.equals(otherShips)) {
-            removeDeckPortShip(targetDeck, Collections.singletonList(memberShip));
+            removeDeckPortShips(targetDeck, Collections.singletonList(memberShip));
             addDeckportShip(targetDeck, memberShip);
         } else {
             memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
         }
     }
 
-    private void swapDeckPortShip(MemberDeckPort targetDeck, MemberDeckPort otherDock, int ship_idx, MemberShip memberShip) {
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
+    public void swapDeckPortShip(MemberDeckPort targetDeck, MemberDeckPort otherDock, int ship_idx, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         List<MemberShip> otherShips = otherDock.getShips();
         int other_index = otherShips.indexOf(memberShip);

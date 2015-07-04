@@ -28,6 +28,7 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.common.MaxMinValue;
+import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.ship.Ship;
@@ -281,6 +282,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
             throw new IllegalArgumentException();
         }
+
         Ship ship = memberShip.getShip();
 
         // length = 4
@@ -291,6 +293,12 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         for (Long id : member_ship_ids) {
             MemberShip powupShip = getMemberShip(member_id, id);
+            MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, id);
+            if (deckport != null) {
+                if (deckport.getMission()[0] != 0)
+                    throw new IllegalStateException();
+                memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
+            }
             if (powupShip == null) {
                 throw new IllegalArgumentException();
             }
