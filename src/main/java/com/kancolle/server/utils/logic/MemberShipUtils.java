@@ -61,4 +61,8 @@ public class MemberShipUtils {
         memberShip.getSakuteki().setMinValue(shipSakuteki);
         // memberShip.getLucky().setMinValue(shipLuck);
     }
+
+    public static int[] getShipPowupMaxArray(Ship ship) {
+        return new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue() };
+    }
 }

@@ -39,6 +39,7 @@ import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.utils.logic.LVUtil;
+import com.kancolle.server.utils.logic.MemberShipUtils;
 
 /**
  * @author J.K.SAGE
@@ -282,8 +283,8 @@ public class MemberShipServiceImpl implements MemberShipService {
         }
         Ship ship = memberShip.getShip();
 
-        // length = 5
-        int[] powUpMaxArray = new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue(), ship.getLuck().getGrowValue() };
+        // length = 4
+        int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(ship);
         // length = 4
         int[] powUpArray = new int[] { 0, 0, 0, 0 };
         float powupLuck = 0f;

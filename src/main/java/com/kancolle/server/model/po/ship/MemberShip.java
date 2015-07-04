@@ -3,13 +3,16 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.NdockUtils;
 
 /**
@@ -280,7 +283,7 @@ public class MemberShip {
     }
 
     public int getSrate() {
-        int grownSum = getShip().getHoug().getGrowValue() + getShip().getRaig().getGrowValue() + getShip().getTaik().getGrowValue() + getShip().getSouk().getGrowValue();
+        int grownSum = 
         int grownValue = 0;
         for (int value : getKyouka()) {
             grownValue += value;
