@@ -3,10 +3,9 @@
  */
 package com.kancolle.server.model.po.ship;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -283,12 +282,8 @@ public class MemberShip {
     }
 
     public int getSrate() {
-        int grownSum = 
-        int grownValue = 0;
-        for (int value : getKyouka()) {
-            grownValue += value;
-        }
-
+        int grownSum = IntStream.of(MemberShipUtils.getShipPowupMaxArray(getShip())).sum();
+        int grownValue = IntStream.of(getKyouka()).sum();
         float div = 1f * grownValue / grownSum;
 
         if (div == 1) {

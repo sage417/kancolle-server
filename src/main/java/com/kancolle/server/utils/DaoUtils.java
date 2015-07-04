@@ -77,7 +77,7 @@ public class DaoUtils {
 
         List<String> excludeList = Arrays.asList(exclude);
 
-        Arrays.asList(targetClass.getMethods()).parallelStream().filter(IS_SET_METHOD).filter(method -> !excludeList.contains(method.getName())).forEach(method -> {
+        Arrays.stream(targetClass.getMethods()).filter(IS_SET_METHOD).filter(method -> !excludeList.contains(method.getName())).forEach(method -> {
             try {
                 Method daoMethod = dao.getClass().getMethod(GET_PARAM_NAME.apply(method.getName()), parameterTypes);
                 method.invoke(instance, daoMethod.invoke(dao, parameters));
@@ -89,7 +89,7 @@ public class DaoUtils {
     }
 
     public static <T> T setObject(T target, ResultSet rs) {
-        Arrays.asList(target.getClass().getDeclaredMethods()).stream().filter(IS_SET_METHOD).forEach(method -> {
+        Arrays.stream(target.getClass().getDeclaredMethods()).filter(IS_SET_METHOD).forEach(method -> {
             String name;
             Class<?> type;
 

@@ -1,7 +1,6 @@
 package com.kancolle.server.utils;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class BeanUtils {
@@ -13,7 +12,7 @@ public class BeanUtils {
     }
 
     public static <T> Stream<Method> getMethodStream(Class<T> clazz) {
-        return Arrays.asList(clazz.getMethods()).stream();
+        return Stream.of(clazz.getMethods());
     }
 
     public static <T> Stream<Method> getSetMethodStream(Class<T> clazz) {
