@@ -92,7 +92,11 @@ public class MemberShip {
     private int[] api_ndock_item;
 
     @JSONField(ordinal = 18, name = "api_srate")
-    private int srate;
+    public int returnSrate() {
+        int grownSum = IntStream.of(MemberShipUtils.getShipPowupMaxArray(getShip())).sum();
+        int grownValue = IntStream.of(getKyouka()).sum();
+        return (int) (5f * grownValue / grownSum + 1);
+    }
 
     @JSONField(ordinal = 19, name = "api_cond")
     private int cond;
@@ -279,28 +283,6 @@ public class MemberShip {
 
     public void setBull(int bull) {
         this.bull = bull;
-    }
-
-    public int getSrate() {
-        int grownSum = IntStream.of(MemberShipUtils.getShipPowupMaxArray(getShip())).sum();
-        int grownValue = IntStream.of(getKyouka()).sum();
-        float div = 1f * grownValue / grownSum;
-
-        if (div == 1) {
-            return 5;
-        } else if (div > 0.6f) {
-            return 4;
-        } else if (div > 0.4f) {
-            return 3;
-        } else if (div > 0.2f) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-
-    public void setSrate(int srate) {
-        this.srate = srate;
     }
 
     public int getCond() {
