@@ -279,7 +279,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         List<Long> member_ship_ids = form.getApi_id_items();
 
         MemberShip memberShip = getMemberShip(member_id, ship_id);
-        if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
+        if (memberShip == null) {
             throw new IllegalArgumentException();
         }
 
@@ -293,14 +293,17 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         for (Long id : member_ship_ids) {
             MemberShip powupShip = getMemberShip(member_id, id);
+            if (powupShip == null) {
+                throw new IllegalArgumentException();
+            }
+            if (powupShip.isLocked() || powupShip.isLockedEquip()) {
+                throw new IllegalStateException();
+            }
             MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, id);
             if (deckport != null) {
                 if (deckport.getMission()[0] != 0)
                     throw new IllegalStateException();
                 memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
-            }
-            if (powupShip == null) {
-                throw new IllegalArgumentException();
             }
             int[] shippowup = powupShip.getShip().getPowUpArray();
             for (int i = 0; i < shippowup.length; i++) {
