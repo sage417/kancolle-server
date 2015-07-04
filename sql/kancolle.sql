@@ -267,18 +267,20 @@ DROP TABLE IF EXISTS `t_member_battle_status`;
 CREATE TABLE `t_member_battle_status` (
   `member_id` bigint(20) unsigned NOT NULL,
   `battle` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `deck_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `map_area_id` int(10) unsigned DEFAULT NULL,
   `map_cell_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`member_id`),
   KEY `map_area_id` (`map_area_id`),
   KEY `map_cell_id` (`map_cell_id`),
   CONSTRAINT `t_member_battle_status_ibfk_1` FOREIGN KEY (`map_area_id`) REFERENCES `t_map_area` (`ID`),
-  CONSTRAINT `t_member_battle_status_ibfk_2` FOREIGN KEY (`map_cell_id`) REFERENCES `t_map_cell` (`ID`)
+  CONSTRAINT `t_member_battle_status_ibfk_2` FOREIGN KEY (`map_cell_id`) REFERENCES `t_map_cell` (`ID`),
+  CONSTRAINT `t_member_battle_status_ibfk_3` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_battle_status` */
 
-insert  into `t_member_battle_status`(`member_id`,`battle`,`map_area_id`,`map_cell_id`) values (8006690,0,NULL,NULL);
+insert  into `t_member_battle_status`(`member_id`,`battle`,`deck_id`,`map_area_id`,`map_cell_id`) values (8006690,0,0,NULL,NULL);
 
 /*Table structure for table `t_member_deckport` */
 

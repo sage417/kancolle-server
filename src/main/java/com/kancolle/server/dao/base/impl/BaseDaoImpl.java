@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,6 +19,8 @@ import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
 
 public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BaseDaoImpl.class);
+
     protected static final String SELECT_ALL = "SELECT * FROM ";
 
     private String className;
@@ -43,6 +47,7 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
         return template;
     };
 
+    @Override
     public void update(T t) {
         getSqlSession().update("update" + className, t);
     }
@@ -69,7 +74,7 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
                 instance = clazz.newInstance();
                 DaoUtils.setObject(instance, rs);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Error Happen when queryForModels", e);
             }
             return instance;
         });
@@ -87,7 +92,7 @@ public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
                     instance = clazz.newInstance();
                     DaoUtils.setObject(instance, rs);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.error("Error Happen when queryForSingleModel", e);
                 }
                 return instance;
             });
