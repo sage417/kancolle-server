@@ -40,7 +40,7 @@
 	</update>
 	
 	<update id="deleteMemberSlotitems">
-		UDPATE t_member_slotitem SET
+		UPDATE t_member_slotitem SET
 			DELETED = 1,
 			DELETED_TIME = NOW()
 		WHERE

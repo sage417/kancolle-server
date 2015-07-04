@@ -26,6 +26,8 @@ public interface MemberSlotItemService {
     MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
 
     /** 解体装备 */
-    void distorySlotitems(String member_id, List<Long> slotitems);
+    void distorySlotitemByIds(String member_id, List<Long> slotitems);
+
+    void distorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
 
 }

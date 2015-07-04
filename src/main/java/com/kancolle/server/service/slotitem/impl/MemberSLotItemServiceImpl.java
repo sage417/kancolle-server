@@ -76,12 +76,22 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public void distorySlotitems(String member_id, List<Long> slotitem_ids) {
+    public void distorySlotitemByIds(String member_id, List<Long> slotitem_ids) {
         for (Long slotitem_id : slotitem_ids) {
             MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
             if (slotitem == null || slotitem.getLocked())
                 throw new IllegalStateException();
         }
+        memberSlotItemDao.delete(member_id, slotitem_ids);
+    }
+
+    @Override
+    public void distorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
+        for (MemberSlotItem memberSlotItem : removeSlotitems) {
+            if (memberSlotItem == null || memberSlotItem.getLocked())
+                throw new IllegalStateException();
+        }
+        List<Long> slotitem_ids = removeSlotitems.stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
         memberSlotItemDao.delete(member_id, slotitem_ids);
     }
 }

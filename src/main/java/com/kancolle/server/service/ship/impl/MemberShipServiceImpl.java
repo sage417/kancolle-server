@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -50,6 +52,9 @@ import com.kancolle.server.utils.logic.MemberShipUtils;
 
 @Service
 public class MemberShipServiceImpl implements MemberShipService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipServiceImpl.class);
+
     private static final Random r = new Random();
 
     @Autowired
@@ -66,22 +71,6 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
-
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberShip getMemberShip(String member_id, Long ship_id) {
-        return memberShipDao.selectMemberShip(member_id, ship_id);
-    }
-
-    @Override
-    public List<MemberShip> getMemberShips(String memberId) {
-        return memberShipDao.selectMemberShips(memberId);
-    }
-
-    @Override
-    public int getCountOfMemberShip(String member_id) {
-        return memberShipDao.selectCountOfMemberShips(member_id);
-    }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -132,6 +121,41 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    public void destoryShips(String member_id, List<Long> member_ship_ids) {
+        for (Long member_ship_id : member_ship_ids) {
+            MemberShip memberShip = getMemberShip(member_id, member_ship_id);
+            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
+                throw new IllegalStateException();
+            }
+        }
+        memberShipDao.deleteMemberShips(member_id, member_ship_ids);
+    }
+
+    @Override
+    public int getCountOfMemberShip(String member_id) {
+        return memberShipDao.selectCountOfMemberShips(member_id);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
+    public MemberShip getMemberShip(String member_id, Long ship_id) {
+        return memberShipDao.selectMemberShip(member_id, ship_id);
+    }
+
+    @Override
+    public List<MemberShip> getMemberShips(String memberId) {
+        return memberShipDao.selectMemberShips(memberId);
+    }
+
+    @Override
+    public Ship3Result getShip3(String member_id, Ship3Form form) {
+        Long memberShipId = form.getApi_shipid();
+        int sortKey = form.getApi_sort_key();
+        int sort_order = form.getSpi_sort_order();
+        return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlot(member_id));
+    }
+
+    @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void increaseMemberShipExp(MemberShip memberShip, int exp) {
         if (memberShip == null || exp < 0) {
@@ -173,6 +197,132 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShip.getSakuteki().setMinValue(shipSakuteki);
         memberShipDao.updateMemberShipSlotValue(memberShip);
         // ----------属性成长-----------//
+    }
+
+    @Override
+    public MemberShipLockResult lock(String member_id, Long member_ship_id) {
+        MemberShip memberShip = getMemberShip(member_id, member_ship_id);
+        if (memberShip == null) {
+            throw new IllegalArgumentException();
+        }
+        Boolean lock = Boolean.valueOf(!memberShip.isLocked());
+        memberShipDao.updateMemberShipLockStatue(member_id, member_ship_id, lock);
+        return new MemberShipLockResult(lock);
+    }
+
+    /**
+     * 近现代改修需要做些什么？<br>
+     * 检查舰娘是否上锁<br>
+     * 检查舰娘身上是否有上锁装备<br>
+     * 如果舰娘在舰队中则检查舰队状态是否为空闲状态<br>
+     * 删除舰队中舰娘的信息（两处）<br>
+     * 删除舰娘身上装备信息（两处）<br>
+     * 删除舰娘<br>
+     * 更新增加的属性<br>
+     */
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form) {
+        Long target_ship_id = form.getApi_id();
+        List<Long> powup_ship_ids = form.getApi_id_items();
+
+        MemberShip targetShip = getMemberShip(member_id, target_ship_id);
+        if (targetShip == null) {
+            LOGGER.warn("用户ID:{} 获取不存在的舰娘{}", member_id, target_ship_id);
+            throw new IllegalArgumentException();
+        }
+
+        // TODO 合成舰娘不能在入渠状态
+        // TODO 合成舰娘不能在远征状态
+        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
+
+        int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
+
+        int[] powupArray = new int[] { 0, 0, 0, 0 };
+        float powupLuck = 0f;
+
+        for (Long powup_ship_id : powup_ship_ids) {
+            MemberShip powupShip = getMemberShip(member_id, powup_ship_id);
+            if (powupShip == null) {
+                LOGGER.warn("用户ID:{} 获取不存在的舰娘{}", member_id, target_ship_id);
+                throw new IllegalArgumentException();
+            }
+            if (powupShip.isLocked() || powupShip.isLockedEquip()) {
+                LOGGER.warn("用户ID:{} 请求解体上锁的舰娘{}", member_id, target_ship_id);
+                throw new IllegalStateException();
+            }
+
+            // -----------如果在舰队中则退出舰队-------------//
+
+            // TODO 合成舰娘不能在入渠状态
+            // TODO 合成舰娘不能在远征状态
+
+            deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, powup_ship_id);
+            // 如果合成舰娘在舰队中
+            if (deckport != null) {
+                if (deckport.getMission()[0] != 0)
+                    throw new IllegalStateException();
+                memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
+            }
+
+            // -----------如果在舰队中则退出舰队-------------//
+
+            // -----------解除装备并解体装备-------------//
+            if (!powupShip.getSlot().isEmpty()) {
+                List<MemberSlotItem> removeSlotitems = unsetAllSlotitems(powupShip);
+                memberSlotItemService.distorySlotitems(member_id, removeSlotitems);
+            }
+            // -----------解除装备并解体装备-------------//
+
+            int[] shippowup = powupShip.getShip().getPowUpArray();
+            for (int i = 0; i < shippowup.length; i++) {
+                powupArray[i] += shippowup[i];
+            }
+            if (powupShip.getShip().getShipId() == 163) {
+                powupLuck += 1.2f;
+            } else if (powupShip.getShip().getShipId() == 402) {
+                powupLuck += 1.6f;
+            }
+        }
+
+        boolean powUpResult = false;
+
+        for (int i = 0; i < powupArray.length; i++) {
+            if (powupArray[i] > 0) {
+                // 奖励补正
+                powupArray[i] += (powupArray[i] + 1) / 5;
+                // 随机补正
+                powupArray[i] /= (r.nextInt(2) + 1);
+                // 最大值补正
+                if (powupArray[i] > 0) {
+                    powUpResult = true;
+                    targetShip.getKyouka()[i] = targetShip.getKyouka()[i] + powupArray[i];
+                    if (targetShip.getKyouka()[i] > powUpMaxArray[i])
+                        targetShip.getKyouka()[i] = powUpMaxArray[i];
+                }
+            }
+        }
+
+        int addLuck = (int) powupLuck;
+
+        if (addLuck > 0) {
+            if (addLuck < 8)
+                // 幸运随机补正
+                addLuck /= (r.nextInt(2) + 1);
+            if (addLuck > 0) {
+                powUpResult = true;
+                MaxMinValue luck = targetShip.getLucky();
+                luck.setMinValue(luck.getMinValue() + addLuck);
+                if (luck.getMinValue() > luck.getMaxValue())
+                    // 幸运最大值补正
+                    luck.setMinValue(luck.getMaxValue());
+            }
+        }
+        updateShipProperties(targetShip);
+
+        destoryShips(member_id, powup_ship_ids);
+
+        return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, targetShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     /**
@@ -224,8 +374,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 memberShipDao.replaceSlot(memberShip, replacedSlotItem, memberSlotItem);
             }
         }
-        calMemberShipPropertiesViaSlot(memberShip);
-        memberShipDao.updateMemberShipSlotValue(memberShip);
+        updateShipProperties(memberShip);
     }
 
     @Override
@@ -233,145 +382,30 @@ public class MemberShipServiceImpl implements MemberShipService {
     public void unsetslotAll(String member_id, Long memberShip_id) {
         MemberShip memberShip = getMemberShip(member_id, memberShip_id);
         if (memberShip == null) {
-            // TODO
+            LOGGER.warn("用户ID{}查询不存在的舰娘{}", member_id, memberShip_id);
             throw new IllegalArgumentException();
         }
-        List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
-        memberShip.getSlot().removeAll(removeSlots);
-        memberShipDao.removeSlot(memberShip, removeSlots);
-        calMemberShipPropertiesViaSlot(memberShip);
-        memberShipDao.updateMemberShipSlotValue(memberShip);
-    }
-
-    @Override
-    public Ship3Result getShip3(String member_id, Ship3Form form) {
-        Long memberShipId = form.getApi_shipid();
-        int sortKey = form.getApi_sort_key();
-        int sort_order = form.getSpi_sort_order();
-        return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlot(member_id));
-    }
-
-    @Override
-    public MemberShipLockResult lock(String member_id, Long member_ship_id) {
-        MemberShip memberShip = getMemberShip(member_id, member_ship_id);
-        if (memberShip == null) {
-            throw new IllegalArgumentException();
-        }
-        Boolean lock = Boolean.valueOf(!memberShip.isLocked());
-        memberShipDao.updateMemberShipLockStatue(member_id, member_ship_id, lock);
-        return new MemberShipLockResult(lock);
+        unsetAllSlotitems(memberShip);
+        updateShipProperties(memberShip);
     }
 
     /**
-     * 近现代改修需要做些什么？<br>
-     * 检查舰娘是否上锁<br>
-     * 检查舰娘身上是否有上锁装备<br>
-     * 如果舰娘在舰队中则检查舰队状态是否为空闲状态<br>
-     * 删除舰队中舰娘的信息（两处）<br>
-     * 删除舰娘身上装备信息（两处）<br>
-     * 删除舰娘<br>
-     * 更新增加的属性<br>
+     * 更新装备、 近现代改修需要调用此方法<br>
+     * 更新幸运值不需要<br>
+     * 
+     * @param memberShip
      */
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form) {
-        Long ship_id = form.getApi_id();
-        List<Long> member_ship_ids = form.getApi_id_items();
-
-        MemberShip memberShip = getMemberShip(member_id, ship_id);
-        if (memberShip == null) {
-            throw new IllegalArgumentException();
-        }
-
-        Ship ship = memberShip.getShip();
-
-        // length = 4
-        int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(ship);
-        // length = 4
-        int[] powUpArray = new int[] { 0, 0, 0, 0 };
-        float powupLuck = 0f;
-
-        for (Long id : member_ship_ids) {
-            MemberShip powupShip = getMemberShip(member_id, id);
-            if (powupShip == null) {
-                throw new IllegalArgumentException();
-            }
-            if (powupShip.isLocked() || powupShip.isLockedEquip()) {
-                throw new IllegalStateException();
-            }
-            MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, id);
-            if (deckport != null) {
-                if (deckport.getMission()[0] != 0)
-                    throw new IllegalStateException();
-                memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
-            }
-
-            if (!powupShip.getSlot().isEmpty()) {
-                List<Long> slotitem_ids = powupShip.getSlot().stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
-                unsetslotAll(member_id, id);
-                memberSlotItemService.distorySlotitems(member_id, slotitem_ids);
-            }
-
-            int[] shippowup = powupShip.getShip().getPowUpArray();
-            for (int i = 0; i < shippowup.length; i++) {
-                powUpArray[i] += shippowup[i];
-            }
-            if (powupShip.getShip().getShipId() == 163) {
-                powupLuck += 1.2f;
-            } else if (powupShip.getShip().getShipId() == 402) {
-                powupLuck += 1.6f;
-            }
-        }
-
-        boolean powUpResult = false;
-
-        for (int i = 0; i < powUpArray.length; i++) {
-            if (powUpArray[i] > 0) {
-                // 奖励补正
-                powUpArray[i] += (powUpArray[i] + 1) / 5;
-                // 随机补正
-                powUpArray[i] /= (r.nextInt(2) + 1);
-                // 最大值补正
-                if (powUpArray[i] > 0) {
-                    powUpResult = true;
-                    memberShip.getKyouka()[i] = memberShip.getKyouka()[i] + powUpArray[i];
-                    if (memberShip.getKyouka()[i] > powUpMaxArray[i])
-                        memberShip.getKyouka()[i] = powUpMaxArray[i];
-                }
-            }
-        }
-
-        int addLuck = (int) powupLuck;
-
-        if (addLuck > 0) {
-            if (addLuck < 8)
-                // 幸运随机补正
-                addLuck /= (r.nextInt(2) + 1);
-            if (addLuck > 0) {
-                powUpResult = true;
-                MaxMinValue luck = memberShip.getLucky();
-                luck.setMinValue(luck.getMinValue() + addLuck);
-                if (luck.getMinValue() > luck.getMaxValue())
-                    // 幸运最大值补正
-                    luck.setMinValue(luck.getMaxValue());
-            }
-        }
+    private void updateShipProperties(MemberShip memberShip) {
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
-
-        destoryShips(member_id, member_ship_ids);
-
-        return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, memberShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     @Override
-    public void destoryShips(String member_id, List<Long> member_ship_ids) {
-        for (Long member_ship_id : member_ship_ids) {
-            MemberShip memberShip = getMemberShip(member_id, member_ship_id);
-            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
-                throw new IllegalStateException();
-            }
-        }
-        memberShipDao.deleteMemberShips(member_id, member_ship_ids);
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
+    public List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip) {
+        List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
+        memberShip.getSlot().removeAll(removeSlots);
+        memberShipDao.removeSlot(memberShip, removeSlots);
+        return removeSlots;
     }
 }

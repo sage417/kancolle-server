@@ -14,6 +14,7 @@ import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 /**
  * @author J.K.SAGE
@@ -22,29 +23,26 @@ import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
  */
 public interface MemberShipService {
 
+    /** 补给燃弹 */
+    ChargeModel chargeShips(String member_id, ShipChargeForm form);
+
+    /** 解体 */
+    void destoryShips(String member_id, List<Long> memberShipIds);
+
+    /** 获取提督舰娘数 */
+    int getCountOfMemberShip(String member_id);
+
     /** 获取提督指定舰娘 */
     MemberShip getMemberShip(String member_id, Long ship_id);
 
     /** 获取提督所有舰娘 */
     List<MemberShip> getMemberShips(String memberId);
 
-    /** 获取提督舰娘数 */
-    int getCountOfMemberShip(String member_id);
-
-    /** 补给燃弹 */
-    ChargeModel chargeShips(String member_id, ShipChargeForm form);
-
-    /** 舰娘获得经验 */
-    void increaseMemberShipExp(MemberShip memberShip, int exp);
-
-    /** 改装 */
-    void setSlot(String member_id, ShipSetSlotForm form);
-
     /** 改装结果 */
     Ship3Result getShip3(String member_id, Ship3Form form);
 
-    /** 移除所有裝備 */
-    void unsetslotAll(String member_id, Long memberShip_id);
+    /** 舰娘获得经验 */
+    void increaseMemberShipExp(MemberShip memberShip, int exp);
 
     /** 上锁 */
     MemberShipLockResult lock(String member_id, Long member_ship_id);
@@ -52,6 +50,11 @@ public interface MemberShipService {
     /** 合成 */
     MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form);
 
-    /** 解体 */
-    void destoryShips(String member_id, List<Long> memberShipIds);
+    /** 改装 */
+    void setSlot(String member_id, ShipSetSlotForm form);
+
+    /** 移除所有裝備 */
+    void unsetslotAll(String member_id, Long memberShip_id);
+
+    List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip);
 }
