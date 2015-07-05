@@ -52,16 +52,15 @@ public class MissionServiceImpl implements MissionService {
 
         MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
         int mission_id = (int) deckport.getMission()[1];
+
         long mission_complete_longtime = deckport.getMission()[2];
-        Instant.ofEpochMilli(mission_complete_longtime);
 
-        long mission_remain_longtime = mission_complete_longtime - now.toEpochMilli();
-
-        int mission_time = this.getMission(mission_id).getTime();
-        Instant mission_start_instant = now.plus(-mission_time, ChronoUnit.MINUTES);
+        Instant mission_complete_instant = Instant.ofEpochMilli(mission_complete_longtime);
+        int mission_time = getMission(mission_id).getTime();
+        Instant mission_start_instant = mission_complete_instant.plus(-mission_time, ChronoUnit.MINUTES);
 
         // 返回所需时间为远征出发时间和远征剩余时间小的一个的1/3
-        long return_longtime = Math.min(mission_remain_longtime, now.toEpochMilli() - mission_start_instant.toEpochMilli()) / 3;
+        long return_longtime = Math.min(mission_complete_longtime - now.toEpochMilli(), now.toEpochMilli() - mission_start_instant.toEpochMilli()) / 3;
         long mission_return_longtime = now.plus(return_longtime, ChronoUnit.MILLIS).toEpochMilli();
 
         deckport.getMission()[2] = mission_return_longtime;
