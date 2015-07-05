@@ -18,7 +18,7 @@ import com.kancolle.server.model.po.map.MapArea;
 @Alias("Mission")
 public class Mission implements Serializable {
 
-    private static final long serialVersionUID = 8823401708226251266L;
+    private static final long serialVersionUID = -3997082699476879973L;
 
     @JSONField(ordinal = 1, name = "api_id")
     private int missionId;
@@ -49,24 +49,19 @@ public class Mission implements Serializable {
     @JSONField(ordinal = 8, name = "api_use_bull")
     private double useBull;
 
-    @JSONField(serialize = false, deserialize = false)
-    private MissionItem winItem1;
-
     @JSONField(ordinal = 9, name = "api_win_item1")
-    public int[] getItemWin1() {
-        return winItem1.toArray();
-    }
-
-    @JSONField(serialize = false, deserialize = false)
-    private MissionItem winItem2;
+    private int[] winItem1;
 
     @JSONField(ordinal = 10, name = "api_win_item2")
-    public int[] getItemWin2() {
-        return winItem2.toArray();
-    }
+    private int[] winItem2;
+
+    @JSONField(serialize = false, deserialize = false)
+    private boolean returnFlag;
 
     @JSONField(ordinal = 11, name = "api_return_flag")
-    private int returnFlag;
+    public int returnFlag() {
+        return returnFlag ? 1 : 0;
+    }
 
     public int getMissionId() {
         return missionId;
@@ -132,27 +127,27 @@ public class Mission implements Serializable {
         this.useBull = useBull;
     }
 
-    public MissionItem getWinItem1() {
+    public int[] getWinItem1() {
         return winItem1;
     }
 
-    public void setWinItem1(MissionItem winItem1) {
+    public void setWinItem1(int[] winItem1) {
         this.winItem1 = winItem1;
     }
 
-    public MissionItem getWinItem2() {
+    public int[] getWinItem2() {
         return winItem2;
     }
 
-    public void setWinItem2(MissionItem winItem2) {
+    public void setWinItem2(int[] winItem2) {
         this.winItem2 = winItem2;
     }
 
-    public int getReturnFlag() {
+    public boolean isReturnFlag() {
         return returnFlag;
     }
 
-    public void setReturnFlag(int returnFlag) {
+    public void setReturnFlag(boolean returnFlag) {
         this.returnFlag = returnFlag;
     }
 
@@ -178,8 +173,8 @@ public class Mission implements Serializable {
         return true;
     }
 
-    public Mission(String name) {
-        super();
-        this.name = name;
+    @Override
+    public String toString() {
+        return String.format("Mission [name=%s]", name);
     }
 }

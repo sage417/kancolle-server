@@ -52,12 +52,7 @@ public class ReqMissionController {
             // TODO 惡意請求記錄
             return new APIResponse<String>();
         }
-        int deck_id = form.getApi_deck_id();
-        int mission_id = form.getApi_mission_id();
-        // TODO 脚本請求記錄
-        int mission_hash = form.getApi_mission();
-
-        MissionStart api_data = missionService.startMission(member_id, deck_id, mission_id);
+        MissionStart api_data = missionService.startMission(member_id, form);
         return new APIResponse<MissionStart>().setApi_data(api_data);
     }
 }

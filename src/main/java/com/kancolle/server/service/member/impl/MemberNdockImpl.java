@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.dao.member.MemberNdockDao;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
+import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;

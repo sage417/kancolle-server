@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberNdockDao;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
+import com.kancolle.server.model.po.member.MemberNdock;
 
 /**
  * @author J.K.SAGE

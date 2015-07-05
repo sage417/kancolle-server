@@ -1,14 +1,13 @@
 package com.kancolle.server.dao.mission;
 
+import java.util.List;
+
 import com.kancolle.server.dao.base.BaseDao;
-import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
-import com.kancolle.server.model.po.deck.DeckPortMission;
+import com.kancolle.server.model.po.mission.Mission;
 
-public interface MissionDao extends BaseDao<MissionModel> {
+public interface MissionDao extends BaseDao<Mission> {
 
-    DeckPortMission getDeckPortMission(String member_id, int deck_id);
+    List<Mission> selectMissions();
 
-    MissionModel getMission(int mission_id);
-
-    int updateDeckPortMission(String member_id, int deck_id, DeckPortMission deckPortMission);
+    Mission selectMission(Integer mission_id);
 }

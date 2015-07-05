@@ -302,13 +302,13 @@ CREATE TABLE `t_member_deckport` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`),
   KEY `MISSION_ID` (`MISSION_ID`),
-  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport` */
 
-insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (1,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[6,-1,-1,-1,-1]',0),(2,8006690,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1]',0),(3,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(4,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
+insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (1,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[6,-1,-1,-1,-1]',0),(2,8006690,2,'第2艦隊','',1,1,1436075416227,0,'0','[2,3,1,5,-1]',0),(3,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(4,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
 
 /*Table structure for table `t_member_deckport_ship_mapping` */
 
@@ -322,11 +322,11 @@ CREATE TABLE `t_member_deckport_ship_mapping` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`),
   CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport_ship_mapping` */
 
-insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (14,8006690,1,6);
+insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (14,8006690,1,6),(17,8006690,2,1),(15,8006690,2,2),(16,8006690,2,3),(18,8006690,2,5);
 
 /*Table structure for table `t_member_furniture` */
 
@@ -433,7 +433,7 @@ CREATE TABLE `t_member_mission` (
 
 /*Data for the table `t_member_mission` */
 
-insert  into `t_member_mission`(`index`,`member_id`,`mission_id`,`state`) values (1,9007383,1,0),(2,9007383,2,0),(3,9007383,3,0),(4,9007383,4,0),(5,9007383,5,0),(6,9007383,6,0),(7,9007383,7,0),(8,9007383,8,0),(9,9007383,9,0),(10,9007383,10,0),(11,9007383,11,0),(12,9007383,12,0),(13,9007383,13,0),(14,9007383,14,0),(15,9007383,15,0),(16,9007383,16,0),(17,9007383,17,0),(18,9007383,18,0),(19,9007383,19,0),(20,9007383,20,0),(21,9007383,21,0),(22,9007383,22,0),(23,9007383,23,0),(24,9007383,25,0),(25,9007383,26,0),(26,9007383,27,0),(27,9007383,28,0),(28,9007383,29,0),(29,9007383,30,0),(30,9007383,31,0),(31,9007383,32,0),(32,9007383,33,0),(33,9007383,34,0),(34,9007383,35,0),(35,9007383,36,0),(36,9007383,37,0),(37,9007383,38,0),(38,9007383,39,0),(39,8006690,1,0),(40,8006690,2,0),(41,8006690,3,0),(42,8006690,4,0),(43,8006690,5,0),(44,8006690,6,0),(45,8006690,7,0),(46,8006690,8,0),(47,8006690,9,0),(48,8006690,10,0),(49,8006690,11,0),(50,8006690,12,0),(51,8006690,13,0),(52,8006690,14,0),(53,8006690,15,0),(54,8006690,16,0),(55,8006690,17,0),(56,8006690,18,0),(57,8006690,19,0),(58,8006690,20,0),(59,8006690,21,0),(60,8006690,22,0),(61,8006690,23,0),(62,8006690,25,0),(63,8006690,26,0),(64,8006690,27,0),(65,8006690,28,0),(66,8006690,29,0),(67,8006690,30,0),(68,8006690,31,0),(69,8006690,32,0),(70,8006690,33,0),(71,8006690,34,0),(72,8006690,35,0),(73,8006690,36,0),(74,8006690,37,0),(75,8006690,38,0),(76,8006690,39,0);
+insert  into `t_member_mission`(`index`,`member_id`,`mission_id`,`state`) values (1,9007383,1,-1),(2,9007383,2,-1),(3,9007383,3,-1),(4,9007383,4,-1),(5,9007383,5,-1),(6,9007383,6,-1),(7,9007383,7,-1),(8,9007383,8,-1),(9,9007383,9,-1),(10,9007383,10,-1),(11,9007383,11,-1),(12,9007383,12,-1),(13,9007383,13,-1),(14,9007383,14,-1),(15,9007383,15,-1),(16,9007383,16,-1),(17,9007383,17,-1),(18,9007383,18,-1),(19,9007383,19,-1),(20,9007383,20,-1),(21,9007383,21,-1),(22,9007383,22,-1),(23,9007383,23,-1),(24,9007383,25,-1),(25,9007383,26,-1),(26,9007383,27,-1),(27,9007383,28,-1),(28,9007383,29,-1),(29,9007383,30,-1),(30,9007383,31,-1),(31,9007383,32,-1),(32,9007383,33,-1),(33,9007383,34,-1),(34,9007383,35,-1),(35,9007383,36,-1),(36,9007383,37,-1),(37,9007383,38,-1),(38,9007383,39,-1),(39,8006690,1,0),(40,8006690,2,-1),(41,8006690,3,-1),(42,8006690,4,-1),(43,8006690,5,-1),(44,8006690,6,-1),(45,8006690,7,-1),(46,8006690,8,-1),(47,8006690,9,-1),(48,8006690,10,-1),(49,8006690,11,-1),(50,8006690,12,-1),(51,8006690,13,-1),(52,8006690,14,-1),(53,8006690,15,-1),(54,8006690,16,-1),(55,8006690,17,-1),(56,8006690,18,-1),(57,8006690,19,-1),(58,8006690,20,-1),(59,8006690,21,-1),(60,8006690,22,-1),(61,8006690,23,-1),(62,8006690,25,-1),(63,8006690,26,-1),(64,8006690,27,-1),(65,8006690,28,-1),(66,8006690,29,-1),(67,8006690,30,-1),(68,8006690,31,-1),(69,8006690,32,-1),(70,8006690,33,-1),(71,8006690,34,-1),(72,8006690,35,-1),(73,8006690,36,-1),(74,8006690,37,-1),(75,8006690,38,-1),(76,8006690,39,-1);
 
 /*Table structure for table `t_member_ndock` */
 
@@ -515,7 +515,7 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
 
@@ -872,7 +872,7 @@ DELIMITER $$
 	
 	/** 创建mission记录 */
 	REPLACE INTO t_member_mission (member_id, mission_id, state) 
-	SELECT new.member_id, ID , 0 FROM t_mission;
+	SELECT new.member_id, ID , -1 FROM t_mission;
 	
 	/** 创建furniture记录 */
 	REPLACE INTO t_member_furniture (member_id, furniture_id) 
@@ -1169,7 +1169,7 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP TABLE IF EXISTS `v_member_mission` */;
 /*!50001 DROP VIEW IF EXISTS `v_member_mission` */;
 
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_mission` AS select `t_member_mission`.`member_id` AS `member_id`,`t_member_mission`.`mission_id` AS `mission_id`,`t_member_mission`.`state` AS `state` from `t_member_mission` where (`t_member_mission`.`state` > 0) */;
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_mission` AS select `t_member_mission`.`member_id` AS `member_id`,`t_member_mission`.`mission_id` AS `mission_id`,`t_member_mission`.`state` AS `state` from `t_member_mission` where (`t_member_mission`.`state` > -(1)) */;
 
 /*View structure for view v_member_ship */
 

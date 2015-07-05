@@ -1,4 +1,4 @@
-package com.kancolle.server.model.kcsapi.member;
+package com.kancolle.server.model.po.member;
 
 import org.apache.ibatis.type.Alias;
 

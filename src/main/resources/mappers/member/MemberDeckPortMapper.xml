@@ -47,6 +47,15 @@
 		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id = #{member_ship_id}
 	</update>
 	
+	<update id="updateDeckPortMission">
+		UPDATE t_member_deckport SET
+			MISSION_STATUS = #{mission_status},
+			MISSION_ID = #{mission_id},
+			MISSION_COMPLETE_TIME = #{mission_complete_time},
+			MISSION_FLAG = #{mission_flag}
+		WHERE member_id = #{member_id} AND ID = #{deck_id}
+	</update>
+	
 	<delete id="deleteDeckPortShip">
 		DELETE FROM t_member_deckport_ship_mapping WHERE member_id = #{member_id } AND deck_id = #{deck_id} AND member_ship_id IN
 		<foreach collection="removeShips" item="memberShip" open="(" separator="," close=")">

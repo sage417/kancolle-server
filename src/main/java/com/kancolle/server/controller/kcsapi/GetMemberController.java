@@ -18,16 +18,18 @@ import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
+import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -41,6 +43,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberNdockService memberNdockService;
+
+    @Autowired
+    private MemberDeckPortService memberDeckPortService;
 
     @Autowired
     private MemberShipService memberShipService;
@@ -73,6 +78,12 @@ public class GetMemberController {
     public APIResponse<List<MemberNdock>> ndock(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberNdock> api_data = memberNdockService.getMemberNdocks(member_id);
         return new APIResponse<List<MemberNdock>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/deck")
+    public APIResponse<List<MemberDeckPort>> deck(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberDeckPort> api_data = memberDeckPortService.getMemberDeckPorts(member_id);
+        return new APIResponse<List<MemberDeckPort>>().setApi_data(api_data);
     }
 
     @RequestMapping("/mission")

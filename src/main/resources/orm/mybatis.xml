@@ -34,15 +34,6 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="MemberNdock" type="com.kancolle.server.model.kcsapi.member.MemberNdock"/>
 		<package name="com.kancolle.server.model.po" />
 	</typeAliases>
-
-	<typeHandlers>
-		<typeHandler handler="com.kancolle.server.model.po.common.handler.IntJsonArrayHanlder" />
-		<typeHandler handler="com.kancolle.server.model.po.common.handler.MaxMinValueHandler" />
-		<typeHandler handler="com.kancolle.server.model.po.common.handler.PowUpHanlder" />
-		<typeHandler handler="com.kancolle.server.model.po.common.handler.ResourceVauleHandler" />
-		<typeHandler handler="com.kancolle.server.model.po.common.handler.MissionItemHandler" />
-	</typeHandlers>
 </configuration>

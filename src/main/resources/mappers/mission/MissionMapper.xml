@@ -5,9 +5,18 @@
 		<id property="missionId" column="ID" />
 		<result property="useFuel" column="USE_FUEL" />
 		<result property="useBull" column="USE_BULL" />
-		<result property="winItem1" column="WIN_ITEM1"  typeHandler="MissionItemHandler"/>
-		<result property="winItem2" column="WIN_ITEM2" typeHandler="MissionItemHandler"/>
+		<result property="winItem1" column="WIN_ITEM1"  typeHandler="IntJsonArrayHanlder"/>
+		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder"/>
 		<result property="returnFlag" column="RETURN_FLAG" />
-		<association property="maparea" column="MAPAREA_ID" select="selectMapAreasByCond" />
+		<association property="maparea" column="MAPAREA_ID" select="com.kancolle.server.dao.map.MapAreaDao.selectMapAreasByCond" />
 	</resultMap>
+	
+	<select id="selectMissionByCond" resultMap="MissionRM">
+		SELECT * FROM t_mission
+		<where>
+			<if test="_parameter != null">
+				ID = #{mission_id}
+			</if>
+		</where>
+	</select>
 </mapper>

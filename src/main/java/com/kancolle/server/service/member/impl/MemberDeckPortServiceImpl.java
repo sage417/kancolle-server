@@ -157,4 +157,9 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     public MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id) {
         return memberDeckPortDao.selectMemberDeckPortContainsMemberShip(member_id, member_ship_id);
     }
+
+    @Override
+    public void updateDeckPortMission(MemberDeckPort deckport) {
+        memberDeckPortDao.updateDeckPortMission(deckport);
+    }
 }

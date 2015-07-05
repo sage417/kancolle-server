@@ -89,4 +89,15 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         getSqlSession().update("updateDeckPortShip", params);
     }
 
+    @Override
+    public void updateDeckPortMission(MemberDeckPort deckport) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(6);
+        params.put("member_id", deckport.getMemberId());
+        params.put("deck_id", deckport.getDeckId());
+        params.put("mission_status", deckport.getMission()[0]);
+        params.put("mission_id", deckport.getMission()[1]);
+        params.put("mission_complete_time", deckport.getMission()[2]);
+        params.put("mission_flag", deckport.getMission()[3]);
+        getSqlSession().update("updateDeckPortMission", params);
+    }
 }

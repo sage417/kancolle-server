@@ -1,10 +1,10 @@
 package com.kancolle.server.service.mission;
 
+import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
-import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
-import com.kancolle.server.model.po.deck.DeckPortMission;
+import com.kancolle.server.model.po.mission.Mission;
 
 public interface MissionService {
 
@@ -12,11 +12,7 @@ public interface MissionService {
 
     MissionResult calMissionResult(String member_id, int deck_id);
 
-    DeckPortMission getDeckPortMission(String member_id, int deck_id);
+    Mission getMission(Integer mission_id);
 
-    MissionModel getMission(int mission_id);
-
-    MissionStart startMission(String member_id, int deck_id, int mission_id);
-
-    int updateDeckPortMission(String member_id, int deck_id, DeckPortMission deckPortMission);
+    MissionStart startMission(String member_id, MissionStartForm form);
 }

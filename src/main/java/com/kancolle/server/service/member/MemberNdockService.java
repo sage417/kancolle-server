@@ -6,7 +6,7 @@ package com.kancolle.server.service.member;
 import java.util.List;
 
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
-import com.kancolle.server.model.kcsapi.member.MemberNdock;
+import com.kancolle.server.model.po.member.MemberNdock;
 
 /**
  * @author J.K.SAGE
