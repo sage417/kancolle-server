@@ -70,6 +70,7 @@ public class MissionServiceImpl implements MissionService {
         long return_longtime = Math.min(mission_complete_longtime - now.toEpochMilli(), now.toEpochMilli() - mission_start_instant.toEpochMilli()) / 3;
         long mission_return_longtime = now.plus(return_longtime, ChronoUnit.MILLIS).toEpochMilli();
 
+        deckport.getMission()[0] = MISSION_RETURNING;
         deckport.getMission()[2] = mission_return_longtime;
         memberDeckPortService.updateDeckPortMission(deckport);
 
@@ -117,7 +118,6 @@ public class MissionServiceImpl implements MissionService {
             break;
         case GREATE_SUCCESS:
             result.setApi_clear_result(2);
-            result.setApi_clear_result(-1);
             result.setApi_get_exp(missionExp.getMemberExp());
             memberService.increaseMemberExp(memberService.getMember(member_id), missionExp.getMemberExp());
             memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0), missionExp.getShipExp() * 3 / 2);

@@ -8,6 +8,7 @@
 		<id property="missionId" column="ID" />
 		<result property="useFuel" column="USE_FUEL" />
 		<result property="useBull" column="USE_BULL" />
+		<result property="materials" column="MATERIALS" typeHandler="IntJsonArrayHanlder"/>
 		<result property="winItem1" column="WIN_ITEM1" typeHandler="IntJsonArrayHanlder" />
 		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder" />
 		<result property="returnFlag" column="RETURN_FLAG" />
