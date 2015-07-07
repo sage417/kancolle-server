@@ -38,6 +38,8 @@ public class MissionServiceImpl implements MissionService {
 
     public static final int MISSION_FLAG = 0;
 
+    private static final int[] EMPTY_RESOURCE_ARRAY = new int[] { 0, 0, 0, 0 };
+
     @Autowired
     private MissionDao missionDao;
 
@@ -105,7 +107,7 @@ public class MissionServiceImpl implements MissionService {
             memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0), missionExp.getShipExp() * 3 / 2);
             deckport.getShips().stream().skip(1L).forEach(memberShip -> memberShipSerivce.increaseMemberShipExp(memberShip, missionExp.getShipExp()));
             result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, mission));
-            result.setApi_get_material(mission.getMaterials());
+            result.setApi_get_material(EMPTY_RESOURCE_ARRAY);
             break;
         case SUCCESS:
             result.setApi_clear_result(1);
