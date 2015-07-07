@@ -17,7 +17,6 @@ import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapCellModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
-import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
@@ -37,7 +36,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_MAPINFO_TB = SELECT_ALL + "t_map_info";
     private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
-    private static final String MST_MISSION_TB = "SELECT ID,NAME,DIFFICULTY,MAPAREA_ID,TIME,USE_FUEL,USE_BULL,WIN_ITEM1,WIN_ITEM2,RETURN_FLAG,DETAILS FROM t_mission";
     private static final String MST_SHIPUPGRADE_TB = SELECT_ALL + "t_ship_upgrade";
     private static final String MST_BGM_TB = SELECT_ALL + "t_bgm";
 
@@ -82,11 +80,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     @Override
     public List<MapInfoModel> getMstMapinfo() {
         return queryForModels(MapInfoModel.class, MST_MAPINFO_TB);
-    }
-
-    @Override
-    public List<MissionModel> getMstMission() {
-        return queryForModels(MissionModel.class, MST_MISSION_TB);
     }
 
     @Override

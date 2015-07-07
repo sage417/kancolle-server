@@ -13,7 +13,6 @@ import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapCellModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
-import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
@@ -36,8 +35,6 @@ public interface StartDao extends BaseDao<StartModel> {
     List<MapCellModel> getMstMapcell();
 
     List<MapInfoModel> getMstMapinfo();
-
-    List<MissionModel> getMstMission();
 
     List<PayItemModel> getMstPayitem();
 

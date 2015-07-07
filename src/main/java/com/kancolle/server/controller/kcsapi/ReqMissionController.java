@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
@@ -25,7 +26,7 @@ public class ReqMissionController {
     private MissionService missionService;
 
     @RequestMapping("/result")
-    public APIResponse<?> result(@ModelAttribute(MEMBER_ID) String member_id, int api_deck_id) {
+    public APIResponse<?> result(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_deck_id", required = true) Integer api_deck_id) {
         if (api_deck_id < 2) {
             // TODO 惡意請求記錄
             return new APIResponse<String>();

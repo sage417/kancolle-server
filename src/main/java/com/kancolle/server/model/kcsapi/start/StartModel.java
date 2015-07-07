@@ -12,13 +12,13 @@ import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapCellModel;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
-import com.kancolle.server.model.kcsapi.start.sub.MissionModel;
 import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 import com.kancolle.server.model.po.furniture.Furniture;
+import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
@@ -55,7 +55,7 @@ public class StartModel {
     @JSONField(ordinal = 15)
     private List<MapCellModel> api_mst_mapcell;
     @JSONField(ordinal = 16)
-    private List<MissionModel> api_mst_mission;
+    private List<Mission> api_mst_mission;
     @JSONField(ordinal = 17)
     private ConstModel api_mst_const;
     @JSONField(ordinal = 18)
@@ -99,7 +99,7 @@ public class StartModel {
         return api_mst_mapinfo;
     }
 
-    public List<MissionModel> getApi_mst_mission() {
+    public List<Mission> getApi_mst_mission() {
         return api_mst_mission;
     }
 
@@ -175,7 +175,7 @@ public class StartModel {
         this.api_mst_mapinfo = api_mst_mapinfo;
     }
 
-    public void setApi_mst_mission(List<MissionModel> api_mst_mission) {
+    public void setApi_mst_mission(List<Mission> api_mst_mission) {
         this.api_mst_mission = api_mst_mission;
     }
 

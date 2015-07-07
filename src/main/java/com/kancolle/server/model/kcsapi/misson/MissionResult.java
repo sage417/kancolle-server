@@ -1,6 +1,7 @@
 package com.kancolle.server.model.kcsapi.misson;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.model.po.mission.Mission;
 
 public class MissionResult {
 
@@ -48,6 +49,13 @@ public class MissionResult {
 
     @JSONField(ordinal = 13)
     private int[] api_useitem_flag;
+
+    public MissionResult(Mission mission) {
+        this.api_quest_name = mission.getName();
+        this.api_quest_level = mission.getDifficulty();
+        this.api_detail = mission.getDetails();
+        this.api_maparea_name = mission.getMaparea().getName();
+    }
 
     public int getApi_clear_result() {
         return api_clear_result;
