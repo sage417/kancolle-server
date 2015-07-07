@@ -16,12 +16,14 @@ import com.kancolle.server.model.kcsapi.misson.MissionStart;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.mission.Mission;
+import com.kancolle.server.model.po.mission.MissionExp;
 import com.kancolle.server.service.map.MapAreaService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionResultChecker;
 import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.mission.utils.MissionCondResult;
+import com.kancolle.server.service.mission.utils.MissionUtils;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.DateUtils;
 
@@ -89,6 +91,7 @@ public class MissionServiceImpl implements MissionService {
         result.setApi_ship_id(ArrayUtils.add(deckport.getShip(), 0, -1L));
 
         MissionCondResult mr = MissionResultChecker.getMissionResultChecker(mission.getMissionId()).getResult(deckport);
+        MissionExp missionExp = mission.getMissionExp();
 
         switch (mr) {
         case CALL_BACK:
@@ -96,20 +99,31 @@ public class MissionServiceImpl implements MissionService {
             break;
         case FAIL:
             result.setApi_clear_result(-1);
-            // result.setApi_get_exp(api_get_exp);
-            // memberService.increaseMemberExp(memberService.getMember(member_id),
-            // exp);
-            // memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0),
-            // exp);
-            // deckport.getShips().stream().skip(1L).forEach(memberShip ->
-            // memberShipSerivce.increaseMemberShipExp(memberShip, exp));
-            // result.setApi_get_material(mission.getme);
+            result.setApi_get_exp(missionExp.getMemberExp());
+            memberService.increaseMemberExp(memberService.getMember(member_id), missionExp.getMemberExp());
+            memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0), missionExp.getShipExp() * 3 / 2);
+            deckport.getShips().stream().skip(1L).forEach(memberShip -> memberShipSerivce.increaseMemberShipExp(memberShip, missionExp.getShipExp()));
+            result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, mission));
+            result.setApi_get_material(mission.getMaterials());
             break;
         case SUCCESS:
             result.setApi_clear_result(1);
+            result.setApi_get_exp(missionExp.getMemberExp());
+            memberService.increaseMemberExp(memberService.getMember(member_id), missionExp.getMemberExp());
+            memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0), missionExp.getShipExp() * 3 / 2);
+            deckport.getShips().stream().skip(1L).forEach(memberShip -> memberShipSerivce.increaseMemberShipExp(memberShip, missionExp.getShipExp()));
+            result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, mission));
+            result.setApi_get_material(mission.getMaterials());
             break;
         case GREATE_SUCCESS:
             result.setApi_clear_result(2);
+            result.setApi_clear_result(-1);
+            result.setApi_get_exp(missionExp.getMemberExp());
+            memberService.increaseMemberExp(memberService.getMember(member_id), missionExp.getMemberExp());
+            memberShipSerivce.increaseMemberShipExp(deckport.getShips().get(0), missionExp.getShipExp() * 3 / 2);
+            deckport.getShips().stream().skip(1L).forEach(memberShip -> memberShipSerivce.increaseMemberShipExp(memberShip, missionExp.getShipExp()));
+            result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, mission));
+            result.setApi_get_material(mission.getMaterials());
             break;
         default:
             break;

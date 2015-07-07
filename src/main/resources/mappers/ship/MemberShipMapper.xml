@@ -63,14 +63,14 @@
 		</set>
 		WHERE ms.`SHIP_ID` = s.ID
 		AND ms.member_id = #{member_id}
-		AND ms.ID IN <foreach collection="memberShip_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+		AND ms.ID IN <foreach collection="member_ship_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
 	</update>
 	
 	<update id="updateMemberExp">
 		UPDATE t_member_ship SET
 			LV = #{lv},
 			EXP = #{exp, typeHandler=LongJsonArrayHanlder}
-		WHERE member_id = #{member_id} AND ID = #{memberShip_id}
+		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
 	
 	<update id="updateMemberShipSlot">

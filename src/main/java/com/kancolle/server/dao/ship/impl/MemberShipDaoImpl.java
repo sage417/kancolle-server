@@ -45,7 +45,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     public void chargeMemberShips(String member_id, List<Long> memberShip_ids, int charge_kind) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", member_id);
-        params.put("memberShip_ids", memberShip_ids);
+        params.put("member_ship_ids", memberShip_ids);
         params.put("charge_kind", charge_kind);
         getSqlSession().update("chargeMemberShips", params);
     }
@@ -54,7 +54,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     public void updateMemberExp(MemberShip memberShip) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(8);
         params.put("member_id", memberShip.getMemberId());
-        params.put("memberShp_id", memberShip.getMemberShipId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
         params.put("lv", memberShip.getLv());
         params.put("exp", memberShip.getExp());
         getSqlSession().update("updateMemberExp", params);

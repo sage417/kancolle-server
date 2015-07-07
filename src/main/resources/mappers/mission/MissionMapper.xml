@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.mission.MissionDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
 	<resultMap type="Mission" id="MissionRM" autoMapping="true">
 		<id property="missionId" column="ID" />
 		<result property="useFuel" column="USE_FUEL" />
 		<result property="useBull" column="USE_BULL" />
-		<result property="winItem1" column="WIN_ITEM1"  typeHandler="IntJsonArrayHanlder"/>
-		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder"/>
+		<result property="winItem1" column="WIN_ITEM1" typeHandler="IntJsonArrayHanlder" />
+		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder" />
 		<result property="returnFlag" column="RETURN_FLAG" />
 		<association property="maparea" column="MAPAREA_ID" select="com.kancolle.server.dao.map.MapAreaDao.selectMapAreasByCond" />
+		<association property="missionExp" column="ID" select="selectMissionExp" />
 	</resultMap>
-	
+
 	<select id="selectMissionByCond" resultMap="MissionRM">
 		SELECT * FROM t_mission
 		<where>
@@ -18,5 +22,15 @@
 				ID = #{mission_id}
 			</if>
 		</where>
+	</select>
+
+	<resultMap type="MissionExp" id="MissionExpRM">
+		<id property="missionId" column="ID" />
+		<result property="memberExp" column="EXP" />
+		<result property="shipExp" column="SHIP_EXP" />
+	</resultMap>
+
+	<select id="selectMissionExp" resultMap="MissionExpRM">
+		SELECT * FROM t_exp_mission WHERE ID = #{mission_id}
 	</select>
 </mapper>

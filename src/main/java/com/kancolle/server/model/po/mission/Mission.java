@@ -63,6 +63,12 @@ public class Mission implements Serializable {
         return returnFlag ? 1 : 0;
     }
 
+    @JSONField(serialize = false, deserialize = false)
+    private MissionExp missionExp;
+
+    @JSONField(serialize = false, deserialize = false)
+    private int[] materials;
+
     public int getMissionId() {
         return missionId;
     }
@@ -149,6 +155,22 @@ public class Mission implements Serializable {
 
     public void setReturnFlag(boolean returnFlag) {
         this.returnFlag = returnFlag;
+    }
+
+    public MissionExp getMissionExp() {
+        return missionExp;
+    }
+
+    public void setMissionExp(MissionExp missionExp) {
+        this.missionExp = missionExp;
+    }
+
+    public int[] getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(int[] materials) {
+        this.materials = materials;
     }
 
     @Override

@@ -14,10 +14,9 @@ public interface MissionService {
 
     Mission getMission(Integer mission_id);
 
-    MissionReturn callbackMission(String member_id, int deck_id);
+    MissionStart startMission(String member_id, MissionStartForm form);
 
     MissionResult calMissionResult(String member_id, Integer deck_id);
 
-    MissionStart startMission(String member_id, MissionStartForm form);
-
+    MissionReturn callbackMission(String member_id, int deck_id);
 }
