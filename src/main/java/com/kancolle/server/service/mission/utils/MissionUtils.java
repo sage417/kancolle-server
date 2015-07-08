@@ -6,8 +6,6 @@ package com.kancolle.server.service.mission.utils;
 import java.util.Arrays;
 
 import com.kancolle.server.model.po.member.MemberDeckPort;
-import com.kancolle.server.model.po.mission.Mission;
-import com.kancolle.server.model.po.mission.MissionExp;
 
 /**
  * @author J.K.SAGE
@@ -16,11 +14,10 @@ import com.kancolle.server.model.po.mission.MissionExp;
  */
 public class MissionUtils {
 
-    public static int[] getShipExps(MemberDeckPort deckport, Mission mission) {
-        MissionExp missionExp = mission.getMissionExp();
+    public static int[] getShipExps(MemberDeckPort deckport, int ship_exp) {
         int[] ship_exps = new int[deckport.getShips().size()];
-        Arrays.fill(ship_exps, missionExp.getShipExp());
-        ship_exps[0] = missionExp.getShipExp() * 3 / 2;
+        Arrays.fill(ship_exps, ship_exp);
+        ship_exps[0] = ship_exp * 3 / 2;
         return ship_exps;
     }
 }
