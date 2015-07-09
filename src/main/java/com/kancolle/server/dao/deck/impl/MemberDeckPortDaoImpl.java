@@ -95,7 +95,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         params.put("member_id", deckport.getMemberId());
         params.put("deck_id", deckport.getDeckId());
         params.put("mission_status", deckport.getMission()[0]);
-        params.put("mission_id", deckport.getMission()[1]);
+        params.put("mission_id", deckport.getMission()[1] == 0 ? null : deckport.getMission()[1]);
         params.put("mission_complete_time", deckport.getMission()[2]);
         params.put("mission_flag", deckport.getMission()[3]);
         getSqlSession().update("updateDeckPortMission", params);
