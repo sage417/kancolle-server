@@ -12,11 +12,7 @@ import com.kancolle.server.dao.base.BaseDao;
  */
 public interface MemberUseItemDao extends BaseDao<Object> {
 
-    /**
-     * @param member_id
-     * @param useItem_id
-     * @return
-     */
     int countMemberItem(String member_id, Integer useItem_id);
 
+    void addMemberUseItemCount(String member_id, int useitem_id, int addCount);
 }

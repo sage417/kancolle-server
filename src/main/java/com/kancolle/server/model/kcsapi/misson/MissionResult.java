@@ -50,6 +50,12 @@ public class MissionResult {
     @JSONField(ordinal = 13)
     private int[] api_useitem_flag;
 
+    @JSONField(ordinal = 14)
+    private GetUseItem api_get_item1;
+
+    @JSONField(ordinal = 15)
+    private GetUseItem api_get_item2;
+
     public MissionResult(Mission mission) {
         this.api_quest_name = mission.getName();
         this.api_quest_level = mission.getDifficulty();
@@ -159,5 +165,21 @@ public class MissionResult {
 
     public void setApi_useitem_flag(int[] api_useitem_flag) {
         this.api_useitem_flag = api_useitem_flag;
+    }
+
+    public GetUseItem getApi_get_item1() {
+        return api_get_item1;
+    }
+
+    public void setApi_get_item1(GetUseItem api_get_item1) {
+        this.api_get_item1 = api_get_item1;
+    }
+
+    public GetUseItem getApi_get_item2() {
+        return api_get_item2;
+    }
+
+    public void setApi_get_item2(GetUseItem api_get_item2) {
+        this.api_get_item2 = api_get_item2;
     }
 }

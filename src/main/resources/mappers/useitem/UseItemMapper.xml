@@ -2,7 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.member.MemberUseItemDao">
 
-	<select id="selectCountOfMemberItem" resultType="int">
-		SELECT COUNT FROM t_member_useitem WHERE member_id = #{member_id} AND ID = #{useItem_id}
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+	<resultMap type="UseItem" id="UseItemRM" autoMapping="true">
+		<id property="useitemId" column="ID" />
+		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHanlder"/>
+	</resultMap>
+	
+	<select id="selectUseItemByCond" resultMap="UseItemRM" >
+		SELECT * FROM t_useitem
+		<where>
+			<if test="_parameter != null">ID = #{useitem_id}</if>
+		</where>
 	</select>
 </mapper>

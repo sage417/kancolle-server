@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.member;
+package com.kancolle.server.service.useitem;
 
 import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
 import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
@@ -13,17 +13,10 @@ import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
  */
 public interface MemberUseItemService {
 
-    /**
-     * @param member_id
-     * @param form
-     */
     UseItemResult useItem(String member_id, UseItemForm form);
 
-    /**
-     * @param member_id
-     * @param useItem_id
-     * @return
-     */
+    void addMemberUseItemCount(String member_id, int useitem_id, int addCount);
+
     int getCountOfMemberUseItem(String member_id, Integer useItem_id);
 
 }

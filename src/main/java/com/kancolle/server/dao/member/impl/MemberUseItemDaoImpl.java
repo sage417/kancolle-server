@@ -20,10 +20,19 @@ import com.kancolle.server.dao.member.MemberUseItemDao;
 public class MemberUseItemDaoImpl extends BaseDaoImpl<Object> implements MemberUseItemDao {
 
     @Override
-    public int countMemberItem(String member_id, Integer useItem_id) {
+    public int countMemberItem(String member_id, Integer useitem_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
-        params.put("useItem_id", "useItem_id");
+        params.put("useitem_id", useitem_id);
         return getSqlSession().selectOne("selectCountOfMemberItem", params);
+    }
+
+    @Override
+    public void addMemberUseItemCount(String member_id, int useitem_id, int add_count) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", member_id);
+        params.put("useitem_id", useitem_id);
+        params.put("add_count", add_count);
+        getSqlSession().update("addMemberUseItemCount", params);
     }
 }

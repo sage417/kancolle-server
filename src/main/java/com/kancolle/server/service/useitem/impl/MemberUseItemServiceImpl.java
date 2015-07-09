@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.member.impl;
+package com.kancolle.server.service.useitem.impl;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import com.kancolle.server.model.kcsapi.useitem.item.FurnitureCoin;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.service.member.MemberUseItemService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 
 /**
  * @author J.K.SAGE
@@ -85,5 +85,10 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public int getCountOfMemberUseItem(String member_id, Integer useItem_id) {
         return memberUseItemDao.countMemberItem(member_id, useItem_id);
+    }
+
+    @Override
+    public void addMemberUseItemCount(String member_id, int useitem_id, int addCount) {
+        memberUseItemDao.addMemberUseItemCount(member_id, useitem_id, addCount);
     }
 }

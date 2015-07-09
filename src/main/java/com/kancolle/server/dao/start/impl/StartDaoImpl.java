@@ -21,7 +21,6 @@ import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
@@ -29,7 +28,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
     private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
-    private static final String MST_USEITEM_TB = SELECT_ALL + "t_useitem";
     private static final String MST_PAYITEM_TB = SELECT_ALL + "t_pay_item";
     private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM t_item_shop WHERE NAME = :shop_name";
     private static final String MST_MAPAREA_TB = SELECT_ALL + "t_map_area";
@@ -106,12 +104,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     @Override
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
         return queryForModels(SlotItemGraphModel.class, MST_SLOTITEMGRAPH_TB);
-
-    }
-
-    @Override
-    public List<UseItemModel> getMstUseitem() {
-        return queryForModels(UseItemModel.class, MST_USEITEM_TB);
 
     }
 }

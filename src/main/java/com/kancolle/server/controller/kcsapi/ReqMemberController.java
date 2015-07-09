@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
 import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberUseItemService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)

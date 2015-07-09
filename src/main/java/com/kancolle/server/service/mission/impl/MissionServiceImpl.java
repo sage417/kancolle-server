@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.dao.mission.MissionDao;
+import com.kancolle.server.model.kcsapi.misson.GetUseItem;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
@@ -28,6 +29,7 @@ import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.mission.MissionExp;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionResultChecker;
@@ -35,7 +37,10 @@ import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.mission.utils.MissionCondResult;
 import com.kancolle.server.service.mission.utils.MissionUtils;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
+import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
+import com.kancolle.server.utils.RandomUtils;
 
 @Service
 public class MissionServiceImpl implements MissionService {
@@ -61,6 +66,12 @@ public class MissionServiceImpl implements MissionService {
 
     @Autowired
     private MemberShipService memberShipSerivce;
+
+    @Autowired
+    private UseItemService useItemService;
+
+    @Autowired
+    private MemberUseItemService memberUseItemService;
 
     @Override
     public List<Mission> getMissions() {
@@ -138,6 +149,15 @@ public class MissionServiceImpl implements MissionService {
             missionIncreaseMemberShipExp(deck_ships, ship_exp);
             result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, ship_exp));
             result.setApi_get_material(mission.getMaterials());
+
+            if (mission.getWinItem1()[0] != 0) {
+                Integer useitem_id = Integer.valueOf(mission.getWinItem1()[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem1()[1]);
+                result.setApi_get_item1(new GetUseItem(useitem, getCount));
+                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
+            }
+
             break;
         case GREATE_SUCCESS:
             result.setApi_clear_result(RESULT_GREAT_SUCCESS);
@@ -146,6 +166,22 @@ public class MissionServiceImpl implements MissionService {
             missionIncreaseMemberShipExp(deck_ships, ship_exp);
             result.setApi_get_ship_exp(MissionUtils.getShipExps(deckport, ship_exp));
             result.setApi_get_material(IntStream.of(mission.getMaterials()).map(value -> value * 3 / 2).toArray());
+
+            if (mission.getWinItem1()[0] != 0) {
+                Integer useitem_id = Integer.valueOf(mission.getWinItem1()[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem1()[1]);
+                result.setApi_get_item1(new GetUseItem(useitem, getCount));
+                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
+            }
+
+            if (mission.getWinItem2()[0] != 0) {
+                Integer useitem_id = Integer.valueOf(mission.getWinItem2()[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem2()[1]);
+                result.setApi_get_item2(new GetUseItem(useitem, getCount));
+                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
+            }
             break;
         default:
             throw new IllegalArgumentException();

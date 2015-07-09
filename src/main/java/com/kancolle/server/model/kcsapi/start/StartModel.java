@@ -16,12 +16,12 @@ import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.UseItemModel;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.model.po.useitem.UseItem;
 
 public class StartModel {
     @JSONField(ordinal = 1)
@@ -41,7 +41,7 @@ public class StartModel {
     @JSONField(ordinal = 8)
     private List<FurnitureGraphModel> api_mst_furnituregraph;
     @JSONField(ordinal = 9)
-    private List<UseItemModel> api_mst_useitem;
+    private List<UseItem> api_mst_useitem;
     @JSONField(ordinal = 10)
     private List<PayItemModel> api_mst_payitem;
     @JSONField(ordinal = 11)
@@ -135,7 +135,7 @@ public class StartModel {
         return api_mst_stype;
     }
 
-    public List<UseItemModel> getApi_mst_useitem() {
+    public List<UseItem> getApi_mst_useitem() {
         return api_mst_useitem;
     }
 
@@ -211,7 +211,7 @@ public class StartModel {
         this.api_mst_stype = api_mst_stype;
     }
 
-    public void setApi_mst_useitem(List<UseItemModel> api_mst_useitem) {
+    public void setApi_mst_useitem(List<UseItem> api_mst_useitem) {
         this.api_mst_useitem = api_mst_useitem;
     }
 }
