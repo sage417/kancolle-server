@@ -6,6 +6,7 @@ package com.kancolle.server.service.slotitem;
 import java.util.List;
 import java.util.Map;
 
+import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
@@ -26,8 +27,9 @@ public interface MemberSlotItemService {
     MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
 
     /** 解体装备 */
-    void distorySlotitemByIds(String member_id, List<Long> slotitems);
+    void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
 
-    void distorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
+    /** 解体装备并返回资源 */
+    MemberSlotItemDestoryResult destroyItemAndReturnResource(String member_id, List<Long> slotitem_ids);
 
 }

@@ -270,7 +270,7 @@ public class MemberShipServiceImpl implements MemberShipService {
             // -----------解除装备并解体装备-------------//
             if (!powupShip.getSlot().isEmpty()) {
                 List<MemberSlotItem> removeSlotitems = unsetAllSlotitems(powupShip);
-                memberSlotItemService.distorySlotitems(member_id, removeSlotitems);
+                memberSlotItemService.destorySlotitems(member_id, removeSlotitems);
             }
             // -----------解除装备并解体装备-------------//
 

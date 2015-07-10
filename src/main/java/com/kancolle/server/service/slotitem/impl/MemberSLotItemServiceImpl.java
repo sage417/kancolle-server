@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
+import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 
@@ -36,6 +38,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
     @Autowired
     private SlotItemService slotItemService;
+
+    @Autowired
+    private MemberResourceService memberResourceService;
 
     @Override
     public MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId) {
@@ -76,22 +81,29 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public void distorySlotitemByIds(String member_id, List<Long> slotitem_ids) {
-        for (Long slotitem_id : slotitem_ids) {
-            MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
-            if (slotitem == null || slotitem.getLocked())
-                throw new IllegalStateException();
-        }
-        memberSlotItemDao.delete(member_id, slotitem_ids);
-    }
-
-    @Override
-    public void distorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
+    public void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
         for (MemberSlotItem memberSlotItem : removeSlotitems) {
             if (memberSlotItem == null || memberSlotItem.getLocked())
                 throw new IllegalStateException();
         }
         List<Long> slotitem_ids = removeSlotitems.stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
         memberSlotItemDao.delete(member_id, slotitem_ids);
+    }
+
+    @Override
+    public MemberSlotItemDestoryResult destroyItemAndReturnResource(String member_id, List<Long> slotitem_ids) {
+        int[] getMaterials = new int[4];
+        for (Long slotitem_id : slotitem_ids) {
+            MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
+            if (slotitem == null || slotitem.getLocked())
+                throw new IllegalStateException();
+            int[] broken = slotitem.getSlotItem().getBrokenArray();
+            for (int i = 0; i < broken.length; i++) {
+                getMaterials[i] += broken[i];
+            }
+        }
+        memberSlotItemDao.delete(member_id, slotitem_ids);
+        memberResourceService.increaseResource(member_id, getMaterials[0], getMaterials[1], getMaterials[2], getMaterials[3], 0, 0, 0, 0);
+        return new MemberSlotItemDestoryResult(getMaterials);
     }
 }
