@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.member.MemberNdockDao">
+
+	<resultMap type="MemberKdock" id="MemberKdockRM" autoMapping="true">
+		<id property="memberId" column="member_id" />
+		<id property="kdockId" column="ID" />
+		<result property="createShipId" column="CREATED_SHIP_ID" />
+		<result property="completeTime" column="COMPLETE_TIME" />
+		<result property="completeTimeStr" column="COMPLETE_TIME_STR" />
+		<result property="item1" column="ITEM1"/>
+		<result property="item2" column="ITEM2"/>
+		<result property="item3" column="ITEM3"/>
+		<result property="item4" column="ITEM4"/>
+		<result property="item5" column="ITEM5"/>
+	</resultMap>
+
+	<select id="selectMemberKdockByCond" resultMap="MemberKdockRM">
+		SELECT * FROM t_member_kdock WHERE member_id = #{member_id}
+		<if test="kdock_id != null">AND ID = #{kdock_id}</if>
+	</select>
+</mapper>

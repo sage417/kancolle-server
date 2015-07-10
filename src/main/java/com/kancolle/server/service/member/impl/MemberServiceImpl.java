@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
-import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -50,11 +49,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getBasic(String member_id) {
         return getMember(member_id);
-    }
-
-    @Override
-    public List<MemberKdock> getKdock(String member_id) {
-        return memberDao.getKdock(member_id);
     }
 
     @Override

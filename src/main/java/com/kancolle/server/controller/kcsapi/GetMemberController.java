@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
-import com.kancolle.server.model.kcsapi.member.MemberKdock;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -24,12 +23,14 @@ import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -56,6 +57,9 @@ public class GetMemberController {
     @Autowired
     private MemberFurnitureService memberFurnitureService;
 
+    @Autowired
+    private MemberKdockService memberKdockService;
+
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         Member api_data = memberService.getBasic(member_id);
@@ -70,7 +74,7 @@ public class GetMemberController {
 
     @RequestMapping("/kdock")
     public APIResponse<List<MemberKdock>> kdock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberKdock> api_data = memberService.getKdock(member_id);
+        List<MemberKdock> api_data = memberKdockService.getMemberKdock(member_id);
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
     }
 

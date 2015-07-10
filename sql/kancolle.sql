@@ -234,7 +234,7 @@ CREATE TABLE `t_member` (
   `max_kagu` int(11) unsigned NOT NULL DEFAULT '0',
   `playtime` bigint(20) unsigned NOT NULL DEFAULT '0',
   `tutorial` int(4) unsigned NOT NULL DEFAULT '0',
-  `furniture` varchar(255) NOT NULL DEFAULT '[1,72,102,133,164,221,242]',
+  `furniture` char(63) NOT NULL DEFAULT '[1,72,102,133,164,221,242]',
   `count_deck` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '最大保有可能舰队数',
   `count_kdock` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '工厂数',
   `count_ndock` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '入渠数',
@@ -258,7 +258,7 @@ CREATE TABLE `t_member` (
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[6,48,210,117,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[199,57,210,120,212,187]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[6,55,210,117,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[199,57,210,120,212,187]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5);
 
 /*Table structure for table `t_member_battle_status` */
 
@@ -459,7 +459,7 @@ CREATE TABLE `t_member_ndock` (
 
 /*Data for the table `t_member_ndock` */
 
-insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',7,0,16,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
+insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
 
 /*Table structure for table `t_member_ship` */
 
@@ -1068,27 +1068,6 @@ DROP TABLE IF EXISTS `v_member_deckport`;
  `locked` tinyint(3) unsigned 
 )*/;
 
-/*Table structure for table `v_member_kdock` */
-
-DROP TABLE IF EXISTS `v_member_kdock`;
-
-/*!50001 DROP VIEW IF EXISTS `v_member_kdock` */;
-/*!50001 DROP TABLE IF EXISTS `v_member_kdock` */;
-
-/*!50001 CREATE TABLE  `v_member_kdock`(
- `member_id` bigint(20) unsigned ,
- `ID` tinyint(3) unsigned ,
- `STATE` tinyint(3) ,
- `CREATED_SHIP_ID` int(10) unsigned ,
- `COMPLETE_TIME` bigint(20) unsigned ,
- `COMPLETE_TIME_STR` varchar(255) ,
- `ITEM1` mediumint(8) unsigned ,
- `ITEM2` mediumint(8) unsigned ,
- `ITEM3` mediumint(8) unsigned ,
- `ITEM4` mediumint(8) unsigned ,
- `ITEM5` tinyint(3) unsigned 
-)*/;
-
 /*Table structure for table `v_member_mission` */
 
 DROP TABLE IF EXISTS `v_member_mission`;
@@ -1176,13 +1155,6 @@ DROP TABLE IF EXISTS `v_member_useitem`;
 /*!50001 DROP VIEW IF EXISTS `v_member_deckport` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0) */;
-
-/*View structure for view v_member_kdock */
-
-/*!50001 DROP TABLE IF EXISTS `v_member_kdock` */;
-/*!50001 DROP VIEW IF EXISTS `v_member_kdock` */;
-
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_member_kdock` AS select `t_member_kdock`.`member_id` AS `member_id`,`t_member_kdock`.`ID` AS `ID`,`t_member_kdock`.`STATE` AS `STATE`,`t_member_kdock`.`CREATED_SHIP_ID` AS `CREATED_SHIP_ID`,`t_member_kdock`.`COMPLETE_TIME` AS `COMPLETE_TIME`,`t_member_kdock`.`COMPLETE_TIME_STR` AS `COMPLETE_TIME_STR`,`t_member_kdock`.`ITEM1` AS `ITEM1`,`t_member_kdock`.`ITEM2` AS `ITEM2`,`t_member_kdock`.`ITEM3` AS `ITEM3`,`t_member_kdock`.`ITEM4` AS `ITEM4`,`t_member_kdock`.`ITEM5` AS `ITEM5` from `t_member_kdock` where (`t_member_kdock`.`STATE` > -(1)) order by `t_member_kdock`.`member_id`,`t_member_kdock`.`ID` */;
 
 /*View structure for view v_member_mission */
 
