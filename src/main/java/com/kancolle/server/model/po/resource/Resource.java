@@ -22,7 +22,7 @@ public class Resource {
 
     private int bull;
 
-    private int steal;
+    private int steel;
 
     private int bauxite;
 
@@ -59,11 +59,11 @@ public class Resource {
     }
 
     public int getSteel() {
-        return steal;
+        return steel;
     }
 
-    public void setSteal(int steal) {
-        this.steal = steal;
+    public void setSteel(int steel) {
+        this.steel = steel;
     }
 
     public int getBauxite() {
@@ -130,39 +130,43 @@ public class Resource {
 
     @Override
     public String toString() {
-        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steal=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steal, bauxite,
+        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steal=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steel, bauxite,
                 fastRecovery, fastBuild, devItem, ehItem);
     }
 
+    private boolean isEnough(int value, int target) {
+        return target > 0 && value >= target;
+    }
+
     public boolean hasEnoughFuel(int target) {
-        return this.fuel >= target;
+        return isEnough(this.fuel, target);
     }
 
     public boolean hasEnoughBull(int target) {
-        return this.bull >= target;
+        return isEnough(this.bull, target);
     }
 
     public boolean hasEnoughSteal(int target) {
-        return this.steal >= target;
+        return isEnough(this.steel, target);
     }
 
     public boolean hasEnoughBauxite(int target) {
-        return this.bauxite >= target;
+        return isEnough(this.bauxite, target);
     }
 
     public boolean hasEnoughFastRecovery(int target) {
-        return this.fastRecovery >= target;
+        return isEnough(this.fastRecovery, target);
     }
 
     public boolean hasEnoughFastBuild(int target) {
-        return this.fastBuild >= target;
+        return isEnough(this.fastBuild, target);
     }
 
     public boolean hasEnoughDevItem(int target) {
-        return this.devItem >= target;
+        return isEnough(this.devItem, target);
     }
 
     public boolean hasEnoughEhItem(int target) {
-        return this.ehItem >= target;
+        return isEnough(this.ehItem, target);
     }
 }

@@ -103,7 +103,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
             }
         }
         memberSlotItemDao.delete(member_id, slotitem_ids);
-        memberResourceService.increaseResource(member_id, getMaterials[0], getMaterials[1], getMaterials[2], getMaterials[3], 0, 0, 0, 0);
+        memberResourceService.increaseMaterial(member_id, getMaterials);
         return new MemberSlotItemDestoryResult(getMaterials);
     }
 }
