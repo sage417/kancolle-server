@@ -12,6 +12,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -26,8 +27,10 @@ public interface MemberShipService {
     /** 补给燃弹 */
     ChargeModel chargeShips(String member_id, ShipChargeForm form);
 
+    void destoryShips(String member_id, List<MemberShip> memberShips);
+
     /** 解体 */
-    void destoryShips(String member_id, List<Long> memberShipIds);
+    MemberRescourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id);
 
     /** 获取提督舰娘数 */
     int getCountOfMemberShip(String member_id);
@@ -57,4 +60,5 @@ public interface MemberShipService {
     void unsetslotAll(String member_id, Long memberShip_id);
 
     List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip);
+
 }

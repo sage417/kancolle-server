@@ -12,10 +12,12 @@ import com.kancolle.server.model.po.resource.Resource;
  */
 public interface MemberResourceService {
 
+    Resource getMemberResouce(String member_id);
+
     void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem);
 
     void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteal, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
             int increaseEhItem);
 
-    Resource getMemberResouce(String member_id);
+    void increaseMaterial(String member_id, int[] increaseMaterials);
 }

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
@@ -31,6 +32,8 @@ import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.resource.MemberRescourceResult;
+import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.ship.Ship;
@@ -121,14 +124,28 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
-    public void destoryShips(String member_id, List<Long> member_ship_ids) {
-        for (Long member_ship_id : member_ship_ids) {
-            MemberShip memberShip = getMemberShip(member_id, member_ship_id);
-            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip()) {
+    public void destoryShips(String member_id, List<MemberShip> memberShips) {
+        for (MemberShip memberShip : memberShips) {
+            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip())
                 throw new IllegalStateException();
-            }
         }
+        List<Long> member_ship_ids = memberShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
         memberShipDao.deleteMemberShips(member_id, member_ship_ids);
+    }
+
+    @Override
+    public MemberRescourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id) {
+        MemberShip memberShip = getMemberShip(member_id, member_ship_id);
+        if (memberShip == null) {
+            throw new IllegalArgumentException();
+        }
+
+        destoryShips(member_id, Collections.singletonList(memberShip));
+
+        memberResourceService.increaseMaterial(member_id, memberShip.getShip().getBrokenArray());
+        Resource memberResource = memberResourceService.getMemberResouce(member_id);
+
+        return new MemberRescourceResult(memberResource);
     }
 
     @Override
@@ -241,6 +258,8 @@ public class MemberShipServiceImpl implements MemberShipService {
         int[] powupArray = new int[] { 0, 0, 0, 0 };
         float powupLuck = 0f;
 
+        List<MemberShip> powupShips = Lists.newArrayListWithCapacity(powup_ship_ids.size());
+
         for (Long powup_ship_id : powup_ship_ids) {
             MemberShip powupShip = getMemberShip(member_id, powup_ship_id);
             if (powupShip == null) {
@@ -251,6 +270,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 LOGGER.warn("用户ID:{} 请求解体上锁的舰娘{}", member_id, target_ship_id);
                 throw new IllegalStateException();
             }
+            powupShips.add(powupShip);
 
             // -----------如果在舰队中则退出舰队-------------//
 
@@ -278,11 +298,14 @@ public class MemberShipServiceImpl implements MemberShipService {
             for (int i = 0; i < shippowup.length; i++) {
                 powupArray[i] += shippowup[i];
             }
+
+            // ------------增加运------------//
             if (powupShip.getShip().getShipId() == 163) {
                 powupLuck += 1.2f;
             } else if (powupShip.getShip().getShipId() == 402) {
                 powupLuck += 1.6f;
             }
+            // ------------增加运------------//
         }
 
         boolean powUpResult = false;
@@ -320,7 +343,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         }
         updateShipProperties(targetShip);
 
-        destoryShips(member_id, powup_ship_ids);
+        destoryShips(member_id, powupShips);
 
         return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, targetShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
@@ -378,6 +401,15 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
+    public List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip) {
+        List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
+        memberShip.getSlot().removeAll(removeSlots);
+        memberShipDao.removeSlot(memberShip, removeSlots);
+        return removeSlots;
+    }
+
+    @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void unsetslotAll(String member_id, Long memberShip_id) {
         MemberShip memberShip = getMemberShip(member_id, memberShip_id);
@@ -398,14 +430,5 @@ public class MemberShipServiceImpl implements MemberShipService {
     private void updateShipProperties(MemberShip memberShip) {
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
-    }
-
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip) {
-        List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
-        memberShip.getSlot().removeAll(removeSlots);
-        memberShipDao.removeSlot(memberShip, removeSlots);
-        return removeSlots;
     }
 }

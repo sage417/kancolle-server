@@ -82,4 +82,13 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
         memberResourceDao.updateMemberResource(member_id, increaseFuel, increaseBull, increaseSteal, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
     }
+
+    @Override
+    public void increaseMaterial(String member_id, int[] increaseMaterials) {
+        for (int value : increaseMaterials) {
+            if (value < 0)
+                throw new IllegalArgumentException();
+        }
+        increaseResource(member_id, increaseMaterials[0], increaseMaterials[1], increaseMaterials[2], increaseMaterials[3], 0, 0, 0, 0);
+    }
 }
