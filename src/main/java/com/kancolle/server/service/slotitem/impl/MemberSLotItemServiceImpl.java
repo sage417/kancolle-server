@@ -10,12 +10,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
+import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -48,7 +54,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public List<MemberSlotItem> getSlotItem(String member_id) {
+    public List<MemberSlotItem> getMemberSlotItems(String member_id) {
         return memberSlotItemDao.selectMemberSlotItems(member_id);
     }
 
@@ -105,5 +111,33 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         memberSlotItemDao.delete(member_id, slotitem_ids);
         memberResourceService.increaseMaterial(member_id, getMaterials);
         return new MemberSlotItemDestoryResult(getMaterials);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public CreateItemResult createItem(String member_id, CreateItemForm form) {
+        int fuel = form.getApi_item1();
+        int bull = form.getApi_item2();
+        int steel = form.getApi_item3();
+        int baxuite = form.getApi_item4();
+
+        memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
+
+        int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite);
+
+        CreateItemResult result = new CreateItemResult(memberResourceService.getMemberResouce(member_id));
+
+        if (slotItem_id == 0) {
+            result.setApi_create_flag(0);
+            result.setApi_shizai_flag(0);
+        } else {
+            result.setApi_create_flag(1);
+            result.setApi_shizai_flag(1);
+        }
+        return result;
+    }
+
+    private int getSlotItemId(int fuel, int bull, int steel, int baxuite) {
+        return RandomUtils.nextInt(0, 142);
     }
 }

@@ -33,14 +33,14 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
+    public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
         Resource resource = getMemberResouce(member_id);
-        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteal(comsumeSteal) && !resource.hasEnoughBauxite(comsumeBauxite)
+        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteal(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite)
                 && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild) && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
             // TODO LOG
             throw new IllegalArgumentException();
         }
-        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -comsumeSteal, -comsumeBauxite, -fastRecovery, -fastBuild, -DevItem, -EhItem);
+        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -comsumeSteel, -comsumeBauxite, -fastRecovery, -fastBuild, -DevItem, -EhItem);
     }
 
     @Override

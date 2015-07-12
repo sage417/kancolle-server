@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.port.PortDao;
-import com.kancolle.server.dao.port.dto.MemberMeterial;
+import com.kancolle.server.dao.port.dto.MemberMaterial;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
@@ -24,7 +24,7 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
 
     @Override
     public List<MemberMeterialDto> getMaterial(String member_id) {
-        MemberMeterial memberMeterial = queryForSingleModel(MemberMeterial.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
+        MemberMaterial memberMeterial = queryForSingleModel(MemberMaterial.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
 
         long member = Long.valueOf(member_id);
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -40,7 +41,6 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
-import com.kancolle.server.utils.RandomUtils;
 
 @Service
 public class MissionServiceImpl implements MissionService {
@@ -153,7 +153,7 @@ public class MissionServiceImpl implements MissionService {
             if (mission.getWinItem1()[0] != 0) {
                 Integer useitem_id = Integer.valueOf(mission.getWinItem1()[0]);
                 UseItem useitem = useItemService.getUseItemById(useitem_id);
-                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem1()[1]);
+                int getCount = RandomUtils.nextInt(0, mission.getWinItem1()[1]);
                 result.setApi_get_item1(new GetUseItem(useitem, getCount));
                 memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
             }
@@ -170,7 +170,7 @@ public class MissionServiceImpl implements MissionService {
             if (mission.getWinItem1()[0] != 0) {
                 Integer useitem_id = Integer.valueOf(mission.getWinItem1()[0]);
                 UseItem useitem = useItemService.getUseItemById(useitem_id);
-                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem1()[1]);
+                int getCount = RandomUtils.nextInt(0, mission.getWinItem1()[1]);
                 result.setApi_get_item1(new GetUseItem(useitem, getCount));
                 memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
             }
@@ -178,7 +178,7 @@ public class MissionServiceImpl implements MissionService {
             if (mission.getWinItem2()[0] != 0) {
                 Integer useitem_id = Integer.valueOf(mission.getWinItem2()[0]);
                 UseItem useitem = useItemService.getUseItemById(useitem_id);
-                int getCount = RandomUtils.getRandom().nextInt(mission.getWinItem2()[1]);
+                int getCount = RandomUtils.nextInt(0, mission.getWinItem2()[1]);
                 result.setApi_get_item2(new GetUseItem(useitem, getCount));
                 memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId(), getCount);
             }

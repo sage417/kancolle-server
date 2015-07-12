@@ -134,6 +134,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MemberRescourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id) {
         MemberShip memberShip = getMemberShip(member_id, member_ship_id);
         if (memberShip == null) {

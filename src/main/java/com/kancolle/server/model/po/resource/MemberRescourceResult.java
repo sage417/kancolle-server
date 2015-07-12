@@ -12,9 +12,6 @@ public class MemberRescourceResult {
 
     private int[] api_material;
 
-    /**
-     * @param memberResource
-     */
     public MemberRescourceResult(Resource memberResource) {
         this.api_material = new int[] { memberResource.getFuel(), memberResource.getBull(), memberResource.getSteel(), memberResource.getBauxite() };
     }

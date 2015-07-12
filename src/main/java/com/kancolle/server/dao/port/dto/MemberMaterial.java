@@ -12,20 +12,20 @@ import com.kancolle.server.dao.annotation.Column;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.utils.BeanUtils;
 
-public class MemberMeterial {
+public class MemberMaterial {
 
-    private static Map<String, Function<MemberMeterial, Integer>> methodMap;
+    private static Map<String, Function<MemberMaterial, Integer>> methodMap;
 
     static {
-        methodMap = new HashMap<String, Function<MemberMeterial, Integer>>();
-        methodMap.put("1", MemberMeterial::getFuel);
-        methodMap.put("2", MemberMeterial::getBull);
-        methodMap.put("3", MemberMeterial::getSteal);
-        methodMap.put("4", MemberMeterial::getBauxite);
-        methodMap.put("5", MemberMeterial::getFast_build);
-        methodMap.put("6", MemberMeterial::getFast_rec);
-        methodMap.put("7", MemberMeterial::getDev_item);
-        methodMap.put("8", MemberMeterial::getEnh_item);
+        methodMap = new HashMap<String, Function<MemberMaterial, Integer>>(8);
+        methodMap.put("1", MemberMaterial::getFuel);
+        methodMap.put("2", MemberMaterial::getBull);
+        methodMap.put("3", MemberMaterial::getSteal);
+        methodMap.put("4", MemberMaterial::getBauxite);
+        methodMap.put("5", MemberMaterial::getFast_build);
+        methodMap.put("6", MemberMaterial::getFast_rec);
+        methodMap.put("7", MemberMaterial::getDev_item);
+        methodMap.put("8", MemberMaterial::getEnh_item);
         methodMap = Collections.unmodifiableMap(methodMap);
     }
 
@@ -118,7 +118,7 @@ public class MemberMeterial {
     }
 
     public List<MemberMeterialDto> toModel() {
-        long count = BeanUtils.getGetMethodStream(MemberMeterial.class, int.class).count();
+        long count = BeanUtils.getGetMethodStream(MemberMaterial.class, int.class).count();
         List<MemberMeterialDto> meterials = new ArrayList<>((int) count);
 
         Stream.iterate(1, n -> ++n).limit(count).forEach(i -> {
