@@ -21,22 +21,27 @@ import com.kancolle.server.model.po.resource.Resource;
 public class MemberResourceDaoImpl extends BaseDaoImpl<Resource> implements MemberResourceDao {
 
     @Override
+    public void update(Resource resource) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Resource selectMemberResource(String member_id) {
         return getSqlSession().selectOne("selectMemberResource", member_id);
     }
 
     @Override
-    public void updateMemberResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem) {
+    public void updateMemberResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(9);
         params.put("member_id", member_id);
         params.put("fuel", chargeFuel);
         params.put("bull", chargeBull);
-        params.put("steal", comsumeSteal);
+        params.put("steel", comsumeSteel);
         params.put("bauxite", comsumeBauxite);
         params.put("fastRecovery", fastRecovery);
         params.put("fastBuild", fastBuild);
         params.put("devItem", devItem);
         params.put("ehItem", ehItem);
-        getSqlSession().update("updateResource", params);
+        getSqlSession().update("updateMemberResource", params);
     }
 }

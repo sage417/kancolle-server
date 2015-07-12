@@ -24,6 +24,7 @@ import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
+import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
@@ -122,18 +123,21 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         int baxuite = form.getApi_item4();
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
+        Resource memberResource = memberResourceService.getMemberResouce(member_id);
 
         int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite);
 
-        CreateItemResult result = new CreateItemResult(memberResourceService.getMemberResouce(member_id));
-
+        CreateItemResult result = null;
         if (slotItem_id == 0) {
-            result.setApi_create_flag(0);
-            result.setApi_shizai_flag(0);
+            result = new CreateItemResult(0, 0, "2,45", memberResource);
         } else {
-            result.setApi_create_flag(1);
-            result.setApi_shizai_flag(1);
+            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, slotItem_id);
+            List<MemberSlotItem> unsetSlots = memberSlotItemDao.selectMemberUnSlots(member_id);
+            long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
+                    .toArray();
+            result = new CreateItemResult(1, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
         }
+
         return result;
     }
 

@@ -25,4 +25,6 @@ public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
     void delete(String member_id, List<Long> slotitem_ids);
 
+    MemberSlotItem createMemberSlotItem(String member_id, int slotItem_id);
+
 }

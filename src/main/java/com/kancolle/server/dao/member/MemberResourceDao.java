@@ -13,7 +13,7 @@ import com.kancolle.server.model.po.resource.Resource;
  */
 public interface MemberResourceDao extends BaseDao<Resource> {
 
-    void updateMemberResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteal, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem);
+    void updateMemberResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem);
 
     Resource selectMemberResource(String member_id);
 

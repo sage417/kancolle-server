@@ -35,7 +35,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
         Resource resource = getMemberResouce(member_id);
-        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteal(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite)
+        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite)
                 && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild) && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
             // TODO LOG
             throw new IllegalArgumentException();
@@ -44,7 +44,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     }
 
     @Override
-    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteal, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
+    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
             int increaseEhItem) {
         Resource resource = getMemberResouce(member_id);
 
@@ -56,8 +56,8 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             increaseBull = MAX_RESOURCE_VALUE - resource.getBull();
         }
 
-        if (resource.getSteel() + increaseSteal > MAX_RESOURCE_VALUE) {
-            increaseSteal = MAX_RESOURCE_VALUE - resource.getSteel();
+        if (resource.getSteel() + increaseSteel > MAX_RESOURCE_VALUE) {
+            increaseSteel = MAX_RESOURCE_VALUE - resource.getSteel();
         }
 
         if (resource.getBauxite() + increaseBauxite > MAX_RESOURCE_VALUE) {
@@ -80,7 +80,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             increaseEhItem = MAX_METERIAL_VALUE - resource.getEhItem();
         }
 
-        memberResourceDao.updateMemberResource(member_id, increaseFuel, increaseBull, increaseSteal, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
+        memberResourceDao.updateMemberResource(member_id, increaseFuel, increaseBull, increaseSteel, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
     }
 
     @Override

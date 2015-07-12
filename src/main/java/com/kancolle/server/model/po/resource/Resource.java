@@ -130,7 +130,7 @@ public class Resource {
 
     @Override
     public String toString() {
-        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steal=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steel, bauxite,
+        return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steel=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steel, bauxite,
                 fastRecovery, fastBuild, devItem, ehItem);
     }
 
@@ -146,7 +146,7 @@ public class Resource {
         return isEnough(this.bull, target);
     }
 
-    public boolean hasEnoughSteal(int target) {
+    public boolean hasEnoughSteel(int target) {
         return isEnough(this.steel, target);
     }
 

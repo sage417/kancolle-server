@@ -35,7 +35,7 @@ public class MemberResourceServiceImplTest {
         Assert.assertNotNull(resource);
         /*
          * Assert.assertEquals(1, resource.getFuel()); Assert.assertEquals(2,
-         * resource.getBull()); Assert.assertEquals(3, resource.getSteal());
+         * resource.getBull()); Assert.assertEquals(3, resource.getSteel());
          * Assert.assertEquals(4, resource.getBauxite()); Assert.assertEquals(5,
          * resource.getFastRecovery()); Assert.assertEquals(6,
          * resource.getFastBuild()); Assert.assertEquals(7,

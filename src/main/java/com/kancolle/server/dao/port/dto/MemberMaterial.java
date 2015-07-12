@@ -112,7 +112,7 @@ public class MemberMaterial {
         this.fuel = fuel;
     }
 
-    @Column(name = "STEAL", type = int.class)
+    @Column(name = "STEEL", type = int.class)
     public void setSteal(int steal) {
         this.steal = steal;
     }

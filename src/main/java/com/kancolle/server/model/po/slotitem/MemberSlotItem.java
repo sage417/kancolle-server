@@ -22,7 +22,9 @@ public class MemberSlotItem {
     private long memberSlotItemId;
 
     @JSONField(ordinal = 2, name = "api_slotitem_id")
-    private long slotItemId;
+    public int returnSlotItemId() {
+        return getSlotItem().getSlotItemId();
+    }
 
     @JSONField(serialize = false, deserialize = false)
     private SlotItem slotItem;
@@ -54,21 +56,12 @@ public class MemberSlotItem {
         this.memberSlotItemId = memberSlotItemId;
     }
 
-    public long getSlotItemId() {
-        return slotItemId;
-    }
-
-    public void setSlotItemId(long slotItemId) {
-        throw new UnsupportedOperationException();
-    }
-
     public SlotItem getSlotItem() {
         return slotItem;
     }
 
     public void setSlotItem(SlotItem slotItem) {
         this.slotItem = slotItem;
-        this.slotItemId = slotItem.getSlotItemId();
     }
 
     public boolean getLocked() {
@@ -92,7 +85,7 @@ public class MemberSlotItem {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-        result = prime * result + (int) (slotItemId ^ (slotItemId >>> 32));
+        result = prime * result + (int) (memberSlotItemId ^ (memberSlotItemId >>> 32));
         return result;
     }
 
@@ -110,13 +103,13 @@ public class MemberSlotItem {
                 return false;
         } else if (!memberId.equals(other.memberId))
             return false;
-        if (slotItemId != other.slotItemId)
+        if (memberSlotItemId != other.memberSlotItemId)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("MemberSlotItem [slotItem=%s, level=%s]", slotItem, level);
+        return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, slotItem, level);
     }
 }
