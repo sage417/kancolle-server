@@ -541,7 +541,7 @@ CREATE TABLE `t_member_slotitem` (
   KEY `member_id` (`member_id`),
   CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `t_member_slotitem_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_slotitem` */
 
