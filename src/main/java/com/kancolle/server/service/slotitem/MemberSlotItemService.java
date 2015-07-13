@@ -19,14 +19,8 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  */
 public interface MemberSlotItemService {
 
-    List<MemberSlotItem> getMemberSlotItems(String member_id);
-
-    Map<String, Object> getUnsetSlot(String member_id);
-
-    MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId);
-
-    /** 裝備加鎖、解鎖 */
-    MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
+    /** 开发 */
+    CreateItemResult createItem(String member_id, CreateItemForm form);
 
     /** 解体装备 */
     void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
@@ -34,7 +28,15 @@ public interface MemberSlotItemService {
     /** 解体装备并返回资源 */
     MemberSlotItemDestoryResult destroyItemAndReturnResource(String member_id, List<Long> slotitem_ids);
 
-    /** 开发 */
-    CreateItemResult createItem(String member_id, CreateItemForm form);
+    MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId);
 
+    List<MemberSlotItem> getMemberSlotItems(String member_id);
+
+    /** 获得所有未被舰娘装备的装备 */
+    List<MemberSlotItem> getUnsetSlotList(String member_id);
+
+    Map<String, Object> getUnsetSlotMap(String member_id);
+
+    /** 裝備加鎖、解鎖 */
+    MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
 }

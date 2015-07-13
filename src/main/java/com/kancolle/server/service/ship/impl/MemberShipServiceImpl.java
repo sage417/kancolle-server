@@ -170,7 +170,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         Long memberShipId = form.getApi_shipid();
         int sortKey = form.getApi_sort_key();
         int sort_order = form.getSpi_sort_order();
-        return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlot(member_id));
+        return new Ship3Result(getMemberShip(member_id, memberShipId), memberDeckPortService.getMemberDeckPorts(member_id), memberSlotItemService.getUnsetSlotMap(member_id));
     }
 
     @Override

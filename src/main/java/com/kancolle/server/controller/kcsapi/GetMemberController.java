@@ -110,7 +110,7 @@ public class GetMemberController {
 
     @RequestMapping("/unsetslot")
     public APIResponse<Map<String, Object>> unsetslot(@ModelAttribute(MEMBER_ID) String member_id) {
-        Map<String, Object> api_data = memberSlotItemService.getUnsetSlot(member_id);
+        Map<String, Object> api_data = memberSlotItemService.getUnsetSlotMap(member_id);
         return new APIResponse<Map<String, Object>>().setApi_data(api_data);
     }
 
