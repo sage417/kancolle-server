@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
 import java.util.Map;
