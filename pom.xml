@@ -93,12 +93,12 @@
 			<id>product</id>
 			<properties>
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-				<jdbc.host>localhost</jdbc.host>
+				<jdbc.host>133.130.52.110</jdbc.host>
 				<jdbc.port>3306</jdbc.port>
 				<jdbc.database>kancolle</jdbc.database>
 				<jdbc.user>kancolle-dev</jdbc.user>
-				<jdbc.pass>kancolle</jdbc.pass>
-				<config.decrypt>false</config.decrypt>
+				<jdbc.pass>RKexlRD8dnes5NUFSzdl+O0F4JfEOFISSejQYIs1nk9ndIqMdtVZrbh/Q7hMOoir4qauqClUHmqqNxahlXpHiw==</jdbc.pass>
+				<config.decrypt>true</config.decrypt>
 			</properties>
 		</profile>
 	</profiles>
@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3</version>
 		</dependency>
 
 		<dependency>
