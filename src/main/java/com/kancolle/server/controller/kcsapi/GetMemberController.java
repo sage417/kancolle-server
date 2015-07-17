@@ -74,7 +74,7 @@ public class GetMemberController {
 
     @RequestMapping("/kdock")
     public APIResponse<List<MemberKdock>> kdock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberKdock> api_data = memberKdockService.getMemberKdock(member_id);
+        List<MemberKdock> api_data = memberKdockService.getMemberKdocks(member_id);
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
     }
 

@@ -17,4 +17,6 @@ public interface MemberKdockDao extends BaseDao<MemberKdock> {
 
     List<MemberKdock> selectMemberKdocks(String member_id);
 
+    MemberKdock selectMemberKdockByCond(String member_id, Integer kdock_id);
+
 }

@@ -6,6 +6,8 @@ package com.kancolle.server.controller.common;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ import com.kancolle.server.service.member.MemberService;
  */
 @ControllerAdvice
 public class AdviceController {
+    private static final Logger logger = LoggerFactory.getLogger(AdviceController.class);
+
     private static final String API_TOKEN = "api_token";
     private static final String API_VERNO = "api_verno";
     private static final String API_NOW_VERSION = "1";
@@ -56,9 +60,10 @@ public class AdviceController {
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody APIResponse<Object> processRuntimeException(NativeWebRequest request, RuntimeException e) {
+        logger.warn(e.getMessage(), e);
         APIResponse<Object> api_response = new APIResponse<Object>();
         api_response.setApi_result(100);
-        api_response.setApi_result_msg(e.getMessage());
+        api_response.setApi_result_msg("失败");
         return api_response;
     }
 }

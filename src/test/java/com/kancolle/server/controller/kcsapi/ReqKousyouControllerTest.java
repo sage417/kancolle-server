@@ -33,6 +33,11 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
+import com.kancolle.server.model.po.member.MemberNdock;
+import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.ship.MemberShipService;
 
 /**
  * @author J.K.SAGE
@@ -49,6 +54,12 @@ public class ReqKousyouControllerTest {
     public static void prepare() throws FileNotFoundException, IOException {
         scriptReader = Files.newBufferedReader(ResourceUtils.getFile("classpath:kancolle-data.sql").toPath());
     }
+
+    @Autowired
+    private MemberShipService memberShipService;
+
+    @Autowired
+    private MemberNdockService memberNdockService;
 
     @Autowired
     DruidDataSource dataSource;
@@ -71,7 +82,52 @@ public class ReqKousyouControllerTest {
         runner.closeConnection();
     }
 
+    public void testCreateShip() {
+        fail("Not yet implemented");
+    }
+
     public void testDestroyShip() {
+        fail("Not yet implemented");
+    }
+
+    @Test
+    public void testDestoryLeaderShip() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_kousyou/destroyship").param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f").param("api_ship_id", "11")).andReturn();
+        Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, result.getResponse().getStatus());
+    }
+
+    @Test
+    public void testDestoryShipInNdock() throws Exception {
+        final String member_id = "8006690";
+        final Long member_ship_id = Long.valueOf(1L);
+        final Integer ndock_id = Integer.valueOf(1);
+
+        MemberShip memberShip = memberShipService.getMemberShip(member_id, member_ship_id);
+        memberShip.setNowHp(1);
+        memberShipService.updateHpAndCond(memberShip);
+        memberShipService.unsetAllSlotitems(memberShip);
+        // 解锁
+        memberShipService.lock(member_id, member_ship_id);
+
+        NdockStartForm form = new NdockStartForm();
+        form.setApi_ndock_id(ndock_id);
+        form.setApi_ship_id(memberShip.getMemberShipId());
+        form.setApi_highspeed(0);
+        memberNdockService.start(member_id, form);
+
+        MemberNdock ndock = memberNdockService.getMemberNdockByCond(member_id, ndock_id);
+        Assert.assertEquals(MemberNdock.STATE_USING, ndock.getState());
+        Assert.assertEquals(member_ship_id.longValue(), ndock.getMemberShipId());
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_kousyou/destroyship").param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f").param("api_ship_id", member_ship_id.toString())).andReturn();
+        Assert.assertEquals(HttpServletResponse.SC_BAD_REQUEST, result.getResponse().getStatus());
+    }
+
+    public void testDestoryShipInMission() throws Exception {
+        fail("Not yet implemented");
+    }
+
+    public void testDestoryShipInBattle() throws Exception {
         fail("Not yet implemented");
     }
 

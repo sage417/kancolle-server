@@ -68,4 +68,9 @@ public class ShipServiceImpl implements ShipService {
         ShipType shipType = shipDao.selectShipTypeByCond(shipTypeId);
         return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
     }
+
+    @Override
+    public List<Ship> getShipCanBuild() {
+        return shipDao.selectShipCanBuild();
+    }
 }

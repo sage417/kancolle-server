@@ -25,7 +25,9 @@ import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.resource.Resource;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
@@ -50,6 +52,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     @Autowired
     private MemberResourceService memberResourceService;
 
+    @Autowired
+    private MemberDeckPortService memberDeckPortService;
+
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public CreateItemResult createItem(String member_id, CreateItemForm form) {
@@ -60,8 +65,10 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
         Resource memberResource = memberResourceService.getMemberResouce(member_id);
+        
+        MemberShip leaderShip = memberDeckPortService.getMemberDeckPort(member_id, Integer.valueOf(1)).getShips().get(0);
 
-        int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite);
+        int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite, leaderShip);
 
         CreateItemResult result = null;
         if (slotItem_id == 0) {
@@ -124,7 +131,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         return memberSlotItemDao.selectMemberSlotItems(member_id);
     }
 
-    private int getSlotItemId(int fuel, int bull, int steel, int baxuite) {
+    private int getSlotItemId(int fuel, int bull, int steel, int baxuite, MemberShip leaderShip) {
         return RandomUtils.nextInt(0, 142);
     }
 

@@ -19,4 +19,6 @@ public interface ShipDao extends BaseDao<Ship> {
     int getShipLVByExp(long after_exp);
 
     ShipType selectShipTypeByCond(int typeId);
+
+    List<Ship> selectShipCanBuild();
 }

@@ -63,8 +63,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
             List<MemberShip> removeShips = targetShips.stream().skip(1L).collect(Collectors.toList());
 
             if (removeShips.isEmpty()) {
-                // TODO
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("艦隊中只有一位艦娘，無法移除其他艦娘");
             }
             removeDeckPortShips(targetDeck, removeShips);
             return new MemberDeckPortChangeResult(removeShips.size());
@@ -104,7 +103,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         List<MemberShip> targetShips = targetDeck.getShips();
         // 旗艦不能被移除
         if (targetDeck.getDeckId() == 1 && removeShips.contains(targetShips.get(0))) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("不能移除旗舰");
         }
         targetShips.removeAll(removeShips);
         memberDeckPortDao.deleteDeckPortShip(targetDeck, removeShips);

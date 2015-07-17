@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
+import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
+import com.kancolle.server.model.po.kdock.CreateShipResult;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 
@@ -39,6 +42,18 @@ public class ReqKousyouController {
 
     @Autowired
     private MemberSlotItemService memberSlotItemService;
+
+    @Autowired
+    private MemberKdockService memberKdockService;
+
+    @RequestMapping("/createship")
+    public APIResponse<CreateShipResult> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException();
+        }
+        CreateShipResult api_data = memberKdockService.createShip(member_id, form);
+        return new APIResponse<CreateShipResult>().setApi_data(api_data);
+    }
 
     @RequestMapping("/destroyship")
     public APIResponse<MemberRescourceResult> destroyShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_ship_id", required = true) Long member_ship_id) {

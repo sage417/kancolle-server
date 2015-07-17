@@ -22,4 +22,6 @@ public interface ShipService {
     int getShipLVByExp(long afterExp);
 
     boolean canEquip(int shipTypeId, int slotitemId);
+
+    List<Ship> getShipCanBuild();
 }
