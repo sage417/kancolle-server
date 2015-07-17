@@ -85,7 +85,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
         kdock.setCompleteTime(finishTime.toEpochMilli());
         kdock.setCompleteTimeStr(DateUtils.format(finishTime));
         kdock.setCreateShipId(ship.getShipId());
-        kdock.setState(large_flag ? MemberKdock.STATUS_LARGE_BUILDING : MemberKdock.STATUS_BUILDING);
+        kdock.setState(MemberKdock.STATUS_BUILDING);
         
         memberKdockDao.update(kdock);
 
