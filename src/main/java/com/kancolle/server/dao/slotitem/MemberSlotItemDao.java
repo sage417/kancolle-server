@@ -27,4 +27,6 @@ public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
     MemberSlotItem createMemberSlotItem(String member_id, int slotItem_id);
 
+    int selectCountOfMemberSlotItem(String member_id);
+
 }

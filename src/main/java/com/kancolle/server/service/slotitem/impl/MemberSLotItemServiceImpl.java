@@ -29,6 +29,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.utils.NumberArrayUtils;
@@ -50,6 +51,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     private SlotItemService slotItemService;
 
     @Autowired
+    private MemberService memberService;
+
+    @Autowired
     private MemberResourceService memberResourceService;
 
     @Autowired
@@ -62,6 +66,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         int bull = form.getApi_item2();
         int steel = form.getApi_item3();
         int baxuite = form.getApi_item4();
+
+        if (memberService.getMember(member_id).getMaxSlotItem() == getCountOfMemberSlotItem(member_id))
+            throw new IllegalStateException();
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
         Resource memberResource = memberResourceService.getMemberResouce(member_id);
@@ -168,5 +175,10 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         Boolean lock = Boolean.valueOf(!memberSlotItem.getLocked());
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
         return new MemberSlotItemLockResult(lock.booleanValue());
+    }
+
+    @Override
+    public int getCountOfMemberSlotItem(String member_id) {
+        return memberSlotItemDao.selectCountOfMemberSlotItem(member_id);
     }
 }

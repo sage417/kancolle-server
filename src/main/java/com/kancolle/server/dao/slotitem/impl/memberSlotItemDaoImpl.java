@@ -69,4 +69,9 @@ public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
         params.put("slotitem_id", slotitem_id);
         return getSqlSession().selectOne("createMemberSlotItem", params);
     }
+
+    @Override
+    public int selectCountOfMemberSlotItem(String member_id) {
+        return getSqlSession().selectOne("selectCountOfMemberSlotItem", member_id);
+    }
 }
