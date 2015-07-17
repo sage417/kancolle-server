@@ -12,16 +12,16 @@ import javax.validation.constraints.Min;
  */
 public class CreateItemForm {
 
-    @Min(value = 30L)
+    @Min(value = 10L)
     private Integer api_item1;
 
-    @Min(value = 30L)
+    @Min(value = 10L)
     private Integer api_item2;
 
-    @Min(value = 30L)
+    @Min(value = 10L)
     private Integer api_item3;
 
-    @Min(value = 30L)
+    @Min(value = 10L)
     private Integer api_item4;
 
     public Integer getApi_item1() {
