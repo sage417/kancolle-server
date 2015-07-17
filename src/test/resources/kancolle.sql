@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v11.4 (64 bit)
-MySQL - 5.6.21 : Database - kancolle
+MySQL - 5.6.24 : Database - kancolle
 *********************************************************************
 */
 
@@ -253,12 +253,13 @@ CREATE TABLE `t_member` (
   `medals` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '甲徽章',
   `p_bgm_id` int(10) unsigned NOT NULL DEFAULT '101' COMMENT '母港职务室BGM',
   `parallel_quest_count` tinyint(3) unsigned NOT NULL DEFAULT '5' COMMENT '最大可能收付任务数',
+  `large_dock` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否可进行大建',
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9007384 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[6,55,210,117,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[199,57,210,120,212,187]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`,`large_dock`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[6,55,210,117,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5,1),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[199,57,210,120,212,187]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5,1);
 
 /*Table structure for table `t_member_battle_status` */
 
@@ -940,26 +941,38 @@ DELIMITER ;
 
 /*!50106 set global event_scheduler = 1*/;
 
-/* Event structure for event `ndock_task` */
+/* Event structure for event `dock_task` */
 
-/*!50106 DROP EVENT IF EXISTS `ndock_task`*/;
+/*!50106 DROP EVENT IF EXISTS `dock_task`*/;
 
 DELIMITER $$
 
-/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `ndock_task` ON SCHEDULE EVERY 1 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO UPDATE t_member_ndock
-SET STATE = 0,
- SHIP_ID = 0,
- COMPLETE_TIME = 0,
- COMPLETE_TIME_STR = '0'
-WHERE
-	COMPLETE_TIME_STR != '0'
-AND DATE_SUB(
-	DATE_FORMAT(
-		COMPLETE_TIME_STR,
-		'%Y-%m-%d %H:%i:%s'
-	),
-	INTERVAL 50 SECOND
-) < NOW() */$$
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `dock_task` ON SCHEDULE EVERY 1 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO Begin
+UPDATE t_member_ndock
+SET STATE = 0,
+ SHIP_ID = 0,
+ COMPLETE_TIME = 0,
+ COMPLETE_TIME_STR = '0'
+WHERE
+COMPLETE_TIME_STR != '0'
+AND DATE_SUB(
+	DATE_FORMAT(
+		COMPLETE_TIME_STR,
+		'%Y-%m-%d %H:%i:%s'
+	),
+	INTERVAL 50 SECOND) < NOW();
+	
+	UPDATE t_member_kdock
+SET STATE = 3
+WHERE
+	COMPLETE_TIME_STR != '0'
+AND DATE_SUB(
+	DATE_FORMAT(
+		COMPLETE_TIME_STR,
+		'%Y-%m-%d %H:%i:%s'
+	),
+	INTERVAL 50 SECOND) < NOW();
+END */$$
 DELIMITER ;
 
 /* Function  structure for function  `func_get_split_string` */
