@@ -22,15 +22,15 @@
 	
 	<update id="updateMemberKdock">
 		UPDATE t_member_kdock SET 
-			STATUS = #{status},
-			CREATED_SHIP_ID = #{ship_id},
+			STATE = #{state},
+			CREATED_SHIP_ID = #{createShipId},
 			COMPLETE_TIME = #{completeTime},
 			COMPLETE_TIME_STR = #{completeTimeStr},
-			ITEM1 = #{fuel},
-			ITEM2 = #{bull},
-			ITEM3 = #{steel},
-			ITEM4 = #{bauxite},
-			ITEM5 = #{dev_item}
-		WHERE WHERE member_id = #{member_id} AND ID = #{kdock_id}
+			ITEM1 = #{item1},
+			ITEM2 = #{item2},
+			ITEM3 = #{item3},
+			ITEM4 = #{item4},
+			ITEM5 = #{item5}
+		WHERE member_id = #{memberId} AND ID = #{kdockId}
 	</update>
 </mapper>

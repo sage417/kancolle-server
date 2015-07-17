@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
+import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -59,6 +61,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberKdockService memberKdockService;
+
+    @Autowired
+    private PortDao portDao;
 
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -141,5 +146,11 @@ public class GetMemberController {
 
         Ship3Result api_data = memberShipService.getShip3(member_id, form);
         return new APIResponse<Ship3Result>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/material")
+    public APIResponse<List<MemberMeterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMeterialDto> api_data = portDao.getMaterial(member_id);
+        return new APIResponse<List<MemberMeterialDto>>().setApi_data(api_data);
     }
 }

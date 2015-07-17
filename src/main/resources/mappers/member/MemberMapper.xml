@@ -33,6 +33,7 @@
 		<result property="medals" column="medals" />
 		<result property="portBGMId" column="p_bgm_id" />
 		<result property="parallelQuestCount" column="parallel_quest_count" />
+		<result property="largeDock" column="large_dock" />
 	</resultMap>
 
 	<select id="selectMemberById" resultMap="memberRM">

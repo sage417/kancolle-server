@@ -10,12 +10,14 @@ import java.util.List;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
 import com.kancolle.server.dao.member.MemberKdockDao;
 import com.kancolle.server.model.po.kdock.CreateShipResult;
 import com.kancolle.server.model.po.member.MemberKdock;
-import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberResourceService;
@@ -44,11 +46,13 @@ public class MemberKdockServiceImpl implements MemberKdockService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberKdock getMemberKdockByCond(String member_id, Integer kdock_id) {
         return memberKdockDao.selectMemberKdockByCond(member_id, kdock_id);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public CreateShipResult createShip(String member_id, CreateShipForm form) {
         Instant now = Instant.now();
 
@@ -67,7 +71,6 @@ public class MemberKdockServiceImpl implements MemberKdockService {
         }
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, fastBuild ? large_flag ? 20 : 1 : 0, dev_item, 0);
-        Resource memberResource = memberResourceService.getMemberResouce(member_id);
 
         Ship ship = getShipId(fuel, bull, steel, baxuite, dev_item);
 
@@ -82,7 +85,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
         kdock.setCompleteTime(finishTime.toEpochMilli());
         kdock.setCompleteTimeStr(DateUtils.format(finishTime));
         kdock.setCreateShipId(ship.getShipId());
-        kdock.setState(large_flag ? MemberKdock.STATUS_BUILDING : MemberKdock.STATUS_LARGE_BUILDING);
+        kdock.setState(large_flag ? MemberKdock.STATUS_LARGE_BUILDING : MemberKdock.STATUS_BUILDING);
         
         memberKdockDao.update(kdock);
 
