@@ -125,8 +125,15 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     public void destoryShips(String member_id, List<MemberShip> memberShips) {
+        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, Integer.valueOf(1));
+        MemberShip leaderShip = deckport.getShips().get(0);
+
         for (MemberShip memberShip : memberShips) {
-            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip())
+            if (memberShip == null) {
+                throw new IllegalArgumentException();
+            }
+            // 旗艦不能被解體
+            if (leaderShip.equals(memberShip) || memberShip.isLocked() || memberShip.isLockedEquip())
                 throw new IllegalStateException();
         }
         List<Long> member_ship_ids = memberShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());

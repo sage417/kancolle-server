@@ -102,6 +102,10 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
     public void removeDeckPortShips(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
         List<MemberShip> targetShips = targetDeck.getShips();
+        // 旗艦不能被移除
+        if (targetDeck.getDeckId() == 1 && removeShips.contains(targetShips.get(0))) {
+            throw new IllegalArgumentException();
+        }
         targetShips.removeAll(removeShips);
         memberDeckPortDao.deleteDeckPortShip(targetDeck, removeShips);
     }
