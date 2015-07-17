@@ -154,4 +154,12 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("cond", memberShip.getCond());
         getSqlSession().update("updateMemberShipHpAndCond", params);
     }
+
+    @Override
+    public MemberShip createShip(String member_id, int createShipId) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("create_ship_id", createShipId);
+        return getSqlSession().selectOne("createMemberShip", params);
+    }
 }

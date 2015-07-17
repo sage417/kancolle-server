@@ -63,4 +63,6 @@ public interface MemberShipService {
 
     void updateHpAndCond(MemberShip memberShip);
 
+    MemberShip createShip(String member_id, int createShipId);
+
 }

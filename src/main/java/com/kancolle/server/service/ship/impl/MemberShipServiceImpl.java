@@ -32,6 +32,7 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.common.MaxMinValue;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
@@ -43,6 +44,7 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
@@ -63,6 +65,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberShipDao memberShipDao;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private ShipService shipService;
@@ -454,5 +459,15 @@ public class MemberShipServiceImpl implements MemberShipService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void updateHpAndCond(MemberShip memberShip) {
         memberShipDao.updateMemberShipHpAndCond(memberShip);
+    }
+
+    @Override
+    public MemberShip createShip(String member_id, int createShipId) {
+        Member member = memberService.getMember(member_id);
+        if (getCountOfMemberShip(member_id) == member.getMaxChara()) {
+            throw new IllegalStateException();
+        }
+
+        return memberShipDao.createShip(member_id, createShipId);
     }
 }

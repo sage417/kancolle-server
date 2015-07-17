@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
 import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
+import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
-import com.kancolle.server.model.po.kdock.CreateShipResult;
+import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberKdockService;
@@ -47,12 +48,24 @@ public class ReqKousyouController {
     private MemberKdockService memberKdockService;
 
     @RequestMapping("/createship")
-    public APIResponse<CreateShipResult> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
+    public APIResponse<MemberKdock> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException();
         }
-        CreateShipResult api_data = memberKdockService.createShip(member_id, form);
-        return new APIResponse<CreateShipResult>().setApi_data(api_data);
+        MemberKdock api_data = memberKdockService.createShip(member_id, form);
+        return new APIResponse<MemberKdock>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/createship_speedchange")
+    public APIResponse<Object> speedUp(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_highspeed", required = true) boolean speedUp, @RequestParam(value = "api_kdock_id", required = true) Integer kdock_id) {
+        memberKdockService.speedUp(member_id, kdock_id);
+        return new APIResponse<>();
+    }
+
+    @RequestMapping("/getship")
+    public APIResponse<GetShipResult> getShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_kdock_id", required = true) Integer kdock_id) {
+        GetShipResult api_data = memberKdockService.getShip(member_id, kdock_id);
+        return new APIResponse<GetShipResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/destroyship")
