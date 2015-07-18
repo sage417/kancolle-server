@@ -14,6 +14,10 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  */
 public class CreateItemResult {
 
+    public static final int CREATE_SUCCESS = 1;
+
+    public static final int CREATE_FAIL = 0;
+
     @JSONField(ordinal = 1)
     private int api_create_flag;
 

@@ -24,6 +24,7 @@ import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
+import com.kancolle.server.model.po.common.ResourceValue;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -90,35 +91,37 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         boolean success = true;
 
+        ResourceValue broken = targetSlotItem.getBroken();
+
         do{
-            if (fuel <= targetSlotItem.getBroken().getFuel() * 10) {
+            if (fuel < broken.getFuel() * 10) {
             success = false;
             break;
         }
-            if (bull <= targetSlotItem.getBroken().getBull() * 10) {
+            if (bull < broken.getBull() * 10) {
             success = false;
             break;
         }
-            if (steel <= targetSlotItem.getBroken().getSteel() * 10) {
+            if (steel < broken.getSteel() * 10) {
             success = false;
             break;
         }
-            if (baxuite <= targetSlotItem.getBroken().getBaxuite() * 10) {
+            if (baxuite < broken.getBaxuite() * 10) {
             success = false;
         }
         } while (false);
 
+        memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, success ? 1 : 0, 0);
+        Resource memberResource = memberResourceService.getMemberResouce(member_id);
+
         if (success) {
-            Resource memberResource = memberResourceService.getMemberResouce(member_id);
             MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, targetSlotItem.getSlotItemId());
             List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
             long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
                     .toArray();
-            return new CreateItemResult(1, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+            return new CreateItemResult(CreateItemResult.CREATE_SUCCESS, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
         } else {
-            memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
-            Resource memberResource = memberResourceService.getMemberResouce(member_id);
-            return new CreateItemResult(0, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
+            return new CreateItemResult(CreateItemResult.CREATE_FAIL, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
         }
     }
 
