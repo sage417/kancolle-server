@@ -91,19 +91,19 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         boolean success = true;
 
         do{
-            if (fuel < targetSlotItem.getBroken().getFuel() * 10) {
+            if (fuel <= targetSlotItem.getBroken().getFuel() * 10) {
             success = false;
             break;
         }
-            if (bull < targetSlotItem.getBroken().getBull() * 10) {
+            if (bull <= targetSlotItem.getBroken().getBull() * 10) {
             success = false;
             break;
         }
-            if (steel < targetSlotItem.getBroken().getSteel() * 10) {
+            if (steel <= targetSlotItem.getBroken().getSteel() * 10) {
             success = false;
             break;
         }
-            if (baxuite < targetSlotItem.getBroken().getBaxuite() * 10) {
+            if (baxuite <= targetSlotItem.getBroken().getBaxuite() * 10) {
             success = false;
         }
         } while (false);
