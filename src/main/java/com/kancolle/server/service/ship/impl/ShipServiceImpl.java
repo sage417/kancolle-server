@@ -1,12 +1,10 @@
 package com.kancolle.server.service.ship.impl;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -66,23 +64,12 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public boolean canEquip(int shipTypeId, int slotitemId) {
-        ShipType shipType = shipDao.selectShipTypeByCond(shipTypeId);
+    public boolean canEquip(ShipType shipType, int slotitemId) {
         return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
     }
 
     @Override
     public List<Ship> getShipCanBuild() {
         return shipDao.selectShipCanBuild();
-    }
-
-    @Override
-    public List<Integer> getSllotItemTypeCanDevelop(ShipType type) {
-        List<Integer> types = Lists.newArrayList();
-        for (Entry<String, Object> entry : type.getEquipTypes().entrySet()) {
-            if (entry.getValue().equals(Integer.valueOf(1)))
-                types.add(Integer.valueOf(entry.getKey()));
-        }
-        return types;
     }
 }

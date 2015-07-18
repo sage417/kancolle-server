@@ -110,7 +110,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
 
     private Ship getShipId(int fuel, int bull, int steel, int baxuite, int dev_item) {
         List<Ship> ships = shipService.getShipCanBuild();
-        return ships.get(RandomUtils.nextInt(0, ships.size() + 1));
+        return ships.get(RandomUtils.nextInt(0, ships.size()));
     }
 
     @Override

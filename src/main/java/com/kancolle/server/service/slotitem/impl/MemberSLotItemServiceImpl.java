@@ -27,6 +27,7 @@ import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
@@ -70,25 +71,55 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         if (memberService.getMember(member_id).getMaxSlotItem() == getCountOfMemberSlotItem(member_id))
             throw new IllegalStateException();
 
-        memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
-        Resource memberResource = memberResourceService.getMemberResouce(member_id);
-        
         MemberShip leaderShip = memberDeckPortService.getMemberDeckPort(member_id, Integer.valueOf(1)).getShips().get(0);
 
-        int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite, leaderShip);
+        SlotItem targetSlotItem = null;
 
-        CreateItemResult result = null;
-        if (slotItem_id == 0) {
-            result = new CreateItemResult(0, 0, "2,45", memberResource);
-        } else {
-            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, slotItem_id);
+        List<Integer> slotItemTypes = slotItemService.getSllotItemTypeCanDevelop(leaderShip.getShip().getType());
+        List<SlotItem> slotItems = slotItemService.getSlotItemsCanDevelop(slotItemTypes.get(RandomUtils.nextInt(0, slotItemTypes.size())));
+        int rare_count = slotItems.stream().mapToInt(slot -> 6 - slot.getRare()).sum();
+        int randomValue = RandomUtils.nextInt(0, rare_count);
+        for (SlotItem slotItem : slotItems) {
+            int weight = 6 - slotItem.getRare();
+            if (randomValue <= weight) {
+                targetSlotItem = slotItem;
+                break;
+            }
+            randomValue = randomValue - weight;
+        }
+
+        boolean success = true;
+
+        do{
+            if (fuel < targetSlotItem.getBroken().getFuel() * 10) {
+            success = false;
+            break;
+        }
+            if (bull < targetSlotItem.getBroken().getBull() * 10) {
+            success = false;
+            break;
+        }
+            if (steel < targetSlotItem.getBroken().getSteel() * 10) {
+            success = false;
+            break;
+        }
+            if (baxuite < targetSlotItem.getBroken().getBaxuite() * 10) {
+            success = false;
+        }
+        } while (false);
+
+        if (success) {
+            Resource memberResource = memberResourceService.getMemberResouce(member_id);
+            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, targetSlotItem.getSlotItemId());
             List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
             long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
                     .toArray();
-            result = new CreateItemResult(1, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+            return new CreateItemResult(1, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+        } else {
+            memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
+            Resource memberResource = memberResourceService.getMemberResouce(member_id);
+            return new CreateItemResult(0, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
         }
-
-        return result;
     }
 
     @Override
@@ -136,10 +167,6 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public List<MemberSlotItem> getMemberSlotItems(String member_id) {
         return memberSlotItemDao.selectMemberSlotItems(member_id);
-    }
-
-    private int getSlotItemId(int fuel, int bull, int steel, int baxuite, MemberShip leaderShip) {
-        return RandomUtils.nextInt(0, 142);
     }
 
     @Override

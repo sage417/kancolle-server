@@ -5,6 +5,7 @@ package com.kancolle.server.service.slotitem;
 
 import java.util.List;
 
+import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
@@ -17,5 +18,9 @@ public interface SlotItemService {
     List<SlotItem> getSlotItems();
 
     int getCountOfSlotItemTypes();
+
+    List<SlotItem> getSlotItemsCanDevelop(Integer integer);
+
+    List<Integer> getSllotItemTypeCanDevelop(ShipType type);
 
 }
