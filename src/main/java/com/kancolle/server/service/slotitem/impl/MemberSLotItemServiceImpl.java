@@ -4,6 +4,7 @@
 package com.kancolle.server.service.slotitem.impl;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.utils.NumberArrayUtils;
+import com.sun.tools.classfile.StackMapTable_attribute.full_frame;
+import com.sun.tools.javac.util.ArrayUtils;
 
 /**
  * @author J.K.SAGE
@@ -94,21 +97,64 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         ResourceValue broken = targetSlotItem.getBroken();
 
         do{
+            int slotitem_id = targetSlotItem.getSlotItemId();
+
+            if (slotitem_id == 9 && (bull <= fuel || bull <= steel || bull <= baxuite)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 37 && (baxuite > fuel || baxuite > bull || baxuite > steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 60 && (baxuite < bull || baxuite <= fuel || baxuite <= steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 59 && (baxuite < fuel || baxuite < bull || steel < fuel || steel < bull)) {
+                success = false;
+                break;
+            }
+            if (slotitem_id == 45 && (bull < baxuite || bull <= fuel || bull <= steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 47 && (baxuite <= fuel || baxuite <= bull || baxuite <= steel)) {
+                success = false;
+                break;
+            }
+            
+            if (slotitem_id == 72) {
+                int max = NumberArrayUtils.max(fuel, bull, steel, baxuite);
+                if (max != fuel && max != steel) {
+                    success = false;
+                    break;
+                }
+                success = false;
+                break;
+            }
+
             if (fuel < broken.getFuel() * 10) {
-            success = false;
-            break;
-        }
+                success = false;
+                break;
+            }
             if (bull < broken.getBull() * 10) {
-            success = false;
-            break;
-        }
+                success = false;
+                break;
+            }
             if (steel < broken.getSteel() * 10) {
-            success = false;
-            break;
-        }
+                success = false;
+                break;
+            }
             if (baxuite < broken.getBaxuite() * 10) {
-            success = false;
-        }
+                success = false;
+                break;
+            }
+
         } while (false);
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, success ? 1 : 0, 0);
