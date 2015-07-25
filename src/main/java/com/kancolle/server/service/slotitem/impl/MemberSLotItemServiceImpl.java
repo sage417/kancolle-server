@@ -4,7 +4,6 @@
 package com.kancolle.server.service.slotitem.impl;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +35,6 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.utils.NumberArrayUtils;
-import com.sun.tools.classfile.StackMapTable_attribute.full_frame;
-import com.sun.tools.javac.util.ArrayUtils;
 
 /**
  * @author J.K.SAGE
