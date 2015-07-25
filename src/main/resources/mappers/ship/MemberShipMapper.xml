@@ -114,4 +114,17 @@
 			${member_ship_id}
 		</foreach>
 	</update>
+	
+	<update id="updateMemberShipHpAndCond">
+		UPDATE t_member_ship SET
+			NOWHP = #{nowHp},
+			COND = #{cond}
+		WHERE
+			member_id = #{member_id}
+			AND ID = #{member_ship_id}
+	</update>
+	
+	<select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM">
+		{call create_ship(#{member_id}, #{create_ship_id})}
+	</select>
 	</mapper>

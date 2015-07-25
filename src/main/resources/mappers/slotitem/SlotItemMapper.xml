@@ -20,4 +20,8 @@
 	<select id="selectCountOfSlotItemTypes" resultType="int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype
 	</select>
+	
+	<select id="selectSlotItemsCanDevelop" resultMap="slotItemRM">
+		SELECT * FROM t_slotitem WHERE DEVELOP = 1 AND func_get_split_string(TYPE,3) = #{slotitem_type} ORDER BY RARE ASC
+	</select>
 </mapper>

@@ -2,7 +2,10 @@ package com.kancolle.server.model.kcsapi.member;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.model.kcsapi.member.port.PortMember;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberNdock;
@@ -23,7 +26,7 @@ public class MemberPort {
     private List<MemberShip> api_ship;
 
     @JSONField(ordinal = 5)
-    private Member api_basic;
+    private PortMember api_basic;
 
     @JSONField(ordinal = 6)
     private List<MemberLog> api_log;
@@ -34,7 +37,7 @@ public class MemberPort {
     @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
-    public Member getApi_basic() {
+    public PortMember getApi_basic() {
         return api_basic;
     }
 
@@ -67,7 +70,9 @@ public class MemberPort {
     }
 
     public void setApi_basic(Member api_basic) {
-        this.api_basic = api_basic;
+        this.api_basic = new PortMember();
+        BeanUtils.copyProperties(api_basic, this.api_basic);
+        this.api_basic.setApi_large_dock(api_basic.isLargeDock() ? 1 : 0);
         this.api_p_bgm_id = api_basic.getPortBGMId();
         this.api_parallel_quest_count = api_basic.getParallelQuestCount();
     }

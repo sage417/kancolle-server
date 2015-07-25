@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
 
@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
+import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
+import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
+import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 
@@ -39,6 +43,30 @@ public class ReqKousyouController {
 
     @Autowired
     private MemberSlotItemService memberSlotItemService;
+
+    @Autowired
+    private MemberKdockService memberKdockService;
+
+    @RequestMapping("/createship")
+    public APIResponse<MemberKdock> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException();
+        }
+        MemberKdock api_data = memberKdockService.createShip(member_id, form);
+        return new APIResponse<MemberKdock>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/createship_speedchange")
+    public APIResponse<Object> speedUp(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_highspeed", required = true) boolean speedUp, @RequestParam(value = "api_kdock_id", required = true) Integer kdock_id) {
+        memberKdockService.speedUp(member_id, kdock_id);
+        return new APIResponse<>();
+    }
+
+    @RequestMapping("/getship")
+    public APIResponse<GetShipResult> getShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_kdock_id", required = true) Integer kdock_id) {
+        GetShipResult api_data = memberKdockService.getShip(member_id, kdock_id);
+        return new APIResponse<GetShipResult>().setApi_data(api_data);
+    }
 
     @RequestMapping("/destroyship")
     public APIResponse<MemberRescourceResult> destroyShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_ship_id", required = true) Long member_ship_id) {

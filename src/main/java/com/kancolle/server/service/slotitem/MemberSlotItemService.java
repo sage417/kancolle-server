@@ -39,4 +39,6 @@ public interface MemberSlotItemService {
 
     /** 裝備加鎖、解鎖 */
     MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
+
+    int getCountOfMemberSlotItem(String member_id);
 }

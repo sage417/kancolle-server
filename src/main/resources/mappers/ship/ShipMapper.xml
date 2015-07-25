@@ -25,6 +25,8 @@
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
+		
+		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
@@ -41,5 +43,9 @@
 
 	<select id="selectShipLVByExp" resultType="int">
 		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
+	</select>
+	
+	<select id="selectShipCanBuild" resultMap="shipRM">
+		SELECT * FROM t_ship WHERE BUILDTIME > 0
 	</select>
 </mapper>

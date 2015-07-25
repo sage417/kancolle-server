@@ -35,7 +35,11 @@ public class Ship implements Serializable {
     private String yomi;
 
     @JSONField(ordinal = 5, name = "api_stype")
-    private int type;
+    public int returnShipTypeId() {
+        return getType().getShipTypeId();
+    }
+
+    private ShipType type;
 
     /** 改造等级 */
     @JSONField(ordinal = 6, name = "api_afterlv")
@@ -225,11 +229,11 @@ public class Ship implements Serializable {
         this.afterShip = afterShip;
     }
 
-    public int getType() {
+    public ShipType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(ShipType type) {
         this.type = type;
     }
 

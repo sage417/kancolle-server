@@ -99,8 +99,7 @@ public class MemberServiceImpl implements MemberService {
         int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
         memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getMaxChara()));
         memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getMaxSlotItem()));
-        // TODO 是否能够大型建造
-        memberRecord.setApi_large_dock(1);
+        memberRecord.setApi_large_dock(basic.isLargeDock() ? 1 : 0);
         memberRecord.setApi_material_max(750 + 250 * basic.getLevel());
         return memberRecord;
     }

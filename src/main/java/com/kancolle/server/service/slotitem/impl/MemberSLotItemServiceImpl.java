@@ -4,6 +4,7 @@
 package com.kancolle.server.service.slotitem.impl;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +25,19 @@ import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
+import com.kancolle.server.model.po.common.ResourceValue;
 import com.kancolle.server.model.po.resource.Resource;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.utils.NumberArrayUtils;
+import com.sun.tools.classfile.StackMapTable_attribute.full_frame;
+import com.sun.tools.javac.util.ArrayUtils;
 
 /**
  * @author J.K.SAGE
@@ -48,7 +56,13 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     private SlotItemService slotItemService;
 
     @Autowired
+    private MemberService memberService;
+
+    @Autowired
     private MemberResourceService memberResourceService;
+
+    @Autowired
+    private MemberDeckPortService memberDeckPortService;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -58,23 +72,103 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         int steel = form.getApi_item3();
         int baxuite = form.getApi_item4();
 
-        memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, 1, 0);
+        if (memberService.getMember(member_id).getMaxSlotItem() == getCountOfMemberSlotItem(member_id))
+            throw new IllegalStateException();
+
+        MemberShip leaderShip = memberDeckPortService.getMemberDeckPort(member_id, Integer.valueOf(1)).getShips().get(0);
+
+        SlotItem targetSlotItem = null;
+
+        List<Integer> slotItemTypes = slotItemService.getSllotItemTypeCanDevelop(leaderShip.getShip().getType());
+        List<SlotItem> slotItems = slotItemService.getSlotItemsCanDevelop(slotItemTypes.get(RandomUtils.nextInt(0, slotItemTypes.size())));
+        int rare_count = slotItems.stream().mapToInt(slot -> 6 - slot.getRare()).sum();
+        int randomValue = RandomUtils.nextInt(0, rare_count);
+        for (SlotItem slotItem : slotItems) {
+            int weight = 6 - slotItem.getRare();
+            if (randomValue <= weight) {
+                targetSlotItem = slotItem;
+                break;
+            }
+            randomValue = randomValue - weight;
+        }
+
+        boolean success = true;
+
+        ResourceValue broken = targetSlotItem.getBroken();
+
+        do{
+            int slotitem_id = targetSlotItem.getSlotItemId();
+
+            if (slotitem_id == 9 && (bull <= fuel || bull <= steel || bull <= baxuite)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 37 && (baxuite > fuel || baxuite > bull || baxuite > steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 60 && (baxuite < bull || baxuite <= fuel || baxuite <= steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 59 && (baxuite < fuel || baxuite < bull || steel < fuel || steel < bull)) {
+                success = false;
+                break;
+            }
+            if (slotitem_id == 45 && (bull < baxuite || bull <= fuel || bull <= steel)) {
+                success = false;
+                break;
+            }
+
+            if (slotitem_id == 47 && (baxuite <= fuel || baxuite <= bull || baxuite <= steel)) {
+                success = false;
+                break;
+            }
+            
+            if (slotitem_id == 72) {
+                int max = NumberArrayUtils.max(fuel, bull, steel, baxuite);
+                if (max != fuel && max != steel) {
+                    success = false;
+                    break;
+                }
+                success = false;
+                break;
+            }
+
+            if (fuel < broken.getFuel() * 10) {
+                success = false;
+                break;
+            }
+            if (bull < broken.getBull() * 10) {
+                success = false;
+                break;
+            }
+            if (steel < broken.getSteel() * 10) {
+                success = false;
+                break;
+            }
+            if (baxuite < broken.getBaxuite() * 10) {
+                success = false;
+                break;
+            }
+
+        } while (false);
+
+        memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, success ? 1 : 0, 0);
         Resource memberResource = memberResourceService.getMemberResouce(member_id);
 
-        int slotItem_id = getSlotItemId(fuel, bull, steel, baxuite);
-
-        CreateItemResult result = null;
-        if (slotItem_id == 0) {
-            result = new CreateItemResult(0, 0, "2,45", memberResource);
-        } else {
-            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, slotItem_id);
+        if (success) {
+            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, targetSlotItem.getSlotItemId());
             List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
             long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
                     .toArray();
-            result = new CreateItemResult(1, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+            return new CreateItemResult(CreateItemResult.CREATE_SUCCESS, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+        } else {
+            return new CreateItemResult(CreateItemResult.CREATE_FAIL, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
         }
-
-        return result;
     }
 
     @Override
@@ -124,10 +218,6 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         return memberSlotItemDao.selectMemberSlotItems(member_id);
     }
 
-    private int getSlotItemId(int fuel, int bull, int steel, int baxuite) {
-        return RandomUtils.nextInt(0, 142);
-    }
-
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public List<MemberSlotItem> getUnsetSlotList(String member_id) {
@@ -161,5 +251,10 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         Boolean lock = Boolean.valueOf(!memberSlotItem.getLocked());
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
         return new MemberSlotItemLockResult(lock.booleanValue());
+    }
+
+    @Override
+    public int getCountOfMemberSlotItem(String member_id) {
+        return memberSlotItemDao.selectCountOfMemberSlotItem(member_id);
     }
 }

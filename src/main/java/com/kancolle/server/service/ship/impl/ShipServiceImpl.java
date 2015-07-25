@@ -64,8 +64,12 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public boolean canEquip(int shipTypeId, int slotitemId) {
-        ShipType shipType = shipDao.selectShipTypeByCond(shipTypeId);
+    public boolean canEquip(ShipType shipType, int slotitemId) {
         return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
+    }
+
+    @Override
+    public List<Ship> getShipCanBuild() {
+        return shipDao.selectShipCanBuild();
     }
 }

@@ -18,4 +18,6 @@ public interface SlotItemDao extends BaseDao<SlotItem> {
     List<SlotItem> getSlotItems();
 
     int selectCountOfSlotItemTypes();
+
+    List<SlotItem> selectSlotItemsCanDevelop(Integer slotItemType);
 }

@@ -10,11 +10,13 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.ship.MemberShipService;
 
@@ -63,8 +65,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
             List<MemberShip> removeShips = targetShips.stream().skip(1L).collect(Collectors.toList());
 
             if (removeShips.isEmpty()) {
-                // TODO
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("艦隊中只有一位艦娘，無法移除其他艦娘");
             }
             removeDeckPortShips(targetDeck, removeShips);
             return new MemberDeckPortChangeResult(removeShips.size());
@@ -102,6 +103,10 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
     public void removeDeckPortShips(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
         List<MemberShip> targetShips = targetDeck.getShips();
+        // 旗艦不能被移除
+        if (targetDeck.getDeckId() == 1 && removeShips.contains(targetShips.get(0))) {
+            throw new IllegalArgumentException("不能移除旗舰");
+        }
         targetShips.removeAll(removeShips);
         memberDeckPortDao.deleteDeckPortShip(targetDeck, removeShips);
     }
@@ -111,6 +116,9 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     public void addDeckportShip(MemberDeckPort targetDeck, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         targetShips.add(memberShip);
+
+        checkDeckPort(targetShips);
+
         memberDeckPortDao.insertDeckPortShip(targetDeck, memberShip);
     }
 
@@ -118,7 +126,11 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
     public void replaceDeckPortShip(MemberDeckPort targetDeck, int ship_idx, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
-        memberDeckPortDao.updateDeckPortShip(targetDeck, targetShips.set(ship_idx, memberShip), memberShip);
+        MemberShip otherShip = targetShips.set(ship_idx, memberShip);
+
+        checkDeckPort(targetShips);
+
+        memberDeckPortDao.updateDeckPortShip(targetDeck, otherShip, memberShip);
     }
 
     @Override
@@ -128,6 +140,9 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         List<MemberShip> otherShips = otherDock.getShips();
         otherShips.remove(memberShip);
         targetShips.add(memberShip);
+
+        checkDeckPort(targetShips);
+
         if (!targetShips.equals(otherShips)) {
             removeDeckPortShips(targetDeck, Collections.singletonList(memberShip));
             addDeckportShip(targetDeck, memberShip);
@@ -145,10 +160,35 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         MemberShip replacedShip = targetShips.set(ship_idx, memberShip);
         otherShips.set(other_index, replacedShip);
         if (!targetShips.equals(otherShips)) {
+
+            checkDeckPort(targetShips);
+            checkDeckPort(otherShips);
+
             memberDeckPortDao.updateDeckPortShip(targetDeck, replacedShip, memberShip);
             memberDeckPortDao.updateDeckPortShip(otherDock, memberShip, replacedShip);
         } else {
+
+            checkDeckPort(targetShips);
+
             memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
+        }
+    }
+
+    private void checkDeckPort(List<MemberShip> targetShips) {
+        List<Ship> checkList = Lists.newArrayList();
+
+        for (MemberShip checkship : targetShips) {
+            Ship ship = checkship.getShip();
+            if (checkList.contains(ship))
+                throw new IllegalStateException();
+            checkList.add(ship);
+            Ship afterShip = ship.getAfterShip();
+            while (afterShip != null) {
+                checkList.add(afterShip);
+                if (checkList.contains(afterShip))
+                    throw new IllegalStateException();
+                afterShip = afterShip.getAfterShip();
+            }
         }
     }
 

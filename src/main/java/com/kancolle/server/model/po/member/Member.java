@@ -119,6 +119,9 @@ public class Member {
     private int medals;
 
     @JSONField(serialize = false, deserialize = false)
+    private boolean largeDock;
+
+    @JSONField(serialize = false, deserialize = false)
     private int portBGMId;
 
     @JSONField(serialize = false, deserialize = false)
@@ -394,6 +397,14 @@ public class Member {
 
     public void setMedals(int medals) {
         this.medals = medals;
+    }
+
+    public boolean isLargeDock() {
+        return largeDock;
+    }
+
+    public void setLargeDock(boolean largeDock) {
+        this.largeDock = largeDock;
     }
 
     public int getPortBGMId() {

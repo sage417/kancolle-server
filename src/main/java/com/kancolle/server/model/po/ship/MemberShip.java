@@ -374,7 +374,7 @@ public class MemberShip {
     }
 
     public long getApi_ndock_time() {
-        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().getType()) * 1000L;
+        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().returnShipTypeId()) * 1000L;
         return this.api_ndock_time;
     }
 
@@ -383,7 +383,7 @@ public class MemberShip {
     }
 
     public int[] getApi_ndock_item() {
-        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getType());
+        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().returnShipTypeId());
         return this.api_ndock_item;
     }
 

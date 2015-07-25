@@ -46,4 +46,9 @@ public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
     public ShipType selectShipTypeByCond(int type_id) {
         return getSqlSession().selectOne("selectShipTypeByCond", type_id);
     }
+
+    @Override
+    public List<Ship> selectShipCanBuild() {
+        return getSqlSession().selectList("selectShipCanBuild");
+    }
 }

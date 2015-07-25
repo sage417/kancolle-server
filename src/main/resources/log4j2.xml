@@ -22,8 +22,8 @@
 
 	<Loggers>
 		<Root level="WARN">
-			<AppenderRef ref="Console" />
 			<AppenderRef ref="DevLog" />
+			<AppenderRef ref="Console" />
 		</Root>
 		<logger name="com.kancolle.server.dao" level="DEBUG" additivity="false">
 			<appender-ref ref="Console" />

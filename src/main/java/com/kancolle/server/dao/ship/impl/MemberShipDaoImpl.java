@@ -52,7 +52,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
 
     @Override
     public void updateMemberExp(MemberShip memberShip) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(8);
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(4);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
         params.put("lv", memberShip.getLv());
@@ -143,5 +143,23 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("member_id", member_id);
         params.put("member_ship_ids", member_ship_ids);
         getSqlSession().update("deleteMemberShips", params);
+    }
+
+    @Override
+    public void updateMemberShipHpAndCond(MemberShip memberShip) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(4);
+        params.put("member_id", memberShip.getMemberId());
+        params.put("member_ship_id", memberShip.getMemberShipId());
+        params.put("nowHp", memberShip.getNowHp());
+        params.put("cond", memberShip.getCond());
+        getSqlSession().update("updateMemberShipHpAndCond", params);
+    }
+
+    @Override
+    public MemberShip createShip(String member_id, int createShipId) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("create_ship_id", createShipId);
+        return getSqlSession().selectOne("createMemberShip", params);
     }
 }

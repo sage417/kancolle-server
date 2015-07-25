@@ -6,6 +6,13 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberKdock")
 public class MemberKdock {
+    public static final int STATUS_UNAVILABLE = -1;
+
+    public static final int STATUS_AVILABLE = 0;
+
+    public static final int STATUS_BUILDING = 2;
+
+    public static final int STATUS_FINISHED = 3;
 
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;

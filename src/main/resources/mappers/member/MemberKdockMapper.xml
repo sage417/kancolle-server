@@ -19,4 +19,18 @@
 		SELECT * FROM t_member_kdock WHERE member_id = #{member_id}
 		<if test="kdock_id != null">AND ID = #{kdock_id}</if>
 	</select>
+	
+	<update id="updateMemberKdock">
+		UPDATE t_member_kdock SET 
+			STATE = #{state},
+			CREATED_SHIP_ID = #{createShipId},
+			COMPLETE_TIME = #{completeTime},
+			COMPLETE_TIME_STR = #{completeTimeStr},
+			ITEM1 = #{item1},
+			ITEM2 = #{item2},
+			ITEM3 = #{item3},
+			ITEM4 = #{item4},
+			ITEM5 = #{item5}
+		WHERE member_id = #{memberId} AND ID = #{kdockId}
+	</update>
 </mapper>

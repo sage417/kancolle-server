@@ -56,9 +56,13 @@ public interface MemberShipService {
     /** 改装 */
     void setSlot(String member_id, ShipSetSlotForm form);
 
+    List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip);
+
     /** 移除所有裝備 */
     void unsetslotAll(String member_id, Long memberShip_id);
 
-    List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip);
+    void updateHpAndCond(MemberShip memberShip);
+
+    MemberShip createShip(String member_id, int createShipId);
 
 }

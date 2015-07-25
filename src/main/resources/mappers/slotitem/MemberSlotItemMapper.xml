@@ -54,4 +54,8 @@
 	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM">
 		{call create_slotitem(#{member_id}, #{slotitem_id})}
 	</select>
+	
+	<select id="selectCountOfMemberSlotItem" resultType="_int">
+		SELECT COUNT(*) FROM t_member_slotitem WHERE member_id = #{member_id}
+	</select>
 </mapper>

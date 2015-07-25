@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.web.interceptor.APITokenHandlerInterceptor.MEMBER_ID;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
+import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -60,6 +62,9 @@ public class GetMemberController {
     @Autowired
     private MemberKdockService memberKdockService;
 
+    @Autowired
+    private PortDao portDao;
+
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         Member api_data = memberService.getBasic(member_id);
@@ -74,7 +79,7 @@ public class GetMemberController {
 
     @RequestMapping("/kdock")
     public APIResponse<List<MemberKdock>> kdock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberKdock> api_data = memberKdockService.getMemberKdock(member_id);
+        List<MemberKdock> api_data = memberKdockService.getMemberKdocks(member_id);
         return new APIResponse<List<MemberKdock>>().setApi_data(api_data);
     }
 
@@ -141,5 +146,11 @@ public class GetMemberController {
 
         Ship3Result api_data = memberShipService.getShip3(member_id, form);
         return new APIResponse<Ship3Result>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/material")
+    public APIResponse<List<MemberMeterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMeterialDto> api_data = portDao.getMaterial(member_id);
+        return new APIResponse<List<MemberMeterialDto>>().setApi_data(api_data);
     }
 }

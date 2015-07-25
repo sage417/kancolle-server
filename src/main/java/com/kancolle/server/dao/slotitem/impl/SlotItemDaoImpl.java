@@ -33,4 +33,9 @@ public class SlotItemDaoImpl extends BaseDaoImpl<SlotItem> implements SlotItemDa
     public int selectCountOfSlotItemTypes() {
         return getSqlSession().selectOne("selectCountOfSlotItemTypes");
     }
+
+    @Override
+    public List<SlotItem> selectSlotItemsCanDevelop(Integer slotItemType) {
+        return getSqlSession().selectList("selectSlotItemsCanDevelop", slotItemType);
+    }
 }

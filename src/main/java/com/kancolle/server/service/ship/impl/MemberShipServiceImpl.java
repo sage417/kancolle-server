@@ -9,9 +9,10 @@ import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPrope
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.common.MaxMinValue;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -39,7 +42,9 @@ import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
@@ -58,10 +63,11 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipServiceImpl.class);
 
-    private static final Random r = new Random();
-
     @Autowired
     private MemberShipDao memberShipDao;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private ShipService shipService;
@@ -74,6 +80,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
+
+    @Autowired
+    private MemberNdockService memberNdockService;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -124,12 +133,33 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
-    public void destoryShips(String member_id, List<MemberShip> memberShips) {
-        for (MemberShip memberShip : memberShips) {
-            if (memberShip == null || memberShip.isLocked() || memberShip.isLockedEquip())
-                throw new IllegalStateException();
+    public void destoryShips(String member_id, List<MemberShip> destoryShips) {
+        long[] InNdockshipIds = memberNdockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
+
+        for (MemberShip destoryShip : destoryShips) {
+            if (destoryShip == null) {
+                throw new IllegalArgumentException();
+            }
+            long destoryShipId = destoryShip.getMemberShipId();
+            MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, destoryShipId);
+
+            if (deckport != null) {
+                if (deckport.getDeckId() == 1 && deckport.getShip()[0] == destoryShipId)
+                    throw new IllegalStateException("不能解體旗艦");
+                if (deckport.getMemberId() > 0)
+                    throw new IllegalStateException("不能解体远征舰队中的舰娘");
+            }
+
+            if (ArrayUtils.contains(InNdockshipIds, destoryShipId))
+                throw new IllegalStateException("不能解体入渠中的舰娘");
+
+            if (destoryShip.isLocked())
+                throw new IllegalStateException("不能解体上锁的舰娘");
+
+            if (destoryShip.isLockedEquip())
+                throw new IllegalStateException("不能解体拥有上锁装备的舰娘");
         }
-        List<Long> member_ship_ids = memberShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
+        List<Long> member_ship_ids = destoryShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
         memberShipDao.deleteMemberShips(member_id, member_ship_ids);
     }
 
@@ -275,9 +305,6 @@ public class MemberShipServiceImpl implements MemberShipService {
 
             // -----------如果在舰队中则退出舰队-------------//
 
-            // TODO 合成舰娘不能在入渠状态
-            // TODO 合成舰娘不能在远征状态
-
             deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, powup_ship_id);
             // 如果合成舰娘在舰队中
             if (deckport != null) {
@@ -316,7 +343,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 // 奖励补正
                 powupArray[i] += (powupArray[i] + 1) / 5;
                 // 随机补正
-                powupArray[i] /= (r.nextInt(2) + 1);
+                powupArray[i] /= RandomUtils.nextInt(1, 3);
                 // 最大值补正
                 if (powupArray[i] > 0) {
                     powUpResult = true;
@@ -332,7 +359,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         if (addLuck > 0) {
             if (addLuck < 8)
                 // 幸运随机补正
-                addLuck /= (r.nextInt(2) + 1);
+                addLuck /= RandomUtils.nextInt(1, 3);
             if (addLuck > 0) {
                 powUpResult = true;
                 MaxMinValue luck = targetShip.getLucky();
@@ -366,10 +393,8 @@ public class MemberShipServiceImpl implements MemberShipService {
         int slotIndex = form.getApi_slot_idx();
 
         MemberShip memberShip = getMemberShip(member_id, memberShipId);
-        if (memberShip == null) {
-            // TODO
-            throw new IllegalArgumentException();
-        }
+        if (memberShip == null)
+            throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:{},ship_id:{}", member_id, memberShipId));
 
         List<MemberSlotItem> slotItems = memberShip.getSlot();
 
@@ -381,14 +406,11 @@ public class MemberShipServiceImpl implements MemberShipService {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
 
             if (memberSlotItem == null) {
-                // TODO
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(String.format("無法找到裝備,member_id:{},slotitem_id:{}", member_id, memberSlotItemId));
             }
 
-            if (!shipService.canEquip(memberShip.getShip().getType(), memberSlotItem.getSlotItem().getType()[2])) {
-                // TODO
-                throw new IllegalArgumentException();
-            }
+            if (!shipService.canEquip(memberShip.getShip().getType(), memberSlotItem.getSlotItem().getType()[2]))
+                throw new IllegalArgumentException(String.format("該類型裝備艦娘無法裝備,member_ship:{},slotitem:{}", memberShip, memberSlotItem));
 
             if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);
@@ -431,5 +453,21 @@ public class MemberShipServiceImpl implements MemberShipService {
     private void updateShipProperties(MemberShip memberShip) {
         calMemberShipPropertiesViaSlot(memberShip);
         memberShipDao.updateMemberShipSlotValue(memberShip);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
+    public void updateHpAndCond(MemberShip memberShip) {
+        memberShipDao.updateMemberShipHpAndCond(memberShip);
+    }
+
+    @Override
+    public MemberShip createShip(String member_id, int createShipId) {
+        Member member = memberService.getMember(member_id);
+        if (getCountOfMemberShip(member_id) == member.getMaxChara()) {
+            throw new IllegalStateException();
+        }
+
+        return memberShipDao.createShip(member_id, createShipId);
     }
 }
