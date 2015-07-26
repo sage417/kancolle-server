@@ -2,12 +2,13 @@ package com.kancolle.server.service.ship;
 
 import java.util.List;
 
+import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 
 public interface ShipService {
 
-    List<Ship> getShips();
+    List<BaseShip> getShips();
 
     List<ShipType> getShipTypes();
 

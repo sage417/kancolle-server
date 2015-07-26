@@ -3,12 +3,15 @@ package com.kancolle.server.dao.ship;
 import java.util.List;
 
 import com.kancolle.server.dao.base.BaseDao;
+import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 
 public interface ShipDao extends BaseDao<Ship> {
 
     List<Ship> selectShips();
+
+    List<BaseShip> selectEmShip();
 
     List<ShipType> selectShipTypes();
 

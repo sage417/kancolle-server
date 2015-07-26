@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 
@@ -20,6 +21,11 @@ public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
     @Override
     public List<Ship> selectShips() {
         return getSqlSession().selectList("selectShipsByCond");
+    }
+
+    @Override
+    public List<BaseShip> selectEmShip() {
+        return getSqlSession().selectList("selectEmShip");
     }
 
     @Override

@@ -25,16 +25,29 @@
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
-		
+
 		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
+	</resultMap>
+	
+	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
+		<id property="shipId" column="ID" />
+		<result property="soltNum" column="SLOTNUM" />
+		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 	</resultMap>
 
 	<select id="selectShipsByCond" resultMap="shipRM">
 		SELECT * FROM t_ship
 		<where>
-			<if test="_parameter != null">ID = #{ship_id}</if>
+			<choose>
+				<when test="_parameter != null">ID = #{ship_id}</when>
+				<otherwise>ID BETWEEN 1 AND 500</otherwise>
+			</choose>
 		</where>
+	</select>
+	
+	<select id="selectEmShip" resultMap="BaseShipRM">
+		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 500 AND 900
 	</select>
 
 	<select id="selectNeedShipExpByLevel" resultType="long">

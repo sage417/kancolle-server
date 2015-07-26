@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.service.ship.ShipService;
@@ -16,8 +18,11 @@ public class ShipServiceImpl implements ShipService {
     private ShipDao shipDao;
 
     @Override
-    public List<Ship> getShips() {
-        return shipDao.selectShips();
+    public List<BaseShip> getShips() {
+        List<BaseShip> ships = Lists.newArrayListWithCapacity(600);
+        ships.addAll(shipDao.selectShips());
+        ships.addAll(shipDao.selectEmShip());
+        return ships;
     }
 
     @Override

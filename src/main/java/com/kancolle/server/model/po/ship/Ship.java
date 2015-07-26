@@ -18,28 +18,12 @@ import com.kancolle.server.model.po.common.ResourceValue;
  *
  */
 @Alias("Ship")
-public class Ship implements Serializable {
+public class Ship extends BaseShip implements Serializable {
 
     private static final long serialVersionUID = 6562446366794002946L;
 
-    @JSONField(ordinal = 1, name = "api_id")
-    private int shipId;
-
     @JSONField(ordinal = 2, name = "api_sortno")
     private int sortno;
-
-    @JSONField(ordinal = 3, name = "api_name")
-    private String name;
-
-    @JSONField(ordinal = 4, name = "api_yomi")
-    private String yomi;
-
-    @JSONField(ordinal = 5, name = "api_stype")
-    public int returnShipTypeId() {
-        return getType().getShipTypeId();
-    }
-
-    private ShipType type;
 
     /** 改造等级 */
     @JSONField(ordinal = 6, name = "api_afterlv")
@@ -120,17 +104,9 @@ public class Ship implements Serializable {
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue sakuteki;
 
-    /** 速力 */
-    @JSONField(ordinal = 14, name = "api_soku")
-    private int soku;
-
     /** 射程 */
     @JSONField(ordinal = 15, name = "api_leng")
     private int leng;
-
-    /** 可装备数 */
-    @JSONField(ordinal = 16, name = "api_slot_num")
-    private int soltNum;
 
     /** 搭载数 */
     @JSONField(ordinal = 17, name = "api_maxeq")
@@ -181,36 +157,12 @@ public class Ship implements Serializable {
     @JSONField(ordinal = 27, name = "api_voicef")
     private int voicef;
 
-    public int getShipId() {
-        return shipId;
-    }
-
-    public void setShipId(int shipId) {
-        this.shipId = shipId;
-    }
-
     public int getSortno() {
         return sortno;
     }
 
     public void setSortno(int sortno) {
         this.sortno = sortno;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getYomi() {
-        return yomi;
-    }
-
-    public void setYomi(String yomi) {
-        this.yomi = yomi;
     }
 
     public int getAfterLv() {
@@ -227,14 +179,6 @@ public class Ship implements Serializable {
 
     public void setAfterShip(Ship afterShip) {
         this.afterShip = afterShip;
-    }
-
-    public ShipType getType() {
-        return type;
-    }
-
-    public void setType(ShipType type) {
-        this.type = type;
     }
 
     public MaxMinValue getTaik() {
@@ -309,28 +253,12 @@ public class Ship implements Serializable {
         this.sakuteki = sakuteki;
     }
 
-    public int getSoku() {
-        return soku;
-    }
-
-    public void setSoku(int soku) {
-        this.soku = soku;
-    }
-
     public int getLeng() {
         return leng;
     }
 
     public void setLeng(int leng) {
         this.leng = leng;
-    }
-
-    public int getSoltNum() {
-        return soltNum;
-    }
-
-    public void setSoltNum(int soltNum) {
-        this.soltNum = soltNum;
     }
 
     public int[] getMaxEq() {
@@ -419,32 +347,5 @@ public class Ship implements Serializable {
 
     public void setVoicef(int voicef) {
         this.voicef = voicef;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + shipId;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Ship other = (Ship) obj;
-        if (shipId != other.shipId)
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Ship [name=%s]", name);
     }
 }
