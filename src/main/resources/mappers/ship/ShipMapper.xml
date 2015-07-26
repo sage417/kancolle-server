@@ -44,8 +44,4 @@
 	<select id="selectShipLVByExp" resultType="int">
 		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
-	
-	<select id="selectShipCanBuild" resultMap="shipRM">
-		SELECT * FROM t_ship WHERE BUILDTIME > 0
-	</select>
 </mapper>

@@ -8,7 +8,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -28,6 +27,7 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DateUtils;
+import com.kancolle.server.utils.factory.BasicFactory;
 
 /**
  * @author J.K.SAGE
@@ -109,8 +109,17 @@ public class MemberKdockServiceImpl implements MemberKdockService {
     }
 
     private Ship getShipId(int fuel, int bull, int steel, int baxuite, int dev_item) {
-        List<Ship> ships = shipService.getShipCanBuild();
-        return ships.get(RandomUtils.nextInt(0, ships.size()));
+        int ship_id = 0;
+        if (fuel >= 300 && steel >= 400 && baxuite >= 300) {
+            ship_id = BasicFactory.getCAShipId();
+        } else if (fuel >= 400 && steel >= 600) {
+            ship_id = BasicFactory.getBBShipId();
+        } else if (fuel >= 250 && steel >= 200) {
+            ship_id = BasicFactory.getCLShipId();
+        } else {
+            ship_id = BasicFactory.getBasicShipId();
+        }
+        return shipService.getShipByCond(ship_id);
     }
 
     @Override

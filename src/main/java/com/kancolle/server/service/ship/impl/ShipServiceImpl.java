@@ -69,7 +69,7 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public List<Ship> getShipCanBuild() {
-        return shipDao.selectShipCanBuild();
+    public Ship getShipByCond(int ship_id) {
+        return shipDao.selectShipByCond(ship_id);
     }
 }

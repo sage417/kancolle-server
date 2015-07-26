@@ -20,5 +20,5 @@ public interface ShipDao extends BaseDao<Ship> {
 
     ShipType selectShipTypeByCond(int typeId);
 
-    List<Ship> selectShipCanBuild();
+    Ship selectShipByCond(int ship_id);
 }

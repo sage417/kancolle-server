@@ -23,5 +23,5 @@ public interface ShipService {
 
     boolean canEquip(ShipType shipType, int slotitemId);
 
-    List<Ship> getShipCanBuild();
+    Ship getShipByCond(int ship_id);
 }
