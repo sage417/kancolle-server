@@ -12,10 +12,10 @@ public class ConstModel {
     private static final String INT_KEY = "api_int_value";
 
     @JSONField(ordinal = 1)
-    private static final JSONObject api_dpflag_quest = new JSONObject(2);
+    private static final JSONObject api_boko_max_ships = new JSONObject(2);
 
     @JSONField(ordinal = 2)
-    private static final JSONObject api_boko_max_ships = new JSONObject(2);
+    private static final JSONObject api_dpflag_quest = new JSONObject(2);
 
     @JSONField(ordinal = 3)
     private static final JSONObject api_parallel_quest_max = new JSONObject(2);
