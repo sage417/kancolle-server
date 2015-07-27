@@ -64,4 +64,18 @@ public class FurnitureBGMServiceImpl implements FurnitureBGMService {
 
         return new FurnitureCoinResult(basic.getfCoin());
     }
+
+    @Override
+    public void setPortBGM(String member_id, int music_id) {
+        FurnitureBGM bgm = getFurnitureBGMByCond(String.valueOf(music_id));
+
+        if (bgm == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Member basic = memberService.getMember(member_id);
+
+        basic.setPortBGMId(bgm.getBgmId());
+        memberService.updateMember(basic);
+    }
 }

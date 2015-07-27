@@ -66,4 +66,12 @@ public class ReqFurnitureController {
         FurnitureCoinResult api_data = furnitureBGMService.musicPlay(member_id, music_id);
         return new APIResponse<FurnitureCoinResult>().setApi_data(api_data);
     }
+
+    @RequestMapping("/set_portbgm")
+    public APIResponse<Object> setPortBGM(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_music_id", required = true) int music_id) {
+
+        furnitureBGMService.setPortBGM(member_id, music_id);
+
+        return new APIResponse<Object>();
+    }
 }

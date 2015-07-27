@@ -21,4 +21,6 @@ public interface FurnitureBGMService {
 
     FurnitureCoinResult musicPlay(String member_id, String music_id);
 
+    void setPortBGM(String member_id, int music_id);
+
 }
