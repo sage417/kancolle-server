@@ -1,7 +1,9 @@
 package com.kancolle.server.service.member.impl;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -145,5 +147,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
+    }
+
+    @Override
+    public void updateMemberToken(String member_id) {
+        String token = StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY);
+        memberDao.updateMemberToken(member_id, token);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY));
     }
 }

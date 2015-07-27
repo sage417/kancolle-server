@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.ship.ShipDao;
@@ -28,6 +29,11 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Autowired
     private ShipDao shipDao;
+
+    @Override
+    public void update(Member t) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public String getMemberByApiToken(String api_token) {
@@ -66,5 +72,13 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public Member getMemberById(String memberId) {
         return getSqlSession().selectOne("selectMemberById", memberId);
+    }
+
+    @Override
+    public void updateMemberToken(String member_id, String token) {
+        Map<String, String> params = Maps.newHashMap();
+        params.put("member_id", member_id);
+        params.put("token", token);
+        getSqlSession().update("updateMemberToken", params);
     }
 }

@@ -31,4 +31,5 @@ public interface MemberService {
 
     void updateMember(Member member);
 
+    void updateMemberToken(String member_id);
 }

@@ -23,4 +23,6 @@ public interface MemberDao extends BaseDao<Member> {
     int getMemberLVByExp(long afterExp);
 
     Member getMemberById(String memberId);
+
+    void updateMemberToken(String member_id, String token);
 }
