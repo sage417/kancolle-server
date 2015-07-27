@@ -20,7 +20,6 @@ import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.po.furniture.BaseBGM;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
@@ -35,11 +34,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
     private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
     private static final String MST_SHIPUPGRADE_TB = SELECT_ALL + "t_ship_upgrade";
-
-    @Override
-    public List<BaseBGM> getMstBgm() {
-        return getSqlSession().selectList("selectStart2BGMs");
-    }
 
     @Override
     public ConstModel getMstConst() {

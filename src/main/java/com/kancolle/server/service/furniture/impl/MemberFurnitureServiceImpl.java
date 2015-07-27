@@ -84,10 +84,11 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
             throw new IllegalArgumentException("已拥有该家具");
         }
 
-        if (furniture.getPrice() > 0) {
+        int price = furniture.getPrice();
+        if (price > 0) {
             Member member = memberService.getMember(member_id);
 
-            int remainFCoin = member.getfCoin() - furniture.getPrice();
+            int remainFCoin = member.getfCoin() - price;
 
             if (remainFCoin < 0) {
                 LOGGER.warn("用户Id:{} 家具币不足，furnitureId = {}", member_id, furnitureId);

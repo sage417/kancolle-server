@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.bgm.FurnitureBGMDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+	<resultMap type="FurnitureBGM" id="FurnitureBGMRM" autoMapping="true">
+		<id property="id" column="ID" />
+		<result property="bgmId" column="BGM_ID" />
+		<result property="useCoin" column="USE_COIN" />
+		<result property="bgmFlag" column="BGM_FLAG" />
+	</resultMap>
+
+	<select id="selectFurnitureBGMByCond" resultMap="FurnitureBGMRM">
+		SELECT * FROM t_port_bgm
+			<where>
+				<if test="_parameter != null"> ID = #{music_id}</if>
+			</where>
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.bgm.BGMDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+	<resultMap type="BGM" id="BGMRM" autoMapping="true">
+		<id property="bgmId" column="ID" />
+	</resultMap>
+
+	<select id="selectBGMs" resultMap="BGMRM">
+		SELECT * FROM t_bgm
+	</select>
+</mapper>

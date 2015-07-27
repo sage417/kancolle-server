@@ -15,7 +15,7 @@ import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
 import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-import com.kancolle.server.model.po.furniture.BaseBGM;
+import com.kancolle.server.model.po.furniture.BGM;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.BaseShip;
@@ -61,9 +61,9 @@ public class StartModel {
     @JSONField(ordinal = 18)
     private List<ShipUpgradeModel> api_mst_shipupgrade;
     @JSONField(ordinal = 19)
-    private List<BaseBGM> api_mst_bgm;
+    private List<BGM> api_mst_bgm;
 
-    public List<BaseBGM> getApi_mst_bgm() {
+    public List<BGM> getApi_mst_bgm() {
         return api_mst_bgm;
     }
 
@@ -139,7 +139,7 @@ public class StartModel {
         return api_mst_useitem;
     }
 
-    public void setApi_mst_bgm(List<BaseBGM> api_mst_bgm) {
+    public void setApi_mst_bgm(List<BGM> api_mst_bgm) {
         this.api_mst_bgm = api_mst_bgm;
     }
 

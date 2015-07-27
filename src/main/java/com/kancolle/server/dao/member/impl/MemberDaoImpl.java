@@ -31,11 +31,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     private ShipDao shipDao;
 
     @Override
-    public void update(Member t) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public String getMemberByApiToken(String api_token) {
         return getTemplate().queryForObject("SELECT member_id FROM t_member WHERE api_token = :token", Collections.singletonMap("token", api_token), String.class);
     }
