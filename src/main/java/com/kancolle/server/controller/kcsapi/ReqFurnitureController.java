@@ -45,4 +45,9 @@ public class ReqFurnitureController {
         furnitureService.changeFurniture(member_id, form);
         return SUCCESS_RESPONSE;
     }
+    
+    @RequestMapping("/music_list")
+    public APIResponse<Object> musicList(@ModelAttribute(MEMBER_ID) String member_id) {
+        return new APIResponse();
+    }
 }
