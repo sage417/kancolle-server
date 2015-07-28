@@ -28,11 +28,33 @@
 		</init-param>
 	</filter>
 
+	<filter>
+		<filter-name>Start2CachingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>suppressStackTrace</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cacheName</param-name>
+			<param-value>Start2CachingFilter</param-value>
+		</init-param>
+	</filter>
+
 	<filter-mapping>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
+	<filter-mapping>
+		<filter-name>Start2CachingFilter</filter-name>
+		<url-pattern>/kcsapi/api_start2</url-pattern>
+	</filter-mapping>
+
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -55,7 +77,9 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
 		<!-- deny优先于allow，如果在deny列表中，就算在allow列表中，也会被拒绝。 如果allow没有配置或者为空，则允许所有访问 -->
-		<!-- <init-param> <param-name>allow</param-name> <param-value>127.0.0.1</param-value> </init-param> <init-param> <param-name>deny</param-name> <param-value>128.242.127.4</param-value> </init-param> -->
+		<!-- <init-param> <param-name>allow</param-name> <param-value>127.0.0.1</param-value> 
+			</init-param> <init-param> <param-name>deny</param-name> <param-value>128.242.127.4</param-value> 
+			</init-param> -->
 		<init-param>
 			<!-- 用户名 -->
 			<param-name>loginUsername</param-name>

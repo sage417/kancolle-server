@@ -7,11 +7,12 @@
 
 	<!-- <cache name="token2MemberId" maxEntriesLocalHeap="1000" eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="0" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" /> -->
 
-	<cache name="start" maxEntriesLocalHeap="10000" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
-
 	<cache name="mission" maxEntriesLocalHeap="50" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
 
 	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
 
 	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+	
+	<!-- Page Caching -->
+	<cache name="Start2CachingFilter"  maxEntriesLocalHeap="10" eternal="true"/>
 </ehcache>

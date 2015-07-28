@@ -1,7 +1,6 @@
 package com.kancolle.server.service.start.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.dao.start.StartDao;
@@ -39,7 +38,6 @@ public class StartServiceImpl implements StartService {
     private BGMService BGMService;
 
     @Override
-    @Cacheable(value = "start", key = "#root.methodName")
     public StartModel getStartModel() throws InstantiationException, IllegalAccessException {
         StartModel startModel = DaoUtils.setBean(startDao, new Class<?>[] {}, new Object[] {}, "setApi_mst_slotitem", "setApi_mst_ship", "setApi_mst_stype", "setApi_mst_furniture",
                 "setApi_mst_mission", "setApi_mst_useitem", "setApi_mst_slotitemgraph", "setApi_mst_bgm");
