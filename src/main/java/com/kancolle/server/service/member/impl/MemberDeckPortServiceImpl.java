@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
@@ -27,6 +28,7 @@ import com.kancolle.server.service.ship.MemberShipService;
  */
 @Service
 public class MemberDeckPortServiceImpl implements MemberDeckPortService {
+    private static final EventBus eventBus = new EventBus("DeckPortServiceEventBus");
 
     @Autowired
     private MemberDeckPortDao memberDeckPortDao;
