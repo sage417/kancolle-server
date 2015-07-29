@@ -4,15 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
-import com.kancolle.server.dao.ship.ShipDao;
-import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
-import com.kancolle.server.dao.slotitem.SlotItemDao;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -20,15 +16,6 @@ import com.kancolle.server.model.po.member.Member;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
-
-    @Autowired
-    private SlotItemDao slotItemDao;
-
-    @Autowired
-    private MemberSlotItemDao memberSlotItemDao;
-
-    @Autowired
-    private ShipDao shipDao;
 
     @Override
     public String getMemberByApiToken(String api_token) {
