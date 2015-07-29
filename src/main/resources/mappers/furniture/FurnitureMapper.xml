@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.furniture.FurnitureDao">
 
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+		<property name="eternal" value="true"/>
+		<property name="maxEntriesLocalHeap" value="300"/>
+		<property name="strategy" value="NONE"/>
+	</cache>
 
 	<resultMap type="Furniture" id="FurnitureRM" autoMapping="true">
 		<id property="furnitureId" column="ID" />
