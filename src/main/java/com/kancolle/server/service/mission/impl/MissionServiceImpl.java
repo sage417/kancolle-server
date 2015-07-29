@@ -33,7 +33,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.service.mission.MissionResultChecker;
+import com.kancolle.server.service.mission.MissionResultCheckerFactory;
 import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.mission.utils.MissionCondResult;
 import com.kancolle.server.service.mission.utils.MissionUtils;
@@ -123,7 +123,7 @@ public class MissionServiceImpl implements MissionService {
         int ship_exp = missionExp.getShipExp();
         int member_exp = missionExp.getMemberExp();
 
-        MissionCondResult mr = MissionResultChecker.getMissionResultChecker(mission.getMissionId()).getResult(deckport);
+        MissionCondResult mr = MissionResultCheckerFactory.getMissionResultChecker(mission.getMissionId()).getResult(deckport);
 
         switch (mr) {
         case CALL_BACK:
