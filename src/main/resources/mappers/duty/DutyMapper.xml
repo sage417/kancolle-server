@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.duty.DutyDao">
+
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+		<property name="eternal" value="true"/>
+		<property name="maxEntriesLocalHeap" value="100"/>
+		<property name="strategy" value="NONE"/>
+	</cache>
+
+	<resultMap type="Duty" id="DutyRM" autoMapping="true">
+		<id property="no" column="DUTY_NO"/>
+		<result property="category" column="CATEGORY_ID"/>
+		<result property="material" column="MATERIAL" typeHandler="IntJsonArrayHanlder"/>
+		<result property="bonusFlag" column="BONUS_FLAG"/>
+		<result property="invalidFlag" column="INVALID_FLAG"/>
+		<result property="winItem1" column="WIN_ITEM1" typeHandler="IntJsonArrayHanlder"/>
+		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder"/>
+		<association property="parent" column="PARENT_ID" select="selectDutyById"/>
+	</resultMap>
+	
+	<select id="selectDutyById" resultMap="DutyRM">
+		SELECT * FROM t_duty WHERE DUTY_NO = #{duty_no}
+	</select>
+</mapper>
