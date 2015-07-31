@@ -1,132 +1,132 @@
 
-Å¤³¤ì API¥ê¥¹¥È
-2014/08ÏÄ¥¤¥Ù¥ó¥È¡«2015/03¤´¤í¤ÎAPI¤ÎÇéˆó¤ò²ÎÕÕ
-Î´Ó›Èë¤Ï²»Ã÷¤«Ê¹¤¤¤É¤³¤í¤Ê¤·
-ÍÆœy?‡g¤Ç•ø¤¤¤Æ¤¢¤ëµã¤â¶à¡©¤¢¤ë¡¢ĞÅ¤¸¤¹¤®¤Ê¤¤¤³¤È
-»ù±¾µÄ¤Ë‘éêLAPI¤Ïapi_req_sortie/battle¤ò²ÎÕÕ¤¹¤ë¤³¤È¡£Ëû¤Î‘éêLÏµAPI¤ÎÕhÃ÷¤ÏÇéˆó¤¬¹Å¤¤¿ÉÄÜĞÔ¤¬¤¢¤ë¡¢²î·Ö¤À¤±¥Á¥§¥Ã¥¯¤¹¤ë¤³¤È
-¥¿¥Ö·ù 4 ÍÆŠX¡¢šİ¤ËÈë¤é¤Ê¤±¤ì¤Ğ¸÷×Ô‰ä“Q¤¹¤ë¤³¤È(github¤Ê¤éURLÄ©Î²¤Ë ?ts=4 )
+è‰¦ã“ã‚Œ APIãƒªã‚¹ãƒˆ
+2014/08å¤ã‚¤ãƒ™ãƒ³ãƒˆï½2015/03ã”ã‚ã®APIã®æƒ…å ±ã‚’å‚ç…§
+æœªè¨˜å…¥ã¯ä¸æ˜ã‹ä½¿ã„ã©ã“ã‚ãªã—
+æ¨æ¸¬?å™‚ã§æ›¸ã„ã¦ã‚ã‚‹ç‚¹ã‚‚å¤šã€…ã‚ã‚‹ã€ä¿¡ã˜ã™ããªã„ã“ã¨
+åŸºæœ¬çš„ã«æˆ¦é—˜APIã¯api_req_sortie/battleã‚’å‚ç…§ã™ã‚‹ã“ã¨ã€‚ä»–ã®æˆ¦é—˜ç³»APIã®èª¬æ˜ã¯æƒ…å ±ãŒå¤ã„å¯èƒ½æ€§ãŒã‚ã‚‹ã€å·®åˆ†ã ã‘ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã“ã¨
+ã‚¿ãƒ–å¹… 4 æ¨å¥¨ã€æ°—ã«å…¥ã‚‰ãªã‘ã‚Œã°å„è‡ªå¤‰æ›ã™ã‚‹ã“ã¨(githubãªã‚‰URLæœ«å°¾ã« ?ts=4 )
 
-api_start2	£ºÅÄï?×°‚ä¹ÌÓĞ¥Ç©`¥¿¤½¤ÎËû
+api_start2	ï¼šè‰¦å¨˜?è£…å‚™å›ºæœ‰ãƒ‡ãƒ¼ã‚¿ãã®ä»–
 	
-	api_mst_ship		£ºÅ´¬¥Ç©`¥¿(ÅÄï)¡¡ÒÂÌæ¤¨ÅÄï¤Î¥Ç©`¥¿¤Ïshipgraph¤Ë¤·¤«´æÔÚ¤·¤Ê¤¤
-		api_id			£ºÅÄï¹ÌÓĞID
-		api_sortno		£º‡íèa·¬ºÅ
-		api_name		£ºÅÄïÃû
-		api_yomi		£ºÅÄïÃûÕi¤ß
-		api_stype		£ºÅ·N
-		api_afterlv		£º¸Ä×°Lv
-		api_aftershipid	£º¸Ä×°ááID ÎÄ×ÖÁĞ "0"=¤Ê¤·
-		api_taik		£ºÄÍ¾Ã
-		api_souk		£º×°¼×
-		api_houg		£º»ğÁ¦
-		api_raig		£ºÀ××°
-		api_tyku		£ºŒ¿Õ
-		api_luck		£ºß\
-		api_soku		£ºËÙÁ¦¡¡0=ê‘ÉÏ»ùµØ, 5=µÍËÙ, 10=¸ßËÙ
-		api_leng		£ºÉä³Ì
-		api_slot_num	£º¥¹¥í¥Ã¥ÈÊı
-		api_maxeq		£ºÅİd™C´îİdÊı
-		api_buildtime	£º½¨Ôì•rég
-		api_broken		£º½âÌåÙY²Ä
-		api_powup		£º½ü´ú»¯¸ÄĞŞŠ»¯‚
-		api_backs		£º¥ì¥¢¥ê¥Æ¥£
-		api_getmes		£ºÈ¡µÃ•rÌ¨Ô~
-		api_afterfuel	£º¸Ä×°ä“²Ä
-		api_afterbull	£º¸Ä×°Ëa
-		api_fuel_max	£ºÏûÙMÈ¼ÁÏ
-		api_bull_max	£ºÏûÙMËa
-		api_voicef		£º¥Ü¥¤¥¹ÔO¶¨¥Õ¥é¥° ¥Ó¥Ã¥È¥Õ¥é¥°; 1=·ÅÖÃ¥Ü¥¤¥¹, 2=•rˆó
+	api_mst_ship		ï¼šè‰¦èˆ¹ãƒ‡ãƒ¼ã‚¿(è‰¦å¨˜)ã€€è¡£æ›¿ãˆè‰¦å¨˜ã®ãƒ‡ãƒ¼ã‚¿ã¯shipgraphã«ã—ã‹å­˜åœ¨ã—ãªã„
+		api_id			ï¼šè‰¦å¨˜å›ºæœ‰ID
+		api_sortno		ï¼šå›³é‘‘ç•ªå·
+		api_name		ï¼šè‰¦å¨˜å
+		api_yomi		ï¼šè‰¦å¨˜åèª­ã¿
+		api_stype		ï¼šè‰¦ç¨®
+		api_afterlv		ï¼šæ”¹è£…Lv
+		api_aftershipid	ï¼šæ”¹è£…å¾ŒID æ–‡å­—åˆ— "0"=ãªã—
+		api_taik		ï¼šè€ä¹…
+		api_souk		ï¼šè£…ç”²
+		api_houg		ï¼šç«åŠ›
+		api_raig		ï¼šé›·è£…
+		api_tyku		ï¼šå¯¾ç©º
+		api_luck		ï¼šé‹
+		api_soku		ï¼šé€ŸåŠ›ã€€0=é™¸ä¸ŠåŸºåœ°, 5=ä½é€Ÿ, 10=é«˜é€Ÿ
+		api_leng		ï¼šå°„ç¨‹
+		api_slot_num	ï¼šã‚¹ãƒ­ãƒƒãƒˆæ•°
+		api_maxeq		ï¼šè‰¦è¼‰æ©Ÿæ­è¼‰æ•°
+		api_buildtime	ï¼šå»ºé€ æ™‚é–“
+		api_broken		ï¼šè§£ä½“è³‡æ
+		api_powup		ï¼šè¿‘ä»£åŒ–æ”¹ä¿®å¼·åŒ–å€¤
+		api_backs		ï¼šãƒ¬ã‚¢ãƒªãƒ†ã‚£
+		api_getmes		ï¼šå–å¾—æ™‚å°è©
+		api_afterfuel	ï¼šæ”¹è£…é‹¼æ
+		api_afterbull	ï¼šæ”¹è£…å¼¾è–¬
+		api_fuel_max	ï¼šæ¶ˆè²»ç‡ƒæ–™
+		api_bull_max	ï¼šæ¶ˆè²»å¼¾è–¬
+		api_voicef		ï¼šãƒœã‚¤ã‚¹è¨­å®šãƒ•ãƒ©ã‚° ãƒ“ãƒƒãƒˆãƒ•ãƒ©ã‚°; 1=æ”¾ç½®ãƒœã‚¤ã‚¹, 2=æ™‚å ±
 
-	api_mst_ship		£ºÅ´¬¥Ç©`¥¿(Éîº£—«Å)
-		api_id			£ºÅ´¬¹ÌÓĞID
-		api_name		£ºÅ´¬Ãû
-		api_yomi		£º”³¥¯¥é¥¹
-		api_stype		£ºÅ·N
-		api_soku		£ºËÙÁ¦
-		api_slot_num	£º¥¹¥í¥Ã¥ÈÊı
+	api_mst_ship		ï¼šè‰¦èˆ¹ãƒ‡ãƒ¼ã‚¿(æ·±æµ·æ£²è‰¦)
+		api_id			ï¼šè‰¦èˆ¹å›ºæœ‰ID
+		api_name		ï¼šè‰¦èˆ¹å
+		api_yomi		ï¼šæ•µã‚¯ãƒ©ã‚¹
+		api_stype		ï¼šè‰¦ç¨®
+		api_soku		ï¼šé€ŸåŠ›
+		api_slot_num	ï¼šã‚¹ãƒ­ãƒƒãƒˆæ•°
 
-	api_mst_shipgraph	£ºÅ´¬»­ÏñÔO¶¨
-		api_id			£ºÅ´¬ID
-		api_sortno		£º‡íèa·¬ºÅ
-		api_filename	£º¥Õ¥¡¥¤¥ëÃû
-		api_version		£º¥Õ¥¡¥¤¥ë¤Î¥Ğ©`¥¸¥ç¥ó string
-		api_boko_n		£ºÄ¸¸Û¤Ç¤Î×ù˜Ë(Ÿo‚û)£¿
-		api_boko_d		£º¡¨(ÖĞÆÆ)£¿
-		api_kaisyu_n	£º½ü´ú»¯¸ÄĞŞ
-		api_kaisyu_d	£º
-		api_kaizo_n		£º¸Ä×°
-		api_kaizo_d		£º
-		api_map_n		£º³ö“ÄÖĞ
-		api_map_d		£º
-		api_ensyuf_n	£ºÑİÁ•(×ÔÜŠ‚È)
-		api_ensyuf_d	£º
-		api_ensyue_n	£ºÑİÁ•(”³ÜŠ‚È)
-		api_battle_n	£º‘éêL
-		api_battle_d	£º
-		api_weda		£º¥±¥Ã¥³¥ó¥«¥Ã¥³¥«¥ê
-		api_wedb		£º
+	api_mst_shipgraph	ï¼šè‰¦èˆ¹ç”»åƒè¨­å®š
+		api_id			ï¼šè‰¦èˆ¹ID
+		api_sortno		ï¼šå›³é‘‘ç•ªå·
+		api_filename	ï¼šãƒ•ã‚¡ã‚¤ãƒ«å
+		api_version		ï¼šãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ string
+		api_boko_n		ï¼šæ¯æ¸¯ã§ã®åº§æ¨™(ç„¡å‚·)ï¼Ÿ
+		api_boko_d		ï¼šã€ƒ(ä¸­ç ´)ï¼Ÿ
+		api_kaisyu_n	ï¼šè¿‘ä»£åŒ–æ”¹ä¿®
+		api_kaisyu_d	ï¼š
+		api_kaizo_n		ï¼šæ”¹è£…
+		api_kaizo_d		ï¼š
+		api_map_n		ï¼šå‡ºæ’ƒä¸­
+		api_map_d		ï¼š
+		api_ensyuf_n	ï¼šæ¼”ç¿’(è‡ªè»å´)
+		api_ensyuf_d	ï¼š
+		api_ensyue_n	ï¼šæ¼”ç¿’(æ•µè»å´)
+		api_battle_n	ï¼šæˆ¦é—˜
+		api_battle_d	ï¼š
+		api_weda		ï¼šã‚±ãƒƒã‚³ãƒ³ã‚«ãƒƒã‚³ã‚«ãƒª
+		api_wedb		ï¼š
 	
-	api_mst_slotitem_equiptype		£º×°‚ä¥«¥Æ¥´¥ê
-		api_id			£º¥«¥Æ¥´¥êID(×°‚ä¤Îtype[2]¤ËŒê)
-		api_name		£º¥«¥Æ¥´¥êÃû
-		api_show_flg	£º
+	api_mst_slotitem_equiptype		ï¼šè£…å‚™ã‚«ãƒ†ã‚´ãƒª
+		api_id			ï¼šã‚«ãƒ†ã‚´ãƒªID(è£…å‚™ã®type[2]ã«å¯¾å¿œ)
+		api_name		ï¼šã‚«ãƒ†ã‚´ãƒªå
+		api_show_flg	ï¼š
 	
-	api_mst_stype		£ºÅ´¬¥«¥Æ¥´¥ê
-		api_id			£º¥«¥Æ¥´¥êID(Å´¬¤Îstype¤ËŒê)
-		api_sortno		£ºK¤ÙÌæ¤¨í˜
-		api_name		£ºÅ·NÃû
-			 1=º£·ÀÅ
-			 2=ñlÖğÅ
-			 3=İXÑ²ÑóÅ
-			 4=ÖØÀ××°Ñ²ÑóÅ
-			 5=ÖØÑ²ÑóÅ
-			 6=º½¿ÕÑ²ÑóÅ
-			 7=İX¿ÕÄ¸
-			 8=Ñ²Ñó‘éÅ(Œg¥Ç©`¥¿ÖĞ¤Ç¤Ï"‘éÅ"¤À¤¬»ìÍ¬¤ò·À¤°¤¿¤á)
-			 9=‘éÅ
-			10=º½¿Õ‘éÅ
-			11=ÕıÒ¿ÕÄ¸
-			12=³¬åó¼‰‘éÅ
-			13=Ç±Ë®Å
-			14=Ç±Ë®¿ÕÄ¸
-			15=Ña½oÅ
-			16=Ë®ÉÏ™CÄ¸Å
-			17=“Pê‘Å
-			18=×°¼×¿ÕÄ¸
-			19=¹¤×÷Å
-			20=Ç±Ë®Ä¸Å
-			21=¾šÁ•Ñ²ÑóÅ
-		api_scnt		£ºÈëÇş•rég‚SÊı(±¾Ìå¥½©`¥¹ÄÚ¤Ç¤Ï[slotCount]¤È¤¢¤ë)
-		api_kcnt		£º½¨Ôì•r¤Î¥·¥ë¥¨¥Ã¥È
-		api_equip_type	£º×°‚ä¿ÉÄÜ¥«¥Æ¥´¥ê¤Î¥Õ¥é¥°
-			£ª¥Ç©`¥¿¤ÈÖ±½ÓµÄév‚S¤Ï¤Ê¤¤¤¬¡¢¤³¤Î¥ª¥Ö¥¸¥§¥¯¥È¤Î×Ó¤Ï"1"¤È¤¤¤Ã¤¿Êı×Ö¤«¤éÊ¼¤Ş¤ëÃûÇ°¤ò³Ö¤Ã¤Æ¤¤¤ë¡£
-			¡¡¤³¤ÎÃûÇ°¤ÏÒ¼sß`·´¤Ç¤¢¤ë¤¿¤á¡¢ÕıÒ¤Îjson¥Ñ©`¥µ¤Ç¤ÏÕı³£¤ËÕi¤ßŞz¤à¤³¤È¤¬¤Ç¤­¤Ê¤¤¤Î¤Ç×¢Òâ¤¹¤ë¤³¤È¡£
+	api_mst_stype		ï¼šè‰¦èˆ¹ã‚«ãƒ†ã‚´ãƒª
+		api_id			ï¼šã‚«ãƒ†ã‚´ãƒªID(è‰¦èˆ¹ã®stypeã«å¯¾å¿œ)
+		api_sortno		ï¼šä¸¦ã¹æ›¿ãˆé †
+		api_name		ï¼šè‰¦ç¨®å
+			 1=æµ·é˜²è‰¦
+			 2=é§†é€è‰¦
+			 3=è»½å·¡æ´‹è‰¦
+			 4=é‡é›·è£…å·¡æ´‹è‰¦
+			 5=é‡å·¡æ´‹è‰¦
+			 6=èˆªç©ºå·¡æ´‹è‰¦
+			 7=è»½ç©ºæ¯
+			 8=å·¡æ´‹æˆ¦è‰¦(å®Ÿãƒ‡ãƒ¼ã‚¿ä¸­ã§ã¯"æˆ¦è‰¦"ã ãŒæ··åŒã‚’é˜²ããŸã‚)
+			 9=æˆ¦è‰¦
+			10=èˆªç©ºæˆ¦è‰¦
+			11=æ­£è¦ç©ºæ¯
+			12=è¶…å¼©ç´šæˆ¦è‰¦
+			13=æ½œæ°´è‰¦
+			14=æ½œæ°´ç©ºæ¯
+			15=è£œçµ¦è‰¦
+			16=æ°´ä¸Šæ©Ÿæ¯è‰¦
+			17=æšé™¸è‰¦
+			18=è£…ç”²ç©ºæ¯
+			19=å·¥ä½œè‰¦
+			20=æ½œæ°´æ¯è‰¦
+			21=ç·´ç¿’å·¡æ´‹è‰¦
+		api_scnt		ï¼šå…¥æ¸ æ™‚é–“ä¿‚æ•°(æœ¬ä½“ã‚½ãƒ¼ã‚¹å†…ã§ã¯[slotCount]ã¨ã‚ã‚‹)
+		api_kcnt		ï¼šå»ºé€ æ™‚ã®ã‚·ãƒ«ã‚¨ãƒƒãƒˆ
+		api_equip_type	ï¼šè£…å‚™å¯èƒ½ã‚«ãƒ†ã‚´ãƒªã®ãƒ•ãƒ©ã‚°
+			ï¼Šãƒ‡ãƒ¼ã‚¿ã¨ç›´æ¥çš„é–¢ä¿‚ã¯ãªã„ãŒã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å­ã¯"1"ã¨ã„ã£ãŸæ•°å­—ã‹ã‚‰å§‹ã¾ã‚‹åå‰ã‚’æŒã£ã¦ã„ã‚‹ã€‚
+			ã€€ã“ã®åå‰ã¯è¦ç´„é•åã§ã‚ã‚‹ãŸã‚ã€æ­£è¦ã®jsonãƒ‘ãƒ¼ã‚µã§ã¯æ­£å¸¸ã«èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ããªã„ã®ã§æ³¨æ„ã™ã‚‹ã“ã¨ã€‚
 	
-	api_mst_slotitem	£º×°‚ä¥Ç©`¥¿
-		api_id			£º×°‚äID
-		api_sortno		£ºK¤ÙÌæ¤¨í˜
-		api_name		£º×°‚äÃû
-		api_type		£º×°‚ä¥¿¥¤¥×
-			[0]£º´ó·Öî
-				 1=³h
-				 2=ô~À×
-				 3=Åİd™C
-				 4=™Cã|?ÌØÊâ(Œ¿ÕÏµ)
-				 5=‚É²ì™C?ëŠÌ½(Ë÷”³Ïµ)
-				 6=Š»¯
-				 7=ŒÇ±×°‚ä
-				 8=´ó°k„ÓÍ§?Ì½ÕÕµÆ
-				 9=º†Ò×İ”ËÍ²¿²Ä
-				10=ÅÍ§ĞŞÀíÊ©ÔO
-				11=ÕÕÃ÷
-				12=Ë¾Áî²¿Ê©ÔO
-				13=º½¿ÕÒª†T
-				14=¸ßÉä×°ÖÃ
-				15=ŒµØ×°‚ä
-				16=Ë®ÉÏÅÒª†T
-				17=´óĞÍïwĞĞÍ§
+	api_mst_slotitem	ï¼šè£…å‚™ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šè£…å‚™ID
+		api_sortno		ï¼šä¸¦ã¹æ›¿ãˆé †
+		api_name		ï¼šè£…å‚™å
+		api_type		ï¼šè£…å‚™ã‚¿ã‚¤ãƒ—
+			[0]ï¼šå¤§åˆ†é¡
+				 1=ç ²
+				 2=é­šé›·
+				 3=è‰¦è¼‰æ©Ÿ
+				 4=æ©ŸéŠƒ?ç‰¹æ®Šå¼¾(å¯¾ç©ºç³»)
+				 5=åµå¯Ÿæ©Ÿ?é›»æ¢(ç´¢æ•µç³»)
+				 6=å¼·åŒ–
+				 7=å¯¾æ½œè£…å‚™
+				 8=å¤§ç™ºå‹•è‰‡?æ¢ç…§ç¯
+				 9=ç°¡æ˜“è¼¸é€éƒ¨æ
+				10=è‰¦è‰‡ä¿®ç†æ–½è¨­
+				11=ç…§æ˜å¼¾
+				12=å¸ä»¤éƒ¨æ–½è¨­
+				13=èˆªç©ºè¦å“¡
+				14=é«˜å°„è£…ç½®
+				15=å¯¾åœ°è£…å‚™
+				16=æ°´ä¸Šè‰¦è¦å“¡
+				17=å¤§å‹é£›è¡Œè‰‡
 
-			[1]£º‡íèa±íÊ¾
+			[1]ï¼šå›³é‘‘è¡¨ç¤º
 				 1=Primary Armament
 				 2=Secondary Armament
 				 3=Torpedo
@@ -158,1457 +158,1457 @@ api_start2	£ºÅÄï?×°‚ä¹ÌÓĞ¥Ç©`¥¿¤½¤ÎËû
 				32=Depth Charge
 				33=Flying Boat
 
-				 1=Ö÷³h
-				 2=¸±³h
-				 3=ô~À×
-				 4=ÌØÊâÇ±º½Í§
-				 5=ÅÉÏ™C
-				 6=Œ¿Õ™Cã|
-				 7=‚É²ì™C
-				 8=ëŠÌ½
-				 9=Š»¯
-				10=¥½¥Ê©`
-				14=ÉÏê‘ÓÃÖÛÍ§
-				15=¥ª©`¥È¥¸¥ã¥¤¥í
-				16=ŒÇ±ÉÚ½ä™C
-				17=×·¼Ó×°¼×
-				18=Ì½ÕÕµÆ
-				19=º†Ò×İ”ËÍ²¿²Ä
-				20=ÅÍ§ĞŞÀíÊ©ÔO
-				21=ÕÕÃ÷
-				22=Ë¾Áî²¿Ê©ÔO
-				23=º½¿ÕÒª†T
-				24=¸ßÉä×°ÖÃ
-				25=ŒÅŠ»¯
-				26=ŒµØ×°‚ä
-				27=Ë®ÉÏÅÒª†T
-				28=Œ¿ÕŠ»¯
-				29=Œ¿Õ¥í¥±¥Ã¥È¥é¥ó¥Á¥ã©`
-				30=ê¼±ĞŞÀíÒª†T
-				31=™Cév²¿Š»¯
-				32=±¬À×
-				33=´óĞÍïwĞĞÍ§
+				 1=ä¸»ç ²
+				 2=å‰¯ç ²
+				 3=é­šé›·
+				 4=ç‰¹æ®Šæ½œèˆªè‰‡
+				 5=è‰¦ä¸Šæ©Ÿ
+				 6=å¯¾ç©ºæ©ŸéŠƒ
+				 7=åµå¯Ÿæ©Ÿ
+				 8=é›»æ¢
+				 9=å¼·åŒ–
+				10=ã‚½ãƒŠãƒ¼
+				14=ä¸Šé™¸ç”¨èˆŸè‰‡
+				15=ã‚ªãƒ¼ãƒˆã‚¸ãƒ£ã‚¤ãƒ­
+				16=å¯¾æ½œå“¨æˆ’æ©Ÿ
+				17=è¿½åŠ è£…ç”²
+				18=æ¢ç…§ç¯
+				19=ç°¡æ˜“è¼¸é€éƒ¨æ
+				20=è‰¦è‰‡ä¿®ç†æ–½è¨­
+				21=ç…§æ˜å¼¾
+				22=å¸ä»¤éƒ¨æ–½è¨­
+				23=èˆªç©ºè¦å“¡
+				24=é«˜å°„è£…ç½®
+				25=å¯¾è‰¦å¼·åŒ–å¼¾
+				26=å¯¾åœ°è£…å‚™
+				27=æ°´ä¸Šè‰¦è¦å“¡
+				28=å¯¾ç©ºå¼·åŒ–å¼¾
+				29=å¯¾ç©ºãƒ­ã‚±ãƒƒãƒˆãƒ©ãƒ³ãƒãƒ£ãƒ¼
+				30=å¿œæ€¥ä¿®ç†è¦å“¡
+				31=æ©Ÿé–¢éƒ¨å¼·åŒ–
+				32=çˆ†é›·
+				33=å¤§å‹é£›è¡Œè‰‡
 
-			[2]£º¥«¥Æ¥´¥ê
-				(api_mst_slotitem_equiptype ¤ò²ÎÕÕ)
-				 1=Ğ¡¿Ú¾¶Ö÷³h
-				 2=ÖĞ¿Ú¾¶Ö÷³h
-				 3=´ó¿Ú¾¶Ö÷³h
-				 4=¸±³h
-				 5=ô~À×
-				 6=ÅÉÏ‘éêL™C
-				 7=ÅÉÏ±¬“Ä™C
-				 8=ÅÉÏ¹¥“Ä™C
-				 9=ÅÉÏ‚É²ì™C
-				10=Ë®ÉÏ‚É²ì™C
-				11=Ë®ÉÏ±¬“Ä™C
-				12=Ğ¡ĞÍëŠÌ½
-				13=´óĞÍëŠÌ½
-				14=¥½¥Ê©`
-				15=±¬À×
-				16=×·¼Ó×°¼×
-				17=™Cév²¿Š»¯
-				18=Œ¿ÕŠ»¯
-				19=ŒÅŠ»¯
-				20=VTĞÅ¹Ü
-				21=Œ¿Õ™Cã|
-				22=ÌØÊâÇ±º½Í§
-				23=ê¼±ĞŞÀíÒª†T
-				24=ÉÏê‘ÓÃÖÛÍ§
-				25=¥ª©`¥È¥¸¥ã¥¤¥í
-				26=ŒÇ±ÉÚ½ä™C
-				27=×·¼Ó×°¼×(ÖĞĞÍ)
-				28=×·¼Ó×°¼×(´óĞÍ)
-				29=Ì½ÕÕµÆ
-				30=º†Ò×İ”ËÍ²¿²Ä
-				31=ÅÍ§ĞŞÀíÊ©ÔO
-				32=Ç±Ë®Åô~À×
-				33=ÕÕÃ÷
-				34=Ë¾Áî²¿Ê©ÔO
-				35=º½¿ÕÒª†T
-				36=¸ßÉä×°ÖÃ
-				37=ŒµØ×°‚ä
-				38=´ó¿Ú¾¶Ö÷³h(II)
-				39=Ë®ÉÏÅÒª†T
-				40=´óĞÍ¥½¥Ê©`
-				41=´óĞÍïwĞĞÍ§
-				42=´óĞÍÌ½ÕÕµÆ
+			[2]ï¼šã‚«ãƒ†ã‚´ãƒª
+				(api_mst_slotitem_equiptype ã‚’å‚ç…§)
+				 1=å°å£å¾„ä¸»ç ²
+				 2=ä¸­å£å¾„ä¸»ç ²
+				 3=å¤§å£å¾„ä¸»ç ²
+				 4=å‰¯ç ²
+				 5=é­šé›·
+				 6=è‰¦ä¸Šæˆ¦é—˜æ©Ÿ
+				 7=è‰¦ä¸Šçˆ†æ’ƒæ©Ÿ
+				 8=è‰¦ä¸Šæ”»æ’ƒæ©Ÿ
+				 9=è‰¦ä¸Šåµå¯Ÿæ©Ÿ
+				10=æ°´ä¸Šåµå¯Ÿæ©Ÿ
+				11=æ°´ä¸Šçˆ†æ’ƒæ©Ÿ
+				12=å°å‹é›»æ¢
+				13=å¤§å‹é›»æ¢
+				14=ã‚½ãƒŠãƒ¼
+				15=çˆ†é›·
+				16=è¿½åŠ è£…ç”²
+				17=æ©Ÿé–¢éƒ¨å¼·åŒ–
+				18=å¯¾ç©ºå¼·åŒ–å¼¾
+				19=å¯¾è‰¦å¼·åŒ–å¼¾
+				20=VTä¿¡ç®¡
+				21=å¯¾ç©ºæ©ŸéŠƒ
+				22=ç‰¹æ®Šæ½œèˆªè‰‡
+				23=å¿œæ€¥ä¿®ç†è¦å“¡
+				24=ä¸Šé™¸ç”¨èˆŸè‰‡
+				25=ã‚ªãƒ¼ãƒˆã‚¸ãƒ£ã‚¤ãƒ­
+				26=å¯¾æ½œå“¨æˆ’æ©Ÿ
+				27=è¿½åŠ è£…ç”²(ä¸­å‹)
+				28=è¿½åŠ è£…ç”²(å¤§å‹)
+				29=æ¢ç…§ç¯
+				30=ç°¡æ˜“è¼¸é€éƒ¨æ
+				31=è‰¦è‰‡ä¿®ç†æ–½è¨­
+				32=æ½œæ°´è‰¦é­šé›·
+				33=ç…§æ˜å¼¾
+				34=å¸ä»¤éƒ¨æ–½è¨­
+				35=èˆªç©ºè¦å“¡
+				36=é«˜å°„è£…ç½®
+				37=å¯¾åœ°è£…å‚™
+				38=å¤§å£å¾„ä¸»ç ²(II)
+				39=æ°´ä¸Šè‰¦è¦å“¡
+				40=å¤§å‹ã‚½ãƒŠãƒ¼
+				41=å¤§å‹é£›è¡Œè‰‡
+				42=å¤§å‹æ¢ç…§ç¯
 
-			[3]£º¥¢¥¤¥³¥óID
-				 1=Ğ¡¿Ú¾¶Ö÷³h
-				 2=ÖĞ¿Ú¾¶Ö÷³h
-				 3=´ó¿Ú¾¶Ö÷³h
-				 4=¸±³h
-				 5=ô~À×
-				 6=ÅÉÏ‘éêL™C
-				 7=ÅÉÏ±¬“Ä™C
-				 8=ÅÉÏ¹¥“Ä™C
-				 9=ÅÉÏ‚É²ì™C
-				10=Ë®ÉÏ™C
-				11=ëŠÌ½
-				12=Œ¿ÕŠ»¯
-				13=ŒÅŠ»¯
-				14=ê¼±ĞŞÀíÒª†T
-				15=Œ¿Õ™Cã|
-				16=¸ß½Ç³h
-				17=±¬À×
-				18=¥½¥Ê©`
-				19=™Cév²¿Š»¯
-				20=ÉÏê‘ÓÃÖÛÍ§
-				21=¥ª©`¥È¥¸¥ã¥¤¥í
-				22=ŒÇ±ÉÚ½ä™C
-				23=×·¼Ó×°¼×
-				24=Ì½ÕÕµÆ
-				25=º†Ò×İ”ËÍ²¿²Ä
-				26=ÅÍ§ĞŞÀíÊ©ÔO
-				27=ÕÕÃ÷
-				28=Ë¾Áî²¿Ê©ÔO
-				29=º½¿ÕÒª†T
-				30=¸ßÉä×°ÖÃ
-				31=ŒµØ×°‚ä
-				32=Ë®ÉÏÅÒª†T
-				33=´óĞÍïwĞĞÍ§
+			[3]ï¼šã‚¢ã‚¤ã‚³ãƒ³ID
+				 1=å°å£å¾„ä¸»ç ²
+				 2=ä¸­å£å¾„ä¸»ç ²
+				 3=å¤§å£å¾„ä¸»ç ²
+				 4=å‰¯ç ²
+				 5=é­šé›·
+				 6=è‰¦ä¸Šæˆ¦é—˜æ©Ÿ
+				 7=è‰¦ä¸Šçˆ†æ’ƒæ©Ÿ
+				 8=è‰¦ä¸Šæ”»æ’ƒæ©Ÿ
+				 9=è‰¦ä¸Šåµå¯Ÿæ©Ÿ
+				10=æ°´ä¸Šæ©Ÿ
+				11=é›»æ¢
+				12=å¯¾ç©ºå¼·åŒ–å¼¾
+				13=å¯¾è‰¦å¼·åŒ–å¼¾
+				14=å¿œæ€¥ä¿®ç†è¦å“¡
+				15=å¯¾ç©ºæ©ŸéŠƒ
+				16=é«˜è§’ç ²
+				17=çˆ†é›·
+				18=ã‚½ãƒŠãƒ¼
+				19=æ©Ÿé–¢éƒ¨å¼·åŒ–
+				20=ä¸Šé™¸ç”¨èˆŸè‰‡
+				21=ã‚ªãƒ¼ãƒˆã‚¸ãƒ£ã‚¤ãƒ­
+				22=å¯¾æ½œå“¨æˆ’æ©Ÿ
+				23=è¿½åŠ è£…ç”²
+				24=æ¢ç…§ç¯
+				25=ç°¡æ˜“è¼¸é€éƒ¨æ
+				26=è‰¦è‰‡ä¿®ç†æ–½è¨­
+				27=ç…§æ˜å¼¾
+				28=å¸ä»¤éƒ¨æ–½è¨­
+				29=èˆªç©ºè¦å“¡
+				30=é«˜å°„è£…ç½®
+				31=å¯¾åœ°è£…å‚™
+				32=æ°´ä¸Šè‰¦è¦å“¡
+				33=å¤§å‹é£›è¡Œè‰‡
 
-		api_taik		£ºÄÍ¾Ã(0)
-		api_souk		£º×°¼×
-		api_houg		£º»ğÁ¦
-		api_raig		£ºÀ××°
-		api_soku		£ºËÙÁ¦
-		api_baku		£º±¬×°
-		api_tyku		£ºŒ¿Õ
-		api_tais		£ºŒÇ±
-		api_atap		£º(0)
-		api_houm		£ºÃüÖĞ
-		api_raim		£ºÀ×“ÄÃüÖĞ(0)
-		api_houk		£º»Ø±Ü
-		api_raik		£ºÀ×“Ä»Ø±Ü(0)
-		api_bakk		£º±¬“Ä»Ø±Ü(0)
-		api_saku		£ºË÷”³
-		api_sakb		£ºË÷”³·Áº¦(0)
-		api_luck		£ºß\(0)
-		api_leng		£ºÉä³Ì
-		api_rare		£º¥ì¥¢¥ê¥Æ¥£
-		api_broken		£ºü—‰ÙY²Ä
-		api_info		£º‡íèaÇéˆó
-		api_usebull		£º
+		api_taik		ï¼šè€ä¹…(0)
+		api_souk		ï¼šè£…ç”²
+		api_houg		ï¼šç«åŠ›
+		api_raig		ï¼šé›·è£…
+		api_soku		ï¼šé€ŸåŠ›
+		api_baku		ï¼šçˆ†è£…
+		api_tyku		ï¼šå¯¾ç©º
+		api_tais		ï¼šå¯¾æ½œ
+		api_atap		ï¼š(0)
+		api_houm		ï¼šå‘½ä¸­
+		api_raim		ï¼šé›·æ’ƒå‘½ä¸­(0)
+		api_houk		ï¼šå›é¿
+		api_raik		ï¼šé›·æ’ƒå›é¿(0)
+		api_bakk		ï¼šçˆ†æ’ƒå›é¿(0)
+		api_saku		ï¼šç´¢æ•µ
+		api_sakb		ï¼šç´¢æ•µå¦¨å®³(0)
+		api_luck		ï¼šé‹(0)
+		api_leng		ï¼šå°„ç¨‹
+		api_rare		ï¼šãƒ¬ã‚¢ãƒªãƒ†ã‚£
+		api_broken		ï¼šå»ƒæ£„è³‡æ
+		api_info		ï¼šå›³é‘‘æƒ…å ±
+		api_usebull		ï¼š
 		
-	api_mst_furniture	£º¼Ò¾ß¥Ç©`¥¿
-		api_id			£º¼Ò¾ßID
-		api_type		£º¥«¥Æ¥´¥ê 0=´², 1=±Ú¼ˆ, 2=·™, 3=±Ú’ì¤±, 4=¼Ò¾ß, 5=»ú
-		api_no			£º¥«¥Æ¥´¥êÄÚÍ¨¤··¬ºÅ 0¤«¤éÊ¼¤Ş¤ë
-		api_title		£º¼Ò¾ßÃû
-		api_description	£ºÕhÃ÷
-		api_rarity		£º¥ì¥¢¥ê¥Æ¥£
-		api_price		£ºı¸ñ
-		api_saleflg		£ºØœ‰ÓÖĞ?
-		api_season		£º
+	api_mst_furniture	ï¼šå®¶å…·ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šå®¶å…·ID
+		api_type		ï¼šã‚«ãƒ†ã‚´ãƒª 0=åºŠ, 1=å£ç´™, 2=çª“, 3=å£æ›ã‘, 4=å®¶å…·, 5=æœº
+		api_no			ï¼šã‚«ãƒ†ã‚´ãƒªå†…é€šã—ç•ªå· 0ã‹ã‚‰å§‹ã¾ã‚‹
+		api_title		ï¼šå®¶å…·å
+		api_description	ï¼šèª¬æ˜
+		api_rarity		ï¼šãƒ¬ã‚¢ãƒªãƒ†ã‚£
+		api_price		ï¼šä¾¡æ ¼
+		api_saleflg		ï¼šè²©å£²ä¸­?
+		api_season		ï¼š
 
-	api_mst_furnituregraph	£º¿É„Ó¼Ò¾ß¥×¥í¥Ñ¥Æ¥£
-		api_id			£º¼Ò¾ßID
-		api_type		£º¥«¥Æ¥´¥ê
-		api_no			£º¥«¥Æ¥´¥êÄÚÍ¨¤··¬ºÅ
-		api_filename	£º
-		api_version		£º
+	api_mst_furnituregraph	ï¼šå¯å‹•å®¶å…·ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+		api_id			ï¼šå®¶å…·ID
+		api_type		ï¼šã‚«ãƒ†ã‚´ãƒª
+		api_no			ï¼šã‚«ãƒ†ã‚´ãƒªå†…é€šã—ç•ªå·
+		api_filename	ï¼š
+		api_version		ï¼š
 
-	api_mst_useitem		£º¥¢¥¤¥Æ¥à¥Ç©`¥¿
-		api_id			£º¥¢¥¤¥Æ¥àID
-		api_usetype		£ºÊ¹ÓÃĞÎ‘B¡¡0=Ê¹ÓÃ²»¿É, 1=¸ßËÙĞŞÍ²Ä, 2=¸ßËÙ½¨Ôì²Ä, 3=é_°kÙY²Ä, 4=Ê¹ÓÃ¿ÉÄÜ, etc.
-		api_category	£º¥«¥Æ¥´¥ê
-		api_name		£º¥¢¥¤¥Æ¥àÃû
-		api_description	£º[0]=¥¢¥¤¥Æ¥à¤ÎÕhÃ÷, [1]=(¼Ò¾ßÏä¤Î¤ß)ÈëÊÖ¤Ç¤­¤ë¼Ò¾ß¥³¥¤¥ó¤ÎÃ¶Êı
-		api_price		£º
+	api_mst_useitem		ï¼šã‚¢ã‚¤ãƒ†ãƒ ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šã‚¢ã‚¤ãƒ†ãƒ ID
+		api_usetype		ï¼šä½¿ç”¨å½¢æ…‹ã€€0=ä½¿ç”¨ä¸å¯, 1=é«˜é€Ÿä¿®å¾©æ, 2=é«˜é€Ÿå»ºé€ æ, 3=é–‹ç™ºè³‡æ, 4=ä½¿ç”¨å¯èƒ½, etc.
+		api_category	ï¼šã‚«ãƒ†ã‚´ãƒª
+		api_name		ï¼šã‚¢ã‚¤ãƒ†ãƒ å
+		api_description	ï¼š[0]=ã‚¢ã‚¤ãƒ†ãƒ ã®èª¬æ˜, [1]=(å®¶å…·ç®±ã®ã¿)å…¥æ‰‹ã§ãã‚‹å®¶å…·ã‚³ã‚¤ãƒ³ã®æšæ•°
+		api_price		ï¼š
 	
-	api_mst_payitem		£º¥¢¥¤¥Æ¥àÎİ¤µ¤ó¥Ç©`¥¿
-		api_id			£ºID
-		api_type		£º
-		api_name		£ºÉÌÆ·Ãû
-		api_description	£ºÉÌÆ·ÕhÃ÷
-		api_item		£ºÈëÊÖ¥¢¥¤¥Æ¥àÁ¿¡¡[0]=È¼ÁÏ, [1]=Ëa, [2]=ä“²Ä, [3]=¥Ü©`¥­¥µ¥¤¥È, [4]=¸ßËÙ½¨Ôì²Ä, [5]=¸ßËÙĞŞÍ²Ä, [6]=é_°kÙY²Ä, [7]=¥É¥Ã¥¯½â·Å¥­©`
-		api_price		£ºı¸ñ
+	api_mst_payitem		ï¼šã‚¢ã‚¤ãƒ†ãƒ å±‹ã•ã‚“ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šID
+		api_type		ï¼š
+		api_name		ï¼šå•†å“å
+		api_description	ï¼šå•†å“èª¬æ˜
+		api_item		ï¼šå…¥æ‰‹ã‚¢ã‚¤ãƒ†ãƒ é‡ã€€[0]=ç‡ƒæ–™, [1]=å¼¾è–¬, [2]=é‹¼æ, [3]=ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ, [4]=é«˜é€Ÿå»ºé€ æ, [5]=é«˜é€Ÿä¿®å¾©æ, [6]=é–‹ç™ºè³‡æ, [7]=ãƒ‰ãƒƒã‚¯è§£æ”¾ã‚­ãƒ¼
+		api_price		ï¼šä¾¡æ ¼
 		
-	api_mst_item_shop	£º¥¢¥¤¥Æ¥àÎİ¤µ¤óÆ·“B¤¨
-		api_cabinet_1	£ºÅï p.1¡¡api_mst_payitem¤Îid¤Î¥ê¥¹¥È
-		api_cabinet_2	£ºÅï p.2¡¡-1¤Ï¿Õ¤­
+	api_mst_item_shop	ï¼šã‚¢ã‚¤ãƒ†ãƒ å±‹ã•ã‚“å“æƒãˆ
+		api_cabinet_1	ï¼šæ£š p.1ã€€api_mst_payitemã®idã®ãƒªã‚¹ãƒˆ
+		api_cabinet_2	ï¼šæ£š p.2ã€€-1ã¯ç©ºã
 		
-	api_mst_maparea		£º³ö“Äº£Óò¥«¥Æ¥´¥ê(æ‚ÊØ¸®º£Óò, ÄÏÎ÷ÖTuº£Óò, etc.)
-		api_id			£ºº£Óò¥«¥Æ¥´¥êID
-		api_name		£ºº£Óò¥«¥Æ¥´¥êÃû
-		api_type		£º0=Í¨³£º£Óò, 1=¥¤¥Ù¥ó¥Èº£Óò
+	api_mst_maparea		ï¼šå‡ºæ’ƒæµ·åŸŸã‚«ãƒ†ã‚´ãƒª(é®å®ˆåºœæµ·åŸŸ, å—è¥¿è«¸å³¶æµ·åŸŸ, etc.)
+		api_id			ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+		api_name		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå
+		api_type		ï¼š0=é€šå¸¸æµ·åŸŸ, 1=ã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸ
 	
-	api_mst_mapinfo		£ºº£ÓòÔ”¼š¥Ç©`¥¿(æ‚ÊØ¸®ÕıÃæº£Óò, –|²¿¥ª¥ê¥ç©`¥ëº£, etc.)
-		api_id			£ºº£ÓòID
-		api_maparea_id	£ºº£Óò¥«¥Æ¥´¥êID
-		api_no			£ºº£Óò¥«¥Æ¥´¥êÄÚ·¬ºÅ
-		api_name		£ºº£ÓòÃû
-		api_level		£ºëyÒ×¶È
-		api_opetext		£º×÷‘éÃû
-		api_infotext	£º×÷‘éÇéˆó
-		api_item		£º«@µÃ¥¢¥¤¥Æ¥à
-		api_max_maphp	£ºº£ÓòHP¥²©`¥¸×î´ó‚£¿ÏÄ¥¤¥Ùº£Óò¤ÏÈ«¤Æ300, Ëû¤Ïnull ¤³¤³¤Ëİd¤Ã¤Æ¤¤¤ëHP¤Ï¥À¥ß©`£¿
-		api_required_defeat_count	£º¹¥ÂÔ¤Ë±ØÒª¤Ê“ÄÆÆÊı null¤¢¤ê
-		api_sally_flag	£ºßBºÏÅê ¥Õ¥é¥°£¿
-			(ÏÄ¥¤¥Ù•r)Í¨³£º£Óò, MIº£Óò¤Ï[ 0, 1 ], ALº£Óò, ±¾ÍÁ·ÀĞl¤Ï[ 1, 0 ]
-			(2014/09¬FÔÚ)¤¹¤Ù¤Æ[ 1, 0 ]
-			(Çï¥¤¥Ù•r)Í¨³£º£Óò/E-2¤Ï[ 1, 0 ]¡¢E-1/3¤Ï[ 0, 2 ], E-4¤Ï[ 0, 3 ]
-			{ Í¨³£Åê ³ö“Ä¥Õ¥é¥°, ßBºÏÅê ³ö“Ä¥Õ¥é¥° } ¤ÈÓèÏë(¤½¤ì¤¾¤ì¥Ó¥Ã¥È¥Õ¥é¥°)
+	api_mst_mapinfo		ï¼šæµ·åŸŸè©³ç´°ãƒ‡ãƒ¼ã‚¿(é®å®ˆåºœæ­£é¢æµ·åŸŸ, æ±éƒ¨ã‚ªãƒªãƒ§ãƒ¼ãƒ«æµ·, etc.)
+		api_id			ï¼šæµ·åŸŸID
+		api_maparea_id	ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+		api_no			ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ç•ªå·
+		api_name		ï¼šæµ·åŸŸå
+		api_level		ï¼šé›£æ˜“åº¦
+		api_opetext		ï¼šä½œæˆ¦å
+		api_infotext	ï¼šä½œæˆ¦æƒ…å ±
+		api_item		ï¼šç²å¾—ã‚¢ã‚¤ãƒ†ãƒ 
+		api_max_maphp	ï¼šæµ·åŸŸHPã‚²ãƒ¼ã‚¸æœ€å¤§å€¤ï¼Ÿå¤ã‚¤ãƒ™æµ·åŸŸã¯å…¨ã¦300, ä»–ã¯null ã“ã“ã«è¼‰ã£ã¦ã„ã‚‹HPã¯ãƒ€ãƒŸãƒ¼ï¼Ÿ
+		api_required_defeat_count	ï¼šæ”»ç•¥ã«å¿…è¦ãªæ’ƒç ´æ•° nullã‚ã‚Š
+		api_sally_flag	ï¼šé€£åˆè‰¦éšŠãƒ•ãƒ©ã‚°ï¼Ÿ
+			(å¤ã‚¤ãƒ™æ™‚)é€šå¸¸æµ·åŸŸ, MIæµ·åŸŸã¯[ 0, 1 ], ALæµ·åŸŸ, æœ¬åœŸé˜²è¡›ã¯[ 1, 0 ]
+			(2014/09ç¾åœ¨)ã™ã¹ã¦[ 1, 0 ]
+			(ç§‹ã‚¤ãƒ™æ™‚)é€šå¸¸æµ·åŸŸ/E-2ã¯[ 1, 0 ]ã€E-1/3ã¯[ 0, 2 ], E-4ã¯[ 0, 3 ]
+			{ é€šå¸¸è‰¦éšŠå‡ºæ’ƒãƒ•ãƒ©ã‚°, é€£åˆè‰¦éšŠå‡ºæ’ƒãƒ•ãƒ©ã‚° } ã¨äºˆæƒ³(ãã‚Œãã‚Œãƒ“ãƒƒãƒˆãƒ•ãƒ©ã‚°)
 
-	api_mst_mapbgm		£ºº£ÓòBGM¥Ç©`¥¿
-		api_id			£ºº£ÓòID
-		api_maparea_id	£ºº£Óò¥«¥Æ¥´¥êID(ex. 2-3 ¤Î 2)
-		api_no			£ºº£Óò¥«¥Æ¥´¥êÄÚID(ex. 2-3 ¤Î 3)
-		api_map_bgm		£ºÍ¨³£‘éêLBGMID¡¡[0]=Öç‘é, [1]=Ò¹‘é
-		api_boss_bgm	£º¥Ü¥¹‘éêLBGMID
+	api_mst_mapbgm		ï¼šæµ·åŸŸBGMãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šæµ·åŸŸID
+		api_maparea_id	ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID(ex. 2-3 ã® 2)
+		api_no			ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ID(ex. 2-3 ã® 3)
+		api_map_bgm		ï¼šé€šå¸¸æˆ¦é—˜BGMIDã€€[0]=æ˜¼æˆ¦, [1]=å¤œæˆ¦
+		api_boss_bgm	ï¼šãƒœã‚¹æˆ¦é—˜BGMID
 	
-	api_mst_mapcell		£ºº£Óò¥»¥ë¥Ç©`¥¿
-		api_map_no		£ºº£ÓòID
-		api_maparea_id	£ºº£Óò¥«¥Æ¥´¥êID
-		api_mapinfo_no	£ºº£Óò¥«¥Æ¥´¥êÄÚID
-		api_id			£ºº£Óò¥»¥ë¥æ¥Ë©`¥¯ID(È«º£Óò¤ÎÍ¨¤··¬ºÅ)
-		api_no			£ºº£Óò¥»¥ëID(Í¬º£ÓòÄÚÏŞ¶¨)
-		api_color_no	£º¥»¥ë¤Î×´‘B
-							0=³õÆÚÎ»ÖÃ, 1=(´æÔÚ¤»¤º), 2=ÙYÔ´«@µÃ, 3=œu³±, 4=Í¨³£‘éêL, 5=¥Ü¥¹‘éêL, 6=(šİ¤Î¤»¤¤¤À¤Ã¤¿, api_req_map/start|next¤Ë¤Î¤ß´æÔÚ, ¤³¤³¤Ç¤Ï4¤È¤·¤Æ’Q¤ï¤ì¤ë?), 7=º½¿Õ‘é, 8=´¬‡â×oĞl³É¹¦, 9=º½¿Õ‚É²ì
+	api_mst_mapcell		ï¼šæµ·åŸŸã‚»ãƒ«ãƒ‡ãƒ¼ã‚¿
+		api_map_no		ï¼šæµ·åŸŸID
+		api_maparea_id	ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+		api_mapinfo_no	ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ID
+		api_id			ï¼šæµ·åŸŸã‚»ãƒ«ãƒ¦ãƒ‹ãƒ¼ã‚¯ID(å…¨æµ·åŸŸã®é€šã—ç•ªå·)
+		api_no			ï¼šæµ·åŸŸã‚»ãƒ«ID(åŒæµ·åŸŸå†…é™å®š)
+		api_color_no	ï¼šã‚»ãƒ«ã®çŠ¶æ…‹
+							0=åˆæœŸä½ç½®, 1=(å­˜åœ¨ã›ãš), 2=è³‡æºç²å¾—, 3=æ¸¦æ½®, 4=é€šå¸¸æˆ¦é—˜, 5=ãƒœã‚¹æˆ¦é—˜, 6=(æ°—ã®ã›ã„ã ã£ãŸ, api_req_map/start|nextã«ã®ã¿å­˜åœ¨, ã“ã“ã§ã¯4ã¨ã—ã¦æ‰±ã‚ã‚Œã‚‹?), 7=èˆªç©ºæˆ¦, 8=èˆ¹å›£è­·è¡›æˆåŠŸ, 9=èˆªç©ºåµå¯Ÿ
 
-	api_mst_mission		£ºßhÕ÷¥Ç©`¥¿
-		api_id			£ºßhÕ÷ID
-		api_maparea_id	£ºº£Óò¥«¥Æ¥´¥êID
-		api_name		£ºßhÕ÷Ãû
-		api_details		£ºßhÕ÷Ô”¼š
-		api_time		£º•rég¡¡·Ö…gÎ»
-		api_difficulty	£ºëyÒ×¶È
-		api_use_fuel	£ºÈ¼ÁÏÏûÙM¸îºÏ
-		api_use_bull	£ºËaÏûÙM¸îºÏ
-		api_win_item1	£º«@µÃ¥¢¥¤¥Æ¥à1¡¡[0]=¥¢¥¤¥Æ¥àID, [1]=ÈëÊÖ‚€Êı
-		api_win_item2	£º«@µÃ¥¢¥¤¥Æ¥à2
-		api_return_flag	£ºßhÕ÷ÖĞÖ¹¿É·ñ
+	api_mst_mission		ï¼šé å¾ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šé å¾ID
+		api_maparea_id	ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+		api_name		ï¼šé å¾å
+		api_details		ï¼šé å¾è©³ç´°
+		api_time		ï¼šæ™‚é–“ã€€åˆ†å˜ä½
+		api_difficulty	ï¼šé›£æ˜“åº¦
+		api_use_fuel	ï¼šç‡ƒæ–™æ¶ˆè²»å‰²åˆ
+		api_use_bull	ï¼šå¼¾è–¬æ¶ˆè²»å‰²åˆ
+		api_win_item1	ï¼šç²å¾—ã‚¢ã‚¤ãƒ†ãƒ 1ã€€[0]=ã‚¢ã‚¤ãƒ†ãƒ ID, [1]=å…¥æ‰‹å€‹æ•°
+		api_win_item2	ï¼šç²å¾—ã‚¢ã‚¤ãƒ†ãƒ 2
+		api_return_flag	ï¼šé å¾ä¸­æ­¢å¯å¦
 	
-	api_mst_const		£º
-		api_parallel_quest_max	£º
-			api_string_value	£º
-			api_int_value		£º¡¸×î´óÊÜîI¿ÉÄÜÈÎ„ÕÊı¡¹×î´ó‚£¿
-		api_boko_max_ships		£º
-			api_string_value	£º
-			api_int_value		£º¡¸×î´ó±£ÓĞÅÄïÊı¡¹×î´ó‚
-		api_dpflag_quest		£º
-			api_string_value	£º
-			api_int_value		£º1?
+	api_mst_const		ï¼š
+		api_parallel_quest_max	ï¼š
+			api_string_value	ï¼š
+			api_int_value		ï¼šã€Œæœ€å¤§å—é ˜å¯èƒ½ä»»å‹™æ•°ã€æœ€å¤§å€¤ï¼Ÿ
+		api_boko_max_ships		ï¼š
+			api_string_value	ï¼š
+			api_int_value		ï¼šã€Œæœ€å¤§ä¿æœ‰è‰¦å¨˜æ•°ã€æœ€å¤§å€¤
+		api_dpflag_quest		ï¼š
+			api_string_value	ï¼š
+			api_int_value		ï¼š1?
 
-	api_mst_shipupgrade	£º¸Ä×°ÔOÓ‹‡í
-		api_id					£ºÅ´¬ID
-		api_original_ship_id	£ºÎ´¸Ä×°Å´¬ID
-		api_upgrade_type		£º1
-		api_upgrade_level		£º¸Ä×°»ØÊı
-		api_drawing_count		£ºÒª¸Ä×°ÔOÓ‹‡í
-		api_sortno				£ºK¤ÙÌæ¤¨í˜
+	api_mst_shipupgrade	ï¼šæ”¹è£…è¨­è¨ˆå›³
+		api_id					ï¼šè‰¦èˆ¹ID
+		api_original_ship_id	ï¼šæœªæ”¹è£…è‰¦èˆ¹ID
+		api_upgrade_type		ï¼š1
+		api_upgrade_level		ï¼šæ”¹è£…å›æ•°
+		api_drawing_count		ï¼šè¦æ”¹è£…è¨­è¨ˆå›³
+		api_sortno				ï¼šä¸¦ã¹æ›¿ãˆé †
 
-	api_mst_bgm			£ºÄ¸¸ÛBGM¥Ç©`¥¿£¿
-		api_id			£ºÒô˜SID£¿
-		api_name		£ºÇúÃû
-
-
-api_req_member/get_incentive	£º°ıÙpévßB
-	api_count			£ºÇéˆó¤Î‚€Êı
-	api_item			£º¤â¤é¤¨¤ë¥¢¥¤¥Æ¥à¡¡api_count=0¤À¤È´æÔÚ¤·¤Ê¤¤
-		api_mode		£º1=ÊÂÇ°µÇåh?, 2=ÕĞ´ı?, 3=ÔÂ´Î°ıÙp/¥×¥ì¥¼¥ó¥È
-		api_type		£º1=Å´¬?, 2=×°‚ä, 3=¥¢¥¤¥Æ¥à, 4=ÙYÔ´?, 5=¼Ò¾ß
-		api_mst_id		£ºID
-		api_getmes		£º«@µÃ•r¥á¥Ã¥»©`¥¸
+	api_mst_bgm			ï¼šæ¯æ¸¯BGMãƒ‡ãƒ¼ã‚¿ï¼Ÿ
+		api_id			ï¼šéŸ³æ¥½IDï¼Ÿ
+		api_name		ï¼šæ›²å
 
 
-api_get_member/basic		£ºÅê Ë¾Áî²¿Çéˆó
-	api_member_id			£ºÌá¶½¹ÌÓĞID
-	api_nickname			£ºÌá¶½Ãû
-	api_nickname_id			£º
-	api_active_flag			£º
-	api_starttime			£ºÆğ„ÓÈÕ•r(¡Ù×ÅÈÎÈÕ•r, ½ñ»Ø¤Î¥í¥°¥¤¥ó•r¤Î•rég)
-	api_level				£ºÅê Ë¾Áî²¿Lv.
-	api_rank				£ºëA¼‰ 1¤«¤é Ôª›, ´ó½«, ÖĞ½«, ÉÙ½«, ´ó×ô, ÖĞ×ô, ĞÂÃ×ÖĞ×ô, ÉÙ×ô, ÖĞˆÔÉÙ×ô, ĞÂÃ×ÉÙ×ô
-	api_experience			£ºÌá¶½½UòY‚
-	api_fleetname			£º
-	api_comment				£ºÌá¶½¥³¥á¥ó¥È
-	api_comment_id			£º
-	api_max_chara			£º×î´ó±£ÓĞ¿ÉÄÜÅÄïÊı
-	api_max_slotitem		£º×î´ó±£ÓĞ¿ÉÄÜ×°‚äÊı
-	api_max_kagu			£º
-	api_playtime			£º
-	api_tutorial			£º
-	api_furniture			£ºÔOÖÃ¤·¤Æ¤¤¤ë¼Ò¾ßID
-	api_count_deck			£º±£ÓĞÅê Êı
-	api_count_kdock			£º¹¤S¥É¥Ã¥¯Êı
-	api_count_ndock			£ºÈëÇş¥É¥Ã¥¯Êı
-	api_fcoin				£º¼Ò¾ß¥³¥¤¥óÊı
-	api_st_win				£º³ö“Ä„ÙÀû»ØÊı
-	api_st_lose				£º³ö“Ä”¡±±»ØÊı
-	api_ms_count			£ºßhÕ÷»ØÊı
-	api_ms_success			£ºßhÕ÷³É¹¦»ØÊı
-	api_pt_win				£ºÑİÁ•„ÙÀû»ØÊı
-	api_pt_lose				£ºÑİÁ•”¡±±»ØÊı
-	api_pt_challenged		£º
-	api_pt_challenged_win	£º
-	api_firstflag			£º
-	api_tutorial_progress	£º¥Á¥å©`¥È¥ê¥¢¥ëßM’Ã£¿
-	api_pvp					£º
-	api_medals				£º¼×·N„ëÕÂ±£ÓĞÊı
+api_req_member/get_incentive	ï¼šè¤’è³é–¢é€£
+	api_count			ï¼šæƒ…å ±ã®å€‹æ•°
+	api_item			ï¼šã‚‚ã‚‰ãˆã‚‹ã‚¢ã‚¤ãƒ†ãƒ ã€€api_count=0ã ã¨å­˜åœ¨ã—ãªã„
+		api_mode		ï¼š1=äº‹å‰ç™»éŒ²?, 2=æ‹›å¾…?, 3=æœˆæ¬¡è¤’è³/ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆ
+		api_type		ï¼š1=è‰¦èˆ¹?, 2=è£…å‚™, 3=ã‚¢ã‚¤ãƒ†ãƒ , 4=è³‡æº?, 5=å®¶å…·
+		api_mst_id		ï¼šID
+		api_getmes		ï¼šç²å¾—æ™‚ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-api_port/port		£ºÄ¸¸ÛÇéˆó
-	api_material			£ºÙYÔ´Çéˆó¡¡api_get_member/material ¤ò²ÎÕÕ
+
+api_get_member/basic		ï¼šè‰¦éšŠå¸ä»¤éƒ¨æƒ…å ±
+	api_member_id			ï¼šæç£å›ºæœ‰ID
+	api_nickname			ï¼šæç£å
+	api_nickname_id			ï¼š
+	api_active_flag			ï¼š
+	api_starttime			ï¼šèµ·å‹•æ—¥æ™‚(â‰ ç€ä»»æ—¥æ™‚, ä»Šå›ã®ãƒ­ã‚°ã‚¤ãƒ³æ™‚ã®æ™‚é–“)
+	api_level				ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_rank				ï¼šéšç´š 1ã‹ã‚‰ å…ƒå¸¥, å¤§å°†, ä¸­å°†, å°‘å°†, å¤§ä½, ä¸­ä½, æ–°ç±³ä¸­ä½, å°‘ä½, ä¸­å …å°‘ä½, æ–°ç±³å°‘ä½
+	api_experience			ï¼šæç£çµŒé¨“å€¤
+	api_fleetname			ï¼š
+	api_comment				ï¼šæç£ã‚³ãƒ¡ãƒ³ãƒˆ
+	api_comment_id			ï¼š
+	api_max_chara			ï¼šæœ€å¤§ä¿æœ‰å¯èƒ½è‰¦å¨˜æ•°
+	api_max_slotitem		ï¼šæœ€å¤§ä¿æœ‰å¯èƒ½è£…å‚™æ•°
+	api_max_kagu			ï¼š
+	api_playtime			ï¼š
+	api_tutorial			ï¼š
+	api_furniture			ï¼šè¨­ç½®ã—ã¦ã„ã‚‹å®¶å…·ID
+	api_count_deck			ï¼šä¿æœ‰è‰¦éšŠæ•°
+	api_count_kdock			ï¼šå·¥å» ãƒ‰ãƒƒã‚¯æ•°
+	api_count_ndock			ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯æ•°
+	api_fcoin				ï¼šå®¶å…·ã‚³ã‚¤ãƒ³æ•°
+	api_st_win				ï¼šå‡ºæ’ƒå‹åˆ©å›æ•°
+	api_st_lose				ï¼šå‡ºæ’ƒæ•—åŒ—å›æ•°
+	api_ms_count			ï¼šé å¾å›æ•°
+	api_ms_success			ï¼šé å¾æˆåŠŸå›æ•°
+	api_pt_win				ï¼šæ¼”ç¿’å‹åˆ©å›æ•°
+	api_pt_lose				ï¼šæ¼”ç¿’æ•—åŒ—å›æ•°
+	api_pt_challenged		ï¼š
+	api_pt_challenged_win	ï¼š
+	api_firstflag			ï¼š
+	api_tutorial_progress	ï¼šãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«é€²æ—ï¼Ÿ
+	api_pvp					ï¼š
+	api_medals				ï¼šç”²ç¨®å‹²ç« ä¿æœ‰æ•°
+
+api_port/port		ï¼šæ¯æ¸¯æƒ…å ±
+	api_material			ï¼šè³‡æºæƒ…å ±ã€€api_get_member/material ã‚’å‚ç…§
 	
-	api_deck_port			£ºÅê Çéˆó¡¡deck ¤ò²ÎÕÕ
+	api_deck_port			ï¼šè‰¦éšŠæƒ…å ±ã€€deck ã‚’å‚ç…§
 
-	api_ndock				£ºÈëÇş¥É¥Ã¥¯¡¡ndock ¤ò²ÎÕÕ
+	api_ndock				ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯ã€€ndock ã‚’å‚ç…§
 	
-	api_ship				£ºËùÊôÅ´¬Çéˆó
-		api_id				£ºÅ´¬¹ÌÓĞID
-		api_sortno			£ºK¤ÓÌæ¤¨í˜£¿
-		api_ship_id			£ºÅ´¬ID
-		api_lv				£ºLv
-		api_exp				£º½UòY‚¡¡[0]=ÀÛ·e, [1]=´Î¤Î¥ì¥Ù¥ë¤Ş¤Ç, [2]=½UòY‚¥Ğ©`¸îºÏ
-		api_nowhp			£º¬FÔÚHP
-		api_maxhp			£º×î´óHP
-		api_leng			£ºÉä³Ì
-		api_slot			£º×°‚ä¡¡¿Õ¤­¤Ï-1
-		api_onslot			£ºÅİd™C´îİdÊı
-		api_kyouka			£º½ü´ú»¯¸ÄĞŞ×´‘B¡¡[0]=»ğÁ¦, [1]=À××°, [2]=Œ¿Õ, [3]=×°¼×, [4]=ß\
-		api_backs			£º¥ì¥¢¥ê¥Æ¥££¿
-		api_fuel			£º´îİdÈ¼ÁÏ
-		api_bull			£º´îİdËa
-		api_slotnum			£º¥¹¥í¥Ã¥ÈÊı
-		api_ndock_time		£ºÈëÇş•rég(¥ß¥êÃë)
-		api_ndock_item		£ºÈëÇş•r¤ÎÏûÙMÙY²Ä¡¡[0]=È¼ÁÏ, [1]=ä“²Ä
-		api_srate			£º¸Ä×°¡î£¿
-		api_cond			£º¥³¥ó¥Ç¥£¥·¥ç¥ó
-		api_karyoku			£º»ğÁ¦¡¡[0]=¬FÔÚ‚(×°‚äŞz¤ß), [1]=×î´ó‚
-		api_raisou			£ºÀ××°¡¡¤Ê¤ª¡¢×î´ó‚¤Ï»ù±¾µÄ¤ËLv99•rµã¤ÎËØ¥¹¥Æ©`¥¿¥¹
-		api_taiku			£ºŒ¿Õ
-		api_soukou			£º×°¼×
-		api_kaihi			£º»Ø±Ü
-		api_taisen			£ºŒÇ±
-		api_sakuteki		£ºË÷”³
-		api_lucky			£ºß\¡¡¡¡[1]=×î´ó‚
-		api_locked			£º±£×o¥í¥Ã¥¯ÓĞŸo
-		api_locked_equip	£º¥í¥Ã¥¯¤µ¤ì¤Æ¤¤¤ë×°‚ä¤ò×°‚ä¤·¤Æ¤¤¤ë¤«
-		api_sally_area		£º³ö“Äº£Óò¡¡¥¤¥Ù¥ó¥ÈÖĞ¤Î¤ß´æÔÚ
+	api_ship				ï¼šæ‰€å±è‰¦èˆ¹æƒ…å ±
+		api_id				ï¼šè‰¦èˆ¹å›ºæœ‰ID
+		api_sortno			ï¼šä¸¦ã³æ›¿ãˆé †ï¼Ÿ
+		api_ship_id			ï¼šè‰¦èˆ¹ID
+		api_lv				ï¼šLv
+		api_exp				ï¼šçµŒé¨“å€¤ã€€[0]=ç´¯ç©, [1]=æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã¾ã§, [2]=çµŒé¨“å€¤ãƒãƒ¼å‰²åˆ
+		api_nowhp			ï¼šç¾åœ¨HP
+		api_maxhp			ï¼šæœ€å¤§HP
+		api_leng			ï¼šå°„ç¨‹
+		api_slot			ï¼šè£…å‚™ã€€ç©ºãã¯-1
+		api_onslot			ï¼šè‰¦è¼‰æ©Ÿæ­è¼‰æ•°
+		api_kyouka			ï¼šè¿‘ä»£åŒ–æ”¹ä¿®çŠ¶æ…‹ã€€[0]=ç«åŠ›, [1]=é›·è£…, [2]=å¯¾ç©º, [3]=è£…ç”², [4]=é‹
+		api_backs			ï¼šãƒ¬ã‚¢ãƒªãƒ†ã‚£ï¼Ÿ
+		api_fuel			ï¼šæ­è¼‰ç‡ƒæ–™
+		api_bull			ï¼šæ­è¼‰å¼¾è–¬
+		api_slotnum			ï¼šã‚¹ãƒ­ãƒƒãƒˆæ•°
+		api_ndock_time		ï¼šå…¥æ¸ æ™‚é–“(ãƒŸãƒªç§’)
+		api_ndock_item		ï¼šå…¥æ¸ æ™‚ã®æ¶ˆè²»è³‡æã€€[0]=ç‡ƒæ–™, [1]=é‹¼æ
+		api_srate			ï¼šæ”¹è£…â˜†ï¼Ÿ
+		api_cond			ï¼šã‚³ãƒ³ãƒ‡ã‚£ã‚·ãƒ§ãƒ³
+		api_karyoku			ï¼šç«åŠ›ã€€[0]=ç¾åœ¨å€¤(è£…å‚™è¾¼ã¿), [1]=æœ€å¤§å€¤
+		api_raisou			ï¼šé›·è£…ã€€ãªãŠã€æœ€å¤§å€¤ã¯åŸºæœ¬çš„ã«Lv99æ™‚ç‚¹ã®ç´ ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+		api_taiku			ï¼šå¯¾ç©º
+		api_soukou			ï¼šè£…ç”²
+		api_kaihi			ï¼šå›é¿
+		api_taisen			ï¼šå¯¾æ½œ
+		api_sakuteki		ï¼šç´¢æ•µ
+		api_lucky			ï¼šé‹ã€€ã€€[1]=æœ€å¤§å€¤
+		api_locked			ï¼šä¿è­·ãƒ­ãƒƒã‚¯æœ‰ç„¡
+		api_locked_equip	ï¼šãƒ­ãƒƒã‚¯ã•ã‚Œã¦ã„ã‚‹è£…å‚™ã‚’è£…å‚™ã—ã¦ã„ã‚‹ã‹
+		api_sally_area		ï¼šå‡ºæ’ƒæµ·åŸŸã€€ã‚¤ãƒ™ãƒ³ãƒˆä¸­ã®ã¿å­˜åœ¨
 	
-	api_basic				£ºapi_get_member/basic¤ËÍ¬¤¸¡¡ÒÔÏÂ×·¼Ó¥á¥ó¥Ğ
-		api_large_dock			£º´óĞÍÅ½¨Ôì¿É·ñ
+	api_basic				ï¼šapi_get_member/basicã«åŒã˜ã€€ä»¥ä¸‹è¿½åŠ ãƒ¡ãƒ³ãƒ
+		api_large_dock			ï¼šå¤§å‹è‰¦å»ºé€ å¯å¦
 
-	api_log					£ºÄ¸¸ÛÏÂ¤ÎÍ¨Öª™Ú
-		api_no				£ºÍ¨¤··¬ºÅ
-		api_type			£ºÍ¨Öª¥¿¥¤¥×¡¡ÎÄ×ÖÁĞ¡¡1¤«¤é ÈëÇş, ¹¤S, ßhÕ÷, Ö§½o?, ÑİÁ•, „ëÕÂ?, ³ö“Ä, ÈÎ„Õ?, ÉêÕˆ?, •N¸ñ?, ‡íèa, ß_³É?, ¸ÄÔì?
-		api_state			£º
-		api_message			£º¥á¥Ã¥»©`¥¸
+	api_log					ï¼šæ¯æ¸¯ä¸‹ã®é€šçŸ¥æ¬„
+		api_no				ï¼šé€šã—ç•ªå·
+		api_type			ï¼šé€šçŸ¥ã‚¿ã‚¤ãƒ—ã€€æ–‡å­—åˆ—ã€€1ã‹ã‚‰ å…¥æ¸ , å·¥å» , é å¾, æ”¯çµ¦?, æ¼”ç¿’, å‹²ç« ?, å‡ºæ’ƒ, ä»»å‹™?, ç”³è«‹?, æ˜‡æ ¼?, å›³é‘‘, é”æˆ?, æ”¹é€ ?
+		api_state			ï¼š
+		api_message			ï¼šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	
-	api_combined_flag		£ºßBºÏÅê ¥Õ¥é¥° 0=Î´½Y³É, 1=™C„Ó²¿ê , 2=Ë®ÉÏ²¿ê 
-	api_p_bgm_id			£ºÄ¸¸ÛBGM¤ÎID
-	api_event_object		£ºÇï¥¤¥Ù¤Ç×·¼Ó
-		api_m_flag			£º
-	api_parallel_quest_count	£º×î´óÊÜîI¿ÉÄÜÈÎ„ÕÊı
+	api_combined_flag		ï¼šé€£åˆè‰¦éšŠãƒ•ãƒ©ã‚° 0=æœªçµæˆ, 1=æ©Ÿå‹•éƒ¨éšŠ, 2=æ°´ä¸Šéƒ¨éšŠ
+	api_p_bgm_id			ï¼šæ¯æ¸¯BGMã®ID
+	api_event_object		ï¼šç§‹ã‚¤ãƒ™ã§è¿½åŠ 
+		api_m_flag			ï¼š
+	api_parallel_quest_count	ï¼šæœ€å¤§å—é ˜å¯èƒ½ä»»å‹™æ•°
 
-api_get_member/slot_item	£º×°‚äÆ·Çéˆó
-	api_id					£º×°‚ä¹ÌÓĞID
-	api_slotitem_id			£º×°‚äID
-	api_locked				£º¥í¥Ã¥¯ÓĞŸo
-	api_level				£º¸ÄĞŞLevel
-
-
-api_get_member/unsetslot	£ºÎ´×°‚äÎäÆ÷¤Î¥«¥Æ¥´¥ê·Ö¤±£¿
-	api_slottype<id>		£ºid=×°‚ä¥«¥Æ¥´¥ê
-		×°‚ä¹ÌÓĞID£¿
+api_get_member/slot_item	ï¼šè£…å‚™å“æƒ…å ±
+	api_id					ï¼šè£…å‚™å›ºæœ‰ID
+	api_slotitem_id			ï¼šè£…å‚™ID
+	api_locked				ï¼šãƒ­ãƒƒã‚¯æœ‰ç„¡
+	api_level				ï¼šæ”¹ä¿®Level
 
 
-api_get_member/useitem		£º¥¢¥¤¥Æ¥àÇéˆó
-	api_member_id		£º
-	api_id				£º¥¢¥¤¥Æ¥àID
-	api_value			£ºËùÓĞ‚€Êı
-	api_usetype			£ºÊ¹ÓÃ·N„e¡¡0=Ê¹ÓÃ²»ÄÜ, 4=Ê¹ÓÃ¿ÉÄÜ
-	api_category		£º¥«¥Æ¥´¥ê£¿0=¤½¤ÎËû, 6=¼Ò¾ßÏä
-	api_name			£º¥¢¥¤¥Æ¥àÃû
-	api_description		£º
-	api_price			£º(0)
-	api_count			£ºËùÓĞ‚€Êı
+api_get_member/unsetslot	ï¼šæœªè£…å‚™æ­¦å™¨ã®ã‚«ãƒ†ã‚´ãƒªåˆ†ã‘ï¼Ÿ
+	api_slottype<id>		ï¼šid=è£…å‚™ã‚«ãƒ†ã‚´ãƒª
+		è£…å‚™å›ºæœ‰IDï¼Ÿ
 
 
-api_get_member/material		£ºÙYÔ´Çéˆó
-	api_member_id	£º
-	api_id			£ºID 1¤«¤é È¼ÁÏ, Ëa, ä“²Ä, ¥Ü©`¥­¥µ¥¤¥È, ¸ßËÙ½¨Ôì²Ä?, ¸ßËÙĞŞÍ²Ä, é_°kÙY²Ä?, ¸ÄĞŞÙY²Ä
-	api_value		£º±£ÓĞÊı
-
-api_get_member/kdock		£º¹¤S¥É¥Ã¥¯
-	api_member_id			£º
-	api_id					£º¥É¥Ã¥¯·¬ºÅ
-	api_state				£º×´‘B -1=¥í¥Ã¥¯, 0=¿Õ, 2=½¨ÔìÖĞ, 3=Íê³É
-	api_created_ship_id		£º½¨ÔìÅID
-	api_complete_time		£º½¨ÔìÍêÁË•rég 0=¿Õ¤­|ÍêÁËœg¤ß
-	api_complete_time_str	£º½¨ÔìÍêÁËÈÕ•r
-	api_item1				£ºÍ¶ÈëÈ¼ÁÏ
-	api_item2				£ºÍ¶ÈëËa
-	api_item3				£ºÍ¶Èëä“²Ä
-	api_item4				£ºÍ¶Èë¥Ü©`¥­¥µ¥¤¥È
-	api_item5				£ºÍ¶Èëé_°kÙY²Ä
-
-Request.api_req_kousyou/createship	£º½¨Ôìé_Ê¼
-	api_kdock_id		£º¹¤S¥É¥Ã¥¯ID
-	api_highspeed		£º¸ßËÙ½¨Ôì¥Õ¥é¥°
-	api_large_flag		£º´óĞÍÅ½¨Ôì¥Õ¥é¥°
-	api_item1			£ºÍ¶ÈëÈ¼ÁÏ
-	api_item2			£ºÍ¶ÈëËa
-	api_item3			£ºÍ¶Èëä“²Ä
-	api_item4			£ºÍ¶Èë¥Ü©`¥­¥µ¥¤¥È
-	api_item5			£ºÍ¶Èëé_°kÙY²Ä
-
-api_req_kousyou/createship			£º½¨Ôìé_Ê¼
-	(Çéˆó¤Ê¤·)
-
-Request.api_req_kousyou/createship_speedchage	£º¸ßËÙ½¨Ôì²ÄÊ¹ÓÃ
-	api_highspeed		£ºÊ¹ÓÃ¥Õ¥é¥°£¿
-	api_kdock_id		£º¹¤S¥É¥Ã¥¯ID
-
-api_req_kousyou/createship_speedchage			£º¸ßËÙ½¨Ôì²ÄÊ¹ÓÃ
-	(Çéˆó¤Ê¤·)
-
-api_req_kousyou/getship		£º½¨Ôì¤·¤¿ÅÄï¤òÊÜ¤±È¡¤ë
-	api_id				£ºÅ´¬¹ÌÓĞID
-	api_ship_id			£ºÅ´¬ID
-	api_kdock			£º¹¤S¥Ç©`¥¿¡¡kdock²ÎÕÕ
-	api_ship			£º½¨ÔìÅ¥Ç©`¥¿¡¡˜‹³É¤Ï port.api_ship ¤ÈÍ¬¤¸
-	api_slotitem		£º³õÆÚ×°‚ä¤Î¥Ç©`¥¿¡¡Ç±Ë®Å¤Ê¤É³õÆÚ×°‚ä¤¬¤Ê¤¤Å¤Ïnull¤Ë¤Ê¤ë¤Î¤Ç×¢Òâ
-		api_id			£º×°‚ä¹ÌÓĞID
-		api_slotitem_id	£º×°‚äID
-
-Request.api_req_kousyou/createitem	£º×°‚äé_°k
-	api_item1			£ºÍ¶ÈëÈ¼ÁÏ
-	api_item2			£ºÍ¶ÈëËa
-	api_item3			£ºÍ¶Èëä“²Ä
-	api_item4			£ºÍ¶Èë¥Ü©`¥­¥µ¥¤¥È
-
-api_req_kousyou/createitem	£º×°‚äé_°k(³É¹¦)
-	api_create_flag		£ºé_°k³É¹¦(1)
-	api_shizai_flag		£ºé_°kÙY²ÄÏûÙM¥Õ¥é¥°
-	api_slot_item		£ºé_°k×°‚ä¥Ç©`¥¿
-		api_id			£º×°‚ä¹ÌÓĞID
-		api_slotitem_id	£º×°‚äID
-	api_material		£º¸÷·NÙYÔ´Á¿
-	api_type3			£º×°‚ä¥«¥Æ¥´¥ê(api_mst_slotitem.api_type[2] ²ÎÕÕ)
-	api_unsetslot		£ºÍ¬¥«¥Æ¥´¥ê¤Î¥¢¥¤¥Æ¥à¥ê¥¹¥È£¿
-
-api_req_kousyou/createitem	£º×°‚äé_°k(Ê§”¡)
-	api_create_flag		£ºé_°kÊ§”¡(0)
-	api_shizai_flag		£ºé_°kÙY²ÄÏûÙM¥Õ¥é¥°
-	api_fdata			£º³É¹¦¤¹¤ë¤Ï¤º¤À¤Ã¤¿¥¢¥¤¥Æ¥àID£¿ÎÄ×ÖÁĞĞÍ, ¥³¥ó¥ŞÇøÇĞ¤ê¤ÇÑ}Êı¤Î‚¤ò³Ö¤Ä
-	api_material		£º¸÷·NÙYÔ´Á¿
+api_get_member/useitem		ï¼šã‚¢ã‚¤ãƒ†ãƒ æƒ…å ±
+	api_member_id		ï¼š
+	api_id				ï¼šã‚¢ã‚¤ãƒ†ãƒ ID
+	api_value			ï¼šæ‰€æœ‰å€‹æ•°
+	api_usetype			ï¼šä½¿ç”¨ç¨®åˆ¥ã€€0=ä½¿ç”¨ä¸èƒ½, 4=ä½¿ç”¨å¯èƒ½
+	api_category		ï¼šã‚«ãƒ†ã‚´ãƒªï¼Ÿ0=ãã®ä»–, 6=å®¶å…·ç®±
+	api_name			ï¼šã‚¢ã‚¤ãƒ†ãƒ å
+	api_description		ï¼š
+	api_price			ï¼š(0)
+	api_count			ï¼šæ‰€æœ‰å€‹æ•°
 
 
-Request.api_req_kousyou/destroyship	£ºÅ´¬½âÌå
-	api_ship_id			£º½âÌåÅ´¬¤ÎID
+api_get_member/material		ï¼šè³‡æºæƒ…å ±
+	api_member_id	ï¼š
+	api_id			ï¼šID 1ã‹ã‚‰ ç‡ƒæ–™, å¼¾è–¬, é‹¼æ, ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ, é«˜é€Ÿå»ºé€ æ?, é«˜é€Ÿä¿®å¾©æ, é–‹ç™ºè³‡æ?, æ”¹ä¿®è³‡æ
+	api_value		ï¼šä¿æœ‰æ•°
 
-api_req_kousyou/destroyship			£ºÅ´¬½âÌå
-	api_material		£º¸÷·NÙYÔ´¤Î¬FÔÚ‚
+api_get_member/kdock		ï¼šå·¥å» ãƒ‰ãƒƒã‚¯
+	api_member_id			ï¼š
+	api_id					ï¼šãƒ‰ãƒƒã‚¯ç•ªå·
+	api_state				ï¼šçŠ¶æ…‹ -1=ãƒ­ãƒƒã‚¯, 0=ç©º, 2=å»ºé€ ä¸­, 3=å®Œæˆ
+	api_created_ship_id		ï¼šå»ºé€ è‰¦ID
+	api_complete_time		ï¼šå»ºé€ å®Œäº†æ™‚é–“ 0=ç©ºã|å®Œäº†æ¸ˆã¿
+	api_complete_time_str	ï¼šå»ºé€ å®Œäº†æ—¥æ™‚
+	api_item1				ï¼šæŠ•å…¥ç‡ƒæ–™
+	api_item2				ï¼šæŠ•å…¥å¼¾è–¬
+	api_item3				ï¼šæŠ•å…¥é‹¼æ
+	api_item4				ï¼šæŠ•å…¥ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ
+	api_item5				ï¼šæŠ•å…¥é–‹ç™ºè³‡æ
 
+Request.api_req_kousyou/createship	ï¼šå»ºé€ é–‹å§‹
+	api_kdock_id		ï¼šå·¥å» ãƒ‰ãƒƒã‚¯ID
+	api_highspeed		ï¼šé«˜é€Ÿå»ºé€ ãƒ•ãƒ©ã‚°
+	api_large_flag		ï¼šå¤§å‹è‰¦å»ºé€ ãƒ•ãƒ©ã‚°
+	api_item1			ï¼šæŠ•å…¥ç‡ƒæ–™
+	api_item2			ï¼šæŠ•å…¥å¼¾è–¬
+	api_item3			ï¼šæŠ•å…¥é‹¼æ
+	api_item4			ï¼šæŠ•å…¥ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ
+	api_item5			ï¼šæŠ•å…¥é–‹ç™ºè³‡æ
 
-Request.api_req_kousyou/destroyitem2	£º×°‚äü—‰
-	api_slotitem_ids		£ºü—‰¤·¤¿×°‚ä¤ÎID
+api_req_kousyou/createship			ï¼šå»ºé€ é–‹å§‹
+	(æƒ…å ±ãªã—)
 
-api_req_kousyou/destroyitem2	£º×°‚äü—‰
-	api_get_material		£ºÈëÊÖ¤·¤¿¸÷·NÙYÔ´
+Request.api_req_kousyou/createship_speedchage	ï¼šé«˜é€Ÿå»ºé€ æä½¿ç”¨
+	api_highspeed		ï¼šä½¿ç”¨ãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_kdock_id		ï¼šå·¥å» ãƒ‰ãƒƒã‚¯ID
 
+api_req_kousyou/createship_speedchage			ï¼šé«˜é€Ÿå»ºé€ æä½¿ç”¨
+	(æƒ…å ±ãªã—)
 
-api_req_kousyou/remodel_slotlist	£º¸ÄĞŞ¹¤S¡¡×°‚äßx’k
-	api_id					£º¥ì¥·¥ÔID
-	api_slot_id				£º¸ÄĞŞ¤Ç¤­¤ë×°‚ä¤ÎID
-	api_req_fuel			£ºÏûÙMÈ¼ÁÏ
-	api_req_bull			£ºÏûÙMËa
-	api_req_steel			£ºÏûÙMä“²Ä
-	api_req_bauxite			£ºÏûÙM¥Ü©`¥­¥µ¥¤¥È
-	api_req_buildkit		£ºÏûÙMé_°kÙY²Ä
-	api_req_remodelkit		£ºÏûÙM¸ÄĞŞÙY²Ä
-	api_req_slot_id			£º0
-	api_req_slot_num		£º0
+api_req_kousyou/getship		ï¼šå»ºé€ ã—ãŸè‰¦å¨˜ã‚’å—ã‘å–ã‚‹
+	api_id				ï¼šè‰¦èˆ¹å›ºæœ‰ID
+	api_ship_id			ï¼šè‰¦èˆ¹ID
+	api_kdock			ï¼šå·¥å» ãƒ‡ãƒ¼ã‚¿ã€€kdockå‚ç…§
+	api_ship			ï¼šå»ºé€ è‰¦ãƒ‡ãƒ¼ã‚¿ã€€æ§‹æˆã¯ port.api_ship ã¨åŒã˜
+	api_slotitem		ï¼šåˆæœŸè£…å‚™ã®ãƒ‡ãƒ¼ã‚¿ã€€æ½œæ°´è‰¦ãªã©åˆæœŸè£…å‚™ãŒãªã„è‰¦ã¯nullã«ãªã‚‹ã®ã§æ³¨æ„
+		api_id			ï¼šè£…å‚™å›ºæœ‰ID
+		api_slotitem_id	ï¼šè£…å‚™ID
 
-api_req_kousyou/remodel_slotlist_detail		£º¸ÄĞŞ¹¤S¡¡ŒgĞĞ´_ÕJ
-	api_req_buildkit		£ºÏûÙMé_°kÙY²Ä
-	api_req_remodelkit		£ºÏûÙM¸ÄĞŞÙY²Ä
-	api_certain_buildkit	£º´_Œg»¯•r¤ÎÏûÙMé_°kÙY²Ä
-	api_certain_remodelkit	£º´_Œg»¯•r¤ÎÏûÙM¸ÄĞŞÙY²Ä
-	api_req_slot_id			£ºÏûÙM¤¹¤ë×°‚ä¤Î¥Ş¥¹¥¿©`ID
-	api_req_slot_num		£ºÏûÙM¤¹¤ë×°‚ä¤Î‚€Êı
-	api_change_flag			£º×°‚ä¸üĞÂ(¥¢¥Ã¥×¥°¥ì©`¥É)¥Õ¥é¥°
+Request.api_req_kousyou/createitem	ï¼šè£…å‚™é–‹ç™º
+	api_item1			ï¼šæŠ•å…¥ç‡ƒæ–™
+	api_item2			ï¼šæŠ•å…¥å¼¾è–¬
+	api_item3			ï¼šæŠ•å…¥é‹¼æ
+	api_item4			ï¼šæŠ•å…¥ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ
 
-api_req_kousyou/remodel_slot	£º¸ÄĞŞ¹¤S¡¡¸ÄĞŞŒgĞĞ
-	api_remodel_flag	£º³É¹¦¥Õ¥é¥°
-	api_remodel_id		£º¸ÄĞŞ×°‚ä¥Ş¥¹¥¿©`ID¡¡[0]=‰ä»¯Ç°, [1]=‰ä»¯áá
-	api_after_material	£º¬FÔÚ¤Î¸÷·NÙYÔ´
-	api_voice_id		£º2·¬Å¤È¸Ä×°¤·¤¿•r¤Î¥Ü¥¤¥¹·¬ºÅ string
-	api_after_slot		£º¸üĞÂ¤µ¤ì¤¿×°‚ä¥Ç©`¥¿ api_get_member/slot_item²ÎÕÕ¡¡Ê§”¡•r´æÔÚ¤»¤º
-	api_use_slot_id		£ºÏûÙM¤µ¤ì¤¿×°‚ä¤ÎID¡¡Ê¹¤Ã¤¿¤È¤­¤Î¤ß´æÔÚ
+api_req_kousyou/createitem	ï¼šè£…å‚™é–‹ç™º(æˆåŠŸ)
+	api_create_flag		ï¼šé–‹ç™ºæˆåŠŸ(1)
+	api_shizai_flag		ï¼šé–‹ç™ºè³‡ææ¶ˆè²»ãƒ•ãƒ©ã‚°
+	api_slot_item		ï¼šé–‹ç™ºè£…å‚™ãƒ‡ãƒ¼ã‚¿
+		api_id			ï¼šè£…å‚™å›ºæœ‰ID
+		api_slotitem_id	ï¼šè£…å‚™ID
+	api_material		ï¼šå„ç¨®è³‡æºé‡
+	api_type3			ï¼šè£…å‚™ã‚«ãƒ†ã‚´ãƒª(api_mst_slotitem.api_type[2] å‚ç…§)
+	api_unsetslot		ï¼šåŒã‚«ãƒ†ã‚´ãƒªã®ã‚¢ã‚¤ãƒ†ãƒ ãƒªã‚¹ãƒˆï¼Ÿ
 
-api_get_member/ndock		£ºÈëÇş¥É¥Ã¥¯
-	api_member_id			£º
-	api_id					£º¥É¥Ã¥¯·¬ºÅ
-	api_state				£º×´‘B¡¡-1=¥í¥Ã¥¯?, 0=¿Õ¤­, 1=ÈëÇşÖĞ
-	api_ship_id				£ºÈëÇşÖĞÅ´¬ID¡¡¿Õ¤­¤Ï0
-	api_complete_time		£ºÈëÇşÍêÁË•rég
-	api_complete_time_str	£ºÈëÇşÍêÁËÈÕ•r
-	api_item1				£ºÏûÙMÈ¼ÁÏ
-	api_item2				£ºÏûÙMËa(0)
-	api_item3				£ºÏûÙMä“²Ä
-	api_item4				£ºÏûÙM¥Ü©`¥­¥µ¥¤¥È(0)
-
-Request.api_req_nyukyo/start	£ºÈëÇşé_Ê¼
-	api_highspeed		£º¸ßËÙĞŞÍ¥Õ¥é¥°
-	api_ship_id			£ºŒÏóÅ´¬ID
-	api_ndock_id		£ºÈëÇş¥É¥Ã¥¯ID
-
-api_req_nyukyo/start			£ºÈëÇşé_Ê¼
-	(Çéˆó¤Ê¤·)	
-
-Request.api_req_nyukyo/speedchange	£º¥Ğ¥±¥ÄÊ¹ÓÃ
-	api_ndock_id		£ºÈëÇş¥É¥Ã¥¯ID
-
-api_req_nyukyo/speedchange			£º¥Ğ¥±¥ÄÊ¹ÓÃ
-	(Çéˆó¤Ê¤·)
-
-
-api_get_member/mission	£ºßhÕ÷ß_³É×´›r
-	api_mission_id		£ºßhÕ÷ID
-	api_state			£ºß_³É×´›r¡¡0=Î´³ö“Ä, 1=Î´ß_³É, 2=ß_³Éœg¤ß
+api_req_kousyou/createitem	ï¼šè£…å‚™é–‹ç™º(å¤±æ•—)
+	api_create_flag		ï¼šé–‹ç™ºå¤±æ•—(0)
+	api_shizai_flag		ï¼šé–‹ç™ºè³‡ææ¶ˆè²»ãƒ•ãƒ©ã‚°
+	api_fdata			ï¼šæˆåŠŸã™ã‚‹ã¯ãšã ã£ãŸã‚¢ã‚¤ãƒ†ãƒ IDï¼Ÿæ–‡å­—åˆ—å‹, ã‚³ãƒ³ãƒåŒºåˆ‡ã‚Šã§è¤‡æ•°ã®å€¤ã‚’æŒã¤
+	api_material		ï¼šå„ç¨®è³‡æºé‡
 
 
-api_get_member/record	£º‘é¿ƒ±íÊ¾
-	api_member_id		£º
-	api_nickname		£ºÌá¶½Ãû
-	api_nickname_id		£º
-	api_cmt				£º¥³¥á¥ó¥È
-	api_cmt_id			£º
-	api_photo_url		£º
-	api_level			£ºÅê Ë¾Áî²¿Lv.
-	api_rank			£ºëA¼‰
-	api_experience		£ºÌá¶½½UòY‚¡¡[0]=¬FÔÚ‚, [1]=´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚
-	api_war				£º³ö“Ä½yÓ‹¡¡ÎÄ×ÖÁĞ
-		api_win			£º³ö“Ä„ÙÀû»ØÊı
-		api_lose		£º³ö“Ä”¡±±»ØÊı
-		api_rate		£º³ö“Ä„ÙÂÊ
-	api_mission			£ºßhÕ÷½yÓ‹
-		api_count		£º¾tßhÕ÷»ØÊı
-		api_success		£ºßhÕ÷³É¹¦»ØÊı
-		api_rate		£ºßhÕ÷³É¹¦ÂÊ
-	api_practice		£ºÑİÁ•½yÓ‹
-		api_win			£ºÑİÁ•„ÙÀû»ØÊı
-		api_lose		£ºÑİÁ•”¡±±»ØÊı
-		api_rate		£ºÑİÁ•„ÙÂÊ
-	api_friend			£ºÓÑÜŠÅê Êı£¿
-	api_deck			£º±£ÓĞÅê Êı
-	api_kdoc			£º¹¤S¥É¥Ã¥¯Êı
-	api_ndoc			£ºÈëÇş¥É¥Ã¥¯Êı
-	api_ship			£ºÅÄï±£ÓĞÊı¡¡[0]=¬FÔÚ‚, [1]=×î´ó‚
-	api_slotitem		£º×°‚ä±£ÓĞÊı¡¡[0]=¬FÔÚ‚, [1]=×î´ó‚
-	api_furniture		£º¼Ò¾ß±£ÓĞÊı
-	api_complate		£º
-	api_large_dock		£º´óĞÍÅ½¨Ôì¿É·ñ£¿
-	api_material_max	£ºÙYÔ´¤Î×ÔÈ»»ØÍÉÏÏŞ
+Request.api_req_kousyou/destroyship	ï¼šè‰¦èˆ¹è§£ä½“
+	api_ship_id			ï¼šè§£ä½“è‰¦èˆ¹ã®ID
+
+api_req_kousyou/destroyship			ï¼šè‰¦èˆ¹è§£ä½“
+	api_material		ï¼šå„ç¨®è³‡æºã®ç¾åœ¨å€¤
 
 
-api_get_member/questlist	£ºÈÎ„Õ
-	api_count				£ºÈÎ„ÕÊı
-	api_page_count			£º¥Ú©`¥¸Êı
-	api_disp_page			£º¬FÔÚ±íÊ¾¤·¤Æ¤¤¤ë¥Ú©`¥¸
-	api_list				£ºÈÎ„ÕÒ»ÓE¡¡´æÔÚ¤·¤Ê¤¤¥¨¥ê¥¢¤Ï¥ª¥Ö¥¸¥§¥¯¥È¤Ç¤Ï¤Ê¤¯-1¤Ë¤Ê¤ë; ÈÎ„ÕÍêËì•r, ¥Ú©`¥¸ßwÒÆ•r¤Ïnull
-		api_no				£ºÈÎ„ÕID
-		api_category		£ºÈÎ„Õ¥«¥Æ¥´¥ê¡¡1=¾³É, 2=³ö“Ä, 3=ÑİÁ•, 4=ßhÕ÷, 5=Ña½o/ÈëÇş, 6=¹¤S, 7=¸Ä×°, 8=¤½¤ÎËû?
-		api_type			£ºÈÎ„Õ³ö¬F¥¿¥¤¥×¡¡1=Ò»»ØÏŞ¤ê, 2=¥Ç¥¤¥ê©`, 3=¥¦¥£©`¥¯¥ê©`, 4=”³¿ÕÄ¸¤ò3ëb“ÄÉò¤»¤è!(ÈÕ¸¶ÏÂÒ»èì0|3|7), 5=”³İ”ËÍ´¬‡â¤òßµ¤±!(ÈÕ¸¶ÏÂÒ»èì2|8), 6=¥Ş¥ó¥¹¥ê©`
-		api_state			£º×´‘B¡¡1=Î´ÊÜîI, 2=ËìĞĞÖĞ, 3=ß_³É
-		api_title			£º¥¿¥¤¥È¥ë
-		api_detail			£ºÕhÃ÷
-		api_get_material	£º«@µÃÙY²Ä
-		api_bonus_flag		£º1=Í¨³£, 2=ÅÄï
-		api_progress_flag	£ºßM’Ã¡¡0=¿Õ°×(ß_³Éº¬¤à), 1=50%ÒÔÉÏß_³É, 2=80%ÒÔÉÏß_³É
-		api_invalid_flag	£º™C·NÜ“Q²»ÄÜ¥Õ¥é¥°£¿
-	api_exec_count			£ºÊÜîIÈÎ„ÕÊı
-	api_exec_type			£º£¿
+Request.api_req_kousyou/destroyitem2	ï¼šè£…å‚™å»ƒæ£„
+	api_slotitem_ids		ï¼šå»ƒæ£„ã—ãŸè£…å‚™ã®ID
+
+api_req_kousyou/destroyitem2	ï¼šè£…å‚™å»ƒæ£„
+	api_get_material		ï¼šå…¥æ‰‹ã—ãŸå„ç¨®è³‡æº
 
 
-Request.api_req_quest/start	£ºÈÎ„Õé_Ê¼
-	api_quest_id			£ºÈÎ„ÕID
+api_req_kousyou/remodel_slotlist	ï¼šæ”¹ä¿®å·¥å» ã€€è£…å‚™é¸æŠ
+	api_id					ï¼šãƒ¬ã‚·ãƒ”ID
+	api_slot_id				ï¼šæ”¹ä¿®ã§ãã‚‹è£…å‚™ã®ID
+	api_req_fuel			ï¼šæ¶ˆè²»ç‡ƒæ–™
+	api_req_bull			ï¼šæ¶ˆè²»å¼¾è–¬
+	api_req_steel			ï¼šæ¶ˆè²»é‹¼æ
+	api_req_bauxite			ï¼šæ¶ˆè²»ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ
+	api_req_buildkit		ï¼šæ¶ˆè²»é–‹ç™ºè³‡æ
+	api_req_remodelkit		ï¼šæ¶ˆè²»æ”¹ä¿®è³‡æ
+	api_req_slot_id			ï¼š0
+	api_req_slot_num		ï¼š0
 
-api_req_quest/start			£ºÈÎ„Õé_Ê¼
-	(Çéˆó¤Ê¤·)
+api_req_kousyou/remodel_slotlist_detail		ï¼šæ”¹ä¿®å·¥å» ã€€å®Ÿè¡Œç¢ºèª
+	api_req_buildkit		ï¼šæ¶ˆè²»é–‹ç™ºè³‡æ
+	api_req_remodelkit		ï¼šæ¶ˆè²»æ”¹ä¿®è³‡æ
+	api_certain_buildkit	ï¼šç¢ºå®ŸåŒ–æ™‚ã®æ¶ˆè²»é–‹ç™ºè³‡æ
+	api_certain_remodelkit	ï¼šç¢ºå®ŸåŒ–æ™‚ã®æ¶ˆè²»æ”¹ä¿®è³‡æ
+	api_req_slot_id			ï¼šæ¶ˆè²»ã™ã‚‹è£…å‚™ã®ãƒã‚¹ã‚¿ãƒ¼ID
+	api_req_slot_num		ï¼šæ¶ˆè²»ã™ã‚‹è£…å‚™ã®å€‹æ•°
+	api_change_flag			ï¼šè£…å‚™æ›´æ–°(ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰)ãƒ•ãƒ©ã‚°
 
-Request.api_req_quest/stop	£ºÈÎ„ÕÖĞÖ¹
-	api_quest_id			£ºÈÎ„ÕID
+api_req_kousyou/remodel_slot	ï¼šæ”¹ä¿®å·¥å» ã€€æ”¹ä¿®å®Ÿè¡Œ
+	api_remodel_flag	ï¼šæˆåŠŸãƒ•ãƒ©ã‚°
+	api_remodel_id		ï¼šæ”¹ä¿®è£…å‚™ãƒã‚¹ã‚¿ãƒ¼IDã€€[0]=å¤‰åŒ–å‰, [1]=å¤‰åŒ–å¾Œ
+	api_after_material	ï¼šç¾åœ¨ã®å„ç¨®è³‡æº
+	api_voice_id		ï¼š2ç•ªè‰¦ã¨æ”¹è£…ã—ãŸæ™‚ã®ãƒœã‚¤ã‚¹ç•ªå· string
+	api_after_slot		ï¼šæ›´æ–°ã•ã‚ŒãŸè£…å‚™ãƒ‡ãƒ¼ã‚¿ api_get_member/slot_itemå‚ç…§ã€€å¤±æ•—æ™‚å­˜åœ¨ã›ãš
+	api_use_slot_id		ï¼šæ¶ˆè²»ã•ã‚ŒãŸè£…å‚™ã®IDã€€ä½¿ã£ãŸã¨ãã®ã¿å­˜åœ¨
 
-api_req_quest/stop			£ºÈÎ„ÕÖĞÖ¹
-	(Çéˆó¤Ê¤·)
+api_get_member/ndock		ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯
+	api_member_id			ï¼š
+	api_id					ï¼šãƒ‰ãƒƒã‚¯ç•ªå·
+	api_state				ï¼šçŠ¶æ…‹ã€€-1=ãƒ­ãƒƒã‚¯?, 0=ç©ºã, 1=å…¥æ¸ ä¸­
+	api_ship_id				ï¼šå…¥æ¸ ä¸­è‰¦èˆ¹IDã€€ç©ºãã¯0
+	api_complete_time		ï¼šå…¥æ¸ å®Œäº†æ™‚é–“
+	api_complete_time_str	ï¼šå…¥æ¸ å®Œäº†æ—¥æ™‚
+	api_item1				ï¼šæ¶ˆè²»ç‡ƒæ–™
+	api_item2				ï¼šæ¶ˆè²»å¼¾è–¬(0)
+	api_item3				ï¼šæ¶ˆè²»é‹¼æ
+	api_item4				ï¼šæ¶ˆè²»ãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆ(0)
+
+Request.api_req_nyukyo/start	ï¼šå…¥æ¸ é–‹å§‹
+	api_highspeed		ï¼šé«˜é€Ÿä¿®å¾©ãƒ•ãƒ©ã‚°
+	api_ship_id			ï¼šå¯¾è±¡è‰¦èˆ¹ID
+	api_ndock_id		ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯ID
+
+api_req_nyukyo/start			ï¼šå…¥æ¸ é–‹å§‹
+	(æƒ…å ±ãªã—)	
+
+Request.api_req_nyukyo/speedchange	ï¼šãƒã‚±ãƒ„ä½¿ç”¨
+	api_ndock_id		ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯ID
+
+api_req_nyukyo/speedchange			ï¼šãƒã‚±ãƒ„ä½¿ç”¨
+	(æƒ…å ±ãªã—)
 
 
-Request.api_req_quest/clearitemget£ºÈÎ„Õß_³É
-	api_quest			£º
-	api_quest_id		£ºÈÎ„ÕID
+api_get_member/mission	ï¼šé å¾é”æˆçŠ¶æ³
+	api_mission_id		ï¼šé å¾ID
+	api_state			ï¼šé”æˆçŠ¶æ³ã€€0=æœªå‡ºæ’ƒ, 1=æœªé”æˆ, 2=é”æˆæ¸ˆã¿
+
+
+api_get_member/record	ï¼šæˆ¦ç¸¾è¡¨ç¤º
+	api_member_id		ï¼š
+	api_nickname		ï¼šæç£å
+	api_nickname_id		ï¼š
+	api_cmt				ï¼šã‚³ãƒ¡ãƒ³ãƒˆ
+	api_cmt_id			ï¼š
+	api_photo_url		ï¼š
+	api_level			ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_rank			ï¼šéšç´š
+	api_experience		ï¼šæç£çµŒé¨“å€¤ã€€[0]=ç¾åœ¨å€¤, [1]=æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤
+	api_war				ï¼šå‡ºæ’ƒçµ±è¨ˆã€€æ–‡å­—åˆ—
+		api_win			ï¼šå‡ºæ’ƒå‹åˆ©å›æ•°
+		api_lose		ï¼šå‡ºæ’ƒæ•—åŒ—å›æ•°
+		api_rate		ï¼šå‡ºæ’ƒå‹ç‡
+	api_mission			ï¼šé å¾çµ±è¨ˆ
+		api_count		ï¼šç·é å¾å›æ•°
+		api_success		ï¼šé å¾æˆåŠŸå›æ•°
+		api_rate		ï¼šé å¾æˆåŠŸç‡
+	api_practice		ï¼šæ¼”ç¿’çµ±è¨ˆ
+		api_win			ï¼šæ¼”ç¿’å‹åˆ©å›æ•°
+		api_lose		ï¼šæ¼”ç¿’æ•—åŒ—å›æ•°
+		api_rate		ï¼šæ¼”ç¿’å‹ç‡
+	api_friend			ï¼šå‹è»è‰¦éšŠæ•°ï¼Ÿ
+	api_deck			ï¼šä¿æœ‰è‰¦éšŠæ•°
+	api_kdoc			ï¼šå·¥å» ãƒ‰ãƒƒã‚¯æ•°
+	api_ndoc			ï¼šå…¥æ¸ ãƒ‰ãƒƒã‚¯æ•°
+	api_ship			ï¼šè‰¦å¨˜ä¿æœ‰æ•°ã€€[0]=ç¾åœ¨å€¤, [1]=æœ€å¤§å€¤
+	api_slotitem		ï¼šè£…å‚™ä¿æœ‰æ•°ã€€[0]=ç¾åœ¨å€¤, [1]=æœ€å¤§å€¤
+	api_furniture		ï¼šå®¶å…·ä¿æœ‰æ•°
+	api_complate		ï¼š
+	api_large_dock		ï¼šå¤§å‹è‰¦å»ºé€ å¯å¦ï¼Ÿ
+	api_material_max	ï¼šè³‡æºã®è‡ªç„¶å›å¾©ä¸Šé™
+
+
+api_get_member/questlist	ï¼šä»»å‹™
+	api_count				ï¼šä»»å‹™æ•°
+	api_page_count			ï¼šãƒšãƒ¼ã‚¸æ•°
+	api_disp_page			ï¼šç¾åœ¨è¡¨ç¤ºã—ã¦ã„ã‚‹ãƒšãƒ¼ã‚¸
+	api_list				ï¼šä»»å‹™ä¸€è¦§ã€€å­˜åœ¨ã—ãªã„ã‚¨ãƒªã‚¢ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã¯ãªã-1ã«ãªã‚‹; ä»»å‹™å®Œé‚æ™‚, ãƒšãƒ¼ã‚¸é·ç§»æ™‚ã¯null
+		api_no				ï¼šä»»å‹™ID
+		api_category		ï¼šä»»å‹™ã‚«ãƒ†ã‚´ãƒªã€€1=ç·¨æˆ, 2=å‡ºæ’ƒ, 3=æ¼”ç¿’, 4=é å¾, 5=è£œçµ¦/å…¥æ¸ , 6=å·¥å» , 7=æ”¹è£…, 8=ãã®ä»–?
+		api_type			ï¼šä»»å‹™å‡ºç¾ã‚¿ã‚¤ãƒ—ã€€1=ä¸€å›é™ã‚Š, 2=ãƒ‡ã‚¤ãƒªãƒ¼, 3=ã‚¦ã‚£ãƒ¼ã‚¯ãƒªãƒ¼, 4=æ•µç©ºæ¯ã‚’3éš»æ’ƒæ²ˆã›ã‚ˆ!(æ—¥ä»˜ä¸‹ä¸€æ¡0|3|7), 5=æ•µè¼¸é€èˆ¹å›£ã‚’å©ã‘!(æ—¥ä»˜ä¸‹ä¸€æ¡2|8), 6=ãƒãƒ³ã‚¹ãƒªãƒ¼
+		api_state			ï¼šçŠ¶æ…‹ã€€1=æœªå—é ˜, 2=é‚è¡Œä¸­, 3=é”æˆ
+		api_title			ï¼šã‚¿ã‚¤ãƒˆãƒ«
+		api_detail			ï¼šèª¬æ˜
+		api_get_material	ï¼šç²å¾—è³‡æ
+		api_bonus_flag		ï¼š1=é€šå¸¸, 2=è‰¦å¨˜
+		api_progress_flag	ï¼šé€²æ—ã€€0=ç©ºç™½(é”æˆå«ã‚€), 1=50%ä»¥ä¸Šé”æˆ, 2=80%ä»¥ä¸Šé”æˆ
+		api_invalid_flag	ï¼šæ©Ÿç¨®è»¢æ›ä¸èƒ½ãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_exec_count			ï¼šå—é ˜ä»»å‹™æ•°
+	api_exec_type			ï¼šï¼Ÿ
+
+
+Request.api_req_quest/start	ï¼šä»»å‹™é–‹å§‹
+	api_quest_id			ï¼šä»»å‹™ID
+
+api_req_quest/start			ï¼šä»»å‹™é–‹å§‹
+	(æƒ…å ±ãªã—)
+
+Request.api_req_quest/stop	ï¼šä»»å‹™ä¸­æ­¢
+	api_quest_id			ï¼šä»»å‹™ID
+
+api_req_quest/stop			ï¼šä»»å‹™ä¸­æ­¢
+	(æƒ…å ±ãªã—)
+
+
+Request.api_req_quest/clearitemgetï¼šä»»å‹™é”æˆ
+	api_quest			ï¼š
+	api_quest_id		ï¼šä»»å‹™ID
 	
-api_req_quest/clearitemget		£ºÈÎ„Õß_³É
-	api_material		£º«@µÃÙYÔ´Á¿(»ù±¾4·N)
-	api_bounus_count	£ºapi_bounus ¤ÎÊı *¥¹¥Ú¥ë¥ß¥¹×¢Òâ*
-	api_bounus			£º¥¢¥¤¥Æ¥à *¥¹¥Ú¥ë¥ß¥¹×¢Òâ*
-		api_type		£º1=ÙYÔ´(¥Ğ¥±¥Ä¤½¤ÎËû4·N£¿), 2=Åê ½â·Å, 3=¼Ò¾ßÏä, 4=´óĞÍÅ½¨Ôì½â·Å, 11=Å´¬, 12=×°‚ä, 13=¥¢¥¤¥Æ¥à, 14=¼Ò¾ß, 15=™C·NÜ“Q
-		api_count		£ºÈ¡µÃ‚€Êı
-		api_item		£º¥¢¥¤¥Æ¥à×·¼ÓÇéˆó Ò»°ã¥¢¥¤¥Æ¥à¤Ïnull
-			api_id		£º×°‚ä¥¢¥¤¥Æ¥à=ID¡¢¼Ò¾ßÏä=0
-			api_name	£º¥¢¥¤¥Æ¥àÃû ¼Ò¾ßÏäÏµ/×°‚ä¤Î¤ß
+api_req_quest/clearitemget		ï¼šä»»å‹™é”æˆ
+	api_material		ï¼šç²å¾—è³‡æºé‡(åŸºæœ¬4ç¨®)
+	api_bounus_count	ï¼šapi_bounus ã®æ•° *ã‚¹ãƒšãƒ«ãƒŸã‚¹æ³¨æ„*
+	api_bounus			ï¼šã‚¢ã‚¤ãƒ†ãƒ  *ã‚¹ãƒšãƒ«ãƒŸã‚¹æ³¨æ„*
+		api_type		ï¼š1=è³‡æº(ãƒã‚±ãƒ„ãã®ä»–4ç¨®ï¼Ÿ), 2=è‰¦éšŠè§£æ”¾, 3=å®¶å…·ç®±, 4=å¤§å‹è‰¦å»ºé€ è§£æ”¾, 11=è‰¦èˆ¹, 12=è£…å‚™, 13=ã‚¢ã‚¤ãƒ†ãƒ , 14=å®¶å…·, 15=æ©Ÿç¨®è»¢æ›
+		api_count		ï¼šå–å¾—å€‹æ•°
+		api_item		ï¼šã‚¢ã‚¤ãƒ†ãƒ è¿½åŠ æƒ…å ± ä¸€èˆ¬ã‚¢ã‚¤ãƒ†ãƒ ã¯null
+			api_id		ï¼šè£…å‚™ã‚¢ã‚¤ãƒ†ãƒ =IDã€å®¶å…·ç®±=0
+			api_name	ï¼šã‚¢ã‚¤ãƒ†ãƒ å å®¶å…·ç®±ç³»/è£…å‚™ã®ã¿
 
 
-Request.api_get_member/picture_book	£º‡íèa
-	api_type	£º1=Å´¬‡íèa, 2=×°‚ä‡íèa
-	api_no		£º¥Ú©`¥¸
+Request.api_get_member/picture_book	ï¼šå›³é‘‘
+	api_type	ï¼š1=è‰¦èˆ¹å›³é‘‘, 2=è£…å‚™å›³é‘‘
+	api_no		ï¼šãƒšãƒ¼ã‚¸
 
-api_get_member/picture_book	£ºÅ´¬‡íèa¡¡‡íèaµÇåhœg¤ß¤Î¤â¤Î¤Î¤ßËÍ¤é¤ì¤Æ¤¯¤ë¤Î¤Ç×¢Òâ
-	api_list				£º¥ê¥¹¥È¡¡µÇåhÅ¤¬0ëb¤ÎˆöºÏ¤Ï´æÔÚ¤·¤Ê¤¤(api_data=null¤Ë¤Ê¤ë)
-		api_index_no		£º‡íèaNo.
-		api_state			£ºÈ¡µÃ¥Õ¥é¥°£¿
-								¶şÖØÅäÁĞ¤Ë¤Ê¤Ã¤Æ¤ª¤ê¡¢Î´¸ÄÔì?¸ÄÔìáá¤¬Í¬¤¸í—Ä¿¤ÇµÇåh¤µ¤ì¤Æ¤¤¤ëÅÄï¤ÏÒÔÏÂ¥Ç©`¥¿¤¬2¤Ä(ÒÔÉÏ)´æÔÚ¤¹¤ë
-								[0]=‡íèaµÇåh, [1]=ÖĞÆÆ½}, [2]=¥±¥Ã¥³¥ó, [3]=?, [4]=?
-		api_table_id		£ºÅ´¬ID
-		api_name			£ºÅ´¬Ãû
-		api_yomi			£ºÅ´¬ÃûÕi¤ß
-		api_stype			£ºÅ·N
-		api_ctype			£ºÅĞÍ
-		api_cnum			£ºÅ·¬
-		api_taik			£ºÄÍ¾Ã
-		api_souk			£º×°¼×
-		api_kaih			£º»Ø±Ü
-		api_houg			£º»ğÁ¦
-		api_raig			£ºÀ××°
-		api_tyku			£ºŒ¿Õ
-		api_tais			£ºŒÇ±
-		api_leng			£ºÉä³Ì
-		api_sinfo			£ºÕhÃ÷
-
-
-api_get_member/picture_book	£º×°‚ä‡íèa¡¡‡íèaµÇåhœg¤ß¤Î¤â¤Î¤Î¤ßËÍ¤é¤ì¤Æ¤¯¤ë¤Î¤Ç×¢Òâ
-	api_list				£º¥ê¥¹¥È
-		api_index_no		£º‡íèaNo.
-		api_state			£ºÈ¡µÃ¥Õ¥é¥°£¿[0]=‡íèaµÇåh
-		api_table_id		£º×°‚äID
-		api_name			£º×°‚äÃû
-		api_type			£º×°‚ä·N„e
-		api_souk			£º×°¼×
-		api_houg			£º»ğÁ¦
-		api_raig			£ºÀ××°
-		api_soku			£ºËÙÁ¦
-		api_baku			£º±¬×°
-		api_tyku			£ºŒ¿Õ
-		api_tais			£ºŒÇ±
-		api_houm			£ºÃüÖĞ
-		api_houk			£º»Ø±Ü
-		api_saku			£ºË÷”³
-		api_leng			£ºÉä³Ì
-		api_flag			£º¥«¥Æ¥´¥ê?
-								[0]=³h, [1]=ô~À×, [2]=¹¥“Ä™C(À×“Ä™C), [3]=±¬“Ä™C, [4]=™Cã|, [5]=‘éêL™C, [6]=‚É²ì™C, [7]=‘éêL™C/™Cã|
-		api_info			£ºÕhÃ÷
+api_get_member/picture_book	ï¼šè‰¦èˆ¹å›³é‘‘ã€€å›³é‘‘ç™»éŒ²æ¸ˆã¿ã®ã‚‚ã®ã®ã¿é€ã‚‰ã‚Œã¦ãã‚‹ã®ã§æ³¨æ„
+	api_list				ï¼šãƒªã‚¹ãƒˆã€€ç™»éŒ²è‰¦ãŒ0éš»ã®å ´åˆã¯å­˜åœ¨ã—ãªã„(api_data=nullã«ãªã‚‹)
+		api_index_no		ï¼šå›³é‘‘No.
+		api_state			ï¼šå–å¾—ãƒ•ãƒ©ã‚°ï¼Ÿ
+								äºŒé‡é…åˆ—ã«ãªã£ã¦ãŠã‚Šã€æœªæ”¹é€ ?æ”¹é€ å¾ŒãŒåŒã˜é …ç›®ã§ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹è‰¦å¨˜ã¯ä»¥ä¸‹ãƒ‡ãƒ¼ã‚¿ãŒ2ã¤(ä»¥ä¸Š)å­˜åœ¨ã™ã‚‹
+								[0]=å›³é‘‘ç™»éŒ², [1]=ä¸­ç ´çµµ, [2]=ã‚±ãƒƒã‚³ãƒ³, [3]=?, [4]=?
+		api_table_id		ï¼šè‰¦èˆ¹ID
+		api_name			ï¼šè‰¦èˆ¹å
+		api_yomi			ï¼šè‰¦èˆ¹åèª­ã¿
+		api_stype			ï¼šè‰¦ç¨®
+		api_ctype			ï¼šè‰¦å‹
+		api_cnum			ï¼šè‰¦ç•ª
+		api_taik			ï¼šè€ä¹…
+		api_souk			ï¼šè£…ç”²
+		api_kaih			ï¼šå›é¿
+		api_houg			ï¼šç«åŠ›
+		api_raig			ï¼šé›·è£…
+		api_tyku			ï¼šå¯¾ç©º
+		api_tais			ï¼šå¯¾æ½œ
+		api_leng			ï¼šå°„ç¨‹
+		api_sinfo			ï¼šèª¬æ˜
 
 
-Request.api_req_kaisou/powerup	£º½ü´ú»¯¸ÄĞŞ
-	api_id_items		£ºËØ²Ä¤ÎÅ´¬ID£¿
-	api_id				£ºŒÏóÅ´¬ID
-
-api_req_kaisou/powerup			£º½ü´ú»¯¸ÄĞŞ
-	api_powerup_flag	£º¸ÄĞŞ³É¹¦/Ê§”¡
-	api_ship			£º¸ÄĞŞÅ¤Î¥Ç©`¥¿¡¡port.api_ship¤ËœÊ¤¸¤ë
-	api_deck			£ºÅê ¤Î¥Ç©`¥¿¡¡port.api_deck_port¤ËœÊ¤¸¤ë
-
-
-Request.api_req_mission/result		£ºßhÕ÷¢Í¶
-	api_deck_id				£ºŒÏó¤ÎÅê ID
-
-api_req_mission/result		£ºßhÕ÷¢Í¶
-	api_ship_id				£ºÅ´¬ID¡¡(Ä©Î²-1¤Î¥Ñ©`¥Æ¥£¥ê¥¹¥È)¤ÎÄæ¡¢¥µ¥¤¥º¿É‰ä
-	api_clear_result		£º0=Ê§”¡, 1=³É¹¦, 2=´ó³É¹¦
-	api_get_exp				£º«@µÃÌá¶½½UòY‚
-	api_member_lv			£ºÅê Ë¾Áî²¿Lv.
-	api_member_exp			£ºÌá¶½½UòY‚
-	api_get_ship_exp		£º¸÷Å´¬¤ÎÈ¡µÃ½UòY‚
-	api_get_exp_lvup		£º¸÷Å´¬¤Î[0]=¬FÔÚ½UòY‚, [1]=´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚
-	api_maparea_name		£ºº£Óò¥«¥Æ¥´¥êÃû
-	api_detail				£ºÔ”¼š
-	api_quest_name			£ºßhÕ÷Ãû
-	api_quest_level			£ºëyÒ×¶È
-	api_get_material		£ºÈ¡µÃÙYÔ´¡¡´æÔÚ¤·¤Ê¤¤ˆöºÏ-1
-	api_useitem_flag		£ºÈ¡µÃ¥¢¥¤¥Æ¥à¤Î´æÔÚ¥Õ¥é¥° [n]=0¤Ê¤éapi_get_item<n+1>¤Ï´æÔÚ¤·¤Ê¤¤
-	api_get_item1			£ºÈ¡µÃ¥¢¥¤¥Æ¥à
-		api_useitem_id		£ºÈ¡µÃ¥¢¥¤¥Æ¥àID¡¡È¡µÃÊ§”¡¤Ê¤é-1
-		api_useitem_name	£ºÈ¡µÃ¥¢¥¤¥Æ¥àÃû
-		api_useitem_count	£ºÈ¡µÃ¥¢¥¤¥Æ¥àÊı£¿
-	api_get_item2			£ºÉÏ¤ËÍ¬¤¸
+api_get_member/picture_book	ï¼šè£…å‚™å›³é‘‘ã€€å›³é‘‘ç™»éŒ²æ¸ˆã¿ã®ã‚‚ã®ã®ã¿é€ã‚‰ã‚Œã¦ãã‚‹ã®ã§æ³¨æ„
+	api_list				ï¼šãƒªã‚¹ãƒˆ
+		api_index_no		ï¼šå›³é‘‘No.
+		api_state			ï¼šå–å¾—ãƒ•ãƒ©ã‚°ï¼Ÿ[0]=å›³é‘‘ç™»éŒ²
+		api_table_id		ï¼šè£…å‚™ID
+		api_name			ï¼šè£…å‚™å
+		api_type			ï¼šè£…å‚™ç¨®åˆ¥
+		api_souk			ï¼šè£…ç”²
+		api_houg			ï¼šç«åŠ›
+		api_raig			ï¼šé›·è£…
+		api_soku			ï¼šé€ŸåŠ›
+		api_baku			ï¼šçˆ†è£…
+		api_tyku			ï¼šå¯¾ç©º
+		api_tais			ï¼šå¯¾æ½œ
+		api_houm			ï¼šå‘½ä¸­
+		api_houk			ï¼šå›é¿
+		api_saku			ï¼šç´¢æ•µ
+		api_leng			ï¼šå°„ç¨‹
+		api_flag			ï¼šã‚«ãƒ†ã‚´ãƒª?
+								[0]=ç ², [1]=é­šé›·, [2]=æ”»æ’ƒæ©Ÿ(é›·æ’ƒæ©Ÿ), [3]=çˆ†æ’ƒæ©Ÿ, [4]=æ©ŸéŠƒ, [5]=æˆ¦é—˜æ©Ÿ, [6]=åµå¯Ÿæ©Ÿ, [7]=æˆ¦é—˜æ©Ÿ/æ©ŸéŠƒ
+		api_info			ï¼šèª¬æ˜
 
 
-api_req_hokyu/charge	£ºÑa½o
-	api_ship			£ºÑa½o¤òÊÜ¤±¤¿Å´¬¥ê¥¹¥È
-		api_id			£ºÅ´¬¹ÌÓĞID
-		api_fuel		£ºÈ¼ÁÏ¤Î¬FÔÚ‚
-		api_bull		£ºËa¤Î¬FÔÚ‚
-		api_onslot		£ºÅİd™C´îİdÊı
-	api_material		£º¬FÔÚ¤Î¸÷ÙYÔ´Á¿
-	api_use_bou			£º¥Ü©`¥­¥µ¥¤¥ÈÏûÙMÁ¿
+Request.api_req_kaisou/powerup	ï¼šè¿‘ä»£åŒ–æ”¹ä¿®
+	api_id_items		ï¼šç´ æã®è‰¦èˆ¹IDï¼Ÿ
+	api_id				ï¼šå¯¾è±¡è‰¦èˆ¹ID
+
+api_req_kaisou/powerup			ï¼šè¿‘ä»£åŒ–æ”¹ä¿®
+	api_powerup_flag	ï¼šæ”¹ä¿®æˆåŠŸ/å¤±æ•—
+	api_ship			ï¼šæ”¹ä¿®è‰¦ã®ãƒ‡ãƒ¼ã‚¿ã€€port.api_shipã«æº–ã˜ã‚‹
+	api_deck			ï¼šè‰¦éšŠã®ãƒ‡ãƒ¼ã‚¿ã€€port.api_deck_portã«æº–ã˜ã‚‹
 
 
-Request.api_req_mission/start	£ºßhÕ÷é_Ê¼
-	api_deck_id			£ºÅê ID
-	api_mission_id		£ºßhÕ÷ÏÈID
-	api_mission			£º
+Request.api_req_mission/result		ï¼šé å¾å¸°æŠ•
+	api_deck_id				ï¼šå¯¾è±¡ã®è‰¦éšŠID
 
-api_req_mission/start	£ºßhÕ÷é_Ê¼
-	api_complatetime	£º¢Í¶•rég¡¡¥¹¥Ú¥ë¤Ë×¢Òâ
-	api_complatetime_str£º¢Í¶ÈÕ•r
-
-
-api_get_member/deck		£ºÅê Çéˆó ‚€Êı¤Ï¤½¤Î¤Ş¤Ş±£ÓĞÅê Êı¤ÈÍ¬¤¸¤Ë¤Ê¤ë(¥Ñ¥Ç¥£¥ó¥°µÈ¤Ï¤Ê¤¤)
-	api_member_id		£º
-	api_id				£ºÅê ·¬ºÅ
-	api_name			£ºÅê Ãû
-	api_name_id			£º
-	api_mission			£ºßhÕ÷×´›r	[0]={0=Î´³ö“Ä, 1=ßhÕ÷ÖĞ, 2=ßhÕ÷¢Í¶, 3=ŠÖÆ¢Í¶ÖĞ}, [1]=ßhÕ÷ÏÈID, [2]=¢Í¶•rég, [3]=0
-	api_flagship		£º
-	api_ship			£ºËùÊôÅ´¬ID¡¡¿Õ¤­¤Ï-1
-
-
-Request.api_req_hensei/change		£ºÅê ¾³É‰ä¸ü
-	api_ship_idx		£º‰ä¸üˆöËù¡¡-1=ÆìÅÒÔÍâÈ«½â³ı
-	api_id				£ºÅê ID
-	api_ship_id			£ºÅ´¬ID¡¡-1=¤Ï¤º¤¹, -2=ÆìÅÒÔÍâÈ«½â³ı
-
-api_req_hensei/change				£ºÅê ¾³É‰ä¸ü
-	api_change_count	£ºÆìÅÒÔÍâÈ«½â³ı•r¤Î¤ß´æÔÚ¡¡³ıê ¤·¤¿Å´¬Êı
+api_req_mission/result		ï¼šé å¾å¸°æŠ•
+	api_ship_id				ï¼šè‰¦èˆ¹IDã€€(æœ«å°¾-1ã®ãƒ‘ãƒ¼ãƒ†ã‚£ãƒªã‚¹ãƒˆ)ã®é€†ã€ã‚µã‚¤ã‚ºå¯å¤‰
+	api_clear_result		ï¼š0=å¤±æ•—, 1=æˆåŠŸ, 2=å¤§æˆåŠŸ
+	api_get_exp				ï¼šç²å¾—æç£çµŒé¨“å€¤
+	api_member_lv			ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_member_exp			ï¼šæç£çµŒé¨“å€¤
+	api_get_ship_exp		ï¼šå„è‰¦èˆ¹ã®å–å¾—çµŒé¨“å€¤
+	api_get_exp_lvup		ï¼šå„è‰¦èˆ¹ã®[0]=ç¾åœ¨çµŒé¨“å€¤, [1]=æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤
+	api_maparea_name		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå
+	api_detail				ï¼šè©³ç´°
+	api_quest_name			ï¼šé å¾å
+	api_quest_level			ï¼šé›£æ˜“åº¦
+	api_get_material		ï¼šå–å¾—è³‡æºã€€å­˜åœ¨ã—ãªã„å ´åˆ-1
+	api_useitem_flag		ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ ã®å­˜åœ¨ãƒ•ãƒ©ã‚° [n]=0ãªã‚‰api_get_item<n+1>ã¯å­˜åœ¨ã—ãªã„
+	api_get_item1			ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ 
+		api_useitem_id		ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ IDã€€å–å¾—å¤±æ•—ãªã‚‰-1
+		api_useitem_name	ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ å
+		api_useitem_count	ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ æ•°ï¼Ÿ
+	api_get_item2			ï¼šä¸Šã«åŒã˜
 
 
-Request.api_req_member/updatedeckname	£ºÅê Ãû‰ä¸ü
-	api_name			£º‰ä¸üáá¤ÎÅê Ãû
-	api_name_id			£º
-	api_deck_id			£ºÅê ID
+api_req_hokyu/charge	ï¼šè£œçµ¦
+	api_ship			ï¼šè£œçµ¦ã‚’å—ã‘ãŸè‰¦èˆ¹ãƒªã‚¹ãƒˆ
+		api_id			ï¼šè‰¦èˆ¹å›ºæœ‰ID
+		api_fuel		ï¼šç‡ƒæ–™ã®ç¾åœ¨å€¤
+		api_bull		ï¼šå¼¾è–¬ã®ç¾åœ¨å€¤
+		api_onslot		ï¼šè‰¦è¼‰æ©Ÿæ­è¼‰æ•°
+	api_material		ï¼šç¾åœ¨ã®å„è³‡æºé‡
+	api_use_bou			ï¼šãƒœãƒ¼ã‚­ã‚µã‚¤ãƒˆæ¶ˆè²»é‡
 
 
-api_req_ranking/getlist	£º¥é¥ó¥­¥ó¥°
-	api_count			£º×î´óÕi¤ßŞz¤ß¿ÉÄÜÊı£¿
-	api_page_count		£º×î´ó¥Ú©`¥¸Êı
-	api_disp_page		£º±íÊ¾ÖĞ¤Î¥Ú©`¥¸
-	api_list			£ºÌá¶½¥ê¥¹¥È
-		api_no			£ºí˜Î»
-		api_member_id	£ºÌá¶½ID
-		api_level		£ºÅê Ë¾Áî²¿Lv.
-		api_rank		£ºëA¼‰
-		api_nickname	£ºÌá¶½Ãû
-		api_experience	£ºÌá¶½½UòY‚
-		api_comment		£º¥³¥á¥ó¥È
-		api_rate		£º‘é¹û
-		api_flag		£ºÆì¥¢¥¤¥³¥ó? 0=½ğÉ«
-		api_medals		£º¼×·N„ëÕÂ±£ÓĞÊı
-		api_nickname_id	£º
-		api_comment_id	£º
+Request.api_req_mission/start	ï¼šé å¾é–‹å§‹
+	api_deck_id			ï¼šè‰¦éšŠID
+	api_mission_id		ï¼šé å¾å…ˆID
+	api_mission			ï¼š
+
+api_req_mission/start	ï¼šé å¾é–‹å§‹
+	api_complatetime	ï¼šå¸°æŠ•æ™‚é–“ã€€ã‚¹ãƒšãƒ«ã«æ³¨æ„
+	api_complatetime_strï¼šå¸°æŠ•æ—¥æ™‚
 
 
-api_get_member/practice		£ºÑİÁ•¥í¥Ó©`
-	api_member_id			£º
-	api_id					£ºÑİÁ•ID
-	api_enemy_id			£º”³Ìá¶½ID
-	api_enemy_name			£º”³Ìá¶½Ãû
-	api_enemy_name_id		£º
-	api_enemy_level			£º”³Åê Ë¾Áî²¿Lv.
-	api_enemy_rank			£º”³ëA¼‰
-	api_enemy_flag			£º
-	api_enemy_flag_ship		£º”³Åê ÆìÅID
-	api_enemy_comment		£º”³¥³¥á¥ó¥È
-	api_enemy_comment_id	£º
-	api_state				£º0=Î´Ìô‘é, 1=E”¡±±?, 2=D”¡±±?, 3=C”¡±±, 4=B„ÙÀû, 5=A„ÙÀû, 6=S„ÙÀû
-	api_medals				£º¼×·N„ëÕÂ±£ÓĞÊı
-
-api_req_member/get_practice_enemyinfo		£ºÑİÁ•Ô”¼š
-	api_member_id		£º
-	api_nickname		£º”³Ìá¶½Ãû
-	api_nickname_id		£º
-	api_cmt				£º”³¥³¥á¥ó¥È
-	api_cmt_id			£º
-	api_level			£º”³Åê Ë¾Áî²¿Lv.
-	api_rank			£º”³ëA¼‰
-	api_experience		£º”³Ìá¶½½UòY‚¡¡[0]=¬FÔÚ‚, [1]=´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚
-	api_friend			£ºÓÑÜŠÅê Êı
-	api_ship			£ºÅ´¬±£ÓĞÊı¡¡[0]=¬FÔÚ‚, [1]=×î´ó‚
-	api_slotitem		£º×°‚ä±£ÓĞÊı
-	api_furniture		£º¼Ò¾ß±£ÓĞÊı
-	api_deckname		£º”³Åê Ãû
-	api_deckname_id		£º
-	api_deck			£º”³Åê 
-		api_ships		£º
-			api_id		£ºÅÄï¤Î(È«¥Ç©`¥¿ÄÚ¤Ç¤Î)¥Ş¥¹¥¿©`ID?¡¡´æÔÚ¤·¤Ê¤¤ˆöºÏ-1, ¤½¤ÎˆöºÏËû¥á¥ó¥Ğ©`¤Ê¤·
-			api_ship_id	£ºÅ´¬ID
-			api_level	£ºLv
-			api_star	£º¸Ä×°¡î
+api_get_member/deck		ï¼šè‰¦éšŠæƒ…å ± å€‹æ•°ã¯ãã®ã¾ã¾ä¿æœ‰è‰¦éšŠæ•°ã¨åŒã˜ã«ãªã‚‹(ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ç­‰ã¯ãªã„)
+	api_member_id		ï¼š
+	api_id				ï¼šè‰¦éšŠç•ªå·
+	api_name			ï¼šè‰¦éšŠå
+	api_name_id			ï¼š
+	api_mission			ï¼šé å¾çŠ¶æ³	[0]={0=æœªå‡ºæ’ƒ, 1=é å¾ä¸­, 2=é å¾å¸°æŠ•, 3=å¼·åˆ¶å¸°æŠ•ä¸­}, [1]=é å¾å…ˆID, [2]=å¸°æŠ•æ™‚é–“, [3]=0
+	api_flagship		ï¼š
+	api_ship			ï¼šæ‰€å±è‰¦èˆ¹IDã€€ç©ºãã¯-1
 
 
-api_req_practice/battle	£ºÑİÁ•
-	(api_req_sortie/battle¤È¤Û¤ÜÍ¬¤¸)
-	api_support_flag	£º(´æÔÚ¤»¤º)
-	api_support_info	£º(´æÔÚ¤»¤º)
+Request.api_req_hensei/change		ï¼šè‰¦éšŠç·¨æˆå¤‰æ›´
+	api_ship_idx		ï¼šå¤‰æ›´å ´æ‰€ã€€-1=æ——è‰¦ä»¥å¤–å…¨è§£é™¤
+	api_id				ï¼šè‰¦éšŠID
+	api_ship_id			ï¼šè‰¦èˆ¹IDã€€-1=ã¯ãšã™, -2=æ——è‰¦ä»¥å¤–å…¨è§£é™¤
+
+api_req_hensei/change				ï¼šè‰¦éšŠç·¨æˆå¤‰æ›´
+	api_change_count	ï¼šæ——è‰¦ä»¥å¤–å…¨è§£é™¤æ™‚ã®ã¿å­˜åœ¨ã€€é™¤éšŠã—ãŸè‰¦èˆ¹æ•°
+
+
+Request.api_req_member/updatedeckname	ï¼šè‰¦éšŠåå¤‰æ›´
+	api_name			ï¼šå¤‰æ›´å¾Œã®è‰¦éšŠå
+	api_name_id			ï¼š
+	api_deck_id			ï¼šè‰¦éšŠID
+
+
+api_req_ranking/getlist	ï¼šãƒ©ãƒ³ã‚­ãƒ³ã‚°
+	api_count			ï¼šæœ€å¤§èª­ã¿è¾¼ã¿å¯èƒ½æ•°ï¼Ÿ
+	api_page_count		ï¼šæœ€å¤§ãƒšãƒ¼ã‚¸æ•°
+	api_disp_page		ï¼šè¡¨ç¤ºä¸­ã®ãƒšãƒ¼ã‚¸
+	api_list			ï¼šæç£ãƒªã‚¹ãƒˆ
+		api_no			ï¼šé †ä½
+		api_member_id	ï¼šæç£ID
+		api_level		ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+		api_rank		ï¼šéšç´š
+		api_nickname	ï¼šæç£å
+		api_experience	ï¼šæç£çµŒé¨“å€¤
+		api_comment		ï¼šã‚³ãƒ¡ãƒ³ãƒˆ
+		api_rate		ï¼šæˆ¦æœ
+		api_flag		ï¼šæ——ã‚¢ã‚¤ã‚³ãƒ³? 0=é‡‘è‰²
+		api_medals		ï¼šç”²ç¨®å‹²ç« ä¿æœ‰æ•°
+		api_nickname_id	ï¼š
+		api_comment_id	ï¼š
+
+
+api_get_member/practice		ï¼šæ¼”ç¿’ãƒ­ãƒ“ãƒ¼
+	api_member_id			ï¼š
+	api_id					ï¼šæ¼”ç¿’ID
+	api_enemy_id			ï¼šæ•µæç£ID
+	api_enemy_name			ï¼šæ•µæç£å
+	api_enemy_name_id		ï¼š
+	api_enemy_level			ï¼šæ•µè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_enemy_rank			ï¼šæ•µéšç´š
+	api_enemy_flag			ï¼š
+	api_enemy_flag_ship		ï¼šæ•µè‰¦éšŠæ——è‰¦ID
+	api_enemy_comment		ï¼šæ•µã‚³ãƒ¡ãƒ³ãƒˆ
+	api_enemy_comment_id	ï¼š
+	api_state				ï¼š0=æœªæŒ‘æˆ¦, 1=Eæ•—åŒ—?, 2=Dæ•—åŒ—?, 3=Cæ•—åŒ—, 4=Bå‹åˆ©, 5=Aå‹åˆ©, 6=Så‹åˆ©
+	api_medals				ï¼šç”²ç¨®å‹²ç« ä¿æœ‰æ•°
+
+api_req_member/get_practice_enemyinfo		ï¼šæ¼”ç¿’è©³ç´°
+	api_member_id		ï¼š
+	api_nickname		ï¼šæ•µæç£å
+	api_nickname_id		ï¼š
+	api_cmt				ï¼šæ•µã‚³ãƒ¡ãƒ³ãƒˆ
+	api_cmt_id			ï¼š
+	api_level			ï¼šæ•µè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_rank			ï¼šæ•µéšç´š
+	api_experience		ï¼šæ•µæç£çµŒé¨“å€¤ã€€[0]=ç¾åœ¨å€¤, [1]=æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤
+	api_friend			ï¼šå‹è»è‰¦éšŠæ•°
+	api_ship			ï¼šè‰¦èˆ¹ä¿æœ‰æ•°ã€€[0]=ç¾åœ¨å€¤, [1]=æœ€å¤§å€¤
+	api_slotitem		ï¼šè£…å‚™ä¿æœ‰æ•°
+	api_furniture		ï¼šå®¶å…·ä¿æœ‰æ•°
+	api_deckname		ï¼šæ•µè‰¦éšŠå
+	api_deckname_id		ï¼š
+	api_deck			ï¼šæ•µè‰¦éšŠ
+		api_ships		ï¼š
+			api_id		ï¼šè‰¦å¨˜ã®(å…¨ãƒ‡ãƒ¼ã‚¿å†…ã§ã®)ãƒã‚¹ã‚¿ãƒ¼ID?ã€€å­˜åœ¨ã—ãªã„å ´åˆ-1, ãã®å ´åˆä»–ãƒ¡ãƒ³ãƒãƒ¼ãªã—
+			api_ship_id	ï¼šè‰¦èˆ¹ID
+			api_level	ï¼šLv
+			api_star	ï¼šæ”¹è£…â˜†
+
+
+api_req_practice/battle	ï¼šæ¼”ç¿’
+	(api_req_sortie/battleã¨ã»ã¼åŒã˜)
+	api_support_flag	ï¼š(å­˜åœ¨ã›ãš)
+	api_support_info	ï¼š(å­˜åœ¨ã›ãš)
 	
 
-api_req_practice/midnight_battle		£ºÑİÁ•Ò¹‘é
-	(api_req_battle_midnight/battle¤È¤Û¤ÜÍ¬¤¸)
-	api_deck_id			£ºÊı‚ĞÍ
+api_req_practice/midnight_battle		ï¼šæ¼”ç¿’å¤œæˆ¦
+	(api_req_battle_midnight/battleã¨ã»ã¼åŒã˜)
+	api_deck_id			ï¼šæ•°å€¤å‹
 
 
-api_req_practice/battle_result			£ºÑİÁ•½Y¹û
-	(api_req_sortie/battleresult¤È¤Û¤ÜÍ¬¤¸)
-	api_lost_flag			£º(´æÔÚ¤»¤º)
-	api_quest_name			£º(´æÔÚ¤»¤º)
-	api_quest_level			£º(´æÔÚ¤»¤º)
-	api_enemy_info			£º”³Åê Çéˆó
-		api_user_name		£º""
-		api_level			£º”³Åê Ë¾Áî²¿Lv.
-		api_rank			£º”³ëA¼‰¡¡ÎÄ×ÖÁĞ
-		api_deck_name		£º”³Åê Ãû
-	api_first_clear			£º(´æÔÚ¤»¤º)
-	api_mapcell_incentive	£º(´æÔÚ¤»¤º)
-	api_get_flag			£º(´æÔÚ¤»¤º)
-	api_get_ship			£º(´æÔÚ¤»¤º)
-	api_get_eventflag		£º(´æÔÚ¤»¤º)
-	api_get_exmap_rate		£º(´æÔÚ¤»¤º)
-	api_get_exmap_useitem_id£º(´æÔÚ¤»¤º)
+api_req_practice/battle_result			ï¼šæ¼”ç¿’çµæœ
+	(api_req_sortie/battleresultã¨ã»ã¼åŒã˜)
+	api_lost_flag			ï¼š(å­˜åœ¨ã›ãš)
+	api_quest_name			ï¼š(å­˜åœ¨ã›ãš)
+	api_quest_level			ï¼š(å­˜åœ¨ã›ãš)
+	api_enemy_info			ï¼šæ•µè‰¦éšŠæƒ…å ±
+		api_user_name		ï¼š""
+		api_level			ï¼šæ•µè‰¦éšŠå¸ä»¤éƒ¨Lv.
+		api_rank			ï¼šæ•µéšç´šã€€æ–‡å­—åˆ—
+		api_deck_name		ï¼šæ•µè‰¦éšŠå
+	api_first_clear			ï¼š(å­˜åœ¨ã›ãš)
+	api_mapcell_incentive	ï¼š(å­˜åœ¨ã›ãš)
+	api_get_flag			ï¼š(å­˜åœ¨ã›ãš)
+	api_get_ship			ï¼š(å­˜åœ¨ã›ãš)
+	api_get_eventflag		ï¼š(å­˜åœ¨ã›ãš)
+	api_get_exmap_rate		ï¼š(å­˜åœ¨ã›ãš)
+	api_get_exmap_useitem_idï¼š(å­˜åœ¨ã›ãš)
 
 
-Request.api_req_kaisou/slotset	£º×°‚ä“Q×°
-	api_item_id			£º×°‚äID¡¡¤Ï¤º¤¹¤È-1
-	api_id				£ºÅ´¬ID
-	api_slot_idx		£º×°‚ä¥¹¥í¥Ã¥È
+Request.api_req_kaisou/slotset	ï¼šè£…å‚™æ›è£…
+	api_item_id			ï¼šè£…å‚™IDã€€ã¯ãšã™ã¨-1
+	api_id				ï¼šè‰¦èˆ¹ID
+	api_slot_idx		ï¼šè£…å‚™ã‚¹ãƒ­ãƒƒãƒˆ
 	
-api_req_kaisou/slotset			£º×°‚ä“Q×°
-	(Çéˆó¤Ê¤·)
+api_req_kaisou/slotset			ï¼šè£…å‚™æ›è£…
+	(æƒ…å ±ãªã—)
 
-Request.api_req_kaisou/unsetslot_all	£º×°‚äÈ«½â³ı
-	api_id				£ºÅ´¬ID
+Request.api_req_kaisou/unsetslot_all	ï¼šè£…å‚™å…¨è§£é™¤
+	api_id				ï¼šè‰¦èˆ¹ID
 	
-api_req_kaisou/unsetslot_all			£º×°‚äÈ«½â³ı
-	(Çéˆó¤Ê¤·)
-
-Request.api_req_kaisou/remodeling	£º¸Ä×°
-	api_id				£ºÅ´¬ID
-
-api_req_kaisou/remodeling			£º¸Ä×°
-	(Çéˆó¤Ê¤·)
-
-api_get_member/ship3	£º×°‚ä“Q×°•r¤Ëºô¤Ğ¤ì¤ë
-	api_ship_data		£ºŒÏóÅ¤Î¥Ç©`¥¿¡¡port¤ÈÍ¬µÈ
-	api_deck_data		£ºdeck¤ÈÍ¬µÈ
-	api_slot_data		£ºunsetslot¤ÈÍ¬µÈ
-
-
-Request.api_req_kaisou/lock		£º×°‚ä¥í¥Ã¥¯
-	api_slotitem_id		£º×°‚äID
-
-api_req_kaisou/lock				£º×°‚ä¥í¥Ã¥¯
-	api_locked			£º¥í¥Ã¥¯×´‘B(1=¥í¥Ã¥¯)
-
-
-api_get_member/mapcell		£º¥Ş¥Ã¥×¥Ç©`¥¿
-	api_id		£ºº£Óò¥»¥ëID
-	api_passed	£ºÍ¨ĞĞœg¤ß¡¡³õÆÚµØµã¤Ï³£¤Ë0
-
-
-Request.api_req_map/start	£º³ö“Ä
-	api_deck_id			£º³ö“ÄÅê ID
-	api_formation_id	£º
-	api_maparea_id		£ºº£Óò¥«¥Æ¥´¥êID
-	api_mapinfo_no		£ºº£Óò¥«¥Æ¥´¥êÄÚ·¬ºÅ
-
-api_req_map/start		£º³ö“Ä¡¡Í¬¤¸¥á¥ó¥Ğ¤Ïnext¤Î¤Û¤¦¤¬Çéˆó¤¬ĞÂ¤·¤¤¤Î¤Ç¤½¤Á¤é¤ò²ÎÕÕ
-	api_rashin_flg		£ºÁ_á˜±P¤ò±íÊ¾¤¹¤ë¤«¤É¤¦¤«
-	api_rashin_id		£ºÑı¾«¤µ¤ó¡¡1=Ãß¤½¤¦, 2=ÌÒ¤ÎóŠï—¤ê, 3=¤Ò¤è¤³, 4=Ä§·¨Ê¹¤¤
-	api_maparea_id		£ºº£Óò¥«¥Æ¥´¥êID
-	api_mapinfo_no		£ºº£Óò¥«¥Æ¥´¥êÄÚ·¬ºÅ
-	api_no				£º´Î¤ËÏò¤«¤¦¥»¥ë¤ÎID
-	api_color_no		£º´Î¤Î¥»¥ë¤ÎÉ«¡¡api_mst_mapcell²ÎÕÕ
-	api_event_id		£º¥¤¥Ù¥ó¥È¡¡api_mst_mapcell²ÎÕÕ
-	api_event_kind		£º¥¤¥Ù¥ó¥È·N„e?¡¡0=ÙYÔ´? 1=‘éêL
-	api_next			£º? 0=ĞĞ¤­Ö¹¤Ş¤ê
-	api_bosscell_no		£º¥Ü¥¹¥»¥ëID
-	api_bosscomp		£º¥Ü¥¹µ½ß_œg¤ß¥Õ¥é¥°£¿
-	api_eventmap		£º¥¤¥Ù¥ó¥Èº£Óò¥²©`¥¸Çéˆó
-		api_max_maphp	£º¥²©`¥¸×î´ó‚
-		api_now_maphp	£º¥²©`¥¸¬FÔÚ‚¡¡³£¤Ë×î´ó‚¤ËµÈ¤·¤¤
-		api_dmg			£º£ª¥À¥á©`¥¸±¶ÂÊ? =6¤À¤ÈHP90¤ÎÆìÅ“ÄÉò¤Ç540œpÉÙ?
-
-Request.api_req_map/next	£ºßM“Ä
-	api_recovery_type	£ºÆìÅ´óÆÆßM“Ä¥Õ¥é¥°¡¡0=Í¨³£, 1=ê¼±ĞŞÀíÒª†T¤òÀûÓÃ¤·¤ÆßM“Ä?, 2=ê¼±ĞŞÀíÅ®Éñ¤òÀûÓÃ¤·¤ÆßM“Ä?
-	api_cell_id			£ºÄÜ„Ó·Öáª•r¤Î¤ß´æÔÚ¡¡ßx’k¤·¤¿¥»¥ëID
-
-api_req_map/next		£ºßM“Ä
-	api_rashin_flg		£ºÁ_á˜±P¤ò±íÊ¾¤¹¤ë¤«¤É¤¦¤«
-	api_rashin_id		£ºÑı¾«¤µ¤ó¡¡0=¤Ê¤·, 1=Ãß¤½¤¦, 2=ÌÒ¤ÎóŠï—¤ê, 3=¤Ò¤è¤³, 4=Ä§·¨Ê¹¤¤
-	api_maparea_id		£ºº£Óò¥«¥Æ¥´¥êID(2-3¤Ç¤¤¤¦2)
-	api_mapinfo_no		£ºº£Óò¥«¥Æ¥´¥êÄÚ·¬ºÅ(2-3¤Ç¤¤¤¦3)
-	api_no				£º´Î¤ËÏò¤«¤¦¥»¥ë¤ÎID
-	api_color_no		£º´Î¤Î¥»¥ë¤ÎÉ«¡¡api_mst_mapcell²ÎÕÕ¡¡3=Çà, 4=³à, 9=º½¿Õ‚É²ì
-	api_event_id		£º¥¤¥Ù¥ó¥È¡¡0=³õÆÚÎ»ÖÃ, 1=(´æÔÚ¤»¤º), 2=ÙYÔ´«@µÃ, 3=œu³±, 4=Í¨³£‘éêL, 5=¥Ü¥¹‘éêL, 6=šİ¤Î¤»¤¤¤À¤Ã¤¿, 7=º½¿Õ‘éorº½¿Õ‚É²ì, 8=´¬‡â×oĞl³É¹¦
-	api_event_kind		£º¥¤¥Ù¥ó¥È·N„e¡¡0=·Ç‘éêL¥»¥ë 1=Í¨³£‘éêL 2=Ò¹‘é 3=Ò¹Öç‘é 4=º½¿Õ‘é
-							api_event_id=6(šİ¤Î¤»¤¤¤À¤Ã¤¿)•r¤Ï¡¡0="šİ¤Î¤»¤¤¤À¤Ã¤¿¡£", 1="”³Ó°¤òÒŠ¤º¡£", 2=ÄÜ„Ó·Öáª
-							api_event_id=7(º½¿Õ‘é)•r¤Ï¡¡0=º½¿Õ‚É²ì, 4=º½¿Õ‘é 
-	api_next			£º´Î¤Î¥Ş¥¹¤Ç¤Î¥ë©`¥È·Öáª¤Î±¾Êı 0=ĞĞ¤­Ö¹¤Ş¤ê
-	api_bosscell_no		£º¥Ü¥¹¥»¥ëID
-	api_bosscomp		£º¥Ü¥¹µ½ß_œg¤ß¥Õ¥é¥°£¿¥³©`¥ÉÖĞ¤Ë¥¹¥Ú¥ë¥ß¥¹¤¬¤¢¤êÎ´Ê¹ÓÃ
-	api_comment_kind	£º0=¤Ê¤· 1=<”³Åê °kÒŠ!> 2=<¹¥“ÄÄ¿˜Ë°kÒŠ!>?¡¡start¤Ë¤Ï¤Ê¤¤¤Î¤Ç×¢Òâ
-	api_production_kind	£º0=¤Ê¤· 1=Ë÷”³™C°kÅ¡¡start¤Ë¤Ï¤Ê¤¤¤Î¤Ç×¢Òâ
-	api_eventmap		£º¥¤¥Ù¥ó¥Èº£Óò¥²©`¥¸Çéˆó
-		api_max_maphp	£º¥²©`¥¸×î´ó‚
-		api_now_maphp	£º¥²©`¥¸¬FÔÚ‚¡¡start¤È¤Ï®¤Ê¤êŒgëH¤Î‚¤¬Èë¤ë
-		api_dmg			£º¥À¥á©`¥¸±¶ÂÊ£¿
-	api_itemget			£º´Î¤¬ÙYÔ´¥Ş¥¹/º½¿Õ‚É²ì¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_usemst		£º4=ÙYÔ´, 11=¼Ò¾ßÏä(ÖĞ), 12=¼Ò¾ßÏä(´ó) 
-		api_id			£º1=È¼ÁÏ, 2=Ëa, 4=¥Ü©`¥­, 11=¼Ò¾ßÏä(ÖĞ), 12=¼Ò¾ßÏä(´ó)
-		api_getcount	£ºÈëÊÖÙYÔ´Á¿
-		api_name		£º¥¢¥¤¥Æ¥àÃû(¼Ò¾ßÏä¤Î¤ß?È¼ÁÏµÈ¤ÎÙYÔ´¤Ï"")
-		api_icon_id		£º1=È¼ÁÏ, 2=Ëa, 4=¥Ü©`¥­, 11=¼Ò¾ßÏä(ÖĞ), 12=¼Ò¾ßÏä(´ó)
-	api_happening		£º´Î¤¬œu³±¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_type		£º1
-		api_count		£ºÂä¤È¤·¤¿ÙYÔ´¤ÎÁ¿
-		api_usemst		£º4
-		api_mst_id		£ºÂä¤È¤·¤¿ÙYÔ´¤Î·Nî¡¡2=Ëa
-		api_icon_id		£º±íÊ¾¥¢¥¤¥³¥óID£¿¡¡2=Ëa
-		api_dentan		£ºëŠÌ½¤Ë¤è¤ë±»º¦İXœp¥Õ¥é¥°(1=İXœp)
-	api_get_eo_rate		£º«@µÃ‘é¹û¡¡´Î¤¬´¬‡â×oĞl³É¹¦¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ(¥²©`¥¸ÆÆ‰²•r×·¼Ó¤Ç)
-	api_itemget_eo_result	£º´Î¤¬´¬‡â×oĞl³É¹¦¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ(¥²©`¥¸ÆÆ‰²•r×·¼Ó¤Ç)
-		api_usemst		£º5
-		api_id			£º60=¥×¥ì¥¼¥ó¥ÈÏä
-		api_getcount	£ºÈëÊÖ‚€Êı
-	api_itemget_eo_comment	£º´Î¤¬´¬‡â×oĞl³É¹¦¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_usemst		£º4=ÙYÔ´
-		api_id			£º¶à·Öapi_itemget¤ÈÍ¬¤¸(3=ä“²Ä)
-		api_getcount	£ºÈëÊÖÙYÔ´Á¿
-	api_select_route	£º´Î¤¬ÄÜ„Ó·Öáª¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_select_cells£ºßx’k¿ÉÄÜ¤Ê¥»¥ëID¤Î¥ê¥¹¥È
-	api_airsearch		£º´Î¤¬º½¿Õ‚É²ì¥Ş¥¹¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_plane_type	£º°kÅ¤·¤¿Ë÷”³™C¤Î·N„e¡¡0=¤Ê¤·, 1=´óĞÍïwĞĞÍ§, 2=Ë®ÉÏ‚É²ì™C
-		api_result		£º‚É²ì½Y¹û¡¡0=Ê§”¡, 1=³É¹¦, 2=´ó³É¹¦
-
-api_req_sortie/battle	£º‘éêL(Öç‘é)
-	api_dock_id			£º¤³¤Á¤é¤Î³ö“ÄÅê ID
-	api_ship_ke			£º”³Å´¬ID -1(¥À¥ß©`)¤«¤éÊ¼¤Ş¤ë¡£¿Õ¤­¤Ï-1
-	api_ship_lv			£º”³Å´¬Lv. -1¤«¤é
-	api_nowhps			£ºÎ¶·½/”³Å´¬¤Î¬FÔÚHP -1¤«¤é
-	api_maxhps			£º¡¨×î´óHP
-	api_midnight_flag	£ºÒ¹‘éÍ»Èë¿É·ñ¡¡Öç‘é¤ÇÈ«œç¤µ¤»¤ì¤Ğ0(²»¿É)¤Ë¤Ê¤ë
-	api_eSlot			£º”³Å´¬×°‚ä¥¹¥í¥Ã¥È¡¡¿Õ™Ú¤Ï-1
-	api_eKyouka			£º”³Å´¬¥Ñ¥é¥á©`¥¿Š»¯(½ü´ú»¯¸ÄĞŞ)
-	api_fParam			£ºÎ¶·½Å´¬»ùµA¥¹¥Æ©`¥¿¥¹ [0]=»ğÁ¦, [1]=À××°, [2]=Œ¿Õ, [3]=×°¼×
-	api_eParam			£º”³Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_search			£ºË÷”³³É·ñ¡¡[0]=Î¶·½, [1]=”³¡¡1=³É¹¦, 2=³É¹¦(Î´¢ß€™C¤¢¤ê), 3=Î´¢ß€, 4=Ê§”¡, 5=³É¹¦(Åİd™CÊ¹ÓÃ¤»¤º), 6=Ê§”¡(Åİd™CÊ¹ÓÃ¤»¤º)
-	api_formation		£ºê‡ĞÎ/½»‘éĞÎ‘B¡¡[0]=Î¶·½, [1]=”³, [2]=½»‘éĞÎ‘B
-							[0|1]£º1=…g¿kê‡ 2=Ñ}¿kê‡, 3=İ†ĞÎê‡, 4=ÌİĞÎê‡, 5=…gºáê‡
-							[2]£º1=Í¬º½‘é, 2=·´º½‘é, 3=T×ÖÓĞÀû, 4=T×Ö²»Àû
-	api_stage_flag		£ºº½¿Õ‘é¥Õ¥é¥°¡¡[n]=0¤Î¤È¤­api_stage<n>=null¤Ë¤Ê¤ë(º½¿Õ‘éÁ¦¤Ê¤·, Å‘é¤Î¤ß¤Ê¤É)
-	api_kouku			£ºº½¿Õ‘éÇéˆó
-		api_plane_from	£ºÅİd™C¤òïw¤Ğ¤»¤ëÅ¡¡[0]=Î¶·½, [1]=”³¡¡¤¤¤Ê¤±¤ì¤Ğ[0]=-1
-		api_stage1		£ºº½¿Õ‘é1¡¡¿ÕŒ¿Õ‘éêL
-			api_f_count		£ºÎ¶·½Åİd™CÊı
-			api_f_lostcount	£º¡¨“Ä‰‹Êı
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-			api_disp_seiku	£ºÖÆ¿Õ˜Ø±íÊ¾¡¡0=ÖÆ¿Õ¾ùºâ, 1=ÖÆ¿Õ˜Ø´_±£, 2=º½¿Õƒ„İ, 3=º½¿ÕÁÓ„İ, 4=ÖÆ¿Õ˜Ø†ÊÊ§
-			api_touch_plane	£º´¥½Ó×°‚äID¡¡[0]=Î¶·½, [1]=”³
-		api_stage2		£ºº½¿Õ‘é2¡¡Œ¿Õ³h»ğ
-			api_f_count		£ºÎ¶·½Åİd™CÊı(Å¹¥/Å±¬Êı)
-			api_f_lostcount	£º¡¨“Ä‰‹Êı
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-			api_air_fire	£ºŒ¿Õ¥«¥Ã¥È¥¤¥ó
-				api_idx			£º°k„ÓÅ¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹ 0¤«¤éÊ¼¤Ş¤ë
-				api_kind		£º¥«¥Ã¥È¥¤¥ó·N„e
-									 1£º¸ß½Ç³hx2/ëŠÌ½
-									 2£º¸ß½Ç³h/ëŠÌ½
-									 3£º¸ß½Ç³hx2
-									 4£º´ó¿Ú¾¶Ö÷³h/ÈıÊ½/¸ßÉä×°ÖÃ/ëŠÌ½
-									 5£º¸ß½Ç³h+¸ßÉä×°ÖÃx2/ëŠÌ½
-									 6£º´ó¿Ú¾¶Ö÷³h/ÈıÊ½/¸ßÉä×°ÖÃ
-									 7£º¸ß½Ç³h/¸ßÉä×°ÖÃ/ëŠÌ½
-									 8£º¸ß½Ç³h+¸ßÉä×°ÖÃ/ëŠÌ½
-									 9£º¸ß½Ç³h/¸ßÉä×°ÖÃ
-									10£º¸ß½Ç³h/¼¯ÖĞ™Cã|/ëŠÌ½
-									11£º¸ß½Ç³h/¼¯ÖĞ™Cã|
-									12£º¼¯ÖĞ™Cã|/™Cã|/ëŠÌ½
-				api_use_items	£º±íÊ¾×°‚äID¥ê¥¹¥È
-		api_stage3		£ºº½¿Õ¹¥“Ä
-			api_frai_flag	£ºÎ¶·½±»À×“Ä¥Õ¥é¥°
-			api_erai_flag	£º”³±»À×“Ä¥Õ¥é¥°
-			api_fbak_flag	£ºÎ¶·½±»±¬“Ä¥Õ¥é¥°
-			api_ebak_flag	£º”³±»±¬“Ä¥Õ¥é¥°
-			api_fcl_flag	£ºÎ¶·½¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥° 0=Í¨³£(±¬“Ä/À×“Ä†–¤ï¤º¡¢ÃüÖĞ|¥ß¥¹), 1=¥¯¥ê¥Æ¥£¥«¥ë
-			api_ecl_flag	£º”³¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥°¡¡µ±È»¤Ê¤¬¤é·ÀÓù‚È¤Ë¥Õ¥é¥°¤¬Á¢¤Ä
-			api_fdam		£ºÎ¶·½±»¥À¥á©`¥¸¡¡±Ó¤ï¤ì¤ë¤È+0.1
-			api_edam		£º”³±»¥À¥á©`¥¸
-	api_support_flag	£ºÖ§Ô®Åê ¥Õ¥é¥°¡¡0=¤Ê¤·, 1=¿Õ“Ä, 2=³h“Ä, 3=À×“Ä
-	api_support_info	£ºÖ§Ô®Åê Çéˆó
-		api_support_airatack	£º¿Õ“ÄÇéˆó¡¡¥¹¥Ú¥ë¥ß¥¹¤Ë×¢Òâ
-			api_deck_id			£ºÅê ID
-			api_ship_id			£ºÅ´¬¹ÌÓĞID
-			api_undressing_flag	£ºÖĞÆÆ¥°¥é¥Õ¥£¥Ã¥¯¥Õ¥é¥° 0=Í¨³£, 1=ÖĞÆÆ ¤Ê¤ªßmÓÃ¤Ï¥Ğ¥Ê©`¤Î¤ß¤Ç¡¢ÆìÅ¥°¥é¥Õ¥£¥Ã¥¯¤Ï‰ä¤ï¤é¤Ê¤¤
-			api_stage_flag		£º>º½¿Õ‘é
-			api_plane_from		£ºÅİd™C¤òïw¤Ğ¤»¤ëÅ(”³¤Î¤ß, 7-12)
-			api_stage1			£ºº½¿Õ‘éstage1¤ËÍ¬¤¸
-				api_f_count		£º
-				api_f_lostcount	£º
-				api_e_count		£º
-				api_e_lostcount	£º×¢£ºwiki¤ÎÓ›Êö¤È¤Ï®¤Ê¤ê¡¢”³Åİd™C¤Ï“Ä‰‹¿ÉÄÜ¡£„¿¹ûµÄ¤«¤Ï¤µ¤Æ¤ª¤­
-			api_stage2			£ºº½¿Õ‘éstage2¤ËÍ¬¤¸
-				api_f_count		£º
-				api_f_lostcount	£º
-			api_stage3			£ºº½¿Õ‘éstage3¤ËÍ¬¤¸
-				api_erai_flag	£º
-				api_ebak_flag	£º
-				api_ecl_flag	£º0=Í¨³£(¥ß¥¹|ÃüÖĞ), 1=¥¯¥ê¥Æ¥£¥«¥ë
-				api_edam		£º
-		api_support_hourai		£º³hÀ×“ÄÇéˆó
-			api_deck_id			£ºÅê ID
-			api_ship_id			£ºÅ´¬¹ÌÓĞID
-			api_undressing_flag	£ºÖĞÆÆ¥°¥é¥Õ¥£¥Ã¥¯¥Õ¥é¥°
-			api_cl_list			£º¥¯¥ê¥Æ¥£¥«¥ëÅĞ¶¨¡¡0=¥ß¥¹, 1=ÃüÖĞ, 2=¥¯¥ê¥Æ¥£¥«¥ë¡¡-1¤«¤é
-			api_damage			£º”³±»¥À¥á©`¥¸¡¡-1¤«¤é
-	api_opening_flag	£ºé_Ä»À×“Ä¥Õ¥é¥°
-	api_opening_atack	£ºé_Ä»À×“Ä‘é *¥¹¥Ú¥ë¥ß¥¹¤¢¤ê¡¢×¢Òâ
-		api_frai		£ºÀ×“Ä¥¿©`¥²¥Ã¥È
-		api_erai		£º
-		api_fdam		£º±»¥À¥á©`¥¸
-		api_edam		£º
-		api_fydam		£ºÓë¥À¥á©`¥¸
-		api_eydam		£º
-		api_fcl			£º¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥° 0=¥ß¥¹, 1=ÃüÖĞ, 2=¥¯¥ê¥Æ¥£¥«¥ë
-		api_ecl			£º¹¥“Ä‚È¤ËÓ›Êö¤µ¤ì¤ë
-	api_hourai_flag	£º³hÀ×“Ä‘é¥Õ¥é¥°¡¡[n]=0¤Î¤È¤­api_hougeki<n>¼°¤Óapi_raigeki=null¤Ë¤Ê¤ë
-	api_hougeki1	£º³h“Ä‘é1Ñ²Ä¿¡¡api_hourai_flag[0]=0¤À¤Ènull
-		api_at_list		£ºĞĞ„Óí˜
-		api_at_type		£ºÌØÊâ³h“Ä¡¡0=Í¨³£, 1=¥ì©`¥¶©`¹¥“Ä, 2=ßB“Ä, 3=¥«¥Ã¥È¥¤¥ó(Ö÷³h/¸±³h), 4=¥«¥Ã¥È¥¤¥ó(Ö÷³h/ëŠÌ½), 5=¥«¥Ã¥È¥¤¥ó(Ö÷³h/Ø¼×), 6=¥«¥Ã¥È¥¤¥ó(Ö÷³h/Ö÷³h)
-		api_df_list		£º·ÀÓù‚ÈID¡¡-1¤«¤éÊ¼¤Ş¤ë¡¡ßB“Ä¤Ï2‚€
-		api_si_list		£º±íÊ¾×°‚äID¡¡¥«¥Ã¥È¥¤¥ó¤À¤È[0]=‚É²ì™C, [1]=Ö÷³h, [2]=³h|ëŠÌ½|Ø¼×|¤½¤ÎËû, ßB“Ä¤À¤È[0]=³h1, [1]=³h2, Í¨³£³h“Ä¤Ï[0]=×°‚ä1, etc. ·Ç±íÊ¾¤Ï-1
-							×¢£º±¬À×¤äÅİd™C¤Ê¤É¡¢±¾À´±íÊ¾¤µ¤ì¤Ê¤¤×°‚ä¤¬º¬¤Ş¤ì¤Æ¤¤¤ë¤³¤È¤¬¤¢¤ë¡¡ŒÇ±¹¥“Ä•r£¿
-		api_cl_list		£º¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥° 0=¥ß¥¹, 1=ÃüÖĞ, 2=¥¯¥ê¥Æ¥£¥«¥ë¡¡ÃüÖĞ(0¥À¥á©`¥¸)¤â´æÔÚ¤¹¤ë£¿
-		api_damage		£º¥À¥á©`¥¸(Œg¥À¥á©`¥¸)
-	api_hougeki2	£º³h“Ä‘é2Ñ²Ä¿¡¡ÉÏ¤ËÍ¬¤¸
-	api_hougeki3	£º(null)
-	api_raigeki		£ºÀ×“Ä‘é¡¡é_Ä»À×“Ä‘é¤ÈÍ¬¤¸
-
-
-api_req_battle_midnight/battle		£º‘éêL(Ò¹‘é)
-	api_deck_id			£º¤³¤Á¤é¤Î³ö“ÄÅê ID "deck"¤ÈÎÄ×ÖÁĞĞÍ¤Ç¤¢¤ë¤³¤È¤Ë×¢Òâ
-	api_nowhps			£ºÎ¶·½/”³Å´¬¤Î¬FÔÚHP -1¤«¤éÊ¼¤Ş¤ë
-	api_ship_ke			£º”³Å´¬ID -1¤«¤éÊ¼¤Ş¤ë
-	api_ship_lv			£º”³Å´¬Lv. -1¤«¤é
-	api_maxhps			£º¡¨×î´óHP
-	api_eSlot			£º”³Å´¬×°‚ä¥¹¥í¥Ã¥È¡¡¿Õ™Ú¤Ï-1, Å¤¬¤¤¤ì¤Ğ[5], ¤¤¤Ê¤±¤ì¤Ğ[4]
-	api_eKyouka			£º”³Å´¬¥Ñ¥é¥á©`¥¿Š»¯(½ü´ú»¯¸ÄĞŞ)
-	api_fParam			£ºÎ¶·½Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_eParam			£º”³Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_touch_plane		£ºÒ¹ég´¥½Ó×°‚äID [0]=Î¶·½, [1]=”³
-	api_flare_pos		£ºÕÕÃ÷°kÉäÅ [0]=Î¶·½, [1]=”³¡¡”³¤Ç¤â1-6
-	api_hougeki			£ºÒ¹ég³hÀ×“Ä‘é
-		api_at_list		£ºĞĞ„Óí˜
-		api_df_list		£º·ÀÓù‚ÈID¡¡-1¤«¤éÊ¼¤Ş¤ë¡¡ßB“Ä¤È¥«¥Ã¥È¥¤¥ó((Ö÷³h|ô~À×)/ô~À×)¤Ï2‚€, ¥«¥Ã¥È¥¤¥ó(Ö÷³h/(¸±³h|Ö÷³h))¤Ï3‚€(µ«¤·[1], [2]=-1)
-		api_si_list		£º±íÊ¾×°‚äID Öç‘é¤Î¤½¤ì¤ËœÊ¤º¤ë ·Ç±íÊ¾¤Ï-1
-		api_cl_list		£º¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥° 0=¥ß¥¹, 1=ÃüÖĞ, 2=¥¯¥ê¥Æ¥£¥«¥ë
-		api_sp_list		£ºÒ¹‘é¹¥“Ä·N„e 0=Í¨³£¹¥“Ä, 1=ßB“Ä, 2=¥«¥Ã¥È¥¤¥ó(Ö÷³h/ô~À×), 3=¥«¥Ã¥È¥¤¥ó(ô~À×/ô~À×), 4=¥«¥Ã¥È¥¤¥ó(Ö÷³h/¸±³h), 5=¥«¥Ã¥È¥¤¥ó(Ö÷³h/Ö÷³h)
-		api_damage		£º¥À¥á©`¥¸(Œg¥À¥á©`¥¸) ³h“Ä¥«¥Ã¥È¥¤¥ó¤ÎˆöºÏ[1], [2]=-1¤È¤Ê¤ë¤¿¤á×¢Òâ
-
-
-api_req_battle_midnight/sp_midnight		£ºé_Ä»Ò¹‘é
-	(È«¥á¥ó¥Ğ¤¬ api_req_battle_midnight/battle ¤ò¾@³Ğ)
-	api_deck_id			£ºÊı‚
-	api_formation		£ºê‡ĞÎ¡¡Öç‘é¤Î¤½¤ì¤ÈÍ¬¤¸¡¡api_eParam¤Èapi_touch_plane¤Îég
-
-api_req_sortie/airbattle	£ºº½¿Õ‘é
-	(È«¥á¥ó¥Ğ¤¬ api_req_sortie/battle ¤ò¾@³Ğ)
-	api_support_flag	£º(´æÔÚ¤»¤º)
-	api_support_info	£º(´æÔÚ¤»¤º)
-	api_opening_flag	£º(´æÔÚ¤»¤º)
-	api_opening_atack	£º(´æÔÚ¤»¤º)
-	api_hourai_flag		£º(´æÔÚ¤»¤º)
-	api_hougeki1		£º(´æÔÚ¤»¤º)
-	api_hougeki2		£º(´æÔÚ¤»¤º)
-	api_hougeki3		£º(´æÔÚ¤»¤º)
-	api_raigeki			£º(´æÔÚ¤»¤º)
-	api_stage_flag2		£ºµÚ¶ş´Îº½¿Õ‘é¥Õ¥é¥°
-	api_kouku2			£ºµÚ¶ş´Îº½¿Õ‘é api_kouku¤ËœÊ¤¸¤ë
-
-
-api_req_sortie/battleresult	£º‘éêL½Y¹û
-	api_ship_id				£º”³Å´¬ID
-	api_win_rank			£º„ÙÀû¥é¥ó¥¯
-	api_get_exp				£º«@µÃÌá¶½½UòY‚
-	api_mvp					£ºMVP¡¡1¤«¤éÊ¼¤Ş¤ë, -1=¤Ê¤·
-	api_member_lv			£ºÅê Ë¾Áî²¿Lv.
-	api_member_exp			£ºÌá¶½½UòY‚
-	api_get_base_exp		£º«@µÃ»ù±¾½UòY‚
-	api_get_ship_exp		£º¸÷Å¤Î«@µÃ½UòY‚
-	api_get_exp_lvup		£º¸÷Å¤Î[0]«@µÃÇ°½UòY‚, [1]´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚(Lv99|150¤ÎˆöºÏ´æÔÚ¤»¤º), (¥ì¥Ù¥ë¥¢¥Ã¥×¤·¤¿¤Ê¤é)[2]¤½¤Î´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚, ...
-	api_dests				£º”³Å“ÄÉòÊı£¿
-	api_destsf				£ºÆìÅ“ÄÉò¥Õ¥é¥°£¿
-	api_lost_flag			£ºÎ¶·½Å“ÄÉò¥Õ¥é¥°£¿-1¤«¤éÊ¼¤Ş¤ë
-	api_quest_name			£º³ö“Äº£ÓòÃû
-	api_quest_level			£ºëyÒ×¶È£¿
-	api_enemy_info			£º”³Åê Çéˆó
-		api_level			£º
-		api_rank			£º
-		api_deck_name		£º”³Åê Ãû
-	api_first_clear			£º³õ»Ø¥¯¥ê¥¢¥Õ¥é¥°(EOº£Óò¹¥ÂÔ•r¤â1)
-	api_mapcell_incentive	£ºº½¿Õ‚É²ì×÷‘éˆó³ê«@µÃ¥Õ¥é¥°¡¡0=¤Ê¤·, 1=«@µÃ
-	api_get_flag			£ºÈëÊÖ¥Õ¥é¥° [0]=¥¢¥¤¥Æ¥à, [1]=ÅÄï
-	api_get_useitem			£º¥É¥í¥Ã¥×¥¢¥¤¥Æ¥àÇéˆó api_get_flag[0]=1¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_useitem_id		£º¥¢¥¤¥Æ¥àID 60=¥×¥ì¥¼¥ó¥ÈÏä
-		api_useitem_name	£º""
-	api_get_ship			£º¥É¥í¥Ã¥×ÅÇéˆó¡¡api_get_flag[1]=1¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_ship_id			£ºÅ´¬ID
-		api_ship_type		£ºÅ·N
-		api_ship_name		£ºÅ´¬Ãû
-		api_ship_getmes		£º¥á¥Ã¥»©`¥¸
-	api_get_slotitem		£º¥É¥í¥Ã¥××°‚äÇéˆó£¿ api_get_flag[2]=1¤Î¤È¤­¤Î¤ß´æÔÚ
-		api_slotitem_id		£º×°‚äID
-	api_get_eventitem		£ºº£Óò¹¥ÂÔˆó³ê¡¡¥¤¥Ù¥ó¥Èº£ÓòÍ»ÆÆ•r¤Î¤ß´æÔÚ
-		api_type			£ºˆó³ê·N„e 1=¥¢¥¤¥Æ¥à, 2=ÅÄï, 3=×°‚ä
-		api_id				£ºID
-		api_value			£º‚€Êı£¿
-	api_get_eventflag		£º£¿ api_get_eventitem´æÔÚ•r¤ËÏûœç
-	api_get_exmap_rate		£ºEOº£Óò¹¥ÂÔ•r£º«@µÃ‘é¹û(ÎÄ×ÖÁĞ) ¤½¤ìÒÔÍâ¤Ï0(Êı‚)
-	api_get_exmap_useitem_id£ºEOº£Óò¹¥ÂÔ•r£ºÈ¡µÃ¥¢¥¤¥Æ¥àID(ÎÄ×ÖÁĞ) "57"=„ëÕÂ¡¡¤½¤ìÒÔÍâ¤Ï0(Êı‚)
-
-
-api_get_member/ship2		£º¾ÉßM“ÄÖĞ(¬FÔÚ¤Ï¥±¥Ã¥³¥ó¥«¥Ã¥³¥«¥ê?½o¼ZÅÊ¹ÓÃ(Î´´_ÕJ)¤Î¤ß¤À¤ÈË¼¤ï¤ì¤ë)
-	api_data		£ºport¤ËÍ¬¤¸
-	api_data_deck	£ºdeck¤ËÍ¬¤¸
-
-Request.api_get_member/ship_deck	£ºßM“ÄÖĞ
-	api_deck_rid	£º³ö“ÄÅê ID£¿Åê ¤Î¸üĞÂ¥ê¥¯¥¨¥¹¥È¤«¤â
-
-api_get_member/ship_deck	£ºßM“ÄÖĞ 2015/05/18ÒÔ½µ ¸üĞÂ¤µ¤ì¤¿Å´¬/Åê ¤Î¤ß´æÔÚ
-	api_ship_data		£ºÅ´¬¥Ç©`¥¿ port¤ÈÍ¬¤¸
-	api_deck_data		£ºÅê ¥Ç©`¥¿ deck¤ÈÍ¬¤¸
-
-api_get_member/mapinfo		£º³ö“ÄœÊ‚ä¡¡Î´³ö¬Fº£Óò¤Ï´æÔÚ¤·¤Ê¤¤
-	api_id					£ºº£ÓòID
-	api_cleared				£º¹¥ÂÔ¥Õ¥é¥°
-	api_eventmap			£º¥¤¥Ù¥ó¥Èº£Óò¤Î¤ß´æÔÚ
-		api_now_maphp		£ºº£ÓòHP¬FÔÚ‚
-		api_max_maphp		£ºº£ÓòHP×î´ó‚
-		api_state			£º×´‘B£¿1=Î´¹¥ÂÔ, 2=¹¥ÂÔœg¤ß
-		api_selected_rank	£º(15¶¬¥¤¥Ù)×÷‘éëyÒ×¶È 0=Î´ÔO¶¨, 1=±û, 2=ÒÒ, 3=¼×
-	api_exboss_flag			£ºÎ´¹¥ÂÔº£Óò¥Õ¥é¥°(¥¤¥Ù¥ó¥Èº£Óò¤ò³ı¤¯)
-	api_defeated_count		£º“ÄÆÆ»ØÊı(Î´¹¥ÂÔº£Óò¤ËÏŞ¤ê´æÔÚ, ¥¤¥Ù¥ó¥Èº£Óò¤Ë¤Ï´æÔÚ¤»¤º)
-
-
-api_get_member/furniture	£ºËùÓĞ¼Ò¾ß¥Ç©`¥¿
-	api_member_id		£º
-	api_id				£º¼Ò¾ßID
-	api_furniture_type	£º¼Ò¾ß¥«¥Æ¥´¥ê£¿
-	api_furniture_no	£º
-	api_furniture_id	£º=api_id
-
-
-api_get_member/sortie_conditions	£º¥¤¥Ù¥ó¥Èº£Óò¤Ø¤Î³ö“ÄÌõ¼ş¡¡³ö“ÄÖ±Ç°¤Ëºô¤Ğ¤ì¤ë
-	api_war				£º
-		api_win			£º„ÙÀû»ØÊı¡¡ÎÄ×ÖÁĞ
-		api_lose		£º”¡±±»ØÊı
-		api_rate		£º„ÙÂÊ
-
-
-api_req_combined_battle/airbattle	£ºßBºÏÅê -™C„Ó²¿ê  º½¿Õ‘é
-	api_deck_id			£º¤³¤Á¤é¤Î³ö“ÄÅê ID
-	api_ship_ke			£º”³Å´¬ID -1¤«¤éÊ¼¤Ş¤ë
-	api_ship_lv			£º”³Å´¬Lv.
-	api_nowhps			£ºÎ¶·½/”³Å´¬¤Î¬FÔÚHP -1¤«¤éÊ¼¤Ş¤ë
-	api_maxhps			£º¡¨×î´óHP
-	api_nowhps_combined	£ºÎ¶·½Ëæ°é×oĞlÅê ¤Î¬FÔÚHP
-	api_maxhps_combined	£º¡¨×î´óHP
-	api_midnight_flag	£ºÒ¹‘é¿É·ñ¥Õ¥é¥°
-	api_eSlot			£º”³Å´¬×°‚ä¥¹¥í¥Ã¥È¡¡¿Õ™Ú¤Ï-1, Å¤¬¤¤¤ì¤Ğ[5], ¤¤¤Ê¤±¤ì¤Ğ[4]
-	api_eKyouka			£º”³Å´¬¥Ñ¥é¥á©`¥¿Š»¯(½ü´ú»¯¸ÄĞŞ)
-	api_fParam			£ºÎ¶·½Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_eParam			£º”³Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_fParam_combined	£ºÎ¶·½Ëæ°é×oĞlÅê »ùµA¥¹¥Æ©`¥¿¥¹
-	api_escape_idx?		£º™C„Ó²¿ê ±¾ê ÍË±ÜÅ×ù˜Ë
-	api_escape_idx_combined		£ºËæ°é×oĞlÅê ÍË±ÜÅ×ù˜Ë(1-6)
-	api_search			£ºË÷”³¡¡[0]=Î¶·½, [1]=”³	1=³É¹¦, 2=Ê§”¡?, 5=Ê§”¡
-	api_formation		£ºê‡ĞÎ/½»‘éĞÎ‘B?¡¡[0]=Î¶·½, [1]=”³, [2]=½»‘éĞÎ‘B
-							[0|1]£º1=…g¿kê‡, 3=İ†ĞÎê‡, "11"-"14"=µÚn¾¯½äº½ĞĞĞòÁĞ
-							[2]£º2=·´º½‘é£¿
-	api_stage_flag		£ºº½¿Õ‘é¥Õ¥é¥°
-	api_kouku			£ºº½¿Õ‘éÇéˆó
-		api_plane_from	£ºÅİd™C¤òïw¤Ğ¤»¤ëÅ¡¡[0]=Î¶·½, [1]=”³¡¡¤¤¤Ê¤±¤ì¤Ğ{-1}
-		api_stage1		£ºº½¿Õ‘é1¡¡¿ÕŒ¿Õ‘éêL
-			api_f_count		£ºÎ¶·½Åİd™CÊı
-			api_f_lostcount	£º¡¨†ÊÊ§Êı
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-			api_disp_seiku	£ºÖÆ¿Õ˜Ø±íÊ¾	1=ÖÆ¿Õ˜Ø´_±£, 4=ÖÆ¿Õ˜Ø†ÊÊ§
-			api_touch_plane	£º´¥½Ó×°‚äID¡¡[0]=Î¶·½, [1]=”³?
-		api_stage2		£ºº½¿Õ‘é2¡¡Œ¿Õ³h»ğ?
-			api_f_count		£ºÎ¶·½Åİd™CÊı(Å¹¥/Å±¬Êı)
-			api_f_lostcount	£º¡¨†ÊÊ§Êı?
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-		api_stage3		£ºº½¿Õ¹¥“Ä
-			api_frai_flag	£ºÎ¶·½±»À×“Ä¥Õ¥é¥°
-			api_erai_flag	£º”³±»À×“Ä¥Õ¥é¥°
-			api_fbak_flag	£ºÎ¶·½±»±¬“Ä¥Õ¥é¥°
-			api_ebak_flag	£º”³±»±¬“Ä¥Õ¥é¥°
-			api_fcl_flag	£ºÎ¶·½¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥°?
-			api_ecl_flag	£º”³¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥°
-			api_fdam		£ºÎ¶·½±»¥À¥á©`¥¸¡¡±Ó¤ï¤ì¤ë¤È+0.1
-			api_edam		£º”³±»¥À¥á©`¥¸
-		api_stage3_combined	£ºËæ°é×oĞlÅê ¤Îº½¿Õ¹¥“Ä
-			api_frai_flag	£ºÎ¶·½±»À×“Ä¥Õ¥é¥°
-			api_fbak_flag	£ºÎ¶·½±»±¬“Ä¥Õ¥é¥°
-			api_fcl_flag	£ºÎ¶·½¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥°?
-			api_fdam		£ºÎ¶·½±»¥À¥á©`¥¸¡¡±Ó¤ï¤ì¤ë¤È+0.1
-	api_support_flag	£ºÖ§Ô®Åê ¥Õ¥é¥°
-	api_support_info	£ºÖ§Ô®Åê Çéˆó
-	api_stage_flag2		£ºµÚ¶ş´Îº½¿Õ‘é¥Õ¥é¥°
-	api_kouku2			£ºµÚ¶ş´Îº½¿Õ‘éÇéˆó¡¡api_kouku¤ÈÍ¬¤¸
-
-
-api_req_combined_battle/battle	£ºßBºÏÅê -™C„Ó²¿ê  ‘éêL
-	api_deck_id			£º¤³¤Á¤é¤Î³ö“ÄÅê ID
-	api_ship_ke			£º”³Å´¬ID -1¤«¤éÊ¼¤Ş¤ë
-	api_ship_lv			£º”³Å´¬Lv.
-	api_nowhps			£ºÎ¶·½/”³Å´¬¤Î¬FÔÚHP -1¤«¤éÊ¼¤Ş¤ë
-	api_maxhps			£º¡¨×î´óHP
-	api_nowhps_combined	£ºÎ¶·½Ëæ°é×oĞlÅê ¤Î¬FÔÚHP
-	api_maxhps_combined	£º¡¨×î´óHP
-	api_midnight_flag	£ºÒ¹‘é¿É·ñ¥Õ¥é¥°
-	api_eSlot			£º”³Å´¬×°‚ä¥¹¥í¥Ã¥È¡¡¿Õ™Ú¤Ï-1, Å¤¬¤¤¤ì¤Ğ[5], ¤¤¤Ê¤±¤ì¤Ğ[4]
-	api_eKyouka			£º”³Å´¬¥Ñ¥é¥á©`¥¿Š»¯(½ü´ú»¯¸ÄĞŞ)
-	api_fParam			£ºÎ¶·½Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_eParam			£º”³Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_fParam_combined	£ºÎ¶·½Ëæ°é×oĞlÅê »ùµA¥¹¥Æ©`¥¿¥¹
-	api_search			£ºË÷”³¡¡[0]=Î¶·½, [1]=”³	1=³É¹¦, 2=Ê§”¡?, 5=Ê§”¡
-	api_formation		£ºê‡ĞÎ/½»‘éĞÎ‘B?¡¡[0]=Î¶·½, [1]=”³, [2]=½»‘éĞÎ‘B
-							[0|1]£º1=…g¿kê‡ 2=Ñ}¿kê‡, 3=İ†ĞÎê‡, 4=ÌİĞÎê‡?, 5=…gºáê‡?, "11"-"14"=µÚn¾¯½äº½ĞĞĞòÁĞ
-							[2]£º2=·´º½‘é£¿
-	api_stage_flag		£ºº½¿Õ‘é¥Õ¥é¥°£¿
-	api_kouku			£ºº½¿Õ‘éÇéˆó
-		api_plane_from	£ºÅİd™C¤òïw¤Ğ¤»¤ëÅ¡¡[0]=Î¶·½, [1]=”³¡¡¤¤¤Ê¤±¤ì¤Ğ{-1}
-		api_stage1		£ºº½¿Õ‘é1¡¡¿ÕŒ¿Õ‘éêL
-			api_f_count		£ºÎ¶·½Åİd™CÊı
-			api_f_lostcount	£º¡¨†ÊÊ§Êı
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-			api_disp_seiku	£ºÖÆ¿Õ˜Ø±íÊ¾	1=ÖÆ¿Õ˜Ø´_±£, 4=ÖÆ¿Õ˜Ø†ÊÊ§
-			api_touch_plane	£º´¥½Ó×°‚äID¡¡[0]=Î¶·½, [1]=”³?
-		api_stage2		£ºº½¿Õ‘é2¡¡Œ¿Õ³h»ğ?
-			api_f_count		£ºÎ¶·½Åİd™CÊı(Å¹¥/Å±¬Êı)
-			api_f_lostcount	£º¡¨†ÊÊ§Êı?
-			api_e_count		£º”³¡¨
-			api_e_lostcount	£º
-		api_stage3		£ºº½¿Õ¹¥“Ä
-			api_frai_flag	£ºÎ¶·½±»À×“Ä¥Õ¥é¥°
-			api_erai_flag	£º”³±»À×“Ä¥Õ¥é¥°
-			api_fbak_flag	£ºÎ¶·½±»±¬“Ä¥Õ¥é¥°
-			api_ebak_flag	£º”³±»±¬“Ä¥Õ¥é¥°
-			api_fcl_flag	£ºÎ¶·½?¥Õ¥é¥°
-			api_ecl_flag	£º”³?¥Õ¥é¥°
-			api_fdam		£ºÎ¶·½±»¥À¥á©`¥¸¡¡±Ó¤ï¤ì¤ë¤È+0.1
-			api_edam		£º”³±»¥À¥á©`¥¸
-		api_stage3_combined	£ºËæ°é×oĞlÅê ¤Îº½¿Õ¹¥“Ä
-			api_frai_flag	£ºÎ¶·½±»À×“Ä¥Õ¥é¥°
-			api_fbak_flag	£ºÎ¶·½±»±¬“Ä¥Õ¥é¥°
-			api_fcl_flag	£ºÎ¶·½¥¯¥ê¥Æ¥£¥«¥ë¥Õ¥é¥°?
-			api_fdam		£ºÎ¶·½±»¥À¥á©`¥¸¡¡±Ó¤ï¤ì¤ë¤È+0.1
-	api_support_flag	£ºÖ§Ô®Åê ¥Õ¥é¥°¡¡0=µ½×Å¤»¤º, 1=¿Õ“Ä?, 2=³h“Ä, 3=À×“Ä?
-	api_support_info	£ºÖ§Ô®Åê Çéˆó
-		api_support_airattack	£º¿Õ“ÄÇéˆó? null
-		api_support_hourai		£º³hÀ×“ÄÇéˆó
-			api_deck_id			£ºÅê ID
-			api_ship_id			£ºÅ´¬¹ÌÓĞID
-			api_undressing_flag	£º
-			api_cl_list			£º¥¯¥ê¥Æ¥£¥«¥ëÅĞ¶¨¡¡0=³h“ÄÍ¨³£, 1=³h“Ä¥¯¥ê¥Æ¥£¥«¥ë|À×“ÄÍ¨³£, 2=À×“Ä¥¯¥ê¥Æ¥£¥«¥ë?
-			api_damage			£º”³±»¥À¥á©`¥¸
-	api_opening_flag	£ºé_Ä»À×“Ä¥Õ¥é¥°
-	api_opening_atack	£ºé_Ä»À×“Ä‘é *¥¹¥Ú¥ë¥ß¥¹¤¢¤ê¡¢×¢Òâ
-		api_frai		£ºÀ×“Ä¥¿©`¥²¥Ã¥È
-		api_erai		£º
-		api_fdam		£º±»¥À¥á©`¥¸
-		api_edam		£º
-		api_fydam		£ºÓë¥À¥á©`¥¸
-		api_eydam		£º
-		api_fcl			£º¥¯¥ê¥Æ¥£¥«¥ë¥Ò¥Ã¥È£¿
-		api_ecl			£º
-	api_hourai_flag	£º³hÀ×“Ä‘é¥Õ¥é¥°
-	api_hougeki1	£º³h“Ä‘é1Ñ²Ä¿(Ëæ°é×oĞlÅê )
-		api_at_list		£ºĞĞ„Óí˜?
-		api_at_type		£º×ÅÓQœy³h“Ä?¡¡0=Í¨³£, 2=ßB“Ä, 6=Ø¼×¥«¥Ã¥È¥¤¥ó
-		api_df_list		£º·ÀÓù‚ÈID¡¡-1¤«¤éÊ¼¤Ş¤ë¡¡ßB“Ä¤Ï2‚€
-		api_si_list		£º±íÊ¾×°‚äID¡¡¥«¥Ã¥È¥¤¥ó¤À¤È[0]=‚É²ì™C, [1]=³h, [2]=³h|ëŠÌ½|¤½¤ÎËû, ßB“Ä¤À¤È[0]=×°‚ä1, [1]=×°‚ä2, Í¨³£³h“Ä¤Ï[0]=×°‚ä1 ·Ç±íÊ¾¤Ï-1
-		api_cl_list		£º¥¯¥ê¥Æ¥£¥«¥ë¥Ò¥Ã¥È±íÊ¾£¿À×“ÄÒÔÍâ¤Ç¤â2¤Ë¤Ê¤ë¤³¤È¤¬¤¢¤ë, ¿Õ“Ä?
-		api_damage		£º¥À¥á©`¥¸(Œg¥À¥á©`¥¸)
-	api_raigeki		£ºÀ×“Ä‘é¡¡é_Ä»À×“Ä‘é¤ÈÍ¬¤¸
-	api_hougeki2	£º³h“Ä‘é2Ñ²Ä¿(™C„Ó²¿ê ±¾ê 1Ñ²Ä¿)¡¡ÉÏ¤ËÍ¬¤¸
-	api_hougeki3	£º³h“Ä‘é3Ñ²Ä¿(™C„Ó²¿ê ±¾ê 2Ñ²Ä¿)¡¡ÉÏ¤ËÍ¬¤¸
-
-
-api_req_combined_battle/midnight_battle		£ºßBºÏÅê -™C„Ó²¿ê /Ë®ÉÏ²¿ê  Ò¹‘é
-	api_deck_id			£º¤³¤Á¤é¤Î³ö“ÄÅê ID ÎÄ×ÖÁĞ
-	api_ship_ke			£º”³Å´¬ID -1¤«¤éÊ¼¤Ş¤ë
-	api_ship_lv			£º”³Å´¬Lv.
-	api_nowhps			£ºÎ¶·½/”³Å´¬¤Î¬FÔÚHP -1¤«¤éÊ¼¤Ş¤ë
-	api_maxhps			£º¡¨×î´óHP
-	api_nowhps_combined	£ºÎ¶·½Ëæ°é×oĞlÅê ¤Î¬FÔÚHP
-	api_maxhps_combined	£º¡¨×î´óHP
-	api_eSlot			£º”³Å´¬×°‚ä¥¹¥í¥Ã¥È¡¡¿Õ™Ú¤Ï-1, Å¤¬¤¤¤ì¤Ğ[5], ¤¤¤Ê¤±¤ì¤Ğ[4]
-	api_eKyouka			£º”³Å´¬¥Ñ¥é¥á©`¥¿Š»¯(½ü´ú»¯¸ÄĞŞ)
-	api_fParam			£ºÎ¶·½Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_eParam			£º”³Å´¬»ùµA¥¹¥Æ©`¥¿¥¹
-	api_fParam_combined	£ºÎ¶·½Ëæ°é×oĞlÅê »ùµA¥¹¥Æ©`¥¿¥¹
-	api_touch_plane		£ºÒ¹ég´¥½Ó×°‚äID [0]=Î¶·½, [1]=”³
-	api_flare_pos		£ºÕÕÃ÷°kÉäÅ [0]=Î¶·½, [1]=”³
-	api_hougeki			£ºÒ¹ég³h“Ä‘é
-		api_at_list		£ºĞĞ„Óí˜?
-		api_df_list		£º·ÀÓù‚ÈID¡¡-1¤«¤éÊ¼¤Ş¤ë¡¡ßB“Ä¤Ï2‚€
-		api_si_list		£º±íÊ¾×°‚äID¡¡¥«¥Ã¥È¥¤¥ó¤À¤È[0]=‚É²ì™C, [1]=³h, [2]=³h|ëŠÌ½|¤½¤ÎËû, ßB“Ä¤À¤È[0]=×°‚ä1, [1]=×°‚ä2, Í¨³£³h“Ä¤Ï[0]=×°‚ä1 ·Ç±íÊ¾¤Ï-1
-		api_cl_list		£º¥¯¥ê¥Æ¥£¥«¥ë¥Ò¥Ã¥È±íÊ¾£¿
-		api_sp_list		£ºÌØÊâ³h“Ä¥Õ¥é¥°£¿
-		api_damage		£º¥À¥á©`¥¸(Œg¥À¥á©`¥¸)
-
-
-api_req_combined_battle/sp_midnight		£ºßBºÏÅê  é_Ä»Ò¹‘é
-	(È«¥á¥ó¥Ğ¤ò api_req_combined_battle/midnight_battle ¤«¤é¾@³Ğ)
-	api_formation		£ºê‡ĞÎ¡¡Öç‘é¤Î¤½¤ì¤ÈÍ¬¤¸(µ«¤·Î¶·½ê‡ĞÎ¤ÏÎÄ×ÖÁĞĞÍ)
-
-
-api_req_combined_battle/battle_water	£ºßBºÏÅê -Ë®ÉÏ²¿ê  ‘éêL
-	(È«¥á¥ó¥Ğ¤ò api_req_combined_battle/battle ¤«¤é¾@³Ğ)
-	api_eSlot			£º´æÔÚ¤¹¤ëÅ¤Î·Ö¤Î¤ß´æÔÚ
-	api_hougeki1		£º³h“Ä‘é1Ñ²Ä¿(Ë®ÉÏ²¿ê ±¾ê )
-	api_hougeki2		£º³h“Ä‘é2Ñ²Ä¿(Ë®ÉÏ²¿ê ±¾ê )
-	api_hougeki3		£º³h“Ä‘é3Ñ²Ä¿(Ëæ°éÅê )
-	api_raigeki			£ºÀ×“Ä‘é
-
-
-api_req_combined_battle/battleresult	£ºßBºÏÅê  ‘éêL½Y¹û
-	api_ship_id					£º”³Å´¬ID
-	api_win_rank				£º„ÙÀû¥é¥ó¥¯
-	api_get_exp					£º«@µÃÌá¶½½UòY‚
-	api_mvp						£ºMVP
-	api_mvp_combined			£ºËæ°é×oĞlÅê MVP
-	api_member_lv				£ºÅê Ë¾Áî²¿Lv.
-	api_member_exp				£ºÌá¶½½UòY‚
-	api_get_base_exp			£º«@µÃ»ù±¾½UòY‚
-	api_get_ship_exp			£º™C„Ó²¿ê ±¾ê ¸÷Å¤Î«@µÃ½UòY‚¡¡«@µÃ²»ÄÜ¤ÊÅ(ÍË±Ü)¤Ï-1¡¡“ÄÉò¤â£¿¡¡-1(¥À¥ß©`)¤«¤éÊ¼¤Ş¤ë
-	api_get_ship_exp_combined	£ºËæ°é×oĞlÅê ¸÷Å¤Î«@µÃ½UòY‚
-	api_get_exp_lvup			£º™C„Ó²¿ê ±¾ê ¸÷Å¤Î[0]«@µÃÇ°½UòY‚, [1]´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚, (¥ì¥Ù¥ë¥¢¥Ã¥×¤·¤¿¤Ê¤é)[2]¤½¤Î´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚, ...
-	api_get_exp_lvup_combined	£ºËæ°é×oĞlÅê ¸÷Å¤Î[0]«@µÃÇ°½UòY‚, [1]´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚, (¥ì¥Ù¥ë¥¢¥Ã¥×¤·¤¿¤Ê¤é)[2]¤½¤Î´Î¤Î¥ì¥Ù¥ë¤Î½UòY‚, ...
-	api_dests				£º
-	api_destsf				£º
-	api_lost_flag			£º“ÄÉò¥Õ¥é¥°£¿
-	api_quest_name			£º³ö“Äº£ÓòÃû
-	api_quest_level			£ºëyÒ×¶È£¿
-	api_enemy_info			£º”³Åê Çéˆó
-		api_level			£º
-		api_rank			£º
-		api_deck_name		£º”³Åê Ãû
-	api_first_clear			£º³õ»Ø¥¯¥ê¥¢¥Õ¥é¥°
-	api_get_flag			£º
-	api_get_ship			£º¥É¥í¥Ã¥×ÅÇéˆó
-		api_ship_id			£ºÅ´¬ID
-		api_ship_type		£ºÅ·N
-		api_ship_name		£ºÅ´¬Ãû
-		api_ship_getmes		£º¥á¥Ã¥»©`¥¸
-	api_get_eventitem		£ºº£Óò¹¥ÂÔˆó³ê
-		api_type			£º1=šøÓÃ¥¢¥¤¥Æ¥à(„ëÕÂµÈ), 2=ÅÄï, 3=×°‚ä
-		api_id				£º¸÷·NID
-		api_value			£º‚€Êı£¿
-	api_get_exmap_rate		£º
-	api_get_exmap_useitem_id£º
-	api_escape_flag			£ºÍË±ÜÅ¤ÎÓĞŸo
-	api_escape				£ºÍË±ÜÅ
-		api_escape_idx		£ºÍË±ÜÅ¤ÎID
-		api_tow_idx			£º×oĞlÅ¤ÎID
-
-Request.api_req_combined_battle/goback_port		£º×oĞlÍË±Ü
-	(Çéˆó¤Ê¤·)
-
-api_req_combined_battle/goback_port				£º×oĞlÍË±Ü
-	(Çéˆó¤Ê¤·)				£ºÍË±Ü¤·¤¿¤È¤­¤Î¤ßºô¤Ğ¤ì¤ë; ÍË±ÜÅµÈ¤ÎÇéˆó¤Ïbattleresult¤Ëº¬¤Ş¤ì¤Æ¤¤¤ë
-
-
-api_req_hensei/combined		£ºßBºÏÅê ½Y³É
-	api_combined			£ºßBºÏÅê ¥Õ¥é¥° 0=½âê , 1=½Y³É
-
-
-Request.api_req_mission/return_instruction		£ºßhÕ÷ÖĞÖ¹/¢ß€ÃüÁî
-	api_deck_id				£ºÅê ID
-
-api_req_mission.return_instruction				£ºßhÕ÷ÖĞÖ¹/¢ß€ÃüÁî
-	api_mission				£ºßhÕ÷×´›r
-							[0]={0=Î´³ö“Ä, 1=ßhÕ÷ÖĞ, 2=ßhÕ÷¢Í¶, 3=ŠÖÆ¢ß€ÖĞ}, [1]=ßhÕ÷ÏÈID, [2]=¢Í¶•rég, [3]=0
-
-
-api_req_kaisou/marriage		£º¥±¥Ã¥³¥ó¥«¥Ã¥³¥«¥ê
-	api_data				£ºport.api_ship¤ÈÍ¬¤¸¡¡Ô“µ±Å¤Î¤ß
-
-
-api_get_member/payitem		£º±£ÓĞÕn½ğ¥¢¥¤¥Æ¥à(È¡¤ê³ö¤¹Ç°¤Î¥¢¥¤¥Æ¥à)¡¡Î´±£ÓĞ•r¤Ïnull
-	api_payitem_id			£º¥¢¥¤¥Æ¥àID¡¡ÎÄ×ÖÁĞ¡¡Ö¸İ†=20
-	api_type				£º
-	api_name				£ºÃûÇ°
-	api_description			£ºÕhÃ÷
-	api_price				£ºı¸ñ
-	api_count				£º‚€Êı£¿
-
-
-Request.api_req_member/payitemuse	£ºÕn½ğ¥¢¥¤¥Æ¥àÊ¹ÓÃ
-	api_payitem_id			£ºÊ¹ÓÃ¤·¤¿¥¢¥¤¥Æ¥à¤ÎID
-	api_force_flag			£º
-
-
-Request.api_req_member/itemuse		£º¥¢¥¤¥Æ¥àÊ¹ÓÃ
-	api_exchange_type		£º„ëÕÂ¤Î¤ß´æÔÚ£¿¡¡1=ÔOÓ‹‡í¤È½»“Q
-	api_useitem_id			£ºÊ¹ÓÃ¤·¤¿¥¢¥¤¥Æ¥à¤ÎID
-	api_force_flag			£º
-
-api_req_member/itemuse				£º¥¢¥¤¥Æ¥àÊ¹ÓÃ
-	api_caution_flag	£º0
-	api_flag			£º1
-	api_getitem			£ºÈëÊÖ¥¢¥¤¥Æ¥à
-		api_usemst		£º? ÔOÓ‹‡í=6
-		api_mst_id		£ºID
-		api_getcount	£ºÈëÊÖ‚€Êı
-
-
-api_req_furniture/music_list	£º¥¸¥å©`¥¯¥Ü¥Ã¥¯¥¹¥á¥Ë¥å©`
-	api_id			£º¥ê¥¹¥ÈÄÚÍ¨¤··¬ºÅ
-	api_name		£ºÇúÃû
-	api_description	£ºÕhÃ÷ÎÄ
-	api_bgm_id		£ºBGMID£¿
-	api_use_coin	£º±ØÒª¤Ê¼Ò¾ß¥³¥¤¥óÁ¿
-	api_bgm_flag	£º¬FÔÚ¤ÎÄ¸¸ÛBGM¤«¤É¤¦¤«
-
-api_req_furniture/music_play	£º¥¸¥å©`¥¯¥Ü¥Ã¥¯¥¹ÔÙÉú
-	api_coin		£º¬FÔÚ¤Î¼Ò¾ß¥³¥¤¥ó
-
-Request.api_req_furniture/set_portbgm	£ºÄ¸¸ÛBGMÔO¶¨
-	api_music_id	£ºBGMID
-
-api_req_furniture/set_portbgm	£ºÄ¸¸ÛBGMÔO¶¨
-	(Çéˆó¤Ê¤·)
-
-
-Request.api_req_member/itemuse_cond		£º½o¼ZÅÊ¹ÓÃ
-	api_use_type		£ºÊ¹ÓÃ¤¹¤ë½o¼ZÅ 1=égŒm, 2=ÒÁÁ¼ºş, 3=égŒm&ÒÁÁ¼ºş
-	api_deck_id			£ºÅê ·¬ºÅ
-
-api_req_member/itemuse_cond		£º½o¼ZÅÊ¹ÓÃ
-	(Çéˆó¤Ê¤·)
-
-
-Request.api_req_map/select_eventmap_rank	£º¥¤¥Ù¥ó¥Èº£ÓòëyÒ×¶Èßx’k
-	api_maparea_id	£ºº£Óò·¬ºÅ
-	api_map_no		£º¡¨
-	api_rank		£ºëyÒ×¶È 1=±û, 2=ÒÒ, 3=¼×
-
-api_req_map/select_eventmap_rank	£º¥¤¥Ù¥ó¥Èº£ÓòëyÒ×¶Èßx’k
-	(Çéˆó¤Ê¤·)
-
-
-¡óAPI¤¬ºô¤Ğ¤ì¤ëí˜·¬
-
-¡¶¥í¥°¥¤¥ó¡·
+api_req_kaisou/unsetslot_all			ï¼šè£…å‚™å…¨è§£é™¤
+	(æƒ…å ±ãªã—)
+
+Request.api_req_kaisou/remodeling	ï¼šæ”¹è£…
+	api_id				ï¼šè‰¦èˆ¹ID
+
+api_req_kaisou/remodeling			ï¼šæ”¹è£…
+	(æƒ…å ±ãªã—)
+
+api_get_member/ship3	ï¼šè£…å‚™æ›è£…æ™‚ã«å‘¼ã°ã‚Œã‚‹
+	api_ship_data		ï¼šå¯¾è±¡è‰¦ã®ãƒ‡ãƒ¼ã‚¿ã€€portã¨åŒç­‰
+	api_deck_data		ï¼šdeckã¨åŒç­‰
+	api_slot_data		ï¼šunsetslotã¨åŒç­‰
+
+
+Request.api_req_kaisou/lock		ï¼šè£…å‚™ãƒ­ãƒƒã‚¯
+	api_slotitem_id		ï¼šè£…å‚™ID
+
+api_req_kaisou/lock				ï¼šè£…å‚™ãƒ­ãƒƒã‚¯
+	api_locked			ï¼šãƒ­ãƒƒã‚¯çŠ¶æ…‹(1=ãƒ­ãƒƒã‚¯)
+
+
+api_get_member/mapcell		ï¼šãƒãƒƒãƒ—ãƒ‡ãƒ¼ã‚¿
+	api_id		ï¼šæµ·åŸŸã‚»ãƒ«ID
+	api_passed	ï¼šé€šè¡Œæ¸ˆã¿ã€€åˆæœŸåœ°ç‚¹ã¯å¸¸ã«0
+
+
+Request.api_req_map/start	ï¼šå‡ºæ’ƒ
+	api_deck_id			ï¼šå‡ºæ’ƒè‰¦éšŠID
+	api_formation_id	ï¼š
+	api_maparea_id		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+	api_mapinfo_no		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ç•ªå·
+
+api_req_map/start		ï¼šå‡ºæ’ƒã€€åŒã˜ãƒ¡ãƒ³ãƒã¯nextã®ã»ã†ãŒæƒ…å ±ãŒæ–°ã—ã„ã®ã§ãã¡ã‚‰ã‚’å‚ç…§
+	api_rashin_flg		ï¼šç¾…é‡ç›¤ã‚’è¡¨ç¤ºã™ã‚‹ã‹ã©ã†ã‹
+	api_rashin_id		ï¼šå¦–ç²¾ã•ã‚“ã€€1=çœ ãã†, 2=æ¡ƒã®é«ªé£¾ã‚Š, 3=ã²ã‚ˆã“, 4=é­”æ³•ä½¿ã„
+	api_maparea_id		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID
+	api_mapinfo_no		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ç•ªå·
+	api_no				ï¼šæ¬¡ã«å‘ã‹ã†ã‚»ãƒ«ã®ID
+	api_color_no		ï¼šæ¬¡ã®ã‚»ãƒ«ã®è‰²ã€€api_mst_mapcellå‚ç…§
+	api_event_id		ï¼šã‚¤ãƒ™ãƒ³ãƒˆã€€api_mst_mapcellå‚ç…§
+	api_event_kind		ï¼šã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥?ã€€0=è³‡æº? 1=æˆ¦é—˜
+	api_next			ï¼š? 0=è¡Œãæ­¢ã¾ã‚Š
+	api_bosscell_no		ï¼šãƒœã‚¹ã‚»ãƒ«ID
+	api_bosscomp		ï¼šãƒœã‚¹åˆ°é”æ¸ˆã¿ãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_eventmap		ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã‚²ãƒ¼ã‚¸æƒ…å ±
+		api_max_maphp	ï¼šã‚²ãƒ¼ã‚¸æœ€å¤§å€¤
+		api_now_maphp	ï¼šã‚²ãƒ¼ã‚¸ç¾åœ¨å€¤ã€€å¸¸ã«æœ€å¤§å€¤ã«ç­‰ã—ã„
+		api_dmg			ï¼šï¼Šãƒ€ãƒ¡ãƒ¼ã‚¸å€ç‡? =6ã ã¨HP90ã®æ——è‰¦æ’ƒæ²ˆã§540æ¸›å°‘?
+
+Request.api_req_map/next	ï¼šé€²æ’ƒ
+	api_recovery_type	ï¼šæ——è‰¦å¤§ç ´é€²æ’ƒãƒ•ãƒ©ã‚°ã€€0=é€šå¸¸, 1=å¿œæ€¥ä¿®ç†è¦å“¡ã‚’åˆ©ç”¨ã—ã¦é€²æ’ƒ?, 2=å¿œæ€¥ä¿®ç†å¥³ç¥ã‚’åˆ©ç”¨ã—ã¦é€²æ’ƒ?
+	api_cell_id			ï¼šèƒ½å‹•åˆ†å²æ™‚ã®ã¿å­˜åœ¨ã€€é¸æŠã—ãŸã‚»ãƒ«ID
+
+api_req_map/next		ï¼šé€²æ’ƒ
+	api_rashin_flg		ï¼šç¾…é‡ç›¤ã‚’è¡¨ç¤ºã™ã‚‹ã‹ã©ã†ã‹
+	api_rashin_id		ï¼šå¦–ç²¾ã•ã‚“ã€€0=ãªã—, 1=çœ ãã†, 2=æ¡ƒã®é«ªé£¾ã‚Š, 3=ã²ã‚ˆã“, 4=é­”æ³•ä½¿ã„
+	api_maparea_id		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªID(2-3ã§ã„ã†2)
+	api_mapinfo_no		ï¼šæµ·åŸŸã‚«ãƒ†ã‚´ãƒªå†…ç•ªå·(2-3ã§ã„ã†3)
+	api_no				ï¼šæ¬¡ã«å‘ã‹ã†ã‚»ãƒ«ã®ID
+	api_color_no		ï¼šæ¬¡ã®ã‚»ãƒ«ã®è‰²ã€€api_mst_mapcellå‚ç…§ã€€3=é’, 4=èµ¤, 9=èˆªç©ºåµå¯Ÿ
+	api_event_id		ï¼šã‚¤ãƒ™ãƒ³ãƒˆã€€0=åˆæœŸä½ç½®, 1=(å­˜åœ¨ã›ãš), 2=è³‡æºç²å¾—, 3=æ¸¦æ½®, 4=é€šå¸¸æˆ¦é—˜, 5=ãƒœã‚¹æˆ¦é—˜, 6=æ°—ã®ã›ã„ã ã£ãŸ, 7=èˆªç©ºæˆ¦orèˆªç©ºåµå¯Ÿ, 8=èˆ¹å›£è­·è¡›æˆåŠŸ
+	api_event_kind		ï¼šã‚¤ãƒ™ãƒ³ãƒˆç¨®åˆ¥ã€€0=éæˆ¦é—˜ã‚»ãƒ« 1=é€šå¸¸æˆ¦é—˜ 2=å¤œæˆ¦ 3=å¤œæ˜¼æˆ¦ 4=èˆªç©ºæˆ¦
+							api_event_id=6(æ°—ã®ã›ã„ã ã£ãŸ)æ™‚ã¯ã€€0="æ°—ã®ã›ã„ã ã£ãŸã€‚", 1="æ•µå½±ã‚’è¦‹ãšã€‚", 2=èƒ½å‹•åˆ†å²
+							api_event_id=7(èˆªç©ºæˆ¦)æ™‚ã¯ã€€0=èˆªç©ºåµå¯Ÿ, 4=èˆªç©ºæˆ¦ 
+	api_next			ï¼šæ¬¡ã®ãƒã‚¹ã§ã®ãƒ«ãƒ¼ãƒˆåˆ†å²ã®æœ¬æ•° 0=è¡Œãæ­¢ã¾ã‚Š
+	api_bosscell_no		ï¼šãƒœã‚¹ã‚»ãƒ«ID
+	api_bosscomp		ï¼šãƒœã‚¹åˆ°é”æ¸ˆã¿ãƒ•ãƒ©ã‚°ï¼Ÿã‚³ãƒ¼ãƒ‰ä¸­ã«ã‚¹ãƒšãƒ«ãƒŸã‚¹ãŒã‚ã‚Šæœªä½¿ç”¨
+	api_comment_kind	ï¼š0=ãªã— 1=<æ•µè‰¦éšŠç™ºè¦‹!> 2=<æ”»æ’ƒç›®æ¨™ç™ºè¦‹!>?ã€€startã«ã¯ãªã„ã®ã§æ³¨æ„
+	api_production_kind	ï¼š0=ãªã— 1=ç´¢æ•µæ©Ÿç™ºè‰¦ã€€startã«ã¯ãªã„ã®ã§æ³¨æ„
+	api_eventmap		ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã‚²ãƒ¼ã‚¸æƒ…å ±
+		api_max_maphp	ï¼šã‚²ãƒ¼ã‚¸æœ€å¤§å€¤
+		api_now_maphp	ï¼šã‚²ãƒ¼ã‚¸ç¾åœ¨å€¤ã€€startã¨ã¯ç•°ãªã‚Šå®Ÿéš›ã®å€¤ãŒå…¥ã‚‹
+		api_dmg			ï¼šãƒ€ãƒ¡ãƒ¼ã‚¸å€ç‡ï¼Ÿ
+	api_itemget			ï¼šæ¬¡ãŒè³‡æºãƒã‚¹/èˆªç©ºåµå¯Ÿãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨
+		api_usemst		ï¼š4=è³‡æº, 11=å®¶å…·ç®±(ä¸­), 12=å®¶å…·ç®±(å¤§) 
+		api_id			ï¼š1=ç‡ƒæ–™, 2=å¼¾è–¬, 4=ãƒœãƒ¼ã‚­, 11=å®¶å…·ç®±(ä¸­), 12=å®¶å…·ç®±(å¤§)
+		api_getcount	ï¼šå…¥æ‰‹è³‡æºé‡
+		api_name		ï¼šã‚¢ã‚¤ãƒ†ãƒ å(å®¶å…·ç®±ã®ã¿?ç‡ƒæ–™ç­‰ã®è³‡æºã¯"")
+		api_icon_id		ï¼š1=ç‡ƒæ–™, 2=å¼¾è–¬, 4=ãƒœãƒ¼ã‚­, 11=å®¶å…·ç®±(ä¸­), 12=å®¶å…·ç®±(å¤§)
+	api_happening		ï¼šæ¬¡ãŒæ¸¦æ½®ãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨
+		api_type		ï¼š1
+		api_count		ï¼šè½ã¨ã—ãŸè³‡æºã®é‡
+		api_usemst		ï¼š4
+		api_mst_id		ï¼šè½ã¨ã—ãŸè³‡æºã®ç¨®é¡ã€€2=å¼¾è–¬
+		api_icon_id		ï¼šè¡¨ç¤ºã‚¢ã‚¤ã‚³ãƒ³IDï¼Ÿã€€2=å¼¾è–¬
+		api_dentan		ï¼šé›»æ¢ã«ã‚ˆã‚‹è¢«å®³è»½æ¸›ãƒ•ãƒ©ã‚°(1=è»½æ¸›)
+	api_get_eo_rate		ï¼šç²å¾—æˆ¦æœã€€æ¬¡ãŒèˆ¹å›£è­·è¡›æˆåŠŸãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨(ã‚²ãƒ¼ã‚¸ç ´å£Šæ™‚è¿½åŠ ã§)
+	api_itemget_eo_result	ï¼šæ¬¡ãŒèˆ¹å›£è­·è¡›æˆåŠŸãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨(ã‚²ãƒ¼ã‚¸ç ´å£Šæ™‚è¿½åŠ ã§)
+		api_usemst		ï¼š5
+		api_id			ï¼š60=ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆç®±
+		api_getcount	ï¼šå…¥æ‰‹å€‹æ•°
+	api_itemget_eo_comment	ï¼šæ¬¡ãŒèˆ¹å›£è­·è¡›æˆåŠŸãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨
+		api_usemst		ï¼š4=è³‡æº
+		api_id			ï¼šå¤šåˆ†api_itemgetã¨åŒã˜(3=é‹¼æ)
+		api_getcount	ï¼šå…¥æ‰‹è³‡æºé‡
+	api_select_route	ï¼šæ¬¡ãŒèƒ½å‹•åˆ†å²ãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨
+		api_select_cellsï¼šé¸æŠå¯èƒ½ãªã‚»ãƒ«IDã®ãƒªã‚¹ãƒˆ
+	api_airsearch		ï¼šæ¬¡ãŒèˆªç©ºåµå¯Ÿãƒã‚¹ã®ã¨ãã®ã¿å­˜åœ¨
+		api_plane_type	ï¼šç™ºè‰¦ã—ãŸç´¢æ•µæ©Ÿã®ç¨®åˆ¥ã€€0=ãªã—, 1=å¤§å‹é£›è¡Œè‰‡, 2=æ°´ä¸Šåµå¯Ÿæ©Ÿ
+		api_result		ï¼šåµå¯Ÿçµæœã€€0=å¤±æ•—, 1=æˆåŠŸ, 2=å¤§æˆåŠŸ
+
+api_req_sortie/battle	ï¼šæˆ¦é—˜(æ˜¼æˆ¦)
+	api_dock_id			ï¼šã“ã¡ã‚‰ã®å‡ºæ’ƒè‰¦éšŠID
+	api_ship_ke			ï¼šæ•µè‰¦èˆ¹ID -1(ãƒ€ãƒŸãƒ¼)ã‹ã‚‰å§‹ã¾ã‚‹ã€‚ç©ºãã¯-1
+	api_ship_lv			ï¼šæ•µè‰¦èˆ¹Lv. -1ã‹ã‚‰
+	api_nowhps			ï¼šå‘³æ–¹/æ•µè‰¦èˆ¹ã®ç¾åœ¨HP -1ã‹ã‚‰
+	api_maxhps			ï¼šã€ƒæœ€å¤§HP
+	api_midnight_flag	ï¼šå¤œæˆ¦çªå…¥å¯å¦ã€€æ˜¼æˆ¦ã§å…¨æ»…ã•ã›ã‚Œã°0(ä¸å¯)ã«ãªã‚‹
+	api_eSlot			ï¼šæ•µè‰¦èˆ¹è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆã€€ç©ºæ¬„ã¯-1
+	api_eKyouka			ï¼šæ•µè‰¦èˆ¹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å¼·åŒ–(è¿‘ä»£åŒ–æ”¹ä¿®)
+	api_fParam			ï¼šå‘³æ–¹è‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ [0]=ç«åŠ›, [1]=é›·è£…, [2]=å¯¾ç©º, [3]=è£…ç”²
+	api_eParam			ï¼šæ•µè‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_search			ï¼šç´¢æ•µæˆå¦ã€€[0]=å‘³æ–¹, [1]=æ•µã€€1=æˆåŠŸ, 2=æˆåŠŸ(æœªå¸°é‚„æ©Ÿã‚ã‚Š), 3=æœªå¸°é‚„, 4=å¤±æ•—, 5=æˆåŠŸ(è‰¦è¼‰æ©Ÿä½¿ç”¨ã›ãš), 6=å¤±æ•—(è‰¦è¼‰æ©Ÿä½¿ç”¨ã›ãš)
+	api_formation		ï¼šé™£å½¢/äº¤æˆ¦å½¢æ…‹ã€€[0]=å‘³æ–¹, [1]=æ•µ, [2]=äº¤æˆ¦å½¢æ…‹
+							[0|1]ï¼š1=å˜ç¸¦é™£ 2=è¤‡ç¸¦é™£, 3=è¼ªå½¢é™£, 4=æ¢¯å½¢é™£, 5=å˜æ¨ªé™£
+							[2]ï¼š1=åŒèˆªæˆ¦, 2=åèˆªæˆ¦, 3=Tå­—æœ‰åˆ©, 4=Tå­—ä¸åˆ©
+	api_stage_flag		ï¼šèˆªç©ºæˆ¦ãƒ•ãƒ©ã‚°ã€€[n]=0ã®ã¨ãapi_stage<n>=nullã«ãªã‚‹(èˆªç©ºæˆ¦åŠ›ãªã—, è‰¦æˆ¦ã®ã¿ãªã©)
+	api_kouku			ï¼šèˆªç©ºæˆ¦æƒ…å ±
+		api_plane_from	ï¼šè‰¦è¼‰æ©Ÿã‚’é£›ã°ã›ã‚‹è‰¦ã€€[0]=å‘³æ–¹, [1]=æ•µã€€ã„ãªã‘ã‚Œã°[0]=-1
+		api_stage1		ï¼šèˆªç©ºæˆ¦1ã€€ç©ºå¯¾ç©ºæˆ¦é—˜
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°
+			api_f_lostcount	ï¼šã€ƒæ’ƒå¢œæ•°
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+			api_disp_seiku	ï¼šåˆ¶ç©ºæ¨©è¡¨ç¤ºã€€0=åˆ¶ç©ºå‡è¡¡, 1=åˆ¶ç©ºæ¨©ç¢ºä¿, 2=èˆªç©ºå„ªå‹¢, 3=èˆªç©ºåŠ£å‹¢, 4=åˆ¶ç©ºæ¨©å–ªå¤±
+			api_touch_plane	ï¼šè§¦æ¥è£…å‚™IDã€€[0]=å‘³æ–¹, [1]=æ•µ
+		api_stage2		ï¼šèˆªç©ºæˆ¦2ã€€å¯¾ç©ºç ²ç«
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°(è‰¦æ”»/è‰¦çˆ†æ•°)
+			api_f_lostcount	ï¼šã€ƒæ’ƒå¢œæ•°
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+			api_air_fire	ï¼šå¯¾ç©ºã‚«ãƒƒãƒˆã‚¤ãƒ³
+				api_idx			ï¼šç™ºå‹•è‰¦ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ 0ã‹ã‚‰å§‹ã¾ã‚‹
+				api_kind		ï¼šã‚«ãƒƒãƒˆã‚¤ãƒ³ç¨®åˆ¥
+									 1ï¼šé«˜è§’ç ²x2/é›»æ¢
+									 2ï¼šé«˜è§’ç ²/é›»æ¢
+									 3ï¼šé«˜è§’ç ²x2
+									 4ï¼šå¤§å£å¾„ä¸»ç ²/ä¸‰å¼å¼¾/é«˜å°„è£…ç½®/é›»æ¢
+									 5ï¼šé«˜è§’ç ²+é«˜å°„è£…ç½®x2/é›»æ¢
+									 6ï¼šå¤§å£å¾„ä¸»ç ²/ä¸‰å¼å¼¾/é«˜å°„è£…ç½®
+									 7ï¼šé«˜è§’ç ²/é«˜å°„è£…ç½®/é›»æ¢
+									 8ï¼šé«˜è§’ç ²+é«˜å°„è£…ç½®/é›»æ¢
+									 9ï¼šé«˜è§’ç ²/é«˜å°„è£…ç½®
+									10ï¼šé«˜è§’ç ²/é›†ä¸­æ©ŸéŠƒ/é›»æ¢
+									11ï¼šé«˜è§’ç ²/é›†ä¸­æ©ŸéŠƒ
+									12ï¼šé›†ä¸­æ©ŸéŠƒ/æ©ŸéŠƒ/é›»æ¢
+				api_use_items	ï¼šè¡¨ç¤ºè£…å‚™IDãƒªã‚¹ãƒˆ
+		api_stage3		ï¼šèˆªç©ºæ”»æ’ƒ
+			api_frai_flag	ï¼šå‘³æ–¹è¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_erai_flag	ï¼šæ•µè¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_fbak_flag	ï¼šå‘³æ–¹è¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_ebak_flag	ï¼šæ•µè¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_fcl_flag	ï¼šå‘³æ–¹ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚° 0=é€šå¸¸(çˆ†æ’ƒ/é›·æ’ƒå•ã‚ãšã€å‘½ä¸­|ãƒŸã‚¹), 1=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«
+			api_ecl_flag	ï¼šæ•µã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚°ã€€å½“ç„¶ãªãŒã‚‰é˜²å¾¡å´ã«ãƒ•ãƒ©ã‚°ãŒç«‹ã¤
+			api_fdam		ï¼šå‘³æ–¹è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€åº‡ã‚ã‚Œã‚‹ã¨+0.1
+			api_edam		ï¼šæ•µè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+	api_support_flag	ï¼šæ”¯æ´è‰¦éšŠãƒ•ãƒ©ã‚°ã€€0=ãªã—, 1=ç©ºæ’ƒ, 2=ç ²æ’ƒ, 3=é›·æ’ƒ
+	api_support_info	ï¼šæ”¯æ´è‰¦éšŠæƒ…å ±
+		api_support_airatack	ï¼šç©ºæ’ƒæƒ…å ±ã€€ã‚¹ãƒšãƒ«ãƒŸã‚¹ã«æ³¨æ„
+			api_deck_id			ï¼šè‰¦éšŠID
+			api_ship_id			ï¼šè‰¦èˆ¹å›ºæœ‰ID
+			api_undressing_flag	ï¼šä¸­ç ´ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ•ãƒ©ã‚° 0=é€šå¸¸, 1=ä¸­ç ´ ãªãŠé©ç”¨ã¯ãƒãƒŠãƒ¼ã®ã¿ã§ã€æ——è‰¦ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã¯å¤‰ã‚ã‚‰ãªã„
+			api_stage_flag		ï¼š>èˆªç©ºæˆ¦
+			api_plane_from		ï¼šè‰¦è¼‰æ©Ÿã‚’é£›ã°ã›ã‚‹è‰¦(æ•µã®ã¿, 7-12)
+			api_stage1			ï¼šèˆªç©ºæˆ¦stage1ã«åŒã˜
+				api_f_count		ï¼š
+				api_f_lostcount	ï¼š
+				api_e_count		ï¼š
+				api_e_lostcount	ï¼šæ³¨ï¼šwikiã®è¨˜è¿°ã¨ã¯ç•°ãªã‚Šã€æ•µè‰¦è¼‰æ©Ÿã¯æ’ƒå¢œå¯èƒ½ã€‚åŠ¹æœçš„ã‹ã¯ã•ã¦ãŠã
+			api_stage2			ï¼šèˆªç©ºæˆ¦stage2ã«åŒã˜
+				api_f_count		ï¼š
+				api_f_lostcount	ï¼š
+			api_stage3			ï¼šèˆªç©ºæˆ¦stage3ã«åŒã˜
+				api_erai_flag	ï¼š
+				api_ebak_flag	ï¼š
+				api_ecl_flag	ï¼š0=é€šå¸¸(ãƒŸã‚¹|å‘½ä¸­), 1=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«
+				api_edam		ï¼š
+		api_support_hourai		ï¼šç ²é›·æ’ƒæƒ…å ±
+			api_deck_id			ï¼šè‰¦éšŠID
+			api_ship_id			ï¼šè‰¦èˆ¹å›ºæœ‰ID
+			api_undressing_flag	ï¼šä¸­ç ´ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ•ãƒ©ã‚°
+			api_cl_list			ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«åˆ¤å®šã€€0=ãƒŸã‚¹, 1=å‘½ä¸­, 2=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã€€-1ã‹ã‚‰
+			api_damage			ï¼šæ•µè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€-1ã‹ã‚‰
+	api_opening_flag	ï¼šé–‹å¹•é›·æ’ƒãƒ•ãƒ©ã‚°
+	api_opening_atack	ï¼šé–‹å¹•é›·æ’ƒæˆ¦ *ã‚¹ãƒšãƒ«ãƒŸã‚¹ã‚ã‚Šã€æ³¨æ„
+		api_frai		ï¼šé›·æ’ƒã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+		api_erai		ï¼š
+		api_fdam		ï¼šè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_edam		ï¼š
+		api_fydam		ï¼šä¸ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_eydam		ï¼š
+		api_fcl			ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚° 0=ãƒŸã‚¹, 1=å‘½ä¸­, 2=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«
+		api_ecl			ï¼šæ”»æ’ƒå´ã«è¨˜è¿°ã•ã‚Œã‚‹
+	api_hourai_flag	ï¼šç ²é›·æ’ƒæˆ¦ãƒ•ãƒ©ã‚°ã€€[n]=0ã®ã¨ãapi_hougeki<n>åŠã³api_raigeki=nullã«ãªã‚‹
+	api_hougeki1	ï¼šç ²æ’ƒæˆ¦1å·¡ç›®ã€€api_hourai_flag[0]=0ã ã¨null
+		api_at_list		ï¼šè¡Œå‹•é †
+		api_at_type		ï¼šç‰¹æ®Šç ²æ’ƒã€€0=é€šå¸¸, 1=ãƒ¬ãƒ¼ã‚¶ãƒ¼æ”»æ’ƒ, 2=é€£æ’ƒ, 3=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/å‰¯ç ²), 4=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/é›»æ¢), 5=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/å¾¹ç”²), 6=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/ä¸»ç ²)
+		api_df_list		ï¼šé˜²å¾¡å´IDã€€-1ã‹ã‚‰å§‹ã¾ã‚‹ã€€é€£æ’ƒã¯2å€‹
+		api_si_list		ï¼šè¡¨ç¤ºè£…å‚™IDã€€ã‚«ãƒƒãƒˆã‚¤ãƒ³ã ã¨[0]=åµå¯Ÿæ©Ÿ, [1]=ä¸»ç ², [2]=ç ²|é›»æ¢|å¾¹ç”²å¼¾|ãã®ä»–, é€£æ’ƒã ã¨[0]=ç ²1, [1]=ç ²2, é€šå¸¸ç ²æ’ƒã¯[0]=è£…å‚™1, etc. éè¡¨ç¤ºã¯-1
+							æ³¨ï¼šçˆ†é›·ã‚„è‰¦è¼‰æ©Ÿãªã©ã€æœ¬æ¥è¡¨ç¤ºã•ã‚Œãªã„è£…å‚™ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã“ã¨ãŒã‚ã‚‹ã€€å¯¾æ½œæ”»æ’ƒæ™‚ï¼Ÿ
+		api_cl_list		ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚° 0=ãƒŸã‚¹, 1=å‘½ä¸­, 2=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã€€å‘½ä¸­(0ãƒ€ãƒ¡ãƒ¼ã‚¸)ã‚‚å­˜åœ¨ã™ã‚‹ï¼Ÿ
+		api_damage		ï¼šãƒ€ãƒ¡ãƒ¼ã‚¸(å®Ÿãƒ€ãƒ¡ãƒ¼ã‚¸)
+	api_hougeki2	ï¼šç ²æ’ƒæˆ¦2å·¡ç›®ã€€ä¸Šã«åŒã˜
+	api_hougeki3	ï¼š(null)
+	api_raigeki		ï¼šé›·æ’ƒæˆ¦ã€€é–‹å¹•é›·æ’ƒæˆ¦ã¨åŒã˜
+
+
+api_req_battle_midnight/battle		ï¼šæˆ¦é—˜(å¤œæˆ¦)
+	api_deck_id			ï¼šã“ã¡ã‚‰ã®å‡ºæ’ƒè‰¦éšŠID "deck"ã¨æ–‡å­—åˆ—å‹ã§ã‚ã‚‹ã“ã¨ã«æ³¨æ„
+	api_nowhps			ï¼šå‘³æ–¹/æ•µè‰¦èˆ¹ã®ç¾åœ¨HP -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_ship_ke			ï¼šæ•µè‰¦èˆ¹ID -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_ship_lv			ï¼šæ•µè‰¦èˆ¹Lv. -1ã‹ã‚‰
+	api_maxhps			ï¼šã€ƒæœ€å¤§HP
+	api_eSlot			ï¼šæ•µè‰¦èˆ¹è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆã€€ç©ºæ¬„ã¯-1, è‰¦ãŒã„ã‚Œã°[5], ã„ãªã‘ã‚Œã°[4]
+	api_eKyouka			ï¼šæ•µè‰¦èˆ¹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å¼·åŒ–(è¿‘ä»£åŒ–æ”¹ä¿®)
+	api_fParam			ï¼šå‘³æ–¹è‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_eParam			ï¼šæ•µè‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_touch_plane		ï¼šå¤œé–“è§¦æ¥è£…å‚™ID [0]=å‘³æ–¹, [1]=æ•µ
+	api_flare_pos		ï¼šç…§æ˜å¼¾ç™ºå°„è‰¦ [0]=å‘³æ–¹, [1]=æ•µã€€æ•µã§ã‚‚1-6
+	api_hougeki			ï¼šå¤œé–“ç ²é›·æ’ƒæˆ¦
+		api_at_list		ï¼šè¡Œå‹•é †
+		api_df_list		ï¼šé˜²å¾¡å´IDã€€-1ã‹ã‚‰å§‹ã¾ã‚‹ã€€é€£æ’ƒã¨ã‚«ãƒƒãƒˆã‚¤ãƒ³((ä¸»ç ²|é­šé›·)/é­šé›·)ã¯2å€‹, ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/(å‰¯ç ²|ä¸»ç ²))ã¯3å€‹(ä½†ã—[1], [2]=-1)
+		api_si_list		ï¼šè¡¨ç¤ºè£…å‚™ID æ˜¼æˆ¦ã®ãã‚Œã«æº–ãšã‚‹ éè¡¨ç¤ºã¯-1
+		api_cl_list		ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚° 0=ãƒŸã‚¹, 1=å‘½ä¸­, 2=ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«
+		api_sp_list		ï¼šå¤œæˆ¦æ”»æ’ƒç¨®åˆ¥ 0=é€šå¸¸æ”»æ’ƒ, 1=é€£æ’ƒ, 2=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/é­šé›·), 3=ã‚«ãƒƒãƒˆã‚¤ãƒ³(é­šé›·/é­šé›·), 4=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/å‰¯ç ²), 5=ã‚«ãƒƒãƒˆã‚¤ãƒ³(ä¸»ç ²/ä¸»ç ²)
+		api_damage		ï¼šãƒ€ãƒ¡ãƒ¼ã‚¸(å®Ÿãƒ€ãƒ¡ãƒ¼ã‚¸) ç ²æ’ƒã‚«ãƒƒãƒˆã‚¤ãƒ³ã®å ´åˆ[1], [2]=-1ã¨ãªã‚‹ãŸã‚æ³¨æ„
+
+
+api_req_battle_midnight/sp_midnight		ï¼šé–‹å¹•å¤œæˆ¦
+	(å…¨ãƒ¡ãƒ³ãƒãŒ api_req_battle_midnight/battle ã‚’ç¶™æ‰¿)
+	api_deck_id			ï¼šæ•°å€¤
+	api_formation		ï¼šé™£å½¢ã€€æ˜¼æˆ¦ã®ãã‚Œã¨åŒã˜ã€€api_eParamã¨api_touch_planeã®é–“
+
+api_req_sortie/airbattle	ï¼šèˆªç©ºæˆ¦
+	(å…¨ãƒ¡ãƒ³ãƒãŒ api_req_sortie/battle ã‚’ç¶™æ‰¿)
+	api_support_flag	ï¼š(å­˜åœ¨ã›ãš)
+	api_support_info	ï¼š(å­˜åœ¨ã›ãš)
+	api_opening_flag	ï¼š(å­˜åœ¨ã›ãš)
+	api_opening_atack	ï¼š(å­˜åœ¨ã›ãš)
+	api_hourai_flag		ï¼š(å­˜åœ¨ã›ãš)
+	api_hougeki1		ï¼š(å­˜åœ¨ã›ãš)
+	api_hougeki2		ï¼š(å­˜åœ¨ã›ãš)
+	api_hougeki3		ï¼š(å­˜åœ¨ã›ãš)
+	api_raigeki			ï¼š(å­˜åœ¨ã›ãš)
+	api_stage_flag2		ï¼šç¬¬äºŒæ¬¡èˆªç©ºæˆ¦ãƒ•ãƒ©ã‚°
+	api_kouku2			ï¼šç¬¬äºŒæ¬¡èˆªç©ºæˆ¦ api_koukuã«æº–ã˜ã‚‹
+
+
+api_req_sortie/battleresult	ï¼šæˆ¦é—˜çµæœ
+	api_ship_id				ï¼šæ•µè‰¦èˆ¹ID
+	api_win_rank			ï¼šå‹åˆ©ãƒ©ãƒ³ã‚¯
+	api_get_exp				ï¼šç²å¾—æç£çµŒé¨“å€¤
+	api_mvp					ï¼šMVPã€€1ã‹ã‚‰å§‹ã¾ã‚‹, -1=ãªã—
+	api_member_lv			ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_member_exp			ï¼šæç£çµŒé¨“å€¤
+	api_get_base_exp		ï¼šç²å¾—åŸºæœ¬çµŒé¨“å€¤
+	api_get_ship_exp		ï¼šå„è‰¦ã®ç²å¾—çµŒé¨“å€¤
+	api_get_exp_lvup		ï¼šå„è‰¦ã®[0]ç²å¾—å‰çµŒé¨“å€¤, [1]æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤(Lv99|150ã®å ´åˆå­˜åœ¨ã›ãš), (ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã—ãŸãªã‚‰)[2]ãã®æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤, ...
+	api_dests				ï¼šæ•µè‰¦æ’ƒæ²ˆæ•°ï¼Ÿ
+	api_destsf				ï¼šæ——è‰¦æ’ƒæ²ˆãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_lost_flag			ï¼šå‘³æ–¹è‰¦æ’ƒæ²ˆãƒ•ãƒ©ã‚°ï¼Ÿ-1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_quest_name			ï¼šå‡ºæ’ƒæµ·åŸŸå
+	api_quest_level			ï¼šé›£æ˜“åº¦ï¼Ÿ
+	api_enemy_info			ï¼šæ•µè‰¦éšŠæƒ…å ±
+		api_level			ï¼š
+		api_rank			ï¼š
+		api_deck_name		ï¼šæ•µè‰¦éšŠå
+	api_first_clear			ï¼šåˆå›ã‚¯ãƒªã‚¢ãƒ•ãƒ©ã‚°(EOæµ·åŸŸæ”»ç•¥æ™‚ã‚‚1)
+	api_mapcell_incentive	ï¼šèˆªç©ºåµå¯Ÿä½œæˆ¦å ±é…¬ç²å¾—ãƒ•ãƒ©ã‚°ã€€0=ãªã—, 1=ç²å¾—
+	api_get_flag			ï¼šå…¥æ‰‹ãƒ•ãƒ©ã‚° [0]=ã‚¢ã‚¤ãƒ†ãƒ , [1]=è‰¦å¨˜
+	api_get_useitem			ï¼šãƒ‰ãƒ­ãƒƒãƒ—ã‚¢ã‚¤ãƒ†ãƒ æƒ…å ± api_get_flag[0]=1ã®ã¨ãã®ã¿å­˜åœ¨
+		api_useitem_id		ï¼šã‚¢ã‚¤ãƒ†ãƒ ID 60=ãƒ—ãƒ¬ã‚¼ãƒ³ãƒˆç®±
+		api_useitem_name	ï¼š""
+	api_get_ship			ï¼šãƒ‰ãƒ­ãƒƒãƒ—è‰¦æƒ…å ±ã€€api_get_flag[1]=1ã®ã¨ãã®ã¿å­˜åœ¨
+		api_ship_id			ï¼šè‰¦èˆ¹ID
+		api_ship_type		ï¼šè‰¦ç¨®
+		api_ship_name		ï¼šè‰¦èˆ¹å
+		api_ship_getmes		ï¼šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+	api_get_slotitem		ï¼šãƒ‰ãƒ­ãƒƒãƒ—è£…å‚™æƒ…å ±ï¼Ÿ api_get_flag[2]=1ã®ã¨ãã®ã¿å­˜åœ¨
+		api_slotitem_id		ï¼šè£…å‚™ID
+	api_get_eventitem		ï¼šæµ·åŸŸæ”»ç•¥å ±é…¬ã€€ã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸçªç ´æ™‚ã®ã¿å­˜åœ¨
+		api_type			ï¼šå ±é…¬ç¨®åˆ¥ 1=ã‚¢ã‚¤ãƒ†ãƒ , 2=è‰¦å¨˜, 3=è£…å‚™
+		api_id				ï¼šID
+		api_value			ï¼šå€‹æ•°ï¼Ÿ
+	api_get_eventflag		ï¼šï¼Ÿ api_get_eventitemå­˜åœ¨æ™‚ã«æ¶ˆæ»…
+	api_get_exmap_rate		ï¼šEOæµ·åŸŸæ”»ç•¥æ™‚ï¼šç²å¾—æˆ¦æœ(æ–‡å­—åˆ—) ãã‚Œä»¥å¤–ã¯0(æ•°å€¤)
+	api_get_exmap_useitem_idï¼šEOæµ·åŸŸæ”»ç•¥æ™‚ï¼šå–å¾—ã‚¢ã‚¤ãƒ†ãƒ ID(æ–‡å­—åˆ—) "57"=å‹²ç« ã€€ãã‚Œä»¥å¤–ã¯0(æ•°å€¤)
+
+
+api_get_member/ship2		ï¼šæ—§é€²æ’ƒä¸­(ç¾åœ¨ã¯ã‚±ãƒƒã‚³ãƒ³ã‚«ãƒƒã‚³ã‚«ãƒª?çµ¦ç³§è‰¦ä½¿ç”¨(æœªç¢ºèª)ã®ã¿ã ã¨æ€ã‚ã‚Œã‚‹)
+	api_data		ï¼športã«åŒã˜
+	api_data_deck	ï¼šdeckã«åŒã˜
+
+Request.api_get_member/ship_deck	ï¼šé€²æ’ƒä¸­
+	api_deck_rid	ï¼šå‡ºæ’ƒè‰¦éšŠIDï¼Ÿè‰¦éšŠã®æ›´æ–°ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‹ã‚‚
+
+api_get_member/ship_deck	ï¼šé€²æ’ƒä¸­ 2015/05/18ä»¥é™ æ›´æ–°ã•ã‚ŒãŸè‰¦èˆ¹/è‰¦éšŠã®ã¿å­˜åœ¨
+	api_ship_data		ï¼šè‰¦èˆ¹ãƒ‡ãƒ¼ã‚¿ portã¨åŒã˜
+	api_deck_data		ï¼šè‰¦éšŠãƒ‡ãƒ¼ã‚¿ deckã¨åŒã˜
+
+api_get_member/mapinfo		ï¼šå‡ºæ’ƒæº–å‚™ã€€æœªå‡ºç¾æµ·åŸŸã¯å­˜åœ¨ã—ãªã„
+	api_id					ï¼šæµ·åŸŸID
+	api_cleared				ï¼šæ”»ç•¥ãƒ•ãƒ©ã‚°
+	api_eventmap			ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã®ã¿å­˜åœ¨
+		api_now_maphp		ï¼šæµ·åŸŸHPç¾åœ¨å€¤
+		api_max_maphp		ï¼šæµ·åŸŸHPæœ€å¤§å€¤
+		api_state			ï¼šçŠ¶æ…‹ï¼Ÿ1=æœªæ”»ç•¥, 2=æ”»ç•¥æ¸ˆã¿
+		api_selected_rank	ï¼š(15å†¬ã‚¤ãƒ™)ä½œæˆ¦é›£æ˜“åº¦ 0=æœªè¨­å®š, 1=ä¸™, 2=ä¹™, 3=ç”²
+	api_exboss_flag			ï¼šæœªæ”»ç•¥æµ·åŸŸãƒ•ãƒ©ã‚°(ã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã‚’é™¤ã)
+	api_defeated_count		ï¼šæ’ƒç ´å›æ•°(æœªæ”»ç•¥æµ·åŸŸã«é™ã‚Šå­˜åœ¨, ã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã«ã¯å­˜åœ¨ã›ãš)
+
+
+api_get_member/furniture	ï¼šæ‰€æœ‰å®¶å…·ãƒ‡ãƒ¼ã‚¿
+	api_member_id		ï¼š
+	api_id				ï¼šå®¶å…·ID
+	api_furniture_type	ï¼šå®¶å…·ã‚«ãƒ†ã‚´ãƒªï¼Ÿ
+	api_furniture_no	ï¼š
+	api_furniture_id	ï¼š=api_id
+
+
+api_get_member/sortie_conditions	ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸã¸ã®å‡ºæ’ƒæ¡ä»¶ã€€å‡ºæ’ƒç›´å‰ã«å‘¼ã°ã‚Œã‚‹
+	api_war				ï¼š
+		api_win			ï¼šå‹åˆ©å›æ•°ã€€æ–‡å­—åˆ—
+		api_lose		ï¼šæ•—åŒ—å›æ•°
+		api_rate		ï¼šå‹ç‡
+
+
+api_req_combined_battle/airbattle	ï¼šé€£åˆè‰¦éšŠ-æ©Ÿå‹•éƒ¨éšŠ èˆªç©ºæˆ¦
+	api_deck_id			ï¼šã“ã¡ã‚‰ã®å‡ºæ’ƒè‰¦éšŠID
+	api_ship_ke			ï¼šæ•µè‰¦èˆ¹ID -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_ship_lv			ï¼šæ•µè‰¦èˆ¹Lv.
+	api_nowhps			ï¼šå‘³æ–¹/æ•µè‰¦èˆ¹ã®ç¾åœ¨HP -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_maxhps			ï¼šã€ƒæœ€å¤§HP
+	api_nowhps_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠã®ç¾åœ¨HP
+	api_maxhps_combined	ï¼šã€ƒæœ€å¤§HP
+	api_midnight_flag	ï¼šå¤œæˆ¦å¯å¦ãƒ•ãƒ©ã‚°
+	api_eSlot			ï¼šæ•µè‰¦èˆ¹è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆã€€ç©ºæ¬„ã¯-1, è‰¦ãŒã„ã‚Œã°[5], ã„ãªã‘ã‚Œã°[4]
+	api_eKyouka			ï¼šæ•µè‰¦èˆ¹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å¼·åŒ–(è¿‘ä»£åŒ–æ”¹ä¿®)
+	api_fParam			ï¼šå‘³æ–¹è‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_eParam			ï¼šæ•µè‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_fParam_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠåŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_escape_idx?		ï¼šæ©Ÿå‹•éƒ¨éšŠæœ¬éšŠé€€é¿è‰¦åº§æ¨™
+	api_escape_idx_combined		ï¼šéšä¼´è­·è¡›è‰¦éšŠé€€é¿è‰¦åº§æ¨™(1-6)
+	api_search			ï¼šç´¢æ•µã€€[0]=å‘³æ–¹, [1]=æ•µ	1=æˆåŠŸ, 2=å¤±æ•—?, 5=å¤±æ•—
+	api_formation		ï¼šé™£å½¢/äº¤æˆ¦å½¢æ…‹?ã€€[0]=å‘³æ–¹, [1]=æ•µ, [2]=äº¤æˆ¦å½¢æ…‹
+							[0|1]ï¼š1=å˜ç¸¦é™£, 3=è¼ªå½¢é™£, "11"-"14"=ç¬¬nè­¦æˆ’èˆªè¡Œåºåˆ—
+							[2]ï¼š2=åèˆªæˆ¦ï¼Ÿ
+	api_stage_flag		ï¼šèˆªç©ºæˆ¦ãƒ•ãƒ©ã‚°
+	api_kouku			ï¼šèˆªç©ºæˆ¦æƒ…å ±
+		api_plane_from	ï¼šè‰¦è¼‰æ©Ÿã‚’é£›ã°ã›ã‚‹è‰¦ã€€[0]=å‘³æ–¹, [1]=æ•µã€€ã„ãªã‘ã‚Œã°{-1}
+		api_stage1		ï¼šèˆªç©ºæˆ¦1ã€€ç©ºå¯¾ç©ºæˆ¦é—˜
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°
+			api_f_lostcount	ï¼šã€ƒå–ªå¤±æ•°
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+			api_disp_seiku	ï¼šåˆ¶ç©ºæ¨©è¡¨ç¤º	1=åˆ¶ç©ºæ¨©ç¢ºä¿, 4=åˆ¶ç©ºæ¨©å–ªå¤±
+			api_touch_plane	ï¼šè§¦æ¥è£…å‚™IDã€€[0]=å‘³æ–¹, [1]=æ•µ?
+		api_stage2		ï¼šèˆªç©ºæˆ¦2ã€€å¯¾ç©ºç ²ç«?
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°(è‰¦æ”»/è‰¦çˆ†æ•°)
+			api_f_lostcount	ï¼šã€ƒå–ªå¤±æ•°?
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+		api_stage3		ï¼šèˆªç©ºæ”»æ’ƒ
+			api_frai_flag	ï¼šå‘³æ–¹è¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_erai_flag	ï¼šæ•µè¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_fbak_flag	ï¼šå‘³æ–¹è¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_ebak_flag	ï¼šæ•µè¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_fcl_flag	ï¼šå‘³æ–¹ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚°?
+			api_ecl_flag	ï¼šæ•µã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚°
+			api_fdam		ï¼šå‘³æ–¹è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€åº‡ã‚ã‚Œã‚‹ã¨+0.1
+			api_edam		ï¼šæ•µè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_stage3_combined	ï¼šéšä¼´è­·è¡›è‰¦éšŠã®èˆªç©ºæ”»æ’ƒ
+			api_frai_flag	ï¼šå‘³æ–¹è¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_fbak_flag	ï¼šå‘³æ–¹è¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_fcl_flag	ï¼šå‘³æ–¹ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚°?
+			api_fdam		ï¼šå‘³æ–¹è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€åº‡ã‚ã‚Œã‚‹ã¨+0.1
+	api_support_flag	ï¼šæ”¯æ´è‰¦éšŠãƒ•ãƒ©ã‚°
+	api_support_info	ï¼šæ”¯æ´è‰¦éšŠæƒ…å ±
+	api_stage_flag2		ï¼šç¬¬äºŒæ¬¡èˆªç©ºæˆ¦ãƒ•ãƒ©ã‚°
+	api_kouku2			ï¼šç¬¬äºŒæ¬¡èˆªç©ºæˆ¦æƒ…å ±ã€€api_koukuã¨åŒã˜
+
+
+api_req_combined_battle/battle	ï¼šé€£åˆè‰¦éšŠ-æ©Ÿå‹•éƒ¨éšŠ æˆ¦é—˜
+	api_deck_id			ï¼šã“ã¡ã‚‰ã®å‡ºæ’ƒè‰¦éšŠID
+	api_ship_ke			ï¼šæ•µè‰¦èˆ¹ID -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_ship_lv			ï¼šæ•µè‰¦èˆ¹Lv.
+	api_nowhps			ï¼šå‘³æ–¹/æ•µè‰¦èˆ¹ã®ç¾åœ¨HP -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_maxhps			ï¼šã€ƒæœ€å¤§HP
+	api_nowhps_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠã®ç¾åœ¨HP
+	api_maxhps_combined	ï¼šã€ƒæœ€å¤§HP
+	api_midnight_flag	ï¼šå¤œæˆ¦å¯å¦ãƒ•ãƒ©ã‚°
+	api_eSlot			ï¼šæ•µè‰¦èˆ¹è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆã€€ç©ºæ¬„ã¯-1, è‰¦ãŒã„ã‚Œã°[5], ã„ãªã‘ã‚Œã°[4]
+	api_eKyouka			ï¼šæ•µè‰¦èˆ¹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å¼·åŒ–(è¿‘ä»£åŒ–æ”¹ä¿®)
+	api_fParam			ï¼šå‘³æ–¹è‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_eParam			ï¼šæ•µè‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_fParam_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠåŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_search			ï¼šç´¢æ•µã€€[0]=å‘³æ–¹, [1]=æ•µ	1=æˆåŠŸ, 2=å¤±æ•—?, 5=å¤±æ•—
+	api_formation		ï¼šé™£å½¢/äº¤æˆ¦å½¢æ…‹?ã€€[0]=å‘³æ–¹, [1]=æ•µ, [2]=äº¤æˆ¦å½¢æ…‹
+							[0|1]ï¼š1=å˜ç¸¦é™£ 2=è¤‡ç¸¦é™£, 3=è¼ªå½¢é™£, 4=æ¢¯å½¢é™£?, 5=å˜æ¨ªé™£?, "11"-"14"=ç¬¬nè­¦æˆ’èˆªè¡Œåºåˆ—
+							[2]ï¼š2=åèˆªæˆ¦ï¼Ÿ
+	api_stage_flag		ï¼šèˆªç©ºæˆ¦ãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_kouku			ï¼šèˆªç©ºæˆ¦æƒ…å ±
+		api_plane_from	ï¼šè‰¦è¼‰æ©Ÿã‚’é£›ã°ã›ã‚‹è‰¦ã€€[0]=å‘³æ–¹, [1]=æ•µã€€ã„ãªã‘ã‚Œã°{-1}
+		api_stage1		ï¼šèˆªç©ºæˆ¦1ã€€ç©ºå¯¾ç©ºæˆ¦é—˜
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°
+			api_f_lostcount	ï¼šã€ƒå–ªå¤±æ•°
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+			api_disp_seiku	ï¼šåˆ¶ç©ºæ¨©è¡¨ç¤º	1=åˆ¶ç©ºæ¨©ç¢ºä¿, 4=åˆ¶ç©ºæ¨©å–ªå¤±
+			api_touch_plane	ï¼šè§¦æ¥è£…å‚™IDã€€[0]=å‘³æ–¹, [1]=æ•µ?
+		api_stage2		ï¼šèˆªç©ºæˆ¦2ã€€å¯¾ç©ºç ²ç«?
+			api_f_count		ï¼šå‘³æ–¹è‰¦è¼‰æ©Ÿæ•°(è‰¦æ”»/è‰¦çˆ†æ•°)
+			api_f_lostcount	ï¼šã€ƒå–ªå¤±æ•°?
+			api_e_count		ï¼šæ•µã€ƒ
+			api_e_lostcount	ï¼š
+		api_stage3		ï¼šèˆªç©ºæ”»æ’ƒ
+			api_frai_flag	ï¼šå‘³æ–¹è¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_erai_flag	ï¼šæ•µè¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_fbak_flag	ï¼šå‘³æ–¹è¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_ebak_flag	ï¼šæ•µè¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_fcl_flag	ï¼šå‘³æ–¹?ãƒ•ãƒ©ã‚°
+			api_ecl_flag	ï¼šæ•µ?ãƒ•ãƒ©ã‚°
+			api_fdam		ï¼šå‘³æ–¹è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€åº‡ã‚ã‚Œã‚‹ã¨+0.1
+			api_edam		ï¼šæ•µè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_stage3_combined	ï¼šéšä¼´è­·è¡›è‰¦éšŠã®èˆªç©ºæ”»æ’ƒ
+			api_frai_flag	ï¼šå‘³æ–¹è¢«é›·æ’ƒãƒ•ãƒ©ã‚°
+			api_fbak_flag	ï¼šå‘³æ–¹è¢«çˆ†æ’ƒãƒ•ãƒ©ã‚°
+			api_fcl_flag	ï¼šå‘³æ–¹ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ•ãƒ©ã‚°?
+			api_fdam		ï¼šå‘³æ–¹è¢«ãƒ€ãƒ¡ãƒ¼ã‚¸ã€€åº‡ã‚ã‚Œã‚‹ã¨+0.1
+	api_support_flag	ï¼šæ”¯æ´è‰¦éšŠãƒ•ãƒ©ã‚°ã€€0=åˆ°ç€ã›ãš, 1=ç©ºæ’ƒ?, 2=ç ²æ’ƒ, 3=é›·æ’ƒ?
+	api_support_info	ï¼šæ”¯æ´è‰¦éšŠæƒ…å ±
+		api_support_airattack	ï¼šç©ºæ’ƒæƒ…å ±? null
+		api_support_hourai		ï¼šç ²é›·æ’ƒæƒ…å ±
+			api_deck_id			ï¼šè‰¦éšŠID
+			api_ship_id			ï¼šè‰¦èˆ¹å›ºæœ‰ID
+			api_undressing_flag	ï¼š
+			api_cl_list			ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«åˆ¤å®šã€€0=ç ²æ’ƒé€šå¸¸, 1=ç ²æ’ƒã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«|é›·æ’ƒé€šå¸¸, 2=é›·æ’ƒã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«?
+			api_damage			ï¼šæ•µè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+	api_opening_flag	ï¼šé–‹å¹•é›·æ’ƒãƒ•ãƒ©ã‚°
+	api_opening_atack	ï¼šé–‹å¹•é›·æ’ƒæˆ¦ *ã‚¹ãƒšãƒ«ãƒŸã‚¹ã‚ã‚Šã€æ³¨æ„
+		api_frai		ï¼šé›·æ’ƒã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+		api_erai		ï¼š
+		api_fdam		ï¼šè¢«ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_edam		ï¼š
+		api_fydam		ï¼šä¸ãƒ€ãƒ¡ãƒ¼ã‚¸
+		api_eydam		ï¼š
+		api_fcl			ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ’ãƒƒãƒˆï¼Ÿ
+		api_ecl			ï¼š
+	api_hourai_flag	ï¼šç ²é›·æ’ƒæˆ¦ãƒ•ãƒ©ã‚°
+	api_hougeki1	ï¼šç ²æ’ƒæˆ¦1å·¡ç›®(éšä¼´è­·è¡›è‰¦éšŠ)
+		api_at_list		ï¼šè¡Œå‹•é †?
+		api_at_type		ï¼šå¼¾ç€è¦³æ¸¬ç ²æ’ƒ?ã€€0=é€šå¸¸, 2=é€£æ’ƒ, 6=å¾¹ç”²å¼¾ã‚«ãƒƒãƒˆã‚¤ãƒ³
+		api_df_list		ï¼šé˜²å¾¡å´IDã€€-1ã‹ã‚‰å§‹ã¾ã‚‹ã€€é€£æ’ƒã¯2å€‹
+		api_si_list		ï¼šè¡¨ç¤ºè£…å‚™IDã€€ã‚«ãƒƒãƒˆã‚¤ãƒ³ã ã¨[0]=åµå¯Ÿæ©Ÿ, [1]=ç ², [2]=ç ²|é›»æ¢|ãã®ä»–, é€£æ’ƒã ã¨[0]=è£…å‚™1, [1]=è£…å‚™2, é€šå¸¸ç ²æ’ƒã¯[0]=è£…å‚™1 éè¡¨ç¤ºã¯-1
+		api_cl_list		ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ’ãƒƒãƒˆè¡¨ç¤ºï¼Ÿé›·æ’ƒä»¥å¤–ã§ã‚‚2ã«ãªã‚‹ã“ã¨ãŒã‚ã‚‹, ç©ºæ’ƒ?
+		api_damage		ï¼šãƒ€ãƒ¡ãƒ¼ã‚¸(å®Ÿãƒ€ãƒ¡ãƒ¼ã‚¸)
+	api_raigeki		ï¼šé›·æ’ƒæˆ¦ã€€é–‹å¹•é›·æ’ƒæˆ¦ã¨åŒã˜
+	api_hougeki2	ï¼šç ²æ’ƒæˆ¦2å·¡ç›®(æ©Ÿå‹•éƒ¨éšŠæœ¬éšŠ1å·¡ç›®)ã€€ä¸Šã«åŒã˜
+	api_hougeki3	ï¼šç ²æ’ƒæˆ¦3å·¡ç›®(æ©Ÿå‹•éƒ¨éšŠæœ¬éšŠ2å·¡ç›®)ã€€ä¸Šã«åŒã˜
+
+
+api_req_combined_battle/midnight_battle		ï¼šé€£åˆè‰¦éšŠ-æ©Ÿå‹•éƒ¨éšŠ/æ°´ä¸Šéƒ¨éšŠ å¤œæˆ¦
+	api_deck_id			ï¼šã“ã¡ã‚‰ã®å‡ºæ’ƒè‰¦éšŠID æ–‡å­—åˆ—
+	api_ship_ke			ï¼šæ•µè‰¦èˆ¹ID -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_ship_lv			ï¼šæ•µè‰¦èˆ¹Lv.
+	api_nowhps			ï¼šå‘³æ–¹/æ•µè‰¦èˆ¹ã®ç¾åœ¨HP -1ã‹ã‚‰å§‹ã¾ã‚‹
+	api_maxhps			ï¼šã€ƒæœ€å¤§HP
+	api_nowhps_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠã®ç¾åœ¨HP
+	api_maxhps_combined	ï¼šã€ƒæœ€å¤§HP
+	api_eSlot			ï¼šæ•µè‰¦èˆ¹è£…å‚™ã‚¹ãƒ­ãƒƒãƒˆã€€ç©ºæ¬„ã¯-1, è‰¦ãŒã„ã‚Œã°[5], ã„ãªã‘ã‚Œã°[4]
+	api_eKyouka			ï¼šæ•µè‰¦èˆ¹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å¼·åŒ–(è¿‘ä»£åŒ–æ”¹ä¿®)
+	api_fParam			ï¼šå‘³æ–¹è‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_eParam			ï¼šæ•µè‰¦èˆ¹åŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_fParam_combined	ï¼šå‘³æ–¹éšä¼´è­·è¡›è‰¦éšŠåŸºç¤ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	api_touch_plane		ï¼šå¤œé–“è§¦æ¥è£…å‚™ID [0]=å‘³æ–¹, [1]=æ•µ
+	api_flare_pos		ï¼šç…§æ˜å¼¾ç™ºå°„è‰¦ [0]=å‘³æ–¹, [1]=æ•µ
+	api_hougeki			ï¼šå¤œé–“ç ²æ’ƒæˆ¦
+		api_at_list		ï¼šè¡Œå‹•é †?
+		api_df_list		ï¼šé˜²å¾¡å´IDã€€-1ã‹ã‚‰å§‹ã¾ã‚‹ã€€é€£æ’ƒã¯2å€‹
+		api_si_list		ï¼šè¡¨ç¤ºè£…å‚™IDã€€ã‚«ãƒƒãƒˆã‚¤ãƒ³ã ã¨[0]=åµå¯Ÿæ©Ÿ, [1]=ç ², [2]=ç ²|é›»æ¢|ãã®ä»–, é€£æ’ƒã ã¨[0]=è£…å‚™1, [1]=è£…å‚™2, é€šå¸¸ç ²æ’ƒã¯[0]=è£…å‚™1 éè¡¨ç¤ºã¯-1
+		api_cl_list		ï¼šã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ãƒ’ãƒƒãƒˆè¡¨ç¤ºï¼Ÿ
+		api_sp_list		ï¼šç‰¹æ®Šç ²æ’ƒãƒ•ãƒ©ã‚°ï¼Ÿ
+		api_damage		ï¼šãƒ€ãƒ¡ãƒ¼ã‚¸(å®Ÿãƒ€ãƒ¡ãƒ¼ã‚¸)
+
+
+api_req_combined_battle/sp_midnight		ï¼šé€£åˆè‰¦éšŠ é–‹å¹•å¤œæˆ¦
+	(å…¨ãƒ¡ãƒ³ãƒã‚’ api_req_combined_battle/midnight_battle ã‹ã‚‰ç¶™æ‰¿)
+	api_formation		ï¼šé™£å½¢ã€€æ˜¼æˆ¦ã®ãã‚Œã¨åŒã˜(ä½†ã—å‘³æ–¹é™£å½¢ã¯æ–‡å­—åˆ—å‹)
+
+
+api_req_combined_battle/battle_water	ï¼šé€£åˆè‰¦éšŠ-æ°´ä¸Šéƒ¨éšŠ æˆ¦é—˜
+	(å…¨ãƒ¡ãƒ³ãƒã‚’ api_req_combined_battle/battle ã‹ã‚‰ç¶™æ‰¿)
+	api_eSlot			ï¼šå­˜åœ¨ã™ã‚‹è‰¦ã®åˆ†ã®ã¿å­˜åœ¨
+	api_hougeki1		ï¼šç ²æ’ƒæˆ¦1å·¡ç›®(æ°´ä¸Šéƒ¨éšŠæœ¬éšŠ)
+	api_hougeki2		ï¼šç ²æ’ƒæˆ¦2å·¡ç›®(æ°´ä¸Šéƒ¨éšŠæœ¬éšŠ)
+	api_hougeki3		ï¼šç ²æ’ƒæˆ¦3å·¡ç›®(éšä¼´è‰¦éšŠ)
+	api_raigeki			ï¼šé›·æ’ƒæˆ¦
+
+
+api_req_combined_battle/battleresult	ï¼šé€£åˆè‰¦éšŠ æˆ¦é—˜çµæœ
+	api_ship_id					ï¼šæ•µè‰¦èˆ¹ID
+	api_win_rank				ï¼šå‹åˆ©ãƒ©ãƒ³ã‚¯
+	api_get_exp					ï¼šç²å¾—æç£çµŒé¨“å€¤
+	api_mvp						ï¼šMVP
+	api_mvp_combined			ï¼šéšä¼´è­·è¡›è‰¦éšŠMVP
+	api_member_lv				ï¼šè‰¦éšŠå¸ä»¤éƒ¨Lv.
+	api_member_exp				ï¼šæç£çµŒé¨“å€¤
+	api_get_base_exp			ï¼šç²å¾—åŸºæœ¬çµŒé¨“å€¤
+	api_get_ship_exp			ï¼šæ©Ÿå‹•éƒ¨éšŠæœ¬éšŠå„è‰¦ã®ç²å¾—çµŒé¨“å€¤ã€€ç²å¾—ä¸èƒ½ãªè‰¦(é€€é¿)ã¯-1ã€€æ’ƒæ²ˆã‚‚ï¼Ÿã€€-1(ãƒ€ãƒŸãƒ¼)ã‹ã‚‰å§‹ã¾ã‚‹
+	api_get_ship_exp_combined	ï¼šéšä¼´è­·è¡›è‰¦éšŠå„è‰¦ã®ç²å¾—çµŒé¨“å€¤
+	api_get_exp_lvup			ï¼šæ©Ÿå‹•éƒ¨éšŠæœ¬éšŠå„è‰¦ã®[0]ç²å¾—å‰çµŒé¨“å€¤, [1]æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤, (ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã—ãŸãªã‚‰)[2]ãã®æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤, ...
+	api_get_exp_lvup_combined	ï¼šéšä¼´è­·è¡›è‰¦éšŠå„è‰¦ã®[0]ç²å¾—å‰çµŒé¨“å€¤, [1]æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤, (ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã—ãŸãªã‚‰)[2]ãã®æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã®çµŒé¨“å€¤, ...
+	api_dests				ï¼š
+	api_destsf				ï¼š
+	api_lost_flag			ï¼šæ’ƒæ²ˆãƒ•ãƒ©ã‚°ï¼Ÿ
+	api_quest_name			ï¼šå‡ºæ’ƒæµ·åŸŸå
+	api_quest_level			ï¼šé›£æ˜“åº¦ï¼Ÿ
+	api_enemy_info			ï¼šæ•µè‰¦éšŠæƒ…å ±
+		api_level			ï¼š
+		api_rank			ï¼š
+		api_deck_name		ï¼šæ•µè‰¦éšŠå
+	api_first_clear			ï¼šåˆå›ã‚¯ãƒªã‚¢ãƒ•ãƒ©ã‚°
+	api_get_flag			ï¼š
+	api_get_ship			ï¼šãƒ‰ãƒ­ãƒƒãƒ—è‰¦æƒ…å ±
+		api_ship_id			ï¼šè‰¦èˆ¹ID
+		api_ship_type		ï¼šè‰¦ç¨®
+		api_ship_name		ï¼šè‰¦èˆ¹å
+		api_ship_getmes		ï¼šãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+	api_get_eventitem		ï¼šæµ·åŸŸæ”»ç•¥å ±é…¬
+		api_type			ï¼š1=æ±ç”¨ã‚¢ã‚¤ãƒ†ãƒ (å‹²ç« ç­‰), 2=è‰¦å¨˜, 3=è£…å‚™
+		api_id				ï¼šå„ç¨®ID
+		api_value			ï¼šå€‹æ•°ï¼Ÿ
+	api_get_exmap_rate		ï¼š
+	api_get_exmap_useitem_idï¼š
+	api_escape_flag			ï¼šé€€é¿è‰¦ã®æœ‰ç„¡
+	api_escape				ï¼šé€€é¿è‰¦
+		api_escape_idx		ï¼šé€€é¿è‰¦ã®ID
+		api_tow_idx			ï¼šè­·è¡›è‰¦ã®ID
+
+Request.api_req_combined_battle/goback_port		ï¼šè­·è¡›é€€é¿
+	(æƒ…å ±ãªã—)
+
+api_req_combined_battle/goback_port				ï¼šè­·è¡›é€€é¿
+	(æƒ…å ±ãªã—)				ï¼šé€€é¿ã—ãŸã¨ãã®ã¿å‘¼ã°ã‚Œã‚‹; é€€é¿è‰¦ç­‰ã®æƒ…å ±ã¯battleresultã«å«ã¾ã‚Œã¦ã„ã‚‹
+
+
+api_req_hensei/combined		ï¼šé€£åˆè‰¦éšŠçµæˆ
+	api_combined			ï¼šé€£åˆè‰¦éšŠãƒ•ãƒ©ã‚° 0=è§£éšŠ, 1=çµæˆ
+
+
+Request.api_req_mission/return_instruction		ï¼šé å¾ä¸­æ­¢/å¸°é‚„å‘½ä»¤
+	api_deck_id				ï¼šè‰¦éšŠID
+
+api_req_mission.return_instruction				ï¼šé å¾ä¸­æ­¢/å¸°é‚„å‘½ä»¤
+	api_mission				ï¼šé å¾çŠ¶æ³
+							[0]={0=æœªå‡ºæ’ƒ, 1=é å¾ä¸­, 2=é å¾å¸°æŠ•, 3=å¼·åˆ¶å¸°é‚„ä¸­}, [1]=é å¾å…ˆID, [2]=å¸°æŠ•æ™‚é–“, [3]=0
+
+
+api_req_kaisou/marriage		ï¼šã‚±ãƒƒã‚³ãƒ³ã‚«ãƒƒã‚³ã‚«ãƒª
+	api_data				ï¼šport.api_shipã¨åŒã˜ã€€è©²å½“è‰¦ã®ã¿
+
+
+api_get_member/payitem		ï¼šä¿æœ‰èª²é‡‘ã‚¢ã‚¤ãƒ†ãƒ (å–ã‚Šå‡ºã™å‰ã®ã‚¢ã‚¤ãƒ†ãƒ )ã€€æœªä¿æœ‰æ™‚ã¯null
+	api_payitem_id			ï¼šã‚¢ã‚¤ãƒ†ãƒ IDã€€æ–‡å­—åˆ—ã€€æŒ‡è¼ª=20
+	api_type				ï¼š
+	api_name				ï¼šåå‰
+	api_description			ï¼šèª¬æ˜
+	api_price				ï¼šä¾¡æ ¼
+	api_count				ï¼šå€‹æ•°ï¼Ÿ
+
+
+Request.api_req_member/payitemuse	ï¼šèª²é‡‘ã‚¢ã‚¤ãƒ†ãƒ ä½¿ç”¨
+	api_payitem_id			ï¼šä½¿ç”¨ã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ID
+	api_force_flag			ï¼š
+
+
+Request.api_req_member/itemuse		ï¼šã‚¢ã‚¤ãƒ†ãƒ ä½¿ç”¨
+	api_exchange_type		ï¼šå‹²ç« ã®ã¿å­˜åœ¨ï¼Ÿã€€1=è¨­è¨ˆå›³ã¨äº¤æ›
+	api_useitem_id			ï¼šä½¿ç”¨ã—ãŸã‚¢ã‚¤ãƒ†ãƒ ã®ID
+	api_force_flag			ï¼š
+
+api_req_member/itemuse				ï¼šã‚¢ã‚¤ãƒ†ãƒ ä½¿ç”¨
+	api_caution_flag	ï¼š0
+	api_flag			ï¼š1
+	api_getitem			ï¼šå…¥æ‰‹ã‚¢ã‚¤ãƒ†ãƒ 
+		api_usemst		ï¼š? è¨­è¨ˆå›³=6
+		api_mst_id		ï¼šID
+		api_getcount	ï¼šå…¥æ‰‹å€‹æ•°
+
+
+api_req_furniture/music_list	ï¼šã‚¸ãƒ¥ãƒ¼ã‚¯ãƒœãƒƒã‚¯ã‚¹ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	api_id			ï¼šãƒªã‚¹ãƒˆå†…é€šã—ç•ªå·
+	api_name		ï¼šæ›²å
+	api_description	ï¼šèª¬æ˜æ–‡
+	api_bgm_id		ï¼šBGMIDï¼Ÿ
+	api_use_coin	ï¼šå¿…è¦ãªå®¶å…·ã‚³ã‚¤ãƒ³é‡
+	api_bgm_flag	ï¼šç¾åœ¨ã®æ¯æ¸¯BGMã‹ã©ã†ã‹
+
+api_req_furniture/music_play	ï¼šã‚¸ãƒ¥ãƒ¼ã‚¯ãƒœãƒƒã‚¯ã‚¹å†ç”Ÿ
+	api_coin		ï¼šç¾åœ¨ã®å®¶å…·ã‚³ã‚¤ãƒ³
+
+Request.api_req_furniture/set_portbgm	ï¼šæ¯æ¸¯BGMè¨­å®š
+	api_music_id	ï¼šBGMID
+
+api_req_furniture/set_portbgm	ï¼šæ¯æ¸¯BGMè¨­å®š
+	(æƒ…å ±ãªã—)
+
+
+Request.api_req_member/itemuse_cond		ï¼šçµ¦ç³§è‰¦ä½¿ç”¨
+	api_use_type		ï¼šä½¿ç”¨ã™ã‚‹çµ¦ç³§è‰¦ 1=é–“å®®, 2=ä¼Šè‰¯æ¹–, 3=é–“å®®&ä¼Šè‰¯æ¹–
+	api_deck_id			ï¼šè‰¦éšŠç•ªå·
+
+api_req_member/itemuse_cond		ï¼šçµ¦ç³§è‰¦ä½¿ç”¨
+	(æƒ…å ±ãªã—)
+
+
+Request.api_req_map/select_eventmap_rank	ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸé›£æ˜“åº¦é¸æŠ
+	api_maparea_id	ï¼šæµ·åŸŸç•ªå·
+	api_map_no		ï¼šã€ƒ
+	api_rank		ï¼šé›£æ˜“åº¦ 1=ä¸™, 2=ä¹™, 3=ç”²
+
+api_req_map/select_eventmap_rank	ï¼šã‚¤ãƒ™ãƒ³ãƒˆæµ·åŸŸé›£æ˜“åº¦é¸æŠ
+	(æƒ…å ±ãªã—)
+
+
+â—‡APIãŒå‘¼ã°ã‚Œã‚‹é †ç•ª
+
+ã€Šãƒ­ã‚°ã‚¤ãƒ³ã€‹
 api_start2
 api_req_member/get_incentive
 api_get_member/basic
@@ -1619,79 +1619,79 @@ api_get_member/kdock
 api_get_member/unsetslot
 api_port/port
 
-¡¶³ö“Ä¡·
-[³ö“Äßx’k]
+ã€Šå‡ºæ’ƒã€‹
+[å‡ºæ’ƒé¸æŠ]
 api_get_member/mapinfo
-[³ö“Ä]
+[å‡ºæ’ƒ]
 api_get_member/mapcell
 api_req_map/start
-[‘éêL-Öç‘é]
+[æˆ¦é—˜-æ˜¼æˆ¦]
 api_req_sortie/battle
-[Ò¹‘é]
+[å¤œæˆ¦]
 api_req_battle_midnight/battle
-[‘éêL½KÁË]
+[æˆ¦é—˜çµ‚äº†]
 api_req_sortie/battleresult
-[ßM“Ä]
+[é€²æ’ƒ]
 api_get_member/ship_deck
 api_req_map/next
-[¢Í¶]
+[å¸°æŠ•]
 api_get_member/slot_item
 api_get_member/unsetslot
 api_get_member/useitem
 api_port/port
 
 
-¡¶ßhÕ÷¡·
-[³ö“Ä]
+ã€Šé å¾ã€‹
+[å‡ºæ’ƒ]
 api_get_member/mission
 api_req_mission/start
 api_get_member/deck
-[¢Í¶]
+[å¸°æŠ•]
 api_req_mission/result
 api_port/port
 api_get_member/useitem
 
-¡¶ÈëÇş¡·
+ã€Šå…¥æ¸ ã€‹
 api_req_nyukyo/start
-api_get_member/ndock	£¨¥Ğ¥±¥Ä·ÇÊ¹ÓÃ•r¤Î¤ß£©
+api_get_member/ndock	ï¼ˆãƒã‚±ãƒ„éä½¿ç”¨æ™‚ã®ã¿ï¼‰
 
-¡¶ÈëÇşÍêÁË¡·
-api_get_member/ndock	(¡¸ÈëÇş¡¹»­Ãæ¤ÇÈëÇşÍêÁË•rég¤Ëß_¤¹¤ë¤È×Ô„ÓµÄ¤Ëºô¤Ğ¤ì¤ë)
+ã€Šå…¥æ¸ å®Œäº†ã€‹
+api_get_member/ndock	(ã€Œå…¥æ¸ ã€ç”»é¢ã§å…¥æ¸ å®Œäº†æ™‚é–“ã«é”ã™ã‚‹ã¨è‡ªå‹•çš„ã«å‘¼ã°ã‚Œã‚‹)
 
-¡¶¸Ä×°¡·
+ã€Šæ”¹è£…ã€‹
 api_req_kaisou/remodeling
 api_get_member/ship3
 api_get_member/slot_item
 api_get_member/material
 
-¡¶×°‚ä“Q×°¡·
-[“Q×°]
+ã€Šè£…å‚™æ›è£…ã€‹
+[æ›è£…]
 api_req_kaisou/slotset
 api_get_member/ship3
-[×°‚äÈ«½â³ı]
+[è£…å‚™å…¨è§£é™¤]
 api_req_kaisou/unsetslot_all
 api_get_member/ship3
 
-¡¶Å´¬½¨Ôì¡·
+ã€Šè‰¦èˆ¹å»ºé€ ã€‹
 api_req_kousyou/createship
 api_get_member/kdock
 api_get_member/material
 
-¡¶ÈÎ„Õˆó³êÊÜîI¡·
+ã€Šä»»å‹™å ±é…¬å—é ˜ã€‹
 api_req_quest/clearitemget
-api_get_member/material		(ÙYÔ´«@µÃ•r)
-api_get_member/useitem		(¥¢¥¤¥Æ¥à«@µÃ•r)
-api_get_member/slot_item	(×°‚ä«@µÃ•r)
-api_get_member/unsetslot	(×°‚ä«@µÃ•r)
+api_get_member/material		(è³‡æºç²å¾—æ™‚)
+api_get_member/useitem		(ã‚¢ã‚¤ãƒ†ãƒ ç²å¾—æ™‚)
+api_get_member/slot_item	(è£…å‚™ç²å¾—æ™‚)
+api_get_member/unsetslot	(è£…å‚™ç²å¾—æ™‚)
 api_get_member/questlist
 
 
-¡¶¥±¥Ã¥³¥ó¥«¥Ã¥³¥«¥ê¡·
+ã€Šã‚±ãƒƒã‚³ãƒ³ã‚«ãƒƒã‚³ã‚«ãƒªã€‹
 api_req_kaisou/marriage
 api_get_member/ship2
 api_get_member/useitem
 
-¡¶½o¼ZÅÊ¹ÓÃ¡·
+ã€Šçµ¦ç³§è‰¦ä½¿ç”¨ã€‹
 api_req_member/itemuse_cond
 api_get_member/ship2
 api_get_member/useitem

@@ -21,5 +21,4 @@ public class DutyServiceImplTest {
         Duty duty = dutyService.getDutyByNo(1);
         Assert.assertNotNull(duty);
     }
-
 }

@@ -12,11 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
@@ -30,6 +32,7 @@ import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberKdockService;
@@ -61,6 +64,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberKdockService memberKdockService;
+
+    @Autowired
+    private MemberDutyService memberDutyService;
 
     @Autowired
     private PortDao portDao;
@@ -152,5 +158,11 @@ public class GetMemberController {
     public APIResponse<List<MemberMeterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
         List<MemberMeterialDto> api_data = portDao.getMaterial(member_id);
         return new APIResponse<List<MemberMeterialDto>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/questlist")
+    public APIResponse<MemberDutyList> dutyList(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_page_no") int pageNum) {
+        MemberDutyList api_data = memberDutyService.getMemberDutyList(member_id, pageNum);
+        return new APIResponse<MemberDutyList>().setApi_data(api_data);
     }
 }

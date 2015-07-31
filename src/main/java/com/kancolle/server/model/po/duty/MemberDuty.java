@@ -9,60 +9,92 @@ import com.alibaba.fastjson.annotation.JSONField;
 @Alias("MemberDuty")
 public class MemberDuty implements Serializable {
 
-    private static final long serialVersionUID = -4807950044590774159L;
+    /** 未受領 **/
+    public static final int STATE_AVILABLE = 1;
+
+    /** 遂行中 **/
+    public static final int STATE_PROCESSING = 2;
+
+    /** 達成 **/
+    public static final int STATE_FINISH = 3;
+
+    private static final long serialVersionUID = 4233366344226823086L;
+
+    @JSONField(serialize = false, deserialize = false)
+    private Duty duty;
+
+    @JSONField(serialize = false, deserialize = false)
+    private String memberId;
 
     @JSONField(name = "api_no", ordinal = 1)
-    private int no;
+    private int dutyNo;
 
     @JSONField(name = "api_category", ordinal = 2)
-    private int category;
+    public int gerCategory() {
+        return getDuty().getCategory();
+    }
 
     @JSONField(name = "api_type", ordinal = 3)
-    private int type;
+    public int getType() {
+        return getDuty().getType();
+    }
 
-    @JSONField(name = "api_title", ordinal = 4)
+    @JSONField(name = "api_state", ordinal = 4)
     private int state;
 
     @JSONField(name = "api_title", ordinal = 5)
-    private String title;
+    public String getTitle() {
+        return getDuty().getTitle();
+    }
 
     @JSONField(name = "api_detail", ordinal = 6)
-    private String detail;
+    public String getDetail() {
+        return getDuty().getDetail();
+    }
 
     @JSONField(name = "api_get_material", ordinal = 7)
-    private int[] getMaterial;
+    public int[] getMaterial() {
+        return getDuty().getMaterial();
+    }
 
     @JSONField(name = "api_bonus_flag", ordinal = 8)
-    private int bonusFlag;
+    public int getBonusFlag() {
+        return getDuty().getBonusFlag();
+    }
 
     @JSONField(name = "api_progress_flag", ordinal = 9)
     private int progressFlag;
 
     @JSONField(name = "api_invalid_flag", ordinal = 10)
-    private int invalidFlag;
-
-    public int getNo() {
-        return no;
+    public int getInvalidFlag() {
+        return getDuty().getInvalidFlag();
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    @JSONField(serialize = false, deserialize = false)
+    private int counter;
+
+    public String getMemberId() {
+        return memberId;
     }
 
-    public int getCategory() {
-        return category;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
-    public void setCategory(int category) {
-        this.category = category;
+    public int getDutyNo() {
+        return dutyNo;
     }
 
-    public int getType() {
-        return type;
+    public void setDutyNo(int dutyNo) {
+        this.dutyNo = dutyNo;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public Duty getDuty() {
+        return duty;
+    }
+
+    public void setDuty(Duty duty) {
+        this.duty = duty;
     }
 
     public int getState() {
@@ -73,38 +105,6 @@ public class MemberDuty implements Serializable {
         this.state = state;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public int[] getGetMaterial() {
-        return getMaterial;
-    }
-
-    public void setGetMaterial(int[] getMaterial) {
-        this.getMaterial = getMaterial;
-    }
-
-    public int getBonusFlag() {
-        return bonusFlag;
-    }
-
-    public void setBonusFlag(int bonusFlag) {
-        this.bonusFlag = bonusFlag;
-    }
-
     public int getProgressFlag() {
         return progressFlag;
     }
@@ -113,19 +113,20 @@ public class MemberDuty implements Serializable {
         this.progressFlag = progressFlag;
     }
 
-    public int getInvalidFlag() {
-        return invalidFlag;
+    public int getCounter() {
+        return counter;
     }
 
-    public void setInvalidFlag(int invalidFlag) {
-        this.invalidFlag = invalidFlag;
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + no;
+        result = prime * result + dutyNo;
+        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
         return result;
     }
 
@@ -138,13 +139,18 @@ public class MemberDuty implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         MemberDuty other = (MemberDuty) obj;
-        if (no != other.no)
+        if (dutyNo != other.dutyNo)
+            return false;
+        if (memberId == null) {
+            if (other.memberId != null)
+                return false;
+        } else if (!memberId.equals(other.memberId))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "MemberDuty [title=" + title + ", state=" + state + "]";
+        return "MemberDuty [duty=" + duty + ", memberId=" + memberId + "]";
     }
 }

@@ -1,8 +1,9 @@
-package com.kancolle.server.dao.duty;
+package com.kancolle.server.dao.duty.impl;
 
 import org.springframework.stereotype.Repository;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
+import com.kancolle.server.dao.duty.DutyDao;
 import com.kancolle.server.model.po.duty.Duty;
 
 @Repository

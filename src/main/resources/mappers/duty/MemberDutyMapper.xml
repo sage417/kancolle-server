@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.duty.MemberDutyDao">
+
+	<resultMap type="MemberDuty" id="MemberDutyRM" autoMapping="true">
+		<id property="memberId" column="member_id"/>
+		<id property="dutyNo" column="duty_no"/>
+		<id property="state" column="state"/>
+		<id property="progressFlag" column="process_flag"/>
+		<association property="duty" column="duty_no" select="com.kancolle.server.dao.duty.DutyDao.selectDutyById"/>
+	</resultMap>
+	
+	<select id="selectMemberDutys" resultMap="MemberDutyRM">
+		SELECT * FROM t_member_duty WHERE member_id = #{member_id}
+	</select>
+
+	<select id="selectMemberDutyByCond" resultMap="MemberDutyRM">
+		SELECT * FROM t_member_duty WHERE member_id = #{member_id} AND duty_no = #{quest_id}
+	</select>
+	
+	<update id="" parameterType="MemberDuty">
+		UPDATE t_member_duty
+			SET state = #{state},
+			SET process_flag = #{progressFlag},
+			SET counter = #{counter}
+		WHERE member_id = #{memberId} AND duty_no = #{dutyNo}
+	</update>
+</mapper>
