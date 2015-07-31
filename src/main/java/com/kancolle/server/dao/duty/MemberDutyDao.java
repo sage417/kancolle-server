@@ -9,8 +9,10 @@ public interface MemberDutyDao extends BaseDao<MemberDuty> {
 
     List<MemberDuty> selectMemberDutys(String member_id, int pageNum, int pageSize);
 
+    List<MemberDuty> selectMembersDutyByState(String member_id, int state);
+
     MemberDuty selectMemberDutyByCond(String member_id, Integer quest_id);
 
-    int selectCountOfMemberDutyByState(String member_id, int stateProcessing);
+    int selectCountOfMemberDutysByState(String member_id, int stateProcessing);
 
 }

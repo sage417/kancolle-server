@@ -7,6 +7,8 @@ import org.apache.ibatis.type.Alias;
 @Alias("Duty")
 public class Duty implements Serializable {
 
+    public static final int OPERATE_TYPE_POWUP = 1;
+
     private static final long serialVersionUID = 5910310852645358322L;
 
     private int no;
@@ -18,6 +20,8 @@ public class Duty implements Serializable {
     private String title;
 
     private String detail;
+
+    private int operate;
 
     private int[] material;
 
@@ -69,6 +73,14 @@ public class Duty implements Serializable {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public int getOperate() {
+        return operate;
+    }
+
+    public void setOperate(int operate) {
+        this.operate = operate;
     }
 
     public int[] getMaterial() {

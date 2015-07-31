@@ -27,11 +27,11 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
     }
 
     @Override
-    public int selectCountOfMemberDutyByState(String member_id, int state) {
+    public int selectCountOfMemberDutysByState(String member_id, int state) {
         Map<String, Object> params = newHashMap();
         params.put("member_id", member_id);
         params.put("state", state);
-        return getSqlSession().selectOne("selectCountOfMemberDutyByState", params);
+        return getSqlSession().selectOne("selectCountOfMemberDutysByState", params);
     }
 
     @Override
@@ -40,5 +40,13 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
         params.put("member_id", member_id);
         params.put("quest_id", quest_id);
         return getSqlSession().selectOne("selectMemberDutyByCond", params);
+    }
+
+    @Override
+    public List<MemberDuty> selectMembersDutyByState(String member_id, int state) {
+        Map<String, Object> params = newHashMap();
+        params.put("member_id", member_id);
+        params.put("state", state);
+        return getSqlSession().selectList("selectMemberDutysByState", params);
     }
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.mission.impl;
+package com.kancolle.server.service.mission.resultchecker;
 
 import org.springframework.stereotype.Component;
 

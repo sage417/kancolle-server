@@ -26,7 +26,11 @@
 		SELECT * FROM t_member_duty WHERE member_id = #{member_id} AND duty_no = #{quest_id}
 	</select>
 	
-	<select id="selectCountOfMemberDutyByState" resultType="_int">
+	<select id="selectCountOfMemberDutysByState" resultType="_int">
 		SELECT COUNT(*) FROM t_member_duty WHERE member_id = #{member_id} AND state = #{state}
+	</select>
+	
+	<select id="selectMemberDutysByState" resultMap="MemberDutyRM">
+		SELECT * FROM t_member_duty WHERE member_id = #{member_id} AND state = #{state}
 	</select>
 </mapper>

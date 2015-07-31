@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.ContextLoader;
 
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
@@ -34,7 +35,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.service.mission.MissionResultCheckerFactory;
+import com.kancolle.server.service.mission.MissionResultChecker;
 import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.mission.utils.MissionCondResult;
 import com.kancolle.server.service.mission.utils.MissionUtils;
@@ -122,7 +123,7 @@ public class MissionServiceImpl implements MissionService {
         int ship_exp = missionExp.getShipExp();
         int member_exp = missionExp.getMemberExp();
 
-        MissionCondResult mr = MissionResultCheckerFactory.getMissionResultChecker(mission.getMissionId()).getResult(deckport);
+        MissionCondResult mr = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
 
         switch (mr) {
         case CALL_BACK:
