@@ -158,7 +158,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         Resource memberResource = memberResourceService.getMemberResouce(member_id);
 
         if (success) {
-            MemberSlotItem createItem = memberSlotItemDao.createMemberSlotItem(member_id, targetSlotItem.getSlotItemId());
+            MemberSlotItem createItem = createSlotItem(member_id, targetSlotItem.getSlotItemId());
             List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
             long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
                     .toArray();
@@ -166,6 +166,11 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         } else {
             return new CreateItemResult(CreateItemResult.CREATE_FAIL, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
         }
+    }
+
+    @Override
+    public MemberSlotItem createSlotItem(String member_id, int slotitem_id) {
+        return memberSlotItemDao.createMemberSlotItem(member_id, slotitem_id);
     }
 
     @Override

@@ -23,4 +23,6 @@ public interface MemberDeckPortDao extends BaseDao<MemberDeckPort> {
     void updateMemberDeckPortShip(MemberDeckPort targetDeck);
 
     void updateDeckPortMission(MemberDeckPort deckport);
+
+    void updateDeckPortState(String member_id, Integer deckport_id, boolean lock);
 }

@@ -155,7 +155,10 @@ public class MemberServiceImpl implements MemberService {
         memberDao.updateMemberToken(member_id, token);
     }
 
-    public static void main(String[] args) {
-        System.out.println(StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY));
+    @Override
+    public void openLargeBuild(String member_id) {
+        Member member = getMember(member_id);
+        member.setLargeDock(true);
+        updateMember(member);
     }
 }

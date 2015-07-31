@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.member.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.model.po.resource.Resource.MAX_METERIAL_VALUE;
 import static com.kancolle.server.model.po.resource.Resource.MAX_RESOURCE_VALUE;
 
@@ -35,8 +36,8 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
         Resource resource = getMemberResouce(member_id);
-        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite)
-                && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild) && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
+        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite) && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild)
+                && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
             // TODO LOG
             throw new IllegalArgumentException();
         }
@@ -44,8 +45,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     }
 
     @Override
-    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
-            int increaseEhItem) {
+    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
         Resource resource = getMemberResouce(member_id);
 
         if (resource.getFuel() + increaseFuel > MAX_RESOURCE_VALUE) {
@@ -85,10 +85,17 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     public void increaseMaterial(String member_id, int[] increaseMaterials) {
+        increaseMaterial(member_id, increaseMaterials, new int[] { 0, 0, 0, 0 });
+    }
+
+    @Override
+    public void increaseMaterial(String member_id, int[] increaseMaterials, int[] increaseItems) {
         for (int value : increaseMaterials) {
-            if (value < 0)
-                throw new IllegalArgumentException();
+            checkArgument(value >= 0);
         }
-        increaseResource(member_id, increaseMaterials[0], increaseMaterials[1], increaseMaterials[2], increaseMaterials[3], 0, 0, 0, 0);
+        for (int value : increaseItems) {
+            checkArgument(value >= 0);
+        }
+        increaseResource(member_id, increaseMaterials[0], increaseMaterials[1], increaseMaterials[2], increaseMaterials[3], increaseItems[0], increaseItems[1], increaseItems[2], increaseItems[3]);
     }
 }

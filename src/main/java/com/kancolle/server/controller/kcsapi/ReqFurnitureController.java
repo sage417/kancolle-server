@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
@@ -25,7 +26,6 @@ import com.kancolle.server.service.furniture.MemberFurnitureService;
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_furniture", method = RequestMethod.POST)
 public class ReqFurnitureController {
-    private static final APIResponse<Object> SUCCESS_RESPONSE = new APIResponse<Object>();
 
     @Autowired
     private MemberFurnitureService memberFurnitureService;
@@ -41,7 +41,7 @@ public class ReqFurnitureController {
         }
 
         memberFurnitureService.buyFurniture(member_id, form);
-        return SUCCESS_RESPONSE;
+        return DEFAULT_RESPONSE;
     }
 
     @RequestMapping("/change")
@@ -52,7 +52,7 @@ public class ReqFurnitureController {
         }
 
         memberFurnitureService.changeFurniture(member_id, form);
-        return SUCCESS_RESPONSE;
+        return DEFAULT_RESPONSE;
     }
     
     @RequestMapping("/music_list")

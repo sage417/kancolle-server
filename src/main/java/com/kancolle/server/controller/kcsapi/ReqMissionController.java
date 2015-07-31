@@ -22,6 +22,7 @@ import com.kancolle.server.service.mission.MissionService;
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_mission", method = RequestMethod.POST)
 public class ReqMissionController {
+
     @Autowired
     private MissionService missionService;
 

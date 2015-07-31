@@ -99,11 +99,16 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
         }
 
         try {
-            memberFurnitureDao.insertMemberFurniture(member_id, furnitureId);
+            createMemberFurniture(member_id, furnitureId);
         } catch (RuntimeException e) {
             LOGGER.warn("Id:{} 购买家具失败，原因：{}", member_id, e.getMessage(), e);
             throw e;
         }
+    }
+
+    @Override
+    public void createMemberFurniture(String member_id, Integer furniture_id) {
+        memberFurnitureDao.insertMemberFurniture(member_id, furniture_id);
     }
 
     @Override

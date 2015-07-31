@@ -95,7 +95,8 @@
 			typeHandler=IntJsonArrayHanlder},
 			medals=#{medals},
 			p_bgm_id=#{portBGMId},
-			parallel_quest_count=#{parallelQuestCount}
+			parallel_quest_count=#{parallelQuestCount},
+			largeDock=#{large_dock}
 		WHERE
 			member_id = #{memberId}
 	</update>

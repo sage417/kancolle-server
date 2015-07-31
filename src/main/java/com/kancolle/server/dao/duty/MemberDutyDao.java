@@ -15,4 +15,8 @@ public interface MemberDutyDao extends BaseDao<MemberDuty> {
 
     int selectCountOfMemberDutysByState(String member_id, int stateProcessing);
 
+    void deleteDuty(MemberDuty duty);
+
+    void insertAfterDutys(MemberDuty duty);
+
 }

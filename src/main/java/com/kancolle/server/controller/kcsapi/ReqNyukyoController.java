@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
+import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import com.kancolle.server.service.member.MemberNdockService;
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_nyukyo", method = RequestMethod.POST)
 public class ReqNyukyoController {
-    private static final APIResponse<Object> RESPONSE = new APIResponse<Object>();
 
     @Autowired
     private MemberNdockService memberNdockService;
@@ -36,12 +36,12 @@ public class ReqNyukyoController {
         }
 
         memberNdockService.start(member_id, form);
-        return RESPONSE;
+        return DEFAULT_RESPONSE;
     }
 
     @RequestMapping("/speedchange")
     public APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) String member_id, int api_ndock_id) {
         memberNdockService.speedchange(member_id, api_ndock_id);
-        return RESPONSE;
+        return DEFAULT_RESPONSE;
     }
 }

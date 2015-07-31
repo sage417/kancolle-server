@@ -49,4 +49,14 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
         params.put("state", state);
         return getSqlSession().selectList("selectMemberDutysByState", params);
     }
+
+    @Override
+    public void deleteDuty(MemberDuty duty) {
+        getSqlSession().delete("deleteDuty", duty);
+    }
+
+    @Override
+    public void insertAfterDutys(MemberDuty duty) {
+        getSqlSession().insert("insertAfterDutys", duty);
+    }
 }

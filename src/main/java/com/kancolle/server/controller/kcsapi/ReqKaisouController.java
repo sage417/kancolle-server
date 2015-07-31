@@ -33,10 +33,13 @@ import com.kancolle.server.service.slotitem.MemberSlotItemService;
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_kaisou", method = RequestMethod.POST)
 public class ReqKaisouController {
+
     @Autowired
     private MemberShipService memberShipService;
+
     @Autowired
     private MemberSlotItemService memberSlotItemService;
+
     @Autowired
     private EventBus eventBus;
 

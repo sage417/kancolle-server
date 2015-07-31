@@ -59,7 +59,7 @@ public class MemberDuty implements Serializable {
 
     @JSONField(name = "api_bonus_flag", ordinal = 8)
     public int getBonusFlag() {
-        return getDuty().getBonusFlag();
+        return getDuty().getBonusFlag() == Duty.BONUS_TYPE_SHIP ? 2 : 1;
     }
 
     @JSONField(name = "api_progress_flag", ordinal = 9)

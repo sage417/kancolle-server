@@ -10,6 +10,7 @@ import static com.kancolle.server.model.po.duty.MemberDuty.STATE_PROCESSING;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,14 +19,29 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 
 import com.github.pagehelper.Page;
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.kancolle.server.dao.duty.MemberDutyDao;
 import com.kancolle.server.model.event.PowUpEvent;
+import com.kancolle.server.model.kcsapi.duty.DutyBouns;
+import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
+import com.kancolle.server.model.po.duty.Duty;
 import com.kancolle.server.model.po.duty.MemberDuty;
+import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.duty.DutyResultChecker;
 import com.kancolle.server.service.duty.MemberDutyService;
+import com.kancolle.server.service.furniture.MemberFurnitureService;
+import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.slotitem.MemberSlotItemService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
+import com.kancolle.server.service.useitem.UseItemService;
 
 @Service
 public class MemberDutyServiceImpl implements MemberDutyService {
@@ -36,7 +52,31 @@ public class MemberDutyServiceImpl implements MemberDutyService {
     }
 
     @Autowired
-    MemberDutyDao memberDutyDao;
+    private MemberDutyDao memberDutyDao;
+
+    @Autowired
+    private MemberResourceService memberResourceService;
+
+    @Autowired
+    private UseItemService useItemService;
+
+    @Autowired
+    private MemberUseItemService memberUseItemService;
+
+    @Autowired
+    private MemberDeckPortService memberDeckPortService;
+
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private MemberShipService memberShipService;
+
+    @Autowired
+    private MemberSlotItemService memberSlotItemService;
+
+    @Autowired
+    private MemberFurnitureService memberFurnitureService;
 
     @Override
     public MemberDutyList getMemberDutyList(String member_id, int pageNum) {
@@ -91,5 +131,102 @@ public class MemberDutyServiceImpl implements MemberDutyService {
             }
             memberDutyDao.update(memberDuty);
         }
+    }
+
+    private void addResource(int[] increaseItems, int[] winItem) {
+        switch (winItem[0]) {
+        case 5:
+            increaseItems[1] = winItem[1];
+            break;
+        case 6:
+            increaseItems[0] = winItem[1];
+            break;
+        case 7:
+            increaseItems[2] = winItem[1];
+            break;
+        case 8:
+            increaseItems[3] = winItem[1];
+            break;
+        default:
+            break;
+        }
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
+    public DutyItemGetResult clearitemget(String member_id, Integer quest_id) {
+        MemberDuty memberDuty = getMemberDuty(member_id, quest_id);
+        Duty duty = memberDuty.getDuty();
+
+        List<DutyBouns> api_bounus = Lists.newArrayListWithCapacity(2);
+        int[] increaseItems = new int[] { 0, 0, 0, 0 };
+
+        switch (duty.getBonusFlag()) {
+        case Duty.BONUS_TYPE_RESOURCE:
+            // 5高速建造,6高速修复,7开发紫菜,8修改资材
+            int[] winItem1 = duty.getWinItem1();
+            int[] winItem2 = duty.getWinItem2();
+            if (winItem1[0] != 0 && winItem1[1] > 0) {
+                addResource(increaseItems, winItem1);
+                Integer useitem_id = Integer.valueOf(winItem1[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem1[1], winItem1[0], useitem.getName()));
+            }
+            if (winItem2[0] != 0 && winItem2[1] > 0) {
+                addResource(increaseItems, winItem2);
+                Integer useitem_id = Integer.valueOf(winItem2[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem2[1], winItem2[0], useitem.getName()));
+            }
+            break;
+        case Duty.BONUS_TYPE_ITEM:
+        case Duty.BONUS_TYPE_FURNITUREBOX:
+            winItem1 = duty.getWinItem1();
+            if (winItem1[0] != 0 && winItem1[1] > 0) {
+                Integer useitem_id = Integer.valueOf(winItem1[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId() - 4, winItem1[1]);
+                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem1[1], winItem1[0], useitem.getName()));
+            }
+            winItem2 = duty.getWinItem2();
+            if (winItem2[0] != 0 && winItem2[1] > 0) {
+                Integer useitem_id = Integer.valueOf(winItem2[0]);
+                UseItem useitem = useItemService.getUseItemById(useitem_id);
+                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId() - 4, winItem2[1]);
+                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem2[1], winItem2[0], useitem.getName()));
+            }
+            break;
+        case Duty.BONUS_TYPE_DECKPORT:
+            Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
+            memberDeckPortService.openDeckPort(member_id, deckport_id);
+            break;
+        case Duty.BONUS_TYPE_LARGEBUILD:
+            memberService.openLargeBuild(member_id);
+            break;
+        case Duty.BONUS_TYPE_SHIP:
+            MemberShip ship = memberShipService.createShip(member_id, duty.getBonusItemId());
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, duty.getBonusItemId(), StringUtils.EMPTY));
+            break;
+        case Duty.BONUS_TYPE_SLOT:
+            MemberSlotItem slotitem = memberSlotItemService.createSlotItem(member_id, duty.getBonusItemId());
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, duty.getBonusItemId(), StringUtils.EMPTY));
+            break;
+        case Duty.BONUS_TYPE_FURNITURE:
+            Integer furniture_id = Integer.valueOf(duty.getBonusItemId());
+            memberFurnitureService.createMemberFurniture(member_id, furniture_id);
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, duty.getBonusItemId(), StringUtils.EMPTY));
+            break;
+        case Duty.BONUS_TYPE_FLIGHT:
+            break;
+        default:
+            break;
+        }
+        // 獲得獎勵
+        memberResourceService.increaseMaterial(member_id, duty.getMaterial(), increaseItems);
+        // 刪除完成任務
+        // memberDutyDao.deleteDuty(memberDuty);
+        // 插入後續任務
+        // memberDutyDao.insertAfterDutys(memberDuty);
+        return new DutyItemGetResult(duty.getMaterial(), api_bounus.size(), api_bounus);
     }
 }

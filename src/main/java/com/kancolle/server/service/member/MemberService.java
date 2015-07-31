@@ -32,4 +32,6 @@ public interface MemberService {
     void updateMember(Member member);
 
     void updateMemberToken(String member_id);
+
+    void openLargeBuild(String member_id);
 }

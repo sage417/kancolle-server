@@ -36,4 +36,6 @@ public interface MemberDeckPortService {
     void swapDeckPortShip(MemberDeckPort targetDeck, MemberDeckPort otherDock, int ship_idx, MemberShip memberShip);
 
     void updateDeckPortMission(MemberDeckPort deckport);
+
+    void openDeckPort(String member_id, Integer deckport_id);
 }

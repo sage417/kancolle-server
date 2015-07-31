@@ -11,6 +11,33 @@ public class Duty implements Serializable {
 
     private static final long serialVersionUID = 5910310852645358322L;
 
+    /** 資源獎勵 */
+    public static final int BONUS_TYPE_RESOURCE = 1;
+
+    /** 舰队开放 */
+    public static final int BONUS_TYPE_DECKPORT = 2;
+
+    /** 家具箱 */
+    public static final int BONUS_TYPE_FURNITUREBOX = 3;
+
+    /** 开放大型建造 */
+    public static final int BONUS_TYPE_LARGEBUILD = 4;
+
+    /** 舰娘奖励 */
+    public static final int BONUS_TYPE_SHIP = 11;
+
+    /** 装备奖励 */
+    public static final int BONUS_TYPE_SLOT = 12;
+
+    /** 物品奖励 */
+    public static final int BONUS_TYPE_ITEM = 13;
+
+    /** 家具奖励 */
+    public static final int BONUS_TYPE_FURNITURE = 14;
+
+    /** 机种转换 */
+    public static final int BONUS_TYPE_FLIGHT = 15;
+
     private int no;
 
     private int category;
@@ -21,11 +48,14 @@ public class Duty implements Serializable {
 
     private String detail;
 
+    /** 用于识别哪些任务与之对应 */
     private int operate;
 
     private int[] material;
 
     private int bonusFlag;
+
+    private int bonusItemId;
 
     private int invalidFlag;
 
@@ -97,6 +127,14 @@ public class Duty implements Serializable {
 
     public void setBonusFlag(int bonusFlag) {
         this.bonusFlag = bonusFlag;
+    }
+
+    public int getBonusItemId() {
+        return bonusItemId;
+    }
+
+    public void setBonusItemId(int bonusItemId) {
+        this.bonusItemId = bonusItemId;
     }
 
     public int getInvalidFlag() {

@@ -29,6 +29,7 @@ import com.kancolle.server.service.member.MemberService;
 @ControllerAdvice
 public class AdviceController {
     private static final Logger logger = LoggerFactory.getLogger(AdviceController.class);
+    public static final APIResponse<Object> DEFAULT_RESPONSE = new APIResponse<>();
 
     private static final String API_TOKEN = "api_token";
     private static final String API_VERNO = "api_verno";

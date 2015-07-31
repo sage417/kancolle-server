@@ -27,5 +27,7 @@ public interface MemberFurnitureService {
 
     void buyFurniture(String member_id, FurnitureBuyForm form);
 
+    void createMemberFurniture(String member_id, Integer furniture_id);
+
     int getCountOfMemberFurniture(String member_id);
 }

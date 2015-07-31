@@ -18,7 +18,7 @@ public class DutyServiceImplTest {
 
     @Test
     public void test() {
-        Duty duty = dutyService.getDutyByNo(1);
+        Duty duty = dutyService.getDutyByNo(701);
         Assert.assertNotNull(duty);
     }
 }

@@ -20,4 +20,6 @@ public interface MemberResourceService {
             int increaseEhItem);
 
     void increaseMaterial(String member_id, int[] increaseMaterials);
+
+    void increaseMaterial(String member_id, int[] material, int[] increaseItems);
 }

@@ -22,6 +22,8 @@ public interface MemberSlotItemService {
     /** 开发 */
     CreateItemResult createItem(String member_id, CreateItemForm form);
 
+    MemberSlotItem createSlotItem(String member_id, int slotitem_id);
+
     /** 解体装备 */
     void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
 
@@ -41,4 +43,5 @@ public interface MemberSlotItemService {
     MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
 
     int getCountOfMemberSlotItem(String member_id);
+
 }
