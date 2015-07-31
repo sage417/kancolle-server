@@ -11,4 +11,6 @@ public interface MemberDutyDao extends BaseDao<MemberDuty> {
 
     MemberDuty selectMemberDutyByCond(String member_id, Integer quest_id);
 
+    int selectCountOfMemberDutyByState(String member_id, int stateProcessing);
+
 }

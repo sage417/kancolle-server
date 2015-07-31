@@ -9,7 +9,15 @@
 		<id property="progressFlag" column="process_flag"/>
 		<association property="duty" column="duty_no" select="com.kancolle.server.dao.duty.DutyDao.selectDutyById"/>
 	</resultMap>
-	
+
+	<update id="updateMemberDuty" parameterType="MemberDuty">
+		UPDATE t_member_duty
+			SET state = #{state},
+			process_flag = #{progressFlag},
+			counter = #{counter}
+		WHERE member_id = #{memberId} AND duty_no = #{dutyNo}
+	</update>
+
 	<select id="selectMemberDutys" resultMap="MemberDutyRM">
 		SELECT * FROM t_member_duty WHERE member_id = #{member_id}
 	</select>
@@ -18,11 +26,7 @@
 		SELECT * FROM t_member_duty WHERE member_id = #{member_id} AND duty_no = #{quest_id}
 	</select>
 	
-	<update id="updateMemberDuty" parameterType="MemberDuty">
-		UPDATE t_member_duty
-			SET state = #{state},
-			process_flag = #{progressFlag},
-			counter = #{counter}
-		WHERE member_id = #{memberId} AND duty_no = #{dutyNo}
-	</update>
+	<select id="selectCountOfMemberDutyByState" resultType="_int">
+		SELECT COUNT(*) FROM t_member_duty WHERE member_id = #{member_id} AND state = #{state}
+	</select>
 </mapper>

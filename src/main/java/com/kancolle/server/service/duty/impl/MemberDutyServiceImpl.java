@@ -24,7 +24,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
 
     @Override
     public MemberDutyList getMemberDutyList(String member_id, int pageNum) {
-        int count_of_duty_om_process = 0;
+        int count_of_duty_om_process = memberDutyDao.selectCountOfMemberDutyByState(member_id, STATE_PROCESSING);
         return new MemberDutyList((Page<MemberDuty>) memberDutyDao.selectMemberDutys(member_id, pageNum, 5), count_of_duty_om_process);
     }
 
