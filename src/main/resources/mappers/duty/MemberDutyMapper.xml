@@ -18,11 +18,11 @@
 		SELECT * FROM t_member_duty WHERE member_id = #{member_id} AND duty_no = #{quest_id}
 	</select>
 	
-	<update id="" parameterType="MemberDuty">
+	<update id="updateMemberDuty" parameterType="MemberDuty">
 		UPDATE t_member_duty
 			SET state = #{state},
-			SET process_flag = #{progressFlag},
-			SET counter = #{counter}
+			process_flag = #{progressFlag},
+			counter = #{counter}
 		WHERE member_id = #{memberId} AND duty_no = #{dutyNo}
 	</update>
 </mapper>
