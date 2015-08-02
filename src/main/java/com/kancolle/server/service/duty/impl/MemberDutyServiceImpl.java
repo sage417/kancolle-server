@@ -134,18 +134,19 @@ public class MemberDutyServiceImpl implements MemberDutyService {
     }
 
     private void addResource(int[] increaseItems, int[] winItem) {
+        int count = winItem[1];
         switch (winItem[0]) {
         case 5:
-            increaseItems[1] = winItem[1];
+            increaseItems[1] = count;
             break;
         case 6:
-            increaseItems[0] = winItem[1];
+            increaseItems[0] = count;
             break;
         case 7:
-            increaseItems[2] = winItem[1];
+            increaseItems[2] = count;
             break;
         case 8:
-            increaseItems[3] = winItem[1];
+            increaseItems[3] = count;
             break;
         default:
             break;
@@ -159,41 +160,26 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         Duty duty = memberDuty.getDuty();
 
         List<DutyBouns> api_bounus = Lists.newArrayListWithCapacity(2);
-        int[] increaseItems = new int[] { 0, 0, 0, 0 };
+        int[] increaseItems = { 0, 0, 0, 0 };
 
         switch (duty.getBonusFlag()) {
         case Duty.BONUS_TYPE_RESOURCE:
             // 5高速建造,6高速修复,7开发紫菜,8修改资材
-            int[] winItem1 = duty.getWinItem1();
-            int[] winItem2 = duty.getWinItem2();
-            if (winItem1[0] != 0 && winItem1[1] > 0) {
-                addResource(increaseItems, winItem1);
-                Integer useitem_id = Integer.valueOf(winItem1[0]);
-                UseItem useitem = useItemService.getUseItemById(useitem_id);
-                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem1[1], winItem1[0], useitem.getName()));
-            }
-            if (winItem2[0] != 0 && winItem2[1] > 0) {
-                addResource(increaseItems, winItem2);
-                Integer useitem_id = Integer.valueOf(winItem2[0]);
-                UseItem useitem = useItemService.getUseItemById(useitem_id);
-                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem2[1], winItem2[0], useitem.getName()));
-            }
-            break;
         case Duty.BONUS_TYPE_ITEM:
         case Duty.BONUS_TYPE_FURNITUREBOX:
-            winItem1 = duty.getWinItem1();
-            if (winItem1[0] != 0 && winItem1[1] > 0) {
-                Integer useitem_id = Integer.valueOf(winItem1[0]);
-                UseItem useitem = useItemService.getUseItemById(useitem_id);
-                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId() - 4, winItem1[1]);
-                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem1[1], winItem1[0], useitem.getName()));
-            }
-            winItem2 = duty.getWinItem2();
-            if (winItem2[0] != 0 && winItem2[1] > 0) {
-                Integer useitem_id = Integer.valueOf(winItem2[0]);
-                UseItem useitem = useItemService.getUseItemById(useitem_id);
-                memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId() - 4, winItem2[1]);
-                api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem2[1], winItem2[0], useitem.getName()));
+            int[][] winItemArrays = { duty.getWinItem1(), duty.getWinItem2() };
+
+            for (int[] winItem : winItemArrays) {
+                if (winItem[0] != 0 && winItem[1] > 0) {
+                    Integer useitem_id = Integer.valueOf(winItem[0]);
+                    UseItem useitem = useItemService.getUseItemById(useitem_id);
+                    if (duty.getBonusFlag() == Duty.BONUS_TYPE_RESOURCE) {
+                        addResource(increaseItems, winItem);
+                    } else {
+                        memberUseItemService.addMemberUseItemCount(member_id, useitem.getUseitemId() - 4, winItem[1]);
+                    }
+                    api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem[1], winItem[0], useitem.getName()));
+                }
             }
             break;
         case Duty.BONUS_TYPE_DECKPORT:
