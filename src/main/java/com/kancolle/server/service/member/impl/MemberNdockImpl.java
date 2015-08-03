@@ -20,7 +20,6 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
-import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DateUtils;
 
 /**
@@ -33,9 +32,6 @@ public class MemberNdockImpl implements MemberNdockService {
 
     @Autowired
     MemberNdockDao memberNdockDao;
-
-    @Autowired
-    private ShipService shipService;
 
     @Autowired
     private MemberResourceService memberResourceService;
