@@ -184,9 +184,9 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
             checkList.add(ship);
             Ship afterShip = ship.getAfterShip();
             while (afterShip != null) {
-                checkList.add(afterShip);
                 if (checkList.contains(afterShip))
                     throw new IllegalStateException();
+                checkList.add(afterShip);
                 afterShip = afterShip.getAfterShip();
             }
         }
