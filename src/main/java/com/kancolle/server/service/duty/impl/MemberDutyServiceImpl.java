@@ -178,6 +178,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         case Duty.BONUS_TYPE_DECKPORT:
             Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
             memberDeckPortService.openDeckPort(member_id, deckport_id);
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 0, 0, String.format("第%d艦隊", duty.getBonusItemId())));
             break;
         case Duty.BONUS_TYPE_FURNITUREBOX:
         case Duty.BONUS_TYPE_ITEM:
