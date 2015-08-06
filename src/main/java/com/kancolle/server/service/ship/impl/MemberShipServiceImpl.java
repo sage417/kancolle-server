@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.service.ship.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_FAILED;
 import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -49,7 +51,7 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
-import com.kancolle.server.utils.logic.LVUtil;
+import com.kancolle.server.utils.logic.LvUtils;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 
 /**
@@ -206,14 +208,13 @@ public class MemberShipServiceImpl implements MemberShipService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public void increaseMemberShipExp(MemberShip memberShip, int exp) {
-        if (memberShip == null || exp < 0) {
-            throw new IllegalArgumentException();
-        }
+        checkNotNull(memberShip);
+        checkArgument(exp >= 0);
 
         // 当前等级
         int nowLv = memberShip.getLv();
         // 99级和150级不获得经验
-        if (LVUtil.isShipLVOver(nowLv))
+        if (LvUtils.isShipLVOver(nowLv))
             return;
         // 当前总经验
         long[] exps = memberShip.getExp();
@@ -222,12 +223,12 @@ public class MemberShipServiceImpl implements MemberShipService {
         // 获得经验后等级（经过修正）
         int afterLv = shipService.getShipLVByExp(afterExp);
 
-        if (LVUtil.isShipLVOver(afterLv))
+        if (LvUtils.isShipLVOver(afterLv))
             // 获得经验后总经验（经过修正）
             afterExp = shipService.getSumExpByLevel(afterLv);
 
         // 下一级所需总经验
-        long nextLvExp = afterLv > nowLv ? shipService.getSumExpByLevel(afterLv + 1) : exps[1];
+        long nextLvExp = shipService.getSumExpByLevel(afterLv + 1);
 
         int progress = (int) Math.floorDiv(100L * (afterExp - shipService.getSumExpByLevel(afterLv)), shipService.getNextLVExp(afterLv));
 
@@ -237,9 +238,9 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShipDao.updateMemberExp(memberShip);
         // ----------属性成长-----------//
         Ship ship = memberShip.getShip();
-        int shipKaihi = LVUtil.getLvValue(ship.getKaihi(), afterLv);
-        int shipTaisen = LVUtil.getLvValue(ship.getKaihi(), afterLv);
-        int shipSakuteki = LVUtil.getLvValue(ship.getKaihi(), afterLv);
+        int shipKaihi = LvUtils.getLvValue(ship.getKaihi(), afterLv);
+        int shipTaisen = LvUtils.getLvValue(ship.getKaihi(), afterLv);
+        int shipSakuteki = LvUtils.getLvValue(ship.getKaihi(), afterLv);
         memberShip.getTaisen().setMinValue(shipTaisen);
         memberShip.getKaihi().setMinValue(shipKaihi);
         memberShip.getSakuteki().setMinValue(shipSakuteki);

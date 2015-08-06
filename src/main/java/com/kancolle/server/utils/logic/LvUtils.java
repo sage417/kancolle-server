@@ -10,7 +10,7 @@ import com.kancolle.server.model.po.common.MaxMinValue;
  * @Date 2015年6月6日
  *
  */
-public class LVUtil {
+public class LvUtils {
 
     public static boolean isShipLVOver(int lv) {
         return lv == 99 || lv == 150;

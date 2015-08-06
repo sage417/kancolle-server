@@ -25,7 +25,7 @@ import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
-import com.kancolle.server.utils.logic.LVUtil;
+import com.kancolle.server.utils.logic.LvUtils;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -125,7 +125,7 @@ public class MemberServiceImpl implements MemberService {
         // 当前等级
         int nowLv = member.getLevel();
         // 150级不获得经验
-        if (LVUtil.isMemberLVOver(nowLv))
+        if (LvUtils.isMemberLVOver(nowLv))
             return;
         // 当前总经验
         long nowExp = member.getExperience();
@@ -134,7 +134,7 @@ public class MemberServiceImpl implements MemberService {
         // 获得经验后等级（经过修正）
         int afterLv = memberDao.getMemberLVByExp(afterExp);
 
-        if (LVUtil.isMemberLVOver(afterLv))
+        if (LvUtils.isMemberLVOver(afterLv))
             // 获得经验后总经验（经过修正）
             afterExp = this.getSumExpByLV(afterLv);
 
