@@ -1,8 +1,8 @@
-package com.kancolle.server.model.kcsapi.duty;
+package com.kancolle.server.model.kcsapi.duty.bunous;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class BounsItem {
+public class BounsItem implements Bouns {
 
     @JSONField(ordinal = 1)
     private int api_id;

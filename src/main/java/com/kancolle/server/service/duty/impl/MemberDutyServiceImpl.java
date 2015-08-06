@@ -29,13 +29,9 @@ import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
 import com.kancolle.server.model.po.duty.Duty;
 import com.kancolle.server.model.po.duty.MemberDuty;
-import com.kancolle.server.model.po.furniture.Furniture;
-import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.duty.DutyResultChecker;
 import com.kancolle.server.service.duty.MemberDutyService;
-import com.kancolle.server.service.furniture.FurnitureService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
@@ -79,9 +75,6 @@ public class MemberDutyServiceImpl implements MemberDutyService {
 
     @Autowired
     private MemberFurnitureService memberFurnitureService;
-
-    @Autowired
-    private FurnitureService furnitureService;
 
     @Override
     public MemberDutyList getMemberDutyList(String member_id, int pageNum) {
@@ -180,13 +173,13 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                 }
             }
             break;
-        case Duty.BONUS_TYPE_DECKPORT:
+        case Duty.BONUS_TYPE_OPEN_DECK:
             Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
             memberDeckPortService.openDeckPort(member_id, deckport_id);
             api_bounus.add(new DutyBouns(duty.getBonusFlag(), 0, 0, String.format("第%d艦隊", duty.getBonusItemId())));
             break;
         case Duty.BONUS_TYPE_FURNITUREBOX:
-        case Duty.BONUS_TYPE_ITEM:
+        case Duty.BONUS_TYPE_USEITEM:
             for (int[] winItem : winItemArrays) {
                 if (winItem[0] != 0 && winItem[1] > 0) {
                     Integer useitem_id = Integer.valueOf(winItem[0]);
@@ -202,21 +195,20 @@ public class MemberDutyServiceImpl implements MemberDutyService {
             break;
         case Duty.BONUS_TYPE_SHIP:
             int ship_id = duty.getBonusItemId();
-            MemberShip memberShip = memberShipService.createShip(member_id, ship_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, ship_id, memberShip.getShip().getName()));
+            memberShipService.createShip(member_id, ship_id);
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, ship_id));
             break;
-        case Duty.BONUS_TYPE_SLOT:
+        case Duty.BONUS_TYPE_SLOTITEM:
             int slotitem_id = duty.getBonusItemId();
-            MemberSlotItem memberSlotItem = memberSlotItemService.createSlotItem(member_id, slotitem_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, slotitem_id, memberSlotItem.getSlotItem().getName()));
+            memberSlotItemService.createSlotItem(member_id, slotitem_id);
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, slotitem_id, EMPTY));
             break;
         case Duty.BONUS_TYPE_FURNITURE:
             int furniture_id = duty.getBonusItemId();
             memberFurnitureService.createMemberFurniture(member_id, Integer.valueOf(furniture_id));
-            Furniture furniture = furnitureService.getFurnitureById(furniture_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, furniture_id, furniture.getTitle()));
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, furniture_id, EMPTY));
             break;
-        case Duty.BONUS_TYPE_FLIGHT:
+        case Duty.BONUS_TYPE_MODEL_CHANGE:
             break;
         default:
             break;

@@ -15,7 +15,7 @@ public class Duty implements Serializable {
     public static final int BONUS_TYPE_RESOURCE = 1;
 
     /** 舰队开放 */
-    public static final int BONUS_TYPE_DECKPORT = 2;
+    public static final int BONUS_TYPE_OPEN_DECK = 2;
 
     /** 家具箱 */
     public static final int BONUS_TYPE_FURNITUREBOX = 3;
@@ -27,16 +27,16 @@ public class Duty implements Serializable {
     public static final int BONUS_TYPE_SHIP = 11;
 
     /** 装备奖励 */
-    public static final int BONUS_TYPE_SLOT = 12;
+    public static final int BONUS_TYPE_SLOTITEM = 12;
 
     /** 物品奖励 */
-    public static final int BONUS_TYPE_ITEM = 13;
+    public static final int BONUS_TYPE_USEITEM = 13;
 
     /** 家具奖励 */
     public static final int BONUS_TYPE_FURNITURE = 14;
 
     /** 机种转换 */
-    public static final int BONUS_TYPE_FLIGHT = 15;
+    public static final int BONUS_TYPE_MODEL_CHANGE = 15;
 
     private int no;
 

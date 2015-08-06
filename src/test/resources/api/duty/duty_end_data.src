@@ -1,0 +1,203 @@
+package scene.duty.models
+{
+   import common.reward.models.RewardModel;
+   import common.util.Util;
+   
+   public class QuestEndData extends Object
+   {
+      
+      public static const BONUS_TYPE_00_NONE:int = 0;
+      
+      public static const BONUS_TYPE_01_MATERIAL:int = 1;
+      
+      public static const BONUS_TYPE_02_OEPNDECK:int = 2;
+      
+      public static const BONUS_TYPE_03_KAGUBOX:int = 3;
+      
+      public static const BONUS_TYPE_04_BIGBUILD:int = 4;
+      
+      public static const BONUS_TYPE_11_SHIP:int = 11;
+      
+      public static const BONUS_TYPE_12_SLOTITEM:int = 12;
+      
+      public static const BONUS_TYPE_13_USEITEM:int = 13;
+      
+      public static const BONUS_TYPE_14_FURNITURE:int = 14;
+      
+      public static const BONUS_TYPE_15_MODELCHANGE:int = 15;
+       
+      private var _obj:Object;
+      
+      private var _reward:RewardModel;
+      
+      public function QuestEndData()
+      {
+         _reward = new RewardModel();
+         super();
+      }
+      
+      public function get reward() : RewardModel
+      {
+         return _reward;
+      }
+      
+      public function setData(param1:Object) : void
+      {
+         var _loc10_:* = 0;
+         var _loc16_:* = null;
+         var _loc7_:* = null;
+         var _loc17_:* = 0;
+         var _loc15_:* = 0;
+         var _loc5_:* = 0;
+         var _loc4_:* = 0;
+         var _loc13_:* = null;
+         var _loc2_:* = 0;
+         var _loc3_:* = 0;
+         var _loc8_:* = 0;
+         var _loc19_:* = 0;
+         var _loc18_:* = 0;
+         var _loc14_:* = 0;
+         var _loc9_:* = 0;
+         var _loc6_:* = 0;
+         var _loc11_:* = null;
+         _obj = param1;
+         if(fuel > 0)
+         {
+            _reward.pushFuel(fuel);
+         }
+         if(ammo > 0)
+         {
+            _reward.pushAmmo(ammo);
+         }
+         if(steel > 0)
+         {
+            _reward.pushSteel(steel);
+         }
+         if(bauxite > 0)
+         {
+            _reward.pushBaux(bauxite);
+         }
+         var _loc12_:Array = Util.getArray(_obj,"api_bounus",[]);
+         _loc10_ = 0;
+         while(_loc10_ < _loc12_.length)
+         {
+            _loc16_ = _loc12_[_loc10_];
+            _loc7_ = Util.getObject(_loc16_,"api_item",{});
+            _loc17_ = Util.getInt(_loc16_,"api_type",0);
+            _loc15_ = Util.getInt(_loc16_,"api_count",0);
+            loop6:
+            switch(_loc17_ - 1)
+            {
+               case 0:
+                  _loc5_ = Util.getInt(_loc7_,"api_id");
+                  switch(_loc5_ - 5)
+                  {
+                     case 0:
+                        _reward.pushBuildKit(_loc15_);
+                        break loop6;
+                     case 1:
+                        _reward.pushRepairKit(_loc15_);
+                        break loop6;
+                     case 2:
+                        _reward.pushDevKit(_loc15_);
+                        break loop6;
+                     case 3:
+                        _reward.pushRevKit(_loc15_);
+                     default:
+                        break loop6;
+                  }
+               case 1:
+                  _loc4_ = Util.getInt(_loc7_,"api_id");
+                  _loc13_ = Util.getString(_loc7_,"api_name");
+                  _reward.pushOpenDeck(_loc4_,_loc13_);
+                  break;
+               case 2:
+                  _loc2_ = Util.getInt(_loc7_,"api_id");
+                  _reward.pushKaguBox(_loc2_,_loc15_);
+                  break;
+               case 3:
+                  _reward.pushOpenLargeBuild();
+               case 4:
+                  _loc3_ = Util.getInt(_loc7_,"api_ship_id");
+                  _loc8_ = 0;
+                  while(_loc8_ < _loc15_)
+                  {
+                     _reward.pushShip(_loc3_);
+                     _loc8_++;
+                  }
+                  break;
+               case 5:
+                  _loc19_ = Util.getInt(_loc7_,"api_id");
+                  _loc8_ = 0;
+                  while(_loc8_ < _loc15_)
+                  {
+                     _reward.pushSlotitem(_loc19_,1);
+                     _loc8_++;
+                  }
+                  break;
+               case 6:
+                  _loc18_ = Util.getInt(_loc7_,"api_id");
+                  _loc8_ = 0;
+                  while(_loc8_ < _loc15_)
+                  {
+                     _reward.pushUseitem(_loc18_,1);
+                     _loc8_++;
+                  }
+                  break;
+               case 7:
+                  _loc14_ = Util.getInt(_loc7_,"api_id");
+                  _loc8_ = 0;
+                  while(_loc8_ < _loc15_)
+                  {
+                     _reward.pushFurnitureReward(_loc14_);
+                     _loc8_++;
+                  }
+                  break;
+               case 8:
+                  _loc9_ = Util.getInt(_loc7_,"api_id_from");
+                  _loc6_ = Util.getInt(_loc7_,"api_id_to");
+                  _loc11_ = Util.getString(_loc7_,"api_message");
+                  _loc8_ = 0;
+                  while(true)
+                  {
+                     if(_loc8_ >= _loc15_)
+                     {
+                        break loop6;
+                     }
+                     _reward.pushModelChange(_loc9_,_loc6_,_loc11_);
+                     _loc8_++;
+                  }
+                  break;
+               default:
+                  _reward.pushOpenLargeBuild();
+            }
+            _loc10_++;
+         }
+      }
+      
+      public function get fuel() : int
+      {
+         return Util.getArray(_obj,"api_material",[0,0,0,0])[0];
+      }
+      
+      public function get ammo() : int
+      {
+         return Util.getArray(_obj,"api_material",[0,0,0,0])[1];
+      }
+      
+      public function get steel() : int
+      {
+         return Util.getArray(_obj,"api_material",[0,0,0,0])[2];
+      }
+      
+      public function get bauxite() : int
+      {
+         return Util.getArray(_obj,"api_material",[0,0,0,0])[3];
+      }
+      
+      public function get bonusCount() : int
+      {
+         return Util.getInt(_obj,"api_bonus_count",0);
+      }
+   }
+}
