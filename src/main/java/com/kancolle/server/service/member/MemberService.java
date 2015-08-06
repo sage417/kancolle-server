@@ -16,7 +16,7 @@ public interface MemberService {
 
     List<MemberMission> getMission(String member_id);
 
-    MemberPort getPort(String member_id) throws Exception;
+    MemberPort getPort(String member_id);
 
     MemberRecord getRecord(String member_id);
 
@@ -33,5 +33,5 @@ public interface MemberService {
 
     void updateMemberToken(String member_id);
 
-    void openLargeBuild(String member_id);
+    void openLargeDock(String member_id);
 }

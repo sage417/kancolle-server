@@ -27,4 +27,8 @@ public class FurnitureServiceImpl implements FurnitureService {
         return furnitureDao.selectFurnitures();
     }
 
+    @Override
+    public Furniture getFurnitureById(int furniture_id) {
+        return furnitureDao.selectFurnitureById(furniture_id);
+    }
 }

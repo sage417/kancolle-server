@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.dao.furniture.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -22,5 +23,10 @@ public class FurniuteDaoimpl extends BaseDaoImpl<Furniture> implements Furniture
     @Override
     public List<Furniture> selectFurnitures() {
         return getSqlSession().selectList("selectFurnitureByCond");
+    }
+
+    @Override
+    public Furniture selectFurnitureById(int furniture_id) {
+        return getSqlSession().selectOne("selectFurnitureById", Collections.singletonMap("furniture_id", furniture_id));
     }
 }

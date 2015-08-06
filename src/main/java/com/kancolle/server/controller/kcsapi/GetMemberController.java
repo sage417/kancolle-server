@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
+import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
@@ -23,12 +24,14 @@ import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.member.MemberNdock;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.response.APIResponse;
@@ -142,6 +145,14 @@ public class GetMemberController {
             throw new IllegalArgumentException();
         }
         return null;
+    }
+
+    @RequestMapping("/ship2")
+    public APIResponse<List<MemberShip>> ship2(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship2Form form, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException();
+        }
+        return new Ship2Result(memberShipService.getMemberShips(member_id), memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     @RequestMapping("/ship3")

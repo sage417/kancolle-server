@@ -17,4 +17,6 @@ public interface FurnitureDao extends BaseDao<Furniture> {
 
     List<Furniture> selectFurnitures();
 
+    Furniture selectFurnitureById(int furniture_id);
+
 }

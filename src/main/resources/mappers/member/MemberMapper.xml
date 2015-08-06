@@ -37,24 +37,20 @@
 	</resultMap>
 
 	<select id="selectMemberById" resultMap="memberRM">
-		SELECT * FROM t_member
-		WHERE member_id = #{member_id}
+		SELECT * FROM t_member WHERE member_id = #{member_id}
 	</select>
 
 	<select id="selectNeedMemberExpByLevel" resultType="long">
-		SELECT EXP
-		FROM t_exp_member WHERE LV = #{level}
+		SELECT EXP FROM t_exp_member WHERE LV = #{level}
 	</select>
 
 	<select id="selectMemberLVByExp" resultType="int">
-		SELECT LV FROM
-		t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
+		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
 	
 	<update id="updateMemberToken">
 		UPDATE t_member SET api_token=#{token}
-		WHERE
-			member_id = #{member_id}
+			WHERE member_id = #{member_id}
 	</update>
 
 	<update id="updateMember">
@@ -96,7 +92,7 @@
 			medals=#{medals},
 			p_bgm_id=#{portBGMId},
 			parallel_quest_count=#{parallelQuestCount},
-			largeDock=#{large_dock}
+			large_dock=#{largeDock}
 		WHERE
 			member_id = #{memberId}
 	</update>

@@ -16,4 +16,6 @@ public interface FurnitureService {
 
     List<Furniture> getFurnitures();
 
+    Furniture getFurnitureById(int furniture_id);
+
 }

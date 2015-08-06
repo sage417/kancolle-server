@@ -156,7 +156,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void openLargeBuild(String member_id) {
+    public void openLargeDock(String member_id) {
         Member member = getMember(member_id);
         member.setLargeDock(true);
         updateMember(member);

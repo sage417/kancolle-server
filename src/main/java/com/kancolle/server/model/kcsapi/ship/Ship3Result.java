@@ -11,13 +11,13 @@ import com.kancolle.server.model.po.ship.MemberShip;
 public class Ship3Result {
 
     @JSONField(ordinal = 1)
-    List<MemberShip> api_ship_data;
+    private List<MemberShip> api_ship_data;
 
     @JSONField(ordinal = 2)
-    List<MemberDeckPort> api_deck_data;
+    private List<MemberDeckPort> api_deck_data;
 
     @JSONField(ordinal = 3)
-    Map<String, Object> api_slot_data;
+    private Map<String, Object> api_slot_data;
 
     public Ship3Result(MemberShip memberShip, List<MemberDeckPort> deckPorts, Map<String, Object> unsetSlot) {
         this.api_ship_data = Collections.singletonList(memberShip);
