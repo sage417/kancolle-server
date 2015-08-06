@@ -175,8 +175,12 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                 }
             }
             break;
-        case Duty.BONUS_TYPE_ITEM:
+        case Duty.BONUS_TYPE_DECKPORT:
+            Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
+            memberDeckPortService.openDeckPort(member_id, deckport_id);
+            break;
         case Duty.BONUS_TYPE_FURNITUREBOX:
+        case Duty.BONUS_TYPE_ITEM:
             for (int[] winItem : winItemArrays) {
                 if (winItem[0] != 0 && winItem[1] > 0) {
                     Integer useitem_id = Integer.valueOf(winItem[0]);
@@ -185,10 +189,6 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                     api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem[1], winItem[0], useitem.getName()));
                 }
             }
-            break;
-        case Duty.BONUS_TYPE_DECKPORT:
-            Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
-            memberDeckPortService.openDeckPort(member_id, deckport_id);
             break;
         case Duty.BONUS_TYPE_LARGEBUILD:
             memberService.openLargeBuild(member_id);
