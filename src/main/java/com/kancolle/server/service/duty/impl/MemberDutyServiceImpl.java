@@ -179,7 +179,6 @@ public class MemberDutyServiceImpl implements MemberDutyService {
             api_bounus.add(new DutyBouns(duty.getBonusFlag(), 0, 0, String.format("第%d艦隊", duty.getBonusItemId())));
             break;
         case Duty.BONUS_TYPE_FURNITUREBOX:
-        case Duty.BONUS_TYPE_USEITEM:
             for (int[] winItem : winItemArrays) {
                 if (winItem[0] != 0 && winItem[1] > 0) {
                     Integer useitem_id = Integer.valueOf(winItem[0]);
@@ -203,6 +202,11 @@ public class MemberDutyServiceImpl implements MemberDutyService {
             memberSlotItemService.createSlotItem(member_id, slotitem_id);
             api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, slotitem_id, EMPTY));
             break;
+        case Duty.BONUS_TYPE_USEITEM:
+            int useItem_id = duty.getBonusItemId();
+            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, useItem_id, EMPTY));
+            memberUseItemService.addMemberUseItemCount(member_id, useItem_id, 1);
+            break;
         case Duty.BONUS_TYPE_FURNITURE:
             int furniture_id = duty.getBonusItemId();
             memberFurnitureService.createMemberFurniture(member_id, Integer.valueOf(furniture_id));
@@ -216,9 +220,9 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         // 獲得獎勵
         memberResourceService.increaseMaterial(member_id, duty.getMaterial(), increaseItems);
         // 刪除完成任務
-        // memberDutyDao.deleteDuty(memberDuty);
+        memberDutyDao.deleteDuty(memberDuty);
         // 插入後續任務
-        // memberDutyDao.insertAfterDutys(memberDuty);
+        memberDutyDao.insertAfterDutys(memberDuty);
         return new DutyItemGetResult(duty.getMaterial(), api_bounus.size(), api_bounus);
     }
 }
