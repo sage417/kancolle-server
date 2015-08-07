@@ -75,14 +75,12 @@ public class MemberNdockServiceImpl implements MemberNdockService {
             MemberNdock memberNdock = checkNotNull(getMemberNdockByCond(member_id, ndock_id));
             checkState(memberNdock.getState() == MemberNdock.STATE_AVILABLE);
 
-            Instant now = Instant.now();
-
             // 状态设定
             memberNdock.setState(MemberNdock.STATE_USING);
             memberNdock.setMemberShipId(memberShip.getMemberShipId());
 
             // 完了时间设定
-            Instant completeInstant = now.plus(memberShip.getApi_ndock_time(), ChronoUnit.MILLIS);
+            Instant completeInstant = Instant.now().plus(memberShip.getApi_ndock_time(), ChronoUnit.MILLIS);
             memberNdock.setCompleteTime(completeInstant.toEpochMilli());
             memberNdock.setCompleteTimeStr(DateUtils.format(completeInstant));
 
@@ -96,7 +94,7 @@ public class MemberNdockServiceImpl implements MemberNdockService {
 
     @Override
     @Transactional
-    public void speedchange(String member_id, int ndock_id) {
+    public void speedChange(String member_id, int ndock_id) {
         memberResourceService.consumeResource(member_id, 0, 0, 0, 0, 1, 0, 0, 0);
 
         MemberNdock memberNdock = checkNotNull(getMemberNdockByCond(member_id, ndock_id));

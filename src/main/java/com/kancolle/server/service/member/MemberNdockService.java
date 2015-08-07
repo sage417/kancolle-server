@@ -21,5 +21,5 @@ public interface MemberNdockService {
 
     void start(String member_id, NdockStartForm form);
 
-    void speedchange(String member_id, int api_ndock_id);
+    void speedChange(String member_id, int api_ndock_id);
 }

@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v11.4 (64 bit)
-MySQL - 5.6.21 : Database - kancolle
+SQLyog Ultimate v11.42 (64 bit)
+MySQL - 5.6.24 : Database - kancolle
 *********************************************************************
 */
 
@@ -29,6 +29,66 @@ CREATE TABLE `t_bgm` (
 /*Data for the table `t_bgm` */
 
 insert  into `t_bgm`(`ID`,`NAME`) values (101,'母港'),(105,'秋の鎮守府'),(106,'武蔵の帰投'),(107,'冬の抜錨'),(108,'迎春の鎮守府'),(109,'第五戦隊の出撃'),(110,'節分の鎮守府'),(111,'艦娘のお菓子作り'),(112,'桃の節句と艦娘'),(113,'第三十駆逐隊、抜錨準備！'),(114,'雨音の鎮守府'),(115,'雨とお酒と艦娘'),(116,'浜辺の艦娘'),(205,'秋月の空'),(206,'明石の工廠'),(207,'冬の抜錨'),(208,'海上護衛戦'),(209,'索敵機、発艦始め！'),(210,'連合艦隊の出撃'),(211,'冬の艦隊'),(212,'迎春の鎮守府'),(213,'士魂の護り'),(214,'特型駆逐艦'),(215,'艦娘のお菓子作り'),(216,'桃の節句と艦娘'),(217,'武蔵の帰投'),(218,'雨音の鎮守府'),(219,'雨とお酒と艦娘'),(220,'暁の水平線に'),(221,'鎮守府の朝'),(222,'華の二水戦'),(223,'提督との絆'),(224,'浜辺の艦娘'),(225,'加賀岬');
+
+/*Table structure for table `t_duty` */
+
+DROP TABLE IF EXISTS `t_duty`;
+
+CREATE TABLE `t_duty` (
+  `DUTY_NO` int(10) unsigned NOT NULL,
+  `CATEGORY_ID` int(10) unsigned NOT NULL DEFAULT '1',
+  `TYPE` int(10) unsigned NOT NULL DEFAULT '1',
+  `TITLE` char(63) NOT NULL,
+  `DETAIL` char(255) NOT NULL,
+  `OPERATE` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `MATERIAL` varchar(63) NOT NULL,
+  `BONUS_FLAG` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `BONUS_ITEM_ID` int(10) unsigned DEFAULT NULL,
+  `WIN_ITEM1` varchar(63) NOT NULL,
+  `WIN_ITEM2` varchar(63) NOT NULL,
+  `INVALID_FLAG` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `PARENT_ID` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`DUTY_NO`),
+  KEY `BONUS_SHIP_ID` (`BONUS_ITEM_ID`) USING BTREE,
+  KEY `CATEGORY_ID` (`CATEGORY_ID`) USING BTREE,
+  KEY `t_duty_ibfk_1` (`PARENT_ID`) USING BTREE,
+  KEY `TYPE` (`TYPE`) USING BTREE,
+  CONSTRAINT `t_duty_ibfk_1` FOREIGN KEY (`PARENT_ID`) REFERENCES `t_duty` (`DUTY_NO`),
+  CONSTRAINT `t_duty_ibfk_2` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `t_duty_category` (`CATEGORY_ID`),
+  CONSTRAINT `t_duty_ibfk_3` FOREIGN KEY (`TYPE`) REFERENCES `t_duty_type` (`TYPE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_duty` */
+
+insert  into `t_duty`(`DUTY_NO`,`CATEGORY_ID`,`TYPE`,`TITLE`,`DETAIL`,`OPERATE`,`MATERIAL`,`BONUS_FLAG`,`BONUS_ITEM_ID`,`WIN_ITEM1`,`WIN_ITEM2`,`INVALID_FLAG`,`PARENT_ID`) values (701,7,1,'はじめての「近代化改修」！','任意の艦を近代化改修(合成)して、強化せよ！',1,'[0,0,50,50]',1,NULL,'[3,1]','[0,0]',0,NULL),(702,7,2,'艦の「近代化改修」を実施せよ！','近代化改修を実施して、2回以上これを成功させよ！',1,'[20,20,50,0]',1,NULL,'[0,0]','[0,0]',0,NULL),(703,7,3,'「近代化改修」を進め、戦備を整えよ！','一週間の間に、近代化改修を15回成功させよ！',1,'[200,200,300,100]',1,NULL,'[0,0]','[0,0]',0,702);
+
+/*Table structure for table `t_duty_category` */
+
+DROP TABLE IF EXISTS `t_duty_category`;
+
+CREATE TABLE `t_duty_category` (
+  `CATEGORY_ID` int(11) unsigned NOT NULL,
+  `NAME` varchar(255) NOT NULL,
+  PRIMARY KEY (`CATEGORY_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_duty_category` */
+
+insert  into `t_duty_category`(`CATEGORY_ID`,`NAME`) values (1,'編成'),(2,'出撃'),(3,'演習'),(4,'遠征'),(5,'補給/入渠'),(6,'工廠'),(7,'改装'),(8,'その他');
+
+/*Table structure for table `t_duty_type` */
+
+DROP TABLE IF EXISTS `t_duty_type`;
+
+CREATE TABLE `t_duty_type` (
+  `TYPE_ID` int(3) unsigned NOT NULL,
+  `DESCRIPTION` varchar(63) NOT NULL,
+  PRIMARY KEY (`TYPE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_duty_type` */
+
+insert  into `t_duty_type`(`TYPE_ID`,`DESCRIPTION`) values (1,'一回限り'),(2,'デイリー'),(3,'ウィークリー'),(4,'敵空母を3隻撃沈せよ!(日付下一桁0|3|7)'),(5,'敵輸送船団を叩け!(日付下一桁2|8)'),(6,'マンスリー');
 
 /*Table structure for table `t_exp_member` */
 
@@ -255,11 +315,11 @@ CREATE TABLE `t_member` (
   `parallel_quest_count` tinyint(3) unsigned NOT NULL DEFAULT '5' COMMENT '最大可能收付任务数',
   `large_dock` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否可进行大建',
   PRIMARY KEY (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9007385 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9007384 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member` */
 
-insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`,`large_dock`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[255,253,251,254,222,250]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5,1);
+insert  into `t_member`(`member_id`,`api_token`,`nickname`,`nickname_id`,`active_flag`,`starttime`,`level`,`rank`,`experience`,`fleetname`,`comment`,`comment_id`,`max_chara`,`max_slotitem`,`max_kagu`,`playtime`,`tutorial`,`furniture`,`count_deck`,`count_kdock`,`count_ndock`,`fcoin`,`st_win`,`st_lose`,`ms_count`,`ms_success`,`pt_win`,`pt_lose`,`pt_challenged`,`pt_challenged_win`,`firstflag`,`tutorial_progress`,`pvp`,`medals`,`p_bgm_id`,`parallel_quest_count`,`large_dock`) values (8006690,'de1d61f922ae5604a0c479914813d8a18d5c9b6f','お茶に入りましたよ','129459253',1,1434803900078,7,7,2605,NULL,'','',100,497,0,0,0,'[6,55,210,117,212,187]',2,2,2,0,0,0,0,0,0,0,0,0,1,100,'[0,0]',0,101,5,0),(9007383,'123','NightWish','130069178',1,1430917636154,99,4,1282555,NULL,'','',230,1017,0,0,0,'[199,57,210,120,212,187]',4,2,4,911999,100,1,0,0,0,0,0,0,1,100,'[0,0]',0,101,5,0);
 
 /*Table structure for table `t_member_battle_status` */
 
@@ -273,16 +333,16 @@ CREATE TABLE `t_member_battle_status` (
   `map_get_resource` char(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
   `map_fetch_rescource` char(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
   PRIMARY KEY (`member_id`),
-  KEY `map_area_id` (`map_area_id`),
-  KEY `map_cell_id` (`map_cell_id`),
+  KEY `map_area_id` (`map_area_id`) USING BTREE,
+  KEY `map_cell_id` (`map_cell_id`) USING BTREE,
   CONSTRAINT `t_member_battle_status_ibfk_1` FOREIGN KEY (`map_area_id`) REFERENCES `t_map_area` (`ID`),
   CONSTRAINT `t_member_battle_status_ibfk_2` FOREIGN KEY (`map_cell_id`) REFERENCES `t_map_cell` (`ID`),
-  CONSTRAINT `t_member_battle_status_ibfk_3` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `t_member_battle_status_ibfk_3` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_battle_status` */
 
-insert  into `t_member_battle_status`(`member_id`,`deck_id`,`map_area_id`,`map_cell_id`,`map_get_resource`,`map_fetch_rescource`) values (8006690,0,NULL,NULL,'[0,0,0,0,0,0,0,0]','[0,0,0,0,0,0,0,0]');
+insert  into `t_member_battle_status`(`member_id`,`deck_id`,`map_area_id`,`map_cell_id`,`map_get_resource`,`map_fetch_rescource`) values (8006690,0,NULL,NULL,'[0,0,0,0,0,0,0,0]','[0,0,0,0,0,0,0,0]'),(9007383,0,NULL,NULL,'[0,0,0,0,0,0,0,0]','[0,0,0,0,0,0,0,0]');
 
 /*Table structure for table `t_member_deckport` */
 
@@ -302,15 +362,15 @@ CREATE TABLE `t_member_deckport` (
   `SHIP` varchar(255) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1]' COMMENT '舰队信息',
   `locked` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否可用',
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`),
-  KEY `MISSION_ID` (`MISSION_ID`),
-  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
+  KEY `MISSION_ID` (`MISSION_ID`) USING BTREE,
+  CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport` */
 
-insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (17,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[1,-1,-1,-1,-1,-1]',0),(18,8006690,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(19,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(20,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
+insert  into `t_member_deckport`(`index`,`member_id`,`ID`,`NAME`,`NAME_ID`,`MISSION_STATUS`,`MISSION_ID`,`MISSION_COMPLETE_TIME`,`MISSION_FLAG`,`FLAGSHIP`,`SHIP`,`locked`) values (5,8006690,1,'第1艦隊','',0,NULL,0,0,'0','[2,3,1,4,5]',0),(6,8006690,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',0),(7,8006690,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',0),(8,8006690,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(9,9007383,1,'第1艦隊','',0,NULL,0,0,'0','[1,-1,-1,-1,-1,-1]',0),(10,9007383,2,'第2艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(11,9007383,3,'第3艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1),(12,9007383,4,'第4艦隊','',0,NULL,0,0,'0','[-1,-1,-1,-1,-1,-1]',1);
 
 /*Table structure for table `t_member_deckport_ship_mapping` */
 
@@ -322,13 +382,35 @@ CREATE TABLE `t_member_deckport_ship_mapping` (
   `deck_id` tinyint(3) unsigned NOT NULL,
   `member_ship_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`),
-  CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`) USING BTREE,
+  CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_deckport_ship_mapping` */
 
-insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (25,8006690,1,1);
+insert  into `t_member_deckport_ship_mapping`(`index`,`member_id`,`deck_id`,`member_ship_id`) values (22,8006690,1,1),(23,8006690,1,2),(24,8006690,1,3),(27,8006690,1,4),(28,8006690,1,5);
+
+/*Table structure for table `t_member_duty` */
+
+DROP TABLE IF EXISTS `t_member_duty`;
+
+CREATE TABLE `t_member_duty` (
+  `index` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `duty_no` int(10) unsigned NOT NULL,
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `process_flag` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `counter` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`index`),
+  UNIQUE KEY `member_id` (`member_id`,`duty_no`) USING BTREE,
+  KEY `t_member_duty_ibfk_2` (`duty_no`) USING BTREE,
+  CONSTRAINT `t_member_duty_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`),
+  CONSTRAINT `t_member_duty_ibfk_2` FOREIGN KEY (`duty_no`) REFERENCES `t_duty` (`DUTY_NO`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_duty` */
+
+insert  into `t_member_duty`(`index`,`member_id`,`duty_no`,`state`,`process_flag`,`counter`) values (1,8006690,701,1,0,0),(2,8006690,702,1,0,0);
 
 /*Table structure for table `t_member_furniture` */
 
@@ -339,16 +421,16 @@ CREATE TABLE `t_member_furniture` (
   `member_id` bigint(20) unsigned NOT NULL,
   `furniture_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `unique_index` (`member_id`,`furniture_id`),
-  KEY `member_id` (`member_id`),
-  KEY `furniture_id` (`furniture_id`),
-  CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=536 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `unique_index` (`member_id`,`furniture_id`) USING BTREE,
+  KEY `member_id` (`member_id`) USING BTREE,
+  KEY `furniture_id` (`furniture_id`) USING BTREE,
+  CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_furniture` */
 
-insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (281,8006690,1),(282,8006690,2),(283,8006690,3),(284,8006690,4),(285,8006690,5),(286,8006690,6),(287,8006690,7),(288,8006690,8),(289,8006690,9),(290,8006690,10),(291,8006690,11),(292,8006690,12),(293,8006690,13),(294,8006690,14),(295,8006690,15),(296,8006690,16),(297,8006690,17),(298,8006690,18),(299,8006690,19),(300,8006690,20),(301,8006690,21),(302,8006690,22),(303,8006690,23),(304,8006690,24),(305,8006690,25),(306,8006690,26),(307,8006690,27),(308,8006690,28),(309,8006690,29),(310,8006690,30),(311,8006690,31),(312,8006690,32),(313,8006690,33),(314,8006690,34),(315,8006690,35),(316,8006690,36),(317,8006690,37),(318,8006690,38),(319,8006690,39),(320,8006690,40),(321,8006690,41),(322,8006690,42),(323,8006690,43),(324,8006690,44),(325,8006690,45),(326,8006690,46),(327,8006690,47),(328,8006690,48),(329,8006690,49),(330,8006690,50),(331,8006690,51),(332,8006690,52),(333,8006690,53),(334,8006690,54),(335,8006690,55),(336,8006690,56),(337,8006690,57),(338,8006690,58),(339,8006690,59),(340,8006690,60),(341,8006690,61),(342,8006690,62),(343,8006690,63),(344,8006690,64),(345,8006690,65),(346,8006690,66),(347,8006690,67),(348,8006690,68),(349,8006690,69),(350,8006690,70),(351,8006690,71),(352,8006690,72),(353,8006690,73),(354,8006690,74),(355,8006690,75),(356,8006690,76),(357,8006690,77),(358,8006690,78),(359,8006690,79),(360,8006690,80),(361,8006690,81),(362,8006690,82),(363,8006690,83),(364,8006690,84),(365,8006690,85),(366,8006690,86),(367,8006690,87),(368,8006690,88),(369,8006690,89),(370,8006690,90),(371,8006690,91),(372,8006690,92),(373,8006690,93),(374,8006690,94),(375,8006690,95),(376,8006690,96),(377,8006690,97),(378,8006690,98),(379,8006690,99),(380,8006690,100),(381,8006690,101),(382,8006690,102),(383,8006690,103),(384,8006690,104),(385,8006690,105),(386,8006690,106),(387,8006690,107),(388,8006690,108),(389,8006690,109),(390,8006690,110),(391,8006690,111),(392,8006690,112),(393,8006690,113),(394,8006690,114),(395,8006690,115),(396,8006690,116),(397,8006690,117),(398,8006690,118),(399,8006690,119),(400,8006690,120),(401,8006690,121),(402,8006690,122),(403,8006690,123),(404,8006690,124),(405,8006690,125),(406,8006690,126),(407,8006690,127),(408,8006690,128),(409,8006690,129),(410,8006690,130),(411,8006690,131),(412,8006690,132),(413,8006690,133),(414,8006690,134),(415,8006690,135),(416,8006690,136),(417,8006690,137),(418,8006690,138),(419,8006690,139),(420,8006690,140),(421,8006690,141),(422,8006690,142),(423,8006690,143),(424,8006690,144),(425,8006690,145),(426,8006690,146),(427,8006690,147),(428,8006690,148),(429,8006690,149),(430,8006690,150),(431,8006690,151),(432,8006690,152),(433,8006690,153),(434,8006690,154),(435,8006690,155),(436,8006690,156),(437,8006690,157),(438,8006690,158),(439,8006690,159),(440,8006690,160),(441,8006690,161),(442,8006690,162),(443,8006690,163),(444,8006690,164),(445,8006690,165),(446,8006690,166),(447,8006690,167),(448,8006690,168),(449,8006690,169),(450,8006690,170),(451,8006690,171),(452,8006690,172),(453,8006690,173),(454,8006690,174),(455,8006690,175),(456,8006690,176),(457,8006690,177),(458,8006690,178),(459,8006690,179),(460,8006690,180),(461,8006690,181),(462,8006690,182),(463,8006690,183),(464,8006690,184),(465,8006690,185),(466,8006690,186),(467,8006690,187),(468,8006690,188),(469,8006690,189),(470,8006690,190),(471,8006690,191),(472,8006690,192),(473,8006690,193),(474,8006690,194),(475,8006690,195),(476,8006690,196),(477,8006690,197),(478,8006690,198),(479,8006690,199),(480,8006690,200),(481,8006690,201),(482,8006690,202),(483,8006690,203),(484,8006690,204),(485,8006690,205),(486,8006690,206),(487,8006690,207),(488,8006690,208),(489,8006690,209),(490,8006690,210),(491,8006690,211),(492,8006690,212),(493,8006690,213),(494,8006690,214),(495,8006690,215),(496,8006690,216),(497,8006690,217),(498,8006690,218),(499,8006690,219),(500,8006690,220),(501,8006690,221),(502,8006690,222),(503,8006690,223),(504,8006690,224),(505,8006690,225),(506,8006690,226),(507,8006690,227),(508,8006690,228),(509,8006690,229),(510,8006690,230),(511,8006690,231),(512,8006690,232),(513,8006690,233),(514,8006690,234),(515,8006690,235),(516,8006690,236),(517,8006690,237),(518,8006690,238),(519,8006690,239),(520,8006690,240),(521,8006690,241),(522,8006690,242),(523,8006690,243),(524,8006690,244),(525,8006690,245),(526,8006690,246),(527,8006690,247),(528,8006690,248),(529,8006690,249),(530,8006690,250),(531,8006690,251),(532,8006690,252),(533,8006690,253),(534,8006690,254),(535,8006690,255);
+insert  into `t_member_furniture`(`index`,`member_id`,`furniture_id`) values (19,8006690,1),(20,8006690,2),(21,8006690,3),(22,8006690,4),(23,8006690,5),(24,8006690,6),(25,8006690,7),(26,8006690,8),(27,8006690,9),(28,8006690,10),(29,8006690,11),(30,8006690,12),(31,8006690,13),(32,8006690,14),(33,8006690,15),(34,8006690,16),(35,8006690,17),(36,8006690,18),(37,8006690,19),(38,8006690,20),(39,8006690,21),(40,8006690,22),(41,8006690,23),(42,8006690,24),(43,8006690,25),(44,8006690,26),(45,8006690,27),(46,8006690,28),(47,8006690,29),(48,8006690,30),(49,8006690,31),(50,8006690,32),(51,8006690,33),(52,8006690,34),(53,8006690,35),(54,8006690,36),(55,8006690,37),(56,8006690,38),(57,8006690,39),(58,8006690,40),(59,8006690,41),(60,8006690,42),(61,8006690,43),(62,8006690,44),(63,8006690,45),(64,8006690,46),(65,8006690,47),(66,8006690,48),(67,8006690,49),(68,8006690,50),(69,8006690,51),(70,8006690,52),(71,8006690,53),(72,8006690,54),(73,8006690,55),(74,8006690,56),(75,8006690,57),(76,8006690,58),(77,8006690,59),(78,8006690,60),(79,8006690,61),(80,8006690,62),(81,8006690,63),(82,8006690,64),(83,8006690,65),(84,8006690,66),(85,8006690,67),(86,8006690,68),(87,8006690,69),(88,8006690,70),(89,8006690,71),(90,8006690,72),(91,8006690,73),(92,8006690,74),(93,8006690,75),(94,8006690,76),(95,8006690,77),(96,8006690,78),(97,8006690,79),(98,8006690,80),(99,8006690,81),(100,8006690,82),(101,8006690,83),(102,8006690,84),(103,8006690,85),(104,8006690,86),(105,8006690,87),(106,8006690,88),(107,8006690,89),(108,8006690,90),(109,8006690,91),(110,8006690,92),(111,8006690,93),(112,8006690,94),(113,8006690,95),(114,8006690,96),(115,8006690,97),(116,8006690,98),(117,8006690,99),(118,8006690,100),(119,8006690,101),(120,8006690,102),(121,8006690,103),(122,8006690,104),(123,8006690,105),(124,8006690,106),(125,8006690,107),(126,8006690,108),(127,8006690,109),(128,8006690,110),(129,8006690,111),(130,8006690,112),(131,8006690,113),(132,8006690,114),(133,8006690,115),(134,8006690,116),(135,8006690,117),(136,8006690,118),(137,8006690,119),(138,8006690,120),(139,8006690,121),(140,8006690,122),(141,8006690,123),(142,8006690,124),(143,8006690,125),(144,8006690,126),(145,8006690,127),(146,8006690,128),(147,8006690,129),(148,8006690,130),(149,8006690,131),(150,8006690,132),(151,8006690,133),(152,8006690,134),(153,8006690,135),(154,8006690,136),(155,8006690,137),(156,8006690,138),(157,8006690,139),(158,8006690,140),(159,8006690,141),(160,8006690,142),(161,8006690,143),(162,8006690,144),(163,8006690,145),(164,8006690,146),(165,8006690,147),(166,8006690,148),(167,8006690,149),(168,8006690,150),(169,8006690,151),(170,8006690,152),(171,8006690,153),(172,8006690,154),(173,8006690,155),(174,8006690,156),(175,8006690,157),(176,8006690,158),(177,8006690,159),(178,8006690,160),(179,8006690,161),(180,8006690,162),(181,8006690,163),(182,8006690,164),(183,8006690,165),(184,8006690,166),(185,8006690,167),(186,8006690,168),(187,8006690,169),(188,8006690,170),(189,8006690,171),(190,8006690,172),(191,8006690,173),(192,8006690,174),(193,8006690,175),(194,8006690,176),(195,8006690,177),(196,8006690,178),(197,8006690,179),(198,8006690,180),(199,8006690,181),(200,8006690,182),(201,8006690,183),(202,8006690,184),(203,8006690,185),(204,8006690,186),(205,8006690,187),(206,8006690,188),(207,8006690,189),(208,8006690,190),(209,8006690,191),(210,8006690,192),(211,8006690,193),(212,8006690,194),(213,8006690,195),(214,8006690,196),(215,8006690,197),(216,8006690,198),(217,8006690,199),(218,8006690,200),(219,8006690,201),(220,8006690,202),(221,8006690,203),(222,8006690,204),(223,8006690,205),(224,8006690,206),(225,8006690,207),(226,8006690,208),(227,8006690,209),(228,8006690,210),(229,8006690,211),(230,8006690,212),(231,8006690,213),(232,8006690,214),(233,8006690,215),(234,8006690,216),(235,8006690,217),(236,8006690,218),(237,8006690,219),(238,8006690,220),(239,8006690,221),(240,8006690,222),(241,8006690,223),(242,8006690,224),(243,8006690,225),(244,8006690,226),(245,8006690,227),(246,8006690,228),(247,8006690,229),(248,8006690,230),(249,8006690,231),(250,8006690,232),(251,8006690,233),(252,8006690,234),(253,8006690,235),(254,8006690,236),(255,8006690,237),(256,8006690,238),(257,8006690,239),(258,8006690,240),(259,8006690,241),(260,8006690,242),(261,8006690,243),(262,8006690,244),(263,8006690,245),(264,8006690,246),(265,8006690,247);
 
 /*Table structure for table `t_member_kdock` */
 
@@ -368,13 +450,13 @@ CREATE TABLE `t_member_kdock` (
   `ITEM4` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM5` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
   CONSTRAINT `t_member_kdock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_kdock` */
 
-insert  into `t_member_kdock`(`index`,`member_id`,`ID`,`STATE`,`CREATED_SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`,`ITEM5`) values (13,8006690,1,0,0,0,'0',0,0,0,0,0),(14,8006690,2,0,0,0,'0',0,0,0,0,0),(15,8006690,3,-1,0,0,'0',0,0,0,0,0),(16,8006690,4,-1,0,0,'0',0,0,0,0,0);
+insert  into `t_member_kdock`(`index`,`member_id`,`ID`,`STATE`,`CREATED_SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`,`ITEM5`) values (1,9007383,1,0,0,0,'0',0,0,0,0,0),(2,9007383,2,0,0,0,'0',0,0,0,0,0),(3,9007383,3,-1,0,0,'0',0,0,0,0,0),(4,9007383,4,-1,0,0,'0',0,0,0,0,0),(5,8006690,1,0,0,0,'0',0,0,0,0,0),(6,8006690,2,0,0,0,'0',0,0,0,0,0),(7,8006690,3,-1,0,0,'0',0,0,0,0,0),(8,8006690,4,-1,0,0,'0',0,0,0,0,0);
 
 /*Table structure for table `t_member_log` */
 
@@ -388,7 +470,7 @@ CREATE TABLE `t_member_log` (
   `STATE` varchar(255) NOT NULL,
   `MESSAGE` varchar(255) NOT NULL,
   PRIMARY KEY (`index`),
-  KEY `member_id` (`member_id`),
+  KEY `member_id` (`member_id`) USING BTREE,
   CONSTRAINT `t_member_log_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -409,13 +491,13 @@ CREATE TABLE `t_member_material` (
   `DEV_ITEM` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ENH_ITEM` mediumint(8) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`),
-  KEY `member_id` (`member_id`),
+  KEY `member_id` (`member_id`) USING BTREE,
   CONSTRAINT `t_member_material_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_material` */
 
-insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEEL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,1240,1240,1240,1080,0,0,0,0);
+insert  into `t_member_material`(`member_id`,`FUEL`,`BULL`,`STEEL`,`BAUXITE`,`FAST_REC`,`FAST_BUILD`,`DEV_ITEM`,`ENH_ITEM`) values (8006690,9837,735,9855,9512,3,30,29,30),(9007383,300000,300000,300000,300000,3000,3000,3000,3000);
 
 /*Table structure for table `t_member_mission` */
 
@@ -427,15 +509,15 @@ CREATE TABLE `t_member_mission` (
   `mission_id` int(10) unsigned NOT NULL,
   `state` tinyint(4) NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`mission_id`),
-  KEY `mission_id` (`mission_id`),
+  UNIQUE KEY `member_id` (`member_id`,`mission_id`) USING BTREE,
+  KEY `mission_id` (`mission_id`) USING BTREE,
   CONSTRAINT `t_member_mission_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_mission_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `t_mission` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8;
+  CONSTRAINT `t_member_mission_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_mission` */
 
-insert  into `t_member_mission`(`index`,`member_id`,`mission_id`,`state`) values (140,8006690,1,-1),(141,8006690,2,-1),(142,8006690,3,-1),(143,8006690,4,-1),(144,8006690,5,-1),(145,8006690,6,-1),(146,8006690,7,-1),(147,8006690,8,-1),(148,8006690,9,-1),(149,8006690,10,-1),(150,8006690,11,-1),(151,8006690,12,-1),(152,8006690,13,-1),(153,8006690,14,-1),(154,8006690,15,-1),(155,8006690,16,-1),(156,8006690,17,-1),(157,8006690,18,-1),(158,8006690,19,-1),(159,8006690,20,-1),(160,8006690,21,-1),(161,8006690,22,-1),(162,8006690,23,-1),(163,8006690,24,-1),(164,8006690,25,-1),(165,8006690,26,-1),(166,8006690,27,-1),(167,8006690,28,-1),(168,8006690,29,-1),(169,8006690,30,-1),(170,8006690,31,-1),(171,8006690,32,-1),(172,8006690,33,-1),(173,8006690,34,-1),(174,8006690,35,-1),(175,8006690,36,-1),(176,8006690,37,-1),(177,8006690,38,-1),(178,8006690,39,-1),(179,8006690,40,-1);
+insert  into `t_member_mission`(`index`,`member_id`,`mission_id`,`state`) values (1,9007383,1,-1),(2,9007383,2,-1),(3,9007383,3,-1),(4,9007383,4,-1),(5,9007383,5,-1),(6,9007383,6,-1),(7,9007383,7,-1),(8,9007383,8,-1),(9,9007383,9,-1),(10,9007383,10,-1),(11,9007383,11,-1),(12,9007383,12,-1),(13,9007383,13,-1),(14,9007383,14,-1),(15,9007383,15,-1),(16,9007383,16,-1),(17,9007383,17,-1),(18,9007383,18,-1),(19,9007383,19,-1),(20,9007383,20,-1),(21,9007383,21,-1),(22,9007383,22,-1),(23,9007383,23,-1),(24,9007383,25,-1),(25,9007383,26,-1),(26,9007383,27,-1),(27,9007383,28,-1),(28,9007383,29,-1),(29,9007383,30,-1),(30,9007383,31,-1),(31,9007383,32,-1),(32,9007383,33,-1),(33,9007383,34,-1),(34,9007383,35,-1),(35,9007383,36,-1),(36,9007383,37,-1),(37,9007383,38,-1),(38,9007383,39,-1),(39,8006690,1,0),(40,8006690,2,-1),(41,8006690,3,-1),(42,8006690,4,-1),(43,8006690,5,-1),(44,8006690,6,-1),(45,8006690,7,-1),(46,8006690,8,-1),(47,8006690,9,-1),(48,8006690,10,-1),(49,8006690,11,-1),(50,8006690,12,-1),(51,8006690,13,-1),(52,8006690,14,-1),(53,8006690,15,-1),(54,8006690,16,-1),(55,8006690,17,-1),(56,8006690,18,-1),(57,8006690,19,-1),(58,8006690,20,-1),(59,8006690,21,-1),(60,8006690,22,-1),(61,8006690,23,-1),(62,8006690,25,-1),(63,8006690,26,-1),(64,8006690,27,-1),(65,8006690,28,-1),(66,8006690,29,-1),(67,8006690,30,-1),(68,8006690,31,-1),(69,8006690,32,-1),(70,8006690,33,-1),(71,8006690,34,-1),(72,8006690,35,-1),(73,8006690,36,-1),(74,8006690,37,-1),(75,8006690,38,-1),(76,8006690,39,-1);
 
 /*Table structure for table `t_member_ndock` */
 
@@ -454,13 +536,13 @@ CREATE TABLE `t_member_ndock` (
   `ITEM3` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `ITEM4` mediumint(9) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
   CONSTRAINT `t_member_ndock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ndock` */
 
-insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (9,8006690,1,0,0,0,'0',0,0,0,0),(10,8006690,2,0,0,0,'0',0,0,0,0),(11,8006690,3,-1,0,0,'0',0,0,0,0),(12,8006690,4,-1,0,0,'0',0,0,0,0);
+insert  into `t_member_ndock`(`index`,`member_id`,`ID`,`STATE`,`SHIP_ID`,`COMPLETE_TIME`,`COMPLETE_TIME_STR`,`ITEM1`,`ITEM2`,`ITEM3`,`ITEM4`) values (1,8006690,1,0,0,0,'0',0,0,0,0),(2,8006690,2,0,0,0,'0',0,0,0,0),(3,8006690,3,0,0,0,'0',0,0,0,0),(4,8006690,4,0,0,0,'0',0,0,0,0);
 
 /*Table structure for table `t_member_ship` */
 
@@ -496,15 +578,15 @@ CREATE TABLE `t_member_ship` (
   `DELETED` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`),
-  KEY `SHIP_ID` (`SHIP_ID`),
-  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
+  KEY `SHIP_ID` (`SHIP_ID`) USING BTREE,
+  CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship` */
 
-insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`KYOUKA`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (41,8006690,1,1,1,'[0,100,0]',13,13,1,'[-1,-1,-1,-1,-1]','[0,0,0,0,0]','[0,0,0,0]',15,15,1,40,'[6,29]','[18,59]','[7,29]','[5,18]','[37,79]','[16,39]','[4,17]','[12,49]',0,0,0,NULL);
+insert  into `t_member_ship`(`index`,`member_id`,`ID`,`SHIP_ID`,`LV`,`EXP`,`NOWHP`,`MAXHP`,`LENG`,`SLOT`,`ONSLOT`,`KYOUKA`,`FUEL`,`BULL`,`SRATE`,`COND`,`KARYOKU`,`RAISOU`,`TAIKU`,`SOUKOU`,`KAIHI`,`TAISEN`,`SAKUTEKI`,`LUCKY`,`LOCKED`,`LOCKED_EQUIP`,`DELETED`,`DELETED_TIME`) values (1,8006690,1,153,1,'[0,100,0]',67,67,1,'[-1,-1,-1,-1,-1]','[18,18,18,7,0]','[0,0,0,0]',70,65,1,40,'[0,49]','[0,0]','[42,79]','[40,79]','[33,57]','[0,0]','[47,74]','[2,19]',0,0,0,NULL),(2,8006690,2,131,1,'[0,100,0]',93,93,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0]',250,300,1,49,'[96,129]','[0,0]','[50,94]','[88,108]','[27,59]','[0,0]','[15,39]','[12,79]',0,0,0,NULL),(3,8006690,3,143,1,'[0,100,0]',94,94,4,'[-1,-1,-1,-1,-1]','[7,7,7,7,0]','[0,0,0,0]',250,300,1,40,'[96,129]','[0,0]','[50,94]','[88,108]','[27,59]','[0,0]','[16,40]','[10,79]',0,0,0,NULL),(4,8006690,4,171,1,'[0,100,0]',90,90,3,'[-1,-1,-1,-1,-1]','[4,4,4,4,0]','[0,0,0,0]',90,110,1,40,'[64,88]','[0,0]','[18,48]','[67,83]','[0,50]','[0,50]','[0,50]','[8,69]',1,0,0,NULL),(6,8006690,5,155,1,'[0,100,0]',20,20,1,'[-1,-1,-1,-1,-1]','[3,0,0,0,0]','[0,0,0,0]',20,15,1,40,'[2,9]','[36,72]','[0,0]','[5,24]','[0,50]','[0,50]','[0,50]','[20,59]',1,0,0,NULL),(7,8006690,6,450,1,'[0,100,0]',36,36,1,'[-1,-1,-1,-1,-1]','[1,1,1,0,0]','[20,0,26,29]',60,15,1,40,'[28,28]','[0,0]','[42,44]','[42,42]','[0,50]','[0,50]','[0,50]','[14,72]',1,0,0,NULL);
 
 /*Table structure for table `t_member_ship_slotitem_mapping` */
 
@@ -516,8 +598,7 @@ CREATE TABLE `t_member_ship_slotitem_mapping` (
   `member_ship_id` bigint(20) unsigned NOT NULL,
   `member_slotitem_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`),
-  CONSTRAINT `t_member_ship_slotitem_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `member_id` (`member_id`,`member_ship_id`,`member_slotitem_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_ship_slotitem_mapping` */
@@ -536,14 +617,16 @@ CREATE TABLE `t_member_slotitem` (
   `DELETED` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `unique_index` (`member_id`,`ID`),
-  KEY `SLOTITEM_ID` (`SLOTITEM_ID`),
-  KEY `member_id` (`member_id`),
-  CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`),
-  CONSTRAINT `t_member_slotitem_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `unique_index` (`member_id`,`ID`) USING BTREE,
+  KEY `SLOTITEM_ID` (`SLOTITEM_ID`) USING BTREE,
+  KEY `member_id` (`member_id`) USING BTREE,
+  CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `t_member_slotitem_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_slotitem` */
+
+insert  into `t_member_slotitem`(`index`,`member_id`,`ID`,`LEVEL`,`LOCKED`,`SLOTITEM_ID`,`DELETED`,`DELETED_TIME`) values (2,8006690,1,0,0,56,0,NULL),(3,8006690,2,0,0,56,0,NULL),(4,8006690,3,0,0,56,0,NULL),(5,8006690,4,0,0,56,0,NULL),(6,8006690,5,0,0,9,0,NULL),(7,8006690,6,0,0,9,0,NULL),(8,8006690,7,0,0,9,0,NULL),(9,8006690,8,0,0,9,0,NULL),(10,8006690,9,0,0,9,0,NULL),(11,8006690,10,0,0,9,0,NULL),(12,8006690,11,0,0,9,0,NULL),(13,8006690,12,0,0,9,0,NULL),(14,8006690,13,0,0,34,0,NULL),(15,8006690,14,0,0,34,0,NULL),(16,8006690,15,0,0,34,0,NULL),(17,8006690,16,0,0,34,1,'2015-07-04 20:57:13'),(18,8006690,17,0,0,73,0,NULL),(19,8006690,18,0,0,73,0,NULL),(20,8006690,19,0,0,73,0,NULL),(21,8006690,20,0,0,73,0,NULL),(22,8006690,21,0,0,58,0,NULL),(23,8006690,22,0,0,58,0,NULL),(24,8006690,23,0,0,58,0,NULL),(25,8006690,24,0,0,58,0,NULL),(26,8006690,25,0,0,47,0,NULL),(27,8006690,26,0,0,47,0,NULL),(28,8006690,27,0,0,47,0,NULL),(29,8006690,28,0,0,47,0,NULL),(30,8006690,29,0,0,31,0,NULL),(31,8006690,30,0,0,31,0,NULL),(32,8006690,31,0,0,31,0,NULL),(33,8006690,32,0,0,31,0,NULL),(34,8006690,33,0,0,31,0,NULL),(35,8006690,34,0,0,31,0,NULL),(38,8006690,35,0,0,47,0,NULL),(39,8006690,36,0,0,47,0,NULL);
 
 /*Table structure for table `t_member_useitem` */
 
@@ -555,15 +638,15 @@ CREATE TABLE `t_member_useitem` (
   `ID` int(10) unsigned NOT NULL,
   `COUNT` int(10) NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`),
-  KEY `ID` (`ID`),
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
+  KEY `ID` (`ID`) USING BTREE,
   CONSTRAINT `t_member_useitem_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `t_member_useitem_ibfk_2` FOREIGN KEY (`ID`) REFERENCES `t_useitem` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+  CONSTRAINT `t_member_useitem_ibfk_2` FOREIGN KEY (`ID`) REFERENCES `t_useitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 /*Data for the table `t_member_useitem` */
 
-insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (34,8006690,10,0),(35,8006690,11,0),(36,8006690,12,0),(37,8006690,50,0),(38,8006690,51,0),(39,8006690,52,0),(40,8006690,54,0),(41,8006690,55,0),(42,8006690,56,0),(43,8006690,57,0),(44,8006690,58,0),(45,8006690,59,0),(46,8006690,60,0),(47,8006690,61,0),(48,8006690,62,0),(49,8006690,63,0);
+insert  into `t_member_useitem`(`index`,`member_id`,`ID`,`COUNT`) values (2,8006690,10,0),(3,8006690,11,0),(4,8006690,12,0),(5,8006690,50,0),(6,8006690,51,0),(7,8006690,52,0),(8,8006690,54,0),(9,8006690,55,0),(10,8006690,56,0),(11,8006690,57,0),(12,8006690,58,0),(13,8006690,59,0),(14,8006690,60,1),(15,8006690,61,0),(16,8006690,62,0),(17,8006690,63,0);
 
 /*Table structure for table `t_mission` */
 
@@ -621,25 +704,6 @@ CREATE TABLE `t_pay_item` (
 
 insert  into `t_pay_item`(`ID`,`TYPE`,`NAME`,`DESCRIPTION`,`ITEM`,`PRICE`) values (1,0,'燃料パック200','補給のお供！燃料パック<br>(燃料を200回復させます)','[200,0,0,0,0,0,0,0]',100),(2,0,'弾薬パック200','補給のお供！弾薬パック<br>(弾薬を200回復させます)','[0,200,0,0,0,0,0,0]',100),(3,0,'鋼材パック150','艦の建造に！鋼材パック<br>(鋼材を150回復させます)','[0,0,150,0,0,0,0,0]',100),(4,0,'ボーキサイトパック100','航空機関連にボーキサイトパック(ボーキサイトを100回復させます)','[0,0,0,100,0,0,0,0]',100),(5,0,'開発資材パック7','建造・開発をバリバリどうぞ！<br>開発資材パック(7回分)','[0,0,0,0,0,0,7,0]',500),(6,0,'高速建造材パック5','建造時間を劇的に短縮！<br>高速建造材パック(5回分)','[0,0,0,0,5,0,0,0]',300),(7,0,'高速修復材パック5','修理、お待たせしません！<br>高速修復材パック(5回分)','[0,0,0,0,0,5,0,0]',300),(8,0,'お買得！工廠セット','お買得！工廠セット(鋼1500，ボ200，弾200，燃200，開発資材2)','[200,200,1500,200,0,0,2,0]',700),(9,0,'お買得！出撃セット','お買得！出撃セット(燃500，弾500，鋼200，高速修復材2)','[500,500,200,0,0,2,0,0]',300),(10,0,'ドック増設セット','ドック増設セット(鍵1，開発資材5，高速建造5，高速修復5)','[0,0,0,0,5,5,5,0]',1000),(11,0,'応急修理要員','大切な艦を轟沈から護ります！<br>応急修理要員(1回分)','[0,0,0,0,0,0,0,0]',200),(12,0,'ダメコン特盛セット','期間限定！ダメコン特盛セット(応急修理女神2，応急修理要員3)','[0,0,0,0,0,0,0,0]',1000),(13,0,'八八資源セット','期間限定！八八資源セット(燃880，弾880，鋼880，ボ880)','[880,880,880,880,0,0,0,0]',900),(14,0,'応急修理女神','轟沈を防ぎ耐久補給全回復！<br>応急修理女神(1回分)','[0,0,0,0,0,0,0,0]',500),(15,0,'特注家具職人','特注家具を製作できます！<br>特注家具職人(1回分)','[0,0,0,0,0,0,0,0]',300),(16,0,'母港拡張','母港拡張 艦隊の艦娘保有数を+10隻分拡張できます！<br>※ご注意※ 最大計260隻まで！ 装備枠も自動的に+40増加します。','[0,0,0,0,0,0,0,0]',1000),(17,0,'タンカー徴用','油の一滴は…燃料不足解消に！<br>タンカー徴用(燃1000)','[1000,0,0,0,0,0,0,0]',300),(18,0,'給糧艦「間宮」','給糧艦「間宮」召喚 艦娘の疲れた心を食糧や甘味でたちまち回復(1艦隊1回分)','[0,0,0,0,0,0,0,0]',300),(19,0,'アルミ大量産','ジュラルミンは航空機の源！<br>アルミ大増産(ボ550)','[0,0,0,550,0,0,0,0]',300),(20,0,'書類一式＆指輪','レベルが99になった艦娘とケッコンカッコカリ！<br>書類一式＆指輪(1回分)','[0,0,0,0,0,0,0,0]',700),(21,0,'艦娘へのクッキー','ホワイトデー特別アイテム、「艦娘へのクッキー」 ※「間宮」券付です！<br>(鋼材314，ボーキ314，開発資材2)','[0,0,314,314,0,0,2,0]',500),(22,0,'改修資材パック10','明石さんの「改修工廠」で、装備を改修します。<br>(改修資材10)','[0,0,0,0,0,0,0,10]',700),(23,0,'給糧艦「伊良湖」5','給糧艦「伊良湖」召喚 甘いスイーツで何人かの艦娘の気分がたちまち高揚！(5回分)','[0,0,0,0,0,0,0,0]',1000);
 
-/*Table structure for table `t_port_bgm` */
-
-DROP TABLE IF EXISTS `t_port_bgm`;
-
-CREATE TABLE `t_port_bgm` (
-  `INDEX` int(10) unsigned NOT NULL,
-  `NAME` varchar(63) NOT NULL,
-  `DESCRIPTION` varchar(255) DEFAULT NULL,
-  `BGM_ID` int(10) unsigned NOT NULL,
-  `USE_COIN` smallint(3) unsigned DEFAULT '0',
-  `BGM_FLAG` tinyint(3) unsigned DEFAULT '1',
-  `LOOPS` tinyint(3) unsigned DEFAULT '1',
-  PRIMARY KEY (`INDEX`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Data for the table `t_port_bgm` */
-
-insert  into `t_port_bgm`(`INDEX`,`NAME`,`DESCRIPTION`,`BGM_ID`,`USE_COIN`,`BGM_FLAG`,`LOOPS`) values (5,'母港','母港BGM設定可能',101,100,1,1),(6,'秋月の空','母港BGM設定可能',205,1000,1,2),(7,'明石の工廠','母港BGM設定可能',206,1000,1,2),(8,'連合艦隊の出撃','母港BGM設定可能',210,1000,1,2),(9,'海上護衛戦','母港BGM設定可能',208,1000,1,2),(10,'冬の艦隊','母港BGM設定可能',211,1000,1,2),(11,'迎春の鎮守府','母港BGM設定可能',212,1000,1,2),(12,'士魂の護り','母港BGM設定可能',213,1000,1,2),(13,'特型駆逐艦','母港BGM設定可能',214,1000,1,2),(14,'艦娘のお菓子作り','母港BGM設定可能',215,1000,1,2),(15,'桃の節句と艦娘','母港BGM設定可能',216,1000,1,2),(16,'武蔵の帰投','母港BGM設定可能',217,1000,1,2),(17,'雨音の鎮守府','母港BGM設定可能',218,1000,1,2),(18,'雨とお酒と艦娘','母港BGM設定可能',219,1000,1,2),(19,'暁の水平線に','視聴ロングバージョン',220,700,0,1),(20,'鎮守府の朝','視聴ロングバージョン',221,700,0,1),(21,'華の二水戦','視聴ロングバージョン',222,700,0,1),(22,'提督との絆','視聴ロングバージョン',223,700,0,1),(23,'浜辺の艦娘','母港BGM設定可能',224,1500,1,2),(24,'加賀岬','試製新曲先行公開',225,1500,1,2);
-
 /*Table structure for table `t_ship` */
 
 DROP TABLE IF EXISTS `t_ship`;
@@ -676,9 +740,9 @@ CREATE TABLE `t_ship` (
   `BULL_MAX` smallint(4) unsigned NOT NULL COMMENT '弹药',
   `VOICEF` tinyint(4) unsigned NOT NULL,
   PRIMARY KEY (`ID`),
-  KEY `type_index` (`TYPE`),
-  KEY `sortno_index` (`SORTNO`),
-  KEY `AFTERSHIPID` (`AFTERSHIPID`),
+  KEY `type_index` (`TYPE`) USING BTREE,
+  KEY `sortno_index` (`SORTNO`) USING BTREE,
+  KEY `AFTERSHIPID` (`AFTERSHIPID`) USING BTREE,
   CONSTRAINT `t_ship_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_ship_type` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -879,80 +943,62 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_after_newmember` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
-	SET UNIQUE_CHECKS=0;
-	
-	replace into t_member_material (member_id) values (new.member_id);
-	/* 创建舰队 */
-	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
-	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
-	
-	replace into t_member_deckport_ship_mapping (member_id, deck_id, member_ship_id) values 
-	(new.member_id, 1, 1);
-	
-	/** 创建出击状态记录 */
-	replace into t_member_battle_status (member_id) VALUES (new.member_id);
-	
-	/** 创建工厂 */
-	replace into t_member_kdock (member_id, ID, STATE) values 
-	(new.member_id, 1, 0),
-	(new.member_id, 2, 0),
-	(new.member_id, 3, -1),
-	(new.member_id, 4, -1);
-	
-	/** 创建渠 */
-	replace into t_member_ndock (member_id, ID, STATE) VALUES 
-	(new.member_id, 1, 0),
-	(new.member_id, 2, 0),
-	(new.member_id, 3, -1),
-	(new.member_id, 4, -1);
-	
-	/** 创建mission记录 */
-	REPLACE INTO t_member_mission (member_id, mission_id, state) 
-	SELECT new.member_id, ID , -1 FROM t_mission;
-	
-	/** 创建furniture记录 */
-	REPLACE INTO t_member_furniture (member_id, furniture_id) 
-	SELECT new.member_id, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
-	
-	/** 创建item记录 */
-	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
-	(new.member_id, 10, 0),
-	(new.member_id, 11, 0),
-	(new.member_id, 12, 0),
-	(new.member_id, 50, 0),
-	(new.member_id, 51, 0),
-	(new.member_id, 52, 0),
-	(new.member_id, 54, 0),
-	(new.member_id, 55, 0),
-	(new.member_id, 56, 0),
-	(new.member_id, 57, 0),
-	(new.member_id, 58, 0),
-	(new.member_id, 59, 0),
-	(new.member_id, 60, 0),
-	(new.member_id, 61, 0),
-	(new.member_id, 62, 0),
-	(new.member_id, 63, 0);
-	
-	SET UNIQUE_CHECKS=1;
-    END */$$
-
-
-DELIMITER ;
-
-/* Trigger structure for table `t_member_ndock` */
-
-DELIMITER $$
-
-/*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_on_finsih_ndock` */$$
-
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_on_finsih_ndock` BEFORE UPDATE ON `t_member_ndock` FOR EACH ROW BEGIN
-    if old.member_id != 0 and old.SHIP_ID != 0 then
-	update t_member_ship set nowHP = maxHp where member_id = old.member_id and ID = old.SHIP_ID;
-	end if;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
+	SET UNIQUE_CHECKS=0;
+	
+	replace into t_member_material (member_id) values (new.member_id);
+	/* 创建舰队 */
+	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
+	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
+	
+	/** 创建出击状态记录 */
+	replace into t_member_battle_status (member_id) VALUES (new.member_id);
+	
+	/** 创建工厂 */
+	replace into t_member_kdock (member_id, ID, STATE) values 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	/** 创建渠 */
+	replace into t_member_ndock (member_id, ID, STATE) VALUES 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	/** 创建mission记录 */
+	REPLACE INTO t_member_mission (member_id, mission_id, state) 
+	SELECT new.member_id, ID , -1 FROM t_mission;
+	
+	/** 创建furniture记录 */
+	REPLACE INTO t_member_furniture (member_id, furniture_id) 
+	SELECT new.member_id, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
+	
+	/** 创建item记录 */
+	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
+	(new.member_id, 10, 0),
+	(new.member_id, 11, 0),
+	(new.member_id, 12, 0),
+	(new.member_id, 50, 0),
+	(new.member_id, 51, 0),
+	(new.member_id, 52, 0),
+	(new.member_id, 54, 0),
+	(new.member_id, 55, 0),
+	(new.member_id, 56, 0),
+	(new.member_id, 57, 0),
+	(new.member_id, 58, 0),
+	(new.member_id, 59, 0),
+	(new.member_id, 60, 0),
+	(new.member_id, 61, 0),
+	(new.member_id, 62, 0),
+	(new.member_id, 63, 0);
+	
+	SET UNIQUE_CHECKS=1;
     END */$$
 
 
@@ -966,31 +1012,10 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `dock_task` ON SCHEDULE EVERY 1 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO Begin
-UPDATE t_member_ndock
-SET STATE = 0,
- SHIP_ID = 0,
- COMPLETE_TIME = 0,
- COMPLETE_TIME_STR = '0'
-WHERE
-COMPLETE_TIME_STR != '0'
-AND DATE_SUB(
-	DATE_FORMAT(
-		COMPLETE_TIME_STR,
-		'%Y-%m-%d %H:%i:%s'
-	),
-	INTERVAL 50 SECOND) < NOW();
-	
-	UPDATE t_member_kdock
-SET STATE = 3
-WHERE
-	COMPLETE_TIME_STR != '0'
-AND DATE_SUB(
-	DATE_FORMAT(
-		COMPLETE_TIME_STR,
-		'%Y-%m-%d %H:%i:%s'
-	),
-	INTERVAL 50 SECOND) < NOW();
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `dock_task` ON SCHEDULE EVERY 1 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO Begin
+	CALL finish_ndock;
+	
+	UPDATE t_member_kdock SET STATE = 3 WHERE STATE = 2 AND DATE_SUB(FROM_UNIXTIME(FLOOR(COMPLETE_TIME/1000)),INTERVAL 1 MINUTE) < NOW();
 END */$$
 DELIMITER ;
 
@@ -1000,8 +1025,8 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `material_task` ON SCHEDULE EVERY 3 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO BEGIN
-	    call increase_material();
+/*!50106 CREATE DEFINER=`root`@`localhost` EVENT `material_task` ON SCHEDULE EVERY 3 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO BEGIN
+	    call increase_material();
 	END */$$
 DELIMITER ;
 
@@ -1010,15 +1035,15 @@ DELIMITER ;
 /*!50003 DROP FUNCTION IF EXISTS `func_get_split_string` */;
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` FUNCTION `func_get_split_string`(
+/*!50003 CREATE DEFINER=`root`@`localhost` FUNCTION `func_get_split_string`(
 f_string varchar(255),f_order int) RETURNS varchar(15) CHARSET utf8
-BEGIN
-  declare result varchar(255) default '';
-  DECLARE f_str varchar(255);
-  set f_str = TRIM(LEADING '[' FROM f_string);
-  set f_str = trim(trailing ']' from f_str);
-  set result = reverse(substring_index(reverse(substring_index(f_str,',',f_order)),',',1));
-  return result;
+BEGIN
+  declare result varchar(255) default '';
+  DECLARE f_str varchar(255);
+  set f_str = TRIM(LEADING '[' FROM f_string);
+  set f_str = trim(trailing ']' from f_str);
+  set result = reverse(substring_index(reverse(substring_index(f_str,',',f_order)),',',1));
+  return result;
 END */$$
 DELIMITER ;
 
@@ -1029,55 +1054,55 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `create_ship`(IN `member_id` bigint,IN `ship_id` int)
-BEGIN
-	DECLARE now_id BIGINT;
-	SET now_id = (SELECT ifnull(MAX(ID),0) FROM t_member_ship WHERE member_id = member_id);
-	INSERT INTO t_member_ship (
-	member_id,
-	ID,
-	SHIP_ID,
-	NOWHP,
-	MAXHP,
-	LENG,
-	SLOT,
-	ONSLOT,
-	FUEL,
-	BULL,
-	SRATE,
-	KARYOKU,
-	RAISOU,
-	TAIKU,
-	SOUKOU,
-	KAIHI,
-	TAISEN,
-	SAKUTEKI,
-	LUCKY
-) SELECT
-	member_id,
-	now_id+1,
-	ship_id,
-	func_get_split_string(TAIK,1),
-	func_get_split_string(TAIK,1),
-	LENG,
-	'[-1,-1,-1,-1,-1]',
-	MAXEQ,
-	FUEL_MAX,
-	BULL_MAX,
-	1,
-	HOUG,
-	RAIG,
-	TYKU,
-	SOUK,
-	KAIHI,
-	TAISEN,
-	SAKUTEKI,
-	LUCK
-FROM
-	t_ship ts
-WHERE
-	ts.ID = ship_id;
-	
-select * from t_member_ship where member_id = member_id and ID = now_id+1;
+BEGIN
+	DECLARE now_id BIGINT;
+	SET now_id = (SELECT ifnull(MAX(ID),0) FROM t_member_ship WHERE member_id = member_id);
+	INSERT INTO t_member_ship (
+	member_id,
+	ID,
+	SHIP_ID,
+	NOWHP,
+	MAXHP,
+	LENG,
+	SLOT,
+	ONSLOT,
+	FUEL,
+	BULL,
+	SRATE,
+	KARYOKU,
+	RAISOU,
+	TAIKU,
+	SOUKOU,
+	KAIHI,
+	TAISEN,
+	SAKUTEKI,
+	LUCKY
+) SELECT
+	member_id,
+	now_id+1,
+	ship_id,
+	func_get_split_string(TAIK,1),
+	func_get_split_string(TAIK,1),
+	LENG,
+	'[-1,-1,-1,-1,-1]',
+	MAXEQ,
+	FUEL_MAX,
+	BULL_MAX,
+	1,
+	HOUG,
+	RAIG,
+	TYKU,
+	SOUK,
+	KAIHI,
+	TAISEN,
+	SAKUTEKI,
+	LUCK
+FROM
+	t_ship ts
+WHERE
+	ts.ID = ship_id;
+	
+select * from t_member_ship where member_id = member_id and ID = now_id+1;
 END */$$
 DELIMITER ;
 
@@ -1096,6 +1121,42 @@ BEGIN
 END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `finish_ndock` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `finish_ndock` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `finish_ndock`()
+BEGIN
+	DECLARE now_cond INT;
+	DECLARE m_id BIGINT;
+	DECLARE s_id BIGINT;
+	DECLARE ndock_id TINYINT;
+
+	DECLARE s INT DEFAULT 0; 
+	
+	DECLARE cursor_ndock CURSOR FOR SELECT member_id,SHIP_ID,ID FROM t_member_ndock WHERE STATE = 1 AND DATE_SUB(FROM_UNIXTIME(FLOOR(COMPLETE_TIME/1000)),	INTERVAL 1 MINUTE) < NOW();
+
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET s=1;
+	
+	OPEN cursor_ndock;
+	
+	WHILE s <> 1 DO  
+		FETCH cursor_ndock into m_id,s_id,ndock_id; 
+		SET now_cond = (SELECT COND FROM t_member_ship WHERE member_id = m_id AND ID = s_id);
+		IF now_cond < 40 THEN
+			UPDATE t_member_ship SET COND=40,NOWHP=MAXHP WHERE member_id = m_id AND ID = s_id;
+		ELSE
+			UPDATE t_member_ship SET NOWHP=MAXHP WHERE member_id = m_id AND ID = s_id;
+		END IF;
+		UPDATE t_member_ndock SET STATE =0,SHIP_ID=0, COMPLETE_TIME=0, COMPLETE_TIME_STR='0' ,ITEM1=0, ITEM3=0 WHERE member_id = m_id AND ID = ndock_id;
+	END WHILE;
+
+	CLOSE cursor_ndock ;
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `increase_material` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `increase_material` */;
@@ -1103,62 +1164,62 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `increase_material`()
-BEGIN
-	declare now_member_id bigint;
-	DECLARE max_material INT;
-	DECLARE now_fuel int;
-	declare add_fuel int default 0;
-	DECLARE now_bull int;
-	DECLARE add_bull INT DEFAULT 0;
-	DECLARE now_steel int;
-	DECLARE add_steel INT DEFAULT 0;
-	DECLARE now_bauxite int;
-	DECLARE add_bauxite INT DEFAULT 0;
-	
-	DECLARE s INT DEFAULT 0; 
-	
-	DECLARE cursor_material CURSOR FOR select FUEL,BULL,STEEL,BAUXITE,member_id from t_member_material;
-	
-	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET s=1;
-	
-	OPEN cursor_material;
-	
-	while s <> 1 do  
-	
-		fetch  cursor_material into now_fuel,now_bull,now_steel,now_bauxite,now_member_id; 
-		
-		SET max_material = (SELECT (750 + 250 * LEVEL) FROM t_member WHERE member_id = now_member_id);
-		
-		if now_fuel < (max_material -3)  then 
-			set add_fuel = 3;
-		else
-			set add_fuel = 0;
-		end if;
-		
-		if now_bull < (max_material -3)  THEN 
-			set add_bull = 3;
-		else 
-			set add_bull = 0;
-		end if;
-		
-		if now_steel < (max_material -3)  THEN 
-			set add_steel = 3;
-		else	
-			set add_steel = 0;
-		end if;
-		
-		if now_bauxite < (max_material - 1) THEN 
-			set add_bauxite = 1;
-		else
-			set add_bauxite = 0;
-		end if;
-		
-		update t_member_material set FUEL = FUEL+add_fuel, BULL=BULL+add_bull, STEEL=STEEL+add_steel,BAUXITE = BAUXITE + add_bauxite where member_id = now_member_id;
-	
-	end while; 
-	
-	CLOSE cursor_material ;
-	
+BEGIN
+	declare now_member_id bigint;
+	DECLARE max_material INT;
+	DECLARE now_fuel int;
+	declare add_fuel int default 0;
+	DECLARE now_bull int;
+	DECLARE add_bull INT DEFAULT 0;
+	DECLARE now_steel int;
+	DECLARE add_steel INT DEFAULT 0;
+	DECLARE now_bauxite int;
+	DECLARE add_bauxite INT DEFAULT 0;
+	
+	DECLARE s INT DEFAULT 0; 
+	
+	DECLARE cursor_material CURSOR FOR select FUEL,BULL,STEEL,BAUXITE,member_id from t_member_material;
+	
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET s=1;
+	
+	OPEN cursor_material;
+	
+	while s <> 1 do  
+	
+		fetch  cursor_material into now_fuel,now_bull,now_steel,now_bauxite,now_member_id; 
+		
+		SET max_material = (SELECT (750 + 250 * LEVEL) FROM t_member WHERE member_id = now_member_id);
+		
+		if now_fuel < (max_material -3)  then 
+			set add_fuel = 3;
+		else
+			set add_fuel = 0;
+		end if;
+		
+		if now_bull < (max_material -3)  THEN 
+			set add_bull = 3;
+		else 
+			set add_bull = 0;
+		end if;
+		
+		if now_steel < (max_material -3)  THEN 
+			set add_steel = 3;
+		else	
+			set add_steel = 0;
+		end if;
+		
+		if now_bauxite < (max_material - 1) THEN 
+			set add_bauxite = 1;
+		else
+			set add_bauxite = 0;
+		end if;
+		
+		update t_member_material set FUEL = FUEL+add_fuel, BULL=BULL+add_bull, STEEL=STEEL+add_steel,BAUXITE = BAUXITE + add_bauxite where member_id = now_member_id;
+	
+	end while; 
+	
+	CLOSE cursor_material ;
+	
     END */$$
 DELIMITER ;
 
