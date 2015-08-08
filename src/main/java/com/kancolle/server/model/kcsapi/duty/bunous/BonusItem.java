@@ -2,7 +2,7 @@ package com.kancolle.server.model.kcsapi.duty.bunous;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class BounsItem implements Bouns {
+public class BonusItem implements Bonus {
 
     @JSONField(ordinal = 1)
     private int api_id;
@@ -10,7 +10,7 @@ public class BounsItem implements Bouns {
     @JSONField(ordinal = 2)
     private String api_name;
 
-    public BounsItem(int item_id, String item_name) {
+    public BonusItem(int item_id, String item_name) {
         this.api_id = item_id;
         this.api_name = item_name;
     }

@@ -13,9 +13,9 @@ public class DutyItemGetResult {
     private int api_bounus_count;
 
     @JSONField(ordinal = 3)
-    private List<DutyBouns> api_bounus;
+    private List<DutyBonusResult> api_bounus;
 
-    public DutyItemGetResult(int[] api_material, int api_bounus_count, List<DutyBouns> api_bounus) {
+    public DutyItemGetResult(int[] api_material, int api_bounus_count, List<DutyBonusResult> api_bounus) {
         super();
         this.api_material = api_material;
         this.api_bounus_count = api_bounus_count;
@@ -38,11 +38,11 @@ public class DutyItemGetResult {
         this.api_bounus_count = api_bounus_count;
     }
 
-    public List<DutyBouns> getApi_bounus() {
+    public List<DutyBonusResult> getApi_bounus() {
         return api_bounus;
     }
 
-    public void setApi_bounus(List<DutyBouns> api_bounus) {
+    public void setApi_bounus(List<DutyBonusResult> api_bounus) {
         this.api_bounus = api_bounus;
     }
 }

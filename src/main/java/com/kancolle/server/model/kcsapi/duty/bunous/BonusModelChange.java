@@ -1,5 +1,5 @@
 package com.kancolle.server.model.kcsapi.duty.bunous;
 
-public class BonusModelChange implements Bouns {
+public class BonusModelChange implements Bonus {
 
 }

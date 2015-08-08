@@ -24,10 +24,11 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.kancolle.server.dao.duty.MemberDutyDao;
 import com.kancolle.server.model.event.PowUpEvent;
-import com.kancolle.server.model.kcsapi.duty.DutyBouns;
+import com.kancolle.server.model.kcsapi.duty.DutyBonusResult;
 import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
 import com.kancolle.server.model.po.duty.Duty;
+import com.kancolle.server.model.po.duty.DutyBonus;
 import com.kancolle.server.model.po.duty.MemberDuty;
 import com.kancolle.server.model.po.useitem.UseItem;
 import com.kancolle.server.service.duty.DutyResultChecker;
@@ -131,9 +132,9 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         }
     }
 
-    private void addResource(int[] increaseItems, int[] winItem) {
-        int count = winItem[1];
-        switch (winItem[0]) {
+    private void addResource(int[] increaseItems, DutyBonus bonus) {
+        int count = bonus.getCount();
+        switch (bonus.getItemId()) {
         case 5:
             increaseItems[1] = count;
             break;
@@ -157,66 +158,63 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         MemberDuty memberDuty = getMemberDuty(member_id, quest_id);
         Duty duty = memberDuty.getDuty();
 
-        List<DutyBouns> api_bounus = Lists.newArrayListWithCapacity(2);
+        List<DutyBonusResult> api_bounus = Lists.newArrayListWithCapacity(2);
         int[] increaseItems = { 0, 0, 0, 0 };
-        int[][] winItemArrays = { duty.getWinItem1(), duty.getWinItem2() };
+        List<DutyBonus> dutyBonus = duty.getDutyBonus();
 
-        switch (duty.getBonusFlag()) {
-        case Duty.BONUS_TYPE_RESOURCE:
-            // 5高速建造,6高速修复,7开发紫菜,8修改资材
-            for (int[] winItem : winItemArrays) {
-                if (winItem[0] != 0 && winItem[1] > 0) {
-                    Integer useitem_id = Integer.valueOf(winItem[0]);
+        for (DutyBonus bonus : dutyBonus) {
+            int itemId = bonus.getItemId();
+            int count = bonus.getCount();
+            switch (duty.getBonusFlag()) {
+            case Duty.BONUS_TYPE_RESOURCE:
+                // 5高速建造,6高速修复,7开发紫菜,8修改资材
+                if (itemId != 0 && count > 0) {
+                    Integer useitem_id = Integer.valueOf(itemId);
                     UseItem useitem = useItemService.getUseItemById(useitem_id);
-                    api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem[1], winItem[0], useitem.getName()));
-                    addResource(increaseItems, winItem);
+                    api_bounus.add(new DutyBonusResult(bonus.getType(), count, itemId, useitem.getName()));
+                    addResource(increaseItems, bonus);
                 }
-            }
-            break;
-        case Duty.BONUS_TYPE_OPEN_DECK:
-            Integer deckport_id = Integer.valueOf(duty.getBonusItemId());
-            memberDeckPortService.openDeckPort(member_id, deckport_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 0, 0, String.format("第%d艦隊", duty.getBonusItemId())));
-            break;
-        case Duty.BONUS_TYPE_FURNITUREBOX:
-            for (int[] winItem : winItemArrays) {
-                if (winItem[0] != 0 && winItem[1] > 0) {
-                    Integer useitem_id = Integer.valueOf(winItem[0]);
+                break;
+            case Duty.BONUS_TYPE_OPEN_DECK:
+                Integer deckport_id = Integer.valueOf(bonus.getItemId());
+                memberDeckPortService.openDeckPort(member_id, deckport_id);
+                api_bounus.add(new DutyBonusResult(bonus.getType(), 0, 0, String.format("第%d艦隊", bonus.getItemId())));
+                break;
+            case Duty.BONUS_TYPE_FURNITUREBOX:
+                if (itemId != 0 && count > 0) {
+                    Integer useitem_id = Integer.valueOf(itemId);
                     UseItem useitem = useItemService.getUseItemById(useitem_id);
-                    api_bounus.add(new DutyBouns(duty.getBonusFlag(), winItem[1], winItem[0], useitem.getName()));
-                    memberUseItemService.addMemberUseItemCount(member_id, winItem[0], winItem[1]);
+                    api_bounus.add(new DutyBonusResult(bonus.getType(), count, itemId, useitem.getName()));
+                    memberUseItemService.addMemberUseItemCount(member_id, itemId, count);
                 }
+                break;
+            case Duty.BONUS_TYPE_LARGEBUILD:
+                memberService.openLargeDock(member_id);
+                api_bounus.add(new DutyBonusResult(bonus.getType(), 0, 0, EMPTY));
+                break;
+            case Duty.BONUS_TYPE_SHIP:
+                memberShipService.createShip(member_id, itemId);
+                api_bounus.add(new DutyBonusResult(bonus.getType(), count, itemId));
+                break;
+            case Duty.BONUS_TYPE_SLOTITEM:
+                memberSlotItemService.createSlotItem(member_id, itemId);
+                api_bounus.add(new DutyBonusResult(bonus.getType(), count, itemId, EMPTY));
+                break;
+            case Duty.BONUS_TYPE_USEITEM:
+                api_bounus.add(new DutyBonusResult(bonus.getType(), 1, itemId, EMPTY));
+                memberUseItemService.addMemberUseItemCount(member_id, itemId, count);
+                break;
+            case Duty.BONUS_TYPE_FURNITURE:
+                memberFurnitureService.createMemberFurniture(member_id, Integer.valueOf(itemId));
+                api_bounus.add(new DutyBonusResult(bonus.getType(), count, itemId, EMPTY));
+                break;
+            case Duty.BONUS_TYPE_MODEL_CHANGE:
+                break;
+            default:
+                break;
             }
-            break;
-        case Duty.BONUS_TYPE_LARGEBUILD:
-            memberService.openLargeDock(member_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 0, 0, EMPTY));
-            break;
-        case Duty.BONUS_TYPE_SHIP:
-            int ship_id = duty.getBonusItemId();
-            memberShipService.createShip(member_id, ship_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, ship_id));
-            break;
-        case Duty.BONUS_TYPE_SLOTITEM:
-            int slotitem_id = duty.getBonusItemId();
-            memberSlotItemService.createSlotItem(member_id, slotitem_id);
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, slotitem_id, EMPTY));
-            break;
-        case Duty.BONUS_TYPE_USEITEM:
-            int useItem_id = duty.getBonusItemId();
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, useItem_id, EMPTY));
-            memberUseItemService.addMemberUseItemCount(member_id, useItem_id, 1);
-            break;
-        case Duty.BONUS_TYPE_FURNITURE:
-            int furniture_id = duty.getBonusItemId();
-            memberFurnitureService.createMemberFurniture(member_id, Integer.valueOf(furniture_id));
-            api_bounus.add(new DutyBouns(duty.getBonusFlag(), 1, furniture_id, EMPTY));
-            break;
-        case Duty.BONUS_TYPE_MODEL_CHANGE:
-            break;
-        default:
-            break;
         }
+
         // 獲得獎勵
         memberResourceService.increaseMaterial(member_id, duty.getMaterial(), increaseItems);
         // 刪除完成任務

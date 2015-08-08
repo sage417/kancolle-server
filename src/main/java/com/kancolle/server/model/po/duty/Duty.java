@@ -1,6 +1,7 @@
 package com.kancolle.server.model.po.duty;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
@@ -55,13 +56,9 @@ public class Duty implements Serializable {
 
     private int bonusFlag;
 
-    private int bonusItemId;
+    private List<DutyBonus> dutyBonus;
 
     private int invalidFlag;
-
-    private int[] winItem1;
-
-    private int[] winItem2;
 
     private Duty parent;
 
@@ -129,12 +126,12 @@ public class Duty implements Serializable {
         this.bonusFlag = bonusFlag;
     }
 
-    public int getBonusItemId() {
-        return bonusItemId;
+    public List<DutyBonus> getDutyBonus() {
+        return dutyBonus;
     }
 
-    public void setBonusItemId(int bonusItemId) {
-        this.bonusItemId = bonusItemId;
+    public void setDutyBonus(List<DutyBonus> dutyBonus) {
+        this.dutyBonus = dutyBonus;
     }
 
     public int getInvalidFlag() {
@@ -143,22 +140,6 @@ public class Duty implements Serializable {
 
     public void setInvalidFlag(int invalidFlag) {
         this.invalidFlag = invalidFlag;
-    }
-
-    public int[] getWinItem1() {
-        return winItem1;
-    }
-
-    public void setWinItem1(int[] winItem1) {
-        this.winItem1 = winItem1;
-    }
-
-    public int[] getWinItem2() {
-        return winItem2;
-    }
-
-    public void setWinItem2(int[] winItem2) {
-        this.winItem2 = winItem2;
     }
 
     public Duty getParent() {

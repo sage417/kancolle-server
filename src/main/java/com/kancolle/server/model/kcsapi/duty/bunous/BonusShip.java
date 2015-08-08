@@ -2,12 +2,12 @@ package com.kancolle.server.model.kcsapi.duty.bunous;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class BounsShip implements Bouns {
+public class BonusShip implements Bonus {
 
     @JSONField(ordinal = 1)
     private int api_ship_id;
 
-    public BounsShip(int ship_id) {
+    public BonusShip(int ship_id) {
         this.api_ship_id = ship_id;
     }
 

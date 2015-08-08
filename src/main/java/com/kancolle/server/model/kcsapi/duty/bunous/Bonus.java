@@ -1,5 +1,5 @@
 package com.kancolle.server.model.kcsapi.duty.bunous;
 
-public interface Bouns {
+public interface Bonus {
 
 }
