@@ -205,10 +205,8 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                 api_bounus.add(new DutyBonusResult(bonusType, count, itemId, EMPTY));
                 break;
             case Duty.BONUS_TYPE_USEITEM:
-                for (int i = 0; i < count; i++) {
-                    api_bounus.add(new DutyBonusResult(bonusType, count, itemId, EMPTY));
-                }
                 memberUseItemService.addMemberUseItemCount(member_id, itemId, count);
+                api_bounus.add(new DutyBonusResult(bonusType, count, itemId, EMPTY));
                 break;
             case Duty.BONUS_TYPE_FURNITURE:
                 checkArgument(count == 1);
@@ -225,9 +223,9 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         // 獲得獎勵
         memberResourceService.increaseMaterial(member_id, duty.getMaterial(), increaseItems);
         // 刪除完成任務
-        // memberDutyDao.deleteDuty(memberDuty);
+        memberDutyDao.deleteDuty(memberDuty);
         // 插入後續任務
-        // memberDutyDao.insertAfterDutys(memberDuty);
+        memberDutyDao.insertAfterDutys(memberDuty);
         return new DutyItemGetResult(duty.getMaterial(), api_bounus.size(), api_bounus);
     }
 }
