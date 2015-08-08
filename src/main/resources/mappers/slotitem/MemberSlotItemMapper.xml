@@ -51,7 +51,7 @@
 			</foreach>
 	</update>
 	
-	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM">
+	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM" flushCache="true">
 		{call create_slotitem(#{member_id}, #{slotitem_id})}
 	</select>
 	

@@ -22,7 +22,6 @@ import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
@@ -34,6 +33,7 @@ import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
@@ -43,15 +43,20 @@ import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.POST)
 public class GetMemberController {
+
     @Autowired
     private MemberService memberService;
 
     @Autowired
     private MemberNdockService memberNdockService;
+
+    @Autowired
+    private MemberKdockService memberKdockService;
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
@@ -63,10 +68,10 @@ public class GetMemberController {
     private MemberSlotItemService memberSlotItemService;
 
     @Autowired
-    private MemberFurnitureService memberFurnitureService;
+    private MemberUseItemService memberUseItemService;
 
     @Autowired
-    private MemberKdockService memberKdockService;
+    private MemberFurnitureService memberFurnitureService;
 
     @Autowired
     private MemberDutyService memberDutyService;
@@ -130,7 +135,7 @@ public class GetMemberController {
 
     @RequestMapping("/useitem")
     public APIResponse<List<MemberUseItem>> useitem(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberUseItem> api_data = memberService.getUseItem(member_id);
+        List<MemberUseItem> api_data = memberUseItemService.getMemberUseItems(member_id);
         return new APIResponse<List<MemberUseItem>>().setApi_data(api_data);
     }
 

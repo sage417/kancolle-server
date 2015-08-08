@@ -16,7 +16,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 @Repository
-public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements MemberShipDao {
+public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip>implements MemberShipDao {
 
     @Override
     public void update(MemberShip memberShip) {

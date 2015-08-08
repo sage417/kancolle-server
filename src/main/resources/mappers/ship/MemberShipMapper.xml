@@ -124,7 +124,7 @@
 			AND ID = #{member_ship_id}
 	</update>
 	
-	<select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM">
+	<select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM" flushCache="true">
 		{call create_ship(#{member_id}, #{create_ship_id})}
 	</select>
 	</mapper>

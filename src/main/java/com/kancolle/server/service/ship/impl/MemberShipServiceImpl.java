@@ -5,6 +5,7 @@ package com.kancolle.server.service.ship.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_FAILED;
 import static com.kancolle.server.model.po.ship.MemberShipPowerupResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -463,12 +464,10 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public MemberShip createShip(String member_id, int createShipId) {
         Member member = memberService.getMember(member_id);
-        if (getCountOfMemberShip(member_id) == member.getMaxChara()) {
-            throw new IllegalStateException();
-        }
-
+        checkState(getCountOfMemberShip(member_id) < member.getMaxChara());
         return memberShipDao.createShip(member_id, createShipId);
     }
 }

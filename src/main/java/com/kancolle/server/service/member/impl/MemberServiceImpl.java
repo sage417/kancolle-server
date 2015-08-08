@@ -14,7 +14,6 @@ import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
-import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordFight;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecordMission;
@@ -110,11 +109,6 @@ public class MemberServiceImpl implements MemberService {
     @Cacheable(value = "memberExp", key = "#lv")
     public long getSumExpByLV(int lv) {
         return memberDao.getNeedExpByLevel(lv);
-    }
-
-    @Override
-    public List<MemberUseItem> getUseItem(String member_id) {
-        return memberDao.getUseItem(member_id);
     }
 
     @Override

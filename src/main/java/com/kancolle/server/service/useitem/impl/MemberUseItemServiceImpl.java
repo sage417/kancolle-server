@@ -18,6 +18,7 @@ import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
 import com.kancolle.server.model.kcsapi.useitem.item.FurnitureCoin;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 
@@ -36,6 +37,11 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
 
     @Autowired
     private MemberService memberService;
+
+    @Override
+    public List<MemberUseItem> getMemberUseItems(String member_id) {
+        return memberUseItemDao.selectMemberUseItems(member_id);
+    }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)

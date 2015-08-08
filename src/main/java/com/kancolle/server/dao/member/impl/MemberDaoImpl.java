@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
 
@@ -34,11 +33,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public MemberRecord selectMemberRecord(String member_id) {
         return getSqlSession().selectOne("selectMemberRecord", member_id);
-    }
-
-    @Override
-    public List<MemberUseItem> getUseItem(String member_id) {
-        return queryForModels(MemberUseItem.class, "SELECT * FROM v_member_useitem WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override

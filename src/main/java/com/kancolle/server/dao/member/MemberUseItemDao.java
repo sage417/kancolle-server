@@ -3,7 +3,10 @@
  */
 package com.kancolle.server.dao.member;
 
+import java.util.List;
+
 import com.kancolle.server.dao.base.BaseDao;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 
 /**
  * @author J.K.SAGE
@@ -11,6 +14,8 @@ import com.kancolle.server.dao.base.BaseDao;
  *
  */
 public interface MemberUseItemDao extends BaseDao<Object> {
+
+    List<MemberUseItem> selectMemberUseItems(String member_id);
 
     int countMemberItem(String member_id, Integer useItem_id);
 

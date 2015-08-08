@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.dao.member.impl;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberUseItemDao;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 
 /**
  * @author J.K.SAGE
@@ -17,7 +20,12 @@ import com.kancolle.server.dao.member.MemberUseItemDao;
  *
  */
 @Repository
-public class MemberUseItemDaoImpl extends BaseDaoImpl<Object> implements MemberUseItemDao {
+public class MemberUseItemDaoImpl extends BaseDaoImpl<Object>implements MemberUseItemDao {
+
+    @Override
+    public List<MemberUseItem> selectMemberUseItems(String member_id) {
+        return getSqlSession().selectList("selectMemberUseItems", Collections.singletonMap("member_id", member_id));
+    }
 
     @Override
     public int countMemberItem(String member_id, Integer useitem_id) {

@@ -3,8 +3,11 @@
  */
 package com.kancolle.server.service.useitem;
 
+import java.util.List;
+
 import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
 import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 
 /**
  * @author J.K.SAGE
@@ -12,6 +15,8 @@ import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
  *
  */
 public interface MemberUseItemService {
+
+    List<MemberUseItem> getMemberUseItems(String member_id);
 
     UseItemResult useItem(String member_id, UseItemForm form);
 
