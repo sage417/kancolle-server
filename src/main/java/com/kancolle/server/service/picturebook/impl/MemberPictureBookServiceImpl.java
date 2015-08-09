@@ -1,0 +1,32 @@
+package com.kancolle.server.service.picturebook.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
+import com.kancolle.server.dao.picturebook.MemberPictureBookDao;
+import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
+import com.kancolle.server.model.po.ship.ShipPictureBook;
+import com.kancolle.server.service.picturebook.MemberPictureBookService;
+
+@Service
+public class MemberPictureBookServiceImpl implements MemberPictureBookService {
+
+    private static final int PAGE_SIZE = 70;
+
+    @Autowired
+    private MemberPictureBookDao memberPictureBookDao;
+
+    @Override
+    public ShipPictureBookResult pictureBook(String member_id, PictureBookForm form) {
+        int type = form.getApi_type();
+        int no = form.getApi_no();
+
+        List<ShipPictureBook> shipList = memberPictureBookDao.selectPictureBook(member_id, type, no, PAGE_SIZE);
+
+        return new ShipPictureBookResult(shipList);
+    }
+
+}

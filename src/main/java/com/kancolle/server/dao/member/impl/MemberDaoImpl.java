@@ -17,7 +17,7 @@ import com.kancolle.server.model.po.member.Member;
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Override
-    public String getMemberByApiToken(String api_token) {
+    public String getMemberIdByApiToken(String api_token) {
         return getTemplate().queryForObject("SELECT member_id FROM t_member WHERE api_token = :token", Collections.singletonMap("token", api_token), String.class);
     }
 

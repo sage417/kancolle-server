@@ -9,7 +9,7 @@ import com.kancolle.server.model.po.member.Member;
 
 public interface MemberDao extends BaseDao<Member> {
 
-    String getMemberByApiToken(String api_token);
+    String getMemberIdByApiToken(String api_token);
 
     List<MemberMission> getMission(String member_id);
 

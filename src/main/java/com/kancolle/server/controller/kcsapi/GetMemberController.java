@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
+import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
@@ -31,7 +33,6 @@ import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.ship.ShipPictureBook;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.model.response.APIResponse;
@@ -41,6 +42,7 @@ import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.picturebook.MemberPictureBookService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
@@ -75,6 +77,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberDutyService memberDutyService;
+
+    @Autowired
+    private MemberPictureBookService memberPictureBookService;
 
     @Autowired
     private PortDao portDao;
@@ -145,11 +150,10 @@ public class GetMemberController {
     }
 
     @RequestMapping("/picture_book")
-    public APIResponse<List<ShipPictureBook>> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
-        return null;
+    public APIResponse<ShipPictureBookResult> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
+        checkArgument(!result.hasErrors());
+        ShipPictureBookResult api_data = memberPictureBookService.pictureBook(member_id, form);
+        return new APIResponse<ShipPictureBookResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/ship2")

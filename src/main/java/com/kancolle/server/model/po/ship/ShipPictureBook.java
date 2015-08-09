@@ -15,64 +15,85 @@ import com.alibaba.fastjson.annotation.JSONField;
 @Alias("ShipPictureBook")
 public class ShipPictureBook {
 
-    @JSONField(ordinal = 1)
-    private int api_index_no;
+    @JSONField(ordinal = 1, name = "api_index_no")
+    public int getShipNo() {
+        return getShip().getSortno();
+    }
 
     @JSONField(ordinal = 2)
-    private int[][] api_state;
+    private int[][] api_state = { { 1, 0, 0, 0, 0 } };
 
-    @JSONField(ordinal = 3)
-    private int[] api_table_id;
+    @JSONField(ordinal = 3, name = "api_table_id")
+    public int[] getShipId() {
+        return new int[] { getShip().getShipId() };
+    }
 
-    @JSONField(ordinal = 4)
-    private String api_name;
+    @JSONField(ordinal = 4, name = "api_name")
+    public String getShipName() {
+        return getShip().getName();
+    }
 
-    @JSONField(ordinal = 5)
-    private String api_yomi;
+    @JSONField(ordinal = 5, name = "api_yomi")
+    public String getShipYomi() {
+        return getShip().getYomi();
+    }
 
-    @JSONField(ordinal = 6)
-    private int api_stype;
+    @JSONField(ordinal = 6, name = "api_stype")
+    public int getShipType() {
+        return getShip().getType().getShipTypeId();
+    }
 
     @JSONField(ordinal = 7)
-    private int api_ctype;
+    private int api_ctype = 1;
 
     @JSONField(ordinal = 8)
-    private int api_cnum;
+    private int api_cnum = 1;
 
-    @JSONField(ordinal = 9)
-    private int api_taik;
-
-    @JSONField(ordinal = 10)
-    private int api_souk;
-
-    @JSONField(ordinal = 11)
-    private int api_kaih;
-
-    @JSONField(ordinal = 12)
-    private int api_houg;
-
-    @JSONField(ordinal = 13)
-    private int api_raig;
-
-    @JSONField(ordinal = 14)
-    private int api_tyku;
-
-    @JSONField(ordinal = 15)
-    private int api_tais;
-
-    @JSONField(ordinal = 16)
-    private int api_leng;
-
-    @JSONField(ordinal = 17)
-    private String api_sinfo;
-
-    public int getApi_index_no() {
-        return api_index_no;
+    @JSONField(ordinal = 9, name = "api_taik")
+    public int getShipTaik() {
+        return getShip().getTaik().getMinValue();
     }
 
-    public void setApi_index_no(int api_index_no) {
-        this.api_index_no = api_index_no;
+    @JSONField(ordinal = 10, name = "api_souk")
+    public int getShipSouk() {
+        return getShip().getSouk().getMinValue();
     }
+
+    @JSONField(ordinal = 11, name = "api_kaih")
+    public int getShipKaih() {
+        return getShip().getKaihi().getMinValue();
+    }
+
+    @JSONField(ordinal = 12, name = "api_houg")
+    public int getShipHoug() {
+        return getShip().getHoug().getMinValue();
+    }
+
+    @JSONField(ordinal = 13, name = "api_raig")
+    public int getShipRaig() {
+        return getShip().getRaig().getMinValue();
+    }
+
+    @JSONField(ordinal = 14, name = "api_tyku")
+    public int getShipTyku() {
+        return getShip().getTyku().getMinValue();
+    }
+
+    @JSONField(ordinal = 15, name = "api_tais")
+    public int getShipTais() {
+        return getShip().getTaisen().getMinValue();
+    }
+
+    @JSONField(ordinal = 16, name = "api_leng")
+    public int getShipLeng() {
+        return getShip().getLeng();
+    }
+
+    @JSONField(ordinal = 17, name = "api_sinfo")
+    public String shipInfo;
+
+    @JSONField(serialize = false, deserialize = false)
+    private Ship ship;
 
     public int[][] getApi_state() {
         return api_state;
@@ -80,38 +101,6 @@ public class ShipPictureBook {
 
     public void setApi_state(int[][] api_state) {
         this.api_state = api_state;
-    }
-
-    public int[] getApi_table_id() {
-        return api_table_id;
-    }
-
-    public void setApi_table_id(int[] api_table_id) {
-        this.api_table_id = api_table_id;
-    }
-
-    public String getApi_name() {
-        return api_name;
-    }
-
-    public void setApi_name(String api_name) {
-        this.api_name = api_name;
-    }
-
-    public String getApi_yomi() {
-        return api_yomi;
-    }
-
-    public void setApi_yomi(String api_yomi) {
-        this.api_yomi = api_yomi;
-    }
-
-    public int getApi_stype() {
-        return api_stype;
-    }
-
-    public void setApi_stype(int api_stype) {
-        this.api_stype = api_stype;
     }
 
     public int getApi_ctype() {
@@ -130,75 +119,19 @@ public class ShipPictureBook {
         this.api_cnum = api_cnum;
     }
 
-    public int getApi_taik() {
-        return api_taik;
+    public Ship getShip() {
+        return ship;
     }
 
-    public void setApi_taik(int api_taik) {
-        this.api_taik = api_taik;
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
-    public int getApi_souk() {
-        return api_souk;
+    public String getShipInfo() {
+        return shipInfo;
     }
 
-    public void setApi_souk(int api_souk) {
-        this.api_souk = api_souk;
-    }
-
-    public int getApi_kaih() {
-        return api_kaih;
-    }
-
-    public void setApi_kaih(int api_kaih) {
-        this.api_kaih = api_kaih;
-    }
-
-    public int getApi_houg() {
-        return api_houg;
-    }
-
-    public void setApi_houg(int api_houg) {
-        this.api_houg = api_houg;
-    }
-
-    public int getApi_raig() {
-        return api_raig;
-    }
-
-    public void setApi_raig(int api_raig) {
-        this.api_raig = api_raig;
-    }
-
-    public int getApi_tyku() {
-        return api_tyku;
-    }
-
-    public void setApi_tyku(int api_tyku) {
-        this.api_tyku = api_tyku;
-    }
-
-    public int getApi_tais() {
-        return api_tais;
-    }
-
-    public void setApi_tais(int api_tais) {
-        this.api_tais = api_tais;
-    }
-
-    public int getApi_leng() {
-        return api_leng;
-    }
-
-    public void setApi_leng(int api_leng) {
-        this.api_leng = api_leng;
-    }
-
-    public String getApi_sinfo() {
-        return api_sinfo;
-    }
-
-    public void setApi_sinfo(String api_sinfo) {
-        this.api_sinfo = api_sinfo;
+    public void setShipInfo(String shipInfo) {
+        this.shipInfo = shipInfo;
     }
 }

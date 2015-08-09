@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.picturebook.ShipPictureBookDao">
+
+	<resultMap type="ShipPictureBook" id="ShipPictureBookRM" autoMapping="true">
+		<result property="shipInfo" column="SHIP_INFO"/>
+		<association property="ship" resultMap="com.kancolle.server.dao.ship.ShipDao.shipRM"/>
+	</resultMap>
+	
+	<select id="selectPictureBook" resultMap="ShipPictureBookRM">
+		SELECT * FROM t_member_picturebook mpb
+			INNER JOIN t_ship s ON mpb.SHIP_SORTNO = s.SORTNO
+			INNER JOIN t_ship_picturebook pb ON pb.SHIP_ID = s.ID
+		WHERE mpb.member_id = #{member_id}
+		ORDER BY mpb.SHIP_SORTNO ASC
+	</select>
+</mapper>

@@ -60,7 +60,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     /* @Cacheable(value = "token2MemberId", key = "#api_token") */
     public String getMemberByApiToken(String api_token) {
-        return memberDao.getMemberByApiToken(api_token);
+        return memberDao.getMemberIdByApiToken(api_token);
+    }
+
+    @Override
+    /* @CachePut(value = "token2MemberId", key = "#result") */
+    public void updateMemberToken(String member_id) {
+        String token = StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY);
+        memberDao.updateMemberToken(member_id, token);
     }
 
     @Override
@@ -141,12 +148,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMember(Member member) {
         memberDao.update(member);
-    }
-
-    @Override
-    public void updateMemberToken(String member_id) {
-        String token = StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY);
-        memberDao.updateMemberToken(member_id, token);
     }
 
     @Override

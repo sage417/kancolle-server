@@ -49,11 +49,11 @@
 			</choose>
 		</where>
 	</select>
-	
+
 	<select id="selectEmShip" resultMap="BaseShipRM">
 		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 500 AND 900
 	</select>
-
+	
 	<select id="selectNeedShipExpByLevel" resultType="long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
 	</select>
