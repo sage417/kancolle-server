@@ -43,11 +43,11 @@ public class ShipPictureBook {
         return getShip().getType().getShipTypeId();
     }
 
-    @JSONField(ordinal = 7)
-    private int api_ctype = 1;
+    @JSONField(ordinal = 7, name = "api_ctype")
+    private int ctype;
 
-    @JSONField(ordinal = 8)
-    private int api_cnum = 1;
+    @JSONField(ordinal = 8, name = "api_cnum")
+    private int cnum;
 
     @JSONField(ordinal = 9, name = "api_taik")
     public int getShipTaik() {
@@ -103,20 +103,20 @@ public class ShipPictureBook {
         this.api_state = api_state;
     }
 
-    public int getApi_ctype() {
-        return api_ctype;
+    public int getCtype() {
+        return ctype;
     }
 
-    public void setApi_ctype(int api_ctype) {
-        this.api_ctype = api_ctype;
+    public void setCtype(int ctype) {
+        this.ctype = ctype;
     }
 
-    public int getApi_cnum() {
-        return api_cnum;
+    public int getCnum() {
+        return cnum;
     }
 
-    public void setApi_cnum(int api_cnum) {
-        this.api_cnum = api_cnum;
+    public void setCnum(int cnum) {
+        this.cnum = cnum;
     }
 
     public Ship getShip() {
