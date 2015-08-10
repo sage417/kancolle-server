@@ -5,8 +5,9 @@
 	<resultMap type="ShipPictureBook" id="ShipPictureBookRM" autoMapping="true">
 		<result property="shipInfo" column="SHIP_INFO"/>
 		<association property="ship" resultMap="com.kancolle.server.dao.ship.ShipDao.shipRM"/>
+		<collection property="api_table_id" column="SORTNO" select="com.kancolle.server.dao.ship.ShipDao.selectShipIdsBySortNo"/>
 	</resultMap>
-	
+
 	<select id="selectPictureBook" resultMap="ShipPictureBookRM">
 		SELECT mpb.`state`, s.*,  pb.`CTYPE`,pb.`CNUM`,pb.`SHIP_INFO` 
 		FROM t_member_picturebook mpb

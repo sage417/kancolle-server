@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -24,9 +26,7 @@ public class ShipPictureBook {
     private int[][] api_state = { { 1, 0, 0, 0, 0 } };
 
     @JSONField(ordinal = 3, name = "api_table_id")
-    public int[] getShipId() {
-        return new int[] { getShip().getShipId() };
-    }
+    private List<Integer> api_table_id;
 
     @JSONField(ordinal = 4, name = "api_name")
     public String getShipName() {
@@ -101,6 +101,14 @@ public class ShipPictureBook {
 
     public void setApi_state(int[][] api_state) {
         this.api_state = api_state;
+    }
+
+    public List<Integer> getApi_table_id() {
+        return api_table_id;
+    }
+
+    public void setApi_table_id(List<Integer> api_table_id) {
+        this.api_table_id = api_table_id;
     }
 
     public int getCtype() {
