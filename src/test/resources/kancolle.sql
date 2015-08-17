@@ -489,6 +489,24 @@ CREATE TABLE `t_member_log` (
 
 /*Data for the table `t_member_log` */
 
+/*Table structure for table `t_member_mapinfo` */
+
+DROP TABLE IF EXISTS `t_member_mapinfo`;
+
+CREATE TABLE `t_member_mapinfo` (
+  `INDEX` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) unsigned NOT NULL,
+  `MAPINFO_ID` int(10) unsigned NOT NULL,
+  `EXBOSS_FLAG` tinyint(3) unsigned NOT NULL,
+  `DEFEATED_COUNT` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `OPEN_FLAG` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`INDEX`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+
+/*Data for the table `t_member_mapinfo` */
+
+insert  into `t_member_mapinfo`(`INDEX`,`member_id`,`MAPINFO_ID`,`EXBOSS_FLAG`,`DEFEATED_COUNT`,`OPEN_FLAG`) values (1,8006690,11,0,0,1),(2,8006690,12,0,0,0),(3,8006690,13,0,0,0),(4,8006690,14,0,0,0),(5,8006690,15,1,0,0),(6,8006690,16,1,0,0),(7,8006690,21,0,0,0),(8,8006690,22,0,0,0),(9,8006690,23,0,0,0),(10,8006690,24,0,0,0),(11,8006690,25,1,0,0),(12,8006690,31,0,0,0),(13,8006690,32,0,0,0),(14,8006690,33,0,0,0),(15,8006690,34,0,0,0),(16,8006690,35,1,0,0),(17,8006690,41,0,0,0),(18,8006690,42,0,0,0),(19,8006690,43,0,0,0),(20,8006690,44,1,0,0),(21,8006690,45,1,0,0),(22,8006690,51,0,0,0),(23,8006690,52,1,0,0),(24,8006690,53,1,0,0),(25,8006690,54,1,0,0),(26,8006690,55,1,0,0),(27,8006690,61,0,0,0),(28,8006690,62,1,0,0),(29,8006690,63,1,0,0);
+
 /*Table structure for table `t_member_material` */
 
 DROP TABLE IF EXISTS `t_member_material`;
@@ -993,60 +1011,64 @@ DELIMITER $$
 
 /*!50003 DROP TRIGGER*//*!50032 IF EXISTS */ /*!50003 `tri_after_newmember` */$$
 
-/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
-	SET UNIQUE_CHECKS=0;
-	
-	replace into t_member_material (member_id) values (new.member_id);
-	/* 创建舰队 */
-	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
-	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
-	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
-	
-	/** 创建出击状态记录 */
-	replace into t_member_battle_status (member_id) VALUES (new.member_id);
-	
-	/** 创建工厂 */
-	replace into t_member_kdock (member_id, ID, STATE) values 
-	(new.member_id, 1, 0),
-	(new.member_id, 2, 0),
-	(new.member_id, 3, -1),
-	(new.member_id, 4, -1);
-	
-	/** 创建渠 */
-	replace into t_member_ndock (member_id, ID, STATE) VALUES 
-	(new.member_id, 1, 0),
-	(new.member_id, 2, 0),
-	(new.member_id, 3, -1),
-	(new.member_id, 4, -1);
-	
-	/** 创建mission记录 */
-	REPLACE INTO t_member_mission (member_id, mission_id, state) 
-	SELECT new.member_id, ID , -1 FROM t_mission;
-	
-	/** 创建furniture记录 */
-	REPLACE INTO t_member_furniture (member_id, furniture_id) 
-	SELECT new.member_id, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
-	
-	/** 创建item记录 */
-	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
-	(new.member_id, 10, 0),
-	(new.member_id, 11, 0),
-	(new.member_id, 12, 0),
-	(new.member_id, 52, 0),
-	(new.member_id, 54, 0),
-	(new.member_id, 55, 0),
-	(new.member_id, 56, 0),
-	(new.member_id, 57, 0),
-	(new.member_id, 58, 0),
-	(new.member_id, 59, 0),
-	(new.member_id, 60, 0),
-	(new.member_id, 61, 0),
-	(new.member_id, 62, 0),
-	(new.member_id, 63, 0);
-	
-	SET UNIQUE_CHECKS=1;
+/*!50003 CREATE */ /*!50017 DEFINER = 'root'@'localhost' */ /*!50003 TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
+	SET UNIQUE_CHECKS=0;
+	
+	replace into t_member_material (member_id) values (new.member_id);
+	/* 创建舰队 */
+	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
+	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
+	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
+	
+	/** 创建出击状态记录 */
+	replace into t_member_battle_status (member_id) VALUES (new.member_id);
+	
+	/** 创建工厂 */
+	replace into t_member_kdock (member_id, ID, STATE) values 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	/** 创建渠 */
+	replace into t_member_ndock (member_id, ID, STATE) VALUES 
+	(new.member_id, 1, 0),
+	(new.member_id, 2, 0),
+	(new.member_id, 3, -1),
+	(new.member_id, 4, -1);
+	
+	/** 创建mission记录 */
+	REPLACE INTO t_member_mission (member_id, mission_id, state) 
+	SELECT new.member_id, ID , -1 FROM t_mission;
+	
+	/** 创建furniture记录 */
+	REPLACE INTO t_member_furniture (member_id, furniture_id) 
+	SELECT new.member_id, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
+	
+	/** 创建item记录 */
+	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
+	(new.member_id, 10, 0),
+	(new.member_id, 11, 0),
+	(new.member_id, 12, 0),
+	(new.member_id, 52, 0),
+	(new.member_id, 54, 0),
+	(new.member_id, 55, 0),
+	(new.member_id, 56, 0),
+	(new.member_id, 57, 0),
+	(new.member_id, 58, 0),
+	(new.member_id, 59, 0),
+	(new.member_id, 60, 0),
+	(new.member_id, 61, 0),
+	(new.member_id, 62, 0),
+	(new.member_id, 63, 0);
+	
+	/** 创建MapInfo记录 */
+	REPLACE INTO t_member_mapinfo(member_id,MAPINFO_ID,EXBOSS_FLAG) SELECT new.member_id,ID,REQUIRED_DEFEAT_COUNT>0 FROM t_map_info;
+	update t_member_mapinfo set open = 1 where member_id = new.member_id and MAPINFO_ID = 11;
+	
+	SET UNIQUE_CHECKS=1;
     END */$$
 
 
