@@ -27,7 +27,7 @@ import com.kancolle.server.dao.duty.MemberDutyDao;
 import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.duty.DutyBonusResult;
 import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
-import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
+import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
 import com.kancolle.server.model.po.duty.Duty;
 import com.kancolle.server.model.po.duty.DutyBonus;
 import com.kancolle.server.model.po.duty.MemberDuty;
@@ -81,9 +81,9 @@ public class MemberDutyServiceImpl implements MemberDutyService {
     private MemberFurnitureService memberFurnitureService;
 
     @Override
-    public MemberDutyList getMemberDutyList(String member_id, int pageNum) {
+    public MemberDutyPageList getMemberDutyList(String member_id, int pageNum) {
         int count_of_duty_om_process = memberDutyDao.selectCountOfMemberDutysByState(member_id, STATE_PROCESSING);
-        return new MemberDutyList((Page<MemberDuty>) memberDutyDao.selectMemberDutys(member_id, pageNum, 5), count_of_duty_om_process);
+        return new MemberDutyPageList((Page<MemberDuty>) memberDutyDao.selectMemberDutys(member_id, pageNum, 5), count_of_duty_om_process);
     }
 
     @Override

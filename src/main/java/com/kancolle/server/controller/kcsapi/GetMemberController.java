@@ -20,7 +20,7 @@ import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
-import com.kancolle.server.model.kcsapi.duty.MemberDutyList;
+import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -28,6 +28,7 @@ import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
+import com.kancolle.server.model.po.map.MemberMapInfo;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberKdock;
@@ -38,6 +39,7 @@ import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
+import com.kancolle.server.service.map.MemberMapInfoService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
@@ -80,6 +82,9 @@ public class GetMemberController {
 
     @Autowired
     private MemberPictureBookService memberPictureBookService;
+
+    @Autowired
+    private MemberMapInfoService memberMapInfoService;
 
     @Autowired
     private PortDao portDao;
@@ -181,8 +186,14 @@ public class GetMemberController {
     }
 
     @RequestMapping("/questlist")
-    public APIResponse<MemberDutyList> dutyList(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_page_no") int pageNum) {
-        MemberDutyList api_data = memberDutyService.getMemberDutyList(member_id, pageNum);
-        return new APIResponse<MemberDutyList>().setApi_data(api_data);
+    public APIResponse<MemberDutyPageList> dutyList(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_page_no") int pageNum) {
+        MemberDutyPageList api_data = memberDutyService.getMemberDutyList(member_id, pageNum);
+        return new APIResponse<MemberDutyPageList>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/mapinfo")
+    public APIResponse<List<MemberMapInfo>> mapInfo(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMapInfo> api_data = memberMapInfoService.getMemberMapInfos(member_id);
+        return new APIResponse<List<MemberMapInfo>>().setApi_data(api_data);
     }
 }

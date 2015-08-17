@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.github.pagehelper.Page;
 import com.kancolle.server.model.po.duty.MemberDuty;
 
-public class MemberDutyList {
+public class MemberDutyPageList {
 
     @JSONField(ordinal = 1)
     private int api_count;
@@ -26,7 +26,7 @@ public class MemberDutyList {
     @JSONField(ordinal = 6)
     private int api_exec_type = 3120796;
 
-    public MemberDutyList(Page<MemberDuty> pageList, int parallelQuestCount) {
+    public MemberDutyPageList(Page<MemberDuty> pageList, int parallelQuestCount) {
         this.api_count = (int) pageList.getTotal();
         this.api_page_count = pageList.getPages();
         this.api_disp_page = pageList.getPageNum();

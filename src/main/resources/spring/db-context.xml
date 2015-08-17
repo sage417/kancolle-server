@@ -62,6 +62,10 @@
 		<property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml"></property>
 	</bean>
 
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.kancolle.server.mapper" />
+	</bean>
+
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
