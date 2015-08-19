@@ -11,7 +11,7 @@
 	</resultMap>
 
 	<select id="selectMemberMapInfosByMemberId" resultMap="MemberMapInfoRM">
-		SELECT * FROM t_member_mapinfo WHERE member_id = #{member_id}
+		SELECT * FROM t_member_mapinfo WHERE member_id = #{member_id} AND OPEN_FLAG = 1
 	</select>
 
 	<select id="selectMemberMapInfo" resultMap="MemberMapInfoRM">

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kancolle.server.controller.kcsapi.form.map.MapCellForm;
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
@@ -28,6 +29,7 @@ import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
+import com.kancolle.server.model.po.map.MemberMapCell;
 import com.kancolle.server.model.po.map.MemberMapInfo;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberDeckPort;
@@ -39,7 +41,7 @@ import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
-import com.kancolle.server.service.map.MemberMapInfoService;
+import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.service.member.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
@@ -84,7 +86,7 @@ public class GetMemberController {
     private MemberPictureBookService memberPictureBookService;
 
     @Autowired
-    private MemberMapInfoService memberMapInfoService;
+    private MemberMapService memberMapService;
 
     @Autowired
     private PortDao portDao;
@@ -193,7 +195,16 @@ public class GetMemberController {
 
     @RequestMapping("/mapinfo")
     public APIResponse<List<MemberMapInfo>> mapInfo(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberMapInfo> api_data = memberMapInfoService.getMemberMapInfos(member_id);
+        List<MemberMapInfo> api_data = memberMapService.getMemberMapInfos(member_id);
         return new APIResponse<List<MemberMapInfo>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/mapcell")
+    public APIResponse<List<MemberMapCell>> mapcell(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapCellForm form, BindingResult result) {
+        if (result.hasErrors()) {
+
+        }
+        List<MemberMapCell> api_data = memberMapService.getMemberCellInfos(member_id, form);
+        return new APIResponse<List<MemberMapCell>>().setApi_data(api_data);
     }
 }
