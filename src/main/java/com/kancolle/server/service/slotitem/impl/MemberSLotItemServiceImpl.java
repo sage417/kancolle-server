@@ -72,7 +72,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
         if (memberService.getMember(member_id).getMaxSlotItem() == getCountOfMemberSlotItem(member_id))
             throw new IllegalStateException();
 
-        MemberShip leaderShip = memberDeckPortService.getMemberDeckPort(member_id, Integer.valueOf(1)).getShips().get(0);
+        MemberShip leaderShip = memberDeckPortService.getUnNullableMemberDeckPort(member_id, Integer.valueOf(1)).getShips().get(0);
 
         SlotItem targetSlotItem = null;
 

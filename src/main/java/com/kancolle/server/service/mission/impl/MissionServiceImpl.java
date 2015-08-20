@@ -83,7 +83,7 @@ public class MissionServiceImpl implements MissionService {
     public MissionReturn callbackMission(String member_id, int deck_id) {
         Instant now = Instant.now();
 
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
         int mission_id = (int) deckport.getMission()[1];
 
         long mission_complete_longtime = deckport.getMission()[2];
@@ -106,7 +106,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MissionResult calMissionResult(String member_id, Integer deck_id) {
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
 
         Mission mission = getMission((int) deckport.getMission()[1]);
         if (mission == null) {
@@ -232,7 +232,7 @@ public class MissionServiceImpl implements MissionService {
 
         long mission_complete_longtime = mission_complete_instant.toEpochMilli();
 
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
 
         long[] mission = deckport.getMission();
         mission[0] = MISSION_PROCESSING;

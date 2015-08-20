@@ -19,7 +19,7 @@ public interface MemberDeckPortService {
 
     List<MemberDeckPort> getMemberDeckPorts(String member_id);
 
-    MemberDeckPort getMemberDeckPort(String member_id, Integer deck_id);
+    MemberDeckPort getUnNullableMemberDeckPort(String member_id, Integer deck_id);
 
     MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id);
 

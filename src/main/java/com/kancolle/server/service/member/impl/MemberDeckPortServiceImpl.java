@@ -44,7 +44,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberDeckPort getMemberDeckPort(String member_id, Integer deck_id) {
+    public MemberDeckPort getUnNullableMemberDeckPort(String member_id, Integer deck_id) {
         return checkNotNull(memberDeckPortDao.selectMemberDeckPort(member_id, deck_id));
     }
 
@@ -55,7 +55,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         long member_ship_id = form.getApi_ship_id();
         int ship_idx = form.getApi_ship_idx();
 
-        MemberDeckPort targetDeck = getMemberDeckPort(member_id, fleet_id);
+        MemberDeckPort targetDeck = getUnNullableMemberDeckPort(member_id, fleet_id);
 
         List<MemberShip> targetShips = targetDeck.getShips();
 
