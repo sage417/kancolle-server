@@ -1,6 +1,5 @@
 package com.kancolle.server.service.mission.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_FAILED;
 import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_GREAT_SUCCESS;
 import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_SUCCESS;
@@ -107,7 +106,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MissionResult calMissionResult(String member_id, Integer deck_id) {
-        MemberDeckPort deckport = checkNotNull(memberDeckPortService.getMemberDeckPort(member_id, deck_id), "member_id:%s,deckport)id:%s is null", member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
 
         Mission mission = getMission((int) deckport.getMission()[1]);
         if (mission == null) {

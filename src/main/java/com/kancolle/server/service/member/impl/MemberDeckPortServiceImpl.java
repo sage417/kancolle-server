@@ -1,5 +1,7 @@
 package com.kancolle.server.service.member.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +45,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberDeckPort getMemberDeckPort(String member_id, Integer deck_id) {
-        return memberDeckPortDao.selectMemberDeckPort(member_id, deck_id);
+        return checkNotNull(memberDeckPortDao.selectMemberDeckPort(member_id, deck_id));
     }
 
     @Override
@@ -54,10 +56,6 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         int ship_idx = form.getApi_ship_idx();
 
         MemberDeckPort targetDeck = getMemberDeckPort(member_id, fleet_id);
-
-        if (targetDeck == null) {
-            throw new IllegalArgumentException();
-        }
 
         List<MemberShip> targetShips = targetDeck.getShips();
 
@@ -104,7 +102,7 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     public void removeDeckPortShips(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
         List<MemberShip> targetShips = targetDeck.getShips();
         // 旗艦不能被移除
-        if (targetDeck.getDeckId() == 1 && removeShips.contains(targetShips.get(0))) {
+        if (targetDeck.getDeckId() == 1 && targetShips.size() <= removeShips.size()) {
             throw new IllegalArgumentException("不能移除旗舰");
         }
         targetShips.removeAll(removeShips);
@@ -144,6 +142,8 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
         checkDeckPort(targetShips);
 
         if (!targetShips.equals(otherShips)) {
+            if (targetDeck.getDeckId() == 1 && otherShips.isEmpty())
+                throw new IllegalArgumentException("不能移除旗舰");
             removeDeckPortShips(targetDeck, Collections.singletonList(memberShip));
             addDeckportShip(targetDeck, memberShip);
         } else {
