@@ -19,7 +19,7 @@ public class MapStartForm {
     private int api_mapinfo_no;
 
     @NotNull
-    private int api_deck_id;
+    private Integer api_deck_id;
 
     @NotNull
     private int api_formation_id;
@@ -40,11 +40,11 @@ public class MapStartForm {
         this.api_mapinfo_no = api_mapinfo_no;
     }
 
-    public int getApi_deck_id() {
+    public Integer getApi_deck_id() {
         return api_deck_id;
     }
 
-    public void setApi_deck_id(int api_deck_id) {
+    public void setApi_deck_id(Integer api_deck_id) {
         this.api_deck_id = api_deck_id;
     }
 
