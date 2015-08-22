@@ -31,7 +31,7 @@
 		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
 	</update>
 
-	<select id="selectCountOfMemberFurniture" resultType="int">
+	<select id="selectCountOfMemberFurniture" resultType="_int">
 		SELECT COUNT(*) FROM t_member_furniture WHERE member_id = #{member_id}
 	</select>
 </mapper>

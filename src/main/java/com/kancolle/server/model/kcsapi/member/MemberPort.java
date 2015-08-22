@@ -6,8 +6,8 @@ import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.kcsapi.member.port.PortMember;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 

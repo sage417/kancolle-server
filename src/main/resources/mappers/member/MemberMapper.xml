@@ -44,7 +44,7 @@
 		SELECT EXP FROM t_exp_member WHERE LV = #{level}
 	</select>
 
-	<select id="selectMemberLVByExp" resultType="int">
+	<select id="selectMemberLVByExp" resultType="_int">
 		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
 	

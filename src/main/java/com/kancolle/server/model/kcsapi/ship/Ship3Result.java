@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 public class Ship3Result {

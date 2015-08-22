@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
 
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.mission.utils.MissionCondResult;
 

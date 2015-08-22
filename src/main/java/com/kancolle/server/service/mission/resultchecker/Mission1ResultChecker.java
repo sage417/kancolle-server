@@ -5,7 +5,7 @@ package com.kancolle.server.service.mission.resultchecker;
 
 import org.springframework.stereotype.Component;
 
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.mission.MissionResultChecker;
 
 /**

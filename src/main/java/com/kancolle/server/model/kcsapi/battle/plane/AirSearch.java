@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.model.kcsapi.battle;
+package com.kancolle.server.model.kcsapi.battle.plane;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -12,11 +12,21 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class AirSearch {
 
+    public static final AirSearch NO_AIRSEARCH = new AirSearch(0, 0);
+
     @JSONField(ordinal = 1)
     private int api_plane_type;
 
     @JSONField(ordinal = 2)
     private int api_result;
+
+    public AirSearch() {
+    }
+
+    public AirSearch(int api_plane_type, int api_result) {
+        this.api_plane_type = api_plane_type;
+        this.api_result = api_result;
+    }
 
     public int getApi_plane_type() {
         return api_plane_type;

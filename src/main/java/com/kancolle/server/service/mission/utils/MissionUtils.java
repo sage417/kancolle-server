@@ -5,7 +5,7 @@ package com.kancolle.server.service.mission.utils;
 
 import java.util.Arrays;
 
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 
 /**
  * @author J.K.SAGE

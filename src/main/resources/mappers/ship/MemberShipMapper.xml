@@ -38,7 +38,7 @@
 		</where>
 	</select>
 
-	<select id="selectCountOfMemberShip" resultType="int">
+	<select id="selectCountOfMemberShip" resultType="_int">
 		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
 	

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MemberMapBattleMapper">
+
+	<resultMap type="MemberMapBattleState" id="MemberMapBattleStateRM" autoMapping="true">
+		<id property="memberId" column="member_id"/>
+		<result property="mapAreaId" column="map_area_id"/>
+		<result property="mapCellId" column="map_cell_id"/>
+		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHanlder"/>
+		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHanlder"/>
+		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
+	</resultMap>
+	
+	<select id="selectMemberMapBattleState" resultMap="MemberMapBattleStateRM">
+		SELECT * FROM t_member_map_battle_status WHERE member_id = #{member_id}
+	</select>
+
+	<insert id="insertMemberMapBattleState" >
+		REPLACE INTO t_member_map_battle_status(member_id, deck_id, map_area_id, map_cell_id) VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no})
+	</insert>
+
+	<delete id="deleteMemberMapBattleState">
+		DELETE FROM t_member_map_battle_status WHERE member_id = #{member_id} AND deck_id = #{deck_id}
+	</delete>
+</mapper>

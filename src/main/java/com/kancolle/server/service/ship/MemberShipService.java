@@ -11,10 +11,10 @@ import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
+import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 /**

@@ -16,7 +16,7 @@ import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.ship.MemberShipService;
 
 @RestController

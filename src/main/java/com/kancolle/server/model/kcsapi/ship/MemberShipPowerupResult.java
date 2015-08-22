@@ -1,12 +1,13 @@
 /**
  * 
  */
-package com.kancolle.server.model.po.ship;
+package com.kancolle.server.model.kcsapi.ship;
 
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.MemberShip;
 
 /**
  * @author J.K.SAGE

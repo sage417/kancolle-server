@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.kancolle.server.service.member;
+package com.kancolle.server.service.deckport;
 
 import java.util.List;
 
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 /**

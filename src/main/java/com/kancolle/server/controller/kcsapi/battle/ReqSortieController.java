@@ -15,29 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
-import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
+import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
+import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.MapBattleService;
+import com.kancolle.server.service.battle.BattleService;
 
 /**
  * @author J.K.SAGE
- * @Date 2015年8月20日
+ * @Date 2015年8月22日
  *
  */
 @RestController
-@RequestMapping(value = "/kcsapi/api_req_map", method = RequestMethod.POST)
-public class ReqMapController {
+@RequestMapping(value = "/kcsapi/api_req_sortie", method = RequestMethod.POST)
+public class ReqSortieController {
     @Autowired
-    private MapBattleService mapBattleService;
+    private BattleService battleService;
 
-    @RequestMapping("/start")
-    public APIResponse<MapStartResult> start(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapStartForm form, BindingResult result) {
+    @RequestMapping("battle")
+    public APIResponse<BattleResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Valid BattleForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
-
-        MapStartResult api_data = mapBattleService.start(member_id, form);
-
-        return new APIResponse<MapStartResult>().setApi_data(api_data);
+        BattleResult api_data = battleService.battle(member_id, form);
+        return new APIResponse<BattleResult>().setApi_data(api_data);
     }
 
 }

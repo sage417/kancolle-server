@@ -1,9 +1,10 @@
 /**
  * 
  */
-package com.kancolle.server.model.kcsapi.battle;
+package com.kancolle.server.model.kcsapi.battle.map;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
 
 /**
  * @author J.K.SAGE
@@ -46,7 +47,17 @@ public class MapStartResult {
     private int api_bosscomp;
 
     @JSONField(ordinal = 12)
-    private AirSearch api_airsearch;
+    private AirSearch api_airsearch = AirSearch.NO_AIRSEARCH;
+
+    @JSONField(ordinal = 13)
+    private MapItemGet api_itemget;
+
+    public MapStartResult(int api_maparea_id, int api_mapinfo_no, int api_no) {
+        super();
+        this.api_maparea_id = api_maparea_id;
+        this.api_mapinfo_no = api_mapinfo_no;
+        this.api_no = api_no;
+    }
 
     public int getApi_rashin_flg() {
         return api_rashin_flg;
@@ -142,5 +153,13 @@ public class MapStartResult {
 
     public void setApi_airsearch(AirSearch api_airsearch) {
         this.api_airsearch = api_airsearch;
+    }
+
+    public MapItemGet getApi_itemget() {
+        return api_itemget;
+    }
+
+    public void setApi_itemget(MapItemGet api_itemget) {
+        this.api_itemget = api_itemget;
     }
 }

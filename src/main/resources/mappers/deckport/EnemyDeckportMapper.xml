@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.deckport.EnemyDeckPortMapper">
+
+	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM">
+		<id property="mapCellId" column="MAPCELL_ID"/>
+		<id property="no" column="NO"/>
+		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="com.kancolle.server.dao.ship.ShipDao.selectEnemyDeckPortShips"/>
+	</resultMap>
+
+
+	<select id="selectEnemyDeckPorts" resultMap="EnemyDeckPortRM">
+		SELECT * FROM t_enemy_deckport WHERE MAPCELL_ID = #{map_cell_id}
+	</select>
+</mapper>

@@ -1,4 +1,4 @@
-package com.kancolle.server.service.member.impl;
+package com.kancolle.server.service.deckport.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -16,10 +16,10 @@ import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
-import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.ship.MemberShipService;
 
 /**

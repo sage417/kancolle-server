@@ -24,7 +24,7 @@
 		SELECT * FROM t_ship_type WHERE ID = #{type_id}
 	</select>
 
-	<select id="selectCountOfShipTypes" resultType="int">
+	<select id="selectCountOfShipTypes" resultType="_int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype
 	</select>
 </mapper>

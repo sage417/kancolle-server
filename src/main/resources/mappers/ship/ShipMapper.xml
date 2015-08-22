@@ -8,7 +8,13 @@
 		<property name="strategy" value="NONE"/>
 	</cache>
 
-	<resultMap type="Ship" id="shipRM" autoMapping="true">
+	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
+		<id property="shipId" column="ID" />
+		<result property="soltNum" column="SLOTNUM" />
+		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+	</resultMap>
+
+	<resultMap type="Ship" id="ShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
 		<result property="afterLv" column="AFTERLV" />
 		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler" />
@@ -34,13 +40,23 @@
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
-	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
-		<id property="shipId" column="ID" />
-		<result property="soltNum" column="SLOTNUM" />
-		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+	<resultMap type="EnemyShip" id="EnemyShipRM" extends="ShipRM" autoMapping="true">
+		<collection property="slot" ofType="SlotItem" column="ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
 	</resultMap>
 
-	<select id="selectShipsByCond" resultMap="shipRM">
+	<select id="selectEmShip" resultMap="BaseShipRM">
+		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 501 AND 900
+	</select>
+
+	<select id="selectEnemyDeckPortShips" resultMap="EnemyShipRM">
+		SELECT s.* FROM t_enemy_deckport_mapping m
+			INNER JOIN t_ship s ON s.ID = m.SHIP_ID
+			INNER JOIN t_enemy_deckport d ON d.MAPCELL_ID = m.MAPCELL_ID AND d.NO = m.NO
+		WHERE m.MAPCELL_ID = #{map_cell_id} AND m.NO = #{no}
+		ORDER BY POSITION(CAST(s.`ID` AS CHAR) IN d.SHIP)
+	</select>
+
+	<select id="selectShipsByCond" resultMap="ShipRM">
 		SELECT * FROM t_ship
 		<where>
 			<choose>
@@ -50,19 +66,17 @@
 		</where>
 	</select>
 
-	<select id="selectEmShip" resultMap="BaseShipRM">
-		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 501 AND 900
-	</select>
-
 	<select id="selectShipIdsBySortNo" resultType="_int">
-		SELECT ID FROM t_ship WHERE SORTNO = #{sort_no}
+		SELECT ID FROM t_ship WHERE SORTNO = #{sort_no} AND ID BETWEEN 1 AND 500
 	</select>
 
-	<select id="selectNeedShipExpByLevel" resultType="long">
+	<!-- ANOTHER TABLE -->
+	<select id="selectNeedShipExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
 	</select>
 
-	<select id="selectShipLVByExp" resultType="int">
+	<select id="selectShipLVByExp" resultType="_int">
 		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
+	<!-- ANOTHER TABLE -->
 </mapper>

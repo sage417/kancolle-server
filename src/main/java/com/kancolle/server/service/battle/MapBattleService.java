@@ -4,7 +4,7 @@
 package com.kancolle.server.service.battle;
 
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
-import com.kancolle.server.model.kcsapi.battle.MapStartResult;
+import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 
 /**
  * @author J.K.SAGE

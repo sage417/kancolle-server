@@ -29,7 +29,7 @@ import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
-import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;

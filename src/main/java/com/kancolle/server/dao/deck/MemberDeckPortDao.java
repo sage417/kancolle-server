@@ -3,7 +3,7 @@ package com.kancolle.server.dao.deck;
 import java.util.List;
 
 import com.kancolle.server.dao.base.BaseDao;
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 public interface MemberDeckPortDao extends BaseDao<MemberDeckPort> {

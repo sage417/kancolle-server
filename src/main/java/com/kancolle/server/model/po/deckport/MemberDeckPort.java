@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.model.po.member;
+package com.kancolle.server.model.po.deckport;
 
 import java.util.List;
 
