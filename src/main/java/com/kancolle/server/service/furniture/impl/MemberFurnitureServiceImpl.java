@@ -23,7 +23,7 @@ import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.utils.logic.FurnitureUtils;
+import com.kancolle.server.utils.logic.furniture.FurnitureUtils;
 
 /**
  * @author J.K.SAGE

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.utils.logic;
+package com.kancolle.server.utils.logic.furniture;
 
 import static com.kancolle.server.model.po.furniture.FurnitureType.DESK;
 import static com.kancolle.server.model.po.furniture.FurnitureType.FLOOR;

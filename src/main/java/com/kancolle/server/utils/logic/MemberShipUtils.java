@@ -7,6 +7,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.utils.logic.common.LvUtils;
 
 /**
  * @author J.K.SAGE

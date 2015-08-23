@@ -4,16 +4,16 @@
 
 	<resultMap type="ShipPictureBook" id="ShipPictureBookRM" autoMapping="true">
 		<result property="shipInfo" column="SHIP_INFO"/>
-		<association property="ship" resultMap="com.kancolle.server.dao.ship.ShipDao.shipRM"/>
-		<collection property="api_table_id" column="SORTNO" select="com.kancolle.server.dao.ship.ShipDao.selectShipIdsBySortNo"/>
+		<association property="ship" column="SHIP_ID" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond"/>
+		<collection property="api_table_id" column="SHIP_SORTNO" select="com.kancolle.server.dao.ship.ShipDao.selectShipIdsBySortNo"/>
 	</resultMap>
 
 	<select id="selectPictureBook" resultMap="ShipPictureBookRM">
-		SELECT mpb.`state`, s.*,  pb.`CTYPE`,pb.`CNUM`,pb.`SHIP_INFO` 
+		SELECT mpb.*, pb.*
 		FROM t_member_picturebook mpb
 			INNER JOIN t_ship s ON mpb.SHIP_SORTNO = s.SORTNO
 			INNER JOIN t_ship_picturebook pb ON pb.SHIP_ID = s.ID
 		WHERE mpb.member_id = #{member_id}
-		ORDER BY mpb.SHIP_SORTNO ASC
+		ORDER BY s.SORTNO ASC
 	</select>
 </mapper>

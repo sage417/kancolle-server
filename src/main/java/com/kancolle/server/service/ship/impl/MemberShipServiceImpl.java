@@ -52,8 +52,8 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
-import com.kancolle.server.utils.logic.LvUtils;
 import com.kancolle.server.utils.logic.MemberShipUtils;
+import com.kancolle.server.utils.logic.common.LvUtils;
 
 /**
  * @author J.K.SAGE

@@ -24,7 +24,7 @@ import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
-import com.kancolle.server.utils.logic.LvUtils;
+import com.kancolle.server.utils.logic.common.LvUtils;
 
 @Service
 public class MemberServiceImpl implements MemberService {

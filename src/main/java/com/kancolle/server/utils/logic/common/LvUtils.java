@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.utils.logic;
+package com.kancolle.server.utils.logic.common;
 
 import com.kancolle.server.model.po.common.MaxMinValue;
 

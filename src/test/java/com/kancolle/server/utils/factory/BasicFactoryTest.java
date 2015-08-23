@@ -3,8 +3,6 @@
  */
 package com.kancolle.server.utils.factory;
 
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,9 +19,9 @@ public class BasicFactoryTest {
         Assert.assertEquals(BasicFactory.cl_ship_ids.length, BasicFactory.cl_pdf.length);
         Assert.assertEquals(BasicFactory.bb_ship_ids.length, BasicFactory.bb_pdf.length);
         Assert.assertEquals(BasicFactory.ca_ship_ids.length, BasicFactory.ca_pdf.length);
-        System.out.println(Arrays.stream(BasicFactory.basic_pdf).sum());
+        /*        System.out.println(Arrays.stream(BasicFactory.basic_pdf).sum());
         System.out.println(Arrays.stream(BasicFactory.cl_pdf).sum());
         System.out.println(Arrays.stream(BasicFactory.bb_pdf).sum());
-        System.out.println(Arrays.stream(BasicFactory.ca_pdf).sum());
+        System.out.println(Arrays.stream(BasicFactory.ca_pdf).sum());*/
     }
 }

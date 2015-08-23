@@ -5,6 +5,8 @@ package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -15,8 +17,11 @@ import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.logic.DeckPortUtils;
 
 /**
  * @author J.K.SAGE
@@ -37,24 +42,22 @@ public class BattleServiceImpl implements BattleService {
 
         MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
-        MemberDeckPort deckPort = checkNotNull(battleState.getMemberDeckPort());
+        MemberDeckPort memberDeckPort = checkNotNull(battleState.getMemberDeckPort());
 
         int mapCellId = battleState.getMapCellId();
         AbstractMapCell mapCell = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
         EnemyDeckPort enemyDeckPort = mapCell.getEnemyDeckPort();
-        BattleResult result = new BattleResult(deckPort, enemyDeckPort);
+        BattleResult result = new BattleResult(memberDeckPort, enemyDeckPort);
 
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-
-        /** 我方索敌结束 */
-
+        int fsResult = enemySearch(memberDeckPort, enemyDeckPort);
         /** 敌方索敌 */
+        int esResult = enemySearch(enemyDeckPort, memberDeckPort);
 
-        /** 敌方索敌结束 */
-        result.setApi_search(new int[] { 1, 2 });
+        result.setApi_search(new int[] { 4, esResult });
         /*-------------------------索敌结束------------------------*/
 
         /*------------------------2.航空战开始开始------------------------*/
@@ -93,5 +96,51 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), 1 });
         return result;
+    }
+
+    private int enemySearch(EnemyDeckPort enemyDeckPort, MemberDeckPort memberDeckPort) {
+        int minValue = DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
+        return 0;
+    }
+
+    private int enemySearch(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
+        int minValue = DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
+
+        boolean planeSearch = false;
+
+        List<MemberShip> ships = memberDeckPort.getShips();
+        if (ships.isEmpty()) {
+            return 0;
+        }
+        int needValue = 0;
+        for (MemberShip ship : ships) {
+            int ship_sakuteki = 0;
+            int ex_sakuteki = 0;
+            for (MemberSlotItem slotItem : ship.getSlot()) {
+                int slotItem_saku = slotItem.getSlotItem().getSaku();
+                if (slotItem.getSlotItem().getType()[2] == 10) {
+                    ex_sakuteki += 2 * slotItem_saku;
+                    planeSearch = true;
+                }
+                ex_sakuteki += slotItem_saku;
+            }
+            ship_sakuteki = ship.getLv() + (int) Math.pow(ship.getSakuteki().getMinValue(), 2) + ex_sakuteki;
+            needValue += ship_sakuteki;
+        }
+        needValue /= ships.size();
+
+        if (planeSearch) {
+            //1,2,3,4
+            if (minValue > needValue) {
+                return 1;
+            }
+            return 2;
+        } else {
+            //5,6
+            if (minValue > needValue) {
+                return 6;
+            }
+            return 5;
+        }
     }
 }

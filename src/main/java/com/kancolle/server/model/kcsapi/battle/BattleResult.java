@@ -56,7 +56,14 @@ public class BattleResult {
     @JSONField(ordinal = 10)
     private int[][] api_eParam;
 
-    /** 1=成功, 2=成功(未帰還機あり), 3=未帰還, 4=失敗, 5=成功(艦載機使用せず */
+    /* 索敵成否　
+     * [0]=味方, [1]=敵　
+     * 1=成功, 
+     * 2=成功(未帰還機あり), 
+     * 3=失敗+未帰還, 
+     * 4=失敗, 
+     * 5=成功(艦載機使用せず), 
+     * 6=失敗(艦載機使用せず) */
     @JSONField(ordinal = 11)
     private int[] api_search;
 

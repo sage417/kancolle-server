@@ -13,6 +13,32 @@ import com.alibaba.fastjson.parser.Feature;
 public class ShipType implements Serializable {
     private static final long serialVersionUID = 2560822460694469946L;
 
+    public static final int TYPE_DD = 2;
+
+    public static final int TYPE_CL = 3;
+
+    public static final int TYPE_CLT = 4;
+
+    public static final int TYPE_CA = 5;
+
+    public static final int TYPE_CAV = 6;
+
+    public static final int TYPE_CVL = 7;
+
+    public static final int TYPE_BB1 = 8;
+
+    public static final int TYPE_BB2 = 9;
+
+    public static final int TYPE_BBV = 10;
+
+    public static final int TYPE_CV = 11;
+
+    public static final int TYPE_BBS = 12;
+
+    public static final int TYPE_SS = 13;
+
+    public static final int TYPE_SSV = 14;
+
     @JSONField(ordinal = 1, name = "api_id")
     private int shipTypeId;
 
@@ -107,6 +133,6 @@ public class ShipType implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("ShipTypeModel [name=%s]", name);
+        return String.format("ShipType [name=%s]", name);
     }
 }
