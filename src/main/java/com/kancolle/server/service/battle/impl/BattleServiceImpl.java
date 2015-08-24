@@ -5,8 +5,6 @@ package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -17,9 +15,8 @@ import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.BattleService;
+import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 
@@ -33,6 +30,9 @@ public class BattleServiceImpl implements BattleService {
 
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
+
+    @Autowired
+    private ReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
 
     @Override
     public BattleResult battle(String member_id, BattleForm form) {
@@ -53,11 +53,11 @@ public class BattleServiceImpl implements BattleService {
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-        int fsResult = enemySearch(memberDeckPort, enemyDeckPort);
+        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, enemyDeckPort);
         /** 敌方索敌 */
         int esResult = enemySearch(enemyDeckPort, memberDeckPort);
 
-        result.setApi_search(new int[] { 4, esResult });
+        result.setApi_search(new int[] { fsResult, esResult });
         /*-------------------------索敌结束------------------------*/
 
         /*------------------------2.航空战开始开始------------------------*/
@@ -101,46 +101,5 @@ public class BattleServiceImpl implements BattleService {
     private int enemySearch(EnemyDeckPort enemyDeckPort, MemberDeckPort memberDeckPort) {
         int minValue = DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
         return 0;
-    }
-
-    private int enemySearch(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
-        int minValue = DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
-
-        boolean planeSearch = false;
-
-        List<MemberShip> ships = memberDeckPort.getShips();
-        if (ships.isEmpty()) {
-            return 0;
-        }
-        int needValue = 0;
-        for (MemberShip ship : ships) {
-            int ship_sakuteki = 0;
-            int ex_sakuteki = 0;
-            for (MemberSlotItem slotItem : ship.getSlot()) {
-                int slotItem_saku = slotItem.getSlotItem().getSaku();
-                if (slotItem.getSlotItem().getType()[2] == 10) {
-                    ex_sakuteki += 2 * slotItem_saku;
-                    planeSearch = true;
-                }
-                ex_sakuteki += slotItem_saku;
-            }
-            ship_sakuteki = ship.getLv() + (int) Math.pow(ship.getSakuteki().getMinValue(), 2) + ex_sakuteki;
-            needValue += ship_sakuteki;
-        }
-        needValue /= ships.size();
-
-        if (planeSearch) {
-            //1,2,3,4
-            if (minValue > needValue) {
-                return 1;
-            }
-            return 2;
-        } else {
-            //5,6
-            if (minValue > needValue) {
-                return 6;
-            }
-            return 5;
-        }
     }
 }

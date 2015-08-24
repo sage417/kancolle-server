@@ -5,11 +5,14 @@ package com.kancolle.server.utils.logic;
 
 import java.util.List;
 
+import org.apache.commons.lang3.RandomUtils;
+
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
  * @author J.K.SAGE
@@ -72,5 +75,18 @@ public class DeckPortUtils {
             needValue += getShipSearchNeedValue(ship.getType().getShipTypeId());
         }
         return needValue / ships.size();
+    }
+
+    public static boolean attackAirSearchPlane(EnemyDeckPort enemyDeckPort) {
+        List<EnemyShip> ships = enemyDeckPort.getEnemyShips();
+        int attackValue = 0;
+        for (EnemyShip enemyShip : ships) {
+            for (SlotItem slotItem : enemyShip.getSlot()) {
+                if (slotItem.getType()[2] == 6) {
+                    attackValue += slotItem.getTaik();
+                }
+            }
+        }
+        return attackValue == 0 || (Math.atan(attackValue / 500) / Math.PI * 200) < RandomUtils.nextInt(0, 101);
     }
 }

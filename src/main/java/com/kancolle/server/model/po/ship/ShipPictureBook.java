@@ -23,7 +23,7 @@ public class ShipPictureBook {
     }
 
     @JSONField(ordinal = 2)
-    private int[][] api_state = { { 1, 0, 0, 0, 0 } };
+    private int[][] api_state = { { 1, 1, 0, 0, 0 } };
 
     @JSONField(ordinal = 3, name = "api_table_id")
     private List<Integer> api_table_id;
