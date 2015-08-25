@@ -127,4 +127,12 @@
 	<select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM" flushCache="true">
 		{call create_ship(#{member_id}, #{create_ship_id})}
 	</select>
+	
+	<update id="updateShipOnSlot">
+		UPDATE t_member_ship
+			SET ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder}
+		WHERE
+			member_id = #{member_id}
+			AND ID = #{member_ship_id}
+	</update>
 	</mapper>

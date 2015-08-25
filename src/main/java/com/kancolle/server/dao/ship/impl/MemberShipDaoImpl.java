@@ -162,4 +162,13 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip>implements MemberS
         params.put("create_ship_id", createShipId);
         return getSqlSession().selectOne("createMemberShip", params);
     }
+
+    @Override
+    public void updateShipOnSlot(String memberId, long memberShipId, int[] onslot) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("member_id", memberId);
+        params.put("member_ship_id", memberShipId);
+        params.put("onslot", onslot);
+        getSqlSession().update("updateShipOnSlot", params);
+    }
 }

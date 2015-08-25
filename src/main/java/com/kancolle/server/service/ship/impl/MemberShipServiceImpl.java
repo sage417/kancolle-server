@@ -10,6 +10,7 @@ import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESU
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -469,5 +470,12 @@ public class MemberShipServiceImpl implements MemberShipService {
         Member member = memberService.getMember(member_id);
         checkState(getCountOfMemberShip(member_id) < member.getMaxChara());
         return memberShipDao.createShip(member_id, createShipId);
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
+    public void updateShipOnSlot(MemberShip keyShip) {
+        Arrays.stream(keyShip.getOnslot()).forEach(eq -> checkArgument(eq > -1));
+        memberShipDao.updateShipOnSlot(keyShip.getMemberId(), keyShip.getMemberShipId(), keyShip.getOnslot());
     }
 }

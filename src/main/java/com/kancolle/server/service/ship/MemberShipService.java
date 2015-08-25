@@ -65,4 +65,6 @@ public interface MemberShipService {
 
     MemberShip createShip(String member_id, int createShipId);
 
+    void updateShipOnSlot(MemberShip keyShip);
+
 }

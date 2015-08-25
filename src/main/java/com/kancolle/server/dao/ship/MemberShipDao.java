@@ -33,4 +33,6 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
     void deleteMemberShips(String member_id, List<Long> member_ship_ids);
 
     MemberShip createShip(String member_id, int createShipId);
+
+    void updateShipOnSlot(String memberId, long memberShipId, int[] onslot);
 }
