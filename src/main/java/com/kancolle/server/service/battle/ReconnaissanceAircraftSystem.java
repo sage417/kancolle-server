@@ -15,4 +15,8 @@ public interface ReconnaissanceAircraftSystem {
 
     int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort);
 
+    int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort);
+
+    boolean isSearchSuccess(int fsResult);
+
 }
