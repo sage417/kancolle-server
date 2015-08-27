@@ -151,9 +151,9 @@ public class BattleResult {
         Stream.iterate(1, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShipId());
         Stream.iterate(1, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_ship_lv[i] = 1);
         Stream.iterate(1, i -> i++).limit(memberShips.size()).forEach(i -> this.api_nowhps[i] = memberShips.get(i - 1).getNowHp());
-        Stream.iterate(8, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 8).getTaik().getMinValue());
+        Stream.iterate(7, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getTaik().getMinValue());
         Stream.iterate(1, i -> i++).limit(memberShips.size()).forEach(i -> this.api_maxhps[i] = memberShips.get(i - 1).getMaxHp());
-        Stream.iterate(8, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 8).getTaik().getMaxValue());
+        Stream.iterate(7, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getTaik().getMaxValue());
 
         this.api_midnight_flag = 0;
 

@@ -18,7 +18,6 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.logic.DeckPortUtils;
 
 /**
  * @author J.K.SAGE
@@ -55,9 +54,12 @@ public class BattleServiceImpl implements BattleService {
         /** 我方索敌 */
         int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, enemyDeckPort);
         /** 敌方索敌 */
-        int esResult = enemySearch(enemyDeckPort, memberDeckPort);
+        int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, enemyDeckPort);
 
         result.setApi_search(new int[] { fsResult, esResult });
+
+        boolean memberSearchSuccess = reconnaissanceAircraftSystem.isSearchSuccess(fsResult);
+        boolean enemySearchSuccess = reconnaissanceAircraftSystem.isSearchSuccess(esResult);
         /*-------------------------索敌结束------------------------*/
 
         /*------------------------2.航空战开始开始------------------------*/
@@ -96,10 +98,5 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), 1 });
         return result;
-    }
-
-    private int enemySearch(EnemyDeckPort enemyDeckPort, MemberDeckPort memberDeckPort) {
-        int minValue = DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
-        return 0;
     }
 }

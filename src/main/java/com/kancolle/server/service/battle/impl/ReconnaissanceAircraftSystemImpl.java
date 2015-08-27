@@ -14,8 +14,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
@@ -52,7 +54,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
     public int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort) {
         boolean planeSearch = false;
 
-        int seachNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
+        int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
         int searchValue = 0;
 
         List<MemberShip> ship_has_plane = Lists.newArrayListWithCapacity(6);
@@ -70,14 +72,14 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
                     ex_sakuteki += 2 * slotItem_saku;
                     planeSearch = true;
                     shipMap.put(ship, slotItem);
-                }
-                ex_sakuteki += slotItem_saku;
+                } else
+                    ex_sakuteki += slotItem_saku;
             }
             searchValue += ((int) Math.sqrt(ship.getSakuteki().getMinValue()) + ex_sakuteki);
         }
         searchValue /= ships.size();
 
-        boolean searchSuccess = searchValue > seachNeedValue;
+        boolean searchSuccess = searchValue > searchNeedValue;
 
         if (planeSearch) {
             boolean planeBack = DeckPortUtils.attackAirSearchPlane(enemyDeckPort);
@@ -95,5 +97,33 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
         } else {
             return searchSuccess ? SEARCH_SUCCESS : SEARCH_FAIL;
         }
+    }
+
+    @Override
+    public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
+        boolean planeSearch = false;
+        int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
+        int searchValue = 0;
+        for (EnemyShip ship : enemyDeckPort.getEnemyShips()) {
+            int ex_sakuteki = 0;
+            for (SlotItem slotItem : ship.getSlot()) {
+                int slotItem_saku = slotItem.getSaku();
+                if (slotItem.getType()[2] == 10) {
+                    ex_sakuteki += 2 * slotItem_saku;
+                    planeSearch = true;
+                } else {
+                    ex_sakuteki += slotItem_saku;
+                }
+            }
+            searchValue += ((int) Math.sqrt(ship.getSakuteki().getMinValue()) + ex_sakuteki);
+        }
+
+        boolean searchSuccess = searchValue > searchNeedValue;
+        return searchSuccess ? planeSearch ? PLANE_SUCCESS : SEARCH_SUCCESS : planeSearch ? PLANE_FAIL : SEARCH_FAIL;
+    }
+
+    @Override
+    public boolean isSearchSuccess(int resultCode) {
+        return (resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS);
     }
 }
