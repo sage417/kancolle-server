@@ -148,16 +148,16 @@ public class BattleResult {
         List<MemberShip> memberShips = memberDeckPort.getShips();
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
-        Stream.iterate(1, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShipId());
-        Stream.iterate(1, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_ship_lv[i] = 1);
-        Stream.iterate(1, i -> i++).limit(memberShips.size()).forEach(i -> this.api_nowhps[i] = memberShips.get(i - 1).getNowHp());
-        Stream.iterate(7, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getTaik().getMinValue());
-        Stream.iterate(1, i -> i++).limit(memberShips.size()).forEach(i -> this.api_maxhps[i] = memberShips.get(i - 1).getMaxHp());
-        Stream.iterate(7, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getTaik().getMaxValue());
+        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShipId());
+        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_lv[i] = 1);
+        Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_nowhps[i] = memberShips.get(i - 1).getNowHp());
+        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getTaik().getMinValue());
+        Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_maxhps[i] = memberShips.get(i - 1).getMaxHp());
+        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getTaik().getMaxValue());
 
         this.api_midnight_flag = 0;
 
-        Stream.iterate(1, i -> i++).limit(enemyShips.size()).forEach(i -> this.api_eSlot[i] = enemyShips.get(i - 1).getSlot().stream().mapToInt(SlotItem::getSlotItemId).toArray());
+        Stream.iterate(1, n -> ++n).limit(enemyShips.size()).forEach(i -> this.api_eSlot[i] = enemyShips.get(i - 1).getSlot().stream().mapToInt(SlotItem::getSlotItemId).toArray());
     }
 
     public int getApi_dock_id() {

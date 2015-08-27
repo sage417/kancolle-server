@@ -121,7 +121,7 @@ public class MemberMaterial {
         long count = BeanUtils.getGetMethodStream(MemberMaterial.class, int.class).count();
         List<MemberMeterialDto> meterials = new ArrayList<>((int) count);
 
-        Stream.iterate(1, n -> ++n).limit(count).forEach(i -> {
+        Stream.iterate(1, i -> ++i).limit(count).forEach(i -> {
             MemberMeterialDto meterial = new MemberMeterialDto();
             meterial.setApi_id(i);
             meterial.setApi_value(methodMap.get(Integer.toString(i)).apply(this));

@@ -194,7 +194,7 @@ public class MissionServiceImpl implements MissionService {
         /*---------计算舰娘经验情况------------*/
         int deck_ship_size = deck_ships.size();
         long[][] ship_exp_lvup = new long[deck_ship_size][];
-        IntStream.iterate(0, i -> i + 1).limit(deck_ship_size).forEach(i -> ship_exp_lvup[i] = ArrayUtils.subarray(deck_ships.get(i).getExp(), 0, 2));
+        IntStream.iterate(0, i -> ++i).limit(deck_ship_size).forEach(i -> ship_exp_lvup[i] = ArrayUtils.subarray(deck_ships.get(i).getExp(), 0, 2));
         result.setApi_get_exp_lvup(ship_exp_lvup);
         /*---------计算舰娘经验情况------------*/
 
