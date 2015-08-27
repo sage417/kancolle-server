@@ -27,11 +27,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.dao.ship.MemberShipDao;
+import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
@@ -87,6 +89,9 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Autowired
     private MemberNdockService memberNdockService;
+
+    @Autowired
+    private EventBus eventBus;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -375,6 +380,8 @@ public class MemberShipServiceImpl implements MemberShipService {
         updateShipProperties(targetShip);
 
         destoryShips(member_id, powupShips);
+
+        eventBus.post(new PowUpEvent(member_id));
 
         return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, targetShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }

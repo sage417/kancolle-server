@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.eventbus.EventBus;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
-import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.response.APIResponse;
@@ -39,9 +37,6 @@ public class ReqKaisouController {
 
     @Autowired
     private MemberSlotItemService memberSlotItemService;
-
-    @Autowired
-    private EventBus eventBus;
 
     @RequestMapping("/slotset")
     public APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipSetSlotForm form, BindingResult result) {
@@ -72,7 +67,6 @@ public class ReqKaisouController {
         }
 
         MemberShipPowerupResult api_data = memberShipService.powerup(member_id, form);
-        eventBus.post(new PowUpEvent(member_id));
         return new APIResponse<MemberShipPowerupResult>().setApi_data(api_data);
     }
 }
