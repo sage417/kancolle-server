@@ -21,39 +21,27 @@ import com.alibaba.fastjson.JSON;
  *
  */
 public class LongJsonArrayHanlder extends BaseTypeHandler<long[]> {
-    private static final Function<String, long[]>toLongArray = str->{
-        return ArrayUtils.toPrimitive(JSON.parseArray(str, Long.class).toArray(new Long[]{}));
+    private static final Function<String, long[]> toLongArray = str -> {
+        return ArrayUtils.toPrimitive(JSON.parseArray(str, Long.class).toArray(new Long[] {}));
     };
-    /* (non-Javadoc)
-     * @see org.apache.ibatis.type.BaseTypeHandler#getNullableResult(java.sql.ResultSet, java.lang.String)
-     */
+
     @Override
     public long[] getNullableResult(ResultSet rs, String columnName) throws SQLException {
         return toLongArray.apply(rs.getString(columnName));
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.ibatis.type.BaseTypeHandler#getNullableResult(java.sql.ResultSet, int)
-     */
     @Override
     public long[] getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return toLongArray.apply(rs.getString(columnIndex));
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.ibatis.type.BaseTypeHandler#getNullableResult(java.sql.CallableStatement, int)
-     */
     @Override
     public long[] getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return toLongArray.apply(cs.getString(columnIndex));
     }
 
-    /* (non-Javadoc)
-     * @see org.apache.ibatis.type.BaseTypeHandler#setNonNullParameter(java.sql.PreparedStatement, int, java.lang.Object, org.apache.ibatis.type.JdbcType)
-     */
     @Override
     public void setNonNullParameter(PreparedStatement ps, int columnIndex, long[] value, JdbcType jdbcType) throws SQLException {
         ps.setString(columnIndex, JSON.toJSONString(value));
     }
-
 }
