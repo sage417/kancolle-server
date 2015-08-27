@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import javax.validation.Valid;
@@ -40,10 +41,7 @@ public class ReqKaisouController {
 
     @RequestMapping("/slotset")
     public APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipSetSlotForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            // TODO
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         memberShipService.setSlot(member_id, form);
         return new APIResponse<Object>();
     }
@@ -62,10 +60,7 @@ public class ReqKaisouController {
 
     @RequestMapping("/powerup")
     public APIResponse<MemberShipPowerupResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipPowerUpForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
-
+        checkArgument(!result.hasErrors());
         MemberShipPowerupResult api_data = memberShipService.powerup(member_id, form);
         return new APIResponse<MemberShipPowerupResult>().setApi_data(api_data);
     }

@@ -165,18 +165,13 @@ public class GetMemberController {
 
     @RequestMapping("/ship2")
     public APIResponse<List<MemberShip>> ship2(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship2Form form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         return new Ship2Result(memberShipService.getMemberShips(member_id), memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     @RequestMapping("/ship3")
     public APIResponse<Ship3Result> ship3(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship3Form form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
-
+        checkArgument(!result.hasErrors());
         Ship3Result api_data = memberShipService.getShip3(member_id, form);
         return new APIResponse<Ship3Result>().setApi_data(api_data);
     }
@@ -201,9 +196,7 @@ public class GetMemberController {
 
     @RequestMapping("/mapcell")
     public APIResponse<List<MemberMapCell>> mapcell(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapCellForm form, BindingResult result) {
-        if (result.hasErrors()) {
-
-        }
+        checkArgument(!result.hasErrors());
         List<MemberMapCell> api_data = memberMapService.getMemberCellInfos(member_id, form);
         return new APIResponse<List<MemberMapCell>>().setApi_data(api_data);
     }

@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import javax.validation.Valid;
@@ -50,10 +51,7 @@ public class ReqMissionController {
 
     @RequestMapping("/start")
     public APIResponse<?> start(@ModelAttribute(MEMBER_ID) String member_id, @Valid MissionStartForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            // TODO 惡意請求記錄
-            return new APIResponse<String>();
-        }
+        checkArgument(!result.hasErrors());
         MissionStart api_data = missionService.startMission(member_id, form);
         return new APIResponse<MissionStart>().setApi_data(api_data);
     }

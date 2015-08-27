@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.Collections;
@@ -34,10 +35,7 @@ public class ReqMemberController {
 
     @RequestMapping("/itemuse")
     public APIResponse<Object> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
-        if (result.hasErrors()) {
-
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         UseItemResult api_data = memberUseItemService.useItem(member_id, form);
         return new APIResponse<Object>().setApi_data(api_data);
     }

@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
@@ -31,10 +32,7 @@ public class ReqNyukyoController {
 
     @RequestMapping("/start")
     public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) String member_id, NdockStartForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
-
+        checkArgument(!result.hasErrors());
         memberNdockService.start(member_id, form);
         return DEFAULT_RESPONSE;
     }

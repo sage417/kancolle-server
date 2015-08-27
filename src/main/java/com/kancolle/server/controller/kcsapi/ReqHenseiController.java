@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import javax.validation.Valid;
@@ -30,10 +31,7 @@ public class ReqHenseiController {
 
     @RequestMapping("/change")
     public APIResponse<MemberDeckPortChangeResult> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipChangeForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            // TODO
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         MemberDeckPortChangeResult api_data = memberDeckPortService.changeShip(member_id, form);
         return new APIResponse<MemberDeckPortChangeResult>().setApi_data(api_data);
     }

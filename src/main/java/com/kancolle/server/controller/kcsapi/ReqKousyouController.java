@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
@@ -49,9 +50,7 @@ public class ReqKousyouController {
 
     @RequestMapping("/createship")
     public APIResponse<MemberKdock> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         MemberKdock api_data = memberKdockService.createShip(member_id, form);
         return new APIResponse<MemberKdock>().setApi_data(api_data);
     }
@@ -76,9 +75,7 @@ public class ReqKousyouController {
 
     @RequestMapping("/createitem")
     public APIResponse<CreateItemResult> createItem(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateItemForm form, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new IllegalArgumentException();
-        }
+        checkArgument(!result.hasErrors());
         CreateItemResult api_data = memberSlotItemService.createItem(member_id, form);
         return new APIResponse<CreateItemResult>().setApi_data(api_data);
     }
