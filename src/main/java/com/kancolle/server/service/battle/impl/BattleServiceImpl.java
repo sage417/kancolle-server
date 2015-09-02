@@ -12,6 +12,7 @@ import org.springframework.web.context.ContextLoader;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
+import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -34,7 +35,7 @@ public class BattleServiceImpl implements BattleService {
     private ReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
 
     @Override
-    public BattleResult battle(String member_id, BattleForm form) {
+    public BattleSimulationResult battle(String member_id, BattleForm form) {
         int formation = form.getApi_formation();
         /*旗艦大破進撃フラグ　0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃?*/
         int recovery_type = form.getApi_formation();
@@ -47,7 +48,7 @@ public class BattleServiceImpl implements BattleService {
         AbstractMapCell mapCell = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
         EnemyDeckPort enemyDeckPort = mapCell.getEnemyDeckPort();
-        BattleResult result = new BattleResult(memberDeckPort, enemyDeckPort);
+        BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
 
         /*------------------------1.索敌开始------------------------*/
 
@@ -90,7 +91,11 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------开幕雷击结束---------------------------*/
 
         /*--------------------------5.炮击战---------------------------*/
-
+        
+        
+        
+        
+        
         /*--------------------------炮击战---------------------------*/
 
         /*--------------------------6.闭幕雷击---------------------------*/
@@ -98,5 +103,10 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), 1 });
         return result;
+    }
+
+    @Override
+    public BattleResult battleresult(String member_id) {
+        return null;
     }
 }

@@ -5,6 +5,7 @@ package com.kancolle.server.service.battle;
 
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
+import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 
 /**
  * @author J.K.SAGE
@@ -13,6 +14,7 @@ import com.kancolle.server.model.kcsapi.battle.BattleResult;
  */
 public interface BattleService {
 
-    BattleResult battle(String member_id, BattleForm form);
+    BattleSimulationResult battle(String member_id, BattleForm form);
 
+    BattleResult battleresult(String member_id);
 }
