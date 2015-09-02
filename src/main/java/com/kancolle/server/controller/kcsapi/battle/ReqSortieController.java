@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
+import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.battle.BattleService;
 
@@ -32,10 +33,15 @@ public class ReqSortieController {
     private BattleService battleService;
 
     @RequestMapping("battle")
-    public APIResponse<BattleResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Valid BattleForm form, BindingResult result) {
+    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Valid BattleForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
-        BattleResult api_data = battleService.battle(member_id, form);
-        return new APIResponse<BattleResult>().setApi_data(api_data);
+        BattleSimulationResult api_data = battleService.battle(member_id, form);
+        return new APIResponse<BattleSimulationResult>().setApi_data(api_data);
     }
 
+    @RequestMapping("battleresult")
+    public APIResponse<BattleResult> battleresult(@ModelAttribute(MEMBER_ID) String member_id) {
+        BattleResult api_data = battleService.battleresult(member_id);
+        return new APIResponse<BattleResult>().setApi_data(api_data);
+    }
 }
