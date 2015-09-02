@@ -26,14 +26,14 @@ public class UrlCacheFilter extends SimplePageCachingFilter {
 
     @Override
     protected String calculateKey(HttpServletRequest httpRequest) {
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(httpRequest.getMethod()).append(httpRequest.getRequestURI());
-        String key = stringBuffer.toString();
-        return key;
+        StringBuilder builder = new StringBuilder(httpRequest.getMethod());
+        builder.append(httpRequest.getRequestURI());
+        return builder.toString();
     }
 
     @Override
     protected boolean acceptsGzipEncoding(HttpServletRequest request) {
+        // Let nginx do gzip
         return false;
     }
 }
