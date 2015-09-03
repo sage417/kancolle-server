@@ -5,10 +5,16 @@ package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
@@ -16,7 +22,10 @@ import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.BattleService;
+import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 
@@ -34,6 +43,9 @@ public class BattleServiceImpl implements BattleService {
     @Autowired
     private ReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
 
+    @Autowired
+    private CourseSystem courseSystem;
+
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         int formation = form.getApi_formation();
@@ -49,6 +61,10 @@ public class BattleServiceImpl implements BattleService {
 
         EnemyDeckPort enemyDeckPort = mapCell.getEnemyDeckPort();
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
+
+        // 判断航向
+        int course = courseSystem.getCourse();
+        result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), course });
 
         /*------------------------1.索敌开始------------------------*/
 
@@ -91,17 +107,25 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------开幕雷击结束---------------------------*/
 
         /*--------------------------5.炮击战---------------------------*/
-        
-        
-        
-        
-        
+
+        List<MemberShip> memberShips = memberDeckPort.getShips();
+        Ordering<MemberShip> memberShipOrder = Ordering.natural().reverse().onResultOf(MemberShip::getLeng);
+        LinkedList<MemberShip> memberShips2 = Lists.newLinkedList(memberShipOrder.sortedCopy(memberShips));
+
+        List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
+        Ordering<EnemyShip> EnemyShipsOrder = Ordering.natural().reverse().onResultOf(EnemyShip::getLeng);
+        LinkedList<EnemyShip> enemyShips2 = Lists.newLinkedList(EnemyShipsOrder.sortedCopy(enemyShips));
+
+        Stream.iterate(0, i -> ++i).limit(Math.max(memberShips.size(), enemyShips.size())).forEach(i -> {
+            MemberShip memberShip = memberShips2.poll();
+            EnemyShip enemyShip = enemyShips2.poll();
+        });
+
         /*--------------------------炮击战---------------------------*/
 
         /*--------------------------6.闭幕雷击---------------------------*/
 
         /*--------------------------闭幕雷击结束---------------------------*/
-        result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), 1 });
         return result;
     }
 
