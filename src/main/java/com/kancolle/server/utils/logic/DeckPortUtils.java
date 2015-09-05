@@ -9,6 +9,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.AdapterShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -88,5 +89,22 @@ public class DeckPortUtils {
             }
         }
         return attackValue == 0 || (Math.atan(attackValue / 500) / Math.PI * 200) < RandomUtils.nextInt(0, 101);
+    }
+
+    public static int getMemberDeckPortAirPower(List<AdapterShip> ships) {
+        int airPow = 0;
+
+        for (AdapterShip ship : ships) {
+            for (int i = 0; i < ship.getAdapterSlotItem().size(); i++) {
+                SlotItem slot = ship.getAdapterSlotItem().get(i);
+
+                int currentEQ = ship.getAdapterCurrentEQ()[i];
+                int slotType = slot.getType()[2];
+
+                if (currentEQ > 0 && (slotType == 6 || slotType == 7 || slotType == 8 || slotType == 11))
+                    airPow += slot.getTaik() * (int) Math.sqrt(currentEQ);
+            }
+        }
+        return airPow;
     }
 }

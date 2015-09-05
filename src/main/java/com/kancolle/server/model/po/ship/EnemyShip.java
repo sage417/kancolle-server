@@ -15,7 +15,7 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
  *
  */
 @Alias("EnemyShip")
-public class EnemyShip extends Ship {
+public class EnemyShip extends Ship implements AdapterShip {
 
     private static final long serialVersionUID = 887568848561500767L;
 
@@ -27,5 +27,15 @@ public class EnemyShip extends Ship {
 
     public void setSlot(List<SlotItem> slot) {
         this.slot = slot;
+    }
+
+    @Override
+    public List<SlotItem> getAdapterSlotItem() {
+        return getSlot();
+    }
+
+    @Override
+    public int[] getAdapterCurrentEQ() {
+        return getMaxEq();
     }
 }

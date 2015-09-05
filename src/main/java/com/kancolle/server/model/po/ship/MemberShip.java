@@ -4,6 +4,7 @@
 package com.kancolle.server.model.po.ship;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.apache.ibatis.type.Alias;
@@ -11,6 +12,7 @@ import org.apache.ibatis.type.Alias;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.NdockUtils;
 
@@ -20,7 +22,7 @@ import com.kancolle.server.utils.logic.NdockUtils;
  *
  */
 @Alias("MemberShip")
-public class MemberShip {
+public class MemberShip implements AdapterShip {
     public static final int SLOT_SIZE_MAX = 5;
 
     @JSONField(serialize = false, deserialize = false)
@@ -438,5 +440,15 @@ public class MemberShip {
     @Override
     public String toString() {
         return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
+    }
+
+    @Override
+    public List<SlotItem> getAdapterSlotItem() {
+        return getSlot().stream().map(MemberSlotItem::getSlotItem).collect(Collectors.toList());
+    }
+
+    @Override
+    public int[] getAdapterCurrentEQ() {
+        return getOnslot();
     }
 }
