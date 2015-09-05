@@ -1,1 +1,1 @@
-#夏活死鱼一条
+#kancolle-server
