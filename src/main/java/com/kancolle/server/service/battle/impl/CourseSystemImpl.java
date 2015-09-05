@@ -28,7 +28,7 @@ public class CourseSystemImpl implements CourseSystem {
     private final double[] course_cdf = FactoryUtils.pdf2cdf(course_pdf);
 
     @Override
-    public int getCourse() {
+    public int calCourse() {
         int index = FactoryUtils.discrete(course_cdf);
         return cources[index];
     }

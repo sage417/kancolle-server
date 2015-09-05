@@ -10,6 +10,6 @@ package com.kancolle.server.service.battle;
  */
 public interface CourseSystem {
 
-    int getCourse();
+    int calCourse();
 
 }

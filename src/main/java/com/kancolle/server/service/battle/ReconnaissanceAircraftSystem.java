@@ -19,4 +19,6 @@ public interface ReconnaissanceAircraftSystem {
 
     boolean isSearchSuccess(int fsResult);
 
+    boolean isSearchPlane(int slotItemType);
+
 }

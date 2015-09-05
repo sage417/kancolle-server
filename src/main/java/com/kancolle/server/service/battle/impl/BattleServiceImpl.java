@@ -63,7 +63,7 @@ public class BattleServiceImpl implements BattleService {
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
 
         // 判断航向
-        int course = courseSystem.getCourse();
+        int course = courseSystem.calCourse();
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), course });
 
         /*------------------------1.索敌开始------------------------*/

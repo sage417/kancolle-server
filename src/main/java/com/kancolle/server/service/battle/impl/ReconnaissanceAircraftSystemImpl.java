@@ -29,6 +29,7 @@ import com.kancolle.server.utils.logic.DeckPortUtils;
  */
 @Service
 public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftSystem {
+
     /** 1 = 成功 */
     public static final int PLANE_SUCCESS = 1;
 
@@ -67,7 +68,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
             for (int i = 0; i < ship.getSlot().size(); i++) {
                 MemberSlotItem slotItem = ship.getSlot().get(i);
                 int slotItem_saku = slotItem.getSlotItem().getSaku();
-                if (slotItem.getSlotItem().getType()[2] == 10 && ship.getOnslot()[i] > 0) {
+                if (isSearchPlane(slotItem.getSlotItem().getType()[2]) && ship.getOnslot()[i] > 0) {
                     ship_has_plane.add(ship);
                     ex_sakuteki += 2 * slotItem_saku;
                     planeSearch = true;
@@ -108,7 +109,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
             int ex_sakuteki = 0;
             for (SlotItem slotItem : ship.getSlot()) {
                 int slotItem_saku = slotItem.getSaku();
-                if (slotItem.getType()[2] == 10) {
+                if (isSearchPlane(slotItem.getType()[2])) {
                     ex_sakuteki += 2 * slotItem_saku;
                     planeSearch = true;
                 } else {
@@ -125,5 +126,10 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
     @Override
     public boolean isSearchSuccess(int resultCode) {
         return (resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS);
+    }
+
+    @Override
+    public boolean isSearchPlane(int slotItemType) {
+        return (slotItemType == 6 || slotItemType == 7 || slotItemType == 8 || slotItemType == 9 || slotItemType == 25 || slotItemType == 26);
     }
 }
