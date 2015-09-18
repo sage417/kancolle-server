@@ -3,6 +3,9 @@
  */
 package com.kancolle.server.service.slotitem.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,14 +14,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.primitives.Ints;
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
@@ -34,7 +36,7 @@ import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
-import com.kancolle.server.utils.NumberArrayUtils;
+import com.kancolle.server.utils.IntArrayUtils;
 
 /**
  * @author J.K.SAGE
@@ -42,9 +44,7 @@ import com.kancolle.server.utils.NumberArrayUtils;
  *
  */
 @Service
-public class MemberSLotItemServiceImpl implements MemberSlotItemService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemberSLotItemServiceImpl.class);
+public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
     @Autowired
     private MemberSlotItemDao memberSlotItemDao;
@@ -93,7 +93,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         ResourceValue broken = targetSlotItem.getBroken();
 
-        do{
+        do {
             int slotitem_id = targetSlotItem.getSlotItemId();
 
             if (slotitem_id == 9 && (bull <= fuel || bull <= steel || bull <= baxuite)) {
@@ -124,9 +124,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
                 success = false;
                 break;
             }
-            
+
             if (slotitem_id == 72) {
-                int max = NumberArrayUtils.max(fuel, bull, steel, baxuite);
+                int max = Ints.max(fuel, bull, steel, baxuite);
                 if (max != fuel && max != steel) {
                     success = false;
                     break;
@@ -159,10 +159,9 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         if (success) {
             MemberSlotItem createItem = createSlotItem(member_id, targetSlotItem.getSlotItemId());
-            List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
-            long[] api_unsetslot = unsetSlots.stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItem.getSlotItem().getType()[2]).mapToLong(MemberSlotItem::getMemberSlotItemId)
-                    .toArray();
-            return new CreateItemResult(CreateItemResult.CREATE_SUCCESS, 1, createItem, memberResource, createItem.getSlotItem().getType()[2], api_unsetslot);
+            int createItemType = createItem.getSlotItem().getType()[2];
+            long[] api_unsetslot = getUnsetSlotList(member_id).stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItemType).mapToLong(MemberSlotItem::getMemberSlotItemId).toArray();
+            return new CreateItemResult(CreateItemResult.CREATE_SUCCESS, 1, createItem, memberResource, createItemType, api_unsetslot);
         } else {
             return new CreateItemResult(CreateItemResult.CREATE_FAIL, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
         }
@@ -176,10 +175,8 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
-        for (MemberSlotItem memberSlotItem : removeSlotitems) {
-            if (memberSlotItem == null || memberSlotItem.getLocked())
-                throw new IllegalStateException();
-        }
+        boolean allMatch = removeSlotitems.stream().allMatch(slotItem -> slotItem != null && !slotItem.getLocked());
+        checkArgument(allMatch, "装备不符合移除条件");
         List<Long> slotitem_ids = removeSlotitems.stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
         memberSlotItemDao.delete(member_id, slotitem_ids);
     }
@@ -195,17 +192,17 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
 
         List<MemberSlotItem> unSlots = getUnsetSlotList(member_id);
 
-        int[] getMaterials = new int[4];
+        int[] returnMaterials = new int[4];
 
         for (Long slotitem_id : slotitem_ids) {
             MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
             if (slotitem == null || !unSlots.contains(slotitem) || slotitem.getLocked())
                 throw new IllegalStateException();
-            NumberArrayUtils.arraySum(getMaterials, slotitem.getSlotItem().getBrokenArray());
+            IntArrayUtils.intsArraySum(returnMaterials, slotitem.getSlotItem().getBrokenArray());
         }
         memberSlotItemDao.delete(member_id, slotitem_ids);
-        memberResourceService.increaseMaterial(member_id, getMaterials);
-        return new MemberSlotItemDestoryResult(getMaterials);
+        memberResourceService.increaseMaterial(member_id, returnMaterials);
+        return new MemberSlotItemDestoryResult(returnMaterials);
     }
 
     @Override
@@ -245,10 +242,7 @@ public class MemberSLotItemServiceImpl implements MemberSlotItemService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MemberSlotItemLockResult lock(String member_id, Long slotitem_id) {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
-        if (memberSlotItem == null) {
-            LOGGER.warn("用户ID{}请求不存在的装备ID{}", member_id, slotitem_id);
-            throw new IllegalArgumentException();
-        }
+        checkNotNull(memberSlotItem, "用户ID:%s请求不存在的装备ID:%s", member_id, slotitem_id);
 
         Boolean lock = Boolean.valueOf(!memberSlotItem.getLocked());
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
