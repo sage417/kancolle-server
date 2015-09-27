@@ -13,7 +13,7 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
  */
 public interface ReconnaissanceAircraftSystem {
 
-    int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort);
+    int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState);
 
     int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort);
 

@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.utils.logic;
 
+import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.*;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -78,33 +79,17 @@ public class DeckPortUtils {
         return needValue / ships.size();
     }
 
-    public static boolean attackAirSearchPlane(EnemyDeckPort enemyDeckPort) {
-        List<EnemyShip> ships = enemyDeckPort.getEnemyShips();
-        int attackValue = 0;
-        for (EnemyShip enemyShip : ships) {
-            for (SlotItem slotItem : enemyShip.getSlot()) {
-                if (slotItem.getType()[2] == 6) {
-                    attackValue += slotItem.getTaik();
-                }
-            }
+    public static boolean attackAirSearchPlane(int aerialState) {
+        if (aerialState == AIR_BATTLE_DISADVANTAGE) {
+            // 20%
+            return RandomUtils.nextInt(0, 5) > 1;
         }
-        return attackValue == 0 || (Math.atan(attackValue / 500) / Math.PI * 200) < RandomUtils.nextInt(0, 101);
-    }
-
-    public static int getMemberDeckPortAirPower(List<AdapterShip> ships) {
-        int airPow = 0;
-
-        for (AdapterShip ship : ships) {
-            for (int i = 0; i < ship.getAdapterSlotItem().size(); i++) {
-                SlotItem slot = ship.getAdapterSlotItem().get(i);
-
-                int currentEQ = ship.getAdapterCurrentEQ()[i];
-                int slotType = slot.getType()[2];
-
-                if (currentEQ > 0 && (slotType == 6 || slotType == 7 || slotType == 8 || slotType == 11))
-                    airPow += slot.getTaik() * (int) Math.sqrt(currentEQ);
-            }
+        if (aerialState == AIR_BATTLE_LOST) {
+            // 40%
+            return RandomUtils.nextInt(0, 5) > 2;
         }
-        return airPow;
+        return false;
+        // return attackValue == 0 || (Math.atan(attackValue / 500) / Math.PI *
+        // 200) < RandomUtils.nextInt(0, 101);
     }
 }

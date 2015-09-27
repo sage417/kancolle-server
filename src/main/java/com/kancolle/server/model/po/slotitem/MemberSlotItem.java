@@ -6,6 +6,7 @@ package com.kancolle.server.model.po.slotitem;
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 
 /**
  * @author J.K.SAGE
@@ -13,6 +14,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 @Alias("MemberSlotItem")
+@JSONType(asm=false)
 public class MemberSlotItem {
 
     @JSONField(serialize = false, deserialize = false)
@@ -23,19 +25,15 @@ public class MemberSlotItem {
 
     @JSONField(ordinal = 2, name = "api_slotitem_id")
     public int returnSlotItemId() {
-        return getSlotItem().getSlotItemId();
+        SlotItem s = getSlotItem();
+        return s == null ? 0 : s.getSlotItemId();
     }
 
     @JSONField(serialize = false, deserialize = false)
     private SlotItem slotItem;
 
-    @JSONField(serialize = false, deserialize = false)
-    private boolean locked;
-
     @JSONField(ordinal = 3, name = "api_locked")
-    public int returnLocked() {
-        return locked == true ? 1 : 0;
-    }
+    private boolean locked;
 
     @JSONField(ordinal = 4, name = "api_level")
     private int level;

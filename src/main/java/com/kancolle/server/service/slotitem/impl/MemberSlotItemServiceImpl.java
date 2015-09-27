@@ -5,6 +5,7 @@ package com.kancolle.server.service.slotitem.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
@@ -196,8 +197,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         for (Long slotitem_id : slotitem_ids) {
             MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
-            if (slotitem == null || !unSlots.contains(slotitem) || slotitem.getLocked())
-                throw new IllegalStateException();
+            checkState(slotitem != null && unSlots.contains(slotitem) && !slotitem.getLocked());
             IntArrayUtils.intsArraySum(returnMaterials, slotitem.getSlotItem().getBrokenArray());
         }
         memberSlotItemDao.delete(member_id, slotitem_ids);

@@ -52,7 +52,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
     private MemberShipService memberShipService;
 
     @Override
-    public int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort) {
+    public int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState) {
         boolean planeSearch = false;
 
         int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
@@ -83,7 +83,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
         boolean searchSuccess = searchValue > searchNeedValue;
 
         if (planeSearch) {
-            boolean planeBack = DeckPortUtils.attackAirSearchPlane(enemyDeckPort);
+            boolean planeBack = DeckPortUtils.attackAirSearchPlane(aerialState);
             if (!planeBack) {
                 Object[] memberShipArray = shipMap.keys().toArray();
                 MemberShip keyShip = (MemberShip) memberShipArray[RandomUtils.nextInt(0, memberShipArray.length)];

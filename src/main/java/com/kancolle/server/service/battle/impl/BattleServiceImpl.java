@@ -24,6 +24,7 @@ import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.service.battle.AerialBattleSystem;
 import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
@@ -46,10 +47,13 @@ public class BattleServiceImpl implements BattleService {
     @Autowired
     private CourseSystem courseSystem;
 
+    @Autowired
+    private AerialBattleSystem aerialBattleSystem;
+
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         int formation = form.getApi_formation();
-        /*旗艦大破進撃フラグ　0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃?*/
+        /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
         int recovery_type = form.getApi_formation();
 
         MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
@@ -66,10 +70,15 @@ public class BattleServiceImpl implements BattleService {
         int course = courseSystem.calCourse();
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), course });
 
+        // 制空权
+        int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberDeckPort.getShips());
+        int eneryAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(enemyDeckPort.getEnemyShips());
+        int aerialState = aerialBattleSystem.getAerialPowerStatue(memberAerialPower, eneryAerialPower);
+
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, enemyDeckPort);
+        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, enemyDeckPort, aerialState);
         /** 敌方索敌 */
         int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, enemyDeckPort);
 
