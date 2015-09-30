@@ -4,24 +4,26 @@
 package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.newLinkedList;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.AdapterShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.AerialBattleSystem;
@@ -29,6 +31,7 @@ import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.logic.MemberShipUtils;
 
 /**
  * @author J.K.SAGE
@@ -118,17 +121,108 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------5.炮击战---------------------------*/
 
         List<MemberShip> memberShips = memberDeckPort.getShips();
-        Ordering<MemberShip> memberShipOrder = Ordering.natural().reverse().onResultOf(MemberShip::getLeng);
-        LinkedList<MemberShip> memberShips2 = Lists.newLinkedList(memberShipOrder.sortedCopy(memberShips));
-
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
-        Ordering<EnemyShip> EnemyShipsOrder = Ordering.natural().reverse().onResultOf(EnemyShip::getLeng);
-        LinkedList<EnemyShip> enemyShips2 = Lists.newLinkedList(EnemyShipsOrder.sortedCopy(enemyShips));
 
-        Stream.iterate(0, i -> ++i).limit(Math.max(memberShips.size(), enemyShips.size())).forEach(i -> {
-            MemberShip memberShip = memberShips2.poll();
-            EnemyShip enemyShip = enemyShips2.poll();
-        });
+        // 玩家潜艇队列
+        List<MemberShip> memberSSShips = memberShips.stream().filter(MemberShipUtils.ssFilter).collect(Collectors.toList());
+        // 玩家非潜艇队列
+        List<MemberShip> memberOtherShips = memberShips.stream().filter(MemberShipUtils.ssFilter.negate()).collect(Collectors.toList());
+
+        // 敌方潜艇队列
+        List<EnemyShip> enemySSShips = enemyShips.stream().filter(MemberShipUtils.ssFilter).collect(Collectors.toList());
+        // 敌方非潜艇队列
+        List<EnemyShip> enemyOtherShips = enemyShips.stream().filter(MemberShipUtils.ssFilter.negate()).collect(Collectors.toList());
+        // 玩家攻击队列
+        List<MemberShip> memberAttackShips = newLinkedList();
+
+        for (MemberShip memberShip : memberOtherShips) {
+            int shipType = memberShip.getAdapterTypeId();
+            // 如果是空母类型，没有攻击机的不进入攻击队列
+            if (shipType == 7 || shipType == 11) {
+                continue;
+            }
+
+            // 如果全是潜艇，非反潜船不进入攻击队列
+            if (enemyOtherShips.isEmpty() && !MemberShipUtils.antiSSFilter.test(memberShip)) {
+                continue;
+            }
+            memberAttackShips.add(memberShip);
+        }
+        // 敌人攻击队列
+        List<EnemyShip> enemyAttackShips = newLinkedList();
+
+        for (EnemyShip enemyShip : enemyOtherShips) {
+            int shipType = enemyShip.getAdapterTypeId();
+            // 如果是空母类型，没有攻击机的不进入攻击队列
+            if (shipType == 7 || shipType == 11) {
+                continue;
+            }
+
+            // 如果全是潜艇，非反潜船不进入攻击队列
+            if (memberOtherShips.isEmpty() && !MemberShipUtils.antiSSFilter.test(enemyShip)) {
+                continue;
+            }
+            enemyAttackShips.add(enemyShip);
+        }
+
+        Ordering<AdapterShip> firstShellShipOrder = Ordering.natural().reverse().onResultOf(AdapterShip::getAdapterLeng);
+        memberAttackShips = firstShellShipOrder.sortedCopy(memberAttackShips);
+        enemyAttackShips = firstShellShipOrder.sortedCopy(enemyAttackShips);
+
+        HougekiResult hougekiResult1 = new HougekiResult();
+
+        int[] enemyNowHp = enemyShips.stream().mapToInt(ship -> ship.getTaikArray()[1]).toArray();
+
+        int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
+        for (int i = 0; i < circulRounds; i++) {
+
+            if (i < memberAttackShips.size() && memberAttackShips.get(i).getNowHp() > 0) {
+                MemberShip memberShip = memberAttackShips.get(i);
+                hougekiResult1.getApi_at_list().add(memberShip.getMemberShipId());
+                int shipType = memberShip.getAdapterTypeId();
+                if (!enemySSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(memberShip)) {
+                    EnemyShip defEnemyShip = enemySSShips.get(RandomUtils.nextInt(0, enemySSShips.size()));
+                    // 反潜攻击
+                    if (shipType == 7 || shipType == 11) {
+
+                    } else {
+
+                    }
+                } else {
+                    // 炮击
+                    hougekiResult1.getApi_at_type().add(0);
+                    EnemyShip defEnemyShip = enemyOtherShips.get(RandomUtils.nextInt(0, enemyOtherShips.size()));
+                    hougekiResult1.getApi_df_list().add(new int[] { defEnemyShip.getShipId(), defEnemyShip.getShipId() });
+                    if (shipType == 7 || shipType == 11) {
+
+                    } else {
+                        hougekiResult1.getApi_si_list().add(new int[] { 1, 2 });
+                        hougekiResult1.getApi_cl_list().add(new int[] { 1, 1 });
+                        hougekiResult1.getApi_damage().add(new int[] { 100, 100 });
+                    }
+                }
+            }
+
+            if (i < enemyShips.size() && enemyNowHp[i] > 0) {
+                EnemyShip enemyShip = enemyAttackShips.get(i);
+                int shipType = enemyShip.getAdapterTypeId();
+                if (!memberSSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(enemyShip)) {
+                    // 反潜攻击
+                    if (shipType == 7 || shipType == 11) {
+
+                    } else {
+
+                    }
+                }
+                // 炮击
+                if (shipType == 7 || shipType == 11) {
+
+                } else {
+
+                }
+            }
+        }
+        result.setApi_hougeki1(hougekiResult1);
 
         /*--------------------------炮击战---------------------------*/
 
@@ -136,6 +230,7 @@ public class BattleServiceImpl implements BattleService {
 
         /*--------------------------闭幕雷击结束---------------------------*/
         return result;
+
     }
 
     @Override

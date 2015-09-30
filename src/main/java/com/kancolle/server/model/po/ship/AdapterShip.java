@@ -17,4 +17,8 @@ public interface AdapterShip {
     List<SlotItem> getAdapterSlotItem();
 
     int[] getAdapterCurrentEQ();
+
+    int getAdapterTypeId();
+    
+    int getAdapterLeng();
 }

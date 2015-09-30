@@ -9,8 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -56,20 +59,15 @@ public class BattleSimulationResult {
     @JSONField(ordinal = 10)
     private int[][] api_eParam;
 
-    /* 索敵成否　
-     * [0]=味方, [1]=敵　
-     * 1=成功, 
-     * 2=成功(未帰還機あり), 
-     * 3=失敗+未帰還, 
-     * 4=失敗, 
-     * 5=成功(艦載機使用せず), 
-     * 6=失敗(艦載機使用せず) */
+    /*
+     * 索敵成否 [0]=味方, [1]=敵 1=成功, 2=成功(未帰還機あり), 3=失敗+未帰還, 4=失敗, 5=成功(艦載機使用せず),
+     * 6=失敗(艦載機使用せず)
+     */
     @JSONField(ordinal = 11)
     private int[] api_search;
 
     /*
-     * 陣形/交戦形態　[0]=味方, [1]=敵, [2]=交戦形態
-     * [0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
+     * 陣形/交戦形態 [0]=味方, [1]=敵, [2]=交戦形態 [0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
      * [2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
      */
     @JSONField(ordinal = 12)
@@ -157,7 +155,12 @@ public class BattleSimulationResult {
 
         this.api_midnight_flag = 0;
 
-        Stream.iterate(1, n -> ++n).limit(enemyShips.size()).forEach(i -> this.api_eSlot[i] = enemyShips.get(i - 1).getSlot().stream().mapToInt(SlotItem::getSlotItemId).toArray());
+        Stream.iterate(0, i -> ++i).limit(enemyShips.size()).forEach(i -> {
+            int[] slots = enemyShips.get(i).getSlot().stream().mapToInt(SlotItem::getSlotItemId).toArray();
+            slots = Ints.ensureCapacity(slots, 5, 0);
+            Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);
+            this.api_eSlot[i] = slots;
+        });
     }
 
     public int getApi_dock_id() {
