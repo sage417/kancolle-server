@@ -3,6 +3,11 @@
  */
 package com.kancolle.server.utils.logic;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+import com.kancolle.server.model.po.ship.AdapterShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -15,6 +20,33 @@ import com.kancolle.server.utils.logic.common.LvUtils;
  *
  */
 public class MemberShipUtils {
+
+    public static Function<Predicate<SlotItem>, Predicate<? super AdapterShip>> hasTargetPlane = cond -> {
+        return ship -> {
+            List<SlotItem> slots = ship.getAdapterSlotItem();
+            for (int i = 0; i < slots.size(); i++) {
+                if (ship.getAdapterCurrentEQ()[i] > 0 && cond.test(slots.get(i)))
+                    return true;
+            }
+            return false;
+        };
+    };
+
+    public static Predicate<? super AdapterShip> ssFilter = ship -> {
+        int shipType = ship.getAdapterTypeId();
+        return shipType == 13 || shipType == 14 || shipType == 20;
+    };
+
+    public static Predicate<? super AdapterShip> antiSSFilter = ship -> {
+        int shipType = ship.getAdapterTypeId();
+        if (shipType == 2 || shipType == 3 || shipType == 4)
+            return true;
+
+        if (shipType == 7 || shipType == 10)
+            return hasTargetPlane.apply(item -> item.getType()[2] == 8 || item.getType()[2] == 11).test(ship);
+
+        return false;
+    };
 
     public static void calMemberShipPropertiesViaSlot(MemberShip memberShip) {
         Ship ship = memberShip.getShip();

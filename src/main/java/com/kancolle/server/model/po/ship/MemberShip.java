@@ -451,4 +451,14 @@ public class MemberShip implements AdapterShip {
     public int[] getAdapterCurrentEQ() {
         return getOnslot();
     }
+
+    @Override
+    public int getAdapterTypeId() {
+        return getShip().getType().getShipTypeId();
+    }
+
+    @Override
+    public int getAdapterLeng() {
+        return getShip().getLeng();
+    }
 }

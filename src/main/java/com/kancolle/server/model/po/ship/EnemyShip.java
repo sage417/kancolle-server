@@ -38,4 +38,14 @@ public class EnemyShip extends Ship implements AdapterShip {
     public int[] getAdapterCurrentEQ() {
         return getMaxEq();
     }
+
+    @Override
+    public int getAdapterTypeId() {
+        return getType().getShipTypeId();
+    }
+
+    @Override
+    public int getAdapterLeng() {
+        return getLeng();
+    }
 }
