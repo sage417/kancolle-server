@@ -6,7 +6,7 @@ package com.kancolle.server.utils.logic;
 import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_DISADVANTAGE;
 import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_LOST;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.carrierHasAtackPlaneFilter;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.AttackableCarrierFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomUtils;
 
+import com.google.common.collect.Ordering;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.AbstractShip;
@@ -28,6 +29,7 @@ import com.kancolle.server.model.po.ship.ShipType;
  *
  */
 public class DeckPortUtils {
+    private static final Ordering<AbstractShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
 
     private DeckPortUtils() {
     }
@@ -103,12 +105,12 @@ public class DeckPortUtils {
         //潜艇不能参加炮击战
         Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
         //没有搭载攻击机的空母不能参加炮击战
-        shipStream.filter(ship -> carrierHasAtackPlaneFilter.test(ship));
+        shipStream.filter(ship -> AttackableCarrierFilter.test(ship));
 
         //如果全是潜艇，则所有非反潜船不能参加
         if (isAllSS) {
             shipStream.filter(ship -> antiSSShipFilter.test(ship)).collect(Collectors.toList());
         }
-        return shipStream.collect(Collectors.toList());
+        return shipStream.sorted(FIRST_SHELL_SHIP_ORDER).collect(Collectors.toList());
     }
 }

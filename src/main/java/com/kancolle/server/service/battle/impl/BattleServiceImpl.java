@@ -4,7 +4,6 @@
 package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Lists.newLinkedList;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
-import com.google.common.collect.Ordering;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
@@ -25,7 +23,6 @@ import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.AerialBattleSystem;
@@ -33,6 +30,7 @@ import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.logic.DeckPortUtils;
 
 /**
  * @author J.K.SAGE
@@ -133,42 +131,11 @@ public class BattleServiceImpl implements BattleService {
         List<EnemyShip> enemySSShips = enemyShips.stream().filter(ssFilter).collect(Collectors.toList());
         // 敌方非潜艇队列
         List<EnemyShip> enemyOtherShips = enemyShips.stream().filter(ssFilter.negate()).collect(Collectors.toList());
+
         // 玩家攻击队列
-        List<MemberShip> memberAttackShips = newLinkedList();
-
-        for (MemberShip memberShip : memberOtherShips) {
-            int shipType = memberShip.getShip().getShipTypeId();
-            // 如果是空母类型，没有攻击机的不进入攻击队列
-            if (shipType == 7 || shipType == 11) {
-                continue;
-            }
-
-            // 如果全是潜艇，非反潜船不进入攻击队列
-            if (enemyOtherShips.isEmpty() && !antiSSShipFilter.test(memberShip)) {
-                continue;
-            }
-            memberAttackShips.add(memberShip);
-        }
+        List<MemberShip> memberAttackShips = DeckPortUtils.getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
         // 敌人攻击队列
-        List<EnemyShip> enemyAttackShips = newLinkedList();
-
-        for (EnemyShip enemyShip : enemyOtherShips) {
-            int shipType = enemyShip.getShip().getShipTypeId();
-            // 如果是空母类型，没有攻击机的不进入攻击队列
-            if (shipType == 7 || shipType == 11) {
-                continue;
-            }
-
-            // 如果全是潜艇，非反潜船不进入攻击队列
-            if (memberOtherShips.isEmpty() && !antiSSShipFilter.test(enemyShip)) {
-                continue;
-            }
-            enemyAttackShips.add(enemyShip);
-        }
-
-        Ordering<AbstractShip> firstShellShipOrder = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
-        memberAttackShips = firstShellShipOrder.sortedCopy(memberAttackShips);
-        enemyAttackShips = firstShellShipOrder.sortedCopy(enemyAttackShips);
+        List<EnemyShip> enemyAttackShips = DeckPortUtils.getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
         HougekiResult hougekiResult1 = new HougekiResult();
 

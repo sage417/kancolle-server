@@ -41,10 +41,10 @@ public class ShipFilter {
         return shipType == 7 || shipType == 11;
     };
 
-    public static Predicate<? super AbstractShip> carrierHasAtackPlaneFilter = ship -> hasTargetPlaneFilter.apply(plane -> {
+    public static Predicate<? super AbstractShip> AttackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
         int planeType = plane.getType()[2];
         return planeType == 7 || planeType == 8;
-    }).test(ship);
+    });
 
     /**
      * 过滤出反潜船
