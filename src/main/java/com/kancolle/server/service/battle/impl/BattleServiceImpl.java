@@ -5,6 +5,8 @@ package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newLinkedList;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +33,6 @@ import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.logic.MemberShipUtils;
 
 /**
  * @author J.K.SAGE
@@ -124,14 +125,14 @@ public class BattleServiceImpl implements BattleService {
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
         // 玩家潜艇队列
-        List<MemberShip> memberSSShips = memberShips.stream().filter(MemberShipUtils.ssFilter).collect(Collectors.toList());
+        List<MemberShip> memberSSShips = memberShips.stream().filter(ssFilter).collect(Collectors.toList());
         // 玩家非潜艇队列
-        List<MemberShip> memberOtherShips = memberShips.stream().filter(MemberShipUtils.ssFilter.negate()).collect(Collectors.toList());
+        List<MemberShip> memberOtherShips = memberShips.stream().filter(ssFilter.negate()).collect(Collectors.toList());
 
         // 敌方潜艇队列
-        List<EnemyShip> enemySSShips = enemyShips.stream().filter(MemberShipUtils.ssFilter).collect(Collectors.toList());
+        List<EnemyShip> enemySSShips = enemyShips.stream().filter(ssFilter).collect(Collectors.toList());
         // 敌方非潜艇队列
-        List<EnemyShip> enemyOtherShips = enemyShips.stream().filter(MemberShipUtils.ssFilter.negate()).collect(Collectors.toList());
+        List<EnemyShip> enemyOtherShips = enemyShips.stream().filter(ssFilter.negate()).collect(Collectors.toList());
         // 玩家攻击队列
         List<MemberShip> memberAttackShips = newLinkedList();
 
@@ -143,7 +144,7 @@ public class BattleServiceImpl implements BattleService {
             }
 
             // 如果全是潜艇，非反潜船不进入攻击队列
-            if (enemyOtherShips.isEmpty() && !MemberShipUtils.antiSSFilter.test(memberShip)) {
+            if (enemyOtherShips.isEmpty() && !antiSSShipFilter.test(memberShip)) {
                 continue;
             }
             memberAttackShips.add(memberShip);
@@ -159,7 +160,7 @@ public class BattleServiceImpl implements BattleService {
             }
 
             // 如果全是潜艇，非反潜船不进入攻击队列
-            if (memberOtherShips.isEmpty() && !MemberShipUtils.antiSSFilter.test(enemyShip)) {
+            if (memberOtherShips.isEmpty() && !antiSSShipFilter.test(enemyShip)) {
                 continue;
             }
             enemyAttackShips.add(enemyShip);
@@ -180,7 +181,7 @@ public class BattleServiceImpl implements BattleService {
                 MemberShip memberShip = memberAttackShips.get(i);
                 hougekiResult1.getApi_at_list().add(memberShip.getMemberShipId());
                 int shipType = memberShip.getShip().getShipTypeId();
-                if (!enemySSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(memberShip)) {
+                if (!enemySSShips.isEmpty() && antiSSShipFilter.test(memberShip)) {
                     EnemyShip defEnemyShip = enemySSShips.get(RandomUtils.nextInt(0, enemySSShips.size()));
                     // 反潜攻击
                     if (shipType == 7 || shipType == 11) {
@@ -206,7 +207,7 @@ public class BattleServiceImpl implements BattleService {
             if (i < enemyShips.size() && enemyNowHp[i] > 0) {
                 EnemyShip enemyShip = enemyAttackShips.get(i);
                 int shipType = enemyShip.getShip().getShipTypeId();
-                if (!memberSSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(enemyShip)) {
+                if (!memberSSShips.isEmpty() && antiSSShipFilter.test(enemyShip)) {
                     // 反潜攻击
                     if (shipType == 7 || shipType == 11) {
 
