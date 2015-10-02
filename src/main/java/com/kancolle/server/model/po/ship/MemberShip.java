@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,7 +24,10 @@ import com.kancolle.server.utils.logic.NdockUtils;
  *
  */
 @Alias("MemberShip")
-public class MemberShip implements AdapterShip {
+public class MemberShip extends AbstractShip implements Serializable {
+
+    private static final long serialVersionUID = -1844625754351796002L;
+
     public static final int SLOT_SIZE_MAX = 5;
 
     @JSONField(serialize = false, deserialize = false)
@@ -30,9 +35,6 @@ public class MemberShip implements AdapterShip {
 
     @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
-
-    @JSONField(serialize = false, deserialize = false)
-    private Ship ship;
 
     @JSONField(ordinal = 2, name = "api_sortno")
     public int returnSortNo() {
@@ -207,14 +209,6 @@ public class MemberShip implements AdapterShip {
         this.memberShipId = memberShipId;
     }
 
-    public Ship getShip() {
-        return ship;
-    }
-
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-
     public int getLv() {
         return lv;
     }
@@ -376,7 +370,7 @@ public class MemberShip implements AdapterShip {
     }
 
     public long getApi_ndock_time() {
-        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().returnShipTypeId()) * 1000L;
+        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().getShipTypeId()) * 1000L;
         return this.api_ndock_time;
     }
 
@@ -385,7 +379,7 @@ public class MemberShip implements AdapterShip {
     }
 
     public int[] getApi_ndock_item() {
-        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().returnShipTypeId());
+        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getShipTypeId());
         return this.api_ndock_item;
     }
 
@@ -439,26 +433,16 @@ public class MemberShip implements AdapterShip {
 
     @Override
     public String toString() {
-        return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, ship, lv);
+        return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, getShip(), lv);
     }
 
     @Override
-    public List<SlotItem> getAdapterSlotItem() {
+    public List<SlotItem> getSlotItems() {
         return getSlot().stream().map(MemberSlotItem::getSlotItem).collect(Collectors.toList());
     }
 
     @Override
-    public int[] getAdapterCurrentEQ() {
-        return getOnslot();
-    }
-
-    @Override
-    public int getAdapterTypeId() {
-        return getShip().getType().getShipTypeId();
-    }
-
-    @Override
-    public int getAdapterLeng() {
-        return getShip().getLeng();
+    public int[] getCurrentEQ() {
+        return Arrays.copyOf(getOnslot(), getOnslot().length);
     }
 }

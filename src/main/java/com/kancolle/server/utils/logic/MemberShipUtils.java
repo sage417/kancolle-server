@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.kancolle.server.model.po.ship.AdapterShip;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -21,24 +21,24 @@ import com.kancolle.server.utils.logic.common.LvUtils;
  */
 public class MemberShipUtils {
 
-    public static Function<Predicate<SlotItem>, Predicate<? super AdapterShip>> hasTargetPlane = cond -> {
+    public static Function<Predicate<SlotItem>, Predicate<? super AbstractShip>> hasTargetPlane = cond -> {
         return ship -> {
-            List<SlotItem> slots = ship.getAdapterSlotItem();
+            List<SlotItem> slots = ship.getSlotItems();
             for (int i = 0; i < slots.size(); i++) {
-                if (ship.getAdapterCurrentEQ()[i] > 0 && cond.test(slots.get(i)))
+                if (ship.getCurrentEQ()[i] > 0 && cond.test(slots.get(i)))
                     return true;
             }
             return false;
         };
     };
 
-    public static Predicate<? super AdapterShip> ssFilter = ship -> {
-        int shipType = ship.getAdapterTypeId();
+    public static Predicate<? super AbstractShip> ssFilter = ship -> {
+        int shipType = ship.getShip().getShipTypeId();
         return shipType == 13 || shipType == 14 || shipType == 20;
     };
 
-    public static Predicate<? super AdapterShip> antiSSFilter = ship -> {
-        int shipType = ship.getAdapterTypeId();
+    public static Predicate<? super AbstractShip> antiSSFilter = ship -> {
+        int shipType = ship.getShip().getShipTypeId();
         if (shipType == 2 || shipType == 3 || shipType == 4)
             return true;
 

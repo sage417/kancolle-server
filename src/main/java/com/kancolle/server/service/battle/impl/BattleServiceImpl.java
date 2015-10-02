@@ -23,7 +23,7 @@ import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AdapterShip;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.AerialBattleSystem;
@@ -136,7 +136,7 @@ public class BattleServiceImpl implements BattleService {
         List<MemberShip> memberAttackShips = newLinkedList();
 
         for (MemberShip memberShip : memberOtherShips) {
-            int shipType = memberShip.getAdapterTypeId();
+            int shipType = memberShip.getShip().getShipTypeId();
             // 如果是空母类型，没有攻击机的不进入攻击队列
             if (shipType == 7 || shipType == 11) {
                 continue;
@@ -152,7 +152,7 @@ public class BattleServiceImpl implements BattleService {
         List<EnemyShip> enemyAttackShips = newLinkedList();
 
         for (EnemyShip enemyShip : enemyOtherShips) {
-            int shipType = enemyShip.getAdapterTypeId();
+            int shipType = enemyShip.getShip().getShipTypeId();
             // 如果是空母类型，没有攻击机的不进入攻击队列
             if (shipType == 7 || shipType == 11) {
                 continue;
@@ -165,13 +165,13 @@ public class BattleServiceImpl implements BattleService {
             enemyAttackShips.add(enemyShip);
         }
 
-        Ordering<AdapterShip> firstShellShipOrder = Ordering.natural().reverse().onResultOf(AdapterShip::getAdapterLeng);
+        Ordering<AbstractShip> firstShellShipOrder = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
         memberAttackShips = firstShellShipOrder.sortedCopy(memberAttackShips);
         enemyAttackShips = firstShellShipOrder.sortedCopy(enemyAttackShips);
 
         HougekiResult hougekiResult1 = new HougekiResult();
 
-        int[] enemyNowHp = enemyShips.stream().mapToInt(ship -> ship.getTaikArray()[1]).toArray();
+        int[] enemyNowHp = enemyShips.stream().mapToInt(ship -> ship.getShip().getTaikArray()[1]).toArray();
 
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
@@ -179,7 +179,7 @@ public class BattleServiceImpl implements BattleService {
             if (i < memberAttackShips.size() && memberAttackShips.get(i).getNowHp() > 0) {
                 MemberShip memberShip = memberAttackShips.get(i);
                 hougekiResult1.getApi_at_list().add(memberShip.getMemberShipId());
-                int shipType = memberShip.getAdapterTypeId();
+                int shipType = memberShip.getShip().getShipTypeId();
                 if (!enemySSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(memberShip)) {
                     EnemyShip defEnemyShip = enemySSShips.get(RandomUtils.nextInt(0, enemySSShips.size()));
                     // 反潜攻击
@@ -192,7 +192,7 @@ public class BattleServiceImpl implements BattleService {
                     // 炮击
                     hougekiResult1.getApi_at_type().add(0);
                     EnemyShip defEnemyShip = enemyOtherShips.get(RandomUtils.nextInt(0, enemyOtherShips.size()));
-                    hougekiResult1.getApi_df_list().add(new int[] { defEnemyShip.getShipId(), defEnemyShip.getShipId() });
+                    hougekiResult1.getApi_df_list().add(new int[] { defEnemyShip.getShip().getShipId(), defEnemyShip.getShip().getShipId() });
                     if (shipType == 7 || shipType == 11) {
 
                     } else {
@@ -205,7 +205,7 @@ public class BattleServiceImpl implements BattleService {
 
             if (i < enemyShips.size() && enemyNowHp[i] > 0) {
                 EnemyShip enemyShip = enemyAttackShips.get(i);
-                int shipType = enemyShip.getAdapterTypeId();
+                int shipType = enemyShip.getShip().getShipTypeId();
                 if (!memberSSShips.isEmpty() && MemberShipUtils.antiSSFilter.test(enemyShip)) {
                     // 反潜攻击
                     if (shipType == 7 || shipType == 11) {

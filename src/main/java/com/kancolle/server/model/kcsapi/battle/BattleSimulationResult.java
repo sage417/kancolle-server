@@ -19,7 +19,7 @@ import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 
 /**
  * @author J.K.SAGE
@@ -146,17 +146,17 @@ public class BattleSimulationResult {
         List<MemberShip> memberShips = memberDeckPort.getShips();
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
-        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShipId());
+        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShip().getShipId());
         Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_lv[i] = 1);
         Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_nowhps[i] = memberShips.get(i - 1).getNowHp());
-        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getTaik().getMinValue());
+        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getShip().getTaik().getMinValue());
         Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_maxhps[i] = memberShips.get(i - 1).getMaxHp());
-        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getTaik().getMaxValue());
+        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getShip().getTaik().getMaxValue());
 
         this.api_midnight_flag = 0;
 
         Stream.iterate(0, i -> ++i).limit(enemyShips.size()).forEach(i -> {
-            int[] slots = enemyShips.get(i).getSlot().stream().mapToInt(SlotItem::getSlotItemId).toArray();
+            int[] slots = enemyShips.get(i).getSlot().stream().mapToInt(EnemySlotItem::getSlotItemId).toArray();
             slots = Ints.ensureCapacity(slots, 5, 0);
             Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);
             this.api_eSlot[i] = slots;

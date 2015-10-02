@@ -3,10 +3,11 @@
  */
 package com.kancolle.server.model.po.slotitem;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
 
 /**
  * @author J.K.SAGE
@@ -14,8 +15,9 @@ import com.alibaba.fastjson.annotation.JSONType;
  *
  */
 @Alias("MemberSlotItem")
-@JSONType(asm=false)
-public class MemberSlotItem {
+public class MemberSlotItem extends AbstractSlotItem implements Serializable {
+
+    private static final long serialVersionUID = -7169523354675835935L;
 
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
@@ -25,12 +27,8 @@ public class MemberSlotItem {
 
     @JSONField(ordinal = 2, name = "api_slotitem_id")
     public int returnSlotItemId() {
-        SlotItem s = getSlotItem();
-        return s == null ? 0 : s.getSlotItemId();
+        return getSlotItem().getSlotItemId();
     }
-
-    @JSONField(serialize = false, deserialize = false)
-    private SlotItem slotItem;
 
     @JSONField(ordinal = 3, name = "api_locked")
     private boolean locked;
@@ -52,14 +50,6 @@ public class MemberSlotItem {
 
     public void setMemberSlotItemId(long memberSlotItemId) {
         this.memberSlotItemId = memberSlotItemId;
-    }
-
-    public SlotItem getSlotItem() {
-        return slotItem;
-    }
-
-    public void setSlotItem(SlotItem slotItem) {
-        this.slotItem = slotItem;
     }
 
     public boolean getLocked() {
@@ -108,6 +98,6 @@ public class MemberSlotItem {
 
     @Override
     public String toString() {
-        return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, slotItem, level);
+        return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, getSlotItem(), level);
     }
 }

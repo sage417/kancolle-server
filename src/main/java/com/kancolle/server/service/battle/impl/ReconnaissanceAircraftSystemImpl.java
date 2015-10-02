@@ -16,8 +16,8 @@ import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
@@ -107,7 +107,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
         int searchValue = 0;
         for (EnemyShip ship : enemyDeckPort.getEnemyShips()) {
             int ex_sakuteki = 0;
-            for (SlotItem slotItem : ship.getSlot()) {
+            for (EnemySlotItem slotItem : ship.getSlot()) {
                 int slotItem_saku = slotItem.getSaku();
                 if (isSearchPlane(slotItem.getType()[2])) {
                     ex_sakuteki += 2 * slotItem_saku;
@@ -116,7 +116,7 @@ public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftS
                     ex_sakuteki += slotItem_saku;
                 }
             }
-            searchValue += ((int) Math.sqrt(ship.getSakuteki().getMinValue()) + ex_sakuteki);
+            searchValue += ((int) Math.sqrt(ship.getShip().getSakuteki().getMinValue()) + ex_sakuteki);
         }
 
         boolean searchSuccess = searchValue > searchNeedValue;

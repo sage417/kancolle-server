@@ -40,7 +40,8 @@
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
-	<resultMap type="EnemyShip" id="EnemyShipRM" extends="ShipRM" autoMapping="true">
+	<resultMap type="EnemyShip" id="EnemyShipRM" autoMapping="true">
+		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
 		<collection property="slot" ofType="SlotItem" column="ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
 	</resultMap>
 

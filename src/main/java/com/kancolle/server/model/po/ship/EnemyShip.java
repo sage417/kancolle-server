@@ -1,12 +1,17 @@
+
 /**
  * 
  */
 package com.kancolle.server.model.po.ship;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.type.Alias;
 
+import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
@@ -15,37 +20,42 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
  *
  */
 @Alias("EnemyShip")
-public class EnemyShip extends Ship implements AdapterShip {
+public class EnemyShip extends AbstractShip implements Serializable {
 
     private static final long serialVersionUID = 887568848561500767L;
 
-    private List<SlotItem> slot;
+    private int nowHp;
 
-    public List<SlotItem> getSlot() {
+    private List<EnemySlotItem> slot;
+
+    public int getNowHp() {
+        return nowHp;
+    }
+
+    public void setNowHp(int nowHp) {
+        this.nowHp = nowHp;
+    }
+
+    public List<EnemySlotItem> getSlot() {
         return slot;
     }
 
-    public void setSlot(List<SlotItem> slot) {
+    public void setSlot(List<EnemySlotItem> slot) {
         this.slot = slot;
     }
 
     @Override
-    public List<SlotItem> getAdapterSlotItem() {
-        return getSlot();
+    public List<SlotItem> getSlotItems() {
+        return getSlot().stream().map(EnemySlotItem::getSlotItem).collect(Collectors.toList());
     }
 
     @Override
-    public int[] getAdapterCurrentEQ() {
-        return getMaxEq();
+    public int[] getCurrentEQ() {
+        return Arrays.copyOf(getShip().getMaxEq(), getShip().getMaxEq().length);
     }
 
     @Override
-    public int getAdapterTypeId() {
-        return getType().getShipTypeId();
-    }
-
-    @Override
-    public int getAdapterLeng() {
-        return getLeng();
+    public int getLeng() {
+        return getShip().getLeng();
     }
 }

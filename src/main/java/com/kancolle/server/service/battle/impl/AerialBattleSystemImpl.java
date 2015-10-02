@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.kancolle.server.model.po.ship.AdapterShip;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.battle.AerialBattleSystem;
 
@@ -21,15 +21,15 @@ public class AerialBattleSystemImpl implements AerialBattleSystem {
     private static final int ADVANTAGE_RATE = 3 / 2;
 
     @Override
-    public int getMemberDeckPortAerialPower(List<? extends AdapterShip> ships) {
+    public int getMemberDeckPortAerialPower(List<? extends AbstractShip> ships) {
 
         int airPow = 0;
 
-        for (AdapterShip ship : ships) {
-            for (int i = 0; i < ship.getAdapterSlotItem().size(); i++) {
-                SlotItem slot = ship.getAdapterSlotItem().get(i);
+        for (AbstractShip ship : ships) {
+            for (int i = 0; i < ship.getSlotItems().size(); i++) {
+                SlotItem slot = ship.getSlotItems().get(i);
 
-                int currentEQ = ship.getAdapterCurrentEQ()[i];
+                int currentEQ = ship.getCurrentEQ()[i];
                 int slotType = slot.getType()[2];
 
                 if (currentEQ > 0 && (slotType == 6 || slotType == 7 || slotType == 8 || slotType == 11))

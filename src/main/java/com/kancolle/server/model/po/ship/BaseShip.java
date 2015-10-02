@@ -29,7 +29,7 @@ public class BaseShip implements Serializable {
     private String yomi;
 
     @JSONField(ordinal = 5, name = "api_stype")
-    public int returnShipTypeId() {
+    public int getShipTypeId() {
         return getType().getShipTypeId();
     }
 

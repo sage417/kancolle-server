@@ -3,18 +3,18 @@
  */
 package com.kancolle.server.utils.logic;
 
-import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.*;
+import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_DISADVANTAGE;
+import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_LOST;
+
 import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
 
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AdapterShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
-import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
  * @author J.K.SAGE
@@ -74,7 +74,7 @@ public class DeckPortUtils {
         }
         int needValue = 0;
         for (EnemyShip ship : ships) {
-            needValue += getShipSearchNeedValue(ship.getType().getShipTypeId());
+            needValue += getShipSearchNeedValue(ship.getShip().getShipTypeId());
         }
         return needValue / ships.size();
     }
