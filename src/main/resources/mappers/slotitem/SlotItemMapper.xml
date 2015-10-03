@@ -14,6 +14,10 @@
 		<result property="type" column="TYPE" typeHandler="IntJsonArrayHanlder" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
 	</resultMap>
+	
+	<resultMap type="EnemySlotItem" id="EnemySlotItemRM" autoMapping="true">
+		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
+	</resultMap>
 
 	<select id="selectSlotItemsByCond" resultMap="slotItemRM">
 		SELECT * FROM t_slotitem
@@ -30,11 +34,10 @@
 		SELECT * FROM t_slotitem WHERE DEVELOP = 1 AND func_get_split_string(TYPE,3) = #{slotitem_type} ORDER BY RARE ASC
 	</select>
 
-	<select id="selectEnemyShipSlots" resultMap="slotItemRM">
-		SELECT slot.* FROM t_slotitem slot 
-			INNER JOIN t_enemy_ship_slotitem_mapping m ON slot.`ID` = m.`SLOTITEM_ID`
-			INNER JOIN t_enemy_ship_slotitem s ON s.`ENEMY_SHIP_ID` = m.`SHIP_ID`
+	<select id="selectEnemyShipSlots" resultMap="EnemySlotItemRM">
+		SELECT m.SLOTITEM_ID FROM t_enemy_ship_slotitem_mapping m 
+			INNER JOIN t_enemy_ship_slotitem s ON s.`ENEMY_SHIP_ID` = m.`SHIP_ID` 
 		WHERE m.`SHIP_ID` = #{enemy_ship_id}
-			ORDER BY POSITION(CAST(slot.`ID` AS CHAR) IN s.`SLOT`)
+		ORDER BY POSITION(m.`SLOTITEM_ID` IN s.`SLOT`)
 	</select>
 </mapper>
