@@ -18,7 +18,7 @@ public class HougekiResult {
 
     /** -1开始 */
     @JSONField(ordinal = 1)
-    private List<Long> api_at_list;
+    private List<Integer> api_at_list;
 
     /*
      * -1开始 特殊砲撃 0=通常, 1=レーザー攻撃, 2=連撃, 3=カットイン(主砲/副砲), 4=カットイン(主砲/電探),
@@ -57,7 +57,7 @@ public class HougekiResult {
 
     public HougekiResult() {
         this.api_at_list = newArrayList();
-        this.api_at_list.add(-1L);
+        this.api_at_list.add(-1);
         this.api_at_type = newArrayList();
         this.api_at_type.add(-1);
         this.api_df_list = newArrayList();
@@ -70,11 +70,11 @@ public class HougekiResult {
         this.api_damage.add(-1);
     }
 
-    public List<Long> getApi_at_list() {
+    public List<Integer> getApi_at_list() {
         return api_at_list;
     }
 
-    public void setApi_at_list(List<Long> api_at_list) {
+    public void setApi_at_list(List<Integer> api_at_list) {
         this.api_at_list = api_at_list;
     }
 

@@ -144,54 +144,26 @@ public class BattleServiceImpl implements BattleService {
         // 敌人攻击队列
         List<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
-        int[] enemyNowHp = enemyShips.stream().mapToInt(ship -> ship.getShip().getTaikArray()[1]).toArray();
-
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
+            MemberShip attackShip = memberAttackShips.get(i);
 
-            if (i < memberAttackShips.size() && memberAttackShips.get(i).getNowHp() > 0) {
-                MemberShip memberShip = memberAttackShips.get(i);
-                hougekiResult1.getApi_at_list().add(memberShip.getMemberShipId());
-                int shipType = memberShip.getShip().getShipTypeId();
-                if (!enemySSShips.isEmpty() && antiSSShipFilter.test(memberShip)) {
+            if (i < memberAttackShips.size() && attackShip.getNowHp() > 0) {
+                hougekiResult1.getApi_at_list().add(1 + memberShips.indexOf(attackShip));
+
+                if (!enemySSShips.isEmpty() && antiSSShipFilter.test(attackShip)) {
                     EnemyShip defEnemyShip = enemySSShips.get(RandomUtils.nextInt(0, enemySSShips.size()));
-                    // 反潜攻击
-                    if (shipType == 7 || shipType == 11) {
-
-                    } else {
-
-                    }
+                    //反潜攻击
                 } else {
                     // 炮击
                     hougekiResult1.getApi_at_type().add(0);
                     EnemyShip defEnemyShip = enemyOtherShips.get(RandomUtils.nextInt(0, enemyOtherShips.size()));
-                    hougekiResult1.getApi_df_list().add(new int[] { defEnemyShip.getShip().getShipId(), defEnemyShip.getShip().getShipId() });
-                    if (shipType == 7 || shipType == 11) {
-
-                    } else {
-                        hougekiResult1.getApi_si_list().add(new int[] { 1, 2 });
-                        hougekiResult1.getApi_cl_list().add(new int[] { 1, 1 });
-                        hougekiResult1.getApi_damage().add(new int[] { 100, 100 });
-                    }
-                }
-            }
-
-            if (i < enemyShips.size() && enemyNowHp[i] > 0) {
-                EnemyShip enemyShip = enemyAttackShips.get(i);
-                int shipType = enemyShip.getShip().getShipTypeId();
-                if (!memberSSShips.isEmpty() && antiSSShipFilter.test(enemyShip)) {
-                    // 反潜攻击
-                    if (shipType == 7 || shipType == 11) {
-
-                    } else {
-
-                    }
-                }
-                // 炮击
-                if (shipType == 7 || shipType == 11) {
-
-                } else {
-
+                    int shipIdx = 7 + enemyShips.indexOf(defEnemyShip);
+                    hougekiResult1.getApi_df_list().add(new int[] { shipIdx, shipIdx });
+                    hougekiResult1.getApi_si_list().add(new int[] { 1, 2 });
+                    hougekiResult1.getApi_cl_list().add(new int[] { 1, 1 });
+                    hougekiResult1.getApi_damage().add(new int[] { 100, 100 });
+                    break;
                 }
             }
         }

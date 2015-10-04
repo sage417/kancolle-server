@@ -42,7 +42,7 @@ public class ShipFilter {
         return shipType == 7 || shipType == 11;
     };
 
-    public static Predicate<? super AbstractShip> AttackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
+    public static Predicate<? super AbstractShip> attackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
         int planeType = plane.getType()[2];
         return planeType == 7 || planeType == 8;
     });
