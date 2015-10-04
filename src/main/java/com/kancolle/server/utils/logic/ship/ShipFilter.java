@@ -6,6 +6,7 @@ package com.kancolle.server.utils.logic.ship;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.SlotItem;
@@ -60,9 +61,18 @@ public class ShipFilter {
         return false;
     };
 
+    public static Predicate<? super AbstractShip> BBShipFilter = ship -> {
+        int shipType = ship.getShip().getShipTypeId();
+        return shipType == 8 || shipType == 10;
+    };
+
     private static int getCurrentEQ(AbstractShip ship, SlotItem slotItem) {
         List<SlotItem> slotItems = ship.getSlotItems();
         int index = slotItems.indexOf(slotItem);
         return ship.getCurrentEQ()[index];
+    }
+
+    public static <T extends AbstractShip> List<T> getTargetShips(List<T> ships, Predicate<? super AbstractShip> shipFilter) {
+        return ships.stream().filter(shipFilter).collect(Collectors.toList());
     }
 }

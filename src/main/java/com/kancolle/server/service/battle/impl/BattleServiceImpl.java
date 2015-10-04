@@ -4,11 +4,13 @@
 package com.kancolle.server.service.battle.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.BBShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.getTargetShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.logic.DeckPortUtils;
 
 /**
  * @author J.K.SAGE
@@ -118,26 +119,30 @@ public class BattleServiceImpl implements BattleService {
         /*--------------------------开幕雷击结束---------------------------*/
 
         /*--------------------------5.炮击战---------------------------*/
-
         List<MemberShip> memberShips = memberDeckPort.getShips();
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
-        // 玩家潜艇队列
-        List<MemberShip> memberSSShips = memberShips.stream().filter(ssFilter).collect(Collectors.toList());
-        // 玩家非潜艇队列
-        List<MemberShip> memberOtherShips = memberShips.stream().filter(ssFilter.negate()).collect(Collectors.toList());
+        boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || enemyShips.stream().anyMatch(BBShipFilter);
+        int[] api_hourai_flag = { 1, hasBB ? 1 : 0, 0, 0 };
+        result.setApi_hourai_flag(api_hourai_flag);
 
-        // 敌方潜艇队列
-        List<EnemyShip> enemySSShips = enemyShips.stream().filter(ssFilter).collect(Collectors.toList());
-        // 敌方非潜艇队列
-        List<EnemyShip> enemyOtherShips = enemyShips.stream().filter(ssFilter.negate()).collect(Collectors.toList());
+        //第一轮炮击结果
+        HougekiResult hougekiResult1 = new HougekiResult();
+
+        // 玩家潜艇队列，无法被攻击的潜艇将被移除
+        List<MemberShip> memberSSShips = getTargetShips(memberShips, ssFilter);
+        // 玩家非潜艇队列，无法被攻击的舰船将被移除
+        List<MemberShip> memberOtherShips = getTargetShips(memberShips, ssFilter.negate());
+
+        // 敌方潜艇队列，无法被攻击的潜艇将被移除
+        List<EnemyShip> enemySSShips = getTargetShips(enemyShips, ssFilter);
+        // 敌方非潜艇队列，无法被攻击的舰船将被移除
+        List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
         // 玩家攻击队列
-        List<MemberShip> memberAttackShips = DeckPortUtils.getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
+        List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
         // 敌人攻击队列
-        List<EnemyShip> enemyAttackShips = DeckPortUtils.getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
-
-        HougekiResult hougekiResult1 = new HougekiResult();
+        List<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
         int[] enemyNowHp = enemyShips.stream().mapToInt(ship -> ship.getShip().getTaikArray()[1]).toArray();
 
