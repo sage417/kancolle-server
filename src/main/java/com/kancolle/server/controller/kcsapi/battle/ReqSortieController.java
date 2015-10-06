@@ -19,7 +19,7 @@ import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.BattleService;
+import com.kancolle.server.service.battle.IBattleService;
 
 /**
  * @author J.K.SAGE
@@ -30,7 +30,7 @@ import com.kancolle.server.service.battle.BattleService;
 @RequestMapping(value = "/kcsapi/api_req_sortie", method = RequestMethod.POST)
 public class ReqSortieController {
     @Autowired
-    private BattleService battleService;
+    private IBattleService battleService;
 
     @RequestMapping("battle")
     public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Valid BattleForm form, BindingResult result) {

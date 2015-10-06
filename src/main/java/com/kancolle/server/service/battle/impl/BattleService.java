@@ -28,9 +28,10 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.AerialBattleSystem;
-import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.battle.CourseSystem;
-import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.IBattleService;
+import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 
 /**
@@ -39,19 +40,22 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
  *
  */
 @Service
-public class BattleServiceImpl implements BattleService {
+public class BattleService implements IBattleService {
 
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
 
     @Autowired
-    private ReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
+    private IReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
 
     @Autowired
     private CourseSystem courseSystem;
 
     @Autowired
     private AerialBattleSystem aerialBattleSystem;
+
+    @Autowired
+    private IShellingSystem shellingSystem;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -156,13 +160,10 @@ public class BattleServiceImpl implements BattleService {
                     //反潜攻击
                 } else {
                     // 炮击
-                    hougekiResult1.getApi_at_type().add(0);
                     EnemyShip defEnemyShip = enemyOtherShips.get(RandomUtils.nextInt(0, enemyOtherShips.size()));
-                    int shipIdx = 7 + enemyShips.indexOf(defEnemyShip);
-                    hougekiResult1.getApi_df_list().add(new int[] { shipIdx, shipIdx });
-                    hougekiResult1.getApi_si_list().add(new int[] { 1, 2 });
-                    hougekiResult1.getApi_cl_list().add(new int[] { 1, 1 });
-                    hougekiResult1.getApi_damage().add(new int[] { 100, 100 });
+                    int defShipIdx = 7 + enemyShips.indexOf(defEnemyShip);
+
+                    shellingSystem.generateHougkeResult(attackShip, defShipIdx, hougekiResult1, aerialState);
                     break;
                 }
             }

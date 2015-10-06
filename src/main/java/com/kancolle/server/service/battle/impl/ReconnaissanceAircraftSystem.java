@@ -18,7 +18,7 @@ import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.service.battle.ReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 
@@ -28,7 +28,7 @@ import com.kancolle.server.utils.logic.DeckPortUtils;
  *
  */
 @Service
-public class ReconnaissanceAircraftSystemImpl implements ReconnaissanceAircraftSystem {
+public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSystem {
 
     /** 1 = 成功 */
     public static final int PLANE_SUCCESS = 1;

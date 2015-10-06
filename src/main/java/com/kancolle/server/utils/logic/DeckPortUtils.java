@@ -103,6 +103,7 @@ public class DeckPortUtils {
     }
 
     public static <T extends AbstractShip> List<T> getAttackShips(List<T> ships, boolean isAllSS) {
+        //TODO 被击沉的舰船不能进行炮击战
         //潜艇不能参加炮击战
         Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
         //没有搭载攻击机的空母不能参加炮击战

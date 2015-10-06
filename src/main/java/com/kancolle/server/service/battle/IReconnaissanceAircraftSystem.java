@@ -11,7 +11,7 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
  * @Date 2015年8月24日
  *
  */
-public interface ReconnaissanceAircraftSystem {
+public interface IReconnaissanceAircraftSystem {
 
     int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState);
 

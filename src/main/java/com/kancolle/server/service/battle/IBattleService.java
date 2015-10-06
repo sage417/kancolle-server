@@ -12,7 +12,7 @@ import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
  * @Date 2015年8月22日
  *
  */
-public interface BattleService {
+public interface IBattleService {
 
     BattleSimulationResult battle(String member_id, BattleForm form);
 
