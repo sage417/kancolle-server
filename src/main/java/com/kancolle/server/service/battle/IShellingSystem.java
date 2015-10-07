@@ -5,6 +5,6 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 public interface IShellingSystem {
 
-    void generateHougkeResult(MemberShip attackShip, int defShipIdx, HougekiResult result, int aerialState);
+    void generateHougkeResult(MemberShip attackShip, HougekiResult result, int aerialState);
 
 }

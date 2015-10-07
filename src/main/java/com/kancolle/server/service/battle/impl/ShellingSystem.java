@@ -16,16 +16,16 @@ import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
 public class ShellingSystem implements IShellingSystem {
-    private static final int ATTACK_TYPE_NORMAL = 0;
-    private static final int ATTACK_TYPE_ANTISUBMARINE = 1;
-    private static final int ATTACK_TYPE_DOUBLE = 2;
-    private static final int ATTACK_TYPE_SECONDARY = 3;
-    private static final int ATTACK_TYPE_RADAR = 4;
-    private static final int ATTACK_TYPE_EXPOSEARMOR = 5;
-    private static final int ATTACK_TYPE_MAIN = 6;
+    public static final int ATTACK_TYPE_NORMAL = 0;
+    public static final int ATTACK_TYPE_ANTISUBMARINE = 1;
+    public static final int ATTACK_TYPE_DOUBLE = 2;
+    public static final int ATTACK_TYPE_SECONDARY = 3;
+    public static final int ATTACK_TYPE_RADAR = 4;
+    public static final int ATTACK_TYPE_EXPOSEARMOR = 5;
+    public static final int ATTACK_TYPE_MAIN = 6;
 
     @Override
-    public void generateHougkeResult(MemberShip attackShip, int defShipIdx, HougekiResult result, int aerialState) {
+    public void generateHougkeResult(MemberShip attackShip, HougekiResult result, int aerialState) {
 
         // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击
         if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_GUARANTEE) {
@@ -43,10 +43,7 @@ public class ShellingSystem implements IShellingSystem {
             int fdamage = shipHougke * 6 / 5;
             int sdamage = shipHougke * 6 / 5;
             // 2次1.2倍率伤害
-            result.getApi_df_list().add(new int[] { defShipIdx, defShipIdx });
             damages = new int[] { fdamage, sdamage };
-        } else {
-            result.getApi_df_list().add(new int[] { defShipIdx });
         }
 
         switch (attackType) {

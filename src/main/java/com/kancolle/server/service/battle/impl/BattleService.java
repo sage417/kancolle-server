@@ -10,6 +10,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.getTargetShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -144,15 +145,15 @@ public class BattleService implements IBattleService {
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
         // 玩家攻击队列
-        List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
+        LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
         // 敌人攻击队列
-        List<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
+        LinkedList<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
-            MemberShip attackShip = memberAttackShips.get(i);
+            MemberShip attackShip = memberAttackShips.pop();
 
-            if (i < memberAttackShips.size() && attackShip.getNowHp() > 0) {
+            if (attackShip.getNowHp() > 0) {
                 hougekiResult1.getApi_at_list().add(1 + memberShips.indexOf(attackShip));
 
                 if (!enemySSShips.isEmpty() && antiSSShipFilter.test(attackShip)) {
@@ -163,9 +164,18 @@ public class BattleService implements IBattleService {
                     EnemyShip defEnemyShip = enemyOtherShips.get(RandomUtils.nextInt(0, enemyOtherShips.size()));
                     int defShipIdx = 7 + enemyShips.indexOf(defEnemyShip);
 
-                    shellingSystem.generateHougkeResult(attackShip, defShipIdx, hougekiResult1, aerialState);
+                    shellingSystem.generateHougkeResult(attackShip, hougekiResult1, aerialState);
+                    if (hougekiResult1.getApi_at_type().getLast().intValue() == ShellingSystem.ATTACK_TYPE_DOUBLE) {
+                        hougekiResult1.getApi_df_list().add(new int[] { defShipIdx, defShipIdx });
+                    } else {
+                        hougekiResult1.getApi_df_list().add(new int[] { defShipIdx });
+                    }
                     break;
                 }
+            }
+            EnemyShip enemyAttackShip = enemyAttackShips.pop();
+            if (enemyAttackShip.getNowHp() > 0) {
+
             }
         }
         result.setApi_hougeki1(hougekiResult1);
