@@ -7,7 +7,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.IntMath;
+import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -27,7 +29,12 @@ public class ShellingSystem implements IShellingSystem {
     public static final int ATTACK_TYPE_MAIN = 6;
 
     @Override
-    public void generateHougkeResult(MemberShip attackShip, HougekiResult result, int aerialState) {
+    public void generateHougkeResult(BattleSimulationResult result, int aerialState, MemberShip attackShip, ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap) {
+
+        HougekiResult hougekiResult = result.getApi_hougeki1();
+
+        EnemyShip defEnemyShip = enemyOtherShipsMap.values().asList().get(RandomUtils.nextInt(0, enemyOtherShipsMap.size()));
+        int defShipIdx = enemyOtherShipsMap.inverse().get(defEnemyShip);
 
         // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击
         if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_GUARANTEE) {
@@ -36,16 +43,19 @@ public class ShellingSystem implements IShellingSystem {
 
         }
         int attackType = 0;
-        result.getApi_at_type().add(attackType);
+        hougekiResult.getApi_at_type().add(attackType);
         int[] damages = ArrayUtils.EMPTY_INT_ARRAY;
 
         int shipHougke = attackShip.getKaryoku().getMinValue();
-
+        
         if (attackType == ATTACK_TYPE_DOUBLE) {
             int fdamage = shipHougke * 6 / 5;
             int sdamage = shipHougke * 6 / 5;
             // 2次1.2倍率伤害
             damages = new int[] { fdamage, sdamage };
+            hougekiResult.getApi_df_list().add(new int[] { defShipIdx, defShipIdx });
+        } else {
+            hougekiResult.getApi_df_list().add(new int[] { defShipIdx });
         }
 
         switch (attackType) {
@@ -72,9 +82,10 @@ public class ShellingSystem implements IShellingSystem {
             damages = Arrays.stream(damages).map(damage -> damage * 3 / 2).toArray();
         }
 
-        result.getApi_damage().add(damages);
-        result.getApi_si_list().add(new int[] { 1, 2 });
-        result.getApi_cl_list().add(new int[] { 1, 1 });
+        hougekiResult.getApi_damage().add(damages);
+        hougekiResult.getApi_si_list().add(new int[] { 1, 2 });
+        hougekiResult.getApi_cl_list().add(new int[] { 1, 1 });
+
     }
 
     /**
