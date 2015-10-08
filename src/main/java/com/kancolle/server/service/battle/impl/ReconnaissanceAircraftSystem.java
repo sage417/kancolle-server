@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.battle.impl;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomUtils;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
@@ -76,7 +78,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
                 } else
                     ex_sakuteki += slotItem_saku;
             }
-            searchValue += ((int) Math.sqrt(ship.getSakuteki().getMinValue()) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getSakuteki().getMinValue(), RoundingMode.DOWN) + ex_sakuteki);
         }
         searchValue /= ships.size();
 
@@ -116,7 +118,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
                     ex_sakuteki += slotItem_saku;
                 }
             }
-            searchValue += ((int) Math.sqrt(ship.getShip().getSakuteki().getMinValue()) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getShip().getSakuteki().getMinValue(), RoundingMode.DOWN) + ex_sakuteki);
         }
 
         boolean searchSuccess = searchValue > searchNeedValue;

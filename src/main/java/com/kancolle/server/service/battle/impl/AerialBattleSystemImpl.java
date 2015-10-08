@@ -1,9 +1,11 @@
 package com.kancolle.server.service.battle.impl;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.battle.AerialBattleSystem;
@@ -33,7 +35,7 @@ public class AerialBattleSystemImpl implements AerialBattleSystem {
                 int slotType = slot.getType()[2];
 
                 if (currentEQ > 0 && (slotType == 6 || slotType == 7 || slotType == 8 || slotType == 11))
-                    airPow += slot.getTaik() * (int) Math.sqrt(currentEQ);
+                    airPow += slot.getTaik() * IntMath.sqrt(currentEQ, RoundingMode.DOWN);
             }
         }
         return airPow;

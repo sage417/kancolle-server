@@ -3,6 +3,10 @@
  */
 package com.kancolle.server.utils.logic;
 
+import java.math.RoundingMode;
+
+import com.google.common.math.LongMath;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月22日
@@ -125,7 +129,7 @@ public class NdockUtils {
             return ndockTime;
         }
         if (nowLv > 11) {
-            ndockTime = (nowLv * 5L + (int) Math.sqrt(nowLv - 11) * 10L + 50);
+            ndockTime = (nowLv * 5L + LongMath.sqrt((nowLv - 11) * 10L + 50, RoundingMode.DOWN));
         } else {
             ndockTime = (nowLv * 10L);
         }

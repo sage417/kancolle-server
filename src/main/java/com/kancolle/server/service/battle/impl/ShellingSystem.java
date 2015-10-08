@@ -1,11 +1,13 @@
 package com.kancolle.server.service.battle.impl;
 
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
+import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -139,7 +141,7 @@ public class ShellingSystem implements IShellingSystem {
         int nowLv = ship.getLv();
         int lucky = ship.getLucky().getMinValue();
         int slotHoum = ship.getSlot().stream().mapToInt(MemberSlotItem::getHoum).sum();
-        int hitValue = 95 + 2 * (int) Math.sqrt(nowLv - 1) + slotHoum + 3 * lucky / 20;
+        int hitValue = 95 + 2 * IntMath.sqrt(nowLv - 1, RoundingMode.DOWN) + slotHoum + 3 * lucky / 20;
         int cond = ship.getCond();
         if (cond < 30) {
             return hitValue / 2;
