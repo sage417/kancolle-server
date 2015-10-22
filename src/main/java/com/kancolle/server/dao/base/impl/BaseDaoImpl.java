@@ -52,6 +52,12 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
     public void update(T t) {
         getSqlSession().update("update" + className, t);
     }
+    
+    public void save(T t){}
+
+    public void delete(T t){}
+
+    public void replace(T t){}
 
     /**
      * 解析数据库字符串，返回JSONArray对象
