@@ -9,4 +9,7 @@
 	<context:component-scan base-package="com.kancolle.server.service" />
 
 	<bean id="dutyBus" class="com.google.common.eventbus.EventBus"/>
+
+	<!-- spring工具类 方便在非spring管理环境中获取bean -->
+    <bean id="springUtils" class="com.kancolle.server.utils.SpringUtils"/>
 </beans>

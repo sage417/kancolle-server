@@ -12,7 +12,7 @@ import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
 @Component(value = "urlCachingFilter")
 public class UrlCacheFilter extends SimplePageCachingFilter {
 
-    EhCacheCacheManager cacheManager;
+    private EhCacheCacheManager cacheManager;
 
     @Autowired
     public void setCacheManager(EhCacheCacheManager cacheManager) {

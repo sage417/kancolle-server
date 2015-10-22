@@ -26,7 +26,7 @@ import com.kancolle.server.service.member.MemberService;
  * @Date 2015年6月9日
  *
  */
-@ControllerAdvice
+@ControllerAdvice(value="com.kancolle.server.controller.kcsapi")
 public class AdviceController {
     private static final Logger logger = LoggerFactory.getLogger(AdviceController.class);
     public static final APIResponse<Object> DEFAULT_RESPONSE = new APIResponse<>();

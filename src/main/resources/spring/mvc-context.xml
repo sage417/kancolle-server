@@ -20,8 +20,6 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
-	<context:component-scan base-package="com.kancolle.server.web.filter" />
-
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven ignore-default-model-on-redirect="true">
 		<mvc:message-converters>

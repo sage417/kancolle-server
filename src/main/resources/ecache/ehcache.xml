@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="false">
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false" monitoring="autodetect" dynamicConfig="true">
 
-	<diskStore path="java.io.tmpdir" />
-
-	<defaultCache maxEntriesLocalHeap="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" />
+	<defaultCache maxEntriesLocalHeap="1000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="36000" />
 
 	<!-- <cache name="token2MemberId" maxEntriesLocalHeap="1000" eternal="false" timeToIdleSeconds="600" timeToLiveSeconds="0" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" /> -->
 
-	<cache name="mission" maxEntriesLocalHeap="50" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+	<cache name="mission" maxEntriesLocalHeap="50" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LFU" />
 
-	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LFU" />
 
-	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false" memoryStoreEvictionPolicy="LFU" />
+	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true"/>
 	
 	<!-- Page Caching -->
 	<cache name="urlCachingFilter"  maxEntriesLocalHeap="100" eternal="true"/>
