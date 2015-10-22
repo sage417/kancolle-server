@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.model.po.deckport;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.type.Alias;
@@ -16,7 +17,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
  *
  */
 @Alias("MemberDeckPort")
-public class MemberDeckPort {
+public class MemberDeckPort implements Serializable{
 
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;

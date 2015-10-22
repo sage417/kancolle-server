@@ -1,11 +1,13 @@
 package com.kancolle.server.model.po.member;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberKdock")
-public class MemberKdock {
+public class MemberKdock implements Serializable{
     public static final int STATUS_UNAVILABLE = -1;
 
     public static final int STATUS_AVILABLE = 0;

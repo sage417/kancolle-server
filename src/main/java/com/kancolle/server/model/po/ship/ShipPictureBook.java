@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.model.po.ship;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.ibatis.type.Alias;
@@ -15,7 +16,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 @Alias("ShipPictureBook")
-public class ShipPictureBook {
+public class ShipPictureBook implements Serializable{
 
     @JSONField(ordinal = 1, name = "api_index_no")
     public int getShipNo() {

@@ -1,5 +1,6 @@
 package com.kancolle.server.model.kcsapi.member;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -11,7 +12,7 @@ import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 
-public class MemberPort {
+public class MemberPort implements Serializable{
 
     @JSONField(ordinal = 1)
     private List<MemberMeterialDto> api_material;

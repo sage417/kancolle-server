@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.model.po.resource;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 /**
@@ -11,7 +13,7 @@ import org.apache.ibatis.type.Alias;
  *
  */
 @Alias("Resource")
-public class Resource {
+public class Resource implements Serializable{
     public static final int MAX_RESOURCE_VALUE = 300000;
 
     public static final int MAX_METERIAL_VALUE = 3000;

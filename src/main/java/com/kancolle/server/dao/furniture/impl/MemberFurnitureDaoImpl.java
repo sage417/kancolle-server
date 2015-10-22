@@ -21,7 +21,7 @@ import com.kancolle.server.model.po.furniture.MemberFurniture;
  *
  */
 @Repository
-public class MemberFurnitureDaoImpl extends BaseDaoImpl<Object> implements MemberFurnitureDao {
+public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> implements MemberFurnitureDao {
 
     private Map<String, Object> getMemberIdFurnitureIdParamMap(String member_id, Integer furniture_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);

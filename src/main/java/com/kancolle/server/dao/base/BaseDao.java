@@ -1,6 +1,8 @@
 package com.kancolle.server.dao.base;
 
-public interface BaseDao<T> {
+import java.io.Serializable;
+
+public interface BaseDao<T extends Serializable> {
 
     void update(T t);
 

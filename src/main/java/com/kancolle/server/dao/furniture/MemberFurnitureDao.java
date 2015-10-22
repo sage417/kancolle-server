@@ -14,7 +14,7 @@ import com.kancolle.server.model.po.furniture.MemberFurniture;
  * @Date 2015年6月7日
  *
  */
-public interface MemberFurnitureDao extends BaseDao<Object> {
+public interface MemberFurnitureDao extends BaseDao<MemberFurniture> {
 
     List<MemberFurniture> getFurniture(String member_id);
 

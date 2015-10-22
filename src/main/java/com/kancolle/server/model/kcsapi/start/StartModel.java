@@ -1,5 +1,6 @@
 package com.kancolle.server.model.kcsapi.start;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -23,7 +24,7 @@ import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.model.po.useitem.UseItem;
 
-public class StartModel {
+public class StartModel implements Serializable{
     @JSONField(ordinal = 1)
     private List<BaseShip> api_mst_ship;
     @JSONField(ordinal = 2)

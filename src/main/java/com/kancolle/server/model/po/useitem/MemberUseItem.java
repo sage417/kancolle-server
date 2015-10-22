@@ -1,12 +1,14 @@
 package com.kancolle.server.model.po.useitem;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.type.Alias;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberUseItem")
-public class MemberUseItem {
+public class MemberUseItem implements Serializable{
 
     @JSONField(ordinal = 1, name = "api_member_id")
     private long member_id;

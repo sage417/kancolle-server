@@ -1,8 +1,7 @@
 package com.kancolle.server.utils;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,6 +14,8 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ResolvableType;
+import org.springframework.util.ClassUtils;
 
 import com.kancolle.server.dao.annotation.Column;
 import com.kancolle.server.dao.annotation.Id;
@@ -57,19 +58,12 @@ public class DaoUtils {
     }
 
     public static Class<?> getSuperClassGenricType(Class<?> clazz, int index) {
-        Type genType = clazz.getGenericSuperclass();
-
-        while (!(genType instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-            genType = clazz.getGenericSuperclass();
-        }
-
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-        return (Class<?>) params[index];
+        Class<?> userClass = ClassUtils.getUserClass(clazz);
+        return ResolvableType.forClass(userClass).as(userClass.getSuperclass()).getGeneric(0).resolve();
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T setBean(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters, String... exclude) throws InstantiationException, IllegalAccessException {
+    public static <T extends Serializable> T setBean(BaseDao<T> dao, Class<?>[] parameterTypes, Object[] parameters, String... exclude) throws InstantiationException, IllegalAccessException {
 
         Class<T> targetClass = (Class<T>) getSuperClassGenricType(dao.getClass());
 

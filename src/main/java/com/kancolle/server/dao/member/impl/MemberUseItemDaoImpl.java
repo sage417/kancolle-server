@@ -20,7 +20,7 @@ import com.kancolle.server.model.po.useitem.MemberUseItem;
  *
  */
 @Repository
-public class MemberUseItemDaoImpl extends BaseDaoImpl<Object>implements MemberUseItemDao {
+public class MemberUseItemDaoImpl extends BaseDaoImpl<MemberUseItem>implements MemberUseItemDao {
 
     @Override
     public List<MemberUseItem> selectMemberUseItems(String member_id) {

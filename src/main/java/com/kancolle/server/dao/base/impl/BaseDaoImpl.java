@@ -1,5 +1,6 @@
 package com.kancolle.server.dao.base.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -18,7 +19,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
 
-public class BaseDaoImpl<T> extends SqlSessionDaoSupport implements BaseDao<T> {
+public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoSupport implements BaseDao<T> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(BaseDaoImpl.class);
 
     protected static final String SELECT_ALL = "SELECT * FROM ";

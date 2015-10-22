@@ -13,7 +13,7 @@ import com.kancolle.server.model.po.useitem.MemberUseItem;
  * @Date 2015年6月11日
  *
  */
-public interface MemberUseItemDao extends BaseDao<Object> {
+public interface MemberUseItemDao extends BaseDao<MemberUseItem> {
 
     List<MemberUseItem> selectMemberUseItems(String member_id);
 
