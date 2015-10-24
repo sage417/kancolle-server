@@ -16,24 +16,25 @@
 package org.mybatis.caches.ehcache;
 
 import org.apache.ibatis.cache.Cache;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+
 import com.kancolle.server.utils.SpringUtils;
 
+import net.sf.ehcache.CacheManager;
 
 public class EhcacheCache extends AbstractEhcacheCache implements Cache {
-
-    private static final String DEFAULT_CACHE_FACTORY_BEAN_NAME = "mybatisCacheDefaultFactory";
-
-    private String cacheFactoryBeanName;
 
     public EhcacheCache(String id) {
         super(id);
 
-        String beanName = cacheFactoryBeanName != null ? cacheFactoryBeanName : DEFAULT_CACHE_FACTORY_BEAN_NAME;
-        EhcacheFactory cacheFactory = SpringUtils.getBean(beanName);
-        if (cacheFactory == null) {
-            throw new RuntimeException("can not found CacheFactory, need a bean name is:" + beanName);
+        EhCacheCacheManager ehCacheManager = SpringUtils.getBean(EhCacheCacheManager.class);
+
+        CacheManager cacheManager = ehCacheManager.getCacheManager();
+
+        if (!cacheManager.cacheExists(id)) {
+            cacheManager.addCache(id);
         }
 
-        this.cache = cacheFactory.getCache(id);
+        this.cache = cacheManager.getCache(id);
     }
 }
