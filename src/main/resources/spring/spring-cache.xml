@@ -7,13 +7,14 @@
 
 	<cache:annotation-driven />
 
-	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="cacheManagerName" value="springEhcache"/>
-		<property name="configLocation" value="classpath:/ecache/ehcache.xml" />
+	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<!-- <property name="cacheManagerName" value="springEhcache"/> -->
+		<property name="configLocation" value="classpath:ehcache/ehcache.xml" />
+		<property name="shared" value="true"/>
 	</bean>
 
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehCacheManager" />
+		<property name="cacheManager" ref="ehcacheManager" />
 		<property name="transactionAware" value="true" />
 	</bean>
 

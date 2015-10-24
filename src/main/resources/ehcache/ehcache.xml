@@ -12,5 +12,5 @@
 	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true"/>
 	
 	<!-- Page Caching -->
-	<cache name="urlCachingFilter"  maxEntriesLocalHeap="100" eternal="true"/>
+	<cache name="urlCachingFilter"  maxEntriesLocalHeap="100" eternal="true" timeToIdleSeconds="3600" timeToLiveSeconds="36000" />
 </ehcache>

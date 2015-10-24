@@ -17,7 +17,6 @@ package org.mybatis.caches.ehcache;
 
 import java.util.concurrent.locks.ReadWriteLock;
 
-import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 
@@ -30,11 +29,6 @@ import org.apache.ibatis.cache.Cache;
  */
 public abstract class AbstractEhcacheCache implements Cache {
 
-    /**
-     * The cache manager reference.
-     */
-    protected static CacheManager CACHE_MANAGER = CacheManager.create();
-  
     /**
      * The cache id (namespace)
      */
