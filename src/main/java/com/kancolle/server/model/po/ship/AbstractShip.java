@@ -32,6 +32,12 @@ public abstract class AbstractShip {
 
     public abstract int getLeng();
 
+    public abstract int getNowSoukou();
+    
+    public abstract int getNowLuck();
+    
+    public abstract int getNowHp();
+
     @Override
     public int hashCode() {
         final int prime = 31;

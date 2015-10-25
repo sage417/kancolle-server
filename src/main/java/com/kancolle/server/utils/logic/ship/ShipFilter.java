@@ -16,15 +16,12 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
  * @Date 2015年10月2日
  *
  */
-public class ShipFilter {
+public abstract class ShipFilter {
 
     /** 返回是否有指定类型的飞机，并且要有搭载 */
     public static Function<Predicate<SlotItem>, Predicate<? super AbstractShip>> hasTargetPlaneFilter = cond -> {
         return ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
     };
-
-    private ShipFilter() {
-    }
 
     /**
      * 过滤出潜艇

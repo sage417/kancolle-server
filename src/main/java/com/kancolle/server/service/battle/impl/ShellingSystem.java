@@ -1,7 +1,10 @@
 package com.kancolle.server.service.battle.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -11,6 +14,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
@@ -47,7 +51,7 @@ public class ShellingSystem implements IShellingSystem {
         int[] damages = ArrayUtils.EMPTY_INT_ARRAY;
 
         int shipHougke = attackShip.getKaryoku().getMinValue();
-        
+
         if (attackType == ATTACK_TYPE_DOUBLE) {
             int fdamage = shipHougke * 6 / 5;
             int sdamage = shipHougke * 6 / 5;
@@ -150,7 +154,7 @@ public class ShellingSystem implements IShellingSystem {
 
     private int hitValue(MemberShip ship) {
         int nowLv = ship.getLv();
-        int lucky = ship.getLucky().getMinValue();
+        int lucky = ship.getNowLuck();
         int slotHoum = ship.getSlot().stream().mapToInt(MemberSlotItem::getHoum).sum();
         int hitValue = 95 + 2 * IntMath.sqrt(nowLv - 1, RoundingMode.DOWN) + slotHoum + 3 * lucky / 20;
         int cond = ship.getCond();
@@ -163,8 +167,43 @@ public class ShellingSystem implements IShellingSystem {
     }
 
     private int hitValue(EnemyShip ship) {
-        int lucky = ship.getShip().getLuck().getMinValue();
+        int lucky = ship.getNowLuck();
         int slotHoum = ship.getSlot().stream().mapToInt(EnemySlotItem::getHoum).sum();
         return 95 + slotHoum + 3 / 20 * lucky;
+    }
+
+    /**
+     * 防御力公式，只和护甲有关
+     * 
+     * @param ship
+     * @return
+     */
+    private int defValue(AbstractShip ship) {
+        int soukou = ship.getNowSoukou();
+        int rdmValue = RandomUtils.nextInt(2, 5);
+        return rdmValue * soukou / 3;
+    }
+
+    private int hurtValue(int attackValue, int defValue) {
+        int hurtValue = attackValue - defValue;
+        // 没有破防强制扣除5%~10%
+        if (hurtValue < 1) {
+            hurtValue = 1;
+        }
+        return hurtValue;
+    }
+
+    /** 擦弹和未破防强制扣除当前血量5%~10% */
+    private int damageAugmenting(AbstractShip defShip) {
+        int nowHp = defShip.getNowHp();
+        return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
+    }
+
+    /** 击沉保护 */
+    private int destoryAugmenting(MemberShip ship) {
+        int nowHp = ship.getNowHp();
+
+        // 当前血量20%~50%浮动
+        return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
 }

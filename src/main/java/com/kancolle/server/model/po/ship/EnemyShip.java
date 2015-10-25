@@ -44,6 +44,8 @@ public class EnemyShip extends AbstractShip implements Serializable {
         this.slot = slot;
     }
 
+  //------抽象方法------//
+    
     @Override
     public List<SlotItem> getSlotItems() {
         return getSlot().stream().map(EnemySlotItem::getSlotItem).collect(Collectors.toList());
@@ -57,5 +59,15 @@ public class EnemyShip extends AbstractShip implements Serializable {
     @Override
     public int getLeng() {
         return getShip().getLeng();
+    }
+
+    @Override
+    public int getNowSoukou() {
+        return getShip().getSouk().getMinValue();
+    }
+
+    @Override
+    public int getNowLuck() {
+        return getShip().getLuck().getMinValue();
     }
 }

@@ -436,6 +436,8 @@ public class MemberShip extends AbstractShip implements Serializable {
         return String.format("MemberShip [memberId=%s, memberShipId=%s, ship=%s, lv=%s]", memberId, memberShipId, getShip(), lv);
     }
 
+    //------抽象方法------//
+    
     @Override
     public List<SlotItem> getSlotItems() {
         return getSlot().stream().map(MemberSlotItem::getSlotItem).collect(Collectors.toList());
@@ -444,5 +446,15 @@ public class MemberShip extends AbstractShip implements Serializable {
     @Override
     public int[] getCurrentEQ() {
         return Arrays.copyOf(getOnslot(), getOnslot().length);
+    }
+
+    @Override
+    public int getNowSoukou() {
+        return getSoukou().getMinValue();
+    }
+
+    @Override
+    public int getNowLuck() {
+        return getLucky().getMinValue();
     }
 }
