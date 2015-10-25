@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.Maps;
+import com.kancolle.server.controller.monitor.model.StatisticsModel;
 import com.kancolle.server.utils.PrettyMemoryUtils;
 
 import net.sf.ehcache.Cache;
@@ -41,8 +42,8 @@ public class EhcacheMonitorController {
     private CacheManager cacheManager;
 
     @RequestMapping()
-    public Map<String, Cache> index() {
-        return Arrays.stream(cacheManager.getCacheNames()).collect(Collectors.toMap(name -> name, cacheManager::getCache));
+    public Map<String, StatisticsModel> index() {
+        return Arrays.stream(cacheManager.getCacheNames()).collect(Collectors.toMap(k -> k, v -> new StatisticsModel(cacheManager.getEhcache(v).getStatistics())));
     }
 
     @RequestMapping("{cacheName}/details")
