@@ -70,4 +70,9 @@ public class EnemyShip extends AbstractShip implements Serializable {
     public int getNowLuck() {
         return getShip().getLuck().getMinValue();
     }
+
+    @Override
+    public int getMaxHp() {
+        return getShip().getTaik().getMaxValue();
+    }
 }

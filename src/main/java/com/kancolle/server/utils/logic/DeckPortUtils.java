@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.utils.logic;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_DISADVANTAGE;
 import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_LOST;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
@@ -17,6 +18,8 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomUtils;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -24,17 +27,17 @@ import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
+import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.utils.logic.ship.ShipUtils;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年8月23日
  *
  */
-public class DeckPortUtils {
-    private static final Ordering<AbstractShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
+public abstract class DeckPortUtils {
 
-    private DeckPortUtils() {
-    }
+    private static final Ordering<AbstractShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
 
     private static int getShipSearchNeedValue(int shipType) {
         switch (shipType) {
@@ -104,18 +107,54 @@ public class DeckPortUtils {
     }
 
     public static <T extends AbstractShip> LinkedList<T> getAttackShips(List<T> ships, boolean isAllSS) {
-        //TODO 被击沉的舰船不能进行炮击战
-        //潜艇不能参加炮击战
+        // TODO 被击沉的舰船不能进行炮击战
+        // 潜艇不能参加炮击战
         Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
-        //没有搭载攻击机的空母不能参加炮击战
+        // 没有搭载攻击机的空母不能参加炮击战
         shipStream = shipStream.filter(ship -> carrierFilter.negate().test(ship) || attackableCarrierFilter.test(ship));
 
-        //如果全是潜艇，则所有非反潜船不能参加
+        // 如果全是潜艇，则所有非反潜船不能参加
         if (isAllSS) {
             shipStream = shipStream.filter(ship -> antiSSShipFilter.test(ship));
         }
 
         shipStream = shipStream.sorted(FIRST_SHELL_SHIP_ORDER);
         return shipStream.collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public static <T extends AbstractShip> T getDefShip(BiMap<Integer, T> shipMap) {
+
+        List<T> ships = Lists.newArrayList(shipMap.values());
+
+        T targetShip = CollectionsUtils.randomGet(ships);
+
+        Integer index = shipMap.inverse().get(targetShip);
+
+        checkNotNull(index);
+
+        boolean attackFlagShip = 1 == index.intValue();
+
+        if (attackFlagShip) {
+            return getShelfShip(targetShip, ships);
+        }
+
+        return targetShip;
+    }
+
+    /**
+     * 获取挡枪舰船
+     * 
+     * @param flagShip
+     * @param ships
+     * @return
+     */
+    private static <T extends AbstractShip> T getShelfShip(T flagShip, List<T> ships) {
+        List<T> defShips = ships.stream().filter(ship -> !ship.equals(flagShip) && ShipUtils.isTinyDmg.negate().test(ship)).collect(Collectors.toList());
+
+        if (defShips.isEmpty()) {
+            return flagShip;
+        }
+
+        return CollectionsUtils.randomGet(defShips);
     }
 }

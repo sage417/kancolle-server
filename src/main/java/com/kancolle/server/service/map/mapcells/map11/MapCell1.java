@@ -5,12 +5,12 @@ package com.kancolle.server.service.map.mapcells.map11;
 
 import java.util.List;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Component;
 
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.CollectionsUtils;
 
 /**
  * @author J.K.SAGE
@@ -49,6 +49,6 @@ public class MapCell1 extends AbstractMapCell {
     @Override
     public EnemyDeckPort getEnemyDeckPort() {
         List<EnemyDeckPort> enemyDeckPorts = enemyDeckPortService.getEnemyDeckports(MAPCELL_ID);
-        return enemyDeckPorts.get(RandomUtils.nextInt(0, enemyDeckPorts.size()));
+        return CollectionsUtils.randomGet(enemyDeckPorts);
     }
 }

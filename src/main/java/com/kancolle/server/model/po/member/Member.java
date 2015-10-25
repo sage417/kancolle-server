@@ -18,6 +18,11 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 @Alias("Member")
 public class Member implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8080060402377336023L;
+
     @JSONField(ordinal = 1, name = "api_member_id")
     private String memberId;
 

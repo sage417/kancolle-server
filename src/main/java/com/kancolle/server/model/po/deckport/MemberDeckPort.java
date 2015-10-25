@@ -19,6 +19,11 @@ import com.kancolle.server.model.po.ship.MemberShip;
 @Alias("MemberDeckPort")
 public class MemberDeckPort implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1972201247653250451L;
+
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;
 

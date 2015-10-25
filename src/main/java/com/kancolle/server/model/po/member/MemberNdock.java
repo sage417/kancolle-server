@@ -8,6 +8,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberNdock")
 public class MemberNdock implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7814147582159739062L;
     /** 未开启 */
     public static final int STATE_UNAVILABLE = -1;
     /** 可用 */

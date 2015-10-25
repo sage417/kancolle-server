@@ -7,6 +7,11 @@ import com.kancolle.server.dao.annotation.Column;
 
 public class MapAreaModel implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2814768531801354507L;
+
     @JSONField(ordinal = 1)
     private int api_id;
 

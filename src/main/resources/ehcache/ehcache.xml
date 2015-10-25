@@ -7,10 +7,13 @@
 
 	<cache name="mission" maxEntriesLocalHeap="50" eternal="true"/>
 
-	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LFU" />
-
 	<cache name="memberExp" maxEntriesLocalHeap="100" eternal="true"/>
-	
+
+	<!-- Map -->
+	<cache name="map" maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="36000" memoryStoreEvictionPolicy="LFU" />
+	<cache name="enemyDeckPorts" maxEntriesLocalHeap="5000" eternal="true"/>
+	<!-- Map -->
+
 	<!-- Page Caching -->
 	<cache name="urlCachingFilter"  maxEntriesLocalHeap="100" eternal="true"/>
 </ehcache>

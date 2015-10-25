@@ -18,6 +18,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 @Alias("ShipPictureBook")
 public class ShipPictureBook implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2679813325131518778L;
+
     @JSONField(ordinal = 1, name = "api_index_no")
     public int getShipNo() {
         return getShip().getSortno();

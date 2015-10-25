@@ -14,6 +14,11 @@ import org.apache.ibatis.type.Alias;
  */
 @Alias("Resource")
 public class Resource implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8797913114524495827L;
+
     public static final int MAX_RESOURCE_VALUE = 300000;
 
     public static final int MAX_METERIAL_VALUE = 3000;

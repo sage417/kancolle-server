@@ -10,6 +10,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 @Alias("MemberUseItem")
 public class MemberUseItem implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3773472417961605052L;
+
     @JSONField(ordinal = 1, name = "api_member_id")
     private long member_id;
 

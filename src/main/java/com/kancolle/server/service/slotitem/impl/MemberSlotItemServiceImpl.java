@@ -37,6 +37,7 @@ import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
+import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.IntArrayUtils;
 
 /**
@@ -78,7 +79,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
         SlotItem targetSlotItem = null;
 
         List<Integer> slotItemTypes = slotItemService.getSllotItemTypeCanDevelop(leaderShip.getShip().getType());
-        List<SlotItem> slotItems = slotItemService.getSlotItemsCanDevelop(slotItemTypes.get(RandomUtils.nextInt(0, slotItemTypes.size())));
+        List<SlotItem> slotItems = slotItemService.getSlotItemsCanDevelop(CollectionsUtils.randomGet(slotItemTypes));
         int rare_count = slotItems.stream().mapToInt(slot -> 6 - slot.getRare()).sum();
         int randomValue = RandomUtils.nextInt(0, rare_count);
         for (SlotItem slotItem : slotItems) {

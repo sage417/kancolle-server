@@ -5,6 +5,10 @@ import com.kancolle.server.model.po.member.Member;
 
 public class PortMember extends Member {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4885012780581892057L;
     @JSONField(ordinal = 999)
     private int api_large_dock;
 

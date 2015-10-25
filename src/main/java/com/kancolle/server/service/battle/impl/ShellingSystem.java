@@ -1,10 +1,7 @@
 package com.kancolle.server.service.battle.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -20,6 +17,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.IShellingSystem;
+import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
@@ -37,7 +35,7 @@ public class ShellingSystem implements IShellingSystem {
 
         HougekiResult hougekiResult = result.getApi_hougeki1();
 
-        EnemyShip defEnemyShip = enemyOtherShipsMap.values().asList().get(RandomUtils.nextInt(0, enemyOtherShipsMap.size()));
+        EnemyShip defEnemyShip = CollectionsUtils.randomGet(enemyOtherShipsMap.values().asList());
         int defShipIdx = enemyOtherShipsMap.inverse().get(defEnemyShip);
 
         // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击

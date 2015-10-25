@@ -8,6 +8,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 @Alias("MemberKdock")
 public class MemberKdock implements Serializable{
+
+    private static final long serialVersionUID = -8881685976219672841L;
+
     public static final int STATUS_UNAVILABLE = -1;
 
     public static final int STATUS_AVILABLE = 0;

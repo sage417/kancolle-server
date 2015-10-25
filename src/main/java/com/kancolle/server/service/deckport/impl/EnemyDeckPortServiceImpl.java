@@ -6,6 +6,7 @@ package com.kancolle.server.service.deckport.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.kancolle.server.mapper.deckport.EnemyDeckPortMapper;
@@ -24,6 +25,7 @@ public class EnemyDeckPortServiceImpl implements EnemyDeckPortService {
     private EnemyDeckPortMapper enemyDeckPortMapper;
 
     @Override
+    @Cacheable(value = "enemyDeckPorts", key = "#mapcellId")
     public List<EnemyDeckPort> getEnemyDeckports(int mapcellId) {
         return enemyDeckPortMapper.selectEnemyDeckPorts(mapcellId);
     }

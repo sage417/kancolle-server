@@ -13,7 +13,6 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -36,6 +35,7 @@ import com.kancolle.server.service.battle.IBattleService;
 import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.CollectionsUtils;
 
 /**
  * @author J.K.SAGE
@@ -170,7 +170,7 @@ public class BattleService implements IBattleService {
                 hougekiResult1.getApi_at_list().add(1 + memberShips.indexOf(attackShip));
 
                 if (!enemySSShips.isEmpty() && antiSSShipFilter.test(attackShip)) {
-                    EnemyShip defEnemyShip = enemySSShips.get(RandomUtils.nextInt(0, enemySSShips.size()));
+                    EnemyShip defEnemyShip = CollectionsUtils.randomGet(enemySSShips);
                     // 反潜攻击
                 } else {
                     // 炮击

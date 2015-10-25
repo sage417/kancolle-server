@@ -37,6 +37,8 @@ public abstract class AbstractShip {
     public abstract int getNowLuck();
     
     public abstract int getNowHp();
+    
+    public abstract int getMaxHp();
 
     @Override
     public int hashCode() {

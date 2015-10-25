@@ -25,6 +25,10 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.model.po.useitem.UseItem;
 
 public class StartModel implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8937536676698120512L;
     @JSONField(ordinal = 1)
     private List<BaseShip> api_mst_ship;
     @JSONField(ordinal = 2)

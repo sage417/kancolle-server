@@ -14,6 +14,11 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 public class MemberPort implements Serializable{
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8195617907701218535L;
+
     @JSONField(ordinal = 1)
     private List<MemberMeterialDto> api_material;
 

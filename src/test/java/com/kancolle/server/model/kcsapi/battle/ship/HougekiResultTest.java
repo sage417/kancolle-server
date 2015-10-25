@@ -2,7 +2,6 @@ package com.kancolle.server.model.kcsapi.battle.ship;
 
 import static org.junit.Assert.*;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
