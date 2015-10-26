@@ -30,6 +30,11 @@ public class ShellingSystem implements IShellingSystem {
     public static final int ATTACK_TYPE_EXPOSEARMOR = 5;
     public static final int ATTACK_TYPE_MAIN = 6;
 
+    /* 昼战火力阈值 */
+    private static final int HOUG_THRESHOLD = 150;
+
+    private static final int NIGHT_HOUG_THRESHOLD = 300;
+
     @Override
     public void generateHougkeResult(BattleSimulationResult result, int aerialState, MemberShip attackShip, ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap) {
 
@@ -203,5 +208,17 @@ public class ShellingSystem implements IShellingSystem {
 
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
+    }
+
+    private int daylightHougThreshold(int houg) {
+        return getHougThreshold(houg, HOUG_THRESHOLD);
+    }
+
+    private int nightHougThreshold(int houg) {
+        return getHougThreshold(houg, NIGHT_HOUG_THRESHOLD);
+    }
+
+    private int getHougThreshold(int houg, int threshold) {
+        return houg > threshold ? threshold + IntMath.sqrt(houg - threshold, RoundingMode.DOWN) : houg;
     }
 }
