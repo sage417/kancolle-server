@@ -181,31 +181,35 @@ public class ShellingSystem implements IShellingSystem {
      * @param ship
      * @return
      */
-    private int defValue(AbstractShip ship) {
-        int soukou = ship.getNowSoukou();
+    private int defValue(int soukou) {
         int rdmValue = RandomUtils.nextInt(2, 5);
         return rdmValue * soukou / 3;
     }
 
-    private int hurtValue(int attackValue, int defValue) {
-        int hurtValue = attackValue - defValue;
-        // 没有破防强制扣除5%~10%
-        if (hurtValue < 1) {
-            hurtValue = 1;
+    private int damageValue(int attackValue, AbstractShip defShip, boolean destoryProtect) {
+        int nowHp = defShip.getNowHp();
+        int soukou = defShip.getNowSoukou();
+
+        int damage = attackValue - defValue(soukou);
+        if (damage < 1) {
+            damage = damageAugmenting(nowHp);
         }
-        return hurtValue;
+        if (!destoryProtect) {
+            return damage;
+        }
+        if (damage >= nowHp) {
+            return destoryAugmenting(nowHp);
+        }
+        return damage;
     }
 
     /** 擦弹和未破防强制扣除当前血量5%~10% */
-    private int damageAugmenting(AbstractShip defShip) {
-        int nowHp = defShip.getNowHp();
+    private int damageAugmenting(int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
     /** 击沉保护 */
-    private int destoryAugmenting(MemberShip ship) {
-        int nowHp = ship.getNowHp();
-
+    private int destoryAugmenting(int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
