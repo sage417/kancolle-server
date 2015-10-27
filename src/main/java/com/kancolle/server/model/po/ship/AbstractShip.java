@@ -6,7 +6,7 @@ package com.kancolle.server.model.po.ship;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 
 /**
  * @author J.K.SAGE
@@ -26,19 +26,21 @@ public abstract class AbstractShip {
         this.ship = ship;
     }
 
-    public abstract List<SlotItem> getSlotItems();
+    public abstract List<? extends AbstractSlotItem> getSlotItems();
 
     public abstract int[] getCurrentEQ();
 
     public abstract int getLeng();
 
     public abstract int getNowSoukou();
-    
+
     public abstract int getNowLuck();
-    
+
     public abstract int getNowHp();
-    
+
     public abstract int getMaxHp();
+
+    public abstract int getShipTaiSen();
 
     @Override
     public int hashCode() {

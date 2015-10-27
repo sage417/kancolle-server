@@ -7,12 +7,11 @@ package com.kancolle.server.model.po.ship;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.ibatis.type.Alias;
 
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
-import com.kancolle.server.model.po.slotitem.SlotItem;
 
 /**
  * @author J.K.SAGE
@@ -47,8 +46,8 @@ public class EnemyShip extends AbstractShip implements Serializable {
   //------抽象方法------//
     
     @Override
-    public List<SlotItem> getSlotItems() {
-        return getSlot().stream().map(EnemySlotItem::getSlotItem).collect(Collectors.toList());
+    public List<? extends AbstractSlotItem> getSlotItems() {
+        return getSlot();
     }
 
     @Override
@@ -74,5 +73,10 @@ public class EnemyShip extends AbstractShip implements Serializable {
     @Override
     public int getMaxHp() {
         return getShip().getTaik().getMaxValue();
+    }
+
+    @Override
+    public int getShipTaiSen() {
+        return getShip().getTaisen().getMinValue();
     }
 }

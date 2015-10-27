@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.kancolle.server.model.po.ship.AbstractShip;
-import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 
 /**
  * @author J.K.SAGE
@@ -19,7 +19,7 @@ import com.kancolle.server.model.po.slotitem.SlotItem;
 public abstract class ShipFilter {
 
     /** 返回是否有指定类型的飞机，并且要有搭载 */
-    public static Function<Predicate<SlotItem>, Predicate<? super AbstractShip>> hasTargetPlaneFilter = cond -> {
+    public static Function<Predicate<AbstractSlotItem>, Predicate<? super AbstractShip>> hasTargetPlaneFilter = cond -> {
         return ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
     };
 
@@ -63,8 +63,8 @@ public abstract class ShipFilter {
         return shipType == 8 || shipType == 10;
     };
 
-    private static int getCurrentEQ(AbstractShip ship, SlotItem slotItem) {
-        List<SlotItem> slotItems = ship.getSlotItems();
+    private static int getCurrentEQ(AbstractShip ship, AbstractSlotItem slotItem) {
+        List<? extends AbstractSlotItem> slotItems = ship.getSlotItems();
         int index = slotItems.indexOf(slotItem);
         return ship.getCurrentEQ()[index];
     }

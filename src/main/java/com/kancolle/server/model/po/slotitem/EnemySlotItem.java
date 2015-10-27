@@ -17,4 +17,8 @@ public class EnemySlotItem extends AbstractSlotItem implements Serializable {
 
     private static final long serialVersionUID = -1044011355581146491L;
 
+    @Override
+    public int getTaiSen() {
+        return getTais();
+    }
 }

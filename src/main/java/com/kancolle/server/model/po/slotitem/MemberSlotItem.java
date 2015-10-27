@@ -100,4 +100,9 @@ public class MemberSlotItem extends AbstractSlotItem implements Serializable {
     public String toString() {
         return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, getSlotItem(), level);
     }
+
+    @Override
+    public int getTaiSen() {
+        return getSlotItem().getTais();
+    }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.AbstractShip;
-import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.AerialBattleSystem;
 
 @Service
@@ -29,7 +29,7 @@ public class AerialBattleSystemImpl implements AerialBattleSystem {
 
         for (AbstractShip ship : ships) {
             for (int i = 0; i < ship.getSlotItems().size(); i++) {
-                SlotItem slot = ship.getSlotItems().get(i);
+                AbstractSlotItem slot = ship.getSlotItems().get(i);
 
                 int currentEQ = ship.getCurrentEQ()[i];
                 int slotType = slot.getType()[2];
