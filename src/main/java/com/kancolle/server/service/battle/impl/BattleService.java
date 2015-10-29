@@ -10,6 +10,8 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.getTargetShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,16 +19,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.AerialBattleSystem;
@@ -147,38 +153,29 @@ public class BattleService implements IBattleService {
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
-        // 玩家潜艇队列，无法被攻击的潜艇将被移除
-        ImmutableBiMap<Integer, MemberShip> memberSSShipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(memberSSShips, ship -> 1 + memberShips.indexOf(ship)));
-        // 玩家非潜艇队列，无法被攻击的舰船将被移除
-        ImmutableBiMap<Integer, MemberShip> memberOtherShipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(memberOtherShips, ship -> 1 + memberShips.indexOf(ship)));
-
-        // 敌方潜艇队列，无法被攻击的潜艇将被移除
-        ImmutableBiMap<Integer, EnemyShip> enemySSShipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(enemySSShips, ship -> 7 + enemyShips.indexOf(ship)));
-        // 敌方非潜艇队列，无法被攻击的舰船将被移除
-        ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(enemyOtherShips, ship -> 7 + enemyShips.indexOf(ship)));
+        List<AbstractShip> ships = CollectionsUtils.listAdd(memberShips, enemyShips);
+        ImmutableBiMap<Integer, AbstractShip> shipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(ships, ship -> 1 + ships.indexOf(ship)));
 
         // 玩家攻击队列
         LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
         // 敌人攻击队列
         LinkedList<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
+        BattleContext context = new BattleContext();
+        context.setBattleResult(result);
+        context.setMemberSSShips(memberSSShips);
+        context.setMemberOtherShips(memberOtherShips);
+        context.setMemberAttackShips(memberAttackShips);
+        context.setEnemySSShips(enemySSShips);
+        context.setEnemyOtherShips(enemyOtherShips);
+        context.setEnemyAttackShips(enemyAttackShips);
+
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
-            MemberShip attackShip = memberAttackShips.pop();
-
-            if (attackShip.getNowHp() > 0) {
-                hougekiResult1.getApi_at_list().add(1 + memberShips.indexOf(attackShip));
-
-                if (!enemySSShips.isEmpty() && antiSSShipFilter.test(attackShip)) {
-                    EnemyShip defEnemyShip = CollectionsUtils.randomGet(enemySSShips);
-                    // 反潜攻击
-                } else {
-                    // 炮击
-                    shellingSystem.generateHougkeResult(result, aerialState, attackShip, enemyOtherShipsMap);
-                }
-            }
-            EnemyShip enemyAttackShip = enemyAttackShips.pop();
-            if (enemyAttackShip.getNowHp() > 0) {}
+            MemberShip attackShip = memberAttackShips.poll();
+            generateHougkeResult(attackShip, context);
+            EnemyShip enemyAttackShip = enemyAttackShips.poll();
+            generateHougkeResult(enemyAttackShip, context);
         }
 
         /*--------------------------炮击战---------------------------*/
@@ -188,6 +185,15 @@ public class BattleService implements IBattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
         return result;
 
+    }
+
+    private void generateHougkeResult(AbstractShip ship, BattleContext context) {
+        if (ship.getNowHp() > 0) {
+            HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
+            ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
+            hougekiResult.getApi_at_list().add(shipsMap.inverse().get(ship).intValue());
+            shellingSystem.generateHougkeResult(ship, context);
+        }
     }
 
     @Override

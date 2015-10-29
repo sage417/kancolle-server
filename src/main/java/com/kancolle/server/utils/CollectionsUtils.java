@@ -29,4 +29,12 @@ public abstract class CollectionsUtils {
         }
         return list.get(RandomUtils.nextInt(0, size));
     }
+
+    public static <A extends T, B extends T, T> List<T> listAdd(List<A> list1, List<B> list2) {
+        int newSize = list1.size() + list2.size();
+        List<T> newList = Lists.newArrayListWithCapacity(newSize);
+        newList.addAll(list1);
+        newList.addAll(list2);
+        return newList;
+    }
 }
