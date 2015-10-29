@@ -169,6 +169,7 @@ public class BattleService implements IBattleService {
         context.setEnemySSShips(enemySSShips);
         context.setEnemyOtherShips(enemyOtherShips);
         context.setEnemyAttackShips(enemyAttackShips);
+        context.setShipsMap(shipsMap);
 
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
