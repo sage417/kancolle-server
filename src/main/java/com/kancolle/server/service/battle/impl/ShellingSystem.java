@@ -2,6 +2,7 @@ package com.kancolle.server.service.battle.impl;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -11,6 +12,7 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -35,7 +37,6 @@ public class ShellingSystem implements IShellingSystem {
 
     private static final int NIGHT_HOUG_THRESHOLD = 300;
 
-    @Override
     public void generateHougkeResult(BattleSimulationResult result, int aerialState, MemberShip attackShip, ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap) {
 
         HougekiResult hougekiResult = result.getApi_hougeki1();
@@ -93,6 +94,48 @@ public class ShellingSystem implements IShellingSystem {
         hougekiResult.getApi_si_list().add(new int[] { 1, 2 });
         hougekiResult.getApi_cl_list().add(new int[] { 1, 1 });
 
+    }
+
+    @Override
+    public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
+        generateAttackList(attackShip, context);
+        List<EnemyShip> enemySSShips = context.getEnemySSShips();
+        List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
+
+        if (testTaisen(attackShip, enemySSShips)) {
+            generateDefendList(enemySSShips, context);
+            generateAttackTypeList(1, context);
+        } else {
+            generateDefendList(enemyOtherShips, context);
+        }
+    }
+
+    @Override
+    public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
+        generateAttackList(attackShip, context);
+        List<MemberShip> enemySSShips = context.getMemberSSShips();
+    }
+
+    private boolean testTaisen(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {
+        return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
+    }
+
+    private void generateAttackList(AbstractShip attackShip, BattleContext context) {
+        HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
+        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
+        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip).intValue());
+    }
+
+    private void generateDefendList(List<? extends AbstractShip> enemySSShips, BattleContext context) {
+        AbstractShip defendShip = CollectionsUtils.randomGet(enemySSShips);
+        HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
+        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
+        hougekiResult.getApi_df_list().add(shipsMap.inverse().get(defendShip).intValue());
+    }
+
+    private void generateAttackTypeList(int type, BattleContext context) {
+        HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
+        hougekiResult.getApi_at_type().add(type);
     }
 
     /**
@@ -225,4 +268,5 @@ public class ShellingSystem implements IShellingSystem {
     private int getHougThreshold(int houg, int threshold) {
         return houg > threshold ? threshold + IntMath.sqrt(houg - threshold, RoundingMode.DOWN) : houg;
     }
+
 }

@@ -6,12 +6,9 @@ package com.kancolle.server.service.battle.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.BBShipFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.getTargetShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,9 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
@@ -174,9 +169,13 @@ public class BattleService implements IBattleService {
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
             MemberShip attackShip = memberAttackShips.poll();
-            generateHougkeResult(attackShip, context);
             EnemyShip enemyAttackShip = enemyAttackShips.poll();
-            generateHougkeResult(enemyAttackShip, context);
+            if (attackShip.getNowHp() > 0) {
+                shellingSystem.generateHougkeResult(attackShip, context);
+            }
+            if (enemyAttackShip.getNowHp() > 0) {
+                shellingSystem.generateHougkeResult(enemyAttackShip, context);
+            }
         }
 
         /*--------------------------炮击战---------------------------*/
@@ -186,15 +185,6 @@ public class BattleService implements IBattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
         return result;
 
-    }
-
-    private void generateHougkeResult(AbstractShip ship, BattleContext context) {
-        if (ship.getNowHp() > 0) {
-            HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
-            ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
-            hougekiResult.getApi_at_list().add(shipsMap.inverse().get(ship).intValue());
-            shellingSystem.generateHougkeResult(ship, context);
-        }
     }
 
     @Override
