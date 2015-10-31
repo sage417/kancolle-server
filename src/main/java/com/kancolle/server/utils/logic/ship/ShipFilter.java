@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 /**
  * @author J.K.SAGE
@@ -40,7 +41,7 @@ public abstract class ShipFilter {
     };
 
     public static Predicate<? super AbstractShip> attackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
-        int planeType = plane.getType()[2];
+        int planeType = SlotItemUtils.getType(plane);
         return planeType == 7 || planeType == 8;
     });
 
@@ -53,7 +54,7 @@ public abstract class ShipFilter {
             return true;
 
         if (shipType == 7 || shipType == 10)
-            return hasTargetPlaneFilter.apply(plane -> plane.getType()[2] == 8 || plane.getType()[2] == 11).test(ship);
+            return hasTargetPlaneFilter.apply(plane -> SlotItemUtils.getType(plane) == 8 || SlotItemUtils.getType(plane) == 11).test(ship);
 
         return false;
     };

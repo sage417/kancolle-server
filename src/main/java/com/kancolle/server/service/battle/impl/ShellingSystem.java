@@ -24,12 +24,19 @@ import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
 public class ShellingSystem implements IShellingSystem {
+
     public static final int ATTACK_TYPE_NORMAL = 0;
+
     public static final int ATTACK_TYPE_ANTISUBMARINE = 1;
+
     public static final int ATTACK_TYPE_DOUBLE = 2;
+
     public static final int ATTACK_TYPE_SECONDARY = 3;
+
     public static final int ATTACK_TYPE_RADAR = 4;
+
     public static final int ATTACK_TYPE_EXPOSEARMOR = 5;
+
     public static final int ATTACK_TYPE_MAIN = 6;
 
     /* 昼战火力阈值 */
@@ -104,16 +111,15 @@ public class ShellingSystem implements IShellingSystem {
 
         if (testTaisen(attackShip, enemySSShips)) {
             generateDefendList(enemySSShips, context);
-            generateAttackTypeList(1, context);
+            generateAttackTypeList(ATTACK_TYPE_ANTISUBMARINE, context);
         } else {
             generateDefendList(enemyOtherShips, context);
+            generateAttackTypeList(ATTACK_TYPE_NORMAL, context);
         }
     }
 
     @Override
     public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
-        generateAttackList(attackShip, context);
-        List<MemberShip> enemySSShips = context.getMemberSSShips();
     }
 
     private boolean testTaisen(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {

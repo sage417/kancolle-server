@@ -9,6 +9,7 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.AerialBattleSystem;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 @Service
 public class AerialBattleSystemImpl implements AerialBattleSystem {
@@ -32,7 +33,7 @@ public class AerialBattleSystemImpl implements AerialBattleSystem {
                 AbstractSlotItem slot = ship.getSlotItems().get(i);
 
                 int currentEQ = ship.getCurrentEQ()[i];
-                int slotType = slot.getType()[2];
+                int slotType = SlotItemUtils.getType(slot);
 
                 if (currentEQ > 0 && (slotType == 6 || slotType == 7 || slotType == 8 || slotType == 11))
                     airPow += slot.getTaik() * IntMath.sqrt(currentEQ, RoundingMode.DOWN);

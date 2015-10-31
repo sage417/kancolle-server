@@ -23,6 +23,7 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 /**
  * @author J.K.SAGE
@@ -111,7 +112,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
             int ex_sakuteki = 0;
             for (EnemySlotItem slotItem : ship.getSlot()) {
                 int slotItem_saku = slotItem.getSaku();
-                if (isSearchPlane(slotItem.getType()[2])) {
+                if (isSearchPlane(SlotItemUtils.getType(slotItem))) {
                     ex_sakuteki += 2 * slotItem_saku;
                     planeSearch = true;
                 } else {
