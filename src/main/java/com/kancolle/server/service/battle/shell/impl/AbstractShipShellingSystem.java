@@ -40,6 +40,19 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
 
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
 
+    protected static final int[] CL_SINGLE_MISS = new int[] { 0 };
+    protected static final int[] CL_SINGLE_HIT = new int[] { 1 };
+    protected static final int[] CL_SINGLE_CRTICAL = new int[] { 2 };
+    protected static final int[] CL_DOUBLE_MISS_MISS = new int[] { 0, 0 };
+    protected static final int[] CL_DOUBLE_MISS_HIT = new int[] { 0, 1 };
+    protected static final int[] CL_DOUBLE_MISS_CRTICAL = new int[] { 0, 2 };
+    protected static final int[] CL_DOUBLE_HIT_MISS = new int[] { 1, 0 };
+    protected static final int[] CL_DOUBLE_HIT_HIT = new int[] { 1, 1 };
+    protected static final int[] CL_DOUBLE_HIT_CRTICAL = new int[] { 1, 2 };
+    protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[] { 2, 0 };
+    protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[] { 2, 1 };
+    protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[] { 2, 2 };
+
     protected abstract int hitRatios(T ship);
 
     protected final int daylightHougThreshold(int houg) {

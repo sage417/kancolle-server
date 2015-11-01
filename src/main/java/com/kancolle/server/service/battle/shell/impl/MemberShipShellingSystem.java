@@ -95,9 +95,8 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         } else {
             generateAttackTypeList(ATTACK_TYPE_NORMAL, context);
             generateDefendList(enemyOtherShips, context);
-            //TODO
-            context.getNowHougekiResult().getApi_si_list().add(new int[] { 1, 2 });
-            context.getNowHougekiResult().getApi_cl_list().add(new int[] { 1, 1 });
+            generateSlotItemList(attackShip, context);
+            generateCrticalList(attackShip, context);
             generateDamageList(attackShip, context);
         }
     }
@@ -155,14 +154,27 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
     @Override
     public void generateSlotItemList(MemberShip ship, BattleContext context) {
-        // TODO Auto-generated method stub
-
+        context.getNowHougekiResult().getApi_si_list().add(new int[] { 1, 2 });
     }
 
     @Override
-    public void generateCrticalList(MemberShip ship, BattleContext context) {
-        // TODO Auto-generated method stub
+    public void generateCrticalList(MemberShip attackShip, BattleContext context) {
+        Integer defShipKey = context.getNowHougekiResult().getApi_at_list().getLast();
+        AbstractShip defShip = context.getShipMap().get(defShipKey);
 
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        int attackType = hougekiResult.getApi_at_type().getLast().intValue();
+
+        int[] clArray;
+        if (attackType == ATTACK_TYPE_DOUBLE) {
+            clArray = CL_DOUBLE_MISS_MISS;
+        } else {
+            if (!isHit(hitRatios(attackShip), defShip.getShipKaihi())) {
+                clArray = RandomUtils.nextInt(0, 10) > 0 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+            }
+            clArray = CL_SINGLE_MISS;
+        }
+        hougekiResult.getApi_cl_list().add(clArray);
     }
 
     @Override
