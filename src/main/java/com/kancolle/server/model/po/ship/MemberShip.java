@@ -224,6 +224,7 @@ public class MemberShip extends AbstractShip implements Serializable {
         this.exp = exp;
     }
 
+    @Override
     public int getNowHp() {
         return nowHp;
     }
@@ -232,6 +233,7 @@ public class MemberShip extends AbstractShip implements Serializable {
         this.nowHp = nowHp;
     }
 
+    @Override
     public int getMaxHp() {
         return maxHp;
     }
@@ -240,6 +242,7 @@ public class MemberShip extends AbstractShip implements Serializable {
         this.maxHp = maxHp;
     }
 
+    @Override
     public int getLeng() {
         return leng;
     }
@@ -436,7 +439,7 @@ public class MemberShip extends AbstractShip implements Serializable {
     }
 
     //------抽象方法------//
-    
+
     @Override
     public List<? extends AbstractSlotItem> getSlotItems() {
         return getSlot();
@@ -460,5 +463,22 @@ public class MemberShip extends AbstractShip implements Serializable {
     @Override
     public int getShipTaiSen() {
         return getTaisen().getMinValue();
+    }
+
+    @Override
+    public int getShipKaihi() {
+        int houkValue = houkThreshold(getShip().getKaihi().getMinValue());
+        if (cond < 30)
+            return houkValue / 2;
+        else if (cond < 40)
+            return houkValue * 3 / 4;
+        else if (cond < 50)
+            return houkValue;
+        return houkValue * 9 / 5;
+    }
+
+    @Override
+    public int getShipKaryoku() {
+        return getKaryoku().getMinValue();
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -25,6 +26,8 @@ public class BattleContext {
     private List<EnemyShip> enemyAttackShips;
 
     private ImmutableBiMap<Integer, AbstractShip> shipsMap;
+
+    private HougekiResult nowHougekiResult;
 
     public BattleSimulationResult getBattleResult() {
         return battleResult;
@@ -88,5 +91,13 @@ public class BattleContext {
 
     public void setShipsMap(ImmutableBiMap<Integer, AbstractShip> shipsMap) {
         this.shipsMap = shipsMap;
+    }
+
+    public HougekiResult getNowHougekiResult() {
+        return nowHougekiResult;
+    }
+
+    public void setNowHougekiResult(HougekiResult nowHougekiResult) {
+        this.nowHougekiResult = nowHougekiResult;
     }
 }

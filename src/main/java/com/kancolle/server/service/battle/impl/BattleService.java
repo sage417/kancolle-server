@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
@@ -59,17 +58,19 @@ public class BattleService implements IBattleService {
     @Autowired
     private AerialBattleSystem aerialBattleSystem;
 
-    @Qualifier("memberShipShellingSystem")
-    private IShellingSystem memberShipShellingSystem;
+    @Autowired
+    private IShellingSystem<MemberShip> memberShipShellingSystem;
 
-    @Qualifier("enemyShipShellingSystem")
-    private IShellingSystem enemyShipShellingSystem;
+    @Autowired
+    private IShellingSystem<EnemyShip> enemyShipShellingSystem;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         int formation = form.getApi_formation();
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
         int recovery_type = form.getApi_formation();
+
+        BattleContext context = new BattleContext();
 
         MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
@@ -141,6 +142,8 @@ public class BattleService implements IBattleService {
         // 第一轮炮击结果
         HougekiResult hougekiResult1 = new HougekiResult();
         result.setApi_hougeki1(hougekiResult1);
+        // 把当前炮击战数据绑定到context中
+        context.setNowHougekiResult(hougekiResult1);
 
         // 玩家潜艇队列，无法被攻击的潜艇将被移除
         List<MemberShip> memberSSShips = getTargetShips(memberShips, ssFilter);
@@ -160,7 +163,6 @@ public class BattleService implements IBattleService {
         // 敌人攻击队列
         LinkedList<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
-        BattleContext context = new BattleContext();
         context.setBattleResult(result);
         context.setMemberSSShips(memberSSShips);
         context.setMemberOtherShips(memberOtherShips);

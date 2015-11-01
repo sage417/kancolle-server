@@ -27,6 +27,7 @@ public class EnemyShip extends AbstractShip implements Serializable {
 
     private List<EnemySlotItem> slot;
 
+    @Override
     public int getNowHp() {
         return nowHp;
     }
@@ -78,5 +79,15 @@ public class EnemyShip extends AbstractShip implements Serializable {
     @Override
     public int getShipTaiSen() {
         return getShip().getTaisen().getMinValue();
+    }
+
+    @Override
+    public int getShipKaihi() {
+        return houkThreshold(getShip().getKaihi().getMinValue());
+    }
+
+    @Override
+    public int getShipKaryoku() {
+        return getShip().getHoug().getMinValue();
     }
 }
