@@ -19,12 +19,11 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.impl.AerialBattleSystemImpl;
-import com.kancolle.server.service.battle.shell.IShellingSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
-public class MemberShipShellingSystem implements IShellingSystem<MemberShip> {
+public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip> {
 
     public static final int ATTACK_TYPE_NORMAL = 0;
 
