@@ -19,7 +19,7 @@ import com.kancolle.server.utils.logic.ship.ShipFilter;
  * @Date 2015年11月1日
  *
  */
-public abstract class AbstractShipShellingSystem<T extends AbstractShip> implements IShellingSystem<T> {
+public abstract class AbstractShipShellingSystem<T extends AbstractShip, E extends AbstractShip> implements IShellingSystem<T, E> {
 
     protected static final int ATTACK_TYPE_NORMAL = 0;
 
@@ -60,14 +60,31 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip> impleme
     }
 
     /** 擦弹和未破防强制扣除当前血量5%~10% */
-    protected final int damageAugmenting(int nowHp) {
+    private final int damageAugmenting(int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
     /** 击沉保护 */
-    protected final int destoryAugmenting(int nowHp) {
+    private final int destoryAugmenting(int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
+    }
+
+    /* 破甲机制+保护机制*/
+    protected final int damageValue(int attackValue, AbstractShip defShip, boolean destoryProtect) {
+        int nowHp = defShip.getNowHp();
+
+        int damage = attackValue - defShip.getShipDefendValue();
+        if (damage < 1) {
+            damage = damageAugmenting(nowHp);
+        }
+        if (!destoryProtect) {
+            return damage;
+        }
+        if (damage >= nowHp) {
+            return destoryAugmenting(nowHp);
+        }
+        return damage;
     }
 
     /**

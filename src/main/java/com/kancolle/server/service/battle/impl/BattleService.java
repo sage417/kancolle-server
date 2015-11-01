@@ -11,13 +11,14 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Maps;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
@@ -59,10 +60,10 @@ public class BattleService implements IBattleService {
     private AerialBattleSystem aerialBattleSystem;
 
     @Autowired
-    private IShellingSystem<MemberShip> memberShipShellingSystem;
+    private IShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
 
     @Autowired
-    private IShellingSystem<EnemyShip> enemyShipShellingSystem;
+    private IShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -155,8 +156,9 @@ public class BattleService implements IBattleService {
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
-        List<AbstractShip> ships = CollectionsUtils.listAdd(memberShips, enemyShips);
-        ImmutableBiMap<Integer, AbstractShip> shipsMap = ImmutableBiMap.copyOf(Maps.uniqueIndex(ships, ship -> 1 + ships.indexOf(ship)));
+        Map<Integer, AbstractShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
+        Map<Integer, AbstractShip> enmeyShipMap = enemyShips.stream().collect(Collectors.toMap(s -> 7 + enemyShips.indexOf(s), s -> s));
+        ImmutableBiMap<Integer, AbstractShip> shipMap = ImmutableBiMap.copyOf(CollectionsUtils.putAll(memberShipMap, enmeyShipMap));
 
         // 玩家攻击队列
         LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
@@ -170,7 +172,7 @@ public class BattleService implements IBattleService {
         context.setEnemySSShips(enemySSShips);
         context.setEnemyOtherShips(enemyOtherShips);
         context.setEnemyAttackShips(enemyAttackShips);
-        context.setShipsMap(shipsMap);
+        context.setShipMap(shipMap);
 
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {

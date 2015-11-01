@@ -3,11 +3,13 @@ package com.kancolle.server.utils;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomUtils;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 public abstract class CollectionsUtils {
 
@@ -30,11 +32,11 @@ public abstract class CollectionsUtils {
         return list.get(RandomUtils.nextInt(0, size));
     }
 
-    public static <A extends T, B extends T, T> List<T> listAdd(List<A> list1, List<B> list2) {
-        int newSize = list1.size() + list2.size();
-        List<T> newList = Lists.newArrayListWithCapacity(newSize);
-        newList.addAll(list1);
-        newList.addAll(list2);
-        return newList;
+    public static <K, V> Map<K, V> putAll(Map<K, V> map1, Map<K, V> map2) {
+        int expectedSize = map1.size() + map2.size();
+        Map<K, V> map = Maps.newHashMapWithExpectedSize(expectedSize);
+        map.putAll(map1);
+        map.putAll(map2);
+        return map;
     }
 }

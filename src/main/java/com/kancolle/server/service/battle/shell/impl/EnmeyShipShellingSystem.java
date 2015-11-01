@@ -20,7 +20,7 @@ import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
-public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShip> {
+public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShip, MemberShip> {
 
     public void generateHougkeResult(BattleSimulationResult result, int aerialState, MemberShip attackShip, ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap) {
 
@@ -84,8 +84,8 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     @Override
     public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
         generateAttackList(attackShip, context);
-        List<EnemyShip> enemySSShips = context.getEnemySSShips();
-        List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
+        List<MemberShip> enemySSShips = context.getMemberSSShips();
+        List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
 
         if (testTaisen(attackShip, enemySSShips)) {
             generateDefendList(enemySSShips, context);
@@ -104,20 +104,16 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     @Override
     public void generateAttackList(EnemyShip attackShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
+        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip).intValue());
     }
 
-    private void generateDefendList(List<? extends AbstractShip> enemySSShips, BattleContext context) {
+    @Override
+    public void generateDefendList(List<MemberShip> enemySSShips, BattleContext context) {
         AbstractShip defendShip = CollectionsUtils.randomGet(enemySSShips);
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
+        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_df_list().add(shipsMap.inverse().get(defendShip).intValue());
-    }
-
-    private void generateAttackTypeList(int type, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_at_type().add(type);
     }
 
     @Override
@@ -127,77 +123,33 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
         return 95 + slotHoum + 3 / 20 * lucky;
     }
 
-    /**
-     * 防御力公式，只和护甲有关
-     * 
-     * @param ship
-     * @return
-     */
-    private int defValue(int soukou) {
-        int rdmValue = RandomUtils.nextInt(2, 5);
-        return rdmValue * soukou / 3;
-    }
 
-    private int damageValue(int attackValue, AbstractShip defShip, boolean destoryProtect) {
-        int nowHp = defShip.getNowHp();
-        int soukou = defShip.getNowSoukou();
-
-        int damage = attackValue - defValue(soukou);
-        if (damage < 1) {
-            damage = damageAugmenting(nowHp);
-        }
-        if (!destoryProtect) {
-            return damage;
-        }
-        if (damage >= nowHp) {
-            return destoryAugmenting(nowHp);
-        }
-        return damage;
-    }
-
-    /* (non-Javadoc)
-     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateDefendList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
-     */
-    @Override
-    public void generateDefendList(EnemyShip ship, BattleContext context) {
-        // TODO Auto-generated method stub
-
-    }
-
-    /* (non-Javadoc)
-     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateAttackTypeList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
-     */
     @Override
     public void generateAttackTypeList(EnemyShip ship, BattleContext context) {
         // TODO Auto-generated method stub
 
     }
 
-    /* (non-Javadoc)
-     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateSlotItemList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
-     */
+    private void generateAttackTypeList(int type, BattleContext context) {
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        hougekiResult.getApi_at_type().add(type);
+    }
+
     @Override
     public void generateSlotItemList(EnemyShip ship, BattleContext context) {
         // TODO Auto-generated method stub
 
     }
 
-    /* (non-Javadoc)
-     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateCrticalList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
-     */
     @Override
     public void generateCrticalList(EnemyShip ship, BattleContext context) {
         // TODO Auto-generated method stub
 
     }
 
-    /* (non-Javadoc)
-     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateDamageList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
-     */
     @Override
     public void generateDamageList(EnemyShip ship, BattleContext context) {
         // TODO Auto-generated method stub
 
     }
-
 }

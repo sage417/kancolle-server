@@ -25,7 +25,7 @@ public class BattleContext {
 
     private List<EnemyShip> enemyAttackShips;
 
-    private ImmutableBiMap<Integer, AbstractShip> shipsMap;
+    private ImmutableBiMap<Integer, AbstractShip> shipMap;
 
     private HougekiResult nowHougekiResult;
 
@@ -85,12 +85,12 @@ public class BattleContext {
         this.enemyAttackShips = enemyAttackShips;
     }
 
-    public ImmutableBiMap<Integer, AbstractShip> getShipsMap() {
-        return shipsMap;
+    public ImmutableBiMap<Integer, AbstractShip> getShipMap() {
+        return shipMap;
     }
 
-    public void setShipsMap(ImmutableBiMap<Integer, AbstractShip> shipsMap) {
-        this.shipsMap = shipsMap;
+    public void setShipMap(ImmutableBiMap<Integer, AbstractShip> shipMap) {
+        this.shipMap = shipMap;
     }
 
     public HougekiResult getNowHougekiResult() {
