@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 
@@ -34,7 +35,7 @@ import com.kancolle.server.service.battle.AerialBattleSystem;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.IBattleService;
 import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
-import com.kancolle.server.service.battle.IShellingSystem;
+import com.kancolle.server.service.battle.shell.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
 
@@ -58,8 +59,11 @@ public class BattleService implements IBattleService {
     @Autowired
     private AerialBattleSystem aerialBattleSystem;
 
-    @Autowired
-    private IShellingSystem shellingSystem;
+    @Qualifier("memberShipShellingSystem")
+    private IShellingSystem memberShipShellingSystem;
+
+    @Qualifier("enemyShipShellingSystem")
+    private IShellingSystem enemyShipShellingSystem;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -171,10 +175,10 @@ public class BattleService implements IBattleService {
             MemberShip attackShip = memberAttackShips.poll();
             EnemyShip enemyAttackShip = enemyAttackShips.poll();
             if (attackShip.getNowHp() > 0) {
-                shellingSystem.generateHougkeResult(attackShip, context);
+                memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
             if (enemyAttackShip.getNowHp() > 0) {
-                shellingSystem.generateHougkeResult(enemyAttackShip, context);
+                enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
         }
 

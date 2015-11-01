@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle.shell.impl;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -18,12 +18,13 @@ import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.service.battle.IShellingSystem;
+import com.kancolle.server.service.battle.impl.AerialBattleSystemImpl;
+import com.kancolle.server.service.battle.shell.IShellingSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
 @Service
-public class ShellingSystem implements IShellingSystem {
+public class MemberShipShellingSystem implements IShellingSystem<MemberShip> {
 
     public static final int ATTACK_TYPE_NORMAL = 0;
 
@@ -118,15 +119,12 @@ public class ShellingSystem implements IShellingSystem {
         }
     }
 
-    @Override
-    public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
-    }
-
     private boolean testTaisen(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
-    private void generateAttackList(AbstractShip attackShip, BattleContext context) {
+    @Override
+    public void generateAttackList(MemberShip attackShip, BattleContext context) {
         HougekiResult hougekiResult = context.getBattleResult().getApi_hougeki1();
         ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipsMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip).intValue());
@@ -273,6 +271,51 @@ public class ShellingSystem implements IShellingSystem {
 
     private int getHougThreshold(int houg, int threshold) {
         return houg > threshold ? threshold + IntMath.sqrt(houg - threshold, RoundingMode.DOWN) : houg;
+    }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateDefendList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
+     */
+    @Override
+    public void generateDefendList(MemberShip ship, BattleContext context) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateAttackTypeList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
+     */
+    @Override
+    public void generateAttackTypeList(MemberShip ship, BattleContext context) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateSlotItemList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
+     */
+    @Override
+    public void generateSlotItemList(MemberShip ship, BattleContext context) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateCrticalList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
+     */
+    @Override
+    public void generateCrticalList(MemberShip ship, BattleContext context) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /* (non-Javadoc)
+     * @see com.kancolle.server.service.battle.shell.IShellingSystem#generateDamageList(com.kancolle.server.model.po.ship.AbstractShip, com.kancolle.server.model.po.battle.BattleContext)
+     */
+    @Override
+    public void generateDamageList(MemberShip ship, BattleContext context) {
+        // TODO Auto-generated method stub
+
     }
 
 }
