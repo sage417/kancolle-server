@@ -2,6 +2,7 @@ package com.kancolle.server.service.battle.shell.impl;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -11,15 +12,19 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.service.battle.impl.AerialBattleSystemImpl;
+import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
+import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
+import com.kancolle.server.utils.logic.ship.ShipUtils;
 
 @Service
 public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip, EnemyShip> {
@@ -32,9 +37,9 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         int defShipIdx = enemyOtherShipsMap.inverse().get(defEnemyShip);
 
         // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击
-        if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_GUARANTEE) {
+        if (aerialState == AerialBattleSystem.AIR_BATTLE_GUARANTEE) {
 
-        } else if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_ADVANTAGE) {
+        } else if (aerialState == AerialBattleSystem.AIR_BATTLE_ADVANTAGE) {
 
         }
         int attackType = 0;
@@ -89,11 +94,11 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         List<EnemyShip> enemySSShips = context.getEnemySSShips();
         List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
 
-        if (testTaisen(attackShip, enemySSShips)) {
-            generateAttackTypeList(ATTACK_TYPE_ANTISUBMARINE, context);
+        if (isTaisenAttack(attackShip, enemySSShips)) {
+            generateShellingAttackTypeList(attackShip, context);
             generateDefendList(enemySSShips, context);
         } else {
-            generateAttackTypeList(ATTACK_TYPE_NORMAL, context);
+            generateShellingAttackTypeList(attackShip, context);
             generateDefendList(enemyOtherShips, context);
             generateSlotItemList(attackShip, context);
             generateCrticalList(attackShip, context);
@@ -101,7 +106,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         }
     }
 
-    private boolean testTaisen(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {
+    private boolean isTaisenAttack(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
@@ -142,14 +147,74 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     }
 
     @Override
-    public void generateAttackTypeList(MemberShip ship, BattleContext context) {
-        // TODO Auto-generated method stub
-
+    public void generateAttackTypeList(MemberShip attackShip, BattleContext context) {
+        List<EnemyShip> enemySSShips = context.getEnemySSShips();
+        if (isTaisenAttack(attackShip, enemySSShips))
+            generateTaiSenAttackList(context);
+        else
+            generateShellingAttackTypeList(attackShip, context);
     }
 
-    private void generateAttackTypeList(int type, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_at_type().add(type);
+    /*
+     * 彈著觀測射擊：
+     * 
+     * 發動條件：
+     * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
+     * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
+     * 3.大破艦娘不能發動彈著觀測射擊
+     * 
+     */
+    private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
+        LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
+
+        KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
+
+        if (!AerialUtils.testAerialAdvence(kouKuResult) && ShipUtils.isBadlyDmg.test(attackShip)) {
+            at_type_list.add(ATTACK_TYPE_NORMAL);
+            return;
+        }
+
+        SlotItemInfo info = SlotItemInfo.of(attackShip);
+
+        if (info.getSearchPlaneCount() == 0) {
+            at_type_list.add(ATTACK_TYPE_NORMAL);
+            return;
+        }
+
+        int mainGunCount = info.getMainGunCount();
+        int secondaryGunCount = info.getSecondaryGunCount();
+
+        // 连击
+        if (mainGunCount > 1) {
+            at_type_list.add(ATTACK_TYPE_DOUBLE);
+            return;
+        }
+
+        // 主炮CI
+        if (mainGunCount == 2 && info.getAPAmmoCount() == 1) {
+            at_type_list.add(ATTACK_TYPE_MAIN);
+            return;
+        }
+
+        // 撤甲弹CI
+        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getAPAmmoCount() == 1) {
+            at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
+            return;
+        }
+
+        // 电探CI
+        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getRadarCount() == 1) {
+            at_type_list.add(ATTACK_TYPE_RADAR);
+            return;
+        }
+
+        // 主副CI
+        if (mainGunCount > 0 && secondaryGunCount > 0) {
+            at_type_list.add(ATTACK_TYPE_SECONDARY);
+            return;
+        }
+
+        at_type_list.add(ATTACK_TYPE_NORMAL);
     }
 
     @Override

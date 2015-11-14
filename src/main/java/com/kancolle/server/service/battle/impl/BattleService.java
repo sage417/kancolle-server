@@ -31,10 +31,10 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.battle.AerialBattleSystem;
 import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.service.battle.IBattleService;
 import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.shell.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
@@ -57,7 +57,7 @@ public class BattleService implements IBattleService {
     private CourseSystem courseSystem;
 
     @Autowired
-    private AerialBattleSystem aerialBattleSystem;
+    private IAerialBattleSystem aerialBattleSystem;
 
     @Autowired
     private IShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
@@ -71,6 +71,7 @@ public class BattleService implements IBattleService {
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
         int recovery_type = form.getApi_formation();
 
+        // create battle context
         BattleContext context = new BattleContext();
 
         MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);

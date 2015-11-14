@@ -15,7 +15,7 @@ import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
-import com.kancolle.server.service.battle.impl.AerialBattleSystemImpl;
+import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
@@ -30,9 +30,9 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
         int defShipIdx = enemyOtherShipsMap.inverse().get(defEnemyShip);
 
         // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击
-        if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_GUARANTEE) {
+        if (aerialState == AerialBattleSystem.AIR_BATTLE_GUARANTEE) {
 
-        } else if (aerialState == AerialBattleSystemImpl.AIR_BATTLE_ADVANTAGE) {
+        } else if (aerialState == AerialBattleSystem.AIR_BATTLE_ADVANTAGE) {
 
         }
         int attackType = 0;

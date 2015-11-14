@@ -14,6 +14,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.primitives.Ints;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -79,7 +80,7 @@ public class BattleSimulationResult {
 
     /** 航空戦情報 */
     @JSONField(ordinal = 14)
-    private Object api_kouku;
+    private KouKuResult api_kouku;
 
     @JSONField(ordinal = 15)
     private int api_support_flag;
@@ -98,16 +99,16 @@ public class BattleSimulationResult {
     private int[] api_hourai_flag;
 
     /** 炮击第一轮 */
-    @JSONField(ordinal = 20)
+    @JSONField(ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     private HougekiResult api_hougeki1;
 
     /** 炮击第二轮 */
     @JSONField(ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    private Object api_hougeki2;
+    private HougekiResult api_hougeki2;
 
     /** 炮击第三轮 */
     @JSONField(ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    private Object api_hougeki3 = null;
+    private HougekiResult api_hougeki3;
 
     /** 闭幕雷击 */
     @JSONField(ordinal = 23, serialzeFeatures = SerializerFeature.WriteMapNullValue)
@@ -267,11 +268,11 @@ public class BattleSimulationResult {
         this.api_stage_flag = api_stage_flag;
     }
 
-    public Object getApi_kouku() {
+    public KouKuResult getApi_kouku() {
         return api_kouku;
     }
 
-    public void setApi_kouku(Object api_kouku) {
+    public void setApi_kouku(KouKuResult api_kouku) {
         this.api_kouku = api_kouku;
     }
 
@@ -327,7 +328,7 @@ public class BattleSimulationResult {
         return api_hougeki2;
     }
 
-    public void setApi_hougeki2(Object api_hougeki2) {
+    public void setApi_hougeki2(HougekiResult api_hougeki2) {
         this.api_hougeki2 = api_hougeki2;
     }
 
@@ -335,7 +336,7 @@ public class BattleSimulationResult {
         return api_hougeki3;
     }
 
-    public void setApi_hougeki3(Object api_hougeki3) {
+    public void setApi_hougeki3(HougekiResult api_hougeki3) {
         this.api_hougeki3 = api_hougeki3;
     }
 

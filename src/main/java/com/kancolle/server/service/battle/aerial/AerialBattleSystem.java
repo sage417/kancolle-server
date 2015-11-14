@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle.aerial;
 
 import java.math.RoundingMode;
 import java.util.List;
@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.AerialBattleSystem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 @Service
-public class AerialBattleSystemImpl implements AerialBattleSystem {
+public class AerialBattleSystem implements IAerialBattleSystem {
 
     public static final int AIR_BATTLE_BALANCE = 0;
     public static final int AIR_BATTLE_GUARANTEE = 1;

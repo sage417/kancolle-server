@@ -8,6 +8,8 @@ import java.math.RoundingMode;
 import org.apache.commons.lang3.RandomUtils;
 
 import com.google.common.math.IntMath;
+import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.shell.IShellingSystem;
@@ -98,6 +100,11 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
             return destoryAugmenting(nowHp);
         }
         return damage;
+    }
+
+    protected final void generateTaiSenAttackList(BattleContext context) {
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
     }
 
     /**

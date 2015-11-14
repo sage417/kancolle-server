@@ -4,8 +4,8 @@
 package com.kancolle.server.utils.logic;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_DISADVANTAGE;
-import static com.kancolle.server.service.battle.impl.AerialBattleSystemImpl.AIR_BATTLE_LOST;
+import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_DISADVANTAGE;
+import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_LOST;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.attackableCarrierFilter;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.carrierFilter;

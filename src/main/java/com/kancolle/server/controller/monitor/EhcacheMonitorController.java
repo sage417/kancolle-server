@@ -24,6 +24,7 @@ import com.kancolle.server.utils.PrettyMemoryUtils;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 
 /**
@@ -50,7 +51,6 @@ public class EhcacheMonitorController {
     public List<Object> details(@PathVariable("cacheName") String cacheName, @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText) {
         List<?> allKeys = cacheManager.getCache(cacheName).getKeys();
         List<Object> showKeys = allKeys.stream().filter(key -> key.toString().contains(searchText)).collect(Collectors.toList());
-
         return showKeys;
     }
 
@@ -84,17 +84,22 @@ public class EhcacheMonitorController {
     }
 
     @RequestMapping("{cacheName}/{key}/delete")
-    public Object delete(@PathVariable("cacheName") String cacheName, @PathVariable("key") String key) {
+    public String delete(@PathVariable("cacheName") String cacheName, @PathVariable("key") String key) {
         Cache cache = cacheManager.getCache(cacheName);
-        cache.remove(key);
-        return "操作成功！";
+        if (cache != null) {
+            cache.remove(key);
+            return "操作成功！";
+        }
+        return "cacheName不存在！";
     }
 
     @RequestMapping("{cacheName}/clear")
-    public Object clear(@PathVariable("cacheName") String cacheName) {
-        Cache cache = cacheManager.getCache(cacheName);
-        cache.clearStatistics();
-        cache.removeAll();
-        return "操作成功！";
+    public String clear(@PathVariable("cacheName") String cacheName) {
+        Ehcache cache = cacheManager.getEhcache(cacheName);
+        if (cache != null) {
+            cache.removeAll();
+            return "操作成功！";
+        }
+        return "cacheName不存在！";
     }
 }
