@@ -51,7 +51,7 @@ public class MemberShipUtils {
             // 回避
             shipKaihi += slotitem.getHouk();
             // 索敌
-            shipSakuteki += slotitem.getSaku();
+            shipSakuteki += memberSlotItem.getSaku();
         }
         memberShip.getSoukou().setMinValue(shipSouk);
         memberShip.getKaryoku().setMinValue(shipHoug);

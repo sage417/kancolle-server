@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
@@ -31,11 +31,10 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.battle.CourseSystem;
-import com.kancolle.server.service.battle.IBattleService;
-import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
-import com.kancolle.server.service.battle.shell.IShellingSystem;
+import com.kancolle.server.service.battle.course.CourseSystem;
+import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
 
@@ -85,7 +84,7 @@ public class BattleService implements IBattleService {
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
 
         // 判断航向
-        int course = courseSystem.calCourse();
+        int course = courseSystem.generateCourse();
         result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), course });
 
         // 制空权

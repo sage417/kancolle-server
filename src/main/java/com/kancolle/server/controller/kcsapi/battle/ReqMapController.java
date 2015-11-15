@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.MapBattleService;
+import com.kancolle.server.service.battle.map.IMapBattleService;
 
 /**
  * @author J.K.SAGE
@@ -29,7 +29,7 @@ import com.kancolle.server.service.battle.MapBattleService;
 @RequestMapping(value = "/kcsapi/api_req_map", method = RequestMethod.POST)
 public class ReqMapController {
     @Autowired
-    private MapBattleService mapBattleService;
+    private IMapBattleService mapBattleService;
 
     @RequestMapping("/start")
     public APIResponse<MapStartResult> start(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapStartForm form, BindingResult result) {

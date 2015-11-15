@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.shell;
+package com.kancolle.server.service.battle.shelling;
 
 import java.util.List;
 

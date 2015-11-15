@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle.reconnaissance;
 
 import java.math.RoundingMode;
 import java.util.List;
@@ -16,11 +16,12 @@ import com.google.common.collect.Multimap;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.service.battle.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
@@ -70,16 +71,18 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
             int ex_sakuteki = 0;
             for (int i = 0; i < ship.getSlot().size(); i++) {
                 MemberSlotItem slotItem = ship.getSlot().get(i);
-                int slotItem_saku = slotItem.getSlotItem().getSaku();
-                if (isSearchPlane(slotItem.getSlotItem().getType()[2]) && ship.getOnslot()[i] > 0) {
-                    ship_has_plane.add(ship);
+                int slotItem_saku = slotItem.getSaku();
+                if (isSearchPlane(SlotItemUtils.getType(slotItem))) {
                     ex_sakuteki += 2 * slotItem_saku;
-                    planeSearch = true;
-                    shipMap.put(ship, slotItem);
+                    if (ship.getOnslot()[i] > 0) {
+                        ship_has_plane.add(ship);
+                        planeSearch = true;
+                        shipMap.put(ship, slotItem);
+                    }
                 } else
                     ex_sakuteki += slotItem_saku;
             }
-            searchValue += (IntMath.sqrt(ship.getSakuteki().getMinValue(), RoundingMode.DOWN) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
         }
         searchValue /= ships.size();
 
@@ -119,7 +122,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
                     ex_sakuteki += slotItem_saku;
                 }
             }
-            searchValue += (IntMath.sqrt(ship.getShip().getSakuteki().getMinValue(), RoundingMode.DOWN) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
         }
 
         boolean searchSuccess = searchValue > searchNeedValue;
@@ -128,11 +131,20 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
 
     @Override
     public boolean isSearchSuccess(int resultCode) {
-        return (resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS);
+        return resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS;
+    }
+
+    private boolean isSearchPlane(int slotItemType) {
+        return slotItemType == 6 || slotItemType == 7 || slotItemType == 8 || slotItemType == 9 || slotItemType == 25 || slotItemType == 26;
     }
 
     @Override
-    public boolean isSearchPlane(int slotItemType) {
-        return (slotItemType == 6 || slotItemType == 7 || slotItemType == 8 || slotItemType == 9 || slotItemType == 25 || slotItemType == 26);
+    public int getShipSearchValue(AbstractShip ship) {
+        int ex_sakuteki = 0;
+        for (AbstractSlotItem slotItem : ship.getSlotItems()) {
+            int slotItem_saku = slotItem.getSaku();
+            ex_sakuteki += isSearchPlane(SlotItemUtils.getType(slotItem)) ? 2 * slotItem_saku : slotItem_saku;
+        }
+        return (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
     }
 }

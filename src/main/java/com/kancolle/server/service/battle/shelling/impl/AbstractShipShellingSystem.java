@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle.shell.impl;
+package com.kancolle.server.service.battle.shelling.impl;
 
 import java.math.RoundingMode;
 
@@ -12,8 +12,7 @@ import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.battle.shell.IShellingSystem;
-import com.kancolle.server.utils.logic.ship.ShipFilter;
+import com.kancolle.server.service.battle.shelling.IShellingSystem;
 
 /**
  * @author J.K.SAGE
@@ -23,23 +22,30 @@ import com.kancolle.server.utils.logic.ship.ShipFilter;
  */
 public abstract class AbstractShipShellingSystem<T extends AbstractShip, E extends AbstractShip> implements IShellingSystem<T, E> {
 
+    /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
 
     protected static final int ATTACK_TYPE_ANTISUBMARINE = 1;
 
     protected static final int ATTACK_TYPE_DOUBLE = 2;
+    protected static final float ATTACK_TYPE_DOUBLE_FACTOR = 1.2f;
 
     protected static final int ATTACK_TYPE_SECONDARY = 3;
+    protected static final float ATTACK_TYPE_SECONDARY_FACTOR = 1.1f;
 
     protected static final int ATTACK_TYPE_RADAR = 4;
+    protected static final float ATTACK_TYPE_RADAR_FACTOR = 1.2f;
 
     protected static final int ATTACK_TYPE_EXPOSEARMOR = 5;
+    protected static final float ATTACK_TYPE_EXPOSEARMOR_FACTOR = 1.3f;
 
     protected static final int ATTACK_TYPE_MAIN = 6;
+    protected static final float ATTACK_TYPE_MAIN_FACTOR = 1.5f;
+    /* --------------------观测CI-------------------- */
 
     /* 昼战火力阈值 */
     protected static final int HOUG_THRESHOLD = 150;
-
+    /* 夜战火力阈值 */
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
 
     protected static final int[] CL_SINGLE_MISS = new int[] { 0 };
@@ -70,6 +76,7 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     }
 
     protected final boolean isHit(int hitValue, int houkValue) {
+        // TODO 彈著觀測射擊有命中加成
         int hitRate = 5 + hitValue - houkValue;
         return RandomUtils.nextInt(0, 99) <= hitRate;
     }
@@ -123,17 +130,10 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
      * 支援艦隊不受補正影響
      */
     protected final void CLGunSystem() {
-        if (true) {
-            return;
-        }
-
     }
 
     /**
      */
     protected final void BBGunSystem(MemberShip memberShip) {
-        if (ShipFilter.BBShipFilter.negate().test(memberShip)) {
-            return;
-        }
     }
 }

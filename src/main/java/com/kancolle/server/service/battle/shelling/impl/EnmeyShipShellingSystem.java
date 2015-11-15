@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.shell.impl;
+package com.kancolle.server.service.battle.shelling.impl;
 
 import java.util.Arrays;
 import java.util.List;

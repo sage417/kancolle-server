@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle.map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import org.springframework.web.context.ContextLoader;
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
-import com.kancolle.server.service.battle.MapBattleService;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MapTraveller;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -23,7 +22,7 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
  *
  */
 @Service
-public class MapBattleServiceImpl implements MapBattleService {
+public class MapBattleService implements IMapBattleService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;

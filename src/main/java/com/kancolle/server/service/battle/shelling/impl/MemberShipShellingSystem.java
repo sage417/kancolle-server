@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.shell.impl;
+package com.kancolle.server.service.battle.shelling.impl;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -162,6 +162,8 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
      * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
      * 3.大破艦娘不能發動彈著觀測射擊
+     * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
+     * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      * 
      */
     private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
@@ -184,33 +186,33 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         int mainGunCount = info.getMainGunCount();
         int secondaryGunCount = info.getSecondaryGunCount();
 
-        // 连击
+        // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
             return;
         }
 
-        // 主炮CI
-        if (mainGunCount == 2 && info.getAPAmmoCount() == 1) {
-            at_type_list.add(ATTACK_TYPE_MAIN);
+        // 主副CI(主副)
+        if (mainGunCount > 0 && secondaryGunCount > 0) {
+            at_type_list.add(ATTACK_TYPE_SECONDARY);
             return;
         }
 
-        // 撤甲弹CI
-        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getAPAmmoCount() == 1) {
-            at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
-            return;
-        }
-
-        // 电探CI
+        // 电探CI(主副+电探)
         if (mainGunCount == 1 && secondaryGunCount == 1 && info.getRadarCount() == 1) {
             at_type_list.add(ATTACK_TYPE_RADAR);
             return;
         }
 
-        // 主副CI
-        if (mainGunCount > 0 && secondaryGunCount > 0) {
-            at_type_list.add(ATTACK_TYPE_SECONDARY);
+        // 撤甲弹CI(主副+撤甲)
+        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getAPAmmoCount() == 1) {
+            at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
+            return;
+        }
+
+        // 主炮CI(主主+撤甲)
+        if (mainGunCount == 2 && info.getAPAmmoCount() == 1) {
+            at_type_list.add(ATTACK_TYPE_MAIN);
             return;
         }
 

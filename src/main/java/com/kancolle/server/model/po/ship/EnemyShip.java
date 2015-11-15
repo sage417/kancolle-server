@@ -90,4 +90,9 @@ public class EnemyShip extends AbstractShip implements Serializable {
     public int getShipKaryoku() {
         return getShip().getHoug().getMinValue();
     }
+
+    @Override
+    public int getShipSakukeki() {
+        return getShip().getSakuteki().getMinValue();
+    }
 }

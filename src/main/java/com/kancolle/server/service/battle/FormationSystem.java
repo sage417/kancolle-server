@@ -8,7 +8,7 @@ package com.kancolle.server.service.battle;
  * @Date 2015年10月6日
  *
  */
-public class FormationSystem {
+public abstract class FormationSystem {
     //1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
     public static final int FORMATION_1 = 1;
     public static final int FORMATION_2 = 2;

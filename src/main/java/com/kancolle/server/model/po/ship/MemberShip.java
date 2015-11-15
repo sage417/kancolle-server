@@ -481,4 +481,9 @@ public class MemberShip extends AbstractShip implements Serializable {
     public int getShipKaryoku() {
         return getKaryoku().getMinValue();
     }
+
+    @Override
+    public int getShipSakukeki() {
+        return getSakuteki().getMinValue();
+    }
 }

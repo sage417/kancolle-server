@@ -1,10 +1,11 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle;
+package com.kancolle.server.service.battle.reconnaissance;
 
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.AbstractShip;
 
 /**
  * @author J.K.SAGE
@@ -19,6 +20,5 @@ public interface IReconnaissanceAircraftSystem {
 
     boolean isSearchSuccess(int fsResult);
 
-    boolean isSearchPlane(int slotItemType);
-
+    int getShipSearchValue(AbstractShip ship);
 }

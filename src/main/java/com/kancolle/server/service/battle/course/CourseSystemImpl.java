@@ -1,11 +1,10 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle.impl;
+package com.kancolle.server.service.battle.course;
 
 import org.springframework.stereotype.Service;
 
-import com.kancolle.server.service.battle.CourseSystem;
 import com.kancolle.server.utils.factory.FactoryUtils;
 
 /**
@@ -28,7 +27,7 @@ public class CourseSystemImpl implements CourseSystem {
     private final double[] course_cdf = FactoryUtils.pdf2cdf(course_pdf);
 
     @Override
-    public int calCourse() {
+    public int generateCourse() {
         int index = FactoryUtils.discrete(course_cdf);
         return cources[index];
     }

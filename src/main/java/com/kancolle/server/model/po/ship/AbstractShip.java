@@ -36,21 +36,25 @@ public abstract class AbstractShip {
 
     public abstract int getLeng();
 
-    public abstract int getNowSoukou();
-
     public abstract int getNowLuck();
 
     public abstract int getNowHp();
 
     public abstract int getMaxHp();
 
+    /** 火力 */
     public abstract int getShipKaryoku();
 
-    // 对潜
+    /** 装甲 */
+    public abstract int getNowSoukou();
+
+    /** 对潜 */
     public abstract int getShipTaiSen();
 
-    // 回避
+    /** 回避 */
     public abstract int getShipKaihi();
+
+    public abstract int getShipSakukeki();
 
     public final int houkThreshold(int shipKaihi) {
         int f;

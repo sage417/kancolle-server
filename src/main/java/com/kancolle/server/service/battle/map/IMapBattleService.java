@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle;
+package com.kancolle.server.service.battle.map;
 
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
@@ -11,7 +11,7 @@ import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
  * @Date 2015年8月20日
  *
  */
-public interface MapBattleService {
+public interface IMapBattleService {
 
     MapStartResult start(String member_id, MapStartForm form);
 

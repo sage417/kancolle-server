@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kancolle.server.service.battle;
+package com.kancolle.server.service.battle.course;
 
 /**
  * @author J.K.SAGE
@@ -10,6 +10,6 @@ package com.kancolle.server.service.battle;
  */
 public interface CourseSystem {
 
-    int calCourse();
+    int generateCourse();
 
 }
