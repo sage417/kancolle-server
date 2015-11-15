@@ -5,7 +5,6 @@ package com.kancolle.server.service.battle.reconnaissance;
 
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AbstractShip;
 
 /**
  * @author J.K.SAGE
@@ -19,6 +18,4 @@ public interface IReconnaissanceAircraftSystem {
     int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort);
 
     boolean isSearchSuccess(int fsResult);
-
-    int getShipSearchValue(AbstractShip ship);
 }

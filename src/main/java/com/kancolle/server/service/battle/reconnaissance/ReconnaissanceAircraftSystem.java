@@ -3,28 +3,19 @@
  */
 package com.kancolle.server.service.battle.reconnaissance;
 
-import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
-import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import com.kancolle.server.utils.logic.ship.ShipUtils;
 
 /**
  * @author J.K.SAGE
@@ -57,48 +48,23 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
 
     @Override
     public int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState) {
-        boolean planeSearch = false;
+        List<MemberShip> ships = deckport.getShips();
 
         int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
-        int searchValue = 0;
+        int searchValue = ships.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
 
-        List<MemberShip> ship_has_plane = Lists.newArrayListWithCapacity(6);
-
-        Multimap<MemberShip, MemberSlotItem> shipMap = ArrayListMultimap.create(6, 4);
-
-        List<MemberShip> ships = deckport.getShips();
-        for (MemberShip ship : ships) {
-            int ex_sakuteki = 0;
-            for (int i = 0; i < ship.getSlot().size(); i++) {
-                MemberSlotItem slotItem = ship.getSlot().get(i);
-                int slotItem_saku = slotItem.getSaku();
-                if (isSearchPlane(SlotItemUtils.getType(slotItem))) {
-                    ex_sakuteki += 2 * slotItem_saku;
-                    if (ship.getOnslot()[i] > 0) {
-                        ship_has_plane.add(ship);
-                        planeSearch = true;
-                        shipMap.put(ship, slotItem);
-                    }
-                } else
-                    ex_sakuteki += slotItem_saku;
-            }
-            searchValue += (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
-        }
-        searchValue /= ships.size();
-
-        boolean searchSuccess = searchValue > searchNeedValue;
+        boolean searchSuccess = searchValue / ships.size() > searchNeedValue;
+        Optional<MemberShip> shipHasSearchPlane = ships.stream().filter(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1).findFirst();
+        boolean planeSearch = shipHasSearchPlane.isPresent();
 
         if (planeSearch) {
             boolean planeBack = DeckPortUtils.attackAirSearchPlane(aerialState);
             if (!planeBack) {
-                Object[] memberShipArray = shipMap.keys().toArray();
-                MemberShip keyShip = (MemberShip) memberShipArray[RandomUtils.nextInt(0, memberShipArray.length)];
-                Object[] slotItems = shipMap.get(keyShip).toArray();
-                MemberSlotItem slotItem = (MemberSlotItem) slotItems[RandomUtils.nextInt(0, slotItems.length)];
-                int slotitem_index = keyShip.getSlot().indexOf(slotItem);
-                int now_eq = keyShip.getOnslot()[slotitem_index];
-                keyShip.getOnslot()[slotitem_index] = now_eq - 1;
-                memberShipService.updateShipOnSlot(keyShip);
+                MemberShip ship = shipHasSearchPlane.get();
+                int slotIdx = ShipUtils.getSearchPlaneIndex(ship);
+                int now_eq = ship.getOnslot()[slotIdx];
+                ship.getOnslot()[slotIdx] = now_eq - 1;
+                memberShipService.updateShipOnSlot(ship);
             }
             return searchSuccess ? planeBack ? PLANE_SUCCESS : PLANE_SUCCESS_AND_FALLEN : planeBack ? PLANE_FAIL : PLANE_FAIL_AND_FALLEN;
         } else {
@@ -108,43 +74,20 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
 
     @Override
     public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
-        boolean planeSearch = false;
-        int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
-        int searchValue = 0;
-        for (EnemyShip ship : enemyDeckPort.getEnemyShips()) {
-            int ex_sakuteki = 0;
-            for (EnemySlotItem slotItem : ship.getSlot()) {
-                int slotItem_saku = slotItem.getSaku();
-                if (isSearchPlane(SlotItemUtils.getType(slotItem))) {
-                    ex_sakuteki += 2 * slotItem_saku;
-                    planeSearch = true;
-                } else {
-                    ex_sakuteki += slotItem_saku;
-                }
-            }
-            searchValue += (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
-        }
+        List<EnemyShip> ships = enemyDeckPort.getEnemyShips();
 
-        boolean searchSuccess = searchValue > searchNeedValue;
+        int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
+
+        int searchValue = ships.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
+        boolean searchSuccess = searchValue / ships.size() > searchNeedValue;
+
+        boolean planeSearch = ships.stream().anyMatch(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1);
+
         return searchSuccess ? planeSearch ? PLANE_SUCCESS : SEARCH_SUCCESS : planeSearch ? PLANE_FAIL : SEARCH_FAIL;
     }
 
     @Override
     public boolean isSearchSuccess(int resultCode) {
         return resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS;
-    }
-
-    private boolean isSearchPlane(int slotItemType) {
-        return slotItemType == 6 || slotItemType == 7 || slotItemType == 8 || slotItemType == 9 || slotItemType == 25 || slotItemType == 26;
-    }
-
-    @Override
-    public int getShipSearchValue(AbstractShip ship) {
-        int ex_sakuteki = 0;
-        for (AbstractSlotItem slotItem : ship.getSlotItems()) {
-            int slotItem_saku = slotItem.getSaku();
-            ex_sakuteki += isSearchPlane(SlotItemUtils.getType(slotItem)) ? 2 * slotItem_saku : slotItem_saku;
-        }
-        return (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
     }
 }

@@ -15,4 +15,9 @@ public abstract class SlotItemUtils {
     public static int getType(AbstractSlotItem slotItem) {
         return slotItem.getType()[2];
     }
+
+    public static boolean isSearchPlane(AbstractSlotItem slotItem) {
+        int slotItemType = getType(slotItem);
+        return slotItemType == 6 || slotItemType == 7 || slotItemType == 8 || slotItemType == 9 || slotItemType == 25 || slotItemType == 26;
+    }
 }
