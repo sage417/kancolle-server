@@ -483,7 +483,7 @@ public class MemberShip extends AbstractShip implements Serializable {
     }
 
     @Override
-    public int getShipSakukeki() {
+    public int getShipSakuteki() {
         return getSakuteki().getMinValue();
     }
 }

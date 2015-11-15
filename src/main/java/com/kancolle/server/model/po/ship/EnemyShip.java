@@ -92,7 +92,7 @@ public class EnemyShip extends AbstractShip implements Serializable {
     }
 
     @Override
-    public int getShipSakukeki() {
+    public int getShipSakuteki() {
         return getShip().getSakuteki().getMinValue();
     }
 }

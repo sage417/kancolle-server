@@ -82,7 +82,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
                 } else
                     ex_sakuteki += slotItem_saku;
             }
-            searchValue += (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
         }
         searchValue /= ships.size();
 
@@ -122,7 +122,7 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
                     ex_sakuteki += slotItem_saku;
                 }
             }
-            searchValue += (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
+            searchValue += (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
         }
 
         boolean searchSuccess = searchValue > searchNeedValue;
@@ -145,6 +145,6 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
             int slotItem_saku = slotItem.getSaku();
             ex_sakuteki += isSearchPlane(SlotItemUtils.getType(slotItem)) ? 2 * slotItem_saku : slotItem_saku;
         }
-        return (IntMath.sqrt(ship.getShipSakukeki(), RoundingMode.DOWN) + ex_sakuteki);
+        return (IntMath.sqrt(ship.getShipSakuteki(), RoundingMode.DOWN) + ex_sakuteki);
     }
 }

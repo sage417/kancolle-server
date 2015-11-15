@@ -54,7 +54,7 @@ public abstract class AbstractShip {
     /** 回避 */
     public abstract int getShipKaihi();
 
-    public abstract int getShipSakukeki();
+    public abstract int getShipSakuteki();
 
     public final int houkThreshold(int shipKaihi) {
         int f;
