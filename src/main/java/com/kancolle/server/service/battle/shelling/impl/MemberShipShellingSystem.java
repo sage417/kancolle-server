@@ -1,17 +1,16 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
 import java.math.RoundingMode;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.IntMath;
-import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
@@ -20,7 +19,6 @@ import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
-import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -28,65 +26,6 @@ import com.kancolle.server.utils.logic.ship.ShipUtils;
 
 @Service
 public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip, EnemyShip> {
-
-    public void generateHougkeResult(BattleSimulationResult result, int aerialState, MemberShip attackShip, ImmutableBiMap<Integer, EnemyShip> enemyOtherShipsMap) {
-
-        HougekiResult hougekiResult = result.getApi_hougeki1();
-
-        EnemyShip defEnemyShip = CollectionsUtils.randomGet(enemyOtherShipsMap.values().asList());
-        int defShipIdx = enemyOtherShipsMap.inverse().get(defEnemyShip);
-
-        // 制空优势以上可以发动二连，主副观测，电碳ci等特殊攻击
-        if (aerialState == AerialBattleSystem.AIR_BATTLE_GUARANTEE) {
-
-        } else if (aerialState == AerialBattleSystem.AIR_BATTLE_ADVANTAGE) {
-
-        }
-        int attackType = 0;
-        hougekiResult.getApi_at_type().add(attackType);
-        int[] damages = ArrayUtils.EMPTY_INT_ARRAY;
-
-        int shipHougke = attackShip.getKaryoku().getMinValue();
-
-        if (attackType == ATTACK_TYPE_DOUBLE) {
-            int fdamage = shipHougke * 6 / 5;
-            int sdamage = shipHougke * 6 / 5;
-            // 2次1.2倍率伤害
-            damages = new int[] { fdamage, sdamage };
-            hougekiResult.getApi_df_list().add(new int[] { defShipIdx, defShipIdx });
-        } else {
-            hougekiResult.getApi_df_list().add(new int[] { defShipIdx });
-        }
-
-        switch (attackType) {
-        case ATTACK_TYPE_NORMAL:
-            damages = new int[] { shipHougke };
-            break;
-        case ATTACK_TYPE_SECONDARY:
-            damages = new int[] { shipHougke * 11 / 10 };
-            break;
-        case ATTACK_TYPE_RADAR:
-            damages = new int[] { shipHougke * 6 / 5 };
-            break;
-        case ATTACK_TYPE_EXPOSEARMOR:
-            damages = new int[] { shipHougke * 7 / 5 };
-            break;
-        case ATTACK_TYPE_MAIN:
-            damages = new int[] { shipHougke * 3 / 2 };
-            break;
-        default:
-            break;
-        }
-
-        if (RandomUtils.nextDouble(0, 1) < 0.15d) {
-            damages = Arrays.stream(damages).map(damage -> damage * 3 / 2).toArray();
-        }
-
-        hougekiResult.getApi_damage().add(damages);
-        hougekiResult.getApi_si_list().add(new int[] { 1, 2 });
-        hougekiResult.getApi_cl_list().add(new int[] { 1, 1 });
-
-    }
 
     @Override
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
@@ -168,18 +107,13 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      */
     private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
         LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
+        LinkedList<Object> si_list = context.getNowHougekiResult().getApi_si_list();
 
         KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
-
-        if (!AerialUtils.testAerialAdvence(kouKuResult) && ShipUtils.isBadlyDmg.test(attackShip)) {
-            at_type_list.add(ATTACK_TYPE_NORMAL);
-            return;
-        }
-
         SlotItemInfo info = SlotItemInfo.of(attackShip);
 
-        if (info.getSearchPlaneCount() == 0) {
-            at_type_list.add(ATTACK_TYPE_NORMAL);
+        if (!AerialUtils.testAerialAdvence(kouKuResult) || ShipUtils.isBadlyDmg.test(attackShip) || info.getSearchPlaneCount() == 0) {
+            generateNormalShellingAttackTypeAndSlotItemList(info, context);
             return;
         }
 
@@ -189,39 +123,59 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
+            si_list.add(Longs.asList(info.getMainGunId()).subList(0, 2));
             return;
         }
 
         // 主副CI(主副)
         if (mainGunCount > 0 && secondaryGunCount > 0) {
             at_type_list.add(ATTACK_TYPE_SECONDARY);
+            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0]));
             return;
         }
 
         // 电探CI(主副+电探)
         if (mainGunCount == 1 && secondaryGunCount == 1 && info.getRadarCount() == 1) {
             at_type_list.add(ATTACK_TYPE_RADAR);
+            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0], info.getRadarId()[0]));
             return;
         }
 
         // 撤甲弹CI(主副+撤甲)
         if (mainGunCount == 1 && secondaryGunCount == 1 && info.getAPAmmoCount() == 1) {
             at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
+            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0], info.getApAmmoId()[0]));
             return;
         }
 
         // 主炮CI(主主+撤甲)
         if (mainGunCount == 2 && info.getAPAmmoCount() == 1) {
             at_type_list.add(ATTACK_TYPE_MAIN);
+            si_list.add(Longs.asList(info.getMainGunId()[0], info.getMainGunId()[1], info.getApAmmoId()[0]));
             return;
         }
 
+        generateNormalShellingAttackTypeAndSlotItemList(info, context);
+    }
+
+    private void generateNormalShellingAttackTypeAndSlotItemList(SlotItemInfo info, BattleContext context) {
+        LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
+        LinkedList<Object> si_list = context.getNowHougekiResult().getApi_si_list();
+
         at_type_list.add(ATTACK_TYPE_NORMAL);
+        if (info.getMainGunCount() > 0) {
+            si_list.add(info.getMainGunId()[0]);
+            return;
+        }
+        if (info.getSecondaryGunCount() > 0) {
+            si_list.add(info.getSecondaryGunId()[0]);
+            return;
+        }
+        si_list.add(Collections.singleton(-1));
     }
 
     @Override
     public void generateSlotItemList(MemberShip ship, BattleContext context) {
-        context.getNowHougekiResult().getApi_si_list().add(new int[] { 1, 2 });
     }
 
     @Override
@@ -250,7 +204,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         Integer defShipKey = context.getNowHougekiResult().getApi_at_list().getLast();
         AbstractShip defShip = context.getShipMap().get(defShipKey);
         int damageValue = damageValue(attackValue, defShip, false);
-        //TODO double 
+        // TODO double 
         context.getNowHougekiResult().getApi_damage().add(new int[] { damageValue });
     }
 }
