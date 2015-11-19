@@ -1,5 +1,7 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
+import static com.google.common.collect.Iterables.getLast;
+
 import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -35,12 +37,12 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
             generateShellingAttackTypeList(attackShip, context);
-            generateDefendList(enemySSShips, context);
+            EnemyShip defShip = generateDefendList(enemySSShips, context);
         } else {
             generateShellingAttackTypeList(attackShip, context);
-            generateDefendList(enemyOtherShips, context);
-            generateSlotItemList(attackShip, context);
-            generateCrticalList(attackShip, context);
+            EnemyShip defShip = generateDefendList(enemyOtherShips, context);
+            //generateSlotItemList(attackShip, context);
+            generateCrticalList(attackShip, defShip, context);
             generateDamageList(attackShip, context);
         }
     }
@@ -57,7 +59,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     }
 
     @Override
-    public void generateDefendList(List<EnemyShip> enemySSShips, BattleContext context) {
+    public EnemyShip generateDefendList(List<EnemyShip> enemySSShips, BattleContext context) {
         EnemyShip defendShip = CollectionsUtils.randomGet(enemySSShips);
         HougekiResult hougekiResult = context.getNowHougekiResult();
 
@@ -68,6 +70,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[] { defShipIdx, defShipIdx } : new int[] { defShipIdx };
         hougekiResult.getApi_df_list().add(defArr);
+        return defendShip;
     }
 
     @Override
@@ -179,21 +182,36 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     }
 
     @Override
-    public void generateCrticalList(MemberShip attackShip, BattleContext context) {
-        Integer defShipKey = context.getNowHougekiResult().getApi_at_list().getLast();
-        AbstractShip defShip = context.getShipMap().get(defShipKey);
-
+    public void generateCrticalList(MemberShip attackShip, EnemyShip defShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = hougekiResult.getApi_at_type().getLast().intValue();
+        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
 
-        int[] clArray;
-        if (attackType == ATTACK_TYPE_DOUBLE) {
-            clArray = CL_DOUBLE_MISS_MISS;
-        } else {
-            if (!isHit(hitRatios(attackShip), defShip.getShipKaihi())) {
-                clArray = RandomUtils.nextInt(0, 10) > 0 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+        int[] clArray = null;
+
+        //二连和观测CI如果没有命中强制擦弹
+
+        if (attackType == ATTACK_TYPE_NORMAL) {
+            if (isHit(hitRatios(attackShip), enemyShipShellingKaihi(defShip))) {
+                clArray = RandomUtils.nextInt(0, 10) > 0 ? CL_SINGLE_CRTICAL : CL_SINGLE_HIT;
+            } else {
+                clArray = CL_SINGLE_MISS;
             }
-            clArray = CL_SINGLE_MISS;
+        }
+
+        switch (attackType) {
+        case ATTACK_TYPE_DOUBLE:
+
+            break;
+        case ATTACK_TYPE_EXPOSEARMOR:
+            break;
+        case ATTACK_TYPE_MAIN:
+            break;
+        case ATTACK_TYPE_RADAR:
+            break;
+        case ATTACK_TYPE_SECONDARY:
+            break;
+        default:
+            throw new IllegalArgumentException("attack type error");
         }
         hougekiResult.getApi_cl_list().add(clArray);
     }

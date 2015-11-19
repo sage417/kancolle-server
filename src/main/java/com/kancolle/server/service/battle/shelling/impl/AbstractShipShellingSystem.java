@@ -11,6 +11,7 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
+import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 
@@ -60,6 +61,36 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[] { 2, 0 };
     protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[] { 2, 1 };
     protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[] { 2, 2 };
+
+    /*-------------回避性能-------------*/
+    private static final int HOUK_THRESHOLD = 40;
+    /*-------------回避性能-------------*/
+
+    protected final int houkThreshold(int shipKaihi) {
+        int f;
+        if (shipKaihi >= HOUK_THRESHOLD)
+            f = HOUK_THRESHOLD + shipKaihi;
+        else
+            f = 2 * HOUK_THRESHOLD;
+        return 3 + 100 * shipKaihi / f;
+    }
+
+    protected final int memberShipShellingKaihi(MemberShip ship) {
+        int shipKaihi = ship.getShipKaihi();
+        int cond = ship.getCond();
+        if (cond < 30)
+            shipKaihi = shipKaihi / 2;
+        else if (cond < 40)
+            shipKaihi = shipKaihi * 3 / 4;
+        else if (cond > 49)
+            shipKaihi = shipKaihi * 9 / 5;
+        return houkThreshold(shipKaihi);
+    }
+
+    protected final int enemyShipShellingKaihi(EnemyShip ship) {
+        int shipKaihi = ship.getShipKaihi();
+        return houkThreshold(shipKaihi);
+    }
 
     protected abstract int hitRatios(T ship);
 

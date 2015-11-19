@@ -17,8 +17,6 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
  */
 public abstract class AbstractShip {
 
-    private static final int HOUK_THRESHOLD = 40;
-
     @JSONField(serialize = false, deserialize = false)
     private Ship ship;
 
@@ -55,15 +53,6 @@ public abstract class AbstractShip {
     public abstract int getShipKaihi();
 
     public abstract int getShipSakuteki();
-
-    public final int houkThreshold(int shipKaihi) {
-        int f;
-        if (shipKaihi >= HOUK_THRESHOLD)
-            f = HOUK_THRESHOLD + shipKaihi;
-        else
-            f = 2 * HOUK_THRESHOLD;
-        return 3 + 100 * shipKaihi / f;
-    }
 
     public final int getShipDefendValue() {
         int rdmValue = RandomUtils.nextInt(2, 5);

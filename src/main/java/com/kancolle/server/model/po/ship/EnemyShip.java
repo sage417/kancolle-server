@@ -83,7 +83,7 @@ public class EnemyShip extends AbstractShip implements Serializable {
 
     @Override
     public int getShipKaihi() {
-        return houkThreshold(getShip().getKaihi().getMinValue());
+        return getShip().getKaihi().getMinValue();
     }
 
     @Override

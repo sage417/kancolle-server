@@ -109,11 +109,12 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     }
 
     @Override
-    public void generateDefendList(List<MemberShip> enemySSShips, BattleContext context) {
-        AbstractShip defendShip = CollectionsUtils.randomGet(enemySSShips);
+    public MemberShip generateDefendList(List<MemberShip> enemySSShips, BattleContext context) {
+        MemberShip defendShip = CollectionsUtils.randomGet(enemySSShips);
         HougekiResult hougekiResult = context.getNowHougekiResult();
         ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_df_list().add(shipsMap.inverse().get(defendShip).intValue());
+        return defendShip;
     }
 
     @Override
@@ -142,7 +143,7 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     }
 
     @Override
-    public void generateCrticalList(EnemyShip ship, BattleContext context) {
+    public void generateCrticalList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
         // TODO Auto-generated method stub
 
     }
@@ -151,5 +152,10 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     public void generateDamageList(EnemyShip ship, BattleContext context) {
         // TODO Auto-generated method stub
 
+    }
+
+    protected int kaihiRatios(EnemyShip ship) {
+        int shipKaihi = ship.getShipKaihi();
+        return houkThreshold(shipKaihi);
     }
 }

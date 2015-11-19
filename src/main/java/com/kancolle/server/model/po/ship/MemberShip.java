@@ -467,14 +467,7 @@ public class MemberShip extends AbstractShip implements Serializable {
 
     @Override
     public int getShipKaihi() {
-        int houkValue = houkThreshold(getShip().getKaihi().getMinValue());
-        if (cond < 30)
-            return houkValue / 2;
-        else if (cond < 40)
-            return houkValue * 3 / 4;
-        else if (cond < 50)
-            return houkValue;
-        return houkValue * 9 / 5;
+        return getShip().getKaihi().getMinValue();
     }
 
     @Override
