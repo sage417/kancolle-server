@@ -19,5 +19,5 @@ public interface IShellingSystem<T extends AbstractShip, E extends AbstractShip>
 
     void generateCrticalList(T attackShip, E defendShip, BattleContext context);
 
-    void generateDamageList(T ship, BattleContext context);
+    void generateDamageList(T attackShip, E defendShip, BattleContext context);
 }

@@ -149,7 +149,7 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     }
 
     @Override
-    public void generateDamageList(EnemyShip ship, BattleContext context) {
+    public void generateDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
         // TODO Auto-generated method stub
 
     }

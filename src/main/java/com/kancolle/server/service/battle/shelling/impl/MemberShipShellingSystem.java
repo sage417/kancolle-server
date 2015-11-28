@@ -40,10 +40,10 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
             EnemyShip defShip = generateDefendList(enemySSShips, context);
         } else {
             generateShellingAttackTypeList(attackShip, context);
-            EnemyShip defShip = generateDefendList(enemyOtherShips, context);
+            EnemyShip defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
-            generateCrticalList(attackShip, defShip, context);
-            generateDamageList(attackShip, context);
+            //generateCrticalList(attackShip, defendShip, context);
+            generateDamageList(attackShip, defendShip, context);
         }
     }
 
@@ -188,19 +188,11 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         int[] clArray = null;
 
-        //二连和观测CI如果没有命中强制擦弹
-
-        if (attackType == ATTACK_TYPE_NORMAL) {
-            if (isHit(hitRatios(attackShip), enemyShipShellingKaihi(defShip))) {
-                clArray = RandomUtils.nextInt(0, 10) > 0 ? CL_SINGLE_CRTICAL : CL_SINGLE_HIT;
-            } else {
-                clArray = CL_SINGLE_MISS;
-            }
-        }
-
         switch (attackType) {
-        case ATTACK_TYPE_DOUBLE:
+        case ATTACK_TYPE_NORMAL:
 
+            break;
+        case ATTACK_TYPE_DOUBLE:
             break;
         case ATTACK_TYPE_EXPOSEARMOR:
             break;
@@ -217,12 +209,38 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     }
 
     @Override
-    public void generateDamageList(MemberShip attackShip, BattleContext context) {
-        int attackValue = daylightHougThreshold(attackShip.getShipKaryoku());
-        Integer defShipKey = context.getNowHougekiResult().getApi_at_list().getLast();
-        AbstractShip defShip = context.getShipMap().get(defShipKey);
-        int damageValue = damageValue(attackValue, defShip, false);
-        // TODO double 
-        context.getNowHougekiResult().getApi_damage().add(new int[] { damageValue });
+    public void generateDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+
+        int[] clArray;
+
+        switch (attackType) {
+        case ATTACK_TYPE_NORMAL:
+            boolean hit = isHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+            if (!hit)
+                clArray = CL_SINGLE_MISS;
+            else
+                clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+            hougekiResult.getApi_cl_list().add(clArray);
+
+            int attackValue = daylightHougThreshold(attackShip.getShipKaryoku());
+            int damageValue = damageValue(attackValue, defendShip, false);
+            context.getNowHougekiResult().getApi_damage().add(new int[] { damageValue });
+            break;
+        case ATTACK_TYPE_DOUBLE:
+            break;
+        case ATTACK_TYPE_EXPOSEARMOR:
+            boolean ci_hit = isCIHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+            break;
+        case ATTACK_TYPE_MAIN:
+            break;
+        case ATTACK_TYPE_RADAR:
+            break;
+        case ATTACK_TYPE_SECONDARY:
+            break;
+        default:
+            throw new IllegalArgumentException("attack type error");
+        }
     }
 }

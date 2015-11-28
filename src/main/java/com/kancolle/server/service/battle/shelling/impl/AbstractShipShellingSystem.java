@@ -62,6 +62,9 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[] { 2, 1 };
     protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[] { 2, 2 };
 
+    protected static final int[] DM_SINGLE_ZER0 = new int[] { 0 };
+    protected static final int[] DM_DOUBLE_ZER0 = new int[] { 0, 0 };
+
     /*-------------回避性能-------------*/
     private static final int HOUK_THRESHOLD = 40;
     /*-------------回避性能-------------*/
@@ -109,6 +112,11 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     protected final boolean isHit(int hitValue, int houkValue) {
         // TODO 彈著觀測射擊有命中加成
         int hitRate = 5 + hitValue - houkValue;
+        return RandomUtils.nextInt(0, 99) <= hitRate;
+    }
+
+    protected final boolean isCIHit(int hitValue, int houkValue) {
+        int hitRate = 15 + hitValue - houkValue;
         return RandomUtils.nextInt(0, 99) <= hitRate;
     }
 
