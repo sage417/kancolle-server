@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kancolle</groupId>
 	<artifactId>kancolle-server</artifactId>
@@ -68,6 +67,16 @@
 				</executions>
 				<configuration>
 					<warSourceExcludes>kcs/**</warSourceExcludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<url>jdbc:mysql://127.0.0.1:3306/kancolle</url>
+					<user>kancolle</user>
+					<password>kancolle-server</password>
 				</configuration>
 			</plugin>
 		</plugins>
