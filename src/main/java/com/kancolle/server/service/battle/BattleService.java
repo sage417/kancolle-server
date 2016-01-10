@@ -3,21 +3,6 @@
  */
 package com.kancolle.server.service.battle;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.BBShipFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.getTargetShips;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.ContextLoader;
-
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
@@ -32,11 +17,23 @@ import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
-import com.kancolle.server.service.battle.course.CourseSystem;
+import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.ContextLoader;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 
 /**
  * @author J.K.SAGE
@@ -53,7 +50,7 @@ public class BattleService implements IBattleService {
     private IReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
 
     @Autowired
-    private CourseSystem courseSystem;
+    private ICourseSystem courseSystem;
 
     @Autowired
     private IAerialBattleSystem aerialBattleSystem;
@@ -68,7 +65,7 @@ public class BattleService implements IBattleService {
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         int formation = form.getApi_formation();
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
-        int recovery_type = form.getApi_formation();
+        int recovery_type = form.getApi_recovery_type();
 
         // create battle context
         BattleContext context = new BattleContext();

@@ -12,6 +12,9 @@ import com.kancolle.server.model.po.common.ResourceValue;
  */
 public abstract class AbstractSlotItem {
 
+    public static final int TYPE_HYDROPHONE = 14;
+    public static final int TYPE_DEPTHCHARGE = 15;
+
     private SlotItem slotItem;
 
     public SlotItem getSlotItem() {

@@ -1,13 +1,13 @@
 package com.kancolle.server.utils.logic.ship;
 
-import java.math.RoundingMode;
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+
+import java.math.RoundingMode;
+import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class ShipUtils {
 
@@ -35,11 +35,16 @@ public abstract class ShipUtils {
 
     public static final Predicate<AbstractShip> isBadlyDmgStatue = isBadlyDmg;
 
-    public static final int getTaiSenValue(AbstractShip ship) {
+    public static int getTaiSenValue(AbstractShip ship) {
         int shipTaiSen = IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.DOWN);
         List<? extends AbstractSlotItem> slots = ship.getSlotItems();
         int slotTaiSen = slots.stream().mapToInt(AbstractSlotItem::getTaiSen).sum();
         return shipTaiSen + slotTaiSen;
+    }
+
+    public static int getBakuValue(AbstractShip ship) {
+        List<? extends AbstractSlotItem> items = ship.getSlotItems();
+        return items.stream().mapToInt(AbstractSlotItem::getBaku).sum();
     }
 
     public static int getSearchPlaneIndex(AbstractShip ship) {

@@ -1,16 +1,7 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
-import static com.google.common.collect.Iterables.getLast;
-
-import java.math.RoundingMode;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -20,11 +11,23 @@ import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
+import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
+
+import java.math.RoundingMode;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import static com.google.common.collect.Iterables.getLast;
 
 @Service
 public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip, EnemyShip> {
@@ -68,7 +71,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         int defShipIdx = shipsMap.inverse().get(defendShip).intValue();
 
-        int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[] { defShipIdx, defShipIdx } : new int[] { defShipIdx };
+        int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
         hougekiResult.getApi_df_list().add(defArr);
         return defendShip;
     }
@@ -99,14 +102,14 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
     /*
      * 彈著觀測射擊：
-     * 
+     *
      * 發動條件：
      * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
      * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
      * 3.大破艦娘不能發動彈著觀測射擊
      * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
-     * 
+     *
      */
     private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
         LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
@@ -189,21 +192,21 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         int[] clArray = null;
 
         switch (attackType) {
-        case ATTACK_TYPE_NORMAL:
+            case ATTACK_TYPE_NORMAL:
 
-            break;
-        case ATTACK_TYPE_DOUBLE:
-            break;
-        case ATTACK_TYPE_EXPOSEARMOR:
-            break;
-        case ATTACK_TYPE_MAIN:
-            break;
-        case ATTACK_TYPE_RADAR:
-            break;
-        case ATTACK_TYPE_SECONDARY:
-            break;
-        default:
-            throw new IllegalArgumentException("attack type error");
+                break;
+            case ATTACK_TYPE_DOUBLE:
+                break;
+            case ATTACK_TYPE_EXPOSEARMOR:
+                break;
+            case ATTACK_TYPE_MAIN:
+                break;
+            case ATTACK_TYPE_RADAR:
+                break;
+            case ATTACK_TYPE_SECONDARY:
+                break;
+            default:
+                throw new IllegalArgumentException("attack type error");
         }
         hougekiResult.getApi_cl_list().add(clArray);
     }
@@ -216,31 +219,123 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         int[] clArray;
 
         switch (attackType) {
-        case ATTACK_TYPE_NORMAL:
-            boolean hit = isHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
-            if (!hit)
-                clArray = CL_SINGLE_MISS;
-            else
-                clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
-            hougekiResult.getApi_cl_list().add(clArray);
+            case ATTACK_TYPE_NORMAL:
+                boolean hit = isHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+                if (!hit)
+                    clArray = CL_SINGLE_MISS;
+                else
+                    clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+                hougekiResult.getApi_cl_list().add(clArray);
 
-            int attackValue = daylightHougThreshold(attackShip.getShipKaryoku());
-            int damageValue = damageValue(attackValue, defendShip, false);
-            context.getNowHougekiResult().getApi_damage().add(new int[] { damageValue });
-            break;
-        case ATTACK_TYPE_DOUBLE:
-            break;
-        case ATTACK_TYPE_EXPOSEARMOR:
-            boolean ci_hit = isCIHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
-            break;
-        case ATTACK_TYPE_MAIN:
-            break;
-        case ATTACK_TYPE_RADAR:
-            break;
-        case ATTACK_TYPE_SECONDARY:
-            break;
-        default:
-            throw new IllegalArgumentException("attack type error");
+                int attackValue = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+                int damageValue = damageValue(attackValue, defendShip, false);
+                context.getNowHougekiResult().getApi_damage().add(new int[]{damageValue});
+                break;
+            case ATTACK_TYPE_DOUBLE:
+                break;
+            case ATTACK_TYPE_EXPOSEARMOR:
+                boolean ci_hit = isCIHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+                break;
+            case ATTACK_TYPE_MAIN:
+                break;
+            case ATTACK_TYPE_RADAR:
+                break;
+            case ATTACK_TYPE_SECONDARY:
+                break;
+            default:
+                throw new IllegalArgumentException("attack type error");
         }
+    }
+
+    /**
+     * 基本攻擊力計算：
+     * <p>
+     * 非航母攻擊：（對地攻擊除外）
+     * 基本攻撃力 = 火力 + 改修補正(砲擊) + 聯合艦隊補正(註) + 5
+     * <p>
+     * 航母攻擊：
+     * 基本攻撃力 = [55 +(火力 + [爆装×1.3]+ 雷装 + 改修補正(砲擊) + 聯合艦隊補正(註) )×1.5]
+     * <p>
+     * 以上公式中中括號需要向下取整
+     * <p>
+     * 只要航母能攻擊（不罰站），攻撃力便跟搭載數無關
+     * 即使某一格攻擊機數目為0，也不會影響砲擊戰攻擊力（該艦攻艦爆的爆裝和雷裝仍會被計算）
+     * <p>
+     * 註：
+     * 對於陸上敵人，計算傷害時雷裝無效（即一律當成0雷裝來計算）
+     *
+     * @param ship
+     * @return
+     */
+    private int shellingBaiscHoug(MemberShip ship) {
+        //TODO 联合舰队基本攻击力补正
+        //TODO 修改装备攻击路补正
+        int shipHoug = ship.getShipKaryoku();
+
+        if (ShipFilter.carrierFilter.test(ship)) {
+            int raiSou = ship.getRaisou().getMinValue();
+            int baKu = ShipUtils.getBakuValue(ship);
+            return (shipHoug + raiSou + baKu * 13 / 10) * 3 / 2 + 55;
+        } else {
+            return shipHoug + 5;
+        }
+    }
+
+    /**
+     * 基本攻撃力 = 2 x √(艦娘婐裝對潛) + 裝備對潛 × 1.5 + 改修補正(對潛) + 攻撃模式補正
+     * 攻撃模式補正：艦載機對潛系數為8，深水炸彈對潛系數為13
+     * <p>
+     * 以下類型的裝備在計算反潛攻擊力時其對潛值將會看成是裝備對潛來計算：
+     * 水聽、爆雷、水上爆撃機、艦上攻撃機、艦上爆撃機、對潜哨戒機、カ号観測機
+     * <p>
+     * 以下類型的裝備對反潛攻擊力沒有任何影響：
+     * 水上偵察機、電探、小口徑主砲
+     *
+     * @param ship
+     * @return
+     */
+    private int antiSubmarineBasicHoug(MemberShip ship) {
+        //TODO 联合舰队基本攻击力补正
+        //TODO 修改装备攻击路补正
+        return 0;
+    }
+
+
+    /**
+     * 阈值前补正包括：
+     * 1.阵型补正
+     * 2.航向补正
+     * 3.损伤补正
+     * 4.反潜相乘补正
+     * <p>
+     * 这里数值属于炮击战
+     */
+    public int augmentingBeforeThreshold(MemberShip attackShip, BattleContext context) {
+        double augmenting = 1d;
+        int[] formationArray = context.getBattleResult().getApi_formation();
+
+        //航向补正
+        int courseIndex = formationArray[2];
+        double courseaugmenting = CourseEnum.values()[--courseIndex].getAugmenting();
+        augmenting *= courseaugmenting;
+
+        //损伤补正
+        if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0
+            augmenting *= 0.4d;
+        } else if (ShipUtils.isMidDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0.8
+            augmenting *= 0.7d;
+        }
+
+        //反潜套补正
+        List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
+        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
+        if (hasHydrophone && hasDepthCharge) {
+            augmenting *= 1.15;
+        }
+
+        return DoubleMath.roundToInt(augmenting * shellingBaiscHoug(attackShip), RoundingMode.DOWN);
     }
 }
