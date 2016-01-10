@@ -10,7 +10,6 @@ public enum CourseEnum {
 
     private final double augmenting;
 
-
     CourseEnum(int courseIndex, double augmenting) {
         this.index = courseIndex;
         this.augmenting = augmenting;

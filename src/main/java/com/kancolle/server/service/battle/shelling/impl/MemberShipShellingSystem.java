@@ -13,6 +13,7 @@ import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.CollectionsUtils;
@@ -314,10 +315,15 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         double augmenting = 1d;
         int[] formationArray = context.getBattleResult().getApi_formation();
 
+        //阵型补正
+        int formationIndex = formationArray[0];
+        double formationAugmenting = FormationSystem.shellingAugmenting(formationIndex);
+        augmenting *= formationAugmenting;
+
         //航向补正
         int courseIndex = formationArray[2];
-        double courseaugmenting = CourseEnum.values()[--courseIndex].getAugmenting();
-        augmenting *= courseaugmenting;
+        double courseAugmenting = CourseEnum.values()[--courseIndex].getAugmenting();
+        augmenting *= courseAugmenting;
 
         //损伤补正
         if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
