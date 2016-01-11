@@ -1,7 +1,6 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -95,22 +94,22 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     @Override
     public void generateAttackTypeList(MemberShip attackShip, BattleContext context) {
         List<EnemyShip> enemySSShips = context.getEnemySSShips();
-        if (isTaisenAttack(attackShip, enemySSShips))
+        if (isTaisenAttack(attackShip, enemySSShips)) {
             generateTaiSenAttackList(context);
-        else
+        } else {
             generateShellingAttackTypeList(attackShip, context);
+        }
     }
 
-    /*
+    /**
      * 彈著觀測射擊：
-     *
+     * <p>
      * 發動條件：
      * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
      * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
      * 3.大破艦娘不能發動彈著觀測射擊
      * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
-     *
      */
     private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
         LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
@@ -303,15 +302,26 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
 
     /**
+     * 阈值前攻击力 =  [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]
+     * <p>
+     * {　}里的部份所計算出來的數值會受到閾值影響，具體閾值為：
+     * 晝戰（不計算反潛戰）：150
+     * 反潛戰：100
+     * 夜戰（非反潛戰）：300
+     * <p>
+     * 若果{　}里的數值超出了當前閾值，則按以下算式處理：
+     * 補正後攻撃力（{　}部份） = 閾值 + √(補正前攻撃力 - 閾值)
+     * 括號 [ ] 內的數值需要向下取整
+     * <p>
      * 阈值前补正包括：
      * 1.阵型补正
      * 2.航向补正
      * 3.损伤补正
      * 4.反潜相乘补正
      * <p>
-     * 这里补正 数值属于炮击战
+     * 这里补正数值属于炮击战
      */
-    public int augmentingBeforeThreshold(AbstractShip attackShip, BattleContext context) {
+    public double augmentingBeforeThreshold(AbstractShip attackShip, BattleContext context) {
         double augmenting = 1d;
         int[] formationArray = context.getBattleResult().getApi_formation();
 
@@ -339,9 +349,9 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
         boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
         if (hasHydrophone && hasDepthCharge) {
-            augmenting *= 1.15;
+            augmenting *= 1.15d;
         }
-
-        return DoubleMath.roundToInt(augmenting * shellingBaiscHoug(attackShip), RoundingMode.DOWN);
+        // 阈值前攻击力 = 基本攻击力*阈值前攻击不整参数+轻巡炮攻击力补正
+        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting();
     }
 }

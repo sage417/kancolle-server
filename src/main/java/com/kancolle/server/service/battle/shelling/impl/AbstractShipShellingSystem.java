@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.service.battle.shelling.impl;
 
-import com.google.common.math.IntMath;
+import com.google.common.math.DoubleMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
@@ -95,16 +95,16 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
 
     protected abstract int hitRatios(T ship);
 
-    protected final int daylightHougThreshold(int basicHoug) {
+    protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
     }
 
-    protected final int nightHougThreshold(int basicHoug) {
+    protected final int nightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, NIGHT_HOUG_THRESHOLD);
     }
 
-    private int hougAfterThreshold(int basicHoug, int threshold) {
-        return basicHoug > threshold ? threshold + IntMath.sqrt(basicHoug - threshold, RoundingMode.DOWN) : basicHoug;
+    private int hougAfterThreshold(double basicHoug, int threshold) {
+        return DoubleMath.roundToInt(basicHoug > threshold ? threshold + Math.sqrt(basicHoug) : basicHoug, RoundingMode.DOWN);
     }
 
     protected final boolean isHit(int hitValue, int houkValue) {
@@ -171,7 +171,8 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
      * <p>
      * 支援艦隊不受補正影響
      */
-    protected final void CLGunSystem() {
+    protected final int cLGunAugmenting() {
+        return 0;
     }
 
     /**
