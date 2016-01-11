@@ -109,6 +109,7 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
 
     protected final boolean isHit(int hitValue, int houkValue) {
         // TODO 彈著觀測射擊有命中加成
+        // TODO 發動徹甲彈特效後有命中加成
         int hitRate = 5 + hitValue - houkValue;
         return RandomUtils.nextInt(0, 99) <= hitRate;
     }

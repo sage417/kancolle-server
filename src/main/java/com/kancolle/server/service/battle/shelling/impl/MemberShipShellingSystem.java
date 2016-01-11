@@ -193,7 +193,6 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
-
                 break;
             case ATTACK_TYPE_DOUBLE:
                 break;
@@ -269,7 +268,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      */
     private int shellingBaiscHoug(AbstractShip ship) {
         //TODO 联合舰队基本攻击力补正
-        //TODO 修改装备攻击路补正
+        //TODO 修改装备攻击力补正
         int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
@@ -353,5 +352,45 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         }
         // 阈值前攻击力 = 基本攻击力*阈值前攻击不整参数+轻巡炮攻击力补正
         return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting();
+    }
+
+
+    /**
+     * 阈值后补正 = 徹甲彈特效補正×暴擊補正×彈着觀測射撃補正
+     *
+     * @return
+     */
+    public double augmentingAfterThreshold(MemberShip attackShip, BattleContext context) {
+        double augmenting = 1d;
+
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+
+
+        //徹甲彈特效補正
+        SlotItemInfo info = SlotItemInfo.of(attackShip);
+
+        //暴擊補正
+        //TODO 熟練艦載機暴擊額外補正
+        //彈着觀測射撃補正
+        switch (attackType) {
+            case ATTACK_TYPE_MAIN:
+                augmenting *= 1.5d;
+                break;
+            case ATTACK_TYPE_EXPOSEARMOR:
+                augmenting *= 1.3d;
+                break;
+            case ATTACK_TYPE_DOUBLE:
+            case ATTACK_TYPE_RADAR:
+                augmenting *= 1.2d;
+                break;
+            case ATTACK_TYPE_SECONDARY:
+                augmenting *= 1.1d;
+                break;
+            case ATTACK_TYPE_NORMAL:
+            default:
+        }
+
+        return augmenting;
     }
 }
