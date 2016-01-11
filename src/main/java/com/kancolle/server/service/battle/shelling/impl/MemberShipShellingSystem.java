@@ -1,6 +1,7 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -219,6 +220,10 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
+            case ATTACK_TYPE_EXPOSEARMOR:
+            case ATTACK_TYPE_MAIN:
+            case ATTACK_TYPE_RADAR:
+            case ATTACK_TYPE_SECONDARY:
                 boolean hit = isHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
@@ -226,20 +231,11 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
                     clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
                 hougekiResult.getApi_cl_list().add(clArray);
 
-                int attackValue = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
-                int damageValue = damageValue(attackValue, defendShip, false);
-                context.getNowHougekiResult().getApi_damage().add(new int[]{damageValue});
+                int hougAfterThreshold = attackValue(attackShip, defendShip, context);
+                int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                hougekiResult.getApi_damage().add(new int[]{damageValue});
                 break;
             case ATTACK_TYPE_DOUBLE:
-                break;
-            case ATTACK_TYPE_EXPOSEARMOR:
-                boolean ci_hit = isCIHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
-                break;
-            case ATTACK_TYPE_MAIN:
-                break;
-            case ATTACK_TYPE_RADAR:
-                break;
-            case ATTACK_TYPE_SECONDARY:
                 break;
             default:
                 throw new IllegalArgumentException("attack type error");
@@ -299,6 +295,12 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         return 0;
     }
 
+
+    private int attackValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
+        int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+        double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, defendShip, context);
+        return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
+    }
 
     /**
      * 阈值前攻击力 =  [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]
@@ -360,17 +362,23 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      *
      * @return
      */
-    public double augmentingAfterThreshold(MemberShip attackShip, BattleContext context) {
+    public double augmentingAfterThreshold(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         double augmenting = 1d;
 
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
 
 
-        //徹甲彈特效補正
+        // TODO 徹甲彈特效補正
         SlotItemInfo info = SlotItemInfo.of(attackShip);
 
         //暴擊補正
+        int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
+        boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
+        if (isCrtical) {
+            augmenting *= SHELLING_CRTICAL_AUGMENTING;
+        }
+
         //TODO 熟練艦載機暴擊額外補正
         //彈着觀測射撃補正
         switch (attackType) {
