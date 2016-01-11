@@ -3,19 +3,18 @@
  */
 package com.kancolle.server.model.po.ship;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
-
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.NdockUtils;
+import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author J.K.SAGE
@@ -25,15 +24,85 @@ import com.kancolle.server.utils.logic.NdockUtils;
 @Alias("MemberShip")
 public class MemberShip extends AbstractShip implements Serializable {
 
-    private static final long serialVersionUID = -1844625754351796002L;
-
     public static final int SLOT_SIZE_MAX = 5;
-
+    private static final long serialVersionUID = -1844625754351796002L;
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
     @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
+    @JSONField(ordinal = 4, name = "api_lv")
+    private int lv;
+    @JSONField(ordinal = 5, name = "api_exp")
+    private long[] exp;
+    @JSONField(ordinal = 6, name = "api_nowhp")
+    private int nowHp;
+    @JSONField(ordinal = 7, name = "api_maxhp")
+    private int maxHp;
+    @JSONField(ordinal = 8, name = "api_leng")
+    private int leng;
+    @JSONField(ordinal = 9)
+    private long[] api_slot;
+    @JSONField(serialize = false, deserialize = false)
+    private List<MemberSlotItem> slot;
+    @JSONField(ordinal = 10, name = "api_onslot")
+    private int[] onslot;
+    @JSONField(ordinal = 11, name = "api_kyouka")
+    private int[] kyouka;
+    @JSONField(ordinal = 13, name = "api_fuel")
+    private int fuel;
+    @JSONField(ordinal = 14, name = "api_bull")
+    private int bull;
+    @JSONField(ordinal = 16)
+    private long api_ndock_time;
+    @JSONField(ordinal = 17)
+    private int[] api_ndock_item;
+    @JSONField(ordinal = 19, name = "api_cond")
+    private int cond;
+    /**
+     * 火力
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue karyoku;
+    /**
+     * 雷装
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue raisou;
+    /**
+     * 对空
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue taiku;
+    /**
+     * 装甲
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue soukou;
+    /**
+     * 回避
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue kaihi;
+    /**
+     * 对潜
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue taisen;
+    /**
+     * 索敌
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue sakuteki;
+    /**
+     * 运
+     */
+    @JSONField(serialize = false, deserialize = false)
+    private MaxMinValue lucky;
+    @JSONField(serialize = false, deserialize = false)
+    private boolean locked;
+    @JSONField(serialize = false, deserialize = false)
+    private boolean lockedEquip;
 
     @JSONField(ordinal = 2, name = "api_sortno")
     public int returnSortNo() {
@@ -45,54 +114,15 @@ public class MemberShip extends AbstractShip implements Serializable {
         return getShip().getShipId();
     }
 
-    @JSONField(ordinal = 4, name = "api_lv")
-    private int lv;
-
-    @JSONField(ordinal = 5, name = "api_exp")
-    private long[] exp;
-
-    @JSONField(ordinal = 6, name = "api_nowhp")
-    private int nowHp;
-
-    @JSONField(ordinal = 7, name = "api_maxhp")
-    private int maxHp;
-
-    @JSONField(ordinal = 8, name = "api_leng")
-    private int leng;
-
-    @JSONField(ordinal = 9)
-    private long[] api_slot;
-
-    @JSONField(serialize = false, deserialize = false)
-    private List<MemberSlotItem> slot;
-
-    @JSONField(ordinal = 10, name = "api_onslot")
-    private int[] onslot;
-
-    @JSONField(ordinal = 11, name = "api_kyouka")
-    private int[] kyouka;
-
     @JSONField(ordinal = 12, name = "api_backs")
     public int returnBacks() {
         return getShip().getBacks();
     }
 
-    @JSONField(ordinal = 13, name = "api_fuel")
-    private int fuel;
-
-    @JSONField(ordinal = 14, name = "api_bull")
-    private int bull;
-
     @JSONField(ordinal = 15, name = "api_slotnum")
     public int returnslotNum() {
         return getShip().getSoltNum();
     }
-
-    @JSONField(ordinal = 16)
-    private long api_ndock_time;
-
-    @JSONField(ordinal = 17)
-    private int[] api_ndock_item;
 
     @JSONField(ordinal = 18, name = "api_srate")
     public int returnSrate() {
@@ -100,9 +130,6 @@ public class MemberShip extends AbstractShip implements Serializable {
         int grownValue = IntStream.of(getKyouka()).sum();
         return (int) (5f * grownValue / grownSum + 1);
     }
-
-    @JSONField(ordinal = 19, name = "api_cond")
-    private int cond;
 
     @JSONField(ordinal = 20, name = "api_karyoku")
     public int[] returnKaryoku() {
@@ -144,48 +171,10 @@ public class MemberShip extends AbstractShip implements Serializable {
         return getLucky().toArray();
     }
 
-    /** 火力 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue karyoku;
-
-    /** 雷装 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue raisou;
-
-    /** 对空 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue taiku;
-
-    /** 装甲 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue soukou;
-
-    /** 回避 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue kaihi;
-
-    /** 对潜 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue taisen;
-
-    /** 索敌 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue sakuteki;
-
-    /** 运 */
-    @JSONField(serialize = false, deserialize = false)
-    private MaxMinValue lucky;
-
-    @JSONField(serialize = false, deserialize = false)
-    private boolean locked;
-
     @JSONField(ordinal = 28, name = "api_locked")
     public int getLockStatue() {
         return locked ? 1 : 0;
     }
-
-    @JSONField(serialize = false, deserialize = false)
-    private boolean lockedEquip;
 
     @JSONField(ordinal = 29, name = "api_locked_equip")
     public int getEquipLockStatue() {
@@ -451,7 +440,7 @@ public class MemberShip extends AbstractShip implements Serializable {
     }
 
     @Override
-    public int getNowSoukou() {
+    public int getShipSoukou() {
         return getSoukou().getMinValue();
     }
 
@@ -474,6 +463,9 @@ public class MemberShip extends AbstractShip implements Serializable {
     public int getShipKaryoku() {
         return getKaryoku().getMinValue();
     }
+
+    @Override
+    public int getShipRaisou() { return getRaisou().getMinValue(); }
 
     @Override
     public int getShipSakuteki() {

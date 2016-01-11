@@ -1,17 +1,16 @@
 
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.ship;
+
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.EnemySlotItem;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.ibatis.type.Alias;
-
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 
 /**
  * @author J.K.SAGE
@@ -44,8 +43,8 @@ public class EnemyShip extends AbstractShip implements Serializable {
         this.slot = slot;
     }
 
-  //------抽象方法------//
-    
+    //------抽象方法------//
+
     @Override
     public List<? extends AbstractSlotItem> getSlotItems() {
         return getSlot();
@@ -62,7 +61,7 @@ public class EnemyShip extends AbstractShip implements Serializable {
     }
 
     @Override
-    public int getNowSoukou() {
+    public int getShipSoukou() {
         return getShip().getSouk().getMinValue();
     }
 
@@ -92,7 +91,14 @@ public class EnemyShip extends AbstractShip implements Serializable {
     }
 
     @Override
+    public int getShipRaisou() {
+        return getShip().getRaig().getMinValue();
+    }
+
+    @Override
     public int getShipSakuteki() {
         return getShip().getSakuteki().getMinValue();
     }
+
+    //------抽象方法------//
 }

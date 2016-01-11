@@ -268,13 +268,13 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * @param ship
      * @return
      */
-    private int shellingBaiscHoug(MemberShip ship) {
+    private int shellingBaiscHoug(AbstractShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
         int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
-            int raiSou = ship.getRaisou().getMinValue();
+            int raiSou = ship.getShipRaisou();
             int baKu = ShipUtils.getBakuValue(ship);
             return (shipHoug + raiSou + baKu * 13 / 10) * 3 / 2 + 55;
         } else {
@@ -309,9 +309,9 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * 3.损伤补正
      * 4.反潜相乘补正
      * <p>
-     * 这里数值属于炮击战
+     * 这里补正 数值属于炮击战
      */
-    public int augmentingBeforeThreshold(MemberShip attackShip, BattleContext context) {
+    public int augmentingBeforeThreshold(AbstractShip attackShip, BattleContext context) {
         double augmenting = 1d;
         int[] formationArray = context.getBattleResult().getApi_formation();
 

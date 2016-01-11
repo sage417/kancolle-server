@@ -133,7 +133,7 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     protected final int damageValue(int attackValue, AbstractShip defShip, boolean destoryProtect) {
         int nowHp = defShip.getNowHp();
 
-        int damage = attackValue - defShip.getShipDefendValue();
+        int damage = attackValue - getShipDefendValue(defShip);
         if (damage < 1) {
             damage = damageAugmenting(nowHp);
         }
@@ -144,6 +144,11 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
             return destoryAugmenting(nowHp);
         }
         return damage;
+    }
+
+    public final int getShipDefendValue(AbstractShip ship) {
+        int rdmValue = RandomUtils.nextInt(2, 5);
+        return rdmValue * ship.getShipSoukou() / 3;
     }
 
     protected final void generateTaiSenAttackList(BattleContext context) {

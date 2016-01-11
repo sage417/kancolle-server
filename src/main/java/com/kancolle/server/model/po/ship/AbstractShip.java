@@ -3,12 +3,10 @@
  */
 package com.kancolle.server.model.po.ship;
 
-import java.util.List;
-
-import org.apache.commons.lang3.RandomUtils;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -43,8 +41,15 @@ public abstract class AbstractShip {
     /** 火力 */
     public abstract int getShipKaryoku();
 
-    /** 装甲 */
-    public abstract int getNowSoukou();
+    /**
+     * 雷装
+     */
+    public abstract int getShipRaisou();
+
+    /**
+     * 装甲
+     */
+    public abstract int getShipSoukou();
 
     /** 对潜 */
     public abstract int getShipTaiSen();
@@ -52,12 +57,8 @@ public abstract class AbstractShip {
     /** 回避 */
     public abstract int getShipKaihi();
 
+    /** 索敌 */
     public abstract int getShipSakuteki();
-
-    public final int getShipDefendValue() {
-        int rdmValue = RandomUtils.nextInt(2, 5);
-        return rdmValue * getNowSoukou() / 3;
-    }
 
     @Override
     public int hashCode() {
