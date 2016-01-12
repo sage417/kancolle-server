@@ -83,7 +83,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
 
         }
 
-        result.setApi_getitem(getItem);
+        result.setGetItem(getItem);
         return result;
     }
 

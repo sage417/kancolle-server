@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
@@ -26,7 +25,7 @@
 			<!-- <ref bean="stringHttpMessageConverter" /> -->
 			<ref bean="fastJsonHttpMessageConverter" />
 			<!-- <ref bean="marshallingHttpMessageConverter" /> -->
-			<!-- <ref bean="jacksonHttpMessageConverter" /> -->
+			<ref bean="jacksonHttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
@@ -46,19 +45,14 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="jacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	<bean id="jacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>
 				<value>text/plain;charset=UTF-8</value>
 			</list>
 		</property>
 		<property name="jsonPrefix" value="svdata=" />
-		<property name="objectMapper">
-			<bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
-				<property name="modulesToInstall" value="com.kancolle.server.utils.jackson.StringUnicodeModule"/>
-			</bean>
-		</property>
-	</bean> -->
+	</bean>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
 	<!-- <import resource="resource-dev.xml" /> -->
