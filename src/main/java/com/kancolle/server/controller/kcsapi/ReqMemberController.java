@@ -21,7 +21,7 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 
 @RestController
-@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)
+@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
 
@@ -34,9 +34,9 @@ public class ReqMemberController {
     }
 
     @RequestMapping("/itemuse")
-    public APIResponse<Object> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
+    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         UseItemResult api_data = memberUseItemService.useItem(member_id, form);
-        return new APIResponse<Object>().setApi_data(api_data);
+        return new APIResponse<UseItemResult>().setApi_data(api_data);
     }
 }
