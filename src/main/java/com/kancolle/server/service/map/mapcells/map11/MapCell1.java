@@ -46,7 +46,7 @@ public class MapCell1 extends AbstractMapCell {
     }
 
     @Override
-    public MapStartResult getMapCellInfo() {
+    public MapStartResult getMapCellResult() {
         return mapResult;
     }
 

@@ -3,11 +3,10 @@
  */
 package com.kancolle.server.service.map.mapcells;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.service.deckport.EnemyDeckPortService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author J.K.SAGE
@@ -21,7 +20,7 @@ public abstract class AbstractMapCell {
 
     public abstract AbstractMapCell getNextMapPoint();
 
-    public abstract MapStartResult getMapCellInfo();
+    public abstract MapStartResult getMapCellResult();
 
     public abstract EnemyDeckPort getEnemyDeckPort();
 }

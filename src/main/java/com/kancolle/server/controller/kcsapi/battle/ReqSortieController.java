@@ -3,11 +3,11 @@
  */
 package com.kancolle.server.controller.kcsapi.battle;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import javax.validation.Valid;
-
+import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
+import com.kancolle.server.model.kcsapi.battle.BattleResult;
+import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.battle.IBattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
-import com.kancolle.server.model.kcsapi.battle.BattleResult;
-import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
-import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.IBattleService;
+import javax.validation.Valid;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 /**
  * @author J.K.SAGE

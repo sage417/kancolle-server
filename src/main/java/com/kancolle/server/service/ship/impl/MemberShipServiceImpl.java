@@ -3,28 +3,6 @@
  */
 package com.kancolle.server.service.ship.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_FAILED;
-import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_SUCCESS;
-import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
@@ -38,6 +16,7 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
@@ -57,6 +36,25 @@ import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.common.LvUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.*;
+import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_FAILED;
+import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_SUCCESS;
+import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
 
 /**
  * @author J.K.SAGE
@@ -484,5 +482,11 @@ public class MemberShipServiceImpl implements MemberShipService {
     public void updateShipOnSlot(MemberShip keyShip) {
         Arrays.stream(keyShip.getOnslot()).forEach(eq -> checkArgument(eq > -1));
         memberShipDao.updateShipOnSlot(keyShip.getMemberId(), keyShip.getMemberShipId(), keyShip.getOnslot());
+    }
+
+    @Override
+    public ShipDeckResult getShipDeck(String member_id, int deckPortId) {
+        MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id,deckPortId);
+        return new ShipDeckResult(deckPort.getShips(), memberDeckPortService.getMemberDeckPorts(member_id));
     }
 }

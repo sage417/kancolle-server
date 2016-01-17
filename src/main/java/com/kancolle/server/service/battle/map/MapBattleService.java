@@ -35,15 +35,19 @@ public class MapBattleService implements IMapBattleService {
         Integer deckId = form.getApi_deck_id();
         int mapareaId = form.getApi_maparea_id();
         int mapinfoNo = form.getApi_mapinfo_no();
+        int travellerNo = 10 * mapareaId + mapinfoNo;
 
         MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deckId);
 
-        MapTraveller traveller = loadMapTraveller(mapareaId, mapinfoNo);
+        MapTraveller traveller = loadMapTraveller(travellerNo);
         AbstractMapCell mapPoint = traveller.getStartPoint();
 
-        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, mapareaId, mapinfoNo);
+        MapStartResult result = mapPoint.getMapCellResult();
+        int mapCellId = result.getApi_no();
 
-        return mapPoint.getMapCellInfo();
+        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
+
+        return result;
     }
 
     @Override
@@ -52,27 +56,22 @@ public class MapBattleService implements IMapBattleService {
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
         MemberDeckPort deckPort = state.getMemberDeckPort();
-        state.getMapAreaId();
-        state.getMapCellId();
 
-        return null;
-    }
 
-    private MapTraveller getMapTraveller(int mapareaId, int mapNo) {
-        MapTraveller traveller = loadMapTraveller(mapareaId, mapNo);
-        traveller.reset();
-        return traveller;
-    }
+        int travellerNo = state.getMapAreaId();
+        int mapCellId = state.getMapCellId();
 
-    private MapTraveller getMapTraveller(int mapareaId, int mapNo, int mapCellId) {
-        MapTraveller traveller = loadMapTraveller(mapareaId, mapNo);
+        MapTraveller traveller = loadMapTraveller(travellerNo);
         traveller.setMapCell(mapCellId);
-        return traveller;
+
+        AbstractMapCell mapPoint =  traveller.getCurrentMapCell();
+
+        return mapPoint.getMapCellResult();
     }
 
-    private MapTraveller loadMapTraveller(int mapareaId, int mapNo) {
+    private MapTraveller loadMapTraveller(int travellerNo) {
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
-        String travellerBeanName = String.format("map%d%dTraveller", mapareaId, mapNo);
+        String travellerBeanName = String.format("map%dTraveller", travellerNo);
         return context.getBean(travellerBeanName, MapTraveller.class);
     }
 }

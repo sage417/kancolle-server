@@ -16,13 +16,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class MapCell3 extends AbstractMapCell {
 
+
+
     @Override
     public AbstractMapCell getNextMapPoint() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public MapStartResult getMapCellInfo() {
+    public MapStartResult getMapCellResult() {
         return null;
     }
 

@@ -22,7 +22,7 @@ public class MapCell4 extends AbstractMapCell {
     }
 
     @Override
-    public MapStartResult getMapCellInfo() {
+    public MapStartResult getMapCellResult() {
         return null;
     }
 

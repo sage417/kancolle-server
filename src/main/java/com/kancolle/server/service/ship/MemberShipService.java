@@ -3,8 +3,6 @@
  */
 package com.kancolle.server.service.ship;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
@@ -13,9 +11,12 @@ import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
 import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
 import com.kancolle.server.model.po.resource.MemberRescourceResult;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -67,4 +68,5 @@ public interface MemberShipService {
 
     void updateShipOnSlot(MemberShip keyShip);
 
+    ShipDeckResult getShipDeck(String member_id, int deckPortId);
 }

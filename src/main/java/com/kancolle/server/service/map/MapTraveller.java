@@ -1,8 +1,9 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.map;
 
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 
 /**
@@ -14,7 +15,9 @@ public interface MapTraveller {
 
     AbstractMapCell getStartPoint();
 
-    void reset();
+    AbstractMapCell getNextPoint(MemberDeckPort deckPort);
+
+    AbstractMapCell getCurrentMapCell();
 
     void setMapCell(int mapCellId);
 

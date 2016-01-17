@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.map.impl;
 
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.map.MapTraveller;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class Map11Traveller implements MapTraveller {
 
     private AbstractMapCell cell4;
 
-    private AbstractMapCell currentMapCell;
+    private AbstractMapCell currentMapCell = cell1;
 
     @Override
     public AbstractMapCell getStartPoint() {
@@ -34,14 +35,29 @@ public class Map11Traveller implements MapTraveller {
     }
 
     @Override
-    public void setMapCell(int mapCellId) {
-
+    public AbstractMapCell getNextPoint(MemberDeckPort deckPort) {
+        return currentMapCell.getNextMapPoint();
     }
 
     @Override
-    public void reset() {
-        currentMapCell = cell1;
+    public void setMapCell(int mapCellId) {
+        switch (mapCellId) {
+            case 1:
+                setCurrentMapCell(cell1);
+            case 2:
+                setCurrentMapCell(cell2);
+                break;
+            case 3:
+                setCurrentMapCell(cell3);
+                break;
+            case 4:
+                setCurrentMapCell(cell4);
+                break;
+            default:
+                throw new IllegalArgumentException("illegal mapCellId:"+mapCellId);
+        }
     }
+
 
     @Autowired
     @Qualifier("mapCell1")

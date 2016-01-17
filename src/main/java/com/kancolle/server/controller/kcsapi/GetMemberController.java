@@ -1,21 +1,5 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kancolle.server.controller.kcsapi.form.map.MapCellForm;
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
@@ -28,6 +12,7 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
+import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.map.MemberMapCell;
@@ -50,6 +35,16 @@ import com.kancolle.server.service.picturebook.MemberPictureBookService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_get_member", method = RequestMethod.POST)
@@ -199,5 +194,11 @@ public class GetMemberController {
         checkArgument(!result.hasErrors());
         List<MemberMapCell> api_data = memberMapService.getMemberCellInfos(member_id, form);
         return new APIResponse<List<MemberMapCell>>().setApi_data(api_data);
+    }
+
+    @RequestMapping("/ship_deck")
+    public  APIResponse<ShipDeckResult> shipDeck(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_deck_rid")int deckPortId){
+        ShipDeckResult api_data = memberShipService.getShipDeck(member_id, deckPortId);
+        return new APIResponse<ShipDeckResult>().setApi_data(api_data);
     }
 }

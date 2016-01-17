@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.controller.kcsapi.battle;
 
@@ -24,6 +24,7 @@ import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_map", method = RequestMethod.POST)
 public class ReqMapController {
+
     @Autowired
     private IMapBattleService mapBattleService;
 
@@ -36,7 +37,7 @@ public class ReqMapController {
         return new APIResponse<MapStartResult>().setApi_data(api_data);
     }
 
-    public APIResponse<MapStartResult> next(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_recovery_type",defaultValue = "0")int recoverType){
+    public APIResponse<MapStartResult> next(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_recovery_type", defaultValue = "0") int recoverType)  {
 
         MapStartResult api_data = mapBattleService.next(member_id, recoverType);
 
