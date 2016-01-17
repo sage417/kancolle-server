@@ -114,7 +114,10 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         int cond = ship.getCond();
         double condAugmenting = kaihiCondAugmenting(cond);
 
-        return houkThreshold(shipKaihi * condAugmenting);
+        int courseIdx = BattleContextUtils.getBattleCourse(context);
+        double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
+
+        return houkThreshold(shipKaihi * condAugmenting) * courseAugmenting;
     }
 
     @Override

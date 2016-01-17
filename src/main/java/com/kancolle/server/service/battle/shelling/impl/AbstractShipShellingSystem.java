@@ -64,6 +64,7 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
 
     /**---------命中性能---------**/
     protected static final double HIT_BASE_RADIOS = 1d;
+    private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
     protected static final double HIT_LUCK_AUGMENTING =0.0015d;
     protected static final double HIT_SLOT_AUGMENTING = 0.01d;
@@ -96,12 +97,24 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     }
 
     protected final boolean isHit(double hitValue, double houkValue) {
-        double hitRate = 0.05d + hitValue - houkValue;
-        return RandomUtils.nextDouble(0d, 1d) <= hitRate;}
+        return isHit(hitValue, houkValue, 0.05d);
+    }
 
     protected final boolean isCIHit(double hitValue, double houkValue) {
-        double hitRate = 0.15d + hitValue - houkValue;
+        return isHit(hitValue,houkValue,0.15d);
+    }
+
+    private boolean isHit(double hitValue,double houkValue,double increaseRate){
+        double hitRate = increaseRate + hitValue - houkValue;
+        hitRate = hitRadiosThreshold(hitRate);
         return RandomUtils.nextDouble(0d, 1d) <= hitRate;
+    }
+
+    private double hitRadiosThreshold(double hitRate){
+        if (hitRate>HIT_RADIOS_THRESHOLD){
+            hitRate = HIT_RADIOS_THRESHOLD;
+        }
+        return hitRate;
     }
 
     /** 擦弹和未破防强制扣除当前血量5%~10% */
