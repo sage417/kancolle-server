@@ -18,7 +18,7 @@ import java.math.RoundingMode;
  * @param <T>
  * @Date 2015年11月1日
  */
-public abstract class AbstractShipShellingSystem<T extends AbstractShip, E extends AbstractShip> implements IShellingSystem<T, E> {
+public abstract class AbstractShipShellingSystem<S extends AbstractShip, E extends AbstractShip> implements IShellingSystem<S, E> {
 
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
@@ -46,18 +46,26 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     /* 夜战火力阈值 */
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
 
-    protected static final int[] CL_SINGLE_MISS = new int[]{0};
-    protected static final int[] CL_SINGLE_HIT = new int[]{1};
-    protected static final int[] CL_SINGLE_CRTICAL = new int[]{2};
-    protected static final int[] CL_DOUBLE_MISS_MISS = new int[]{0, 0};
-    protected static final int[] CL_DOUBLE_MISS_HIT = new int[]{0, 1};
-    protected static final int[] CL_DOUBLE_MISS_CRTICAL = new int[]{0, 2};
-    protected static final int[] CL_DOUBLE_HIT_MISS = new int[]{1, 0};
-    protected static final int[] CL_DOUBLE_HIT_HIT = new int[]{1, 1};
-    protected static final int[] CL_DOUBLE_HIT_CRTICAL = new int[]{1, 2};
-    protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[]{2, 0};
-    protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[]{2, 1};
-    protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{2, 2};
+    public static final int CL_VALUE_MISS = 0;
+    public static final int CL_VALUE_HIT = 1;
+    public static final int CL_VALUE_CRTICAL = 2;
+
+    protected static final int[] CL_SINGLE_MISS = new int[]{CL_VALUE_MISS};
+    protected static final int[] CL_SINGLE_HIT = new int[]{CL_VALUE_HIT};
+    protected static final int[] CL_SINGLE_CRTICAL = new int[]{CL_VALUE_CRTICAL};
+    protected static final int[] CL_DOUBLE_MISS_MISS = new int[]{CL_VALUE_MISS, CL_VALUE_MISS};
+    protected static final int[] CL_DOUBLE_MISS_HIT = new int[]{CL_VALUE_MISS, CL_VALUE_HIT};
+    protected static final int[] CL_DOUBLE_MISS_CRTICAL = new int[]{CL_VALUE_MISS, CL_VALUE_CRTICAL};
+    protected static final int[] CL_DOUBLE_HIT_MISS = new int[]{CL_VALUE_HIT, CL_VALUE_MISS};
+    protected static final int[] CL_DOUBLE_HIT_HIT = new int[]{CL_VALUE_HIT, CL_VALUE_HIT};
+    protected static final int[] CL_DOUBLE_HIT_CRTICAL = new int[]{CL_VALUE_HIT, CL_VALUE_CRTICAL};
+    protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[]{CL_VALUE_CRTICAL, CL_VALUE_MISS};
+    protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[]{CL_VALUE_CRTICAL, CL_VALUE_HIT};
+    protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{CL_VALUE_CRTICAL, CL_VALUE_CRTICAL};
+
+    /*------------暴击补正------------*/
+    public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
+    /*------------暴击补正------------*/
 
     protected static final int[] DM_SINGLE_ZER0 = new int[]{0};
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
@@ -82,7 +90,7 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
 
     protected  abstract  double combineKaihiRatio(T ship, BattleContext context);
 
-    protected abstract double combineHitRatio(T ship, BattleContext context);
+    protected abstract int hitRatios(T ship);
 
     protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);

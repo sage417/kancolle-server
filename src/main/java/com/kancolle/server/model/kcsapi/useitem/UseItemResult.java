@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.model.kcsapi.useitem;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
@@ -16,12 +17,15 @@ import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 public class UseItemResult {
 
     @JsonProperty("api_caution_flag")
+    @JSONField(name="api_caution_flag",ordinal = 1)
     private int cautionFlag;
 
     @JsonProperty("api_flag")
+    @JSONField(name="api_flag",ordinal = 2)
     private int flag;
 
     @JsonProperty("api_getitem")
+    @JSONField(name="api_getitem",ordinal = 3)
     private GetItem getItem;
 
     public UseItemResult() {
