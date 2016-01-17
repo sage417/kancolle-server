@@ -1,12 +1,5 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
@@ -18,6 +11,12 @@ import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShip, MemberShip> {
@@ -45,30 +44,30 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
             int fdamage = shipHougke * 6 / 5;
             int sdamage = shipHougke * 6 / 5;
             // 2次1.2倍率伤害
-            damages = new int[] { fdamage, sdamage };
-            hougekiResult.getApi_df_list().add(new int[] { defShipIdx, defShipIdx });
+            damages = new int[]{fdamage, sdamage};
+            hougekiResult.getApi_df_list().add(new int[]{defShipIdx, defShipIdx});
         } else {
-            hougekiResult.getApi_df_list().add(new int[] { defShipIdx });
+            hougekiResult.getApi_df_list().add(new int[]{defShipIdx});
         }
 
         switch (attackType) {
-        case ATTACK_TYPE_NORMAL:
-            damages = new int[] { shipHougke };
-            break;
-        case ATTACK_TYPE_SECONDARY:
-            damages = new int[] { shipHougke * 11 / 10 };
-            break;
-        case ATTACK_TYPE_RADAR:
-            damages = new int[] { shipHougke * 6 / 5 };
-            break;
-        case ATTACK_TYPE_EXPOSEARMOR:
-            damages = new int[] { shipHougke * 7 / 5 };
-            break;
-        case ATTACK_TYPE_MAIN:
-            damages = new int[] { shipHougke * 3 / 2 };
-            break;
-        default:
-            break;
+            case ATTACK_TYPE_NORMAL:
+                damages = new int[]{shipHougke};
+                break;
+            case ATTACK_TYPE_SECONDARY:
+                damages = new int[]{shipHougke * 11 / 10};
+                break;
+            case ATTACK_TYPE_RADAR:
+                damages = new int[]{shipHougke * 6 / 5};
+                break;
+            case ATTACK_TYPE_EXPOSEARMOR:
+                damages = new int[]{shipHougke * 7 / 5};
+                break;
+            case ATTACK_TYPE_MAIN:
+                damages = new int[]{shipHougke * 3 / 2};
+                break;
+            default:
+                break;
         }
 
         if (RandomUtils.nextDouble(0, 1) < 0.15d) {
@@ -76,8 +75,8 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
         }
 
         hougekiResult.getApi_damage().add(damages);
-        hougekiResult.getApi_si_list().add(new int[] { 1, 2 });
-        hougekiResult.getApi_cl_list().add(new int[] { 1, 1 });
+        hougekiResult.getApi_si_list().add(new int[]{1, 2});
+        hougekiResult.getApi_cl_list().add(new int[]{1, 1});
 
     }
 
@@ -118,10 +117,21 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     }
 
     @Override
-    protected int hitRatios(EnemyShip ship) {
+    protected double combineKaihiRatio(EnemyShip ship, BattleContext context) {
+        int shipKaihi = ship.getShipKaihi();
+        return houkThreshold(shipKaihi);
+    }
+
+    @Override
+    protected final double combineHitRatio(EnemyShip ship, BattleContext context) {
         int lucky = ship.getNowLuck();
+        double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
+
+        // TODO cacheValue
         int slotHoum = ship.getSlot().stream().mapToInt(EnemySlotItem::getHoum).sum();
-        return 95 + slotHoum + 3 / 20 * lucky;
+        double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
+
+        return HIT_BASE_RADIOS + luckyRatios + slotRatios;
     }
 
 
@@ -152,10 +162,5 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     public void generateDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
         // TODO Auto-generated method stub
 
-    }
-
-    protected int kaihiRatios(EnemyShip ship) {
-        int shipKaihi = ship.getShipKaihi();
-        return houkThreshold(shipKaihi);
     }
 }

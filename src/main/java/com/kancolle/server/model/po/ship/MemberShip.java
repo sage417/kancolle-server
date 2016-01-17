@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.ship;
 
@@ -19,13 +19,20 @@ import java.util.stream.IntStream;
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
- *
  */
 @Alias("MemberShip")
 public class MemberShip extends AbstractShip implements Serializable {
 
-    public static final int SLOT_SIZE_MAX = 5;
     private static final long serialVersionUID = -1844625754351796002L;
+
+    public static final int SLOT_SIZE_MAX = 5;
+
+    public static final int BAD_COND = 30;
+
+    public static final int WARN_COND = 40;
+
+    public static final int GOOD_COND = 50;
+
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
@@ -465,7 +472,9 @@ public class MemberShip extends AbstractShip implements Serializable {
     }
 
     @Override
-    public int getShipRaisou() { return getRaisou().getMinValue(); }
+    public int getShipRaisou() {
+        return getRaisou().getMinValue();
+    }
 
     @Override
     public int getShipSakuteki() {

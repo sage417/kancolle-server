@@ -20,6 +20,7 @@ import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
@@ -31,6 +32,9 @@ import static com.google.common.collect.Iterables.getLast;
 
 @Service
 public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip, EnemyShip> {
+
+    @Autowired
+    private AbstractShipShellingSystem<EnemyShip,MemberShip> enemyShipShellingSystem;
 
     @Override
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
@@ -76,19 +80,73 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         return defendShip;
     }
 
-    @Override
-    protected int hitRatios(MemberShip ship) {
+    /**
+     * 影响舰船命中率包含：
+     * 1.舰船等级
+     * 2.装备
+     * 3.幸运值
+     * <p>
+     * 不考虑阵型加成
+     *
+     * @param ship
+     * @return
+     */
+    private double shipHitRatios(MemberShip ship) {
         int nowLv = ship.getLv();
+        double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
+
         int lucky = ship.getNowLuck();
+        double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
+
+        // TODO cacheValue
         int slotHoum = ship.getSlot().stream().mapToInt(MemberSlotItem::getHoum).sum();
-        int hitValue = 95 + 2 * IntMath.sqrt(nowLv - 1, RoundingMode.DOWN) + slotHoum + 3 * lucky / 20;
+        double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
+
+        return HIT_BASE_RADIOS + levelRatios + luckyRatios + slotRatios;
+    }
+
+    @Override
+    protected double combineKaihiRatio(MemberShip ship, BattleContext context) {
+
+        int shipKaihi = ship.getShipKaihi();
+
         int cond = ship.getCond();
-        if (cond < 30) {
-            return hitValue / 2;
-        } else if (cond < 40) {
-            return hitValue * 3 / 4;
+        double condAugmenting = kaihiCondAugmenting(cond);
+
+
+        return houkThreshold(shipKaihi * condAugmenting);
+    }
+
+    @Override
+    protected final double combineHitRatio(MemberShip ship, BattleContext context) {
+        int shipCond = ship.getCond();
+
+        double shipHitRadio = shipHitRatios(ship);
+        double condAugmenting = hitCondAugmenting(shipCond);
+
+        return shipHitRadio * condAugmenting;
+    }
+
+    private double hitCondAugmenting(int cond) {
+        if (cond < MemberShip.BAD_COND) {
+            return 0.5d;
+        } else if (cond < MemberShip.WARN_COND) {
+            return 0.75d;
+        } else {
+            return 1d;
         }
-        return hitValue;
+    }
+
+    private double kaihiCondAugmenting(int cond) {
+        if (cond < MemberShip.BAD_COND) {
+            return 0.5d;
+        } else if (cond < MemberShip.WARN_COND) {
+            return 0.75d;
+        } else if (cond < MemberShip.GOOD_COND) {
+            return 1d;
+        } else {
+            return 1.8d;
+        }
     }
 
     @Override
@@ -219,7 +277,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
-                boolean hit = isHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+                boolean hit = isHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip,context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else
@@ -233,7 +291,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
             case ATTACK_TYPE_DOUBLE:
                 break;
             case ATTACK_TYPE_EXPOSEARMOR:
-                boolean ci_hit = isCIHit(hitRatios(attackShip), enemyShipShellingKaihi(defendShip));
+                boolean ci_hit = isCIHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip,context));
                 break;
             case ATTACK_TYPE_MAIN:
                 break;

@@ -7,7 +7,6 @@ import com.google.common.math.DoubleMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.AbstractShip;
-import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import org.apache.commons.lang3.RandomUtils;
@@ -63,37 +62,26 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
     protected static final int[] DM_SINGLE_ZER0 = new int[]{0};
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
 
+    /**---------命中性能---------**/
+    protected static final double HIT_BASE_RADIOS = 1d;
+    protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
+    protected static final double HIT_LUCK_AUGMENTING =0.0015d;
+    protected static final double HIT_SLOT_AUGMENTING = 0.01d;
+    /**---------命中性能---------**/
+
     /*-------------回避性能-------------*/
     private static final int HOUK_THRESHOLD = 40;
+    private static final double HOUK_BASE_RADIOS = 0.03d;
     /*-------------回避性能-------------*/
 
-    protected final int houkThreshold(int shipKaihi) {
-        int f;
-        if (shipKaihi >= HOUK_THRESHOLD)
-            f = HOUK_THRESHOLD + shipKaihi;
-        else
-            f = 2 * HOUK_THRESHOLD;
-        return 3 + 100 * shipKaihi / f;
+    protected final double houkThreshold(double shipKaihi) {
+        double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
+        return HOUK_BASE_RADIOS + shipKaihi / f;
     }
 
-    protected final int memberShipShellingKaihi(MemberShip ship) {
-        int shipKaihi = ship.getShipKaihi();
-        int cond = ship.getCond();
-        if (cond < 30)
-            shipKaihi = shipKaihi / 2;
-        else if (cond < 40)
-            shipKaihi = shipKaihi * 3 / 4;
-        else if (cond > 49)
-            shipKaihi = shipKaihi * 9 / 5;
-        return houkThreshold(shipKaihi);
-    }
+    protected  abstract  double combineKaihiRatio(T ship, BattleContext context);
 
-    protected final int enemyShipShellingKaihi(EnemyShip ship) {
-        int shipKaihi = ship.getShipKaihi();
-        return houkThreshold(shipKaihi);
-    }
-
-    protected abstract int hitRatios(T ship);
+    protected abstract double combineHitRatio(T ship, BattleContext context);
 
     protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
@@ -107,16 +95,13 @@ public abstract class AbstractShipShellingSystem<T extends AbstractShip, E exten
         return DoubleMath.roundToInt(basicHoug > threshold ? threshold + Math.sqrt(basicHoug) : basicHoug, RoundingMode.DOWN);
     }
 
-    protected final boolean isHit(int hitValue, int houkValue) {
-        // TODO 彈著觀測射擊有命中加成
-        // TODO 發動徹甲彈特效後有命中加成
-        int hitRate = 5 + hitValue - houkValue;
-        return RandomUtils.nextInt(0, 99) <= hitRate;
-    }
+    protected final boolean isHit(double hitValue, double houkValue) {
+        double hitRate = 0.05d + hitValue - houkValue;
+        return RandomUtils.nextDouble(0d, 1d) <= hitRate;}
 
-    protected final boolean isCIHit(int hitValue, int houkValue) {
-        int hitRate = 15 + hitValue - houkValue;
-        return RandomUtils.nextInt(0, 99) <= hitRate;
+    protected final boolean isCIHit(double hitValue, double houkValue) {
+        double hitRate = 0.15d + hitValue - houkValue;
+        return RandomUtils.nextDouble(0d, 1d) <= hitRate;
     }
 
     /** 擦弹和未破防强制扣除当前血量5%~10% */
