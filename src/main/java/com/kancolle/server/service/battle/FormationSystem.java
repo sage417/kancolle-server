@@ -15,7 +15,7 @@ public abstract class FormationSystem {
     public static final int FORMATION_4 = 4;
     public static final int FORMATION_5 = 5;
 
-    public static double shellingAugmenting(int formation) {
+    public static double shelllingHougAugment(int formation) {
         switch (formation) {
             case FORMATION_1:
                 return 1d;
@@ -26,23 +26,6 @@ public abstract class FormationSystem {
             case FORMATION_4:
             case FORMATION_5:
                 return 0.6d;
-            default:
-                throw new IllegalArgumentException("formation argment error");
-        }
-    }
-
-    public static double getHoukAddition(int formation) {
-        switch (formation) {
-            case FORMATION_1:
-                return 0.6d;
-            case FORMATION_2:
-                return 0.8d;
-            case FORMATION_3:
-                return 1.2d;
-            case FORMATION_4:
-                return 1d;
-            case FORMATION_5:
-                return 1.3d;
             default:
                 throw new IllegalArgumentException("formation argment error");
         }

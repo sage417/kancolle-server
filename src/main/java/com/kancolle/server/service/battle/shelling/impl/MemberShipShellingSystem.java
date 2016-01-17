@@ -383,12 +383,12 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         //阵型补正
         int formationIndex = BattleContextUtils.getMemberFormation(context);
-        double formationAugmenting = FormationSystem.shellingAugmenting(formationIndex);
+        double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
         augmenting *= formationAugmenting;
 
         //航向补正
         int courseIndex = BattleContextUtils.getBattleCourse(context);
-        double courseAugmenting = CourseEnum.values()[--courseIndex].getAugmenting();
+        double courseAugmenting = CourseEnum.shelllingHougAugment(courseIndex);
         augmenting *= courseAugmenting;
 
         //损伤补正
