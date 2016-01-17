@@ -16,6 +16,7 @@ import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
@@ -112,7 +113,6 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
         int cond = ship.getCond();
         double condAugmenting = kaihiCondAugmenting(cond);
-
 
         return houkThreshold(shipKaihi * condAugmenting);
     }
@@ -380,15 +380,14 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      */
     public double augmentingBeforeThreshold(AbstractShip attackShip, BattleContext context) {
         double augmenting = 1d;
-        int[] formationArray = context.getBattleResult().getApi_formation();
 
         //阵型补正
-        int formationIndex = formationArray[0];
+        int formationIndex = BattleContextUtils.getMemberFormation(context);
         double formationAugmenting = FormationSystem.shellingAugmenting(formationIndex);
         augmenting *= formationAugmenting;
 
         //航向补正
-        int courseIndex = formationArray[2];
+        int courseIndex = BattleContextUtils.getBattleCourse(context);
         double courseAugmenting = CourseEnum.values()[--courseIndex].getAugmenting();
         augmenting *= courseAugmenting;
 
