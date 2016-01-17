@@ -15,7 +15,7 @@ import java.math.RoundingMode;
 
 /**
  * @author J.K.SAGE
- * @param <T>
+ * @param <S>
  * @Date 2015年11月1日
  */
 public abstract class AbstractShipShellingSystem<S extends AbstractShip, E extends AbstractShip> implements IShellingSystem<S, E> {
@@ -88,9 +88,9 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
 
-    protected  abstract  double combineKaihiRatio(T ship, BattleContext context);
+    protected  abstract  double combineKaihiRatio(S ship, BattleContext context);
 
-    protected abstract int hitRatios(T ship);
+    protected abstract double combineHitRatio(S ship,BattleContext context);
 
     protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);

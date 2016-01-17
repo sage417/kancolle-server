@@ -1,13 +1,9 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import java.util.Collections;
-import java.util.Map;
-
-import javax.validation.Valid;
-
+import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
+import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
-import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
-import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.useitem.MemberUseItemService;
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 @RestController
-@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.GET)
+@RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)
 public class ReqMemberController {
     private static final APIResponse<Map<String, Object>> svdata = new APIResponse<Map<String, Object>>().setApi_data(Collections.singletonMap("api_count", 0));
 

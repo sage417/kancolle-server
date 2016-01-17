@@ -12,8 +12,10 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
  */
 public interface MapTraveller {
 
-    AbstractMapCell getNextPoint(int mapCell_no);
-
     AbstractMapCell getStartPoint();
+
+    void reset();
+
+    void setMapCell(int mapCellId);
 
 }

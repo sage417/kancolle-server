@@ -5,22 +5,22 @@ import com.kancolle.server.dao.annotation.Column;
 
 public class MapCellModel {
 
-    @JSONField(ordinal = 1)
+    @JSONField(name = "api_map_no", ordinal = 1)
     private int api_map_no;
 
-    @JSONField(ordinal = 2)
+    @JSONField(name = "api_maparea_id", ordinal = 2)
     private int api_maparea_id;
 
-    @JSONField(ordinal = 3)
+    @JSONField(name = "api_mapinfo_no", ordinal = 3)
     private int api_mapinfo_no;
 
-    @JSONField(ordinal = 4)
+    @JSONField(name = "api_id", ordinal = 4)
     private int api_id;
 
-    @JSONField(ordinal = 5)
+    @JSONField(name = "api_no", ordinal = 5)
     private int api_no;
 
-    @JSONField(ordinal = 6)
+    @JSONField(name = "api_color_no", ordinal = 6)
     private int api_color_no;
 
     public int getApi_color_no() {

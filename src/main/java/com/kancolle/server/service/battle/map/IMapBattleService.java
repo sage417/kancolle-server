@@ -15,4 +15,5 @@ public interface IMapBattleService {
 
     MapStartResult start(String member_id, MapStartForm form);
 
+    MapStartResult next(String member_id, int recoverType);
 }
