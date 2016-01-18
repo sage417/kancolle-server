@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.service.map.mapcells.map11;
 
-import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
+import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import org.springframework.stereotype.Component;
@@ -17,20 +17,19 @@ import org.springframework.stereotype.Component;
 public class MapCell3 extends AbstractMapCell {
 
 
-
     @Override
-    public AbstractMapCell getNextMapPoint() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public MapStartResult getMapCellResult() {
+    public EnemyDeckPort getEnemyDeckPort() {
         return null;
     }
 
     @Override
-    public EnemyDeckPort getEnemyDeckPort() {
-        // TODO Auto-generated method stub
+    public AbstractMapCell getNextMapPoint() {
+        return null;
+    }
+
+
+    @Override
+    public MapNextResult getMapNextResult() {
         return null;
     }
 }

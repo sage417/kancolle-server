@@ -3,8 +3,10 @@
  */
 package com.kancolle.server.service.map;
 
+import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
+import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.service.map.mapcells.INormalMapCell;
 
 /**
  * @author J.K.SAGE
@@ -13,12 +15,11 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
  */
 public interface MapTraveller {
 
-    AbstractMapCell getStartPoint();
+    MapStartResult start(MemberDeckPort deckPort);
 
-    AbstractMapCell getNextPoint(MemberDeckPort deckPort);
+    MapNextResult next(MemberDeckPort deckPort);
 
-    AbstractMapCell getCurrentMapCell();
+    INormalMapCell getCurrentMapCell();
 
     void setMapCell(int mapCellId);
-
 }

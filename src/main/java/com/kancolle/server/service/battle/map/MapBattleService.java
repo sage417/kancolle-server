@@ -5,12 +5,12 @@ package com.kancolle.server.service.battle.map;
 
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
+import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MapTraveller;
-import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -29,6 +29,15 @@ public class MapBattleService implements IMapBattleService {
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
 
+    /**
+     * start表示从起始点出发到下一点的过程
+     * 起始点no=0
+     * 当前点的位置为下一点的位置
+     *
+     * @param member_id
+     * @param form
+     * @return
+     */
     @Override
     public MapStartResult start(String member_id, MapStartForm form) {
 
@@ -40,33 +49,30 @@ public class MapBattleService implements IMapBattleService {
         MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deckId);
 
         MapTraveller traveller = loadMapTraveller(travellerNo);
-        AbstractMapCell mapPoint = traveller.getStartPoint();
 
-        MapStartResult result = mapPoint.getMapCellResult();
-        int mapCellId = result.getApi_no();
+        MapStartResult result = traveller.start(deckPort);
 
-        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
+        int mapCellNo = result.getApi_no();
+
+        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellNo);
 
         return result;
     }
 
     @Override
-    public MapStartResult next(String member_id, int recoverType) {
+    public MapNextResult next(String member_id, int recoverType) {
 
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
-        MemberDeckPort deckPort = state.getMemberDeckPort();
-
 
         int travellerNo = state.getMapAreaId();
-        int mapCellId = state.getMapCellId();
+        int mapCellNo = state.getMapCellId();
 
         MapTraveller traveller = loadMapTraveller(travellerNo);
-        traveller.setMapCell(mapCellId);
+        traveller.setMapCell(mapCellNo);
 
-        AbstractMapCell mapPoint =  traveller.getCurrentMapCell();
-
-        return mapPoint.getMapCellResult();
+        MemberDeckPort deckPort = state.getMemberDeckPort();
+        return traveller.next(deckPort);
     }
 
     private MapTraveller loadMapTraveller(int travellerNo) {

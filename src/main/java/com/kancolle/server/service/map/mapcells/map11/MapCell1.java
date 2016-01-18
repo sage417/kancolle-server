@@ -3,25 +3,20 @@
  */
 package com.kancolle.server.service.map.mapcells.map11;
 
+import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.service.map.mapcells.IStartMapCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * @author J.K.SAGE
  * @Date 2015年8月21日
- *
  */
 @Component
-public class MapCell1 extends AbstractMapCell {
-
-    private static final int MAPCELL_ID = 1;
+public class MapCell1 implements IStartMapCell {
 
     @Autowired
     @Qualifier("mapCell2")
@@ -46,13 +41,12 @@ public class MapCell1 extends AbstractMapCell {
     }
 
     @Override
-    public MapStartResult getMapCellResult() {
+    public MapStartResult getMapStartResult() {
         return mapResult;
     }
 
     @Override
-    public EnemyDeckPort getEnemyDeckPort() {
-        List<EnemyDeckPort> enemyDeckPorts = enemyDeckPortService.getEnemyDeckports(MAPCELL_ID);
-        return CollectionsUtils.randomGet(enemyDeckPorts);
+    public MapNextResult getMapNextResult() {
+        throw new UnsupportedOperationException();
     }
 }

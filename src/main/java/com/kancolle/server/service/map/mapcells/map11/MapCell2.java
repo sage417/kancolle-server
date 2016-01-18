@@ -4,7 +4,6 @@
 package com.kancolle.server.service.map.mapcells.map11;
 
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
-import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
@@ -20,7 +19,7 @@ import java.util.List;
  * @Date 2015年8月21日
  */
 @Component
-public class MapCell2 extends AbstractMapCell {
+public class MapCell2 extends AbstractMapCell{
 
     private static final int MAPCELL_ID = 2;
 
@@ -54,10 +53,12 @@ public class MapCell2 extends AbstractMapCell {
         return randomInt > 0 ? NEXT_POINT1 : NEXT_POINT2;
     }
 
+
     @Override
-    public MapStartResult getMapCellResult() {
+    public MapNextResult getMapNextResult() {
         return mapResult;
     }
+
 
     @Override
     public EnemyDeckPort getEnemyDeckPort() {
