@@ -9,7 +9,7 @@
 </resultMap>
 
 	<select id="selectMemberMapCellInfos" resultMap="MemberMapCellRM">
-		SELECT * FROM t_member_mapcell_info i
+		SELECT i.* FROM t_member_mapcell_info i
 			INNER JOIN t_map_cell c ON c.ID = i.MAPCELL_ID
 		WHERE c.MAPAREA_ID = #{maparea_id} AND c.MAPINFO_NO = #{map_no} AND i.member_id = #{member_id}
 	</select>
