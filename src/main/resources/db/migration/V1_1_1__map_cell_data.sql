@@ -1,0 +1,13 @@
+CREATE TABLE `t_map_cell_traveller` (
+`CELL_ID`  int UNSIGNED NOT NULL ,
+`RASHIN_FLAG`  tinyint NOT NULL ,
+`RASHIN_ID`  int NOT NULL ,
+`COLOR_NO`  int NOT NULL ,
+`EVENT_ID`  int NOT NULL ,
+`NEXT`  int NOT NULL ,
+`COMMENT_KIND`  int NOT NULL ,
+`PRODUCTION_KIND`  int NOT NULL ,
+PRIMARY KEY (`CELL_ID`),
+FOREIGN KEY (`CELL_ID`) REFERENCES `t_map_cell` (`ID`)
+)
+;
