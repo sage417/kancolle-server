@@ -37,6 +37,7 @@ public class ReqMapController {
         return new APIResponse<MapStartResult>().setApi_data(api_data);
     }
 
+    @RequestMapping("/next")
     public APIResponse<MapStartResult> next(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_recovery_type", defaultValue = "0") int recoverType)  {
 
         MapStartResult api_data = mapBattleService.next(member_id, recoverType);

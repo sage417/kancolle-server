@@ -52,9 +52,9 @@ public class MapBattleService implements IMapBattleService {
 
         MapStartResult result = traveller.start(deckPort);
 
-        int mapCellNo = result.getApi_no();
+        int mapCellId = traveller.getCurrentMapCell().getMapCellId();
 
-        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellNo);
+        memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
         return result;
     }

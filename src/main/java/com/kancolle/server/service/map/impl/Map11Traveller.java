@@ -34,28 +34,29 @@ public class Map11Traveller implements MapTraveller {
 
     @Override
     public MapStartResult start(MemberDeckPort deckPort) {
+        setMapCell(2);
         return cell1.getMapStartResult();
     }
 
     @Override
     public MapNextResult next(MemberDeckPort deckPort) {
-        return  currentMapCell.getNextMapPoint().getMapNextResult();
+        return currentMapCell.getMapNextResult();
     }
 
     @Override
-    public void setMapCell(int mapCellNo) {
-        switch (mapCellNo) {
-            case 1:
+    public void setMapCell(int mapCellId) {
+        switch (mapCellId) {
+            case 2:
                 setCurrentMapCell(cell2);
                 break;
-            case 2:
+            case 3:
                 setCurrentMapCell(cell3);
                 break;
-            case 3:
+            case 4:
                 setCurrentMapCell(cell4);
                 break;
             default:
-                throw new IllegalArgumentException("illegal mapCellId:" + mapCellNo);
+                throw new IllegalArgumentException("illegal mapCellId:" + mapCellId);
         }
     }
 

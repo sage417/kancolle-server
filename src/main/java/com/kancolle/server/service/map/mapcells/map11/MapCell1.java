@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.service.map.mapcells.map11;
 
-import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.map.mapcells.IStartMapCell;
@@ -36,17 +35,12 @@ public class MapCell1 implements IStartMapCell {
     }
 
     @Override
-    public AbstractMapCell getNextMapPoint() {
-        return nextPoint;
-    }
-
-    @Override
     public MapStartResult getMapStartResult() {
         return mapResult;
     }
 
     @Override
-    public MapNextResult getMapNextResult() {
-        throw new UnsupportedOperationException();
+    public int getMapCellId() {
+        return 1;
     }
 }

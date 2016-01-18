@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MapCell3 extends AbstractMapCell {
 
+    private static final int MAPCELL_ID = 3;
 
     @Override
     public EnemyDeckPort getEnemyDeckPort() {
@@ -23,13 +24,12 @@ public class MapCell3 extends AbstractMapCell {
     }
 
     @Override
-    public AbstractMapCell getNextMapPoint() {
+    public MapNextResult getMapNextResult() {
         return null;
     }
 
-
     @Override
-    public MapNextResult getMapNextResult() {
-        return null;
+    public int getMapCellId() {
+        return 3;
     }
 }

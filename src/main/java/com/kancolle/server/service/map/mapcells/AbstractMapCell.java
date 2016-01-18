@@ -15,5 +15,4 @@ public abstract class AbstractMapCell implements INormalMapCell {
 
     @Autowired
     protected EnemyDeckPortService enemyDeckPortService;
-
 }

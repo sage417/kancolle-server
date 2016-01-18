@@ -47,15 +47,12 @@ public class MapCell2 extends AbstractMapCell{
         mapResult.setProductionKind(0);
     }
 
-    @Override
-    public AbstractMapCell getNextMapPoint() {
-        int randomInt = RandomUtils.nextInt(0, 2);
-        return randomInt > 0 ? NEXT_POINT1 : NEXT_POINT2;
-    }
-
 
     @Override
     public MapNextResult getMapNextResult() {
+        int randomInt = RandomUtils.nextInt(0, 2);
+        AbstractMapCell nextPoint = randomInt > 0 ? NEXT_POINT1 : NEXT_POINT2;
+
         return mapResult;
     }
 
@@ -64,5 +61,10 @@ public class MapCell2 extends AbstractMapCell{
     public EnemyDeckPort getEnemyDeckPort() {
         List<EnemyDeckPort> enemyDeckPorts = enemyDeckPortService.getEnemyDeckports(MAPCELL_ID);
         return CollectionsUtils.randomGet(enemyDeckPorts);
+    }
+
+    @Override
+    public int getMapCellId() {
+        return MAPCELL_ID;
     }
 }
