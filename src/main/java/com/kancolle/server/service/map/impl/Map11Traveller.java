@@ -35,12 +35,14 @@ public class Map11Traveller implements MapTraveller {
     @Override
     public MapStartResult start(MemberDeckPort deckPort) {
         setMapCell(2);
-        return cell1.getMapStartResult();
+        return cell2.getMapResult();
     }
 
     @Override
     public MapNextResult next(MemberDeckPort deckPort) {
-        return currentMapCell.getMapResult();
+        INormalMapCell nextPoint = currentMapCell.nextPoint();
+        currentMapCell = nextPoint;
+        return nextPoint.getMapResult();
     }
 
     @Override

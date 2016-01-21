@@ -5,8 +5,8 @@
 <resultMap type="MapCell" id="MapCellRM" autoMapping="true">
 	<id property="cellId" column="CELL_ID"/>
 	<result property="rashinFlag"  column="RASHIN_FLAG"/>
-	<result property="mapAreaId"  column="MAPAREA_ID"/>
-	<result property="mapInfoId"  column="MAPINFO_ID"/>
+	<result property="mapareaId"  column="MAPAREA_ID"/>
+	<result property="mapinfoId"  column="MAPINFO_ID"/>
 	<result property="rashinId"  column="RASHIN_ID"/>
 	<result property="colorNo"  column="COLOR_NO"/>
 	<result property="eventId"  column="EVENT_ID"/>

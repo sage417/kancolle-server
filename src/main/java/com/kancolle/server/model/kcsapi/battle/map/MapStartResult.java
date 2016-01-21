@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.battle.map;
 
@@ -10,59 +10,58 @@ import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
 /**
  * @author J.K.SAGE
  * @Date 2015年8月20日
- *
  */
 public class MapStartResult {
 
-    @JSONField(ordinal = 1,name="api_rashin_flg")
+    @JSONField(ordinal = 1, name = "api_rashin_flg")
     @JsonProperty("api_rashin_flg")
     private int rashinFlag;
 
-    @JSONField(ordinal = 2,name="api_rashin_flg")
+    @JSONField(ordinal = 2, name = "api_rashin_id")
     @JsonProperty("api_rashin_id")
     private int rashinId;
 
-    @JSONField(ordinal = 3,name="api_rashin_flg")
+    @JSONField(ordinal = 3, name = "api_maparea_id")
     @JsonProperty("api_maparea_id")
     private int mapareaId;
 
-    @JSONField(ordinal = 4,name="api_rashin_flg")
+    @JSONField(ordinal = 4, name = "api_mapinfo_no")
     @JsonProperty("api_mapinfo_no")
-    private int mapinfoNo;
+    private int mapinfoId;
 
-    @JSONField(ordinal = 5,name="api_rashin_flg")
+    @JSONField(ordinal = 5, name = "api_no")
     @JsonProperty("api_no")
     private int no;
 
-    @JSONField(ordinal = 6,name="api_rashin_flg")
+    @JSONField(ordinal = 6, name = "api_color_no")
     @JsonProperty("api_color_no")
     private int colorNo;
 
-    @JSONField(ordinal = 7,name="api_rashin_flg")
+    @JSONField(ordinal = 7, name = "api_event_id")
     @JsonProperty("api_event_id")
     private int eventId;
 
-    @JSONField(ordinal = 8,name="api_rashin_flg")
+    @JSONField(ordinal = 8, name = "api_event_kind")
     @JsonProperty("api_event_kind")
     private int eventKind;
 
-    @JSONField(ordinal = 9,name="api_rashin_flg")
+    @JSONField(ordinal = 9, name = "api_next")
     @JsonProperty("api_next")
     private int next;
 
-    @JSONField(ordinal = 10,name="api_rashin_flg")
+    @JSONField(ordinal = 10, name = "api_bosscell_no")
     @JsonProperty("api_bosscell_no")
     private int bossCellNo;
 
-    @JSONField(ordinal = 11,name="api_rashin_flg")
+    @JSONField(ordinal = 11, name = "api_bosscomp")
     @JsonProperty("api_bosscomp")
     private int bossComp;
 
-    @JSONField(ordinal = 12,name="api_rashin_flg")
+    @JSONField(ordinal = 12, name = "api_airsearch")
     @JsonProperty("api_airsearch")
     private AirSearch airSearch = AirSearch.NO_AIRSEARCH;
 
-    @JSONField(ordinal = 13,name="api_rashin_flg")
+    @JSONField(ordinal = 13, name = "api_itemget")
     @JsonProperty("api_itemget")
     private MapItemGet itemGet;
 
@@ -90,12 +89,12 @@ public class MapStartResult {
         this.mapareaId = mapareaId;
     }
 
-    public int getMapinfoNo() {
-        return mapinfoNo;
+    public int getMapinfoId() {
+        return mapinfoId;
     }
 
-    public void setMapinfoNo(int mapinfoNo) {
-        this.mapinfoNo = mapinfoNo;
+    public void setMapinfoId(int mapinfoId) {
+        this.mapinfoId = mapinfoId;
     }
 
     public int getNo() {

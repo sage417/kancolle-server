@@ -64,7 +64,6 @@ public class MapBattleService implements IMapBattleService {
 
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
-
         int travellerNo = state.getMapAreaId();
         int mapCellNo = state.getMapCellId();
 

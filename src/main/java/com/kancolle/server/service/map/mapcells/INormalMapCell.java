@@ -10,5 +10,7 @@ public interface INormalMapCell extends IMapCell {
 
     MapNextResult getMapResult();
 
+    INormalMapCell nextPoint();
+
     EnemyDeckPort getEnemyDeckPort();
 }

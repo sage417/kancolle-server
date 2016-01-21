@@ -12,9 +12,9 @@ public class MapCell implements Serializable{
 
     private int cellId;
 
-    private int mapAreaId;
+    private int mapareaId;
 
-    private int mapInfoId;
+    private int mapinfoId;
 
     private int no;
 
@@ -42,20 +42,20 @@ public class MapCell implements Serializable{
         this.cellId = cellId;
     }
 
-    public int getMapAreaId() {
-        return mapAreaId;
+    public int getMapareaId() {
+        return mapareaId;
     }
 
-    public void setMapAreaId(int mapAreaId) {
-        this.mapAreaId = mapAreaId;
+    public void setMapareaId(int mapareaId) {
+        this.mapareaId = mapareaId;
     }
 
-    public int getMapInfoId() {
-        return mapInfoId;
+    public int getMapinfoId() {
+        return mapinfoId;
     }
 
-    public void setMapInfoId(int mapInfoId) {
-        this.mapInfoId = mapInfoId;
+    public void setMapinfoId(int mapinfoId) {
+        this.mapinfoId = mapinfoId;
     }
 
     public int getNo() {
