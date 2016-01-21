@@ -4,6 +4,7 @@
 package com.kancolle.server.model.kcsapi.battle.map;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
 
 /**
@@ -13,146 +14,159 @@ import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
  */
 public class MapStartResult {
 
-    @JSONField(ordinal = 1)
-    private int api_rashin_flg;
+    @JSONField(ordinal = 1,name="api_rashin_flg")
+    @JsonProperty("api_rashin_flg")
+    private int rashinFlag;
 
-    @JSONField(ordinal = 2)
-    private int api_rashin_id;
+    @JSONField(ordinal = 2,name="api_rashin_flg")
+    @JsonProperty("api_rashin_id")
+    private int rashinId;
 
-    @JSONField(ordinal = 3)
-    private int api_maparea_id;
+    @JSONField(ordinal = 3,name="api_rashin_flg")
+    @JsonProperty("api_maparea_id")
+    private int mapareaId;
 
-    @JSONField(ordinal = 4)
-    private int api_mapinfo_no;
+    @JSONField(ordinal = 4,name="api_rashin_flg")
+    @JsonProperty("api_mapinfo_no")
+    private int mapinfoNo;
 
-    @JSONField(ordinal = 5)
-    private int api_no;
+    @JSONField(ordinal = 5,name="api_rashin_flg")
+    @JsonProperty("api_no")
+    private int no;
 
-    @JSONField(ordinal = 6)
-    private int api_color_no;
+    @JSONField(ordinal = 6,name="api_rashin_flg")
+    @JsonProperty("api_color_no")
+    private int colorNo;
 
-    @JSONField(ordinal = 7)
-    private int api_event_id;
+    @JSONField(ordinal = 7,name="api_rashin_flg")
+    @JsonProperty("api_event_id")
+    private int eventId;
 
-    @JSONField(ordinal = 8)
-    private int api_event_kind;
+    @JSONField(ordinal = 8,name="api_rashin_flg")
+    @JsonProperty("api_event_kind")
+    private int eventKind;
 
-    @JSONField(ordinal = 9)
-    private int api_next;
+    @JSONField(ordinal = 9,name="api_rashin_flg")
+    @JsonProperty("api_next")
+    private int next;
 
-    @JSONField(ordinal = 10)
-    private int api_bosscell_no;
+    @JSONField(ordinal = 10,name="api_rashin_flg")
+    @JsonProperty("api_bosscell_no")
+    private int bossCellNo;
 
-    @JSONField(ordinal = 11)
-    private int api_bosscomp;
+    @JSONField(ordinal = 11,name="api_rashin_flg")
+    @JsonProperty("api_bosscomp")
+    private int bossComp;
 
-    @JSONField(ordinal = 12)
-    private AirSearch api_airsearch = AirSearch.NO_AIRSEARCH;
+    @JSONField(ordinal = 12,name="api_rashin_flg")
+    @JsonProperty("api_airsearch")
+    private AirSearch airSearch = AirSearch.NO_AIRSEARCH;
 
-    @JSONField(ordinal = 13)
-    private MapItemGet api_itemget;
+    @JSONField(ordinal = 13,name="api_rashin_flg")
+    @JsonProperty("api_itemget")
+    private MapItemGet itemGet;
 
-    public int getApi_rashin_flg() {
-        return api_rashin_flg;
+    public int getRashinFlag() {
+        return rashinFlag;
     }
 
-    public void setApi_rashin_flg(int api_rashin_flg) {
-        this.api_rashin_flg = api_rashin_flg;
+    public void setRashinFlag(int rashinFlag) {
+        this.rashinFlag = rashinFlag;
     }
 
-    public int getApi_rashin_id() {
-        return api_rashin_id;
+    public int getRashinId() {
+        return rashinId;
     }
 
-    public void setApi_rashin_id(int api_rashin_id) {
-        this.api_rashin_id = api_rashin_id;
+    public void setRashinId(int rashinId) {
+        this.rashinId = rashinId;
     }
 
-    public int getApi_maparea_id() {
-        return api_maparea_id;
+    public int getMapareaId() {
+        return mapareaId;
     }
 
-    public void setApi_maparea_id(int api_maparea_id) {
-        this.api_maparea_id = api_maparea_id;
+    public void setMapareaId(int mapareaId) {
+        this.mapareaId = mapareaId;
     }
 
-    public int getApi_mapinfo_no() {
-        return api_mapinfo_no;
+    public int getMapinfoNo() {
+        return mapinfoNo;
     }
 
-    public void setApi_mapinfo_no(int api_mapinfo_no) {
-        this.api_mapinfo_no = api_mapinfo_no;
+    public void setMapinfoNo(int mapinfoNo) {
+        this.mapinfoNo = mapinfoNo;
     }
 
-    public int getApi_no() {
-        return api_no;
+    public int getNo() {
+        return no;
     }
 
-    public void setApi_no(int api_no) {
-        this.api_no = api_no;
+    public void setNo(int no) {
+        this.no = no;
     }
 
-    public int getApi_color_no() {
-        return api_color_no;
+    public int getColorNo() {
+        return colorNo;
     }
 
-    public void setApi_color_no(int api_color_no) {
-        this.api_color_no = api_color_no;
+    public void setColorNo(int colorNo) {
+        this.colorNo = colorNo;
     }
 
-    public int getApi_event_id() {
-        return api_event_id;
+    public int getEventId() {
+        return eventId;
     }
 
-    public void setApi_event_id(int api_event_id) {
-        this.api_event_id = api_event_id;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
-    public int getApi_event_kind() {
-        return api_event_kind;
+    public int getEventKind() {
+        return eventKind;
     }
 
-    public void setApi_event_kind(int api_event_kind) {
-        this.api_event_kind = api_event_kind;
+    public void setEventKind(int eventKind) {
+        this.eventKind = eventKind;
     }
 
-    public int getApi_next() {
-        return api_next;
+    public int getNext() {
+        return next;
     }
 
-    public void setApi_next(int api_next) {
-        this.api_next = api_next;
+    public void setNext(int next) {
+        this.next = next;
     }
 
-    public int getApi_bosscell_no() {
-        return api_bosscell_no;
+    public int getBossCellNo() {
+        return bossCellNo;
     }
 
-    public void setApi_bosscell_no(int api_bosscell_no) {
-        this.api_bosscell_no = api_bosscell_no;
+    public void setBossCellNo(int bossCellNo) {
+        this.bossCellNo = bossCellNo;
     }
 
-    public int getApi_bosscomp() {
-        return api_bosscomp;
+    public int getBossComp() {
+        return bossComp;
     }
 
-    public void setApi_bosscomp(int api_bosscomp) {
-        this.api_bosscomp = api_bosscomp;
+    public void setBossComp(int bossComp) {
+        this.bossComp = bossComp;
     }
 
-    public AirSearch getApi_airsearch() {
-        return api_airsearch;
+    public AirSearch getAirSearch() {
+        return airSearch;
     }
 
-    public void setApi_airsearch(AirSearch api_airsearch) {
-        this.api_airsearch = api_airsearch;
+    public void setAirSearch(AirSearch airSearch) {
+        this.airSearch = airSearch;
     }
 
-    public MapItemGet getApi_itemget() {
-        return api_itemget;
+    public MapItemGet getItemGet() {
+        return itemGet;
     }
 
-    public void setApi_itemget(MapItemGet api_itemget) {
-        this.api_itemget = api_itemget;
+    public void setItemGet(MapItemGet itemGet) {
+        this.itemGet = itemGet;
     }
 }

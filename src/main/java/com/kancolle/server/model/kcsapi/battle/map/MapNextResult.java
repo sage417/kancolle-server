@@ -1,5 +1,6 @@
 package com.kancolle.server.model.kcsapi.battle.map;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -16,8 +17,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class MapNextResult extends MapStartResult {
 
     @JsonProperty("api_comment_kind")
+    @JSONField(name="api_comment_kind",ordinal = 99)
     private int commentKind;
 
+    @JSONField(name="api_production_kind",ordinal = 100)
     @JsonProperty("api_production_kind")
     private int productionKind;
 
