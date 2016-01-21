@@ -52,13 +52,6 @@ public class MapStartResult {
     @JSONField(ordinal = 13)
     private MapItemGet api_itemget;
 
-    public MapStartResult(int api_maparea_id, int api_mapinfo_no, int api_no) {
-        super();
-        this.api_maparea_id = api_maparea_id;
-        this.api_mapinfo_no = api_mapinfo_no;
-        this.api_no = api_no;
-    }
-
     public int getApi_rashin_flg() {
         return api_rashin_flg;
     }

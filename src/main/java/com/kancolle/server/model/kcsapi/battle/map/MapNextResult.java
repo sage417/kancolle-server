@@ -21,10 +21,6 @@ public class MapNextResult extends MapStartResult {
     @JsonProperty("api_production_kind")
     private int productionKind;
 
-    public MapNextResult(int api_maparea_id, int api_mapinfo_no, int api_no) {
-        super(api_maparea_id, api_mapinfo_no, api_no);
-    }
-
     public int getCommentKind() {
         return commentKind;
     }

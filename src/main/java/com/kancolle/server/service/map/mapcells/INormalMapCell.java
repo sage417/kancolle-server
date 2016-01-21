@@ -8,7 +8,7 @@ import com.kancolle.server.model.po.deckport.EnemyDeckPort;
  */
 public interface INormalMapCell extends IMapCell {
 
-    MapNextResult getMapNextResult();
+    MapNextResult getMapResult();
 
     EnemyDeckPort getEnemyDeckPort();
 }

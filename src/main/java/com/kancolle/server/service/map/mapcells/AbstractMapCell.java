@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.service.map.mapcells;
 
+import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.service.deckport.EnemyDeckPortService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,4 +16,7 @@ public abstract class AbstractMapCell implements INormalMapCell {
 
     @Autowired
     protected EnemyDeckPortService enemyDeckPortService;
+
+    @Autowired
+    protected MapCellMapper mapCellMapper;
 }

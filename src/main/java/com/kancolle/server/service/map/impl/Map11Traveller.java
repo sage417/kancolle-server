@@ -40,7 +40,7 @@ public class Map11Traveller implements MapTraveller {
 
     @Override
     public MapNextResult next(MemberDeckPort deckPort) {
-        return currentMapCell.getMapNextResult();
+        return currentMapCell.getMapResult();
     }
 
     @Override

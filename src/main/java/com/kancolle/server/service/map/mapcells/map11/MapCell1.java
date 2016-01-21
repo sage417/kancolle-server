@@ -21,22 +21,9 @@ public class MapCell1 implements IStartMapCell {
     @Qualifier("mapCell2")
     private AbstractMapCell nextPoint;
 
-    private final MapStartResult mapResult = new MapStartResult(1, 1, 1);
-
-    public MapCell1() {
-        mapResult.setApi_rashin_flg(0);
-        mapResult.setApi_rashin_id(0);
-        mapResult.setApi_color_no(4);
-        mapResult.setApi_event_id(4);
-        mapResult.setApi_event_kind(1);
-        mapResult.setApi_next(2);
-        mapResult.setApi_bosscell_no(3);
-        mapResult.setApi_bosscomp(1);
-    }
-
     @Override
     public MapStartResult getMapStartResult() {
-        return mapResult;
+        return nextPoint.getMapResult();
     }
 
     @Override

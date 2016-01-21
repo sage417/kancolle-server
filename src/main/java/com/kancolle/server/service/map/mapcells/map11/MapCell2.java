@@ -5,6 +5,7 @@ package com.kancolle.server.service.map.mapcells.map11;
 
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
+import com.kancolle.server.model.po.map.MapCell;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -31,29 +32,20 @@ public class MapCell2 extends AbstractMapCell{
     @Qualifier("mapCell4")
     private AbstractMapCell NEXT_POINT2;
 
-    private final MapNextResult mapResult = new MapNextResult(1, 1, 2);
-
-    public MapCell2() {
-        mapResult.setApi_rashin_flg(1);
-        mapResult.setApi_rashin_id(2);
-        mapResult.setApi_color_no(4);
-        mapResult.setApi_event_id(4);
-        mapResult.setApi_event_kind(1);
-        mapResult.setApi_next(0);
-        mapResult.setApi_bosscell_no(3);
-        mapResult.setApi_bosscomp(1);
-
-        mapResult.setCommentKind(0);
-        mapResult.setProductionKind(0);
-    }
-
+    private MapCell cell;
 
     @Override
-    public MapNextResult getMapNextResult() {
+    public MapNextResult getMapResult() {
+        MapNextResult result = new MapNextResult();
+        cell = mapCellMapper.selectMapCellById(MAPCELL_ID);
+        org.springframework.beans.BeanUtils.copyProperties(cell,result);
+        return result;
+    }
+
+    private AbstractMapCell nextPoint(){
         int randomInt = RandomUtils.nextInt(0, 2);
         AbstractMapCell nextPoint = randomInt > 0 ? NEXT_POINT1 : NEXT_POINT2;
-
-        return mapResult;
+        return nextPoint;
     }
 
 
