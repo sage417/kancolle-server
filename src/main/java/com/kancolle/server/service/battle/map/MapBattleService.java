@@ -11,6 +11,7 @@ import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MapTraveller;
+import com.kancolle.server.service.map.MemberMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -25,6 +26,9 @@ public class MapBattleService implements IMapBattleService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
+
+    @Autowired
+    private MemberMapService memberMapService;
 
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
@@ -56,6 +60,8 @@ public class MapBattleService implements IMapBattleService {
 
         memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
+        updateMemberMapCell(member_id, mapCellId);
+
         return result;
     }
 
@@ -65,12 +71,15 @@ public class MapBattleService implements IMapBattleService {
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
         int travellerNo = state.getMapAreaId();
-        int mapCellNo = state.getMapCellId();
+        int mapCellId = state.getMapCellId();
 
         MapTraveller traveller = loadMapTraveller(travellerNo);
-        traveller.setMapCell(mapCellNo);
+        traveller.setMapCell(mapCellId);
 
         MemberDeckPort deckPort = state.getMemberDeckPort();
+
+        updateMemberMapCell(member_id, mapCellId);
+
         return traveller.next(deckPort);
     }
 
@@ -78,5 +87,9 @@ public class MapBattleService implements IMapBattleService {
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         String travellerBeanName = String.format("map%dTraveller", travellerNo);
         return context.getBean(travellerBeanName, MapTraveller.class);
+    }
+
+    private void updateMemberMapCell(String memberId, int memberMapCellId) {
+        memberMapService.updateMemberCellPassFlag(memberId, memberMapCellId, true);
     }
 }

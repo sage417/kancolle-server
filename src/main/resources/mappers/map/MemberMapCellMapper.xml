@@ -13,4 +13,9 @@
 			INNER JOIN t_map_cell c ON c.ID = i.MAPCELL_ID
 		WHERE c.MAPAREA_ID = #{maparea_id} AND c.MAPINFO_NO = #{map_no} AND i.member_id = #{member_id}
 	</select>
+
+	<update id="updateMemberMapCellInfo">
+		UPDATE t_member_mapcell_info SET PASS_FLAG = #{passFlag}
+		WHERE member_id = #{member_id} AND MAPCELL_ID = #{mapcell_id}
+	</update>
 </mapper>
