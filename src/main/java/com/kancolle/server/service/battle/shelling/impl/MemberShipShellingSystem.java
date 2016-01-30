@@ -369,7 +369,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
 
     private int attackValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
-        double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, defendShip, context);
+        double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
 
@@ -432,15 +432,16 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      *
      * @return
      */
-    public double augmentingAfterThreshold(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
+    public double augmentingAfterThreshold(MemberShip attackShip, BattleContext context) {
         double augmenting = 1d;
 
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
 
-
-        // TODO 徹甲彈特效補正
-        SlotItemInfo info = SlotItemInfo.of(attackShip);
+        SlotItemInfo slotInfo = SlotItemInfo.of(attackShip);
+        if (slotInfo.getAPAmmoCount() > 0) {
+            augmenting *= APAMMO_AUGMENTING;
+        }
 
         //暴擊補正
         int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());

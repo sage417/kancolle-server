@@ -18,7 +18,7 @@ public class MapCell implements Serializable{
 
     private int no;
 
-    private boolean rashinFlag;
+    private int rashinFlag;
 
     private int rashinId;
 
@@ -66,11 +66,11 @@ public class MapCell implements Serializable{
         this.no = no;
     }
 
-    public boolean isRashinFlag() {
+    public int getRashinFlag() {
         return rashinFlag;
     }
 
-    public void setRashinFlag(boolean rashinFlag) {
+    public void setRashinFlag(int rashinFlag) {
         this.rashinFlag = rashinFlag;
     }
 

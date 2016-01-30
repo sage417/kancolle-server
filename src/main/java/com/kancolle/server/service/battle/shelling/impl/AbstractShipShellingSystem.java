@@ -63,6 +63,11 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
     protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[]{CL_VALUE_CRTICAL, CL_VALUE_HIT};
     protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{CL_VALUE_CRTICAL, CL_VALUE_CRTICAL};
 
+    /*------------伤害补正------------*/
+    protected  static final double APAMMO_AUGMENTING = 1.08d;
+    /*------------伤害补正------------*/
+
+
     /*------------暴击补正------------*/
     public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
     /*------------暴击补正------------*/
