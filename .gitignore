@@ -1,9 +1,10 @@
 /target/
 /.settings/
+/.idea/
 /logs/
 
 *.json
-*.class
+*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
