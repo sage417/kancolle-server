@@ -36,7 +36,7 @@ import static com.google.common.collect.Iterables.getLast;
 public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberShip, EnemyShip> {
 
     @Autowired
-    private AbstractShipShellingSystem<EnemyShip,MemberShip> enemyShipShellingSystem;
+    private AbstractShipShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
 
     @Override
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
@@ -174,72 +174,82 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
     private void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
-        LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
-        LinkedList<Object> si_list = context.getNowHougekiResult().getApi_si_list();
+        HougekiResult nowHougekiResult = context.getNowHougekiResult();
 
         KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
-        SlotItemInfo info = SlotItemInfo.of(attackShip);
+        //TODO cache
+        SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
 
-        if (!AerialUtils.testAerialAdvence(kouKuResult) || ShipUtils.isBadlyDmg.test(attackShip) || info.getSearchPlaneCount() == 0) {
-            generateNormalShellingAttackTypeAndSlotItemList(info, context);
+        if (!AerialUtils.testAerialAdvence(kouKuResult) || ShipUtils.isBadlyDmg.test(attackShip) || slotItemInfo.getSearchPlaneCount() < 1) {
+            generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
             return;
         }
 
-        int mainGunCount = info.getMainGunCount();
-        int secondaryGunCount = info.getSecondaryGunCount();
+        LinkedList<Integer> at_type_list = nowHougekiResult.getApi_at_type();
+        LinkedList<Object> si_list = nowHougekiResult.getApi_si_list();
+
+        int mainGunCount = slotItemInfo.getMainGunCount();
+        int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+        int radarCount = slotItemInfo.getRadarCount();
+        int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
         // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
-            si_list.add(Longs.asList(info.getMainGunId()).subList(0, 2));
+            si_list.add(Longs.asList(slotItemInfo.getMainGunIds()));
             return;
         }
 
         // 主副CI(主副)
         if (mainGunCount > 0 && secondaryGunCount > 0) {
             at_type_list.add(ATTACK_TYPE_SECONDARY);
-            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0]));
+            si_list.add(slotItemInfo.getMainGunIds()[0]);
+            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
             return;
         }
 
         // 电探CI(主副+电探)
-        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getRadarCount() == 1) {
+        if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0) {
             at_type_list.add(ATTACK_TYPE_RADAR);
-            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0], info.getRadarId()[0]));
+            si_list.add(slotItemInfo.getMainGunIds()[0]);
+            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
+            si_list.add(slotItemInfo.getRadarIds()[0]);
             return;
         }
 
         // 撤甲弹CI(主副+撤甲)
-        if (mainGunCount == 1 && secondaryGunCount == 1 && info.getAPAmmoCount() == 1) {
+        if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
-            si_list.add(Longs.asList(info.getMainGunId()[0], info.getSecondaryGunId()[0], info.getApAmmoId()[0]));
+            si_list.add(slotItemInfo.getMainGunIds()[0]);
+            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
+            si_list.add(slotItemInfo.getApAmmoIds()[0]);
             return;
         }
 
         // 主炮CI(主主+撤甲)
-        if (mainGunCount == 2 && info.getAPAmmoCount() == 1) {
+        if (mainGunCount > 1 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_MAIN);
-            si_list.add(Longs.asList(info.getMainGunId()[0], info.getMainGunId()[1], info.getApAmmoId()[0]));
+            si_list.add(slotItemInfo.getMainGunIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds()[1]);
+            si_list.add(slotItemInfo.getApAmmoIds()[0]);
             return;
         }
 
-        generateNormalShellingAttackTypeAndSlotItemList(info, context);
+        generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
     }
 
-    private void generateNormalShellingAttackTypeAndSlotItemList(SlotItemInfo info, BattleContext context) {
-        LinkedList<Integer> at_type_list = context.getNowHougekiResult().getApi_at_type();
-        LinkedList<Object> si_list = context.getNowHougekiResult().getApi_si_list();
+    private void generateNormalShellingAttackTypeAndSlotItemList(SlotItemInfo info, HougekiResult hougekiResult) {
+        LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
+        LinkedList<Object> si_list = hougekiResult.getApi_si_list();
 
         at_type_list.add(ATTACK_TYPE_NORMAL);
         if (info.getMainGunCount() > 0) {
-            si_list.add(info.getMainGunId()[0]);
-            return;
+            si_list.add(info.getMainGunIds()[0]);
+        } else if (info.getSecondaryGunCount() > 0) {
+            si_list.add(info.getSecondaryGunIds()[0]);
+        } else {
+            si_list.add(Collections.singletonList(-1));
         }
-        if (info.getSecondaryGunCount() > 0) {
-            si_list.add(info.getSecondaryGunId()[0]);
-            return;
-        }
-        si_list.add(Collections.singleton(-1));
     }
 
     @Override
@@ -285,7 +295,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                boolean hit = isHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip,context));
+                boolean hit = isHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else

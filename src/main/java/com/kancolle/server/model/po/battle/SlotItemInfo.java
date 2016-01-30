@@ -3,13 +3,12 @@
  */
 package com.kancolle.server.model.po.battle;
 
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -20,26 +19,25 @@ public class SlotItemInfo {
 
     // 主炮数量
     private int mainGunCount;
-    private long[] mainGunId = new long[4];
+    private long[] mainGunIds = new long[4];
 
     // 副炮数量
     private int secondaryGunCount;
-    private long[] secondaryGunId = new long[4];
+    private long[] secondaryGunIds = new long[4];
 
     // 侦察机数量
     private int searchPlaneCount;
-    private long[] searchPlaneId = new long[4];
+    private long[] searchPlaneIds = new long[4];
 
     // 雷达数量
     private int radarCount;
-    private long[] radarId = new long[4];
+    private long[] radarIds = new long[4];
 
     // 撤甲弹数量
     private int APAmmoCount;
-    private long[] apAmmoId = new long[4];
+    private long[] apAmmoIds = new long[4];
 
-    private SlotItemInfo() {
-    }
+    private SlotItemInfo() { }
 
     public static SlotItemInfo of(MemberShip ship) {
         SlotItemInfo info = new SlotItemInfo();
@@ -55,27 +53,27 @@ public class SlotItemInfo {
             case 2:
             case 3:
                 info.mainGunCount++;
-                ArrayUtils.add(info.mainGunId, slotItemId);
+                ArrayUtils.add(info.mainGunIds, slotItemId);
                 break;
             case 4:
                 info.secondaryGunCount++;
-                ArrayUtils.add(info.secondaryGunId, slotItemId);
+                ArrayUtils.add(info.secondaryGunIds, slotItemId);
                 break;
             case 12:
             case 13:
                 info.radarCount++;
-                ArrayUtils.add(info.radarId, slotItemId);
+                ArrayUtils.add(info.radarIds, slotItemId);
                 break;
             case 9:
             case 10:
                 if (currentEQ[i] > 0) {
                     info.searchPlaneCount++;
-                    ArrayUtils.add(info.searchPlaneId, slotItemId);
+                    ArrayUtils.add(info.searchPlaneIds, slotItemId);
                 }
                 break;
             case 19:
                 info.APAmmoCount++;
-                ArrayUtils.add(info.apAmmoId, slotItemId);
+                ArrayUtils.add(info.apAmmoIds, slotItemId);
                 break;
             default:
                 break;
@@ -125,44 +123,44 @@ public class SlotItemInfo {
         APAmmoCount = aPAmmoCount;
     }
 
-    public long[] getMainGunId() {
-        return mainGunId;
+    public long[] getMainGunIds() {
+        return mainGunIds;
     }
 
-    public void setMainGunId(long[] mainGunId) {
-        this.mainGunId = mainGunId;
+    public void setMainGunIds(long[] mainGunIds) {
+        this.mainGunIds = mainGunIds;
     }
 
-    public long[] getSecondaryGunId() {
-        return secondaryGunId;
+    public long[] getSecondaryGunIds() {
+        return secondaryGunIds;
     }
 
-    public void setSecondaryGunId(long[] secondaryGunId) {
-        this.secondaryGunId = secondaryGunId;
+    public void setSecondaryGunIds(long[] secondaryGunIds) {
+        this.secondaryGunIds = secondaryGunIds;
     }
 
-    public long[] getSearchPlaneId() {
-        return searchPlaneId;
+    public long[] getSearchPlaneIds() {
+        return searchPlaneIds;
     }
 
-    public void setSearchPlaneId(long[] searchPlaneId) {
-        this.searchPlaneId = searchPlaneId;
+    public void setSearchPlaneIds(long[] searchPlaneIds) {
+        this.searchPlaneIds = searchPlaneIds;
     }
 
-    public long[] getRadarId() {
-        return radarId;
+    public long[] getRadarIds() {
+        return radarIds;
     }
 
-    public void setRadarId(long[] radarId) {
-        this.radarId = radarId;
+    public void setRadarIds(long[] radarIds) {
+        this.radarIds = radarIds;
     }
 
-    public long[] getApAmmoId() {
-        return apAmmoId;
+    public long[] getApAmmoIds() {
+        return apAmmoIds;
     }
 
-    public void setApAmmoId(long[] apAmmoId) {
-        this.apAmmoId = apAmmoId;
+    public void setApAmmoIds(long[] apAmmoIds) {
+        this.apAmmoIds = apAmmoIds;
     }
 
     @Override

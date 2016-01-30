@@ -7,22 +7,28 @@ import com.kancolle.server.model.po.battle.BattleContext;
  */
 public abstract class BattleContextUtils {
 
-    public static int getMemberFormation(BattleContext context){
+    private static final int MEMBER_FORMATION_INDEX = 0;
+
+    private static final int ENEMY_FORAMTION_INDEX = 1;
+
+    private static final int COURSE_INDEX = 2;
+
+    public static int getMemberFormation(BattleContext context) {
         int[] formationArray = getFormationArray(context);
-        return formationArray[0];
+        return formationArray[MEMBER_FORMATION_INDEX];
     }
 
-    public static int getEnemyFormation(BattleContext context){
+    public static int getEnemyFormation(BattleContext context) {
         int[] formationArray = getFormationArray(context);
-        return formationArray[1];
+        return formationArray[ENEMY_FORAMTION_INDEX];
     }
 
-    public static int getBattleCourse(BattleContext context){
+    public static int getBattleCourse(BattleContext context) {
         int[] formationArray = getFormationArray(context);
-        return formationArray[2];
+        return formationArray[COURSE_INDEX];
     }
 
-    private static int[] getFormationArray(BattleContext context){
+    private static int[] getFormationArray(BattleContext context) {
         return context.getBattleResult().getApi_formation();
     }
 }

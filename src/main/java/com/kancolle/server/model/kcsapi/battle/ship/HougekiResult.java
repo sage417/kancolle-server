@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.battle.ship;
 
-import static com.google.common.collect.Lists.newLinkedList;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.LinkedList;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import static com.google.common.collect.Lists.newLinkedList;
 
 /**
  * @author J.K.SAGE
