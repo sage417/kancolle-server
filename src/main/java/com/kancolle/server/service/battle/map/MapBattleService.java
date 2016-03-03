@@ -80,7 +80,14 @@ public class MapBattleService implements IMapBattleService {
 
         updateMemberMapCell(member_id, mapCellId);
 
-        return traveller.next(deckPort);
+        MapNextResult result = traveller.next(deckPort);
+
+        int nextMapCellId = result.getNext();
+
+        state.setMapCellId(nextMapCellId);
+        memberMapBattleMapper.update(state,"mapCellId");
+
+        return result;
     }
 
     private MapTraveller loadMapTraveller(int travellerNo) {
