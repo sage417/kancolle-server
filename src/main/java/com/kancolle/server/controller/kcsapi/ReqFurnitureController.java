@@ -1,7 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import java.util.List;
@@ -38,14 +37,14 @@ public class ReqFurnitureController {
     public APIResponse<Object> buy(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureBuyForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberFurnitureService.buyFurniture(member_id, form);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/change")
     public APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureChangeForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberFurnitureService.changeFurniture(member_id, form);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
     
     @RequestMapping("/music_list")
@@ -63,6 +62,6 @@ public class ReqFurnitureController {
     @RequestMapping("/set_portbgm")
     public APIResponse<Object> setPortBGM(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_music_id", required = true) int music_id) {
         furnitureBGMService.setPortBGM(member_id, music_id);
-        return new APIResponse<Object>();
+        return new APIResponse<>();
     }
 }

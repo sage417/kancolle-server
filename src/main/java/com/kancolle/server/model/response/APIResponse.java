@@ -3,16 +3,29 @@ package com.kancolle.server.model.response;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class APIResponse<T> {
-    private static final String DEFAULT_RESULT_MSG = "成功";
+
+    private static final String SUCCESS_MSG = "成功";
+    private static final String FAILED_MSG = "失败";
+
+    public static final APIResponse<Object> EMPTY_SUCCESS_RESPONSE = new APIResponse<>(1, SUCCESS_MSG);
+    public static final APIResponse<Object> EMPTY_FAILED_RESPONSE = new APIResponse<>(100, FAILED_MSG);
 
     @JSONField(ordinal = 1)
-    private int api_result = 1;
+    private int api_result;
 
     @JSONField(ordinal = 2)
-    private String api_result_msg = DEFAULT_RESULT_MSG;
+    private String api_result_msg;
 
     @JSONField(ordinal = 3)
     private T api_data;
+
+    public APIResponse() {
+    }
+
+    public APIResponse(int api_result, String api_result_msg) {
+        this.api_result = api_result;
+        this.api_result_msg = api_result_msg;
+    }
 
     public T getApi_data() {
         return api_data;

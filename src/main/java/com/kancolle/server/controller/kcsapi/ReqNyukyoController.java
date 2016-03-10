@@ -4,7 +4,6 @@
 package com.kancolle.server.controller.kcsapi;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +33,12 @@ public class ReqNyukyoController {
     public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) String member_id, NdockStartForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberNdockService.start(member_id, form);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/speedchange")
     public APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) String member_id, int api_ndock_id) {
         memberNdockService.speedChange(member_id, api_ndock_id);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 }

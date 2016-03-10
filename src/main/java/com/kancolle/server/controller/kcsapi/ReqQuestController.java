@@ -1,6 +1,5 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.controller.common.AdviceController.DEFAULT_RESPONSE;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +23,13 @@ public class ReqQuestController {
     @RequestMapping("/start")
     public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_quest_id") Integer quest_id) {
         memberDutySerivice.start(member_id, quest_id);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/stop")
     public APIResponse<Object> stop(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_quest_id") Integer quest_id) {
         memberDutySerivice.stop(member_id, quest_id);
-        return DEFAULT_RESPONSE;
+        return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/clearitemget")

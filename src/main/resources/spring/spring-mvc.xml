@@ -20,7 +20,7 @@
 	</context:component-scan>
 
 	<!-- Configures the @Controller programming model -->
-	<mvc:annotation-driven ignore-default-model-on-redirect="true">
+	<mvc:annotation-driven ignore-default-model-on-redirect="true" enable-matrix-variables="false">
 		<mvc:message-converters>
 			<!-- <ref bean="stringHttpMessageConverter" /> -->
 			<ref bean="fastJsonHttpMessageConverter" />
