@@ -977,7 +977,7 @@ FROM
 	t_ship ts
 WHERE
 	ts.ID = ship_id;
-	
+
 select * from t_member_ship where member_id = member_id and ID = now_id+1;
 END
 ;;
@@ -1010,16 +1010,16 @@ BEGIN
 	DECLARE s_id BIGINT;
 	DECLARE ndock_id TINYINT;
 
-	DECLARE s INT DEFAULT 0; 
-	
+	DECLARE s INT DEFAULT 0;
+
 	DECLARE cursor_ndock CURSOR FOR SELECT member_id,SHIP_ID,ID FROM t_member_ndock WHERE STATE = 1 AND DATE_SUB(FROM_UNIXTIME(FLOOR(COMPLETE_TIME/1000)),	INTERVAL 1 MINUTE) < NOW();
 
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET s=1;
-	
+
 	OPEN cursor_ndock;
-	
-	WHILE s <> 1 DO  
-		FETCH cursor_ndock into m_id,s_id,ndock_id; 
+
+	WHILE s <> 1 DO
+		FETCH cursor_ndock into m_id,s_id,ndock_id;
 		SET now_cond = (SELECT COND FROM t_member_ship WHERE member_id = m_id AND ID = s_id);
 		IF now_cond < 40 THEN
 			UPDATE t_member_ship SET COND=40,NOWHP=MAXHP WHERE member_id = m_id AND ID = s_id;
@@ -1051,51 +1051,51 @@ BEGIN
 	DECLARE add_steel INT DEFAULT 0;
 	DECLARE now_bauxite int;
 	DECLARE add_bauxite INT DEFAULT 0;
-	
-	DECLARE s INT DEFAULT 0; 
-	
+
+	DECLARE s INT DEFAULT 0;
+
 	DECLARE cursor_material CURSOR FOR select FUEL,BULL,STEEL,BAUXITE,member_id from t_member_material;
-	
+
 	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET s=1;
-	
+
 	OPEN cursor_material;
-	
-	while s <> 1 do  
-	
-		fetch  cursor_material into now_fuel,now_bull,now_steel,now_bauxite,now_member_id; 
-		
+
+	while s <> 1 do
+
+		fetch  cursor_material into now_fuel,now_bull,now_steel,now_bauxite,now_member_id;
+
 		SET max_material = (SELECT (750 + 250 * LEVEL) FROM t_member WHERE member_id = now_member_id);
-		
-		if now_fuel < (max_material -3)  then 
+
+		if now_fuel < (max_material -3)  then
 			set add_fuel = 3;
 		else
 			set add_fuel = 0;
 		end if;
-		
-		if now_bull < (max_material -3)  THEN 
+
+		if now_bull < (max_material -3)  THEN
 			set add_bull = 3;
-		else 
+		else
 			set add_bull = 0;
 		end if;
-		
-		if now_steel < (max_material -3)  THEN 
+
+		if now_steel < (max_material -3)  THEN
 			set add_steel = 3;
-		else	
+		else
 			set add_steel = 0;
 		end if;
-		
-		if now_bauxite < (max_material - 1) THEN 
+
+		if now_bauxite < (max_material - 1) THEN
 			set add_bauxite = 1;
 		else
 			set add_bauxite = 0;
 		end if;
-		
+
 		update t_member_material set FUEL = FUEL+add_fuel, BULL=BULL+add_bull, STEEL=STEEL+add_steel,BAUXITE = BAUXITE + add_bauxite where member_id = now_member_id;
-	
-	end while; 
-	
+
+	end while;
+
 	CLOSE cursor_material ;
-	
+
     END
 ;;
 DELIMITER ;
@@ -1125,7 +1125,7 @@ DROP EVENT IF EXISTS `dock_task`;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` EVENT `dock_task` ON SCHEDULE EVERY 1 MINUTE STARTS '2015-06-23 18:13:25' ON COMPLETION PRESERVE ENABLE DO Begin
 	CALL finish_ndock;
-	
+
 	UPDATE t_member_kdock SET STATE = 3 WHERE STATE = 2 AND DATE_SUB(FROM_UNIXTIME(FLOOR(COMPLETE_TIME/1000)),INTERVAL 1 MINUTE) < NOW();
 END
 ;;
@@ -1153,6 +1153,9 @@ CREATE TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEG
 	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
+
+	/** 创建出击状态记录 */
+	replace into t_member_battle_status (member_id) VALUES (new.member_id);
 
 	/** 创建工厂 */
 	replace into t_member_kdock (member_id, ID, STATE) values
@@ -1195,7 +1198,7 @@ CREATE TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEG
 
 	/** 创建MapInfo记录 */
 	REPLACE INTO t_member_mapinfo(member_id,MAPINFO_ID,EXBOSS_FLAG) SELECT new.member_id,ID,REQUIRED_DEFEAT_COUNT>0 FROM t_map_info;
-	update t_member_mapinfo set OPEN_FLAG = 1 where member_id = new.member_id and MAPINFO_ID = 11;
+	update t_member_mapinfo set open = 1 where member_id = new.member_id and MAPINFO_ID = 11;
 	
 	/** 创建MapCell记录 */
 	REPLACE INTO t_member_mapcell_info(member_id,MAPCELL_ID) SELECT new.member_id,ID FROM t_map_cell;
