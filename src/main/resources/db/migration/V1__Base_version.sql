@@ -16,28 +16,6 @@ Date: 2016-01-17 21:59:37
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for schema_version
--- ----------------------------
-DROP TABLE IF EXISTS `schema_version`;
-CREATE TABLE `schema_version` (
-  `version_rank` int(11) NOT NULL,
-  `installed_rank` int(11) NOT NULL,
-  `version` varchar(50) NOT NULL,
-  `description` varchar(200) NOT NULL,
-  `type` varchar(20) NOT NULL,
-  `script` varchar(1000) NOT NULL,
-  `checksum` int(11) DEFAULT NULL,
-  `installed_by` varchar(100) NOT NULL,
-  `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `execution_time` int(11) NOT NULL,
-  `success` tinyint(1) NOT NULL,
-  PRIMARY KEY (`version`),
-  KEY `schema_version_vr_idx` (`version_rank`),
-  KEY `schema_version_ir_idx` (`installed_rank`),
-  KEY `schema_version_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for t_bgm
 -- ----------------------------
 DROP TABLE IF EXISTS `t_bgm`;
@@ -1167,42 +1145,39 @@ DROP TRIGGER IF EXISTS `tri_after_newmember`;
 DELIMITER ;;
 CREATE TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEGIN
 	SET UNIQUE_CHECKS=0;
-	
+
 	replace into t_member_material (member_id) values (new.member_id);
 	/* 创建舰队 */
-	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES 
+	replace INTO t_member_deckport (member_id, ID, NAME, locked, SHIP) VALUES
 	(new.member_id, 1, '第1艦隊', 0, '[1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 2, '第2艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 3, '第3艦隊', 1, '[-1,-1,-1,-1,-1,-1]'),
 	(new.member_id, 4, '第4艦隊', 1, '[-1,-1,-1,-1,-1,-1]');
-	
-	/** 创建出击状态记录 */
-	replace into t_member_battle_status (member_id) VALUES (new.member_id);
-	
+
 	/** 创建工厂 */
-	replace into t_member_kdock (member_id, ID, STATE) values 
+	replace into t_member_kdock (member_id, ID, STATE) values
 	(new.member_id, 1, 0),
 	(new.member_id, 2, 0),
 	(new.member_id, 3, -1),
 	(new.member_id, 4, -1);
-	
+
 	/** 创建渠 */
-	replace into t_member_ndock (member_id, ID, STATE) VALUES 
+	replace into t_member_ndock (member_id, ID, STATE) VALUES
 	(new.member_id, 1, 0),
 	(new.member_id, 2, 0),
 	(new.member_id, 3, -1),
 	(new.member_id, 4, -1);
-	
+
 	/** 创建mission记录 */
-	REPLACE INTO t_member_mission (member_id, mission_id, state) 
+	REPLACE INTO t_member_mission (member_id, mission_id, state)
 	SELECT new.member_id, ID , -1 FROM t_mission;
-	
+
 	/** 创建furniture记录 */
-	REPLACE INTO t_member_furniture (member_id, furniture_id) 
+	REPLACE INTO t_member_furniture (member_id, furniture_id)
 	SELECT new.member_id, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
-	
+
 	/** 创建item记录 */
-	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values 
+	REPLACE INTO t_member_useitem (member_id, ID, COUNT) values
 	(new.member_id, 10, 0),
 	(new.member_id, 11, 0),
 	(new.member_id, 12, 0),
@@ -1217,10 +1192,10 @@ CREATE TRIGGER `tri_after_newmember` AFTER INSERT ON `t_member` FOR EACH ROW BEG
 	(new.member_id, 61, 0),
 	(new.member_id, 62, 0),
 	(new.member_id, 63, 0);
-	
+
 	/** 创建MapInfo记录 */
 	REPLACE INTO t_member_mapinfo(member_id,MAPINFO_ID,EXBOSS_FLAG) SELECT new.member_id,ID,REQUIRED_DEFEAT_COUNT>0 FROM t_map_info;
-	update t_member_mapinfo set open = 1 where member_id = new.member_id and MAPINFO_ID = 11;
+	update t_member_mapinfo set OPEN_FLAG = 1 where member_id = new.member_id and MAPINFO_ID = 11;
 	
 	/** 创建MapCell记录 */
 	REPLACE INTO t_member_mapcell_info(member_id,MAPCELL_ID) SELECT new.member_id,ID FROM t_map_cell;
