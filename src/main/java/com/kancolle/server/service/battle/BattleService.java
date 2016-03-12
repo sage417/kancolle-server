@@ -175,10 +175,10 @@ public class BattleService implements IBattleService {
         for (int i = 0; i < circulRounds; i++) {
             MemberShip attackShip = memberAttackShips.poll();
             EnemyShip enemyAttackShip = enemyAttackShips.poll();
-            if (attackShip.getNowHp() > 0) {
+            if (attackShip != null && attackShip.getNowHp() > 0) {
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
-            if (enemyAttackShip.getNowHp() > 0) {
+            if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
                 enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
         }
