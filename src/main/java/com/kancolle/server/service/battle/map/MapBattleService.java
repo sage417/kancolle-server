@@ -82,7 +82,7 @@ public class MapBattleService implements IMapBattleService {
 
         MapNextResult result = traveller.next(deckPort);
 
-        int nextMapCellId = result.getNext();
+        int nextMapCellId = traveller.getCurrentMapCell().getMapCellId();
 
         state.setMapCellId(nextMapCellId);
         memberMapBattleMapper.update(state,"mapCellId");

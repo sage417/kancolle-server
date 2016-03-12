@@ -7,7 +7,9 @@ public class APIResponse<T> {
     private static final String SUCCESS_MSG = "成功";
     private static final String FAILED_MSG = "失败";
 
-    public static final APIResponse<Object> EMPTY_SUCCESS_RESPONSE = new APIResponse<>(1, SUCCESS_MSG);
+    private static final int SUCCESS_CODE = 1;
+
+    public static final APIResponse<Object> EMPTY_SUCCESS_RESPONSE = new APIResponse<>(SUCCESS_CODE, SUCCESS_MSG);
     public static final APIResponse<Object> EMPTY_FAILED_RESPONSE = new APIResponse<>(100, FAILED_MSG);
 
     @JSONField(ordinal = 1)
@@ -20,6 +22,8 @@ public class APIResponse<T> {
     private T api_data;
 
     public APIResponse() {
+        this.api_result = SUCCESS_CODE;
+        this.api_result_msg = SUCCESS_MSG;
     }
 
     public APIResponse(int api_result, String api_result_msg) {
