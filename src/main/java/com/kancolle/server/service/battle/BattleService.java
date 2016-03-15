@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.battle;
 
@@ -22,6 +22,7 @@ import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraft
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -38,7 +39,6 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 /**
  * @author J.K.SAGE
  * @Date 2015年8月22日
- *
  */
 @Service
 public class BattleService implements IBattleService {
@@ -82,7 +82,7 @@ public class BattleService implements IBattleService {
 
         // 判断航向
         int course = courseSystem.generateCourse();
-        result.setApi_formation(new int[] { formation, enemyDeckPort.getFormation(), course });
+        result.setApi_formation(new int[]{formation, enemyDeckPort.getFormation(), course});
 
         // 制空权
         int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberDeckPort.getShips());
@@ -96,7 +96,7 @@ public class BattleService implements IBattleService {
         /** 敌方索敌 */
         int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, enemyDeckPort);
 
-        result.setApi_search(new int[] { fsResult, esResult });
+        result.setApi_search(new int[]{fsResult, esResult});
 
         boolean memberSearchSuccess = reconnaissanceAircraftSystem.isSearchSuccess(fsResult);
         boolean enemySearchSuccess = reconnaissanceAircraftSystem.isSearchSuccess(esResult);
@@ -134,7 +134,7 @@ public class BattleService implements IBattleService {
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
         boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || enemyShips.stream().anyMatch(BBShipFilter);
-        int[] api_hourai_flag = { 1, hasBB ? 1 : 0, 0, 0 };
+        int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
         result.setApi_hourai_flag(api_hourai_flag);
 
         // 第一轮炮击结果
@@ -171,17 +171,7 @@ public class BattleService implements IBattleService {
         context.setEnemyAttackShips(enemyAttackShips);
         context.setShipMap(shipMap);
 
-        int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
-        for (int i = 0; i < circulRounds; i++) {
-            MemberShip attackShip = memberAttackShips.poll();
-            EnemyShip enemyAttackShip = enemyAttackShips.poll();
-            if (attackShip != null && attackShip.getNowHp() > 0) {
-                memberShipShellingSystem.generateHougkeResult(attackShip, context);
-            }
-            if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
-                enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
-            }
-        }
+        shelling(context);
 
         /*--------------------------炮击战---------------------------*/
 
@@ -196,4 +186,34 @@ public class BattleService implements IBattleService {
     public BattleResult battleresult(String member_id) {
         return null;
     }
+
+    private void shelling(BattleContext context) {
+        LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
+        LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
+
+        shellingRound(context);
+
+        boolean secondShelling = memberAttackShips.stream().filter(ShipFilter.BBShipFilter).findFirst().isPresent() || enemyAttackShips.stream().filter(ShipFilter.BBShipFilter).findFirst().isPresent();
+        if (secondShelling) {
+            shellingRound(context);
+        }
+    }
+
+    private void shellingRound(BattleContext context) {
+        LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
+        LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
+        int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
+        for (int i = 0; i < circulRounds; i++) {
+            MemberShip attackShip = memberAttackShips.poll();
+            EnemyShip enemyAttackShip = enemyAttackShips.poll();
+            if (attackShip != null && attackShip.getNowHp() > 0) {
+                memberShipShellingSystem.generateHougkeResult(attackShip, context);
+            }
+            if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
+                enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
+            }
+        }
+    }
 }
+
+
