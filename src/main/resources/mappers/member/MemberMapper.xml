@@ -14,7 +14,7 @@
 		<result property="maxSlotItem" column="max_slotitem" />
 		<result property="maxKagu" column="max_kagu" />
 		<result property="playTime" column="playtime" />
-		<result property="furniture" column="furniture" typeHandler="IntJsonArrayHanlder" />
+		<result property="furniture" column="furniture" typeHandler="IntJsonArrayHandler" />
 		<result property="deckCount" column="count_deck" />
 		<result property="kdockCount" column="count_kdock" />
 		<result property="ndockCount" column="count_ndock" />
@@ -29,7 +29,7 @@
 		<result property="practiceChallengedWin" column="pt_challenged_win" />
 		<result property="firstFlag" column="firstflag" />
 		<result property="tutorialProgress" column="tutorial_progress" />
-		<result property="pvp" column="pvp" typeHandler="IntJsonArrayHanlder" />
+		<result property="pvp" column="pvp" typeHandler="IntJsonArrayHandler" />
 		<result property="medals" column="medals" />
 		<result property="portBGMId" column="p_bgm_id" />
 		<result property="parallelQuestCount" column="parallel_quest_count" />
@@ -72,7 +72,7 @@
 			playtime=#{playTime},
 			tutorial=#{tutorial},
 			furniture=#{furniture,
-			typeHandler=IntJsonArrayHanlder},
+			typeHandler=IntJsonArrayHandler},
 			count_deck=#{deckCount},
 			count_kdock=#{kdockCount},
 			count_ndock=#{ndockCount},
@@ -88,7 +88,7 @@
 			firstflag=#{firstFlag},
 			tutorial_progress=#{tutorialProgress},
 			pvp=#{pvp,
-			typeHandler=IntJsonArrayHanlder},
+			typeHandler=IntJsonArrayHandler},
 			medals=#{medals},
 			p_bgm_id=#{portBGMId},
 			parallel_quest_count=#{parallelQuestCount},

@@ -6,8 +6,8 @@
 		<id property="memberId" column="member_id"/>
 		<result property="mapAreaId" column="map_area_id"/>
 		<result property="mapCellId" column="map_cell_id"/>
-		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHanlder"/>
-		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHanlder"/>
+		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHandler"/>
+		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHandler"/>
 		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
 	</resultMap>
 

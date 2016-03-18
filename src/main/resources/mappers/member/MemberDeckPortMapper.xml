@@ -6,8 +6,8 @@
 		<id property="memberId" column="member_id" />
 		<id property="deckId" column="ID" />
 		<result property="name_id" column="NAME_ID" />
-		<result property="mission" column="MISSION" typeHandler="LongJsonArrayHanlder" />
-		<result property="ship" column="SHIP" typeHandler="LongJsonArrayHanlder" />
+		<result property="mission" column="MISSION" typeHandler="LongJsonArrayHandler" />
+		<result property="ship" column="SHIP" typeHandler="LongJsonArrayHandler" />
 		<collection property="ships" ofType="MemberShip" column="{member_id=member_id,deck_id=ID}" select="com.kancolle.server.dao.ship.MemberShipDao.selectMemberDeckPortShips" />
 	</resultMap>
 
@@ -29,6 +29,17 @@
 		WHERE
 			member_ship_id = #{member_ship_id}
 	</select>
+
+	<insert id="insertMemberDeckPorts">
+		replace INTO t_member_deckport (member_id, ID, `NAME`, SHIP, locked) VALUES
+		<foreach collection="list" item="deckPort" separator=",">
+			(#{deckPort.memberId}, #{deckPort.deckId}, #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})
+		</foreach>
+	</insert>
+
+	<insert id="insertDeckPortShip">
+		INSERT INTO t_member_deckport_ship_mapping (member_id, deck_id, member_ship_id) VALUES (#{member_id}, #{deck_id}, #{member_ship_id})
+	</insert>
 	
 	<update id="updateMemberDeckPortShip">
 		UPDATE v_member_deckport SET
@@ -36,10 +47,6 @@
 		WHERE
 			member_id = #{member_id} AND ID = #{deck_id}
 	</update>
-	
-	<insert id="insertDeckPortShip">
-		INSERT INTO t_member_deckport_ship_mapping (member_id, deck_id, member_ship_id) VALUES (#{member_id}, #{deck_id}, #{member_ship_id})
-	</insert>
 	
 	<update id="updateDeckPortShip">
 		UPDATE t_member_deckport_ship_mapping SET

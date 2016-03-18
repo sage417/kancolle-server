@@ -10,7 +10,7 @@
 
 	<resultMap type="UseItem" id="UseItemRM" autoMapping="true">
 		<id property="useitemId" column="ID" />
-		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHanlder"/>
+		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHandler"/>
 	</resultMap>
 	
 	<select id="selectUseItemByCond" resultMap="UseItemRM" >

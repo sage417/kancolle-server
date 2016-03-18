@@ -5,14 +5,14 @@
 	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
 		<id property="memberId" column="member_id" />
 		<id property="memberShipId" column="ID" />
-		<result property="exp" column="EXP" typeHandler="LongJsonArrayHanlder" />
+		<result property="exp" column="EXP" typeHandler="LongJsonArrayHandler" />
 		<result property="nowHp" column="NOWHP" />
 		<result property="maxHp" column="MAXHP" />
-		<result property="api_slot" column="SLOT" typeHandler="LongJsonArrayHanlder" />
-		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHanlder" />
-		<result property="kyouka" column="KYOUKA" typeHandler="IntJsonArrayHanlder"/>
+		<result property="api_slot" column="SLOT" typeHandler="LongJsonArrayHandler" />
+		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler" />
+		<result property="kyouka" column="KYOUKA" typeHandler="IntJsonArrayHandler"/>
 		<result property="ndockTime" column="NDOCK_TIME" />
-		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHanlder" />
+		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHandler" />
 		<result property="karyoku" column="KARYOKU" typeHandler="MaxMinValueHandler" />
 		<result property="raisou" column="RAISOU" typeHandler="MaxMinValueHandler" />
 		<result property="taiku" column="TAIKU" typeHandler="MaxMinValueHandler" />
@@ -69,7 +69,7 @@
 	<update id="updateMemberExp">
 		UPDATE t_member_ship SET
 			LV = #{lv},
-			EXP = #{exp, typeHandler=LongJsonArrayHanlder}
+			EXP = #{exp, typeHandler=LongJsonArrayHandler}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
 	
@@ -130,7 +130,7 @@
 	
 	<update id="updateShipOnSlot">
 		UPDATE t_member_ship
-			SET ONSLOT = #{onslot, typeHandler=IntJsonArrayHanlder}
+			SET ONSLOT = #{onslot, typeHandler=IntJsonArrayHandler}
 		WHERE
 			member_id = #{member_id}
 			AND ID = #{member_ship_id}

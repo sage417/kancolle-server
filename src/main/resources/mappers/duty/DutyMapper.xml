@@ -11,7 +11,7 @@
 	<resultMap type="Duty" id="DutyRM" autoMapping="true">
 		<id property="no" column="DUTY_NO"/>
 		<result property="category" column="CATEGORY_ID"/>
-		<result property="material" column="MATERIAL" typeHandler="IntJsonArrayHanlder"/>
+		<result property="material" column="MATERIAL" typeHandler="IntJsonArrayHandler"/>
 		<result property="bonusFlag" column="BONUS_FLAG"/>
 		<result property="invalidFlag" column="INVALID_FLAG"/>
 		<association property="parent" column="PARENT_ID" select="selectDutyById"/>

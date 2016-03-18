@@ -27,10 +27,10 @@
 		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
 		<result property="soltNum" column="SLOTNUM" />
-		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHanlder" />
+		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHandler" />
 		<result property="buildTime" column="BUILDTIME" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
-		<result property="powUp" column="POWUP" typeHandler="PowUpHanlder" />
+		<result property="powUp" column="POWUP" typeHandler="PowUpHandler" />
 		<result property="afterFuel" column="AFTERFUEL" />
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
