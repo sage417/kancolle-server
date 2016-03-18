@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.service.member;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.model.po.member.MemberNdock;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -22,4 +22,6 @@ public interface MemberNdockService {
     void start(String member_id, NdockStartForm form);
 
     void speedChange(String member_id, int api_ndock_id);
+
+    void initMemberNdock(long member_id);
 }

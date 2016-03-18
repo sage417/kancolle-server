@@ -3,12 +3,12 @@
  */
 package com.kancolle.server.service.deckport;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -38,4 +38,6 @@ public interface MemberDeckPortService {
     void updateDeckPortMission(MemberDeckPort deckport);
 
     void openDeckPort(String member_id, Integer deckport_id);
+
+    void initMemberDeckPort(long member_id);
 }

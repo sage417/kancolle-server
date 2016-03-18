@@ -1,16 +1,13 @@
 package com.kancolle.server.model.po.member;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 @Alias("MemberNdock")
 public class MemberNdock implements Serializable{
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 7814147582159739062L;
     /** 未开启 */
     public static final int STATE_UNAVILABLE = -1;
@@ -48,6 +45,15 @@ public class MemberNdock implements Serializable{
 
     @JSONField(ordinal = 10, name = "api_item4")
     private int item4;
+
+    public MemberNdock() {
+    }
+
+    public MemberNdock(long memberId, int dockId, int state) {
+        this.memberId = memberId;
+        this.dockId = dockId;
+        this.state = state;
+    }
 
     public long getMemberId() {
         return memberId;

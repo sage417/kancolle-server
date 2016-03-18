@@ -1,28 +1,27 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.deckport;
 
-import java.io.Serializable;
-import java.util.List;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kancolle.server.model.po.ship.MemberShip;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.po.ship.MemberShip;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月30日
- *
  */
 @Alias("MemberDeckPort")
-public class MemberDeckPort implements Serializable{
+public class MemberDeckPort implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1972201247653250451L;
+
+    private static final long[] EMPTY_SHIPS = new long[]{-1L, -1L, -1L, -1L, -1L, -1L};
 
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;
@@ -45,8 +44,28 @@ public class MemberDeckPort implements Serializable{
     @JSONField(ordinal = 7, name = "api_ship")
     private long[] ship;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private List<MemberShip> ships;
+
+    @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
+    private boolean lock;
+
+    public MemberDeckPort() {
+    }
+
+    public MemberDeckPort(long member_id_str, int id, boolean lock) {
+        this(member_id_str);
+        this.setDeckId(id);
+        this.setName(String.format("第%d艦隊", id));
+        this.setShip(EMPTY_SHIPS);
+        this.setLock(lock);
+    }
+
+    public MemberDeckPort(long memberId) {
+        this.memberId = memberId;
+    }
 
     public long getMemberId() {
         return memberId;
@@ -112,6 +131,14 @@ public class MemberDeckPort implements Serializable{
         this.ships = ships;
     }
 
+    public boolean isLock() {
+        return lock;
+    }
+
+    public void setLock(boolean lock) {
+        this.lock = lock;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -135,5 +162,17 @@ public class MemberDeckPort implements Serializable{
         if (memberId != other.memberId)
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberDeckPort{" +
+                "memberId=" + memberId +
+                ", deckId=" + deckId +
+                ", name='" + name + '\'' +
+                ", mission=" + Arrays.toString(mission) +
+                ", ships=" + ships +
+                ", lock=" + lock +
+                '}';
     }
 }

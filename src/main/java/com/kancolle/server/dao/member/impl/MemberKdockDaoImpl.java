@@ -3,16 +3,15 @@
  */
 package com.kancolle.server.dao.member.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberKdockDao;
 import com.kancolle.server.model.po.member.MemberKdock;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author J.K.SAGE
@@ -33,5 +32,10 @@ public class MemberKdockDaoImpl extends BaseDaoImpl<MemberKdock> implements Memb
         params.put("member_id", member_id);
         params.put("kdock_id", kdock_id);
         return getSqlSession().selectOne("selectMemberKdockByCond", params);
+    }
+
+    @Override
+    public void insertMemberKdocks(List<MemberKdock> kdocks) {
+        getSqlSession().insert("insertMemberKdocks", kdocks);
     }
 }

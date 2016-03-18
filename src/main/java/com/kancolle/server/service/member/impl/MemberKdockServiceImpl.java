@@ -1,19 +1,9 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.member.impl;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
 import com.kancolle.server.dao.member.MemberKdockDao;
 import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
@@ -28,11 +18,20 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.DateUtils;
 import com.kancolle.server.utils.factory.BasicFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月10日
- *
  */
 @Service
 public class MemberKdockServiceImpl implements MemberKdockService {
@@ -170,5 +169,19 @@ public class MemberKdockServiceImpl implements MemberKdockService {
         memberKdockDao.update(kdock);
 
         return new GetShipResult(memberShip, kdocks);
+    }
+
+    @Override
+    public void initMemberKdock(long member_id) {
+        List<MemberKdock> kdocks = Lists.newArrayListWithCapacity(4);
+        MemberKdock kdock;
+        for (int id = 1; id < 5; id++) {
+            kdock = id < 3 ?
+                    new MemberKdock(member_id, id, MemberKdock.STATUS_AVILABLE) :
+                    new MemberKdock(member_id, id, MemberKdock.STATUS_UNAVILABLE);
+            kdocks.add(kdock);
+        }
+        memberKdockDao.insertMemberKdocks(kdocks);
+
     }
 }

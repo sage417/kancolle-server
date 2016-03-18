@@ -3,12 +3,11 @@
  */
 package com.kancolle.server.model.po.member;
 
-import java.io.Serializable;
-
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
@@ -24,7 +23,7 @@ public class Member implements Serializable{
     private static final long serialVersionUID = -8080060402377336023L;
 
     @JSONField(ordinal = 1, name = "api_member_id")
-    private String memberId;
+    private long memberId;
 
     @JSONField(serialize = false, deserialize = false)
     private String token;
@@ -134,11 +133,11 @@ public class Member implements Serializable{
     @JSONField(serialize = false, deserialize = false)
     private int parallelQuestCount;
 
-    public String getMemberId() {
+    public long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(String memberId) {
+    public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
 
@@ -431,28 +430,19 @@ public class Member implements Serializable{
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Member member = (Member) o;
+
+        return memberId == member.memberId;
+
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Member other = (Member) obj;
-        if (memberId == null) {
-            if (other.memberId != null)
-                return false;
-        } else if (!memberId.equals(other.memberId))
-            return false;
-        return true;
+    public int hashCode() {
+        return (int) (memberId ^ (memberId >>> 32));
     }
 
     @Override

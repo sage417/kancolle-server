@@ -1,10 +1,9 @@
 package com.kancolle.server.model.po.member;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 @Alias("MemberKdock")
 public class MemberKdock implements Serializable{
@@ -51,6 +50,15 @@ public class MemberKdock implements Serializable{
 
     @JSONField(ordinal = 11, name = "api_item5")
     private int item5;
+
+    public MemberKdock() {
+    }
+
+    public MemberKdock(long memberId, int kdockId, int state) {
+        this.memberId = memberId;
+        this.kdockId = kdockId;
+        this.state = state;
+    }
 
     public long getMemberId() {
         return memberId;

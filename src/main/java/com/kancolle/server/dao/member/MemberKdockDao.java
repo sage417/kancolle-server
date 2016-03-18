@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.dao.member;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.member.MemberKdock;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -19,4 +19,5 @@ public interface MemberKdockDao extends BaseDao<MemberKdock> {
 
     MemberKdock selectMemberKdockByCond(String member_id, Integer kdock_id);
 
+    void insertMemberKdocks(List<MemberKdock> kdocks);
 }

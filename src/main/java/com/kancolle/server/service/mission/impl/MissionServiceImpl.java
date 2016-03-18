@@ -1,27 +1,9 @@
 package com.kancolle.server.service.mission.impl;
 
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_FAILED;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_GREAT_SUCCESS;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_SUCCESS;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
-
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.dao.mission.MissionDao;
+import com.kancolle.server.mapper.member.MemberMissionRecordMapper;
 import com.kancolle.server.model.kcsapi.misson.GetUseItem;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
@@ -42,6 +24,22 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.ContextLoader;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static com.kancolle.server.model.kcsapi.misson.MissionResult.*;
 
 @Service
 public class MissionServiceImpl implements MissionService {
@@ -58,6 +56,9 @@ public class MissionServiceImpl implements MissionService {
 
     @Autowired
     private MissionDao missionDao;
+
+    @Autowired
+    private MemberMissionRecordMapper memberMissionRecordMapper;
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
@@ -101,6 +102,11 @@ public class MissionServiceImpl implements MissionService {
         memberDeckPortService.updateDeckPortMission(deckport);
 
         return new MissionReturn(new long[] { MISSION_RETURNING, mission_id, mission_return_longtime, MISSION_FLAG });
+    }
+
+    @Override
+    public void initMemberMission(long member_id) {
+        memberMissionRecordMapper.insertMemberMissionRecords(member_id);
     }
 
     @Override

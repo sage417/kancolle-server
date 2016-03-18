@@ -49,6 +49,13 @@
 		SELECT COUNT FROM t_member_useitem WHERE member_id = #{member_id} AND ID = #{useitem_id}
 	</select>
 	
+	<insert id="insertMemberUseItems">
+		INSERT INTO t_member_useitem (member_id, ID, COUNT) VALUES
+			<foreach collection="useItemIds" item="useItemId" separator=",">
+				(#{member_id}, #{useItemId}, 0)
+			</foreach>
+	</insert>
+	
 	<update id="addMemberUseItemCount">
 		UPDATE t_member_useitem SET COUNT = COUNT + #{add_count} WHERE member_id = #{member_id} AND ID = #{useitem_id}
 	</update>

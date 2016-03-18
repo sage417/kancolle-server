@@ -22,4 +22,6 @@ public interface MemberResourceService {
     void increaseMaterial(String member_id, int[] increaseMaterials);
 
     void increaseMaterial(String member_id, int[] material, int[] increaseItems);
+
+    void initMemberResource(long member_id);
 }

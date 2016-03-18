@@ -3,19 +3,18 @@
  */
 package com.kancolle.server.service.member.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.model.po.resource.Resource.MAX_METERIAL_VALUE;
-import static com.kancolle.server.model.po.resource.Resource.MAX_RESOURCE_VALUE;
-
+import com.kancolle.server.dao.member.MemberResourceDao;
+import com.kancolle.server.model.po.resource.Resource;
+import com.kancolle.server.service.member.MemberResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kancolle.server.dao.member.MemberResourceDao;
-import com.kancolle.server.model.po.resource.Resource;
-import com.kancolle.server.service.member.MemberResourceService;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.model.po.resource.Resource.MAX_METERIAL_VALUE;
+import static com.kancolle.server.model.po.resource.Resource.MAX_RESOURCE_VALUE;
 
 /**
  * @author J.K.SAGE
@@ -97,5 +96,11 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             checkArgument(value >= 0);
         }
         increaseResource(member_id, increaseMaterials[0], increaseMaterials[1], increaseMaterials[2], increaseMaterials[3], increaseItems[0], increaseItems[1], increaseItems[2], increaseItems[3]);
+    }
+
+    @Override
+    public void initMemberResource(long member_id) {
+        Resource resource = new Resource(member_id);
+        memberResourceDao.insertMemberRecource(resource);
     }
 }

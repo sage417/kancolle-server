@@ -1,12 +1,11 @@
 package com.kancolle.server.dao.mission.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.mission.MissionDao;
 import com.kancolle.server.model.po.mission.Mission;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class MissionDaoImpl extends BaseDaoImpl<Mission> implements MissionDao {
@@ -19,5 +18,10 @@ public class MissionDaoImpl extends BaseDaoImpl<Mission> implements MissionDao {
     @Override
     public Mission selectMission(Integer mission_id) {
         return getSqlSession().selectOne("selectMissionByCond", mission_id);
+    }
+
+    @Override
+    public void insertMemberMissionRecords(long member_id) {
+        getSqlSession().insert("insertMemberMissionRecords", member_id);
     }
 }

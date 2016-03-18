@@ -1,18 +1,17 @@
 package com.kancolle.server.dao.deck.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Repository;
-
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implements MemberDeckPortDao {
@@ -108,5 +107,10 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         params.put("deck_id", deckport_id);
         params.put("lock", lock);
         getSqlSession().update("updateDeckPortState", params);
+    }
+
+    @Override
+    public void insertMemberDeckPorts(List<MemberDeckPort> deckPorts) {
+        getSqlSession().insert("insertMemberDeckPorts", deckPorts);
     }
 }

@@ -1,11 +1,11 @@
 package com.kancolle.server.service.member;
 
-import java.util.List;
-
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
+
+import java.util.List;
 
 public interface MemberService {
 
@@ -19,7 +19,7 @@ public interface MemberService {
 
     MemberRecord getRecord(String member_id);
 
-    void increaseMemberExp(Member member, long exp);
+    void increaseMemberExp(Member member, long erxp);
 
     /** 获取到达等级所需总经验 */
     long getSumExpByLV(int lv);
@@ -31,4 +31,6 @@ public interface MemberService {
     void updateMemberToken(String member_id);
 
     void openLargeDock(String member_id);
+
+    Member addMember(Member member);
 }

@@ -47,9 +47,16 @@
 	<select id="selectMemberLVByExp" resultType="_int">
 		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
+
+	<insert id="insert" parameterType="Member">
+		INSERT INTO `t_member`
+		(`member_id`, `api_token`, `nickname`, `nickname_id`, `active_flag`, `starttime`, `level`, `rank`, `experience`, `fleetname`, `comment`, `comment_id`, `max_chara`, `max_slotitem`, `max_kagu`, `playtime`, `tutorial`, `furniture`, `count_deck`, `count_kdock`, `count_ndock`, `fcoin`, `st_win`, `st_lose`, `ms_count`, `ms_success`, `pt_win`, `pt_lose`, `pt_challenged`, `pt_challenged_win`, `firstflag`, `tutorial_progress`, `pvp`, `medals`, `p_bgm_id`, `parallel_quest_count`, `large_dock`)
+		VALUES
+		(#{memberId}, #{token}, #{nickName}, #{nickNameId}, #{activeFlag}, #{startTime}, #{level}, #{rank}, #{experience}, #{fleetName}, #{comment}, #{commentId}, #{maxChara}, #{maxSlotItem}, #{maxKagu}, #{playTime}, #{tutorial}, #{furniture, typeHandler=IntJsonArrayHandler}, #{deckCount}, #{kdockCount}, #{ndockCount}, #{fCoin}, #{attackWin}, #{attackLose}, #{missionCount}, #{missionSuccess}, #{practiceWin}, #{practiceLose}, #{practiceChallenged}, #{practiceChallengedWin}, #{firstFlag}, #{tutorialProgress}, #{pvp, typeHandler=IntJsonArrayHandler}, #{medals}, #{portBGMId}, #{parallelQuestCount}, #{largeDock});
+	</insert>
 	
 	<update id="updateMemberToken">
-		UPDATE t_member SET api_token=#{token}
+		UPDATE t_member SET api_token = #{token}
 			WHERE member_id = #{member_id}
 	</update>
 

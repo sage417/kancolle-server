@@ -1,14 +1,5 @@
 package com.kancolle.server.service.member.impl;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
@@ -21,10 +12,23 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
+import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.utils.logic.common.LvUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -36,7 +40,13 @@ public class MemberServiceImpl implements MemberService {
     private PortDao portDao;
 
     @Autowired
+    private MemberResourceService memberResourceService;
+
+    @Autowired
     private MemberFurnitureService memberFurnitureService;
+
+    @Autowired
+    private MemberKdockService memberKdockService;
 
     @Autowired
     private MemberNdockService memberNdockService;
@@ -46,6 +56,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
+
+    @Autowired
+    private MemberUseItemService memberUseItemService;
+
+    @Autowired
+    private MissionService missionService;
 
     @Override
     public Member getBasic(String member_id) {
@@ -155,5 +171,33 @@ public class MemberServiceImpl implements MemberService {
         Member member = getMember(member_id);
         member.setLargeDock(true);
         updateMember(member);
+    }
+
+    @Override
+    @Transactional
+    public Member addMember(Member member) {
+        // 创建member
+        memberDao.insert(member);
+        long member_id = member.getMemberId();
+        // 创建资源记录
+        memberResourceService.initMemberResource(member_id);
+        // 创建舰队
+        memberDeckPortService.initMemberDeckPort(member_id);
+        // 创建远征记录
+        missionService.initMemberMission(member_id);
+        // 创建工厂
+        memberKdockService.initMemberKdock(member_id);
+        // 创建渠
+        memberNdockService.initMemberNdock(member_id);
+        // 创建家具记录
+        memberFurnitureService.initMemberFurniture(member_id);
+        // 创建item记录
+        int[] useItemIds = new int[]{10,11,12,52,54,55,56,57,58,59,60,61,62,63};
+        memberUseItemService.initMemberUseItem(member_id, useItemIds);
+        // 创建MapCell记录
+
+        // 创建MapInfo记录
+
+        return null;
     }
 }

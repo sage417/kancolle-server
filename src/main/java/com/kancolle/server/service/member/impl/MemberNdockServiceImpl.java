@@ -3,18 +3,7 @@
  */
 package com.kancolle.server.service.member.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.dao.member.MemberNdockDao;
 import com.kancolle.server.model.po.member.MemberNdock;
@@ -23,6 +12,17 @@ import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * @author J.K.SAGE
@@ -108,6 +108,19 @@ public class MemberNdockServiceImpl implements MemberNdockService {
         memberNdock.setCompleteTime(0L);
         memberNdock.setCompleteTimeStr("0");
         updateMemberNdock(memberNdock);
+    }
+
+    @Override
+    public void initMemberNdock(long member_id) {
+        List<MemberNdock> ndocks = Lists.newArrayListWithCapacity(4);
+        MemberNdock ndock;
+        for (int id = 1; id < 5; id++) {
+            ndock = id < 3?
+                    new MemberNdock(member_id, id, MemberNdock.STATE_AVILABLE):
+                    new MemberNdock(member_id, id, MemberNdock.STATE_UNAVILABLE);
+            ndocks.add(ndock);
+        }
+        memberNdockDao.insertMemberNdocks(ndocks);
     }
 
     private void repairMemberShip(MemberShip memberShip) {

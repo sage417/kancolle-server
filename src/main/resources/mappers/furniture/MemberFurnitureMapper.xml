@@ -35,6 +35,10 @@
 		INSERT INTO t_member_furniture (member_id, furniture_id) SELECT #{_parameter}, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
 	</insert>
 
+	<update id="changeMemberFurniture">
+		UPDATE t_member SET furniture = #{furniture, typeHandler=IntJsonArrayHandler} WHERE member_id = #{member_id}
+	</update>
+
 	<update id="costMemberFurnitureCoin">
 		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
 	</update>

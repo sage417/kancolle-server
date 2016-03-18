@@ -1,12 +1,12 @@
 package com.kancolle.server.service.mission;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
 import com.kancolle.server.model.po.mission.Mission;
+
+import java.util.List;
 
 public interface MissionService {
 
@@ -19,4 +19,6 @@ public interface MissionService {
     MissionResult calMissionResult(String member_id, Integer deck_id);
 
     MissionReturn callbackMission(String member_id, int deck_id);
+
+    void initMemberMission(long member_id);
 }

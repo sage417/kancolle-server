@@ -1,17 +1,5 @@
 package com.kancolle.server.service.deckport.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
@@ -21,11 +9,21 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.ship.MemberShipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月30日
- *
  */
 @Service
 public class MemberDeckPortServiceImpl implements MemberDeckPortService {
@@ -206,5 +204,18 @@ public class MemberDeckPortServiceImpl implements MemberDeckPortService {
     @Override
     public void openDeckPort(String member_id, Integer deckport_id) {
         memberDeckPortDao.updateDeckPortState(member_id, deckport_id, false);
+    }
+
+    @Override
+    public void initMemberDeckPort(long member_id) {
+        List<MemberDeckPort> deckPorts = Lists.newArrayListWithCapacity(4);
+        MemberDeckPort deckPort;
+        for (int id = 1; id < 5; id++) {
+            deckPort = id == 1 ?
+                    new MemberDeckPort(member_id, id, false) :
+                    new MemberDeckPort(member_id, id, true);
+            deckPorts.add(deckPort);
+        }
+        memberDeckPortDao.insertMemberDeckPorts(deckPorts);
     }
 }

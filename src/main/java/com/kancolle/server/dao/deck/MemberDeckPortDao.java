@@ -1,10 +1,10 @@
 package com.kancolle.server.dao.deck;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+
+import java.util.List;
 
 public interface MemberDeckPortDao extends BaseDao<MemberDeckPort> {
 
@@ -25,4 +25,6 @@ public interface MemberDeckPortDao extends BaseDao<MemberDeckPort> {
     void updateDeckPortMission(MemberDeckPort deckport);
 
     void updateDeckPortState(String member_id, Integer deckport_id, boolean lock);
+
+    void insertMemberDeckPorts(List<MemberDeckPort> deckPorts);
 }

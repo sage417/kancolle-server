@@ -1,24 +1,21 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.dao.furniture.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.furniture.MemberFurnitureDao;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月7日
- *
  */
 @Repository
 public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> implements MemberFurnitureDao {
@@ -36,11 +33,11 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> impleme
     }
 
     @Override
-    public void changeMemberFurniture(String member_id, List<Integer> furnitureIds) {
+    public void changeMemberFurniture(String member_id, int[] furnitureIds) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
-        params.put("furniture", JSON.toJSONString(furnitureIds));
-        getTemplate().update("UPDATE t_member SET furniture = :furniture where member_id = :member_id", params);
+        params.put("furniture", furnitureIds);
+        getSqlSession().update("changeMemberFurniture", params);
     }
 
     @Override
@@ -66,5 +63,10 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> impleme
     @Override
     public int selectCountOfMemberFurniture(String member_id) {
         return getSqlSession().selectOne("selectCountOfMemberFurniture", member_id);
+    }
+
+    @Override
+    public void insertFurnituresForNewMember(long member_id) {
+        getSqlSession().insert("insertFurnituresForNewMember", member_id);
     }
 }
