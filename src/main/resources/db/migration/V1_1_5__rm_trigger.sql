@@ -1,0 +1,1 @@
+DROP TRIGGER `tri_after_newmember`;
