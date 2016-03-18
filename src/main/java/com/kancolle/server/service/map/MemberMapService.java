@@ -21,4 +21,8 @@ public interface MemberMapService {
     List<MemberMapCell> getMemberCellInfos(String member_id, MapCellForm form);
 
     void updateMemberCellPassFlag(String member_id, int mapCell_id, boolean passFlag);
+
+    void initMemberMapCellInfo(long member_id);
+
+    void initMemberMapInfo(long member_id);
 }

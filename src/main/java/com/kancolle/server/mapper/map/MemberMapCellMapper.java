@@ -19,4 +19,5 @@ public interface MemberMapCellMapper {
 
     void updateMemberMapCellInfo(@Param("member_id") String member_id,@Param("mapcell_id") int mapcell_id, @Param("passFlag") boolean passFlag);
 
+    void insertMemberMapCellInfos(@Param("member_id")long member_id);
 }

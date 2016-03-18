@@ -12,6 +12,7 @@ import com.kancolle.server.model.kcsapi.member.record.MemberRecordPractise;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
+import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
@@ -59,6 +60,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberUseItemService memberUseItemService;
+
+    @Autowired
+    private MemberMapService memberMapService;
 
     @Autowired
     private MissionService missionService;
@@ -109,7 +113,7 @@ public class MemberServiceImpl implements MemberService {
         Member basic = getBasic(member_id);
         MemberRecord memberRecord = new MemberRecord();
         BeanUtils.copyProperties(basic, memberRecord);
-        memberRecord.setApi_member_id(Long.valueOf(basic.getMemberId()));
+        memberRecord.setApi_member_id(basic.getMemberId());
         memberRecord.setApi_cmt(basic.getComment());
         memberRecord.setApi_cmt_id(basic.getCommentId());
         memberRecord.setApi_experience(Lists.newArrayList(basic.getExperience(), getSumExpByLV(basic.getLevel() + 1)));
@@ -194,10 +198,10 @@ public class MemberServiceImpl implements MemberService {
         // 创建item记录
         int[] useItemIds = new int[]{10,11,12,52,54,55,56,57,58,59,60,61,62,63};
         memberUseItemService.initMemberUseItem(member_id, useItemIds);
-        // 创建MapCell记录
-
         // 创建MapInfo记录
-
-        return null;
+        memberMapService.initMemberMapInfo(member_id);
+        // 创建MapCell记录
+        memberMapService.initMemberMapCellInfo(member_id);
+        return member;
     }
 }

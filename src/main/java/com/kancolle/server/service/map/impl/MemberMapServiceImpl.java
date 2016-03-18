@@ -44,4 +44,15 @@ public class MemberMapServiceImpl implements MemberMapService {
     public void updateMemberCellPassFlag(String member_id, int mapcell_id, boolean passFlag) {
         memberMapCellMapper.updateMemberMapCellInfo(member_id, mapcell_id, passFlag);
     }
+
+    @Override
+    public void initMemberMapCellInfo(long member_id) {
+        memberMapCellMapper.insertMemberMapCellInfos(member_id);
+    }
+
+    @Override
+    public void initMemberMapInfo(long member_id) {
+        memberMapInfoMapper.insertMemberMapInfos(member_id);
+        memberMapInfoMapper.activeMemberMapInfo(member_id, 11);
+    }
 }

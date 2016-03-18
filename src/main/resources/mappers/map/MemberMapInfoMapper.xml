@@ -17,4 +17,13 @@
 	<select id="selectMemberMapInfo" resultMap="MemberMapInfoRM">
 		SELECT * FROM t_member_mapinfo WHERE member_id = #{member_id} AND MAPINFO_ID = #{mapInfo_id}
 	</select>
+
+	<insert id="insertMemberMapInfos">
+		INSERT INTO t_member_mapinfo(member_id, MAPINFO_ID, EXBOSS_FLAG)
+		SELECT #{member_id}, ID, REQUIRED_DEFEAT_COUNT > 0 FROM t_map_info
+	</insert>
+
+	<update id="activeMemberMapInfo">
+		UPDATE t_member_mapinfo SET OPEN_FLAG = 1 WHERE member_id = #{member_id} and MAPINFO_ID = #{mapInfo_id};
+	</update>
 </mapper>
