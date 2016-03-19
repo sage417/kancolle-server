@@ -31,6 +31,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
@@ -154,7 +155,7 @@ public class BattleService implements IBattleService {
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
         Map<Integer, AbstractShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, AbstractShip> enmeyShipMap = enemyShips.stream().collect(Collectors.toMap(s -> 7 + enemyShips.indexOf(s), s -> s));
+        Map<Integer, AbstractShip> enmeyShipMap =IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
         ImmutableBiMap<Integer, AbstractShip> shipMap = ImmutableBiMap.copyOf(CollectionsUtils.putAll(memberShipMap, enmeyShipMap));
 
         // 玩家攻击队列
