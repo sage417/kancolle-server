@@ -21,7 +21,6 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -156,7 +155,8 @@ public class BattleService implements IBattleService {
 
         Map<Integer, AbstractShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
         Map<Integer, AbstractShip> enmeyShipMap =IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
-        ImmutableBiMap<Integer, AbstractShip> shipMap = ImmutableBiMap.copyOf(CollectionsUtils.putAll(memberShipMap, enmeyShipMap));
+        ImmutableBiMap.Builder<Integer,AbstractShip> abstractShipBuilder = ImmutableBiMap.builder();
+        ImmutableBiMap<Integer, AbstractShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
 
         // 玩家攻击队列
         LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
