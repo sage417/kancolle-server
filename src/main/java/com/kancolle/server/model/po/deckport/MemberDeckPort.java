@@ -19,6 +19,8 @@ import java.util.List;
 @Alias("MemberDeckPort")
 public class MemberDeckPort implements Serializable {
 
+    public static final int SHIP_COUT_MAX = 6;
+
     private static final long serialVersionUID = 1972201247653250451L;
 
     private static final long[] EMPTY_SHIPS = new long[]{-1L, -1L, -1L, -1L, -1L, -1L};

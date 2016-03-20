@@ -46,7 +46,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     public void updateMemberDeckPortShip(MemberDeckPort targetDeck) {
         List<Long> ship = targetDeck.getShips().stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
 
-        while (ship.size() < MemberShip.SLOT_SIZE_MAX) {
+        while (ship.size() < MemberDeckPort.SHIP_COUT_MAX) {
             ship.add(Long.valueOf(-1L));
         }
 
