@@ -52,7 +52,7 @@
 		WHERE
 			m.member_id = #{member_id}
 		AND m.deck_id = #{deck_id}
-		ORDER BY POSITION(CAST(s.`ID` AS CHAR) IN d.SHIP)
+		ORDER BY POSITION(s.`ID` + ',' IN d.SHIP)
 	</select>
 	
 	<update id="chargeMemberShips">

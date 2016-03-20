@@ -1,6 +1,5 @@
 package com.kancolle.server.dao.deck.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
@@ -47,13 +46,13 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         List<Long> ship = targetDeck.getShips().stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
 
         while (ship.size() < MemberDeckPort.SHIP_COUT_MAX) {
-            ship.add(Long.valueOf(-1L));
+            ship.add(-1L);
         }
 
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", targetDeck.getMemberId());
         params.put("deck_id", targetDeck.getDeckId());
-        params.put("ship", JSON.toJSONString(ship));
+        params.put("ship", generateJsonArray(ship));
         getSqlSession().update("updateMemberDeckPortShip", params);
     }
 
