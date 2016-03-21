@@ -75,7 +75,7 @@
 	
 	<update id="updateMemberShipSlot">
 		UPDATE t_member_ship SET
-			LENG = #{leng},
+			LENG = #{length},
 			LOCKED_EQUIP = #{lockedEquip},
 			SLOT = #{slot}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
