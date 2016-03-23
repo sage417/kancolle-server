@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Cacheable(value = "memberExp", key = "#lv")
+    @Cacheable(value = "memberExp", key = "#lv", cacheManager = "ehcacheManager")
     public long getSumExpByLV(int lv) {
         return memberDao.getNeedExpByLevel(lv);
     }
