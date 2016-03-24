@@ -1,0 +1,1 @@
+ALTER TABLE `kancolle`.`t_member_deckport` CHANGE COLUMN `lock` `LOCK` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否解锁';

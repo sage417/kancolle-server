@@ -6,12 +6,12 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class ReqMemberController {
     }
 
     @RequestMapping("/itemuse")
-    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
+    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Validated UseItemForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         UseItemResult api_data = memberUseItemService.useItem(member_id, form);
         return new APIResponse<UseItemResult>().setApi_data(api_data);

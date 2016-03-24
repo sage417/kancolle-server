@@ -37,9 +37,9 @@ import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -152,20 +152,20 @@ public class GetMemberController {
     }
 
     @RequestMapping("/picture_book")
-    public APIResponse<ShipPictureBookResult> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Valid PictureBookForm form, BindingResult result) {
+    public APIResponse<ShipPictureBookResult> pictureBook(@ModelAttribute(MEMBER_ID) String member_id, @Validated PictureBookForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         ShipPictureBookResult api_data = memberPictureBookService.pictureBook(member_id, form);
         return new APIResponse<ShipPictureBookResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/ship2")
-    public APIResponse<List<MemberShip>> ship2(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship2Form form, BindingResult result) {
+    public APIResponse<List<MemberShip>> ship2(@ModelAttribute(MEMBER_ID) String member_id, @Validated Ship2Form form, BindingResult result) {
         checkArgument(!result.hasErrors());
         return new Ship2Result(memberShipService.getMemberShips(member_id), memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     @RequestMapping("/ship3")
-    public APIResponse<Ship3Result> ship3(@ModelAttribute(MEMBER_ID) String member_id, @Valid Ship3Form form, BindingResult result) {
+    public APIResponse<Ship3Result> ship3(@ModelAttribute(MEMBER_ID) String member_id, @Validated Ship3Form form, BindingResult result) {
         checkArgument(!result.hasErrors());
         Ship3Result api_data = memberShipService.getShip3(member_id, form);
         return new APIResponse<Ship3Result>().setApi_data(api_data);
@@ -190,7 +190,7 @@ public class GetMemberController {
     }
 
     @RequestMapping("/mapcell")
-    public APIResponse<List<MemberMapCell>> mapcell(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapCellForm form, BindingResult result) {
+    public APIResponse<List<MemberMapCell>> mapcell(@ModelAttribute(MEMBER_ID) String member_id, @Validated MapCellForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         List<MemberMapCell> api_data = memberMapService.getMemberCellInfos(member_id, form);
         return new APIResponse<List<MemberMapCell>>().setApi_data(api_data);

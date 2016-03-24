@@ -34,6 +34,8 @@ import java.util.UUID;
 @Service
 public class MemberServiceImpl implements MemberService {
 
+    private static final int[] USE_ITEM_IDS = new int[]{10,11,12,52,54,55,56,57,58,59,60,61,62,63};
+
     @Autowired
     private MemberDao memberDao;
 
@@ -196,8 +198,7 @@ public class MemberServiceImpl implements MemberService {
         // 创建家具记录
         memberFurnitureService.initMemberFurniture(member_id);
         // 创建item记录
-        int[] useItemIds = new int[]{10,11,12,52,54,55,56,57,58,59,60,61,62,63};
-        memberUseItemService.initMemberUseItem(member_id, useItemIds);
+        memberUseItemService.initMemberUseItem(member_id, USE_ITEM_IDS);
         // 创建MapInfo记录
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录

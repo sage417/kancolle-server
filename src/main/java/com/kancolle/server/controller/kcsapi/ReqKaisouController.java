@@ -3,19 +3,6 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
@@ -23,6 +10,13 @@ import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 /**
  * @author J.K.SAGE
@@ -40,7 +34,7 @@ public class ReqKaisouController {
     private MemberSlotItemService memberSlotItemService;
 
     @RequestMapping("/slotset")
-    public APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipSetSlotForm form, BindingResult result) {
+    public APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipSetSlotForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberShipService.setSlot(member_id, form);
         return new APIResponse<Object>();
@@ -59,7 +53,7 @@ public class ReqKaisouController {
     }
 
     @RequestMapping("/powerup")
-    public APIResponse<MemberShipPowerupResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Valid ShipPowerUpForm form, BindingResult result) {
+    public APIResponse<MemberShipPowerupResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipPowerUpForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         MemberShipPowerupResult api_data = memberShipService.powerup(member_id, form);
         return new APIResponse<MemberShipPowerupResult>().setApi_data(api_data);

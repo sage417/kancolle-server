@@ -10,12 +10,11 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.battle.IBattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
@@ -32,7 +31,7 @@ public class ReqSortieController {
     private IBattleService battleService;
 
     @RequestMapping("battle")
-    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Valid BattleForm form, BindingResult result) {
+    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Validated BattleForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         BattleSimulationResult api_data = battleService.battle(member_id, form);
         return new APIResponse<BattleSimulationResult>().setApi_data(api_data);

@@ -3,21 +3,6 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
 import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
 import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
@@ -29,6 +14,15 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 /**
  * @author J.K.SAGE
@@ -49,7 +43,7 @@ public class ReqKousyouController {
     private MemberKdockService memberKdockService;
 
     @RequestMapping("/createship")
-    public APIResponse<MemberKdock> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateShipForm form, BindingResult result) {
+    public APIResponse<MemberKdock> createShip(@ModelAttribute(MEMBER_ID) String member_id, @Validated CreateShipForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         MemberKdock api_data = memberKdockService.createShip(member_id, form);
         return new APIResponse<MemberKdock>().setApi_data(api_data);
@@ -74,7 +68,7 @@ public class ReqKousyouController {
     }
 
     @RequestMapping("/createitem")
-    public APIResponse<CreateItemResult> createItem(@ModelAttribute(MEMBER_ID) String member_id, @Valid CreateItemForm form, BindingResult result) {
+    public APIResponse<CreateItemResult> createItem(@ModelAttribute(MEMBER_ID) String member_id, @Validated CreateItemForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         CreateItemResult api_data = memberSlotItemService.createItem(member_id, form);
         return new APIResponse<CreateItemResult>().setApi_data(api_data);

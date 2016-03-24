@@ -1,20 +1,5 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import java.util.List;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.kcsapi.member.FurnitureCoinResult;
@@ -22,6 +7,15 @@ import com.kancolle.server.model.po.furniture.FurnitureBGM;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.bgm.FurnitureBGMService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_furniture", method = RequestMethod.POST)
@@ -34,14 +28,14 @@ public class ReqFurnitureController {
     private FurnitureBGMService furnitureBGMService;
 
     @RequestMapping("/buy")
-    public APIResponse<Object> buy(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureBuyForm form, BindingResult result) {
+    public APIResponse<Object> buy(@ModelAttribute(MEMBER_ID) String member_id, @Validated FurnitureBuyForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberFurnitureService.buyFurniture(member_id, form);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/change")
-    public APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Valid FurnitureChangeForm form, BindingResult result) {
+    public APIResponse<Object> change(@ModelAttribute(MEMBER_ID) String member_id, @Validated FurnitureChangeForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberFurnitureService.changeFurniture(member_id, form);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;

@@ -10,9 +10,8 @@ import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.battle.map.IMapBattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
@@ -30,7 +29,7 @@ public class ReqMapController {
     private IMapBattleService mapBattleService;
 
     @RequestMapping("/start")
-    public APIResponse<MapStartResult> start(@ModelAttribute(MEMBER_ID) String member_id, @Valid MapStartForm form, BindingResult result) {
+    public APIResponse<MapStartResult> start(@ModelAttribute(MEMBER_ID) String member_id, @Validated MapStartForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         MapStartResult api_data = mapBattleService.start(member_id, form);
         return new APIResponse<MapStartResult>().setApi_data(api_data);

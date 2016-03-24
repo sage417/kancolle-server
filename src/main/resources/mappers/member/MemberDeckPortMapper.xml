@@ -31,10 +31,8 @@
 	</select>
 
 	<insert id="insertMemberDeckPorts">
-		replace INTO t_member_deckport (member_id, ID, `NAME`, SHIP, lock) VALUES
-		<foreach collection="list" item="deckPort" separator=",">
-			(#{deckPort.memberId}, #{deckPort.deckId}, #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})
-		</foreach>
+		INSERT INTO t_member_deckport (member_id, ID, `NAME`, SHIP, `LOCK`) VALUES
+		<foreach collection="list" item="deckPort" separator=",">(#{deckPort.memberId}, #{deckPort.deckId}, #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})</foreach>
 	</insert>
 
 	<insert id="insertDeckPortShip">
