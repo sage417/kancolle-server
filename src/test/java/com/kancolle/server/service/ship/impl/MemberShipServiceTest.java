@@ -2,6 +2,7 @@ package com.kancolle.server.service.ship.impl;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.ship.MemberShipService;
 import org.junit.Test;
@@ -20,15 +21,15 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy({ @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml") })
+@ContextHierarchy({@ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml")})
 public class MemberShipServiceTest {
     @Autowired
     private MemberShipService service;
 
     @Test
-    @DatabaseSetup("/dbunit/membership/membership_data.xml")
-    @DatabaseSetup("/dbunit/membership/ship_level_data.xml")
-    @DatabaseSetup("/dbunit/membership/ship_data.xml")
+    @DatabaseSetups({@DatabaseSetup("/dbunit/membership/membership_data.xml"),
+            @DatabaseSetup("/dbunit/membership/ship_level_data.xml"),
+            @DatabaseSetup("/dbunit/membership/ship_data.xml")})
     public void test() {
         MemberShip mship = service.getMemberShip("8006690", 1L);
         service.increaseMemberShipExp(mship, 1);

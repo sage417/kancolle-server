@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     /* @CachePut(value = "token2MemberId", key = "#result") */
     public void updateMemberToken(String member_id) {
-        String token = StringUtils.join(UUID.randomUUID().toString().split("-"), StringUtils.EMPTY);
+        String token = UUID.fromString(member_id).toString().replaceAll("-",StringUtils.EMPTY);
         memberDao.updateMemberToken(member_id, token);
     }
 
