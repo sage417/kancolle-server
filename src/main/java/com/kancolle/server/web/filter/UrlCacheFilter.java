@@ -1,12 +1,11 @@
 package com.kancolle.server.web.filter;
 
-import javax.servlet.http.HttpServletRequest;
-
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
+import javax.servlet.http.HttpServletRequest;
 
 public class UrlCacheFilter extends SimplePageCachingFilter {
 
@@ -24,14 +23,12 @@ public class UrlCacheFilter extends SimplePageCachingFilter {
 
     @Override
     protected String calculateKey(HttpServletRequest httpRequest) {
-        StringBuilder builder = new StringBuilder(httpRequest.getMethod());
-        builder.append(httpRequest.getRequestURI());
-        return builder.toString();
+        return httpRequest.getMethod() + httpRequest.getRequestURI();
     }
 
     @Override
     protected boolean acceptsGzipEncoding(HttpServletRequest request) {
-        // Let nginx do gzip
+        // let nginx do gzip
         return false;
     }
 }

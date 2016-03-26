@@ -1,15 +1,12 @@
 package com.kancolle.server.utils;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.RandomUtils;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public abstract class CollectionsUtils {
 
@@ -32,11 +29,4 @@ public abstract class CollectionsUtils {
         return list.get(RandomUtils.nextInt(0, size));
     }
 
-    public static <K, V> Map<K, V> putAll(Map<K, V> map1, Map<K, V> map2) {
-        int expectedSize = map1.size() + map2.size();
-        Map<K, V> map = Maps.newHashMapWithExpectedSize(expectedSize);
-        map.putAll(map1);
-        map.putAll(map2);
-        return map;
-    }
 }
