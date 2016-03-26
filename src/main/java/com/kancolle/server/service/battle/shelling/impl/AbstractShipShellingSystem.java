@@ -12,13 +12,14 @@ import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.RoundingMode;
+import java.util.List;
 
 /**
- * @author J.K.SAGE
  * @param <S>
+ * @author J.K.SAGE
  * @Date 2015年11月1日
  */
-public abstract class AbstractShipShellingSystem<S extends AbstractShip, E extends AbstractShip> implements IShellingSystem<S, E> {
+public class AbstractShipShellingSystem<S extends AbstractShip, E extends AbstractShip> implements IShellingSystem<S, E> {
 
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
@@ -64,7 +65,7 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
     protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{CL_VALUE_CRTICAL, CL_VALUE_CRTICAL};
 
     /*------------伤害补正------------*/
-    protected  static final double APAMMO_AUGMENTING = 1.08d;
+    protected static final double APAMMO_AUGMENTING = 1.08d;
     /*------------伤害补正------------*/
 
 
@@ -75,13 +76,17 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
     protected static final int[] DM_SINGLE_ZER0 = new int[]{0};
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
 
-    /**---------命中性能---------**/
+    /**
+     * ---------命中性能---------
+     **/
     protected static final double HIT_BASE_RADIOS = 1d;
     private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
-    protected static final double HIT_LUCK_AUGMENTING =0.0015d;
+    protected static final double HIT_LUCK_AUGMENTING = 0.0015d;
     protected static final double HIT_SLOT_AUGMENTING = 0.01d;
-    /**---------命中性能---------**/
+    /**
+     * ---------命中性能---------
+     **/
 
     /*-------------回避性能-------------*/
     private static final int HOUK_THRESHOLD = 40;
@@ -93,9 +98,13 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
 
-    protected  abstract  double combineKaihiRatio(S ship, BattleContext context);
+    protected double combineKaihiRatio(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
 
-    protected abstract double combineHitRatio(S ship,BattleContext context);
+    protected double combineHitRatio(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
 
     protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
@@ -114,28 +123,32 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
     }
 
     protected final boolean isCIHit(double hitValue, double houkValue) {
-        return isHit(hitValue,houkValue,0.15d);
+        return isHit(hitValue, houkValue, 0.15d);
     }
 
-    private boolean isHit(double hitValue,double houkValue,double increaseRate){
+    private boolean isHit(double hitValue, double houkValue, double increaseRate) {
         double hitRate = increaseRate + hitValue - houkValue;
         hitRate = hitRadiosThreshold(hitRate);
         return RandomUtils.nextDouble(0d, 1d) <= hitRate;
     }
 
-    private double hitRadiosThreshold(double hitRate){
-        if (hitRate>HIT_RADIOS_THRESHOLD){
+    private double hitRadiosThreshold(double hitRate) {
+        if (hitRate > HIT_RADIOS_THRESHOLD) {
             hitRate = HIT_RADIOS_THRESHOLD;
         }
         return hitRate;
     }
 
-    /** 擦弹和未破防强制扣除当前血量5%~10% */
+    /**
+     * 擦弹和未破防强制扣除当前血量5%~10%
+     */
     private final int damageAugmenting(int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
-    /** 击沉保护 */
+    /**
+     * 击沉保护
+     */
     private final int destoryAugmenting(int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
@@ -190,5 +203,41 @@ public abstract class AbstractShipShellingSystem<S extends AbstractShip, E exten
     /**
      */
     protected final void BBGunSystem(MemberShip memberShip) {
+    }
+
+    @Override
+    public void generateHougkeResult(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void generateAttackList(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    @Override
+    public E generateDefendList(List<E> ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void generateAttackTypeList(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void generateSlotItemList(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void generateCrticalList(S attackShip, E defendShip, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void generateDamageList(S attackShip, E defendShip, BattleContext context) {
+        throw new UnsupportedOperationException();
     }
 }

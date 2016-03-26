@@ -3,7 +3,9 @@
  */
 package com.kancolle.server.model.po.battle;
 
+import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -38,6 +40,45 @@ public class SlotItemInfo {
     private long[] apAmmoIds = new long[4];
 
     private SlotItemInfo() { }
+
+    public static SlotItemInfo of(EnemyShip ship){
+        SlotItemInfo info = new SlotItemInfo();
+        List<EnemySlotItem> slots = ship.getSlot();
+        for (int i = 0; i < slots.size(); i++) {
+            EnemySlotItem slotItem = slots.get(i);
+            long slotItemId = slotItem.getSlotItemId();
+            int slotType = SlotItemUtils.getType(slotItem);
+            switch (slotType) {
+                case 1:
+                case 2:
+                case 3:
+                    info.mainGunCount++;
+                    ArrayUtils.add(info.mainGunIds, slotItemId);
+                    break;
+                case 4:
+                    info.secondaryGunCount++;
+                    ArrayUtils.add(info.secondaryGunIds, slotItemId);
+                    break;
+                case 12:
+                case 13:
+                    info.radarCount++;
+                    ArrayUtils.add(info.radarIds, slotItemId);
+                    break;
+                case 9:
+                case 10:
+                        info.searchPlaneCount++;
+                        ArrayUtils.add(info.searchPlaneIds, slotItemId);
+                    break;
+                case 19:
+                    info.APAmmoCount++;
+                    ArrayUtils.add(info.apAmmoIds, slotItemId);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return info;
+    }
 
     public static SlotItemInfo of(MemberShip ship) {
         SlotItemInfo info = new SlotItemInfo();
