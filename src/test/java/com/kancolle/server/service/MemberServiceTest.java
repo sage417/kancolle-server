@@ -42,7 +42,7 @@ public class MemberServiceTest {
 
     @Test
     @DatabaseSetup("/dbunit/member/t_member.xml")
-    public void testUpdateToken(){
+    public void testUpdateToken() {
         String memberId = "9007383";
         Member member = memberService.getMember(memberId);
         String token = member.getToken();
@@ -50,6 +50,4 @@ public class MemberServiceTest {
         member = memberService.getMember(memberId);
         Assert.assertFalse(token.equals(member.getToken()));
     }
-
-
 }
