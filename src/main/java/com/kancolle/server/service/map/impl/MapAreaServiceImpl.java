@@ -14,7 +14,7 @@ public class MapAreaServiceImpl implements MapAreaService {
     private MapAreaDao mapAreaDao;
 
     @Override
-    @Cacheable(value = "map", key = "#maparea_id", cacheManager = "ehcacheManager")
+    @Cacheable(value = "map", key = "#maparea_id", cacheManager = "cacheManager")
     public MapAreaModel getMapArea(int maparea_id) {
         return mapAreaDao.getMapArea(maparea_id);
     }
