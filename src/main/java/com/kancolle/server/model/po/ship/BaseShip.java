@@ -3,11 +3,12 @@
  */
 package com.kancolle.server.model.po.ship;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.kancolle.server.model.po.View;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
@@ -19,28 +20,35 @@ public class BaseShip implements Serializable {
 
     private static final long serialVersionUID = -7322805228630342223L;
 
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 1, name = "api_id")
     private int shipId;
 
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 4, name = "api_yomi")
     private String yomi;
 
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 5, name = "api_stype")
     public int getShipTypeId() {
         return getType().getShipTypeId();
     }
 
+    @JsonView(View.BaseShip.class)
     @JSONField(serialize = false, deserialize = false)
     private ShipType type;
 
     /** 速力 */
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 14, name = "api_soku")
     private int soku;
 
     /** 可装备数 */
+    @JsonView(View.BaseShip.class)
     @JSONField(ordinal = 16, name = "api_slot_num")
     private int soltNum;
 
