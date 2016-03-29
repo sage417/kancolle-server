@@ -80,7 +80,7 @@ public class MemberNdockServiceImpl implements MemberNdockService {
             memberNdock.setMemberShipId(memberShip.getMemberShipId());
 
             // 完了时间设定
-            Instant completeInstant = Instant.now().plus(memberShip.getApi_ndock_time(), ChronoUnit.MILLIS);
+            Instant completeInstant = Instant.now().plus(memberShip.getNdockTime(), ChronoUnit.MILLIS);
             memberNdock.setCompleteTime(completeInstant.toEpochMilli());
             memberNdock.setCompleteTimeStr(DateUtils.format(completeInstant));
 

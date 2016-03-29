@@ -1,11 +1,11 @@
 package com.kancolle.server.service.battle.shelling;
 
+import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.ship.IShip;
+
 import java.util.List;
 
-import com.kancolle.server.model.po.battle.BattleContext;
-import com.kancolle.server.model.po.ship.AbstractShip;
-
-public interface IShellingSystem<T extends AbstractShip, E extends AbstractShip> {
+public interface IShellingSystem<T extends IShip, E extends IShip> {
 
     void generateHougkeResult(T ship, BattleContext context);
 

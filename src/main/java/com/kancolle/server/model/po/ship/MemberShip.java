@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
  * @Date 2015年5月30日
  */
 @Alias("MemberShip")
-public class MemberShip extends AbstractShip implements Serializable {
+public class MemberShip implements IShip, Serializable {
 
     private static final long serialVersionUID = -1844625754351796002L;
 
@@ -34,8 +34,9 @@ public class MemberShip extends AbstractShip implements Serializable {
     public static final int GOOD_COND = 50;
 
     @JSONField(serialize = false, deserialize = false)
+    private Ship ship;
+    @JSONField(serialize = false, deserialize = false)
     private String memberId;
-
     @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
     @JSONField(ordinal = 4, name = "api_lv")
@@ -60,10 +61,10 @@ public class MemberShip extends AbstractShip implements Serializable {
     private int fuel;
     @JSONField(ordinal = 14, name = "api_bull")
     private int bull;
-    @JSONField(ordinal = 16)
-    private long api_ndock_time;
-    @JSONField(ordinal = 17)
-    private int[] api_ndock_item;
+    @JSONField(ordinal = 16, name = "api_ndock_time")
+    private long ndockTime;
+    @JSONField(ordinal = 17, name ="api_ndock_item" )
+    private int[] ndockItem;
     @JSONField(ordinal = 19, name = "api_cond")
     private int cond;
     /**
@@ -186,6 +187,14 @@ public class MemberShip extends AbstractShip implements Serializable {
     @JSONField(ordinal = 29, name = "api_locked_equip")
     public int getEquipLockStatue() {
         return lockedEquip ? 1 : 0;
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     public String getMemberId() {
@@ -367,18 +376,18 @@ public class MemberShip extends AbstractShip implements Serializable {
         this.lockedEquip = lockedEquip;
     }
 
-    public long getApi_ndock_time() {
-        this.api_ndock_time = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().getShipTypeId()) * 1000L;
-        return this.api_ndock_time;
+    public long getNdockTime() {
+        this.ndockTime = NdockUtils.getNdockTime(getLv(), getMaxHp() - getNowHp(), getShip().getShipTypeId()) * 1000L;
+        return this.ndockTime;
     }
 
-    public void setApi_ndock_time(long api_ndock_time) {
+    public void setNdockTime(long api_ndock_time) {
         throw new UnsupportedOperationException();
     }
 
     public int[] getApi_ndock_item() {
-        this.api_ndock_item = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getShipTypeId());
-        return this.api_ndock_item;
+        this.ndockItem = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getShipTypeId());
+        return this.ndockItem;
     }
 
     public void setApi_ndock_item(int[] api_ndock_item) {

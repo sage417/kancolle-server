@@ -5,11 +5,17 @@
 	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM">
 		<id property="mapCellId" column="MAPCELL_ID"/>
 		<id property="no" column="NO"/>
-		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="com.kancolle.server.dao.ship.ShipDao.selectEnemyDeckPortShips"/>
+		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
 	</resultMap>
-
 
 	<select id="selectEnemyDeckPorts" resultMap="EnemyDeckPortRM">
 		SELECT * FROM t_enemy_deckport WHERE MAPCELL_ID = #{map_cell_id}
+	</select>
+
+	<select id="selectEnemyDeckPortShips" resultMap="com.kancolle.server.dao.ship.ShipDao.EnemyShipRM">
+		SELECT m.SHIP_ID FROM t_enemy_deckport_mapping m
+		INNER JOIN t_enemy_deckport d ON d.MAPCELL_ID = m.MAPCELL_ID AND d.NO = m.NO
+		WHERE m.MAPCELL_ID = #{map_cell_id} AND m.NO = #{no}
+		ORDER BY POSITION(m.`SHIP_ID` + ',' IN d.SHIP)
 	</select>
 </mapper>

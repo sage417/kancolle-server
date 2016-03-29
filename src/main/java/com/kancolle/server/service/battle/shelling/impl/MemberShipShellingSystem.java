@@ -8,8 +8,8 @@ import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -56,14 +56,14 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         }
     }
 
-    private boolean isTaisenAttack(AbstractShip attackShip, List<? extends AbstractShip> enemySSShips) {
+    private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
     @Override
     public void generateAttackList(MemberShip attackShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipMap();
+        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip).intValue());
     }
 
@@ -73,7 +73,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
         HougekiResult hougekiResult = context.getNowHougekiResult();
 
         int attackType = hougekiResult.getApi_at_type().getLast().intValue();
-        ImmutableBiMap<Integer, AbstractShip> shipsMap = context.getShipMap();
+        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
 
         int defShipIdx = shipsMap.inverse().get(defendShip).intValue();
 
@@ -333,7 +333,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * @param ship
      * @return
      */
-    private int shellingBaiscHoug(AbstractShip ship) {
+    private int shellingBaiscHoug(IShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击力补正
         int shipHoug = ship.getShipKaryoku();
@@ -393,7 +393,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
      * <p>
      * 这里补正数值属于炮击战
      */
-    public double augmentingBeforeThreshold(AbstractShip attackShip, BattleContext context) {
+    public double augmentingBeforeThreshold(IShip attackShip, BattleContext context) {
         double augmenting = 1d;
 
         //阵型补正

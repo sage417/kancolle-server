@@ -3,8 +3,8 @@ package com.kancolle.server.model.po.battle;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
-import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.LinkedList;
@@ -26,7 +26,7 @@ public class BattleContext {
 
     private LinkedList<EnemyShip> enemyAttackShips;
 
-    private ImmutableBiMap<Integer, AbstractShip> shipMap;
+    private ImmutableBiMap<Integer, IShip> shipMap;
 
     private HougekiResult nowHougekiResult;
 
@@ -86,11 +86,11 @@ public class BattleContext {
         this.enemyAttackShips = enemyAttackShips;
     }
 
-    public ImmutableBiMap<Integer, AbstractShip> getShipMap() {
+    public ImmutableBiMap<Integer, IShip> getShipMap() {
         return shipMap;
     }
 
-    public void setShipMap(ImmutableBiMap<Integer, AbstractShip> shipMap) {
+    public void setShipMap(ImmutableBiMap<Integer, IShip> shipMap) {
         this.shipMap = shipMap;
     }
 

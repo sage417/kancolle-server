@@ -1,12 +1,12 @@
 package com.kancolle.server.service.battle.aerial;
 
-import java.util.List;
+import com.kancolle.server.model.po.ship.IShip;
 
-import com.kancolle.server.model.po.ship.AbstractShip;
+import java.util.List;
 
 public interface IAerialBattleSystem {
 
     int getAerialPowerStatue(int airPow, int oAirPow);
 
-    int getMemberDeckPortAerialPower(List<? extends AbstractShip> ships);
+    int getMemberDeckPortAerialPower(List<? extends IShip> ships);
 }

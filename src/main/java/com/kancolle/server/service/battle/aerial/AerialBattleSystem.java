@@ -1,14 +1,13 @@
 package com.kancolle.server.service.battle.aerial;
 
-import java.math.RoundingMode;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.google.common.math.IntMath;
-import com.kancolle.server.model.po.ship.AbstractShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.springframework.stereotype.Service;
+
+import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 public class AerialBattleSystem implements IAerialBattleSystem {
@@ -23,11 +22,11 @@ public class AerialBattleSystem implements IAerialBattleSystem {
     private static final int ADVANTAGE_RATE = 3 / 2;
 
     @Override
-    public int getMemberDeckPortAerialPower(List<? extends AbstractShip> ships) {
+    public int getMemberDeckPortAerialPower(List<? extends IShip> ships) {
 
         int airPow = 0;
 
-        for (AbstractShip ship : ships) {
+        for (IShip ship : ships) {
             for (int i = 0; i < ship.getSlotItems().size(); i++) {
                 AbstractSlotItem slot = ship.getSlotItems().get(i);
 

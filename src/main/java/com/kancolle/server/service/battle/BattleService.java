@@ -13,8 +13,8 @@ import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
@@ -153,10 +153,10 @@ public class BattleService implements IBattleService {
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
-        Map<Integer, AbstractShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, AbstractShip> enmeyShipMap =IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
-        ImmutableBiMap.Builder<Integer,AbstractShip> abstractShipBuilder = ImmutableBiMap.builder();
-        ImmutableBiMap<Integer, AbstractShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
+        Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
+        Map<Integer, IShip> enmeyShipMap =IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
+        ImmutableBiMap.Builder<Integer,IShip> abstractShipBuilder = ImmutableBiMap.builder();
+        ImmutableBiMap<Integer, IShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
 
         // 玩家攻击队列
         LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());

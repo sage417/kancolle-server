@@ -3,32 +3,28 @@
  */
 package com.kancolle.server.utils.logic;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_DISADVANTAGE;
-import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_LOST;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.antiSSShipFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.attackableCarrierFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.carrierFilter;
-import static com.kancolle.server.utils.logic.ship.ShipFilter.ssFilter;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.kancolle.server.model.po.deckport.EnemyDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.IShip;
+import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.ShipType;
+import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.utils.logic.ship.ShipUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.RandomUtils;
-
-import com.google.common.collect.BiMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.AbstractShip;
-import com.kancolle.server.model.po.ship.EnemyShip;
-import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.ship.ShipType;
-import com.kancolle.server.utils.CollectionsUtils;
-import com.kancolle.server.utils.logic.ship.ShipUtils;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_DISADVANTAGE;
+import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_LOST;
+import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 
 /**
  * @author J.K.SAGE
@@ -37,7 +33,7 @@ import com.kancolle.server.utils.logic.ship.ShipUtils;
  */
 public abstract class DeckPortUtils {
 
-    private static final Ordering<AbstractShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(AbstractShip::getLeng);
+    private static final Ordering<IShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(IShip::getLeng);
 
     private static int getShipSearchNeedValue(int shipType) {
         switch (shipType) {
@@ -106,7 +102,7 @@ public abstract class DeckPortUtils {
         // 200) < RandomUtils.nextInt(0, 101);
     }
 
-    public static <T extends AbstractShip> LinkedList<T> getAttackShips(List<T> ships, boolean isAllSS) {
+    public static <T extends IShip> LinkedList<T> getAttackShips(List<T> ships, boolean isAllSS) {
         // TODO 被击沉的舰船不能进行炮击战
         // 潜艇不能参加炮击战
         Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
@@ -122,7 +118,7 @@ public abstract class DeckPortUtils {
         return shipStream.collect(Collectors.toCollection(LinkedList::new));
     }
 
-    public static <T extends AbstractShip> T getDefShip(BiMap<Integer, T> shipMap) {
+    public static <T extends IShip> T getDefShip(BiMap<Integer, T> shipMap) {
 
         List<T> ships = Lists.newArrayList(shipMap.values());
 
@@ -148,7 +144,7 @@ public abstract class DeckPortUtils {
      * @param ships
      * @return
      */
-    private static <T extends AbstractShip> T getShelfShip(T flagShip, List<T> ships) {
+    private static <T extends IShip> T getShelfShip(T flagShip, List<T> ships) {
         List<T> defShips = ships.stream().filter(ship -> !ship.equals(flagShip) && ShipUtils.isTinyDmg.negate().test(ship)).collect(Collectors.toList());
 
         if (defShips.isEmpty()) {

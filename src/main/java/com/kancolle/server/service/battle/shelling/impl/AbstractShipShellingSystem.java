@@ -6,7 +6,7 @@ package com.kancolle.server.service.battle.shelling.impl;
 import com.google.common.math.DoubleMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
-import com.kancolle.server.model.po.ship.AbstractShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import org.apache.commons.lang3.RandomUtils;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author J.K.SAGE
  * @Date 2015年11月1日
  */
-public class AbstractShipShellingSystem<S extends AbstractShip, E extends AbstractShip> implements IShellingSystem<S, E> {
+public class AbstractShipShellingSystem<S extends IShip, E extends IShip> implements IShellingSystem<S, E> {
 
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
@@ -155,7 +155,7 @@ public class AbstractShipShellingSystem<S extends AbstractShip, E extends Abstra
     }
 
     /* 破甲机制+保护机制*/
-    protected final int damageValue(int attackValue, AbstractShip defShip, boolean destoryProtect) {
+    protected final int damageValue(int attackValue, IShip defShip, boolean destoryProtect) {
         int nowHp = defShip.getNowHp();
 
         int damage = attackValue - getShipDefendValue(defShip);
@@ -171,7 +171,7 @@ public class AbstractShipShellingSystem<S extends AbstractShip, E extends Abstra
         return damage;
     }
 
-    public final int getShipDefendValue(AbstractShip ship) {
+    public final int getShipDefendValue(IShip ship) {
         int rdmValue = RandomUtils.nextInt(2, 5);
         return rdmValue * ship.getShipSoukou() / 3;
     }

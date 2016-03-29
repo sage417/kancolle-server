@@ -40,20 +40,13 @@
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
-	<resultMap type="EnemyShip" id="EnemyShipRM" autoMapping="true">
-		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
-		<collection property="slot" ofType="EnemySlotItem" column="SHIP_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
+	<resultMap id="EnemyShipRM" type="EnemyShip">
+        <association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
+        <collection property="slot" ofType="EnemySlotItem" column="SHIP_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
 	</resultMap>
 
 	<select id="selectEmShip" resultMap="BaseShipRM">
 		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 501 AND 900
-	</select>
-
-	<select id="selectEnemyDeckPortShips" resultMap="EnemyShipRM">
-		SELECT m.SHIP_ID FROM t_enemy_deckport_mapping m 
-			INNER JOIN t_enemy_deckport d ON d.MAPCELL_ID = m.MAPCELL_ID AND d.NO = m.NO
-		WHERE m.MAPCELL_ID = #{map_cell_id} AND m.NO = #{no}
-		ORDER BY POSITION(m.`SHIP_ID` + ',' IN d.SHIP)
 	</select>
 
 	<select id="selectShipsByCond" resultMap="ShipRM">
