@@ -42,8 +42,13 @@ public class BaseShip implements Serializable {
     @JsonView(View.BaseShip.class)
     @JsonProperty("api_stype")
     @JSONField(ordinal = 5, name = "api_stype")
-    public int getShipTypeId() {
-        return getType().getShipTypeId();
+    private Integer shipTypeId;
+
+    public Integer getShipTypeId() {
+        if (this.shipTypeId == null){
+            this.shipTypeId = getType().getShipTypeId();
+        }
+        return this.shipTypeId;
     }
 
     @JsonIgnore
