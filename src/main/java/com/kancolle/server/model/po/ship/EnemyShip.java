@@ -1,11 +1,6 @@
-
-/**
- *
- */
 package com.kancolle.server.model.po.ship;
 
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -13,46 +8,48 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author J.K.SAGE
- * @Date 2015年8月22日
- *
+ * Created by J.K.SAGE on 2016/3/29 0029.
  */
 @Alias("EnemyShip")
 public class EnemyShip extends AbstractShip implements Serializable {
 
-    private static final long serialVersionUID = 887568848561500767L;
+    private int nowHp = getShip().getTaik().getMaxValue();
 
-    private int nowHp;
+    private int[] currentEQ = Arrays.copyOf(getShip().getMaxEq(), getShip().getMaxEq().length);
 
-    private List<EnemySlotItem> slot;
+    private EnemyShipTemplate shipTemplate;
+
+    @Override
+    public int[] getCurrentEQ() {
+        return this.currentEQ;
+    }
 
     @Override
     public int getNowHp() {
-        return nowHp;
+        return this.nowHp;
+    }
+
+    public void setCurrentEQ(int[] currentEQ) {
+        this.currentEQ = currentEQ;
     }
 
     public void setNowHp(int nowHp) {
         this.nowHp = nowHp;
     }
 
-    public List<EnemySlotItem> getSlot() {
-        return slot;
+    public EnemyShipTemplate getShipTemplate() {
+        return shipTemplate;
     }
 
-    public void setSlot(List<EnemySlotItem> slot) {
-        this.slot = slot;
+    public void setShipTemplate(EnemyShipTemplate shipTemplate) {
+        this.shipTemplate = shipTemplate;
     }
 
     //------抽象方法------//
 
     @Override
     public List<? extends AbstractSlotItem> getSlotItems() {
-        return getSlot();
-    }
-
-    @Override
-    public int[] getCurrentEQ() {
-        return Arrays.copyOf(getShip().getMaxEq(), getShip().getMaxEq().length);
+        return getShipTemplate().getSlot();
     }
 
     @Override

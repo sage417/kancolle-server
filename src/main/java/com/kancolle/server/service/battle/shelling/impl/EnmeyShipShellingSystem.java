@@ -12,7 +12,6 @@ import com.kancolle.server.model.po.ship.AbstractShip;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.service.battle.course.CourseEnum;
@@ -102,7 +101,7 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
         double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
 
         // TODO cacheValue
-        int slotHoum = ship.getSlot().stream().mapToInt(EnemySlotItem::getHoum).sum();
+        int slotHoum = ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
         double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
 
         return HIT_BASE_RADIOS + levelRatios + luckyRatios + slotRatios;

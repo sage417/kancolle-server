@@ -5,7 +5,7 @@ package com.kancolle.server.model.po.battle;
 
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -43,9 +43,9 @@ public class SlotItemInfo {
 
     public static SlotItemInfo of(EnemyShip ship){
         SlotItemInfo info = new SlotItemInfo();
-        List<EnemySlotItem> slots = ship.getSlot();
+        List<? extends AbstractSlotItem> slots = ship.getSlotItems();
         for (int i = 0; i < slots.size(); i++) {
-            EnemySlotItem slotItem = slots.get(i);
+            AbstractSlotItem slotItem = slots.get(i);
             long slotItemId = slotItem.getSlotItemId();
             int slotType = SlotItemUtils.getType(slotItem);
             switch (slotType) {

@@ -3,14 +3,6 @@
  */
 package com.kancolle.server.model.kcsapi.battle;
 
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.primitives.Ints;
@@ -20,7 +12,14 @@ import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
  * @author J.K.SAGE
@@ -157,7 +156,7 @@ public class BattleSimulationResult {
         this.api_midnight_flag = 0;
 
         Stream.iterate(0, i -> ++i).limit(enemyShips.size()).forEach(i -> {
-            int[] slots = enemyShips.get(i).getSlot().stream().mapToInt(EnemySlotItem::getSlotItemId).toArray();
+            int[] slots = enemyShips.get(i).getSlotItems().stream().mapToInt(AbstractSlotItem::getSlotItemId).toArray();
             slots = Ints.ensureCapacity(slots, 5, 0);
             Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);
             this.api_eSlot[i] = slots;
