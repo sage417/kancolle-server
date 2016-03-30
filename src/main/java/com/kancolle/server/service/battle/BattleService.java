@@ -206,12 +206,12 @@ public class BattleService implements IBattleService {
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
             MemberShip attackShip = memberAttackShips.poll();
-            EnemyShip enemyAttackShip = enemyAttackShips.poll();
             if (attackShip != null && attackShip.getNowHp() > 0) {
-                memberShipShellingSystem.generateHougkeResult(attackShip, context);
+                EnemyShip defendShip = memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
+            EnemyShip enemyAttackShip = enemyAttackShips.poll();
             if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
-                enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
+                MemberShip defendShip = enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
         }
     }

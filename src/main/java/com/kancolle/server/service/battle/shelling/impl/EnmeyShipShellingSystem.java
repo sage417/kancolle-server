@@ -28,6 +28,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.collect.Iterables.getLast;
 
@@ -38,21 +39,23 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     private AbstractShipShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
 
     @Override
-    public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
+    public MemberShip generateHougkeResult(EnemyShip attackShip, BattleContext context) {
         generateAttackList(attackShip, context);
         List<MemberShip> enemySSShips = context.getMemberSSShips();
         List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
 
+        MemberShip defendShip;
+
+        generateShellingAttackTypeList(attackShip, context);
         if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateShellingAttackTypeList(attackShip, context);
-            MemberShip defShip = generateDefendList(enemySSShips, context);
+            defendShip = generateDefendList(enemySSShips, context);
         } else {
-            generateShellingAttackTypeList(attackShip, context);
-            MemberShip defendShip = generateDefendList(enemyOtherShips, context);
+            defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
         }
+        return Objects.requireNonNull(defendShip);
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
@@ -257,6 +260,7 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
     public void generateDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+        int damageSum = 0;
 
         int[] clArray;
 
@@ -276,12 +280,15 @@ public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShi
                 int hougAfterThreshold = attackValue(attackShip, defendShip, context);
                 int damageValue = damageValue(hougAfterThreshold, defendShip, false);
                 hougekiResult.getApi_damage().add(new int[]{damageValue});
+                damageSum += damageValue;
                 break;
             case ATTACK_TYPE_DOUBLE:
                 break;
             default:
                 throw new IllegalArgumentException("attack type error");
         }
+        int nowHp = defendShip.getNowHp();
+        defendShip.setNowHp(nowHp - damageSum);
     }
 
     /**

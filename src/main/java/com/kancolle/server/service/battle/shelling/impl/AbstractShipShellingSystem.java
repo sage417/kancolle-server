@@ -206,7 +206,7 @@ public class AbstractShipShellingSystem<S extends IShip, E extends IShip> implem
     }
 
     @Override
-    public void generateHougkeResult(S ship, BattleContext context) {
+    public E generateHougkeResult(S ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 

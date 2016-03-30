@@ -30,6 +30,10 @@ public class BattleContext {
 
     private HougekiResult nowHougekiResult;
 
+    private List<IShip> nowSSShips;
+
+    private List<IShip> nowOtherShips;
+
     public BattleSimulationResult getBattleResult() {
         return battleResult;
     }
@@ -100,5 +104,21 @@ public class BattleContext {
 
     public void setNowHougekiResult(HougekiResult nowHougekiResult) {
         this.nowHougekiResult = nowHougekiResult;
+    }
+
+    public List<IShip> getNowSSShips() {
+        return nowSSShips;
+    }
+
+    public void setNowSSShips(List<IShip> nowSSShips) {
+        this.nowSSShips = nowSSShips;
+    }
+
+    public List<IShip> getNowOtherShips() {
+        return nowOtherShips;
+    }
+
+    public void setNowOtherShips(List<IShip> nowOtherShips) {
+        this.nowOtherShips = nowOtherShips;
     }
 }

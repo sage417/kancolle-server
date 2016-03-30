@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.collect.Iterables.getLast;
 
@@ -39,21 +40,27 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     private AbstractShipShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
 
     @Override
-    public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
+    public EnemyShip generateHougkeResult(MemberShip attackShip, BattleContext context) {
         generateAttackList(attackShip, context);
         List<EnemyShip> enemySSShips = context.getEnemySSShips();
         List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
 
+        EnemyShip defendShip;
+
+        generateShellingAttackTypeList(attackShip, context);
         if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateShellingAttackTypeList(attackShip, context);
-            EnemyShip defShip = generateDefendList(enemySSShips, context);
+             defendShip = generateDefendList(enemySSShips, context);
+            generateTaiSenDamageList(attackShip, defendShip, context);
         } else {
-            generateShellingAttackTypeList(attackShip, context);
-            EnemyShip defendShip = generateDefendList(enemyOtherShips, context);
+             defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
         }
+        return Objects.requireNonNull(defendShip);
+    }
+
+    private void generateTaiSenDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
@@ -286,7 +293,7 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
     public void generateDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
-
+        int damageSum = 0;
         int[] clArray;
 
         switch (attackType) {
@@ -305,12 +312,15 @@ public class MemberShipShellingSystem extends AbstractShipShellingSystem<MemberS
                 int hougAfterThreshold = attackValue(attackShip, defendShip, context);
                 int damageValue = damageValue(hougAfterThreshold, defendShip, false);
                 hougekiResult.getApi_damage().add(new int[]{damageValue});
+                damageSum += damageValue;
                 break;
             case ATTACK_TYPE_DOUBLE:
                 break;
             default:
                 throw new IllegalArgumentException("attack type error");
         }
+        int nowHp = defendShip.getNowHp();
+        defendShip.setNowHp(nowHp - damageSum);
     }
 
     /**
