@@ -29,7 +29,6 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.collect.Iterables.getLast;
 
@@ -40,24 +39,23 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     private BaseShipShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
 
     @Override
-    public EnemyShip generateHougkeResult(MemberShip attackShip, BattleContext context) {
+    public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
         generateAttackList(attackShip, context);
         List<EnemyShip> enemySSShips = context.getEnemySSShips();
         List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
 
         EnemyShip defendShip;
-
-        generateShellingAttackTypeList(attackShip, context);
         if (isTaisenAttack(attackShip, enemySSShips)) {
-             defendShip = generateDefendList(enemySSShips, context);
+            generateTaiSenAttackList(context, attackShip);
+            defendShip = generateDefendList(enemySSShips, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
         } else {
-             defendShip = generateDefendList(enemyOtherShips, context);
+            generateShellingAttackTypeList(attackShip, context);
+            defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
         }
-        return Objects.requireNonNull(defendShip);
     }
 
     private void generateTaiSenDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
@@ -162,12 +160,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     public void generateAttackTypeList(MemberShip attackShip, BattleContext context) {
-        List<EnemyShip> enemySSShips = context.getEnemySSShips();
-        if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateTaiSenAttackList(context);
-        } else {
-            generateShellingAttackTypeList(attackShip, context);
-        }
+
     }
 
     /**

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IShellingSystem<T extends IShip, E extends IShip> {
 
-    E generateHougkeResult(T ship, BattleContext context);
+    void generateHougkeResult(T ship, BattleContext context);
 
     void generateAttackList(T ship, BattleContext context);
 

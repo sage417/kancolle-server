@@ -28,7 +28,6 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.collect.Iterables.getLast;
 
@@ -39,23 +38,22 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     private BaseShipShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
 
     @Override
-    public MemberShip generateHougkeResult(EnemyShip attackShip, BattleContext context) {
+    public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
         generateAttackList(attackShip, context);
         List<MemberShip> enemySSShips = context.getMemberSSShips();
         List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
 
         MemberShip defendShip;
 
-        generateShellingAttackTypeList(attackShip, context);
         if (isTaisenAttack(attackShip, enemySSShips)) {
             defendShip = generateDefendList(enemySSShips, context);
         } else {
+            generateShellingAttackTypeList(attackShip, context);
             defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
         }
-        return Objects.requireNonNull(defendShip);
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
@@ -131,7 +129,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     public void generateAttackTypeList(EnemyShip attackShip, BattleContext context) {
         List<MemberShip> enemySSShips = context.getMemberSSShips();
         if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateTaiSenAttackList(context);
+            generateTaiSenAttackList(context, attackShip);
         } else {
             generateShellingAttackTypeList(attackShip, context);
         }

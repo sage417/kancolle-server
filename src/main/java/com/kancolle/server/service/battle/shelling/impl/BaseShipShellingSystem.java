@@ -142,14 +142,14 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     /**
      * 擦弹和未破防强制扣除当前血量5%~10%
      */
-    private final int damageAugmenting(int nowHp) {
+    private int damageAugmenting(int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
     /**
      * 击沉保护
      */
-    private final int destoryAugmenting(int nowHp) {
+    private int destoryAugmenting(int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
@@ -176,7 +176,7 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
         return rdmValue * ship.getShipSoukou() / 3;
     }
 
-    protected final void generateTaiSenAttackList(BattleContext context) {
+    protected final void generateTaiSenAttackList(BattleContext context, IShip ship) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
     }
@@ -206,7 +206,7 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     }
 
     @Override
-    public E generateHougkeResult(S ship, BattleContext context) {
+    public void generateHougkeResult(S ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
