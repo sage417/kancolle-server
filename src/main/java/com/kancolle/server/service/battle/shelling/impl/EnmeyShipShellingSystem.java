@@ -33,10 +33,10 @@ import java.util.Objects;
 import static com.google.common.collect.Iterables.getLast;
 
 @Service
-public class EnmeyShipShellingSystem extends AbstractShipShellingSystem<EnemyShip, MemberShip> {
+public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, MemberShip> {
 
     @Autowired
-    private AbstractShipShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
+    private BaseShipShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
 
     @Override
     public MemberShip generateHougkeResult(EnemyShip attackShip, BattleContext context) {
