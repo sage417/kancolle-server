@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.getLast;
+import static com.google.common.collect.Iterables.isEmpty;
 
 @Service
 public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, MemberShip> {
@@ -39,23 +40,33 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
 
     @Override
     public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
-        generateAttackList(attackShip, context);
         List<MemberShip> enemySSShips = context.getMemberSSShips();
         List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
+        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
+            return;
+        }
+        generateAttackList(attackShip, context);
 
         MemberShip defendShip;
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateAttackTypeList(attackShip, context, ATTACKTYPE.TAISHEN);
+            generateTaiSenAttackList(context, attackShip);
             defendShip = generateDefendList(enemySSShips, context);
-            //generateTaiSenDamageList(attackShip, defendShip, context);
+            generateTaiSenDamageList(attackShip, defendShip, context);
+            if (defendShip.getNowHp() < 0){
+                enemySSShips.remove(defendShip);
+            }
         } else {
-            generateAttackTypeList(attackShip, context, ATTACKTYPE.SHELLING);
+            generateShellingAttackTypeList(attackShip, context);
             defendShip = generateDefendList(enemyOtherShips, context);
-            //generateSlotItemList(attackShip, context);
-            //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
+            if (defendShip.getNowHp() < 0){
+                enemyOtherShips.remove(defendShip);
+            }
         }
+    }
+
+    private void generateTaiSenDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
