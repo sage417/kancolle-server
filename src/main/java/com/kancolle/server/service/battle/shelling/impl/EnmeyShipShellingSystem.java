@@ -46,9 +46,11 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
         MemberShip defendShip;
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
+            generateAttackTypeList(attackShip, context, ATTACKTYPE.TAISHEN);
             defendShip = generateDefendList(enemySSShips, context);
+            //generateTaiSenDamageList(attackShip, defendShip, context);
         } else {
-            generateShellingAttackTypeList(attackShip, context);
+            generateAttackTypeList(attackShip, context, ATTACKTYPE.SHELLING);
             defendShip = generateDefendList(enemyOtherShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
@@ -124,17 +126,6 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
         return  shipHitRatios(ship);
     }
 
-
-    @Override
-    public void generateAttackTypeList(EnemyShip attackShip, BattleContext context) {
-        List<MemberShip> enemySSShips = context.getMemberSSShips();
-        if (isTaisenAttack(attackShip, enemySSShips)) {
-            generateTaiSenAttackList(context, attackShip);
-        } else {
-            generateShellingAttackTypeList(attackShip, context);
-        }
-    }
-
     /**
      * 彈著觀測射擊：
      * <p>
@@ -145,7 +136,8 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
      * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
-    private void generateShellingAttackTypeList(EnemyShip attackShip, BattleContext context) {
+    @Override
+    public void generateShellingAttackTypeList(EnemyShip attackShip, BattleContext context) {
         HougekiResult nowHougekiResult = context.getNowHougekiResult();
 
         KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();

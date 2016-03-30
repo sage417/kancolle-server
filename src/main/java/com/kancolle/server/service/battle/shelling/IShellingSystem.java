@@ -13,7 +13,7 @@ public interface IShellingSystem<T extends IShip, E extends IShip> {
 
     E generateDefendList(List<E> ship, BattleContext context);
 
-    void generateAttackTypeList(T ship, BattleContext context);
+    void generateShellingAttackTypeList(T attackShip, BattleContext context);
 
     void generateSlotItemList(T ship, BattleContext context);
 

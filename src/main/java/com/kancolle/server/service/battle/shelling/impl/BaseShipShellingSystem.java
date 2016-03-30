@@ -93,6 +93,24 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     private static final double HOUK_BASE_RADIOS = 0.03d;
     /*-------------回避性能-------------*/
 
+    protected enum ATTACKTYPE {
+        SHELLING, TAISHEN, PLANE_TAISEN
+    }
+
+    protected final void generateAttackTypeList(S attackShip, BattleContext context, ATTACKTYPE attacktype) {
+        switch (attacktype){
+            case SHELLING:
+                generateShellingAttackTypeList(attackShip, context);
+                break;
+            case TAISHEN:
+            case PLANE_TAISEN:
+                generateTaiSenAttackList(context, attackShip);
+                break;
+            default:
+                throw new IllegalArgumentException("error attack type");
+        }
+    }
+
     protected final double houkThreshold(double shipKaihi) {
         double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
         return HOUK_BASE_RADIOS + shipKaihi / f;
@@ -222,7 +240,7 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     }
 
     @Override
-    public void generateAttackTypeList(S ship, BattleContext context) {
+    public void generateShellingAttackTypeList(S attackShip, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
