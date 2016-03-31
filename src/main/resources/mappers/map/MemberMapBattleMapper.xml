@@ -26,11 +26,20 @@
 	</update>
 
 	<select id="selectMemberMapBattleState" resultMap="MemberMapBattleStateRM">
-		SELECT * FROM  <include refid="table_name"></include> WHERE member_id = #{member_id}
+		SELECT
+		member_id,
+		deck_id,
+		map_area_id,
+		map_cell_id,
+		map_get_resource,
+		map_fetch_rescource,
+		battle_flag
+		FROM  <include refid="table_name" /> WHERE member_id = #{member_id}
 	</select>
 
 	<insert id="insertMemberMapBattleState" >
-		REPLACE INTO t_member_map_battle_status(member_id, deck_id, map_area_id, map_cell_id) VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no})
+		REPLACE INTO t_member_map_battle_status(member_id, deck_id, map_area_id, map_cell_id, battle_flag, createTime)
+		VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no}, 0, NOW()))
 	</insert>
 
 	<delete id="deleteMemberMapBattleState">

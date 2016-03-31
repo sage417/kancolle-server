@@ -14,6 +14,7 @@ import com.kancolle.server.service.map.MapTraveller;
 import com.kancolle.server.service.map.MemberMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -43,6 +44,7 @@ public class MapBattleService implements IMapBattleService {
      * @return
      */
     @Override
+    @Transactional
     public MapStartResult start(String member_id, MapStartForm form) {
 
         Integer deckId = form.getApi_deck_id();
@@ -60,12 +62,13 @@ public class MapBattleService implements IMapBattleService {
 
         memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
-        updateMemberMapCell(member_id, mapCellId);
+        updateMemberMapCellInfo(member_id, mapCellId);
 
         return result;
     }
 
     @Override
+    @Transactional
     public MapNextResult next(String member_id, int recoverType) {
 
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
@@ -78,7 +81,7 @@ public class MapBattleService implements IMapBattleService {
 
         MemberDeckPort deckPort = state.getMemberDeckPort();
 
-        updateMemberMapCell(member_id, mapCellId);
+        updateMemberMapCellInfo(member_id, mapCellId);
 
         MapNextResult result = traveller.next(deckPort);
 
@@ -96,7 +99,7 @@ public class MapBattleService implements IMapBattleService {
         return context.getBean(travellerBeanName, MapTraveller.class);
     }
 
-    private void updateMemberMapCell(String memberId, int memberMapCellId) {
+    private void updateMemberMapCellInfo(String memberId, int memberMapCellId) {
         memberMapService.updateMemberCellPassFlag(memberId, memberMapCellId, true);
     }
 }
