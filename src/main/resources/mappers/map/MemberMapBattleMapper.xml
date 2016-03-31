@@ -8,6 +8,7 @@
 		<result property="mapCellId" column="map_cell_id"/>
 		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHandler"/>
 		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHandler"/>
+		<result property="battleFlag" column="battle_flag"/>
 		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
 	</resultMap>
 
@@ -19,6 +20,7 @@
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'mapCellId')">map_cell_id = #{state.mapCellId}</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'getRecource')">map_get_rescource = #{state.mapGetResources}</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'fetchRecource')">map_fetch_rescource = #{state.mapFetchResources}</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'battleFlag')">battle_flag = #{state.battleFlag}</if>
 			</set>
 		WHERE member_id = #{state.memberId}
 	</update>

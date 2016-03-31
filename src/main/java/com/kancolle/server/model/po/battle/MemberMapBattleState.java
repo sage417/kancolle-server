@@ -3,11 +3,10 @@
  */
 package com.kancolle.server.model.po.battle;
 
-import java.util.Arrays;
-
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import org.apache.ibatis.type.Alias;
 
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import java.util.Arrays;
 
 /**
  * @author J.K.SAGE
@@ -28,6 +27,8 @@ public class MemberMapBattleState {
     private int[] mapGetResources;
 
     private int[] mapFetchResources;
+
+    private boolean battleFlag;
 
     public String getMemberId() {
         return memberId;
@@ -75,6 +76,14 @@ public class MemberMapBattleState {
 
     public void setMapFetchResources(int[] mapFetchResources) {
         this.mapFetchResources = mapFetchResources;
+    }
+
+    public boolean isBattleFlag() {
+        return battleFlag;
+    }
+
+    public void setBattleFlag(boolean battleFlag) {
+        this.battleFlag = battleFlag;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.mapper.map;
 
@@ -17,5 +17,5 @@ public interface MemberMapBattleMapper {
 
     MemberMapBattleState selectMemberMapBattleState(@Param("member_id") String member_id);
 
-    void update(@Param("state") MemberMapBattleState state,@Param("updateColumns") String... updateColumns);
+    void update(@Param("state") MemberMapBattleState state, @Param("updateColumns") String... updateColumns);
 }

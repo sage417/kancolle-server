@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 
@@ -62,14 +63,15 @@ public class BattleService implements IBattleService {
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
+        MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
+        checkState(!battleState.isBattleFlag());
+
         int formation = form.getApi_formation();
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
         int recovery_type = form.getApi_recovery_type();
 
         // create battle context
         BattleContext context = new BattleContext();
-
-        MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
         MemberDeckPort memberDeckPort = checkNotNull(battleState.getMemberDeckPort());
 
@@ -180,6 +182,8 @@ public class BattleService implements IBattleService {
         /*--------------------------6.闭幕雷击---------------------------*/
 
         /*--------------------------闭幕雷击结束---------------------------*/
+        battleState.setBattleFlag(true);
+        memberMapBattleMapper.update(battleState, "battleFlag");
         return result;
 
     }
