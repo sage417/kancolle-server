@@ -9,6 +9,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class BattleContext {
 
@@ -30,9 +31,19 @@ public class BattleContext {
 
     private HougekiResult nowHougekiResult;
 
-    private List<IShip> nowSSShips;
+    private List<? extends IShip> nowSSShips;
 
-    private List<IShip> nowOtherShips;
+    private List<? extends IShip> nowOtherShips;
+
+    public void switchToMemberContext(){
+        this.nowSSShips = Objects.requireNonNull(this.enemySSShips);
+        this.nowOtherShips = Objects.requireNonNull(this.enemyOtherShips);
+    }
+
+    public void switchToEnemyContext(){
+        this.nowSSShips = Objects.requireNonNull(this.memberSSShips);
+        this.nowOtherShips = Objects.requireNonNull(this.memberOtherShips);
+    }
 
     public BattleSimulationResult getBattleResult() {
         return battleResult;
@@ -106,19 +117,19 @@ public class BattleContext {
         this.nowHougekiResult = nowHougekiResult;
     }
 
-    public List<IShip> getNowSSShips() {
+    public List<? extends IShip> getNowSSShips() {
         return nowSSShips;
     }
 
-    public void setNowSSShips(List<IShip> nowSSShips) {
+    public void setNowSSShips(List<? extends IShip> nowSSShips) {
         this.nowSSShips = nowSSShips;
     }
 
-    public List<IShip> getNowOtherShips() {
+    public List<? extends IShip> getNowOtherShips() {
         return nowOtherShips;
     }
 
-    public void setNowOtherShips(List<IShip> nowOtherShips) {
+    public void setNowOtherShips(List<? extends IShip> nowOtherShips) {
         this.nowOtherShips = nowOtherShips;
     }
 }

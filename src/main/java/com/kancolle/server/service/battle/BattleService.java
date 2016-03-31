@@ -21,7 +21,6 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
-import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
@@ -137,12 +136,6 @@ public class BattleService implements IBattleService {
         int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
         result.setApi_hourai_flag(api_hourai_flag);
 
-        // 第一轮炮击结果
-        HougekiResult hougekiResult1 = new HougekiResult();
-        result.setApi_hougeki1(hougekiResult1);
-        // 把当前炮击战数据绑定到context中
-        context.setNowHougekiResult(hougekiResult1);
-
         // 玩家潜艇队列，无法被攻击的潜艇将被移除
         List<MemberShip> memberSSShips = getTargetShips(memberShips, ssFilter);
         // 玩家非潜艇队列，无法被攻击的舰船将被移除
@@ -172,7 +165,15 @@ public class BattleService implements IBattleService {
         context.setEnemyAttackShips(enemyAttackShips);
         context.setShipMap(shipMap);
 
-        shelling(context);
+
+        int shellingRound = hasBB ? 2 : 1;
+
+        for (int index = 0; index < shellingRound; index++) {
+            HougekiResult hougekiResult = new HougekiResult();
+            result.setHougekiResult(index, hougekiResult);
+            context.setNowHougekiResult(hougekiResult);
+            shellingRound(context);
+        }
 
         /*--------------------------炮击战---------------------------*/
 
@@ -188,18 +189,6 @@ public class BattleService implements IBattleService {
         return null;
     }
 
-    private void shelling(BattleContext context) {
-        LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
-        LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
-
-        shellingRound(context);
-
-        boolean secondShelling = memberAttackShips.stream().filter(ShipFilter.BBShipFilter).findFirst().isPresent() || enemyAttackShips.stream().filter(ShipFilter.BBShipFilter).findFirst().isPresent();
-        if (secondShelling) {
-            shellingRound(context);
-        }
-    }
-
     private void shellingRound(BattleContext context) {
         LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
         LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
@@ -207,10 +196,12 @@ public class BattleService implements IBattleService {
         for (int i = 0; i < circulRounds; i++) {
             MemberShip attackShip = memberAttackShips.poll();
             if (attackShip != null && attackShip.getNowHp() > 0) {
+                context.switchToMemberContext();
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
             EnemyShip enemyAttackShip = enemyAttackShips.poll();
             if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
+                context.switchToEnemyContext();
                 enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
         }

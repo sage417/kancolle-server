@@ -1,10 +1,13 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.battle;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
@@ -27,6 +30,8 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  *
  */
 public class BattleSimulationResult {
+
+    private static final int MAX_SHELLING_ROUND = 3;
 
     @JSONField(ordinal = 1)
     private int api_dock_id;
@@ -97,17 +102,32 @@ public class BattleSimulationResult {
     @JSONField(ordinal = 19)
     private int[] api_hourai_flag;
 
+    @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
+    private final List<HougekiResult> hougekiResults = Lists.newArrayListWithCapacity(MAX_SHELLING_ROUND);
+
     /** 炮击第一轮 */
     @JSONField(ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    private HougekiResult api_hougeki1;
+    public HougekiResult getHougekiResult1(){
+        return this.hougekiResults.get(0);
+    }
+
+    public void setHougekiResult(int index, HougekiResult hougekiResult){
+        Preconditions.checkArgument(index < MAX_SHELLING_ROUND);
+        this.hougekiResults.set(index, hougekiResult);
+    }
 
     /** 炮击第二轮 */
     @JSONField(ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    private HougekiResult api_hougeki2;
+    public HougekiResult getHougekiResult2(){
+        return this.hougekiResults.get(1);
+    }
 
     /** 炮击第三轮 */
     @JSONField(ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    private HougekiResult api_hougeki3;
+    public HougekiResult getHougekiResult3(){
+        return this.hougekiResults.get(2);
+    }
 
     /** 闭幕雷击 */
     @JSONField(ordinal = 23, serialzeFeatures = SerializerFeature.WriteMapNullValue)
@@ -313,30 +333,6 @@ public class BattleSimulationResult {
 
     public void setApi_hourai_flag(int[] api_hourai_flag) {
         this.api_hourai_flag = api_hourai_flag;
-    }
-
-    public HougekiResult getApi_hougeki1() {
-        return api_hougeki1;
-    }
-
-    public void setApi_hougeki1(HougekiResult api_hougeki1) {
-        this.api_hougeki1 = api_hougeki1;
-    }
-
-    public Object getApi_hougeki2() {
-        return api_hougeki2;
-    }
-
-    public void setApi_hougeki2(HougekiResult api_hougeki2) {
-        this.api_hougeki2 = api_hougeki2;
-    }
-
-    public Object getApi_hougeki3() {
-        return api_hougeki3;
-    }
-
-    public void setApi_hougeki3(HougekiResult api_hougeki3) {
-        this.api_hougeki3 = api_hougeki3;
     }
 
     public Object getApi_raigeki() {
