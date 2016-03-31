@@ -170,9 +170,9 @@ public class BattleService implements IBattleService {
 
         int shellingRound = hasBB ? 2 : 1;
 
-        for (int index = 0; index < shellingRound; index++) {
+        for (int i = 0; i < shellingRound; i++) {
             HougekiResult hougekiResult = new HougekiResult();
-            result.setHougekiResult(index, hougekiResult);
+            result.addHougekiResult(hougekiResult);
             context.setNowHougekiResult(hougekiResult);
             shellingRound(context);
         }
@@ -185,7 +185,6 @@ public class BattleService implements IBattleService {
         battleState.setBattleFlag(true);
         memberMapBattleMapper.update(battleState, "battleFlag");
         return result;
-
     }
 
     @Override

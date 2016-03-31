@@ -39,7 +39,7 @@
 
 	<insert id="insertMemberMapBattleState" >
 		REPLACE INTO t_member_map_battle_status(member_id, deck_id, map_area_id, map_cell_id, battle_flag, createTime)
-		VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no}, 0, NOW()))
+		VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no}, 0, NOW())
 	</insert>
 
 	<delete id="deleteMemberMapBattleState">

@@ -6,7 +6,6 @@ package com.kancolle.server.model.kcsapi.battle;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -107,26 +106,25 @@ public class BattleSimulationResult {
     private final List<HougekiResult> hougekiResults = Lists.newArrayListWithCapacity(MAX_SHELLING_ROUND);
 
     /** 炮击第一轮 */
-    @JSONField(ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    public HougekiResult getHougekiResult1(){
-        return this.hougekiResults.get(0);
+    @JSONField(name = "api_hougeki1", ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    public HougekiResult getHougekiResult1() {
+        return hougekiResults.isEmpty() ? null : hougekiResults.iterator().next();
     }
 
-    public void setHougekiResult(int index, HougekiResult hougekiResult){
-        Preconditions.checkArgument(index < MAX_SHELLING_ROUND);
-        this.hougekiResults.set(index, hougekiResult);
+    public void addHougekiResult(HougekiResult hougekiResult){
+        this.hougekiResults.add( hougekiResult);
     }
 
     /** 炮击第二轮 */
-    @JSONField(ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    public HougekiResult getHougekiResult2(){
-        return this.hougekiResults.get(1);
+    @JSONField(name = "api_hougeki2", ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    public HougekiResult getHougekiResult2() {
+        return hougekiResults.size() > 1 ? hougekiResults.get(1) : null;
     }
 
     /** 炮击第三轮 */
-    @JSONField(ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
-    public HougekiResult getHougekiResult3(){
-        return this.hougekiResults.get(2);
+    @JSONField(name = "api_hougeki3",ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    public HougekiResult getHougekiResult3() {
+        return hougekiResults.size() > 2 ? hougekiResults.get(2) : null;
     }
 
     /** 闭幕雷击 */
