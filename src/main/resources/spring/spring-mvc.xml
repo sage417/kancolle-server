@@ -66,9 +66,6 @@
 		<property name="objectMapper" ref="jackson2ObjectMapper"/>
 	</bean>
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
-	<!-- <import resource="resource-dev.xml" /> -->
-
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
 	<!--<mvc:default-servlet-handler />-->
 	<mvc:resources mapping="/kcs/**" location="/static/kcs/" cache-period="31556926" />
@@ -83,7 +80,17 @@
             </mvc:interceptor>
         </mvc:interceptors> -->
 
-	<!-- <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> 定义默认的异常处理页面，当该异常类型的注册时使用 <property name="defaultErrorView" value="/commom/error"/> 定义异常处理页面用来获取异常信息的变量名，默认名为exception 
-		<property name="exceptionAttribute" value="ex"/> 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 <property name="exceptionMappings"> <props> <prop key="java.lang.IllegalArgumentException"/> <prop key="cn.basttg.core.exception.ParameterException">error-parameter</prop> 
-		这里还可以继续扩展对不同异常类型的处理 </props> </property> </bean> -->
+	<!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+		<!--&lt;!&ndash; 定义默认的异常处理页面，当该异常类型的注册时使用 &ndash;&gt;-->
+		<!--<property name="defaultErrorView" value="/commom/error"/>-->
+		<!--&lt;!&ndash; 定义异常处理页面用来获取异常信息的变量名，默认名为exception &ndash;&gt;-->
+		<!--<property name="exceptionAttribute" value="ex"/>-->
+		<!--<property name="exceptionMappings">-->
+			<!--<props>-->
+				<!--<prop key="java.lang.IllegalArgumentException"/>-->
+				<!--<prop key="cn.basttg.core.exception.ParameterException">error-parameter</prop>-->
+				<!--&lt;!&ndash; 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 &ndash;&gt;-->
+			<!--</props>-->
+		<!--</property>-->
+	<!--</bean>-->
 </beans>
