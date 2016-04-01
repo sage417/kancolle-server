@@ -15,19 +15,17 @@
  */
 package org.mybatis.caches.ehcache;
 
+import com.kancolle.server.utils.SpringUtils;
+import net.sf.ehcache.CacheManager;
 import org.apache.ibatis.cache.Cache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
-
-import com.kancolle.server.utils.SpringUtils;
-
-import net.sf.ehcache.CacheManager;
 
 public class EhcacheCache extends AbstractEhcacheCache implements Cache {
 
     public EhcacheCache(String id) {
         super(id);
 
-        EhCacheCacheManager ehCacheManager = SpringUtils.getBean(EhCacheCacheManager.class);
+        EhCacheCacheManager ehCacheManager = SpringUtils.getBean("cacheManager", EhCacheCacheManager.class);
 
         CacheManager cacheManager = ehCacheManager.getCacheManager();
 

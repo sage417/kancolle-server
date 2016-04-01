@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.model.kcsapi.battle;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.battle.enemy.EnemyInfo;
@@ -78,6 +79,7 @@ public class BattleResult {
 
     private List<GetSlotItem> get_slotitem;
 
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     private List<GetEventItem> get_eventitem;
 
     private int eventflag;

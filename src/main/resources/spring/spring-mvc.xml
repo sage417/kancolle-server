@@ -50,7 +50,8 @@
 	<bean id="jackson2ObjectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
 		<property name="featuresToEnable">
 			<array>
-				<util:constant static-field="com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII"/>
+				<util:constant static-field="com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII" />
+				<util:constant static-field="com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION" />
 			</array>
 		</property>
 	</bean>
