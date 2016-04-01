@@ -67,14 +67,14 @@ public class BattleResult {
     @JSONField(name = "api_win_rank", ordinal = 2)
     private int win_rank;
 
+    /* 提督获取exp */
     @JsonProperty(value = "api_get_exp")
     @JSONField(name = "api_get_exp", ordinal = 3)
-    /* 提督获取exp */
     private int get_exp;
 
+    /* mvp 索引  从1开始 -1表示不存在 */
     @JsonProperty(value = "api_mvp")
     @JSONField(name = "api_mvp", ordinal = 4)
-    /* mvp 索引  从1开始 -1表示不存在 */
     private int mvp;
 
     @JsonProperty(value = "api_member_lv")
@@ -85,34 +85,34 @@ public class BattleResult {
     @JSONField(name = "api_member_exp", ordinal = 6)
     private long member_exp;
 
+    /* 基本经验值 */
     @JsonProperty(value = "api_get_base_exp")
     @JSONField(name = "api_get_base_exp", ordinal = 7)
-    /* 基本经验值 */
     private int base_exp;
 
+    /* 各舰获得经验值 */
     @JsonProperty(value = "api_ship_exp")
     @JSONField(name = "api_ship_exp", ordinal = 8)
-    /* 各舰获得经验值 */
     private int[] ship_exp;
 
+    /* 各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|150の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ... */
     @JsonProperty(value = "api_get_exp_lvup")
     @JSONField(name = "api_get_exp_lvup", ordinal = 9)
-    /* 各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|150の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ... */
     private long[][] exp_lvup;
 
+    /* 敵艦撃沈数 */
     @JsonProperty(value = "api_dests")
     @JSONField(name = "api_dests", ordinal = 10)
-    /* 敵艦撃沈数 */
     private int dests;
 
+    /* 旗艦撃沈フラグ */
     @JsonProperty(value = "api_destsf")
     @JSONField(name = "api_destsf", ordinal = 11)
-    /* 旗艦撃沈フラグ */
     private int destsf;
 
+    /* 味方艦撃沈フラグ？-1から始まる */
     @JsonProperty(value = "api_lost_flag")
     @JSONField(name = "api_lost_flag", ordinal = 12)
-    /* 味方艦撃沈フラグ？-1から始まる */
     private int lost_flag;
 
     @JsonProperty(value = "api_quest_name")
@@ -127,19 +127,19 @@ public class BattleResult {
     @JSONField(name = "api_enemy_info", ordinal = 15)
     private List<EnemyInfo> enemy_info;
 
+    /* 初回クリアフラグ(EO海域攻略時も1) */
     @JsonProperty(value = "api_first_clear")
     @JSONField(name = "api_first_clear", ordinal = 16)
-    /* 初回クリアフラグ(EO海域攻略時も1) */
     private int first_clear;
 
+    /* 航空偵察作戦報酬獲得フラグ　0=なし, 1=獲得 */
     @JsonProperty(value = "api_mapcell_incentive")
     @JSONField(name = "api_mapcell_incentive", ordinal = 17)
-    /* 航空偵察作戦報酬獲得フラグ　0=なし, 1=獲得 */
     private int mapcell_incentive;
 
+    /* 入手フラグ [0]=アイテム, [1]=艦娘 */
     @JsonProperty(value = "api_get_flag")
     @JSONField(name = "api_get_flag", ordinal = 18)
-    /* 入手フラグ [0]=アイテム, [1]=艦娘 */
     private int[] get_flag;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -166,14 +166,14 @@ public class BattleResult {
     @JSONField(name = "api_get_eventflag", ordinal = 23)
     private Integer eventflag;
 
+    /* EO海域攻略時：獲得戦果(文字列) それ以外は0(数値) */
     @JsonProperty(value = "api_get_exmap_rate")
     @JSONField(name = "api_get_exmap_rate", ordinal = 24)
-    /* EO海域攻略時：獲得戦果(文字列) それ以外は0(数値) */
     private int exmap_rate;
 
+    /* EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値) */
     @JsonProperty(value = "api_get_exmap_useitem_id")
     @JSONField(name = "api_get_exmap_useitem_id", ordinal = 25)
-    /* EO海域攻略時：取得アイテムID(文字列) "57"=勲章　それ以外は0(数値) */
     private int exmap_useitem_id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
