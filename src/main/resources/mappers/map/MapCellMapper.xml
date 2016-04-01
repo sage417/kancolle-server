@@ -16,7 +16,21 @@
 </resultMap>
 
 	<select id="selectMapCellById" resultMap="MapCellRM">
-		SELECT * FROM t_map_cell_traveller
-		WHERE CELL_ID = #{cellId}
+		SELECT
+			t.CELL_ID,
+			c.MAPAREA_ID,
+			c.MAPINFO_NO AS MAPINFO_ID,
+			c.NO,
+			t.RASHIN_FLAG,
+			t.RASHIN_ID,
+			t.COLOR_NO,
+			t.EVENT_ID,
+			t.EVENT_KIND,
+			t.NEXT,
+			t.COMMENT_KIND,
+			t.PRODUCTION_KIND
+		FROM t_map_cell_traveller t
+			INNER JOIN t_map_cell c ON t.CELL_ID = c.ID
+		WHERE t.CELL_ID = #{cellId}
 	</select>
 </mapper>
