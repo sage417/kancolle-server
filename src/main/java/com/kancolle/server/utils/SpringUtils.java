@@ -33,6 +33,17 @@ public final class SpringUtils implements BeanFactoryPostProcessor {
     }
 
     /**
+     * 一个以所给名字注册的bean的实例
+     * @param name
+     * @param aClass
+     * @param <T>
+     * @return
+     */
+    public static <T> T getBean(String name, Class<T> aClass) {
+        return beanFactory.getBean(name, aClass);
+    }
+
+    /**
      * 获取类型为requiredType的对象
      *
      * @param clz
