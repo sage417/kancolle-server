@@ -1,7 +1,7 @@
 package com.kancolle.server.service.start;
 
-import com.kancolle.server.model.kcsapi.start.StartModel;
+import com.kancolle.server.model.kcsapi.start.StartResult;
 
 public interface StartService {
-    StartModel getStartModel() throws Exception;
+    StartResult getStartModel() throws Exception;
 }

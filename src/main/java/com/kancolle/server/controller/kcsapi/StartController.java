@@ -1,6 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
-import com.kancolle.server.model.kcsapi.start.StartModel;
+import com.kancolle.server.model.kcsapi.start.StartResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.start.StartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ public class StartController {
     private StartService startService;
 
     @RequestMapping("/api_start2")
-    public APIResponse<StartModel> start2() throws Exception {
-        StartModel api_data = startService.getStartModel();
-        return new APIResponse<StartModel>().setApi_data(api_data);
+    public APIResponse<StartResult> start2() throws Exception {
+        StartResult api_data = startService.getStartModel();
+        return new APIResponse<StartResult>().setApi_data(api_data);
     }
 }

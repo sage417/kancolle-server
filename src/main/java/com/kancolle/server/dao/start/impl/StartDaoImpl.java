@@ -1,28 +1,16 @@
 package com.kancolle.server.dao.start.impl;
 
+import com.kancolle.server.dao.base.impl.BaseDaoImpl;
+import com.kancolle.server.dao.start.StartDao;
+import com.kancolle.server.model.kcsapi.start.StartResult;
+import com.kancolle.server.model.kcsapi.start.sub.*;
+import org.springframework.stereotype.Repository;
+
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-import com.kancolle.server.dao.base.impl.BaseDaoImpl;
-import com.kancolle.server.dao.start.StartDao;
-import com.kancolle.server.model.kcsapi.start.StartModel;
-import com.kancolle.server.model.kcsapi.start.sub.ConstModel;
-import com.kancolle.server.model.kcsapi.start.sub.EquipTypeModel;
-import com.kancolle.server.model.kcsapi.start.sub.FurnitureGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.ItemShopModel;
-import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
-import com.kancolle.server.model.kcsapi.start.sub.MapBgmModel;
-import com.kancolle.server.model.kcsapi.start.sub.MapCellModel;
-import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
-import com.kancolle.server.model.kcsapi.start.sub.PayItemModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipGraphModel;
-import com.kancolle.server.model.kcsapi.start.sub.ShipUpgradeModel;
-import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
-
 @Repository
-public class StartDaoImpl extends BaseDaoImpl<StartModel> implements StartDao {
+public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
     private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
     private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
