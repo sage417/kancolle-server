@@ -1,24 +1,5 @@
 package com.kancolle.server.service.duty.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.kancolle.server.model.po.duty.Duty.OPERATE_TYPE_POWUP;
-import static com.kancolle.server.model.po.duty.MemberDuty.STATE_AVILABLE;
-import static com.kancolle.server.model.po.duty.MemberDuty.STATE_FINISH;
-import static com.kancolle.server.model.po.duty.MemberDuty.STATE_PROCESSING;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
-
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
@@ -44,6 +25,20 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
+import com.kancolle.server.utils.SpringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Preconditions.*;
+import static com.kancolle.server.model.po.duty.Duty.OPERATE_TYPE_POWUP;
+import static com.kancolle.server.model.po.duty.MemberDuty.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class MemberDutyServiceImpl implements MemberDutyService {
@@ -123,7 +118,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         List<MemberDuty> eventDutys = accecptDutys.stream().filter(memberDuty -> memberDuty.getDuty().getOperate() == OPERATE_TYPE_POWUP).collect(Collectors.toList());
         for (MemberDuty memberDuty : eventDutys) {
             memberDuty.setCounter(memberDuty.getCounter() + 1);
-            DutyResultChecker checker = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("duty%dResultChecker", memberDuty.getDutyNo()), DutyResultChecker.class);
+            DutyResultChecker checker = SpringUtils.getBean(String.format("duty%dResultChecker", memberDuty.getDutyNo()), DutyResultChecker.class);
             if (checker.checkCond(memberDuty)) {
                 // 任务完成
                 memberDuty.setProgressFlag(0);

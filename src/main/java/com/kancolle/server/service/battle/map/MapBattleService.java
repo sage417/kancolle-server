@@ -12,11 +12,10 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MapTraveller;
 import com.kancolle.server.service.map.MemberMapService;
+import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author J.K.SAGE
@@ -94,9 +93,8 @@ public class MapBattleService implements IMapBattleService {
     }
 
     private MapTraveller loadMapTraveller(int travellerNo) {
-        WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         String travellerBeanName = String.format("map%dTraveller", travellerNo);
-        return context.getBean(travellerBeanName, MapTraveller.class);
+        return SpringUtils.getBean(travellerBeanName, MapTraveller.class);
     }
 
     private void updateMemberMapCellInfo(String memberId, int memberMapCellId) {

@@ -24,6 +24,7 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
+import com.kancolle.server.utils.SpringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -128,7 +128,7 @@ public class MissionServiceImpl implements MissionService {
         int ship_exp = missionExp.getShipExp();
         int member_exp = missionExp.getMemberExp();
 
-        MissionCondResult mr = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
+        MissionCondResult mr = SpringUtils.getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
 
         switch (mr) {
         case CALL_BACK:

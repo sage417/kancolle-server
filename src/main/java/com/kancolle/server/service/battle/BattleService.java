@@ -21,9 +21,9 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.ContextLoader;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -76,7 +76,7 @@ public class BattleService implements IBattleService {
         MemberDeckPort memberDeckPort = checkNotNull(battleState.getMemberDeckPort());
 
         int mapCellId = battleState.getMapCellId();
-        AbstractMapCell mapCell = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
+        AbstractMapCell mapCell = SpringUtils.getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
         EnemyDeckPort enemyDeckPort = mapCell.getEnemyDeckPort();
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
