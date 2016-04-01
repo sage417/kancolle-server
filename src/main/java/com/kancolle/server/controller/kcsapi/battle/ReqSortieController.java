@@ -3,8 +3,6 @@
  */
 package com.kancolle.server.controller.kcsapi.battle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
@@ -24,14 +22,11 @@ import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 /**
  * @author J.K.SAGE
  * @Date 2015年8月22日
+ *
  */
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_sortie", method = RequestMethod.POST)
 public class ReqSortieController {
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Autowired
     private IBattleService battleService;
 
@@ -42,9 +37,9 @@ public class ReqSortieController {
         return new APIResponse<BattleSimulationResult>().setApi_data(api_data);
     }
 
-    @RequestMapping(value = "/battleresult", produces = "application/json; charset=UTF-8", method = RequestMethod.GET)
-    public String battleresult(@ModelAttribute(MEMBER_ID) String member_id) throws JsonProcessingException {
+    @RequestMapping("/battleresult")
+    public APIResponse<BattleResult> battleesult(@ModelAttribute(MEMBER_ID) String member_id) {
         BattleResult api_data = battleService.battleresult(member_id);
-        return objectMapper.writeValueAsString(new APIResponse<BattleResult>().setApi_data(api_data));
+        return new APIResponse<BattleResult>().setApi_data(api_data);
     }
 }

@@ -189,7 +189,7 @@ public class BattleService implements IBattleService {
 
     @Override
     public BattleResult battleresult(String member_id) {
-        return null;
+        return new BattleResult();
     }
 
     private void shellingRound(BattleContext context) {
