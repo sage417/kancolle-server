@@ -33,6 +33,16 @@ public class BattleResult {
 
     public static final int EXMAP_USEITEM_ID = 57;
 
+    public enum WIN_RANK {
+        SS("SS"), S("S"), A("A"), B("B"), C("C"), D("D"), E("E");
+
+        public final String value;
+
+        WIN_RANK(String value) {
+            this.value = value;
+        }
+    }
+
     public static final int GET_NONE = 0;
 
     public static final int GET_USEITEM = 1;
@@ -65,7 +75,7 @@ public class BattleResult {
 
     @JsonProperty(value = "api_win_rank")
     @JSONField(name = "api_win_rank", ordinal = 2)
-    private int win_rank;
+    private String win_rank;
 
     /* 提督获取exp */
     @JsonProperty(value = "api_get_exp")
@@ -113,7 +123,7 @@ public class BattleResult {
     /* 味方艦撃沈フラグ？-1から始まる */
     @JsonProperty(value = "api_lost_flag")
     @JSONField(name = "api_lost_flag", ordinal = 12)
-    private int lost_flag;
+    private long[] lost_flag;
 
     @JsonProperty(value = "api_quest_name")
     @JSONField(name = "api_quest_name", ordinal = 13)
@@ -182,12 +192,14 @@ public class BattleResult {
     private LandingHp landing_hp;
 
     public BattleResult() {
+        this.ship_id = new long[]{-1L, -1L, -1L, -1L, -1L, -1L, -1L};
+        this.lost_flag = new long[]{-1L, 0L, 0L, 0L, 0L, 0L, 0L};
     }
 
     public void setGetFlagNone(int getFlag) {
         switch (getFlag) {
             case GET_NONE:
-                this.get_flag =  GET_FLAG_ARR_NONE;
+                this.get_flag = GET_FLAG_ARR_NONE;
             case GET_USEITEM:
                 this.get_flag = GET_FLAG_ARR_USEITEM;
             case GET_SHIP:
@@ -207,6 +219,10 @@ public class BattleResult {
         }
     }
 
+    public void setWinRank(WIN_RANK rank) {
+        this.win_rank = rank.value;
+    }
+
     public long[] getShip_id() {
         return ship_id;
     }
@@ -215,11 +231,11 @@ public class BattleResult {
         this.ship_id = ship_id;
     }
 
-    public int getWin_rank() {
+    public String getWin_rank() {
         return win_rank;
     }
 
-    public void setWin_rank(int win_rank) {
+    public void setWin_rank(String win_rank) {
         this.win_rank = win_rank;
     }
 
@@ -295,11 +311,11 @@ public class BattleResult {
         this.destsf = destsf;
     }
 
-    public int getLost_flag() {
+    public long[] getLost_flag() {
         return lost_flag;
     }
 
-    public void setLost_flag(int lost_flag) {
+    public void setLost_flag(long[] lost_flag) {
         this.lost_flag = lost_flag;
     }
 

@@ -139,7 +139,7 @@ public class MapInfoModel {
             this.api_required_defeat_count = api_required_defeat_count;
     }
 
-    @Column(name = "SALLY_FALG", type = String.class)
+    @Column(name = "SALLY_FLAG", type = String.class)
     public void setApi_sally_flag(String api_sally_flag) {
         this.api_sally_flag = JSON.parseArray(api_sally_flag);
     }

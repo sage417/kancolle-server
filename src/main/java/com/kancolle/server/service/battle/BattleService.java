@@ -189,7 +189,30 @@ public class BattleService implements IBattleService {
 
     @Override
     public BattleResult battleresult(String member_id) {
-        return new BattleResult();
+        MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
+
+
+
+        BattleResult result = new BattleResult();
+//        result.setShip_id();
+//        result.setWinRank(BattleResult.WIN_RANK.SS);
+//        result.setGet_exp();
+//        result.setMvp();
+//        result.setMember_lv();
+//        result.setMember_exp();
+//        result.setBase_exp();
+//        result.setShip_exp();
+//        result.setExp_lvup();
+//        result.setQuest_name();
+//        result.setQuest_level();
+
+
+
+//        result.setMvp();
+
+
+
+        return result;
     }
 
     private void shellingRound(BattleContext context) {
