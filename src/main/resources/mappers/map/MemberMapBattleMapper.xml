@@ -4,7 +4,7 @@
 
 	<resultMap type="MemberMapBattleState" id="MemberMapBattleStateRM" autoMapping="true">
 		<id property="memberId" column="member_id"/>
-		<result property="mapAreaId" column="map_area_id"/>
+		<result property="travellerNo" column="traveller_no"/>
 		<result property="mapCellId" column="map_cell_id"/>
 		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHandler"/>
 		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHandler"/>
@@ -29,7 +29,7 @@
 		SELECT
 		member_id,
 		deck_id,
-		map_area_id,
+		traveller_no,
 		map_cell_id,
 		map_get_resource,
 		map_fetch_rescource,
@@ -38,8 +38,8 @@
 	</select>
 
 	<insert id="insertMemberMapBattleState" >
-		REPLACE INTO t_member_map_battle_status(member_id, deck_id, map_area_id, map_cell_id, battle_flag, createTime)
-		VALUES (#{member_id}, #{deck_id}, #{mapArea_id}, #{map_no}, 0, NOW())
+		REPLACE INTO t_member_map_battle_status(member_id, deck_id, traveller_no, map_cell_id, battle_flag, createTime)
+		VALUES (#{member_id}, #{deck_id}, #{traveller_No}, #{map_no}, 0, NOW())
 	</insert>
 
 	<delete id="deleteMemberMapBattleState">

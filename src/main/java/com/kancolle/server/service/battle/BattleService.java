@@ -20,6 +20,7 @@ import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
+import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,9 @@ public class BattleService implements IBattleService {
 
     @Autowired
     private IShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
+
+    @Autowired
+    private MapService mapService;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -190,8 +194,6 @@ public class BattleService implements IBattleService {
     @Override
     public BattleResult battleresult(String member_id) {
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
-
-
 
         BattleResult result = new BattleResult();
 //        result.setShip_id();

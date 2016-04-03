@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MemberMapBattleMapper {
 
-    void insertMemberMapBattleState(@Param("member_id") String member_id, @Param("deck_id") Integer deck_id, @Param("mapArea_id") int mapArea_id, @Param("map_no") int map_no);
+    void insertMemberMapBattleState(@Param("member_id") String member_id, @Param("deck_id") Integer deck_id, @Param("traveller_No") int traveller_No, @Param("map_no") int map_no);
 
     MemberMapBattleState selectMemberMapBattleState(@Param("member_id") String member_id);
 

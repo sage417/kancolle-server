@@ -20,7 +20,7 @@ public class MemberMapBattleState {
 
     private MemberDeckPort memberDeckPort;
 
-    private int mapAreaId;
+    private int travellerNo;
 
     private int mapCellId;
 
@@ -46,12 +46,12 @@ public class MemberMapBattleState {
         this.memberDeckPort = memberDeckPort;
     }
 
-    public int getMapAreaId() {
-        return mapAreaId;
+    public int getTravellerNo() {
+        return travellerNo;
     }
 
-    public void setMapAreaId(int mapAreaId) {
-        this.mapAreaId = mapAreaId;
+    public void setTravellerNo(int travellerNo) {
+        this.travellerNo = travellerNo;
     }
 
     public int getMapCellId() {
@@ -113,7 +113,7 @@ public class MemberMapBattleState {
 
     @Override
     public String toString() {
-        return String.format("MemberMapBattleState [memberId=%s, memberDeckPort=%s, mapAreaId=%s, mapCellId=%s, mapGetResources=%s, mapFetchResources=%s]", memberId, memberDeckPort, mapAreaId,
+        return String.format("MemberMapBattleState [memberId=%s, memberDeckPort=%s, travellerNo=%s, mapCellId=%s, mapGetResources=%s, mapFetchResources=%s]", memberId, memberDeckPort, travellerNo,
                 mapCellId, Arrays.toString(mapGetResources), Arrays.toString(mapFetchResources));
     }
 }
