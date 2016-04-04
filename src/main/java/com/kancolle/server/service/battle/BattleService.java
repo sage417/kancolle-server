@@ -193,7 +193,9 @@ public class BattleService implements IBattleService {
 
     @Override
     public BattleResult battleresult(String member_id) {
+        // TODO repeat call
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
+        checkState(state.isBattleFlag());
 
         BattleResult result = new BattleResult();
 //        result.setShip_id();
