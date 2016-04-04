@@ -196,7 +196,7 @@ public class BattleResult {
         this.lost_flag = new long[]{-1L, 0L, 0L, 0L, 0L, 0L, 0L};
     }
 
-    public void setGetFlagNone(int getFlag) {
+    public void generateGetFlag(int getFlag) {
         switch (getFlag) {
             case GET_NONE:
                 this.get_flag = GET_FLAG_ARR_NONE;

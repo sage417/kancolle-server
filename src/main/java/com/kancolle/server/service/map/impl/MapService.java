@@ -7,6 +7,8 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MapService {
@@ -22,11 +24,13 @@ public class MapService {
         return mapAreaDao.getMapArea(maparea_id);
     }
 
-    public MapInfoModel getMapInfoById(long id){
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public MapInfoModel getMapInfoById(long id) {
         return mapInfoMapper.selectMapInfoById(id);
     }
 
-    public MapInfoModel getMapInfo(int mapArea_id, int no){
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public MapInfoModel getMapInfo(int mapArea_id, int no) {
         return mapInfoMapper.selectMapInfo(mapArea_id, no);
     }
 }

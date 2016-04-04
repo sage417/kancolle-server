@@ -9,6 +9,7 @@ import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
@@ -25,6 +26,7 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -153,8 +155,8 @@ public class BattleService implements IBattleService {
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, IShip> enmeyShipMap =IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
-        ImmutableBiMap.Builder<Integer,IShip> abstractShipBuilder = ImmutableBiMap.builder();
+        Map<Integer, IShip> enmeyShipMap = IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
+        ImmutableBiMap.Builder<Integer, IShip> abstractShipBuilder = ImmutableBiMap.builder();
         ImmutableBiMap<Integer, IShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
 
         // 玩家攻击队列
@@ -192,10 +194,18 @@ public class BattleService implements IBattleService {
     }
 
     @Override
+    @Transactional
     public BattleResult battleresult(String member_id) {
-        // TODO repeat call
+        // TODO member exp
+        // TODO member ships exp
+        // TODO resource comsume
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
         checkState(state.isBattleFlag());
+        checkState(!state.isResultFlag());
+
+        int mapInfoId = state.getTravellerNo();
+
+        MapInfoModel mapInfo = mapService.getMapInfoById(mapInfoId);
 
         BattleResult result = new BattleResult();
 //        result.setShip_id();
@@ -207,12 +217,27 @@ public class BattleService implements IBattleService {
 //        result.setBase_exp();
 //        result.setShip_exp();
 //        result.setExp_lvup();
-//        result.setQuest_name();
-//        result.setQuest_level();
+        result.setQuest_name(mapInfo.getApi_name());
+        result.setQuest_level(mapInfo.getApi_level());
+//        result.setEnemy_info();
+        result.setFirst_clear(0);
+        result.setMapcell_incentive(0);
 
+        int getFlag = BattleResult.GET_NONE;
+        result.generateGetFlag(getFlag);
 
+        if ((getFlag & BattleResult.GET_USEITEM) > 0) {
+            result.setGet_useitem(null);
+        }
+        if ((getFlag & BattleResult.GET_SHIP) > 0) {
+            result.setGet_ship(null);
+        }
+        if ((getFlag & BattleResult.GET_SLOTITEM) > 0) {
+            result.setGet_slotitem(null);
+        }
 
-//        result.setMvp();
+        state.setResultFlag(true);
+        memberMapBattleMapper.update(state, "resultFlag");
 
 
 
