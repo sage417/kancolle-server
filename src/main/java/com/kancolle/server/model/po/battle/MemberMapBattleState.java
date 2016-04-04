@@ -30,6 +30,8 @@ public class MemberMapBattleState {
 
     private boolean battleFlag;
 
+    private boolean resultFlag;
+
     public String getMemberId() {
         return memberId;
     }
@@ -84,6 +86,14 @@ public class MemberMapBattleState {
 
     public void setBattleFlag(boolean battleFlag) {
         this.battleFlag = battleFlag;
+    }
+
+    public boolean isResultFlag() {
+        return resultFlag;
+    }
+
+    public void setResultFlag(boolean resultFlag) {
+        this.resultFlag = resultFlag;
     }
 
     @Override

@@ -9,6 +9,7 @@
 		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHandler"/>
 		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHandler"/>
 		<result property="battleFlag" column="battle_flag"/>
+		<result property="resultFlag" column="result_flag"/>
 		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
 	</resultMap>
 
@@ -21,6 +22,7 @@
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'getRecource')">map_get_rescource = #{state.mapGetResources}</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'fetchRecource')">map_fetch_rescource = #{state.mapFetchResources}</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'battleFlag')">battle_flag = #{state.battleFlag}</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'resultFlag')">result_flag = #{state.resultFlag}</if>
 			</set>
 		WHERE member_id = #{state.memberId}
 	</update>
@@ -33,13 +35,14 @@
 		map_cell_id,
 		map_get_resource,
 		map_fetch_rescource,
-		battle_flag
+		battle_flag,
+		result_flag
 		FROM  <include refid="table_name" /> WHERE member_id = #{member_id}
 	</select>
 
 	<insert id="insertMemberMapBattleState" >
-		REPLACE INTO t_member_map_battle_status(member_id, deck_id, traveller_no, map_cell_id, battle_flag, createTime)
-		VALUES (#{member_id}, #{deck_id}, #{traveller_No}, #{map_no}, 0, NOW())
+		REPLACE INTO t_member_map_battle_status(member_id, deck_id, traveller_no, map_cell_id, battle_flag, result_flag, createTime)
+		VALUES (#{member_id}, #{deck_id}, #{traveller_No}, #{map_no}, false, false, NOW())
 	</insert>
 
 	<delete id="deleteMemberMapBattleState">
