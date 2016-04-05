@@ -209,7 +209,7 @@ public class BattleService implements IBattleService {
 
         BattleResult result = new BattleResult();
 //        result.setShip_id();
-//        result.setWinRank(BattleResult.WIN_RANK.SS);
+        result.setWinRank(BattleResult.WIN_RANK.SS);
 //        result.setGet_exp();
 //        result.setMvp();
 //        result.setMember_lv();
