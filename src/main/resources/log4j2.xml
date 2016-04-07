@@ -2,7 +2,7 @@
 <Configuration status="WARN">
 
 	<properties>
-		<property name="LOG_HOME">/var/log/kcs</property>
+		<property name="LOG_HOME">log/kcs</property>
 		<property name="FILE_NAME">kcs_log</property>
 	</properties>
 

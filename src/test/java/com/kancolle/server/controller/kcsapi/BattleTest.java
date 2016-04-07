@@ -3,13 +3,6 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
-import com.kancolle.server.model.po.member.MemberNdock;
-import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.member.MemberNdockService;
-import com.kancolle.server.service.ship.MemberShipService;
-import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,27 +16,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.sql.SQLException;
-
-import static org.junit.Assert.fail;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月13日
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration(value = "src/main/webapp")
+@WebAppConfiguration
 @ContextHierarchy({
-        @ContextConfiguration(name = "parent", locations = "classpath:battlecontext/spring/spring-context.xml"),
-        @ContextConfiguration(name = "child", locations = "classpath:battlecontext/spring/spring-mvc.xml")
+        @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"),
+        @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml")
 })
 public class BattleTest {
 
