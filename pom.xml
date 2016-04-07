@@ -75,12 +75,6 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.2.1</version>
-                <configuration>
-                    <url>jdbc:mysql://127.0.0.1:3306/kancolle</url>
-                    <user>kancolle</user>
-                    <password>kancolle-server</password>
-                    <encoding>UTF-8</encoding>
-                </configuration>
             </plugin>
         </plugins>
     </build>
