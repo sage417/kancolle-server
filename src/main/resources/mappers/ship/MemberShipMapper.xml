@@ -52,14 +52,14 @@
 		WHERE
 			m.member_id = #{member_id}
 		AND m.deck_id = #{deck_id}
-		ORDER BY POSITION(s.`ID` + ',' IN d.SHIP)
+		ORDER BY POSITION(CONCAT(s.`ID`, ',') IN d.SHIP)
 	</select>
 	
 	<update id="chargeMemberShips">
 		UPDATE t_member_ship ms, t_ship s
 		<set>
 			<if test="charge_kind == 1 or charge_kind == 3">ms.FUEL = s.FUEL_MAX, ms.ONSLOT = s.MAXEQ,</if>
-			<if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX</if>
+			<if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX,</if>
 		</set>
 		WHERE ms.`SHIP_ID` = s.ID
 		AND ms.member_id = #{member_id}

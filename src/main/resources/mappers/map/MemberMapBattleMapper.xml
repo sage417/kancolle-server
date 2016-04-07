@@ -18,11 +18,11 @@
 	<update id="update">
 		UPDATE <include refid="table_name"/>
 			<set>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'mapCellId')">map_cell_id = #{state.mapCellId}</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'getRecource')">map_get_rescource = #{state.mapGetResources}</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'fetchRecource')">map_fetch_rescource = #{state.mapFetchResources}</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'battleFlag')">battle_flag = #{state.battleFlag}</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'resultFlag')">result_flag = #{state.resultFlag}</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'mapCellId')">map_cell_id = #{state.mapCellId},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'getRecource')">map_get_rescource = #{state.mapGetResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'fetchRecource')">map_fetch_rescource = #{state.mapFetchResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'battleFlag')">battle_flag = #{state.battleFlag},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, 'resultFlag')">result_flag = #{state.resultFlag},</if>
 			</set>
 		WHERE member_id = #{state.memberId}
 	</update>

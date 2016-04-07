@@ -189,7 +189,8 @@ public class BattleService implements IBattleService {
 
         /*--------------------------闭幕雷击结束---------------------------*/
         battleState.setBattleFlag(true);
-        memberMapBattleMapper.update(battleState, "battleFlag");
+        battleState.setResultFlag(false);
+        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag");
         return result;
     }
 
@@ -237,10 +238,8 @@ public class BattleService implements IBattleService {
         }
 
         state.setResultFlag(true);
-        memberMapBattleMapper.update(state, "resultFlag");
-
-
-
+        state.setBattleFlag(false);
+        memberMapBattleMapper.update(state, "battleFlag", "resultFlag");
         return result;
     }
 

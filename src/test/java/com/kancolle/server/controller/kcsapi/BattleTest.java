@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy({
-        @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"),
-        @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml")
+        @ContextConfiguration(name = "parent", locations = "classpath*:spring/spring-context.xml"),
+        @ContextConfiguration(name = "child", locations = "classpath*:spring/spring-mvc.xml")
 })
 public class BattleTest {
 
@@ -46,32 +46,33 @@ public class BattleTest {
     public void testMapTraveller() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_map/start")
                 .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+                .param("api_deck_id", "1")
+                .param("api_mapinfo_no", "1")
+                .param("api_maparea_id", "1")
+                .param("api_formation_id", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
-        result = mockMvc.perform(MockMvcRequestBuilders.post("kcsapi/api_req_sortie/battle")
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battle")
                 .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+                .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
-        result = mockMvc.perform(MockMvcRequestBuilders.post("kcsapi/api_req_sortie/battleresult")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battleresult")
+                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_map/next")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
-        result = mockMvc.perform(MockMvcRequestBuilders.post("kcsapi/api_req_sortie/battle")
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battle")
                 .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+                .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
-        result = mockMvc.perform(MockMvcRequestBuilders.post("kcsapi/api_req_sortie/battleresult")
+        result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battleresult")
                 .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
-                .param("api_ship_id", "11"))
+                .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
     }

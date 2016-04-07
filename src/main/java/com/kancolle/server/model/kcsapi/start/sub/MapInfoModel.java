@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.primitives.Ints;
 import com.kancolle.server.dao.annotation.Column;
 
 @JSONType(serialzeFeatures = SerializerFeature.WriteMapNullValue)
@@ -32,7 +33,7 @@ public class MapInfoModel {
     private String api_infotext;
 
     @JSONField(ordinal = 8)
-    private JSONArray api_item;
+    private int[] api_item;
 
     @JSONField(ordinal = 9, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     private Integer api_max_maphp;
@@ -51,7 +52,7 @@ public class MapInfoModel {
         return api_infotext;
     }
 
-    public JSONArray getApi_item() {
+    public int[] getApi_item() {
         return api_item;
     }
 
@@ -99,8 +100,9 @@ public class MapInfoModel {
 
     @Column(name = "ITEM", type = String.class)
     public void setApi_item(String api_item) {
-        this.api_item = JSON.parseArray(api_item);
+        this.api_item = Ints.toArray(JSON.parseArray(api_item, Integer.class));
     }
+    public void setApi_item(int[] api_item){this.api_item = api_item;}
 
     @Column(name = "LEVEL", type = int.class)
     public void setApi_level(int api_level) {
