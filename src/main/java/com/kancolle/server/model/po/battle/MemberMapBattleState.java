@@ -32,6 +32,8 @@ public class MemberMapBattleState {
 
     private boolean resultFlag;
 
+    private String session;
+
     public String getMemberId() {
         return memberId;
     }
@@ -94,6 +96,14 @@ public class MemberMapBattleState {
 
     public void setResultFlag(boolean resultFlag) {
         this.resultFlag = resultFlag;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
     }
 
     @Override

@@ -3,11 +3,11 @@
  */
 package com.kancolle.server.model.po.deckport;
 
-import java.util.List;
-
+import com.kancolle.server.model.po.ship.EnemyShip;
 import org.apache.ibatis.type.Alias;
 
-import com.kancolle.server.model.po.ship.EnemyShip;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author J.K.SAGE
@@ -17,6 +17,8 @@ import com.kancolle.server.model.po.ship.EnemyShip;
 @Alias("EnemyDeckPort")
 public class EnemyDeckPort {
 
+    private int id;
+
     private int mapCellId;
 
     private int no;
@@ -24,6 +26,14 @@ public class EnemyDeckPort {
     private List<EnemyShip> enemyShips;
 
     private int formation;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getMapCellId() {
         return mapCellId;
@@ -58,28 +68,16 @@ public class EnemyDeckPort {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + mapCellId;
-        result = prime * result + no;
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EnemyDeckPort that = (EnemyDeckPort) o;
+        return id == that.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        EnemyDeckPort other = (EnemyDeckPort) obj;
-        if (mapCellId != other.mapCellId)
-            return false;
-        if (no != other.no)
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

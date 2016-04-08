@@ -71,7 +71,7 @@ public class BattleResult {
     /* 敌舰队Id */
     @JsonProperty(value = "api_ship_id")
     @JSONField(name = "api_ship_id", ordinal = 1)
-    private long[] ship_id;
+    private int[] ship_id;
 
     @JsonProperty(value = "api_win_rank")
     @JSONField(name = "api_win_rank", ordinal = 2)
@@ -192,7 +192,6 @@ public class BattleResult {
     private LandingHp landing_hp;
 
     public BattleResult() {
-        this.ship_id = new long[]{-1L, -1L, -1L, -1L, -1L, -1L, -1L};
         this.lost_flag = new long[]{-1L, 0L, 0L, 0L, 0L, 0L, 0L};
     }
 
@@ -227,15 +226,15 @@ public class BattleResult {
         }
     }
 
-    public void setWinRank(WIN_RANK rank) {
-        this.win_rank = rank.value;
+    public void setWinRank(String rank) {
+        this.win_rank = rank;
     }
 
-    public long[] getShip_id() {
+    public int[] getShip_id() {
         return ship_id;
     }
 
-    public void setShip_id(long[] ship_id) {
+    public void setShip_id(int[] ship_id) {
         this.ship_id = ship_id;
     }
 

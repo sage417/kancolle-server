@@ -3,15 +3,12 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xmlns:util="http://www.springframework.org/schema/util"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc.xsd
-       http://www.springframework.org/schema/util
-       http://www.springframework.org/schema/util/spring-util.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- DispatchServlet Context : defines this Servlet's request-processing infrastructure -->
 
@@ -47,15 +44,6 @@
 		</property>
 	</bean>
 
-	<bean id="jackson2ObjectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
-		<property name="featuresToEnable">
-			<array>
-				<util:constant static-field="com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII" />
-				<util:constant static-field="com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION" />
-			</array>
-		</property>
-	</bean>
-
 	<bean id="jacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>
@@ -68,7 +56,7 @@
 
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
 	<!--<mvc:default-servlet-handler />-->
-	<mvc:resources mapping="/kcs/**" location="/static/kcs/" cache-period="31556926" />
+	<mvc:resources mapping="/kcs/**" location="/kcs/" cache-period="31556926" />
 
 
 	<!-- 	<mvc:interceptors>

@@ -3,8 +3,9 @@
 <mapper namespace="com.kancolle.server.mapper.deckport.EnemyDeckPortMapper">
 
 	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM">
-		<id property="mapCellId" column="MAPCELL_ID"/>
-		<id property="no" column="NO"/>
+		<id property="id" column="INDEX"/>
+		<result property="mapCellId" column="MAPCELL_ID"/>
+		<result property="no" column="NO"/>
 		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
 	</resultMap>
 

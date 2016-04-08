@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.service.battle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
@@ -11,6 +13,7 @@ import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -28,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +70,9 @@ public class BattleService implements IBattleService {
 
     @Autowired
     private MapService mapService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -188,9 +195,17 @@ public class BattleService implements IBattleService {
         /*--------------------------6.闭幕雷击---------------------------*/
 
         /*--------------------------闭幕雷击结束---------------------------*/
+
+        BattleSession session = new BattleSession();
+        session.setEnemy_deckport_id(enemyDeckPort.getId());
+        session.setMvp(1);
+        session.setShip_id(result.getApi_ship_ke());
+        session.setWin_rank(BattleResult.WIN_RANK.SS.value);
+
         battleState.setBattleFlag(true);
         battleState.setResultFlag(false);
-        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag");
+        battleState.setSession(writeJson(session, "{}"));
+        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag","session");
         return result;
     }
 
@@ -208,9 +223,16 @@ public class BattleService implements IBattleService {
 
         MapInfoModel mapInfo = mapService.getMapInfoById(mapInfoId);
 
+        BattleSession session;
+        try {
+            session = objectMapper.readValue(state.getSession(), BattleSession.class);
+        } catch (IOException e) {
+            session = new BattleSession();
+        }
+
         BattleResult result = new BattleResult();
-//        result.setShip_id();
-        result.setWinRank(BattleResult.WIN_RANK.SS);
+        result.setShip_id(session.getShip_id());
+        result.setWinRank(session.getWin_rank());
 //        result.setGet_exp();
 //        result.setMvp();
 //        result.setMember_lv();
@@ -258,6 +280,14 @@ public class BattleService implements IBattleService {
                 context.switchToEnemyContext();
                 enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
+        }
+    }
+
+    private String  writeJson(Object obj, String defaultStr){
+        try {
+            return objectMapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            return defaultStr;
         }
     }
 }
