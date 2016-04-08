@@ -6,6 +6,7 @@ package com.kancolle.server.model.kcsapi.battle;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -31,36 +32,48 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 public class BattleSimulationResult {
 
     private static final int MAX_SHELLING_ROUND = 3;
+    public static final int FIRST_START_INDEX = 1;
+    public static final int SECOND_START_INDEX = 7;
 
     @JSONField(ordinal = 1)
+    @JsonProperty(value = "api_dock_id")
     private int api_dock_id;
 
     /** 敌舰队舰船ID，-1开始，-1结束，空舰船ID为-1 */
     @JSONField(ordinal = 2)
+    @JsonProperty(value = "api_ship_ke")
     private int[] api_ship_ke;
 
     @JSONField(ordinal = 3)
+    @JsonProperty(value = "api_ship_lv")
     private int[] api_ship_lv;
 
     @JSONField(ordinal = 4)
+    @JsonProperty(value = "api_nowhps")
     private int[] api_nowhps;
 
     @JSONField(ordinal = 5)
+    @JsonProperty(value = "api_maxhps")
     private int[] api_maxhps;
 
     @JSONField(ordinal = 6)
+    @JsonProperty(value = "api_midnight_flag")
     private int api_midnight_flag = 0;
 
     @JSONField(ordinal = 7)
+    @JsonProperty(value = "api_eSlot")
     private int[][] api_eSlot;
 
     @JSONField(ordinal = 8)
+    @JsonProperty(value = "api_eKyouka")
     private int[][] api_eKyouka;
 
     @JSONField(ordinal = 9)
+    @JsonProperty(value = "api_fParam")
     private int[][] api_fParam;
 
     @JSONField(ordinal = 10)
+    @JsonProperty(value = "api_eParam")
     private int[][] api_eParam;
 
     /*
@@ -68,6 +81,7 @@ public class BattleSimulationResult {
      * 6=失敗(艦載機使用せず)
      */
     @JSONField(ordinal = 11)
+    @JsonProperty(value = "api_search")
     private int[] api_search;
 
     /*
@@ -75,30 +89,38 @@ public class BattleSimulationResult {
      * [2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
      */
     @JSONField(ordinal = 12)
+    @JsonProperty(value = "api_formation")
     private int[] api_formation;
 
     /** 航空戦flag */
     @JSONField(ordinal = 13)
+    @JsonProperty(value = "api_stage_flag")
     private int[] api_stage_flag;
 
     /** 航空戦情報 */
     @JSONField(ordinal = 14)
+    @JsonProperty(value = "api_kouku")
     private KouKuResult api_kouku;
 
     @JSONField(ordinal = 15)
+    @JsonProperty(value = "api_support_flag")
     private int api_support_flag;
 
     @JSONField(ordinal = 16, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_support_info")
     private Object api_support_info;
 
     @JSONField(ordinal = 17)
+    @JsonProperty(value = "api_opening_flag")
     private int api_opening_flag;
 
     @JSONField(ordinal = 18, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_opening_atack")
     private Object api_opening_atack;
 
     /** 炮击战flag */
     @JSONField(ordinal = 19)
+    @JsonProperty(value = "api_hourai_flag")
     private int[] api_hourai_flag;
 
     @JsonIgnore
@@ -107,6 +129,7 @@ public class BattleSimulationResult {
 
     /** 炮击第一轮 */
     @JSONField(name = "api_hougeki1", ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_hougeki1")
     public HougekiResult getHougekiResult1() {
         return hougekiResults.isEmpty() ? null : hougekiResults.iterator().next();
     }
@@ -117,18 +140,21 @@ public class BattleSimulationResult {
 
     /** 炮击第二轮 */
     @JSONField(name = "api_hougeki2", ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_hougeki2")
     public HougekiResult getHougekiResult2() {
         return hougekiResults.size() > 1 ? hougekiResults.get(1) : null;
     }
 
     /** 炮击第三轮 */
     @JSONField(name = "api_hougeki3",ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_hougeki3")
     public HougekiResult getHougekiResult3() {
         return hougekiResults.size() > 2 ? hougekiResults.get(2) : null;
     }
 
     /** 闭幕雷击 */
     @JSONField(ordinal = 23, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JsonProperty(value = "api_raigeki")
     private Object api_raigeki;
 
     private BattleSimulationResult() {
@@ -164,16 +190,19 @@ public class BattleSimulationResult {
         List<MemberShip> memberShips = memberDeckPort.getShips();
         List<EnemyShip> enemyShips = enemyDeckPort.getEnemyShips();
 
-        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - 1).getShip().getShipId());
-        Stream.iterate(1, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_ship_lv[i] = 1);
-        Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_nowhps[i] = memberShips.get(i - 1).getNowHp());
-        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - 7).getShip().getTaik().getMinValue());
-        Stream.iterate(1, i -> ++i).limit(memberShips.size()).forEach(i -> this.api_maxhps[i] = memberShips.get(i - 1).getMaxHp());
-        Stream.iterate(7, i -> ++i).limit(enemyShips.size()).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - 7).getShip().getTaik().getMaxValue());
+        int enemyShipSize = enemyShips.size();
+        int memberShipSize = memberShips.size();
+
+        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_ship_ke[i] = enemyShips.get(i - FIRST_START_INDEX).getShip().getShipId());
+        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_ship_lv[i] = enemyShips.get(i - FIRST_START_INDEX).getShip().getLv());
+        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(memberShipSize).forEach(i -> this.api_nowhps[i] = memberShips.get(i - FIRST_START_INDEX).getNowHp());
+        Stream.iterate(SECOND_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_nowhps[i] = enemyShips.get(i - SECOND_START_INDEX).getNowHp());
+        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(memberShipSize).forEach(i -> this.api_maxhps[i] = memberShips.get(i - FIRST_START_INDEX).getMaxHp());
+        Stream.iterate(SECOND_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_maxhps[i] = enemyShips.get(i - SECOND_START_INDEX).getMaxHp());
 
         this.api_midnight_flag = 0;
 
-        Stream.iterate(0, i -> ++i).limit(enemyShips.size()).forEach(i -> {
+        Stream.iterate(0, i -> ++i).limit(enemyShipSize).forEach(i -> {
             int[] slots = enemyShips.get(i).getSlotItems().stream().mapToInt(AbstractSlotItem::getSlotItemId).toArray();
             slots = Ints.ensureCapacity(slots, 5, 0);
             Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);

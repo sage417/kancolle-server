@@ -1,8 +1,8 @@
 package com.kancolle.server.model.kcsapi.picturebook;
 
-import java.util.List;
+import com.kancolle.server.model.po.picturebook.ShipPictureBook;
 
-import com.kancolle.server.model.po.ship.ShipPictureBook;
+import java.util.List;
 
 public class ShipPictureBookResult {
 

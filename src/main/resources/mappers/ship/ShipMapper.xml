@@ -35,6 +35,7 @@
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
+		<result property="lv" column="LV"/>
 
 		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />

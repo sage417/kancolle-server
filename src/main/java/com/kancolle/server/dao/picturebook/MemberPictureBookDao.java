@@ -1,9 +1,9 @@
 package com.kancolle.server.dao.picturebook;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
-import com.kancolle.server.model.po.ship.ShipPictureBook;
+import com.kancolle.server.model.po.picturebook.ShipPictureBook;
+
+import java.util.List;
 
 public interface MemberPictureBookDao extends BaseDao<ShipPictureBook> {
 

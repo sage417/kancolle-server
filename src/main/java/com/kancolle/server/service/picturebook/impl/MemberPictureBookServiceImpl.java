@@ -1,15 +1,14 @@
 package com.kancolle.server.service.picturebook.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.dao.picturebook.MemberPictureBookDao;
 import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
-import com.kancolle.server.model.po.ship.ShipPictureBook;
+import com.kancolle.server.model.po.picturebook.ShipPictureBook;
 import com.kancolle.server.service.picturebook.MemberPictureBookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MemberPictureBookServiceImpl implements MemberPictureBookService {
