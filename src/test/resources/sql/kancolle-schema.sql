@@ -345,6 +345,7 @@ CREATE TABLE IF NOT EXISTS `t_map_cell_traveller` (
   `RASHIN_ID` INT(11) NOT NULL,
   `COLOR_NO` INT(11) NOT NULL,
   `EVENT_ID` INT(11) NOT NULL,
+  `EVENT_KIND` INT(11) NOT NULL,
   `NEXT` INT(11) NOT NULL,
   `COMMENT_KIND` INT(11) NOT NULL,
   `PRODUCTION_KIND` INT(11) NOT NULL,
@@ -431,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `t_member_deckport` (
   `MISSION_FLAG` TINYINT(4) UNSIGNED NOT NULL DEFAULT '0',
   `FLAGSHIP` VARCHAR(255) NOT NULL DEFAULT '0',
   `SHIP` VARCHAR(255) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1]' COMMENT '舰队信息',
-  `locked` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否可用',
+  `lock` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否可用',
   PRIMARY KEY (`index`))
 ;
 
@@ -510,13 +511,17 @@ CREATE TABLE IF NOT EXISTS `t_member_log` (
 -- -----------------------------------------------------
 -- Table `t_member_map_battle_status`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `t_member_map_battle_status` (
   `member_id` BIGINT(20) UNSIGNED NOT NULL,
   `deck_id` TINYINT(3) UNSIGNED NOT NULL,
-  `map_area_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+  `traveller_no` INT(10) UNSIGNED NULL DEFAULT NULL,
   `map_cell_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `map_get_resource` CHAR(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
   `map_fetch_rescource` CHAR(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
+  `battle_flag` tinyint(4) NOT NULL DEFAULT '0',
+  `result_flag` tinyint(4) NOT NULL DEFAULT '0',
+  `createTime` datetime NOT NULL,
   PRIMARY KEY (`member_id`))
 ;
 
@@ -827,7 +832,7 @@ CREATE TABLE IF NOT EXISTS `t_user` (
 -- -----------------------------------------------------
 -- View `v_member_deckport`
 -- -----------------------------------------------------
-CREATE  OR REPLACE  VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`locked` AS `locked` from `t_member_deckport` where (`t_member_deckport`.`locked` = 0);
+CREATE  OR REPLACE  VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`lock` AS `lock` from `t_member_deckport` where (`t_member_deckport`.`lock` = 0);
 
 -- -----------------------------------------------------
 -- View `v_member_mission`

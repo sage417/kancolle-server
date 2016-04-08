@@ -35,14 +35,10 @@
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
+		<result property="lv" column="LV"/>
 
 		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
-	</resultMap>
-
-	<resultMap id="EnemyShipRM" type="EnemyShip">
-        <association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
-        <collection property="slot" ofType="EnemySlotItem" column="SHIP_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
 	</resultMap>
 
 	<select id="selectEmShip" resultMap="BaseShipRM">

@@ -244,6 +244,10 @@ public class Ship extends BaseShip implements Serializable {
     @JSONField(ordinal = 27, name = "api_voicef")
     private int voicef;
 
+    @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
+    private int lv;
+
     public int getSortno() {
         return sortno;
     }
@@ -434,5 +438,13 @@ public class Ship extends BaseShip implements Serializable {
 
     public void setVoicef(int voicef) {
         this.voicef = voicef;
+    }
+
+    public int getLv() {
+        return lv;
+    }
+
+    public void setLv(int lv) {
+        this.lv = lv;
     }
 }

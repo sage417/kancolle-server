@@ -200,20 +200,28 @@ public class BattleResult {
         switch (getFlag) {
             case GET_NONE:
                 this.get_flag = GET_FLAG_ARR_NONE;
+                break;
             case GET_USEITEM:
                 this.get_flag = GET_FLAG_ARR_USEITEM;
+                break;
             case GET_SHIP:
                 this.get_flag = GET_FLAG_ARR_SHIP;
+                break;
             case GET_SLOTITEM:
                 this.get_flag = GET_FLAG_ARR_SLOTITEM;
+                break;
             case GET_USEITEM | GET_SHIP:
                 this.get_flag = GET_FLAG_ARR_USEITEM_AND_SHIP;
+                break;
             case GET_USEITEM | GET_SLOTITEM:
                 this.get_flag = GET_FLAG_ARR_USEITEM_AND_SLOTITEM;
+                break;
             case GET_SHIP | GET_SLOTITEM:
                 this.get_flag = GET_FLAG_ARR_SHIP_AND_SLOTITEM;
+                break;
             case GET_USEITEM | GET_SHIP | GET_SLOTITEM:
                 this.get_flag = GET_FLAG_ARR_ALL;
+                break;
             default:
                 throw new IllegalArgumentException();
         }

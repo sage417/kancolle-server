@@ -37,8 +37,11 @@ import static org.junit.Assert.fail;
  *
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration(value = "src/main/webapp")
-@ContextHierarchy({ @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml") })
+@WebAppConfiguration
+@ContextHierarchy({
+        @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"),
+        @ContextConfiguration(name = "child", locations = "classpath*:/spring/spring-mvc.xml")
+})
 public class ReqKousyouControllerTest {
     private static Reader scriptReader;
 

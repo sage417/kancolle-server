@@ -21,7 +21,10 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy({@ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"), @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml")})
+@ContextHierarchy({
+        @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"),
+        @ContextConfiguration(name = "child", locations = "classpath*:/spring/mvc-context.xml")
+})
 public class DutyServiceImplTest {
 
     @Autowired

@@ -1,15 +1,14 @@
 package com.kancolle.server.dao.picturebook.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.picturebook.MemberPictureBookDao;
-import com.kancolle.server.model.po.ship.ShipPictureBook;
+import com.kancolle.server.model.po.picturebook.ShipPictureBook;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MemberPictureBookDaoImpl extends BaseDaoImpl<ShipPictureBook>implements MemberPictureBookDao {

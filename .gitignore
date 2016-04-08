@@ -1,10 +1,9 @@
 /target/
-/.settings/
 /.idea/
-/logs/
 
 *.json
 *.iml
+flyway.properties
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

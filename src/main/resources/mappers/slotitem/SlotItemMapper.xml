@@ -38,6 +38,6 @@
 		SELECT m.SLOTITEM_ID FROM t_enemy_ship_slotitem_mapping m 
 			INNER JOIN t_enemy_ship_slotitem s ON s.`ENEMY_SHIP_ID` = m.`SHIP_ID` 
 		WHERE m.`SHIP_ID` = #{enemy_ship_id}
-		ORDER BY POSITION(m.`SLOTITEM_ID` + ',' IN s.`SLOT`)
+		ORDER BY POSITION(CONCAT(m.`SLOTITEM_ID`, ',') IN s.`SLOT`)
 	</select>
 </mapper>

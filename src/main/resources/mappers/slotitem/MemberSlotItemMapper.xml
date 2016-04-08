@@ -24,7 +24,7 @@
 		WHERE
 			mem_slot.`member_id` = #{member_id}
 			AND m.`member_ship_id` = #{ship_id}
-		ORDER BY POSITION(mem_slot.`ID` + ',' IN mem_ship.`SLOT`)
+		ORDER BY POSITION(CONCAT(mem_slot.`ID`, ',') IN mem_ship.`SLOT`)
 	</select>
 	
 	<select id="selectMemberUnslot"  resultMap="memberSlotItemRM">
