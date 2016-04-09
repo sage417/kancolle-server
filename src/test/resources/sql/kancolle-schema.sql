@@ -519,6 +519,7 @@ CREATE TABLE IF NOT EXISTS `t_member_map_battle_status` (
   `map_cell_id` INT(10) UNSIGNED NULL DEFAULT NULL,
   `map_get_resource` CHAR(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
   `map_fetch_rescource` CHAR(64) NOT NULL DEFAULT '[0,0,0,0,0,0,0,0]',
+  `session` CHAR(1024) NOT NULL DEFAULT '{}',
   `battle_flag` tinyint(4) NOT NULL DEFAULT '0',
   `result_flag` tinyint(4) NOT NULL DEFAULT '0',
   `createTime` datetime NOT NULL,
