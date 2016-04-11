@@ -3,8 +3,6 @@
  */
 package com.kancolle.server.service.battle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
@@ -20,6 +18,7 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.service.base.BaseService;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
@@ -31,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +46,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  * @Date 2015年8月22日
  */
 @Service
-public class BattleService implements IBattleService {
+public class BattleService extends BaseService implements IBattleService {
 
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
@@ -70,9 +68,6 @@ public class BattleService implements IBattleService {
 
     @Autowired
     private MapService mapService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
@@ -223,12 +218,7 @@ public class BattleService implements IBattleService {
 
         MapInfoModel mapInfo = mapService.getMapInfoById(mapInfoId);
 
-        BattleSession session;
-        try {
-            session = objectMapper.readValue(state.getSession(), BattleSession.class);
-        } catch (IOException e) {
-            session = new BattleSession();
-        }
+        BattleSession session = readJson(state.getSession(), BattleSession.class);
 
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
@@ -284,11 +274,10 @@ public class BattleService implements IBattleService {
     }
 
     /**
-     *
-     * @param memberLose member loss ratio
-     * @param enemyLose enemy loss ratio
+     * @param memberLose     member loss ratio
+     * @param enemyLose      enemy loss ratio
      * @param enemyLostRatio enemy loss count ratio
-     * @param lost member loss count
+     * @param lost           member loss count
      * @return win rank
      */
     private BattleResult.WIN_RANK generateWinRank(double memberLose, double enemyLose, double enemyLostRatio, boolean lost) {
@@ -302,14 +291,6 @@ public class BattleService implements IBattleService {
             return BattleResult.WIN_RANK.C;
         } else {
             return lost ? BattleResult.WIN_RANK.E : BattleResult.WIN_RANK.D;
-        }
-    }
-
-    private String writeJson(Object obj, String defaultStr) {
-        try {
-            return objectMapper.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            return defaultStr;
         }
     }
 }
