@@ -205,7 +205,7 @@ public class BattleService implements IBattleService {
         battleState.setBattleFlag(true);
         battleState.setResultFlag(false);
         battleState.setSession(writeJson(session, "{}"));
-        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag","session");
+        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag", "session");
         return result;
     }
 
@@ -283,7 +283,29 @@ public class BattleService implements IBattleService {
         }
     }
 
-    private String  writeJson(Object obj, String defaultStr){
+    /**
+     *
+     * @param memberLose member loss ratio
+     * @param enemyLose enemy loss ratio
+     * @param enemyLostRatio enemy loss count ratio
+     * @param lost member loss count
+     * @return win rank
+     */
+    private BattleResult.WIN_RANK generateWinRank(double memberLose, double enemyLose, double enemyLostRatio, boolean lost) {
+        if (enemyLose == 1d && !lost) {
+            return memberLose == 0d ? BattleResult.WIN_RANK.SS : BattleResult.WIN_RANK.S;
+        } else if (enemyLostRatio >= 2d / 3d && !lost) {
+            return BattleResult.WIN_RANK.A;
+        } else if (enemyLose >= 2 * memberLose) {
+            return BattleResult.WIN_RANK.B;
+        } else if (enemyLose >= memberLose) {
+            return BattleResult.WIN_RANK.C;
+        } else {
+            return lost ? BattleResult.WIN_RANK.E : BattleResult.WIN_RANK.D;
+        }
+    }
+
+    private String writeJson(Object obj, String defaultStr) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
