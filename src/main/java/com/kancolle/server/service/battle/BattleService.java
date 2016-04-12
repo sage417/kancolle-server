@@ -29,6 +29,7 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
@@ -49,7 +50,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  * @Date 2015年8月22日
  */
 @Service
-public class BattleService extends BaseService {
+public class BattleService extends BaseService implements IBattleService {
 
     @Autowired
     private MapBattleService mapBattleService;
@@ -199,10 +200,9 @@ public class BattleService extends BaseService {
         session.setShip_id(result.getApi_ship_ke());
         session.setWin_rank(WIN_RANK.SS.value);
 
-        battleState.setBattleFlag(true);
-        battleState.setResultFlag(false);
-        battleState.setSession(writeJson(session, EMPTY_OBJECT_JSON));
-        mapBattleService.updateMemberMapBattleStatus(battleState, BATTLE_FLAG, RESULT_FLAG, SESSION);
+
+        upateAfterBattle(battleState, session);
+
         return result;
     }
 
@@ -220,6 +220,8 @@ public class BattleService extends BaseService {
         MapInfoModel mapInfo = mapService.getMapInfoById(mapInfoId);
 
         BattleSession session = readJson(state.getSession(), BattleSession.class);
+
+        int enemyDeckPortId = session.getEnemy_deckport_id();
 
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
@@ -250,10 +252,24 @@ public class BattleService extends BaseService {
             result.setGet_slotitem(null);
         }
 
+        updateAfterResult(state);
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    private void upateAfterBattle(MemberMapBattleState state, BattleSession session){
+        state.setBattleFlag(true);
+        state.setResultFlag(false);
+        state.setSession(writeJson(session, EMPTY_OBJECT_JSON));
+        mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG, SESSION);
+
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    private void updateAfterResult(MemberMapBattleState state){
         state.setResultFlag(true);
         state.setBattleFlag(false);
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
-        return result;
     }
 
     private void shellingRound(BattleContext context) {

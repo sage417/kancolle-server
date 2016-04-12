@@ -9,6 +9,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class BattleContext {
@@ -34,6 +35,8 @@ public class BattleContext {
     private List<? extends IShip> nowSSShips;
 
     private List<? extends IShip> nowOtherShips;
+
+    private Map<MemberShip, Integer> damageSum;
 
     public void switchToMemberContext(){
         this.nowSSShips = Objects.requireNonNull(this.enemySSShips);
@@ -131,5 +134,13 @@ public class BattleContext {
 
     public void setNowOtherShips(List<? extends IShip> nowOtherShips) {
         this.nowOtherShips = nowOtherShips;
+    }
+
+    public Map<MemberShip, Integer> getDamageSum() {
+        return damageSum;
+    }
+
+    public void setDamageSum(Map<MemberShip, Integer> damageSum) {
+        this.damageSum = damageSum;
     }
 }
