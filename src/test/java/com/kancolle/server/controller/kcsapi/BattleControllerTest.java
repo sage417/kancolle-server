@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
-public class BattleTest {
+public class BattleControllerTest {
 
     @Autowired
     private WebApplicationContext wac;

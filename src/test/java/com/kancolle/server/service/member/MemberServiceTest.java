@@ -1,9 +1,8 @@
-package com.kancolle.server.service;
+package com.kancolle.server.service.member;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.service.member.MemberService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
