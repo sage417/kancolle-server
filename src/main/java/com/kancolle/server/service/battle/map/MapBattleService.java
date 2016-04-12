@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date 2015年8月20日
  */
 @Service
-public class MapBattleService implements IMapBattleService{
+public class MapBattleService{
 
     public static final String BATTLE_FLAG = "battleFlag";
 
@@ -51,7 +51,6 @@ public class MapBattleService implements IMapBattleService{
      * @param form
      * @return
      */
-    @Override
     @Transactional
     public MapStartResult start(String member_id, MapStartForm form) {
 
@@ -75,7 +74,6 @@ public class MapBattleService implements IMapBattleService{
         return result;
     }
 
-    @Override
     @Transactional
     public MapNextResult next(String member_id, int recoverType) {
 

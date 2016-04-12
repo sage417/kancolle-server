@@ -7,7 +7,7 @@ import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.map.IMapBattleService;
+import com.kancolle.server.service.battle.map.MapBattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 public class ReqMapController {
 
     @Autowired
-    private IMapBattleService mapBattleService;
+    private MapBattleService mapBattleService;
 
     @RequestMapping("/start")
     public APIResponse<MapStartResult> start(@ModelAttribute(MEMBER_ID) String member_id, @Validated MapStartForm form, BindingResult result) {

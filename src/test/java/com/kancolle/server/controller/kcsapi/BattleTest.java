@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy({
-        @ContextConfiguration(name = "parent", locations = "classpath*:spring/spring-context.xml"),
-        @ContextConfiguration(name = "child", locations = "classpath*:spring/spring-mvc.xml")
+        @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
+        @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
 public class BattleTest {
 
