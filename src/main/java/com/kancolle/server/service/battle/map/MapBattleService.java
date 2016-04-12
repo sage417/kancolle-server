@@ -15,6 +15,7 @@ import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -22,7 +23,15 @@ import org.springframework.transaction.annotation.Transactional;
  * @Date 2015年8月20日
  */
 @Service
-public class MapBattleService implements IMapBattleService {
+public class MapBattleService {
+
+    public static final String BATTLE_FLAG = "battleFlag";
+
+    public static final String RESULT_FLAG = "resultFlag";
+
+    public static final String MAPCELL_ID = "mapCellId";
+
+    public static final String SESSION = "session";
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
@@ -42,7 +51,6 @@ public class MapBattleService implements IMapBattleService {
      * @param form
      * @return
      */
-    @Override
     @Transactional
     public MapStartResult start(String member_id, MapStartForm form) {
 
@@ -66,7 +74,6 @@ public class MapBattleService implements IMapBattleService {
         return result;
     }
 
-    @Override
     @Transactional
     public MapNextResult next(String member_id, int recoverType) {
 
@@ -87,9 +94,19 @@ public class MapBattleService implements IMapBattleService {
         int nextMapCellId = traveller.getCurrentMapCell().getMapCellId();
 
         state.setMapCellId(nextMapCellId);
-        memberMapBattleMapper.update(state,"mapCellId");
+        memberMapBattleMapper.update(state, MAPCELL_ID);
 
         return result;
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public MemberMapBattleState selectMemberMapBattleState(String member_id){
+        return memberMapBattleMapper.selectMemberMapBattleState(member_id);
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+    public void updateMemberMapBattleStatus(MemberMapBattleState state, String... columns) {
+        memberMapBattleMapper.update(state, columns);
     }
 
     private MapTraveller loadMapTraveller(int travellerNo) {

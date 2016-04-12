@@ -5,8 +5,8 @@ package com.kancolle.server.service.battle;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
-import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
+import com.kancolle.server.model.kcsapi.battle.BattleResult.*;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
@@ -21,6 +21,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.service.base.BaseService;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
+import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.impl.MapService;
@@ -38,6 +39,8 @@ import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.kancolle.server.model.kcsapi.battle.BattleResult.*;
+import static com.kancolle.server.service.battle.map.MapBattleService.*;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 
@@ -46,10 +49,10 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  * @Date 2015年8月22日
  */
 @Service
-public class BattleService extends BaseService implements IBattleService {
+public class BattleService extends BaseService {
 
     @Autowired
-    private MemberMapBattleMapper memberMapBattleMapper;
+    private MapBattleService mapBattleService;
 
     @Autowired
     private IReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
@@ -69,9 +72,8 @@ public class BattleService extends BaseService implements IBattleService {
     @Autowired
     private MapService mapService;
 
-    @Override
     public BattleSimulationResult battle(String member_id, BattleForm form) {
-        MemberMapBattleState battleState = memberMapBattleMapper.selectMemberMapBattleState(member_id);
+        MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(!battleState.isBattleFlag());
 
         int formation = form.getApi_formation();
@@ -195,22 +197,21 @@ public class BattleService extends BaseService implements IBattleService {
         session.setEnemy_deckport_id(enemyDeckPort.getId());
         session.setMvp(1);
         session.setShip_id(result.getApi_ship_ke());
-        session.setWin_rank(BattleResult.WIN_RANK.SS.value);
+        session.setWin_rank(WIN_RANK.SS.value);
 
         battleState.setBattleFlag(true);
         battleState.setResultFlag(false);
-        battleState.setSession(writeJson(session, "{}"));
-        memberMapBattleMapper.update(battleState, "battleFlag", "resultFlag", "session");
+        battleState.setSession(writeJson(session, EMPTY_OBJECT_JSON));
+        mapBattleService.updateMemberMapBattleStatus(battleState, BATTLE_FLAG, RESULT_FLAG, SESSION);
         return result;
     }
 
-    @Override
     @Transactional
     public BattleResult battleresult(String member_id) {
         // TODO member exp
         // TODO member ships exp
         // TODO resource comsume
-        MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
+        MemberMapBattleState state = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(state.isBattleFlag());
         checkState(!state.isResultFlag());
 
@@ -224,7 +225,7 @@ public class BattleService extends BaseService implements IBattleService {
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
 //        result.setGet_exp();
-//        result.setMvp();
+        result.setMvp(session.getMvp());
 //        result.setMember_lv();
 //        result.setMember_exp();
 //        result.setBase_exp();
@@ -236,22 +237,22 @@ public class BattleService extends BaseService implements IBattleService {
         result.setFirst_clear(0);
         result.setMapcell_incentive(0);
 
-        int getFlag = BattleResult.GET_NONE;
+        int getFlag = GET_NONE;
         result.generateGetFlag(getFlag);
 
-        if ((getFlag & BattleResult.GET_USEITEM) > 0) {
+        if ((getFlag & GET_USEITEM) > 0) {
             result.setGet_useitem(null);
         }
-        if ((getFlag & BattleResult.GET_SHIP) > 0) {
+        if ((getFlag & GET_SHIP) > 0) {
             result.setGet_ship(null);
         }
-        if ((getFlag & BattleResult.GET_SLOTITEM) > 0) {
+        if ((getFlag & GET_SLOTITEM) > 0) {
             result.setGet_slotitem(null);
         }
 
         state.setResultFlag(true);
         state.setBattleFlag(false);
-        memberMapBattleMapper.update(state, "battleFlag", "resultFlag");
+        mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
         return result;
     }
 
@@ -280,17 +281,17 @@ public class BattleService extends BaseService implements IBattleService {
      * @param lost           member loss count
      * @return win rank
      */
-    private BattleResult.WIN_RANK generateWinRank(double memberLose, double enemyLose, double enemyLostRatio, boolean lost) {
+    private WIN_RANK getWinRank(double memberLose, double enemyLose, double enemyLostRatio, boolean lost) {
         if (enemyLose == 1d && !lost) {
-            return memberLose == 0d ? BattleResult.WIN_RANK.SS : BattleResult.WIN_RANK.S;
+            return memberLose == 0d ? WIN_RANK.SS : WIN_RANK.S;
         } else if (enemyLostRatio >= 2d / 3d && !lost) {
-            return BattleResult.WIN_RANK.A;
+            return WIN_RANK.A;
         } else if (enemyLose >= 2 * memberLose) {
-            return BattleResult.WIN_RANK.B;
+            return WIN_RANK.B;
         } else if (enemyLose >= memberLose) {
-            return BattleResult.WIN_RANK.C;
+            return WIN_RANK.C;
         } else {
-            return lost ? BattleResult.WIN_RANK.E : BattleResult.WIN_RANK.D;
+            return lost ? WIN_RANK.E : WIN_RANK.D;
         }
     }
 }

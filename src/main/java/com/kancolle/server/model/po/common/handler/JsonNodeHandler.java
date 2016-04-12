@@ -19,9 +19,11 @@ import java.sql.SQLException;
  */
 public class JsonNodeHandler extends BaseTypeHandler<JsonNode> {
 
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(JsonNodeHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonNodeHandler.class);
+
+    private static final String EMPTY_OBJECT_JSON = "{}";
 
 
     private JsonNode readNode(String node) {
@@ -54,7 +56,7 @@ public class JsonNodeHandler extends BaseTypeHandler<JsonNode> {
             value = OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             LOGGER.error("error when serial obj", e);
-            value = "{}";
+            value = EMPTY_OBJECT_JSON;
         }
         ps.setString(columnIndex, value);
     }

@@ -16,6 +16,8 @@ import java.io.IOException;
 @Service
 public class BaseService {
 
+    protected static final String EMPTY_OBJECT_JSON = "{}";
+
     @Autowired
     private ObjectMapper objectMapper;
 
