@@ -29,6 +29,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Iterables.getLast;
 import static com.google.common.collect.Iterables.isEmpty;
@@ -317,8 +318,16 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             default:
                 throw new IllegalArgumentException("attack type error");
         }
-        int nowHp = defendShip.getNowHp();
-        defendShip.setNowHp(nowHp - damageSum);
+
+        Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
+
+        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, Integer.valueOf(0));
+        memberShipDamageSum += damageSum;
+        damageSumMap.put(attackShip, memberShipDamageSum);
+
+        int nowHp = defendShip.getNowHp() - damageSum;
+        if (nowHp < 0 ){ nowHp = 0; }
+        defendShip.setNowHp(nowHp);
     }
 
     /**
