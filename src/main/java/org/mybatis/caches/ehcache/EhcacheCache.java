@@ -25,9 +25,7 @@ public class EhcacheCache extends AbstractEhcacheCache implements Cache {
     public EhcacheCache(String id) {
         super(id);
 
-        EhCacheCacheManager ehCacheManager = SpringUtils.getBean("cacheManager", EhCacheCacheManager.class);
-
-        CacheManager cacheManager = ehCacheManager.getCacheManager();
+        CacheManager cacheManager = SpringUtils.getBean("ehcacheManager", CacheManager.class);
 
         if (!cacheManager.cacheExists(id)) {
             cacheManager.addCache(id);
