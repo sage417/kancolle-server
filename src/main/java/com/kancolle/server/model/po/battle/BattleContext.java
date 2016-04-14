@@ -1,7 +1,5 @@
 package com.kancolle.server.model.po.battle;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
@@ -10,7 +8,6 @@ import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -27,9 +24,9 @@ public class BattleContext {
 
     private List<EnemyShip> enemyOtherShips;
 
-    private LinkedList<MemberShip> memberAttackShips;
+    private List<MemberShip> memberAttackShips;
 
-    private LinkedList<EnemyShip> enemyAttackShips;
+    private List<EnemyShip> enemyAttackShips;
 
     private ImmutableBiMap<Integer, IShip> shipMap;
 
@@ -95,19 +92,19 @@ public class BattleContext {
         this.enemyOtherShips = enemyOtherShips;
     }
 
-    public LinkedList<MemberShip> getMemberAttackShips() {
+    public List<MemberShip> getMemberAttackShips() {
         return memberAttackShips;
     }
 
-    public void setMemberAttackShips(LinkedList<MemberShip> memberAttackShips) {
+    public void setMemberAttackShips(List<MemberShip> memberAttackShips) {
         this.memberAttackShips = memberAttackShips;
     }
 
-    public LinkedList<EnemyShip> getEnemyAttackShips() {
+    public List<EnemyShip> getEnemyAttackShips() {
         return enemyAttackShips;
     }
 
-    public void setEnemyAttackShips(LinkedList<EnemyShip> enemyAttackShips) {
+    public void setEnemyAttackShips(List<EnemyShip> enemyAttackShips) {
         this.enemyAttackShips = enemyAttackShips;
     }
 

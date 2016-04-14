@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.service.battle;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -35,7 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -166,9 +167,9 @@ public class BattleService extends BaseService implements IBattleService {
         ImmutableBiMap<Integer, IShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
 
         // 玩家攻击队列
-        LinkedList<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
+        List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
         // 敌人攻击队列
-        LinkedList<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
+        List<EnemyShip> enemyAttackShips = getAttackShips(enemyOtherShips, memberOtherShips.isEmpty());
 
         context.setBattleResult(result);
         context.setMemberSSShips(memberSSShips);
@@ -186,7 +187,7 @@ public class BattleService extends BaseService implements IBattleService {
             HougekiResult hougekiResult = new HougekiResult();
             result.addHougekiResult(hougekiResult);
             context.setNowHougekiResult(hougekiResult);
-            shellingRound(context);
+            shellingRound(context, i > 0);
         }
 
         /*--------------------------炮击战---------------------------*/
@@ -279,12 +280,30 @@ public class BattleService extends BaseService implements IBattleService {
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
     }
 
-    private void shellingRound(BattleContext context) {
-        LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
-        LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
+    private void shellingRound(BattleContext context, boolean skip) {
+
+        LinkedList<MemberShip> memberAttackShips;
+        LinkedList<EnemyShip> enemyAttackShips;
+
+        List<MemberShip> contextMemberAttackShips = context.getMemberAttackShips();
+        List<EnemyShip> contextEnemyAttackShips = context.getEnemyAttackShips();
+
+        if (skip) {
+            memberAttackShips = contextMemberAttackShips.stream()
+                    .filter(s->s.getNowHp()>0)
+                    .collect(Collectors.toCollection(LinkedList::new));
+            enemyAttackShips = contextEnemyAttackShips.stream()
+                    .filter(s->s.getNowHp()>0)
+                    .collect(Collectors.toCollection(LinkedList::new));
+        } else {
+            memberAttackShips = Lists.newLinkedList(contextMemberAttackShips);
+            enemyAttackShips = Lists.newLinkedList(contextEnemyAttackShips);
+        }
+
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
+
         for (int i = 0; i < circulRounds; i++) {
-            MemberShip attackShip = memberAttackShips.iterator().next();
+            MemberShip attackShip = memberAttackShips.poll();
             if (attackShip != null && attackShip.getNowHp() > 0) {
                 context.switchToMemberContext();
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
