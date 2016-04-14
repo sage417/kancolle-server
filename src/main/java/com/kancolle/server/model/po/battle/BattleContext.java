@@ -3,6 +3,7 @@ package com.kancolle.server.model.po.battle;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Maps;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.ship.EnemyShip;
@@ -11,6 +12,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class BattleContext {
@@ -37,10 +39,10 @@ public class BattleContext {
 
     private List<? extends IShip> nowOtherShips;
 
-    private BiMap<MemberShip, Integer> damageSum;
+    private final Map<MemberShip, Integer> damageSum;
 
     public BattleContext() {
-        this.damageSum = HashBiMap.create(6);
+        this.damageSum = Maps.newHashMap();
     }
 
     public void switchToMemberContext(){
@@ -141,11 +143,8 @@ public class BattleContext {
         this.nowOtherShips = nowOtherShips;
     }
 
-    public BiMap<MemberShip, Integer> getDamageSum() {
+    public Map<MemberShip, Integer> getDamageSum() {
         return damageSum;
     }
 
-    public void setDamageSum(BiMap<MemberShip, Integer> damageSum) {
-        this.damageSum = damageSum;
-    }
 }

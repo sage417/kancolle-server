@@ -3,7 +3,10 @@
  */
 package com.kancolle.server.service.battle;
 
+import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleResult.*;
@@ -32,9 +35,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -194,14 +195,20 @@ public class BattleService extends BaseService implements IBattleService {
 
         /*--------------------------闭幕雷击结束---------------------------*/
 
+
+        Map<MemberShip, Integer> contextDamageSum = context.getDamageSum();
+
+        Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s->contextDamageSum.getOrDefault(s,0));
+
+        MemberShip mvpShip = ordering.max(context.getMemberAttackShips());
+
         BattleSession session = new BattleSession();
         session.setEnemy_deckport_id(enemyDeckPort.getId());
-        session.setMvp(1);
+        session.setMvp(context.getShipMap().inverse().get(mvpShip));
         session.setShip_id(result.getApi_ship_ke());
         session.setWin_rank(WIN_RANK.SS.value);
 
-
-        upateAfterBattle(battleState, session);
+        updateAfterBattle(battleState, session);
 
         return result;
     }
@@ -257,7 +264,7 @@ public class BattleService extends BaseService implements IBattleService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    private void upateAfterBattle(MemberMapBattleState state, BattleSession session){
+    private void updateAfterBattle(MemberMapBattleState state, BattleSession session) {
         state.setBattleFlag(true);
         state.setResultFlag(false);
         state.setSession(writeJson(session, EMPTY_OBJECT_JSON));
@@ -266,7 +273,7 @@ public class BattleService extends BaseService implements IBattleService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    private void updateAfterResult(MemberMapBattleState state){
+    private void updateAfterResult(MemberMapBattleState state) {
         state.setResultFlag(true);
         state.setBattleFlag(false);
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
@@ -277,7 +284,7 @@ public class BattleService extends BaseService implements IBattleService {
         LinkedList<EnemyShip> enemyAttackShips = context.getEnemyAttackShips();
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
         for (int i = 0; i < circulRounds; i++) {
-            MemberShip attackShip = memberAttackShips.poll();
+            MemberShip attackShip = memberAttackShips.iterator().next();
             if (attackShip != null && attackShip.getNowHp() > 0) {
                 context.switchToMemberContext();
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
