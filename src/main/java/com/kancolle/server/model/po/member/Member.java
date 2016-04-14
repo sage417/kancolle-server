@@ -17,9 +17,6 @@ import java.io.Serializable;
 @Alias("Member")
 public class Member implements Serializable{
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8080060402377336023L;
 
     @JSONField(ordinal = 1, name = "api_member_id")
@@ -132,6 +129,44 @@ public class Member implements Serializable{
 
     @JSONField(serialize = false, deserialize = false)
     private int parallelQuestCount;
+
+    public static Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+
+        private final Member member = new Member();
+
+        public Builder token(String token){
+            this.member.token = token;
+            return this;
+        }
+
+        public Builder nickName(String nickName){
+            this.member.nickName = nickName;
+            return this;
+        }
+
+        public Builder fleetName(String fleetName){
+            this.member.fleetName = fleetName;
+            return this;
+        }
+
+        public Builder maxChara(int maxChara){
+            this.member.maxChara = maxChara;
+            return this;
+        }
+
+        public Builder maxSlotItem(int maxSlotItem){
+            this.member.maxSlotItem = maxSlotItem;
+            return this;
+        }
+
+        public Member build(){
+            return this.member;
+        }
+    }
 
     public long getMemberId() {
         return memberId;

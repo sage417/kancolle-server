@@ -20,6 +20,7 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
+import com.kancolle.server.utils.LoginUtils;
 import com.kancolle.server.utils.logic.common.LvUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -88,8 +89,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     /* @CachePut(value = "token2MemberId", key = "#result") */
     public void updateMemberToken(String member_id) {
-        String token = UUID.randomUUID().toString().replaceAll("-",StringUtils.EMPTY);
-        memberDao.updateMemberToken(member_id, token);
+        memberDao.updateMemberToken(member_id, LoginUtils.generateMemberToken());
     }
 
     @Override

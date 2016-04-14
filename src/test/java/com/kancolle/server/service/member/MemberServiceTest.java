@@ -3,6 +3,7 @@ package com.kancolle.server.service.member;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.utils.LoginUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+
+import java.util.UUID;
 
 /**
  * Package: com.kancolle.server.service
@@ -49,5 +52,17 @@ public class MemberServiceTest {
         memberService.updateMemberToken(memberId);
         member = memberService.getMember(memberId);
         Assert.assertFalse(token.equals(member.getToken()));
+    }
+
+    @Test
+    public void createNewMember(){
+        Member member = Member.builder()
+                .nickName("sage417")
+                .fleetName("舰队")
+                .maxChara(150)
+                .maxSlotItem(500)
+                .token(LoginUtils.generateMemberToken())
+                .build();
+        memberService.addMember(member);
     }
 }
