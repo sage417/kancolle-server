@@ -4,6 +4,7 @@
 package com.kancolle.server.service.battle;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
