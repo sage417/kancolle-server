@@ -22,14 +22,13 @@ public abstract class ShipFilter {
     public static Predicate<IShip> isAlive = s -> s.getNowHp() > 0;
 
     /** 返回是否有指定类型的飞机，并且要有搭载 */
-    public static Function<Predicate<AbstractSlotItem>, Predicate<? super IShip>> hasTargetPlaneFilter = cond -> {
-        return ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
-    };
+    public static Function<Predicate<AbstractSlotItem>, Predicate<IShip>> hasTargetPlaneFilter = cond ->
+         ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
 
     /**
      * 过滤出潜艇
      */
-    public static Predicate<? super IShip> ssFilter = ship -> {
+    public static Predicate<IShip> ssFilter = ship -> {
         int shipType = ship.getShip().getShipTypeId();
         return shipType == 13 || shipType == 14 || shipType == 20;
     };
@@ -37,12 +36,12 @@ public abstract class ShipFilter {
     /**
      * 过滤出空母
      */
-    public static Predicate<? super IShip> carrierFilter = ship -> {
+    public static Predicate<IShip> carrierFilter = ship -> {
         int shipType = ship.getShip().getShipTypeId();
         return shipType == 7 || shipType == 11;
     };
 
-    public static Predicate<? super IShip> attackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
+    public static Predicate<IShip> attackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {
         int planeType = SlotItemUtils.getType(plane);
         return planeType == 7 || planeType == 8;
     });
@@ -50,7 +49,7 @@ public abstract class ShipFilter {
     /**
      * 过滤出反潜船
      */
-    public static Predicate<? super IShip> antiSSShipFilter = ship -> {
+    public static Predicate<IShip> antiSSShipFilter = ship -> {
         int shipType = ship.getShip().getShipTypeId();
         if (shipType == 2 || shipType == 3 || shipType == 4)
             return true;
@@ -61,7 +60,7 @@ public abstract class ShipFilter {
         return false;
     };
 
-    public static Predicate<? super IShip> BBShipFilter = ship -> {
+    public static Predicate<IShip> BBShipFilter = ship -> {
         int shipType = ship.getShip().getShipTypeId();
         return shipType == 8 || shipType == 10;
     };
@@ -72,7 +71,7 @@ public abstract class ShipFilter {
         return ship.getCurrentEQ()[index];
     }
 
-    public static <T extends IShip> List<T> getTargetShips(List<T> ships, Predicate<? super IShip> shipFilter) {
+    public static <T extends IShip> List<T> getTargetShips(List<T> ships, Predicate<IShip> shipFilter) {
         return ships.stream().filter(shipFilter).collect(Collectors.toList());
     }
 }
