@@ -29,11 +29,13 @@ import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
+import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -197,17 +199,13 @@ public class BattleService extends BaseService implements IBattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
 
 
-        Map<MemberShip, Integer> contextDamageSum = context.getDamageSum();
 
-        Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s->contextDamageSum.getOrDefault(s,0));
-
-        MemberShip mvpShip = ordering.max(context.getMemberAttackShips());
 
         BattleSession session = new BattleSession();
         session.setEnemy_deckport_id(enemyDeckPort.getId());
-        session.setMvp(context.getShipMap().inverse().get(mvpShip));
+        session.setMvp(getMVP(context));
         session.setShip_id(result.getApi_ship_ke());
-        session.setWin_rank(WIN_RANK.SS.value);
+        session.setWin_rank(getWinRank(context, memberShips, enemyShips).value);
 
         updateAfterBattle(battleState, session);
 
@@ -316,14 +314,49 @@ public class BattleService extends BaseService implements IBattleService {
         }
     }
 
+    private double getMemberLose(BattleContext context){
+        BattleSimulationResult result = context.getBattleResult();
+        int[] maxHps = result.getApi_maxhps();
+        int[] nowHps = result.getApi_nowhps();
+
+        double maxHpSum = Arrays.stream(maxHps).skip(1L).limit(6L).sum();
+        double nowHpSum = Arrays.stream(nowHps).skip(1L).limit(6L).sum();
+
+        return nowHpSum / maxHpSum;
+    }
+
+    private double getEnemyLose(BattleContext context){
+        BattleSimulationResult result = context.getBattleResult();
+        int[] maxHps = result.getApi_maxhps();
+        int[] nowHps = result.getApi_nowhps();
+
+        double maxHpSum = Arrays.stream(maxHps).skip(7L).limit(6L).sum();
+        double nowHpSum = Arrays.stream(nowHps).skip(7L).limit(6L).sum();
+
+        return nowHpSum / maxHpSum;
+    }
+
+    private double getEnemyDeckPortLostRatio(List<EnemyShip> enemyShips) {
+        int shipCount = enemyShips.size();
+        double loseCount = enemyShips.stream().filter(ShipFilter.isAlive).count();
+        return loseCount / shipCount;
+    }
+
+    private boolean isMemberShipLost(List<MemberShip> memberShips){
+        return memberShips.stream().anyMatch(ShipFilter.isAlive.negate());
+    }
+
     /**
-     * @param memberLose     member loss ratio
-     * @param enemyLose      enemy loss ratio
-     * @param enemyLostRatio enemy loss count ratio
-     * @param lost           member loss count
+     * @param context     battle context
+     * @param enemyShips      enemy ship list
      * @return win rank
      */
-    private WIN_RANK getWinRank(double memberLose, double enemyLose, double enemyLostRatio, boolean lost) {
+    private WIN_RANK getWinRank(BattleContext context, List<MemberShip> memberShips, List<EnemyShip> enemyShips) {
+        double memberLose = getMemberLose(context);
+        double enemyLose = getEnemyLose(context);
+        double enemyLostRatio = getEnemyDeckPortLostRatio(enemyShips);
+        boolean lost = isMemberShipLost(memberShips);
+
         if (enemyLose == 1d && !lost) {
             return memberLose == 0d ? WIN_RANK.SS : WIN_RANK.S;
         } else if (enemyLostRatio >= 2d / 3d && !lost) {
@@ -335,6 +368,17 @@ public class BattleService extends BaseService implements IBattleService {
         } else {
             return lost ? WIN_RANK.E : WIN_RANK.D;
         }
+    }
+
+    private int getMVP(BattleContext context){
+
+        Map<MemberShip, Integer> contextDamageSum = context.getDamageSum();
+
+        Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s->contextDamageSum.getOrDefault(s,0));
+
+        MemberShip mvpShip = ordering.max(context.getMemberAttackShips());
+
+        return context.getShipMap().inverse().get(mvpShip);
     }
 }
 

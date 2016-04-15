@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  */
 public abstract class ShipFilter {
 
+    public static Predicate<IShip> isAlive = s -> s.getNowHp() > 0;
+
     /** 返回是否有指定类型的飞机，并且要有搭载 */
     public static Function<Predicate<AbstractSlotItem>, Predicate<? super IShip>> hasTargetPlaneFilter = cond -> {
         return ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
