@@ -16,7 +16,6 @@ import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,7 +101,7 @@ public abstract class DeckPortUtils {
         // 200) < RandomUtils.nextInt(0, 101);
     }
 
-    public static <T extends IShip> LinkedList<T> getAttackShips(List<T> ships, boolean isAllSS) {
+    public static <T extends IShip> List<T> getAttackShips(List<T> ships, boolean isAllSS) {
         // TODO 被击沉的舰船不能进行炮击战
         // 潜艇不能参加炮击战
         Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
@@ -115,7 +114,7 @@ public abstract class DeckPortUtils {
         }
 
         shipStream = shipStream.sorted(FIRST_SHELL_SHIP_ORDER);
-        return shipStream.collect(Collectors.toCollection(LinkedList::new));
+        return shipStream.collect(Collectors.toList());
     }
 
     public static <T extends IShip> T getDefShip(BiMap<Integer, T> shipMap) {
