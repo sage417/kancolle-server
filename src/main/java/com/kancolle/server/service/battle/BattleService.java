@@ -29,6 +29,7 @@ import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
+import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -294,8 +295,8 @@ public class BattleService extends BaseService implements IBattleService {
                     .filter(s->s.getNowHp()>0)
                     .collect(Collectors.toCollection(LinkedList::new));
         } else {
-            memberAttackShips = Lists.newLinkedList(contextMemberAttackShips);
-            enemyAttackShips = Lists.newLinkedList(contextEnemyAttackShips);
+            memberAttackShips = Lists.newLinkedList(DeckPortUtils.FIRST_SHELL_SHIP_ORDER.sortedCopy(contextMemberAttackShips));
+            enemyAttackShips = Lists.newLinkedList(DeckPortUtils.FIRST_SHELL_SHIP_ORDER.sortedCopy(contextEnemyAttackShips));
         }
 
         int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());

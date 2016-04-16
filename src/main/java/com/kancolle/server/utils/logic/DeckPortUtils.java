@@ -32,7 +32,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  */
 public abstract class DeckPortUtils {
 
-    private static final Ordering<IShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(IShip::getLeng);
+    public static final Ordering<IShip> FIRST_SHELL_SHIP_ORDER = Ordering.natural().reverse().onResultOf(IShip::getLeng);
 
     private static int getShipSearchNeedValue(int shipType) {
         switch (shipType) {
@@ -112,8 +112,6 @@ public abstract class DeckPortUtils {
         if (isAllSS) {
             shipStream = shipStream.filter(ship -> antiSSShipFilter.test(ship));
         }
-
-        shipStream = shipStream.sorted(FIRST_SHELL_SHIP_ORDER);
         return shipStream.collect(Collectors.toList());
     }
 
