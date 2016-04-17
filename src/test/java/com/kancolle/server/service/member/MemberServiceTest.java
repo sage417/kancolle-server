@@ -11,12 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-
-import java.util.UUID;
 
 /**
  * Package: com.kancolle.server.service
@@ -32,6 +31,7 @@ import java.util.UUID;
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
+@Sql(value = {"classpath:sql/kancolle-schema.sql", "classpath:sql/kancolle-data.sql"})
 public class MemberServiceTest {
 
     @Autowired

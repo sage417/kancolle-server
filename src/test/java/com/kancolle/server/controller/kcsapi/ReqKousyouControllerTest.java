@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -42,6 +43,7 @@ import static org.junit.Assert.fail;
         @ContextConfiguration(name = "parent", locations = "classpath*:/spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath*:/spring/spring-mvc.xml")
 })
+@Sql(value = {"classpath:sql/kancolle-schema.sql", "classpath:sql/kancolle-data.sql"})
 public class ReqKousyouControllerTest {
     private static Reader scriptReader;
 
