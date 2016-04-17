@@ -118,7 +118,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
         } else {
             ship_id = BasicFactory.getBasicShipId();
         }
-        return shipService.getShipByCond(ship_id);
+        return shipService.getShipById(ship_id);
     }
 
     @Override

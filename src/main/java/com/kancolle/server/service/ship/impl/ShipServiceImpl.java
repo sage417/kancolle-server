@@ -1,19 +1,20 @@
 package com.kancolle.server.service.ship.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.service.ship.ShipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ShipServiceImpl implements ShipService {
+
     @Autowired
     private ShipDao shipDao;
 
@@ -22,7 +23,7 @@ public class ShipServiceImpl implements ShipService {
         List<BaseShip> ships = Lists.newArrayListWithCapacity(600);
         ships.addAll(shipDao.selectShips());
         ships.addAll(shipDao.selectEmShip());
-        return ships;
+        return ImmutableList.copyOf(ships);
     }
 
     @Override
@@ -69,12 +70,12 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public boolean canEquip(ShipType shipType, int slotitemId) {
-        return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
+    public boolean canEquip(ShipType shipType, int slotItem_id) {
+        return shipType.getEquipTypes().getIntValue(Integer.toString(slotItem_id)) == 1;
     }
 
     @Override
-    public Ship getShipByCond(int ship_id) {
+    public Ship getShipById(int ship_id) {
         return shipDao.selectShipByCond(ship_id);
     }
 }
