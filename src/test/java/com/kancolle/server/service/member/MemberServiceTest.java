@@ -1,7 +1,6 @@
 package com.kancolle.server.service.member;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.utils.LoginUtils;
 import org.junit.Assert;
@@ -44,7 +43,6 @@ public class MemberServiceTest {
 
 
     @Test
-    @DatabaseSetup("/dbunit/member/t_member.xml")
     public void testUpdateToken() {
         String memberId = "9007383";
         Member member = memberService.getMember(memberId);
