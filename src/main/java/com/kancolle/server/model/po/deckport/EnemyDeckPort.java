@@ -27,6 +27,8 @@ public class EnemyDeckPort {
 
     private int formation;
 
+    private int exp;
+
     public int getId() {
         return id;
     }
@@ -65,6 +67,14 @@ public class EnemyDeckPort {
 
     public void setFormation(int formation) {
         this.formation = formation;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     @Override

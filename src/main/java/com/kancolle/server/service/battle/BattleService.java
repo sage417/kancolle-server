@@ -26,6 +26,7 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
+import com.kancolle.server.service.deckport.EnemyDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.utils.SpringUtils;
@@ -77,6 +78,9 @@ public class BattleService extends BaseService implements IBattleService {
 
     @Autowired
     private MapService mapService;
+
+    @Autowired
+    private EnemyDeckPortService enemyDeckPortService;
 
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
@@ -229,6 +233,7 @@ public class BattleService extends BaseService implements IBattleService {
         BattleSession session = readJson(state.getSession(), BattleSession.class);
 
         int enemyDeckPortId = session.getEnemy_deckport_id();
+        EnemyDeckPort enemyDeckPort = enemyDeckPortService.getEnemyDeckportById(enemyDeckPortId);
 
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
@@ -237,7 +242,7 @@ public class BattleService extends BaseService implements IBattleService {
         result.setMvp(session.getMvp());
 //        result.setMember_lv();
 //        result.setMember_exp();
-//        result.setBase_exp();
+        result.setBase_exp(enemyDeckPort.getExp());
 //        result.setShip_exp();
 //        result.setExp_lvup();
         result.setQuest_name(mapInfo.getApi_name());

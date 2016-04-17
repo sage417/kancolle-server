@@ -6,11 +6,16 @@
 		<id property="id" column="INDEX"/>
 		<result property="mapCellId" column="MAPCELL_ID"/>
 		<result property="no" column="NO"/>
+		<result property="exp" column="BASE_EXP"/>
 		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
 	</resultMap>
 
 	<select id="selectEnemyDeckPorts" resultMap="EnemyDeckPortRM">
 		SELECT * FROM t_enemy_deckport WHERE MAPCELL_ID = #{map_cell_id}
+	</select>
+
+	<select id="selectEnemyDeckPortById" resultMap="EnemyDeckPortRM">
+		SELECT * FROM t_enemy_deckport WHERE INDEX = #{id}
 	</select>
 
 	<select id="selectEnemyDeckPortShips" resultMap="com.kancolle.server.dao.ship.EnemyShipMapper.EnemyShipRM">

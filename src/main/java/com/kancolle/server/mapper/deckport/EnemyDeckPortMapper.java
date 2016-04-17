@@ -3,11 +3,10 @@
  */
 package com.kancolle.server.mapper.deckport;
 
-import java.util.List;
-
+import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import org.apache.ibatis.annotations.Param;
 
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -18,4 +17,5 @@ public interface EnemyDeckPortMapper {
 
     List<EnemyDeckPort> selectEnemyDeckPorts(@Param("map_cell_id") int mapcellId);
 
+    EnemyDeckPort selectEnemyDeckPortById(@Param("id") int enemyDeckPortId);
 }

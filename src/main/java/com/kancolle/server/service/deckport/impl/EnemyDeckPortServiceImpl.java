@@ -28,4 +28,9 @@ public class EnemyDeckPortServiceImpl implements EnemyDeckPortService {
     public List<EnemyDeckPort> getEnemyDeckports(int mapcellId) {
         return enemyDeckPortMapper.selectEnemyDeckPorts(mapcellId);
     }
+
+    @Override
+    public EnemyDeckPort getEnemyDeckportById(int enemyDeckPortId) {
+        return enemyDeckPortMapper.selectEnemyDeckPortById(enemyDeckPortId);
+    }
 }
