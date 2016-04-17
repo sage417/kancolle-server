@@ -60,7 +60,7 @@
 	</select>
 
 	<!-- ANOTHER TABLE -->
-	<select id="selectNeedShipExpByLevel" resultType="_long">
+	<select id="selectShipNeedExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
 	</select>
 

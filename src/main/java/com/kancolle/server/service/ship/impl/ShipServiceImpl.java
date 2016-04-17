@@ -61,7 +61,7 @@ public class ShipServiceImpl implements ShipService {
      */
     @Override
     public long getSumExpByLevel(int level) {
-        return shipDao.getNeedExpByLevel(level);
+        return shipDao.selectShipNeedExpByLevel(level);
     }
 
     @Override

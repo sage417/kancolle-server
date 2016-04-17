@@ -1,14 +1,13 @@
 package com.kancolle.server.dao.ship.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.ship.ShipDao;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
@@ -39,8 +38,8 @@ public class ShipDaoImpl extends BaseDaoImpl<Ship> implements ShipDao {
     }
 
     @Override
-    public long getNeedExpByLevel(int nowLv) {
-        return getSqlSession().selectOne("selectNeedShipExpByLevel", nowLv);
+    public long selectShipNeedExpByLevel(int nowLv) {
+        return getSqlSession().selectOne("selectShipNeedExpByLevel", nowLv);
     }
 
     @Override

@@ -1,11 +1,11 @@
 package com.kancolle.server.dao.ship;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
+
+import java.util.List;
 
 public interface ShipDao extends BaseDao<Ship> {
 
@@ -17,7 +17,7 @@ public interface ShipDao extends BaseDao<Ship> {
 
     int selectCountOfShipTypes();
 
-    long getNeedExpByLevel(int after_lv);
+    long selectShipNeedExpByLevel(int after_lv);
 
     int getShipLVByExp(long after_exp);
 
