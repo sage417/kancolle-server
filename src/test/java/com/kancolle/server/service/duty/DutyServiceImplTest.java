@@ -3,6 +3,7 @@ package com.kancolle.server.service.duty;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.kancolle.server.model.po.duty.Duty;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +31,7 @@ public class DutyServiceImplTest {
     @Autowired
     DutyService dutyService;
 
+    @Test
     public void test() {
         Duty duty = dutyService.getDutyByNo(701);
         Assert.assertNotNull(duty);
