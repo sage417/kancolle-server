@@ -204,8 +204,6 @@ public class BattleService extends BaseService implements IBattleService {
         /*--------------------------闭幕雷击结束---------------------------*/
 
 
-
-
         BattleSession session = new BattleSession();
         session.setEnemy_deckport_id(enemyDeckPort.getId());
         session.setMvp(getMVP(context));
@@ -244,7 +242,10 @@ public class BattleService extends BaseService implements IBattleService {
 //        result.setMember_lv();
         result.setMember_exp(baseExp);
         result.setBase_exp(enemyDeckPort.getExp());
-//        result.setShip_exp();
+        int[] ship_exps = result.getShip_exp();
+        for (int i = 1; i < ship_exps.length; i++) {
+            ship_exps[i] = i == session.getMvp() ? 2 * baseExp : baseExp;
+        }
 //        result.setExp_lvup();
         result.setQuest_name(mapInfo.getApi_name());
         result.setQuest_level(mapInfo.getApi_level());
@@ -295,10 +296,10 @@ public class BattleService extends BaseService implements IBattleService {
 
         if (skip) {
             memberAttackShips = contextMemberAttackShips.stream()
-                    .filter(s->s.getNowHp()>0)
+                    .filter(s -> s.getNowHp() > 0)
                     .collect(Collectors.toCollection(LinkedList::new));
             enemyAttackShips = contextEnemyAttackShips.stream()
-                    .filter(s->s.getNowHp()>0)
+                    .filter(s -> s.getNowHp() > 0)
                     .collect(Collectors.toCollection(LinkedList::new));
         } else {
             memberAttackShips = Lists.newLinkedList(DeckPortUtils.FIRST_SHELL_SHIP_ORDER.sortedCopy(contextMemberAttackShips));
@@ -321,7 +322,7 @@ public class BattleService extends BaseService implements IBattleService {
         }
     }
 
-    private double getMemberLose(BattleContext context){
+    private double getMemberLose(BattleContext context) {
         BattleSimulationResult result = context.getBattleResult();
         int[] maxHps = result.getApi_maxhps();
         int[] nowHps = result.getApi_nowhps();
@@ -332,7 +333,7 @@ public class BattleService extends BaseService implements IBattleService {
         return nowHpSum / maxHpSum;
     }
 
-    private double getEnemyLose(BattleContext context){
+    private double getEnemyLose(BattleContext context) {
         BattleSimulationResult result = context.getBattleResult();
         int[] maxHps = result.getApi_maxhps();
         int[] nowHps = result.getApi_nowhps();
@@ -349,13 +350,13 @@ public class BattleService extends BaseService implements IBattleService {
         return loseCount / shipCount;
     }
 
-    private boolean isMemberShipLost(List<MemberShip> memberShips){
+    private boolean isMemberShipLost(List<MemberShip> memberShips) {
         return memberShips.stream().anyMatch(ShipFilter.isAlive.negate());
     }
 
     /**
-     * @param context     battle context
-     * @param enemyShips      enemy ship list
+     * @param context    battle context
+     * @param enemyShips enemy ship list
      * @return win rank
      */
     private WIN_RANK getWinRank(BattleContext context, List<MemberShip> memberShips, List<EnemyShip> enemyShips) {
@@ -377,11 +378,11 @@ public class BattleService extends BaseService implements IBattleService {
         }
     }
 
-    private int getMVP(BattleContext context){
+    private int getMVP(BattleContext context) {
 
         Map<MemberShip, Integer> contextDamageSum = context.getDamageSum();
 
-        Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s->contextDamageSum.getOrDefault(s,0));
+        Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s -> contextDamageSum.getOrDefault(s, 0));
 
         MemberShip mvpShip = ordering.max(context.getMemberAttackShips());
 

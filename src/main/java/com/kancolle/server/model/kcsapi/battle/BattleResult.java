@@ -14,6 +14,7 @@ import com.kancolle.server.model.kcsapi.battle.event.GetSlotItem;
 import com.kancolle.server.model.kcsapi.battle.event.LandingHp;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -123,7 +124,7 @@ public class BattleResult {
     /* 味方艦撃沈フラグ？-1から始まる */
     @JsonProperty(value = "api_lost_flag")
     @JSONField(name = "api_lost_flag", ordinal = 12)
-    private long[] lost_flag;
+    private int[] lost_flag;
 
     @JsonProperty(value = "api_quest_name")
     @JSONField(name = "api_quest_name", ordinal = 13)
@@ -192,7 +193,10 @@ public class BattleResult {
     private LandingHp landing_hp;
 
     public BattleResult() {
-        this.lost_flag = new long[]{-1L, 0L, 0L, 0L, 0L, 0L, 0L};
+        this.lost_flag = new int[7];
+        Arrays.fill(lost_flag,-1);
+        this.ship_exp = new int[7];
+        Arrays.fill(ship_exp, -1);
     }
 
     public void generateGetFlag(int getFlag) {
@@ -291,7 +295,7 @@ public class BattleResult {
     }
 
     public void setShip_exp(int[] ship_exp) {
-        this.ship_exp = ship_exp;
+        throw new UnsupportedOperationException();
     }
 
     public long[][] getExp_lvup() {
@@ -318,12 +322,12 @@ public class BattleResult {
         this.destsf = destsf;
     }
 
-    public long[] getLost_flag() {
+    public int[] getLost_flag() {
         return lost_flag;
     }
 
-    public void setLost_flag(long[] lost_flag) {
-        this.lost_flag = lost_flag;
+    public void setLost_flag(int[] lost_flag) {
+        throw new UnsupportedOperationException();
     }
 
     public String getQuest_name() {
