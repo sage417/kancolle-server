@@ -238,10 +238,11 @@ public class BattleService extends BaseService implements IBattleService {
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
-//        result.setGet_exp();
+        int baseExp = enemyDeckPort.getExp();
+        result.setGet_exp(baseExp);
         result.setMvp(session.getMvp());
 //        result.setMember_lv();
-        result.setMember_exp(enemyDeckPort.getExp());
+        result.setMember_exp(baseExp);
         result.setBase_exp(enemyDeckPort.getExp());
 //        result.setShip_exp();
 //        result.setExp_lvup();
