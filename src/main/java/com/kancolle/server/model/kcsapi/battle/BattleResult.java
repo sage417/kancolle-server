@@ -136,7 +136,7 @@ public class BattleResult {
 
     @JsonProperty(value = "api_enemy_info")
     @JSONField(name = "api_enemy_info", ordinal = 15)
-    private List<EnemyInfo> enemy_info;
+    private EnemyInfo enemy_info;
 
     /* 初回クリアフラグ(EO海域攻略時も1) */
     @JsonProperty(value = "api_first_clear")
@@ -346,11 +346,11 @@ public class BattleResult {
         this.quest_level = quest_level;
     }
 
-    public List<EnemyInfo> getEnemy_info() {
+    public EnemyInfo getEnemy_info() {
         return enemy_info;
     }
 
-    public void setEnemy_info(List<EnemyInfo> enemy_info) {
+    public void setEnemy_info(EnemyInfo enemy_info) {
         this.enemy_info = enemy_info;
     }
 
