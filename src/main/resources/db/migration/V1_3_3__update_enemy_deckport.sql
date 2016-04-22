@@ -1,0 +1,2 @@
+ALTER TABLE `t_enemy_deckport`
+ADD COLUMN `DECK_NAME`  varchar(65) NOT NULL DEFAULT '' AFTER `MAPCELL_ID`;

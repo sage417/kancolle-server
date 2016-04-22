@@ -23,9 +23,15 @@ public class EnemyDeckPort {
 
     private int no;
 
+    private String deckName;
+
     private List<EnemyShip> enemyShips;
 
     private int formation;
+
+    private int rank;
+
+    private int lv;
 
     private int exp;
 
@@ -53,6 +59,14 @@ public class EnemyDeckPort {
         this.no = no;
     }
 
+    public String getDeckName() {
+        return deckName;
+    }
+
+    public void setDeckName(String deckName) {
+        this.deckName = deckName;
+    }
+
     public List<EnemyShip> getEnemyShips() {
         return enemyShips;
     }
@@ -67,6 +81,22 @@ public class EnemyDeckPort {
 
     public void setFormation(int formation) {
         this.formation = formation;
+    }
+
+    public int getLv() {
+        return lv;
+    }
+
+    public void setLv(int lv) {
+        this.lv = lv;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public int getExp() {

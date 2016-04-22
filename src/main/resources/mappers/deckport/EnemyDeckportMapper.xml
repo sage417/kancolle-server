@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.mapper.deckport.EnemyDeckPortMapper">
 
-	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM">
+	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM" autoMapping="true">
 		<id property="id" column="INDEX"/>
 		<result property="mapCellId" column="MAPCELL_ID"/>
 		<result property="no" column="NO"/>
+		<result property="deckName" column="DECK_NAME"/>
 		<result property="exp" column="BASE_EXP"/>
 		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
 	</resultMap>

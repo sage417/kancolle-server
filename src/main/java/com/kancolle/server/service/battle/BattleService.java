@@ -249,7 +249,7 @@ public class BattleService extends BaseService implements IBattleService {
 //        result.setExp_lvup();
         result.setQuest_name(mapInfo.getApi_name());
         result.setQuest_level(mapInfo.getApi_level());
-//        result.setEnemy_info();
+        result.setEnemy_info(enemyDeckPort);
         result.setFirst_clear(0);
         result.setMapcell_incentive(0);
 

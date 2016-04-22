@@ -13,6 +13,7 @@ import com.kancolle.server.model.kcsapi.battle.event.GetShip;
 import com.kancolle.server.model.kcsapi.battle.event.GetSlotItem;
 import com.kancolle.server.model.kcsapi.battle.event.LandingHp;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
+import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -352,6 +353,13 @@ public class BattleResult {
 
     public void setEnemy_info(EnemyInfo enemy_info) {
         this.enemy_info = enemy_info;
+    }
+
+    public void setEnemy_info(EnemyDeckPort enemyDeckPort){
+        this.enemy_info = new EnemyInfo();
+        this.enemy_info.setLv(enemyDeckPort.getLv());
+        this.enemy_info.setRank(enemyDeckPort.getRank());
+        this.enemy_info.setDeckName(enemyDeckPort.getDeckName());
     }
 
     public int getFirst_clear() {
