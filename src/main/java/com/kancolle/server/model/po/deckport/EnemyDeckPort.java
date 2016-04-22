@@ -29,9 +29,9 @@ public class EnemyDeckPort {
 
     private int formation;
 
-    private int rank;
+    private String rank;
 
-    private int lv;
+    private String lv;
 
     private int exp;
 
@@ -83,19 +83,19 @@ public class EnemyDeckPort {
         this.formation = formation;
     }
 
-    public int getLv() {
+    public String getLv() {
         return lv;
     }
 
-    public void setLv(int lv) {
+    public void setLv(String lv) {
         this.lv = lv;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         this.rank = rank;
     }
 

@@ -12,11 +12,11 @@ public class EnemyInfo {
 
     @JSONField(name="api_lv")
     @JsonProperty(value = "api_lv")
-    private int lv;
+    private String lv;
 
     @JSONField(name="api_rank")
     @JsonProperty(value = "api_rank")
-    private int rank;
+    private String rank;
 
     @JSONField(name="api_deck_name")
     @JsonProperty(value = "api_deck_name")
@@ -30,19 +30,19 @@ public class EnemyInfo {
         this.deckName = deckName;
     }
 
-    public int getLv() {
+    public String getLv() {
         return lv;
     }
 
-    public void setLv(int lv) {
+    public void setLv(String lv) {
         this.lv = lv;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public void setRank(String rank) {
         this.rank = rank;
     }
 }
