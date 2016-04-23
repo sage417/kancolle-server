@@ -17,6 +17,7 @@ import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -29,6 +30,8 @@ import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.service.deckport.EnemyDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
+import com.kancolle.server.service.member.MemberService;
+import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.SpringUtils;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -60,27 +63,24 @@ public class BattleService extends BaseService implements IBattleService {
 
     @Autowired
     private MapBattleService mapBattleService;
-
     @Autowired
     private IReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
-
     @Autowired
     private ICourseSystem courseSystem;
-
     @Autowired
     private IAerialBattleSystem aerialBattleSystem;
-
     @Autowired
     private IShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
-
     @Autowired
     private IShellingSystem<EnemyShip, MemberShip> enemyShipShellingSystem;
-
     @Autowired
     private MapService mapService;
-
     @Autowired
     private EnemyDeckPortService enemyDeckPortService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private MemberShipService memberShipService;
 
     public BattleSimulationResult battle(String member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
@@ -217,7 +217,6 @@ public class BattleService extends BaseService implements IBattleService {
 
     @Transactional
     public BattleResult battleresult(String member_id) {
-        // TODO member exp
         // TODO member ships exp
         // TODO resource comsume
         MemberMapBattleState state = mapBattleService.selectMemberMapBattleState(member_id);
@@ -239,7 +238,11 @@ public class BattleService extends BaseService implements IBattleService {
         int baseExp = enemyDeckPort.getExp();
         result.setGet_exp(baseExp);
         result.setMvp(session.getMvp());
-//        result.setMember_lv();
+
+        Member member = memberService.getMember(member_id);
+        memberService.increaseMemberExp(member, baseExp);
+        result.setMember_lv(member.getLevel());
+
         result.setMember_exp(baseExp);
         result.setBase_exp(enemyDeckPort.getExp());
         int[] ship_exps = result.getShip_exp();
