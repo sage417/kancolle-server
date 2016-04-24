@@ -246,7 +246,7 @@ public class BattleService extends BaseService implements IBattleService {
         memberService.increaseMemberExp(member, baseExp);
         result.setMember_lv(member.getLevel());
 
-        result.setMember_exp(baseExp);
+        result.setMember_exp(member.getExperience());
         result.setBase_exp(enemyDeckPort.getExp());
         int[] ship_exps = result.getShip_exp();
 
@@ -260,14 +260,15 @@ public class BattleService extends BaseService implements IBattleService {
             ship_exps[idx] = idx == session.getMvp() ? 2 * baseExp : baseExp;
 
             int nowLv = memberShip.getLv();
+            long[] now_exp = memberShip.getExp();
+            long[] exp = ArrayUtils.subarray(now_exp, 0, 1);
             memberShipService.increaseMemberShipExp(memberShip, ship_exps[idx]);
             int afterLv = memberShip.getLv();
 
-            long[] ship_exp = memberShip.getExp();
-            for (int lv = nowLv + 1, i = 1; lv < afterLv; lv++, i++) {
-                ArrayUtils.add(ship_exp, i, shipService.getNextLVExp(nowLv));
+            for (int lv = nowLv + 1; lv <= afterLv + 1; lv++) {
+                exp = ArrayUtils.add(exp, shipService.getSumExpByLevel(lv));
             }
-            result.addExp_lvup(ship_exp);
+            result.addExp_lvup(exp);
         }
 
         result.setQuest_name(mapInfo.getApi_name());
@@ -333,12 +334,12 @@ public class BattleService extends BaseService implements IBattleService {
 
         for (int i = 0; i < circulRounds; i++) {
             MemberShip attackShip = memberAttackShips.poll();
-            if (attackShip != null && attackShip.getNowHp() > 0) {
+            if (ShipFilter.isAlive.test(attackShip)) {
                 context.switchToMemberContext();
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
             EnemyShip enemyAttackShip = enemyAttackShips.poll();
-            if (enemyAttackShip != null && enemyAttackShip.getNowHp() > 0) {
+            if (ShipFilter.isAlive.test(enemyAttackShip)) {
                 context.switchToEnemyContext();
                 enemyShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public abstract class ShipFilter {
 
-    public static Predicate<IShip> isAlive = s -> s.getNowHp() > 0;
+    public static Predicate<IShip> isAlive = s -> s != null && s.getNowHp() > 0;
 
     /** 返回是否有指定类型的飞机，并且要有搭载 */
     public static Function<Predicate<AbstractSlotItem>, Predicate<IShip>> hasTargetPlaneFilter = cond ->

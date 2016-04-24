@@ -54,7 +54,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             generateTaiSenAttackList(context, attackShip);
             defendShip = generateDefendList(enemySSShips, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
-            if (defendShip.getNowHp() < 0){
+            if (ShipFilter.isAlive.negate().test(defendShip)){
                 enemySSShips.remove(defendShip);
             }
         } else {
@@ -63,7 +63,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
-            if (defendShip.getNowHp() < 0){
+            if (ShipFilter.isAlive.negate().test(defendShip)){
                 enemyOtherShips.remove(defendShip);
             }
         }

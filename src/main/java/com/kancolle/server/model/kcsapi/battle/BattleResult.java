@@ -104,8 +104,8 @@ public class BattleResult {
     private int base_exp;
 
     /* 各舰获得经验值 */
-    @JsonProperty(value = "api_ship_exp")
-    @JSONField(name = "api_ship_exp", ordinal = 8)
+    @JsonProperty(value = "api_get_ship_exp")
+    @JSONField(name = "api_get_ship_exp", ordinal = 8)
     private int[] ship_exp;
 
     /* 各艦の[0]獲得前経験値, [1]次のレベルの経験値(Lv99|150の場合存在せず), (レベルアップしたなら)[2]その次のレベルの経験値, ... */
@@ -177,7 +177,7 @@ public class BattleResult {
 
     @JsonProperty(value = "api_get_eventflag")
     @JSONField(name = "api_get_eventflag", ordinal = 23)
-    private Integer eventflag;
+    private int eventflag;
 
     /* EO海域攻略時：獲得戦果(文字列) それ以外は0(数値) */
     @JsonProperty(value = "api_get_exmap_rate")
@@ -199,7 +199,6 @@ public class BattleResult {
         Arrays.fill(lost_flag, -1);
         this.ship_exp = new int[7];
         Arrays.fill(ship_exp, -1);
-        this.exp_lvup = new long[6][];
     }
 
     public void generateGetFlag(int getFlag) {
@@ -234,7 +233,7 @@ public class BattleResult {
     }
 
     public void addExp_lvup(long[] exp_lvup) {
-        ArrayUtils.add(this.exp_lvup, exp_lvup);
+        this.exp_lvup = ArrayUtils.add(this.exp_lvup, exp_lvup);
     }
 
     public void setWinRank(String rank) {
@@ -424,11 +423,11 @@ public class BattleResult {
         this.get_eventitem = get_eventitem;
     }
 
-    public Integer getEventflag() {
+    public int getEventflag() {
         return eventflag;
     }
 
-    public void setEventflag(Integer eventflag) {
+    public void setEventflag(int eventflag) {
         this.eventflag = eventflag;
     }
 

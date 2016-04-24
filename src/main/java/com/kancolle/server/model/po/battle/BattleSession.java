@@ -13,6 +13,10 @@ public class BattleSession {
 
     private int enemy_deckport_id;
 
+    private int dests;
+
+    private int destsf;
+
     public BattleSession() {
     }
 
@@ -46,5 +50,21 @@ public class BattleSession {
 
     public void setWin_rank(String win_rank) {
         this.win_rank = win_rank;
+    }
+
+    public int getDests() {
+        return dests;
+    }
+
+    public void setDests(int dests) {
+        this.dests = dests;
+    }
+
+    public int getDestsf() {
+        return destsf;
+    }
+
+    public void setDestsf(int destsf) {
+        this.destsf = destsf;
     }
 }

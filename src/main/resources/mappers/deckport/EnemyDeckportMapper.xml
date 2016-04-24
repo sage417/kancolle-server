@@ -16,7 +16,7 @@
 	</select>
 
 	<select id="selectEnemyDeckPortById" resultMap="EnemyDeckPortRM">
-		SELECT * FROM v_enemy_deckport WHERE INDEX = #{id}
+		SELECT * FROM v_enemy_deckport WHERE `INDEX` = #{id}
 	</select>
 
 	<select id="selectEnemyDeckPortShips" resultMap="com.kancolle.server.dao.ship.EnemyShipMapper.EnemyShipRM">
