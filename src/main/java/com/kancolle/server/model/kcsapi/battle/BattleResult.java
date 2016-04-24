@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.battle.enemy.EnemyInfo;
+import com.kancolle.server.model.kcsapi.battle.event.BattleGetShipResult;
 import com.kancolle.server.model.kcsapi.battle.event.GetEventItem;
-import com.kancolle.server.model.kcsapi.battle.event.GetShip;
 import com.kancolle.server.model.kcsapi.battle.event.GetSlotItem;
 import com.kancolle.server.model.kcsapi.battle.event.LandingHp;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
@@ -163,7 +163,7 @@ public class BattleResult {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(value = "api_get_ship")
     @JSONField(name = "api_get_ship", ordinal = 20)
-    private List<GetShip> get_ship;
+    private List<BattleGetShipResult> get_ship;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(value = "api_get_slotitem")
@@ -400,11 +400,11 @@ public class BattleResult {
         this.get_useitem = get_useitem;
     }
 
-    public List<GetShip> getGet_ship() {
+    public List<BattleGetShipResult> getGet_ship() {
         return get_ship;
     }
 
-    public void setGet_ship(List<GetShip> get_ship) {
+    public void setGet_ship(List<BattleGetShipResult> get_ship) {
         this.get_ship = get_ship;
     }
 
