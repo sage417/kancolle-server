@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `t_map_cell` (
   `MAP_NO` TINYINT(3) UNSIGNED NOT NULL,
   `MAPAREA_ID` TINYINT(3) UNSIGNED NOT NULL,
   `MAPINFO_NO` TINYINT(3) UNSIGNED NOT NULL,
+  `DECKPORT_NAME`  VARCHAR(65) NOT NULL DEFAULT '',
   `BASE_EXP` INT(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`ID`))
 ;
@@ -854,3 +855,5 @@ CREATE  OR REPLACE  VIEW `v_member_ship` AS select `t_member_ship`.`member_id` A
 -- View `v_member_slotitem`
 -- -----------------------------------------------------
 CREATE  OR REPLACE  VIEW `v_member_slotitem` AS select `t_member_slotitem`.`member_id` AS `member_id`,`t_member_slotitem`.`ID` AS `ID`,`t_member_slotitem`.`LEVEL` AS `LEVEL`,`t_member_slotitem`.`LOCKED` AS `LOCKED`,`t_member_slotitem`.`SLOTITEM_ID` AS `SLOTITEM_ID` from `t_member_slotitem` where (`t_member_slotitem`.`DELETED` = 0) order by `t_member_slotitem`.`member_id`,`t_member_slotitem`.`ID`;
+
+CREATE OR REPLACE VIEW `v_enemy_deckport`AS SELECT t_enemy_deckport.`INDEX`, t_enemy_deckport.MAPCELL_ID, t_enemy_deckport.`NO`, t_enemy_deckport.FORMATION, t_enemy_deckport.SHIP, t_enemy_deckport.RANK, t_enemy_deckport.LV, t_enemy_deckport.BASE_EXP, t_map_cell.DECKPORT_NAME FROM t_enemy_deckport INNER JOIN t_map_cell ON t_enemy_deckport.MAPCELL_ID = t_map_cell.ID ;
