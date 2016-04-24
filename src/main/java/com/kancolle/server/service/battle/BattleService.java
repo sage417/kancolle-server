@@ -32,18 +32,17 @@ import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.SpringUtils;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -77,6 +76,8 @@ public class BattleService extends BaseService implements IBattleService {
     private MapService mapService;
     @Autowired
     private EnemyDeckPortService enemyDeckPortService;
+    @Autowired
+    private ShipService shipService;
     @Autowired
     private MemberService memberService;
     @Autowired
@@ -217,7 +218,6 @@ public class BattleService extends BaseService implements IBattleService {
 
     @Transactional
     public BattleResult battleresult(String member_id) {
-        // TODO member ships exp
         // TODO resource comsume
         MemberMapBattleState state = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(state.isBattleFlag());
@@ -226,6 +226,9 @@ public class BattleService extends BaseService implements IBattleService {
         int mapInfoId = state.getTravellerNo();
 
         MapInfoModel mapInfo = mapService.getMapInfoById(mapInfoId);
+
+        MemberDeckPort memberDeckPort = state.getMemberDeckPort();
+        List<MemberShip> memberShips = memberDeckPort.getShips();
 
         BattleSession session = readJson(state.getSession(), BattleSession.class);
 
@@ -246,10 +249,27 @@ public class BattleService extends BaseService implements IBattleService {
         result.setMember_exp(baseExp);
         result.setBase_exp(enemyDeckPort.getExp());
         int[] ship_exps = result.getShip_exp();
-        for (int i = 1; i < ship_exps.length; i++) {
-            ship_exps[i] = i == session.getMvp() ? 2 * baseExp : baseExp;
+
+        for (ListIterator<MemberShip> iterator = memberShips.listIterator(); iterator.hasNext(); ) {
+            int idx = iterator.nextIndex() + 1;
+            MemberShip memberShip = iterator.next();
+
+            if (idx == 1) {
+                ship_exps[1] += baseExp;
+            }
+            ship_exps[idx] = idx == session.getMvp() ? 2 * baseExp : baseExp;
+
+            int nowLv = memberShip.getLv();
+            memberShipService.increaseMemberShipExp(memberShip, ship_exps[idx]);
+            int afterLv = memberShip.getLv();
+
+            long[] ship_exp = memberShip.getExp();
+            for (int lv = nowLv + 1, i = 1; lv < afterLv; lv++, i++) {
+                ArrayUtils.add(ship_exp, i, shipService.getNextLVExp(nowLv));
+            }
+            result.addExp_lvup(ship_exp);
         }
-//        result.setExp_lvup();
+
         result.setQuest_name(mapInfo.getApi_name());
         result.setQuest_level(mapInfo.getApi_level());
         result.setEnemy_info(enemyDeckPort);

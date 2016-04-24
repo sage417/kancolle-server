@@ -14,6 +14,7 @@ import com.kancolle.server.model.kcsapi.battle.event.GetSlotItem;
 import com.kancolle.server.model.kcsapi.battle.event.LandingHp;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -195,9 +196,10 @@ public class BattleResult {
 
     public BattleResult() {
         this.lost_flag = new int[7];
-        Arrays.fill(lost_flag,-1);
+        Arrays.fill(lost_flag, -1);
         this.ship_exp = new int[7];
         Arrays.fill(ship_exp, -1);
+        this.exp_lvup = new long[6][];
     }
 
     public void generateGetFlag(int getFlag) {
@@ -229,6 +231,10 @@ public class BattleResult {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public void addExp_lvup(long[] exp_lvup) {
+        ArrayUtils.add(this.exp_lvup, exp_lvup);
     }
 
     public void setWinRank(String rank) {
@@ -355,7 +361,7 @@ public class BattleResult {
         this.enemy_info = enemy_info;
     }
 
-    public void setEnemy_info(EnemyDeckPort enemyDeckPort){
+    public void setEnemy_info(EnemyDeckPort enemyDeckPort) {
         this.enemy_info = new EnemyInfo();
         this.enemy_info.setLv(enemyDeckPort.getLv());
         this.enemy_info.setRank(enemyDeckPort.getRank());
