@@ -18,8 +18,11 @@ import java.util.stream.Collectors;
 public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements MemberShipDao {
 
     @Override
-    public void update(MemberShip memberShip) {
-        throw new UnsupportedOperationException();
+    public void update(MemberShip memberShip, String... columns) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("member_ship", memberShip);
+        params.put("columns", columns);
+        getSqlSession().update("updateMemberShip", params);
     }
 
     @Override

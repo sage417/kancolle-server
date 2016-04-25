@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.ship;
 
@@ -47,6 +47,8 @@ public interface MemberShipService {
 
     /** 舰娘获得经验 */
     void increaseMemberShipExp(MemberShip memberShip, int exp);
+
+    void consumeFuelAndBullBaseMax(MemberShip memberShip, float fuel, float bull);
 
     /** 上锁 */
     MemberShipLockResult lock(String member_id, Long member_ship_id);

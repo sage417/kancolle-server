@@ -218,7 +218,6 @@ public class BattleService extends BaseService implements IBattleService {
 
     @Transactional
     public BattleResult battleresult(String member_id) {
-        // TODO resource comsume
         MemberMapBattleState state = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(state.isBattleFlag());
         checkState(!state.isResultFlag());
@@ -263,6 +262,7 @@ public class BattleService extends BaseService implements IBattleService {
             long[] now_exp = memberShip.getExp();
             long[] exp = ArrayUtils.subarray(now_exp, 0, 1);
             memberShipService.increaseMemberShipExp(memberShip, ship_exps[idx]);
+            memberShipService.consumeFuelAndBullBaseMax(memberShip, 0.2f, 0.2f);
             int afterLv = memberShip.getLv();
 
             for (int lv = nowLv + 1; lv <= afterLv + 1; lv++) {

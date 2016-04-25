@@ -52,6 +52,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
+import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_BULL;
+import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_FUEL;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_FAILED;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -251,6 +253,20 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberShip.getSakuteki().setMinValue(shipSakuteki);
         memberShipDao.updateMemberShipSlotValue(memberShip);
         // ----------属性成长-----------//
+    }
+
+    @Override
+    public void consumeFuelAndBullBaseMax(MemberShip memberShip, float fuel, float bull) {
+        Ship ship = memberShip.getShip();
+        int consumeFuel = Math.round(ship.getFuelMax() * fuel);
+        int consumeBull = Math.round(ship.getBullMax() * bull);
+
+        int nowFuel = memberShip.getFuel();
+        int nowBull = memberShip.getBull();
+        memberShip.setFuel(nowFuel - consumeFuel);
+        memberShip.setBull(nowBull - consumeBull);
+
+        memberShipDao.update(memberShip, UPDATE_COLUMN_FUEL, UPDATE_COLUMN_BULL);
     }
 
     @Override

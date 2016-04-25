@@ -135,4 +135,14 @@
 			member_id = #{member_id}
 			AND ID = #{member_ship_id}
 	</update>
+
+	<update id="updateMemberShip">
+		UPDATE t_member_ship
+		<set>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_FUEL)">FUEL = #{member_ship.fuel},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_BULL)">BULL = #{member_ship.bull},</if>
+		</set>
+		WHERE member_id = #{member_ship.memberId}
+		AND ID = #{member_ship.memberShipId}
+	</update>
 	</mapper>

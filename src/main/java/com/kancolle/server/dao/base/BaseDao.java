@@ -4,12 +4,24 @@ import java.io.Serializable;
 
 public interface BaseDao<T extends Serializable> {
 
-    void save(T t);
+    default void save(T t) {
+        throw new UnsupportedOperationException();
+    }
 
-    void replace(T t);
+    default void replace(T t) {
+        throw new UnsupportedOperationException();
+    }
 
-    void update(T t);
+    default void update(T t) {
+        throw new UnsupportedOperationException();
+    }
 
-    void delete(T t);
+    default void update(T t, String... columns) {
+        throw new UnsupportedOperationException();
+    }
+
+    default void delete(T t) {
+        throw new UnsupportedOperationException();
+    }
 
 }

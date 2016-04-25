@@ -1,12 +1,15 @@
 package com.kancolle.server.dao.ship;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
+import java.util.List;
+
 public interface MemberShipDao extends BaseDao<MemberShip> {
+
+    String UPDATE_COLUMN_FUEL = "fuel";
+    String UPDATE_COLUMN_BULL = "bull";
 
     MemberShip selectMemberShip(String member_id, Long ship_id);
 
