@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.ship.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
+import com.google.common.math.DoubleMath;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
@@ -46,6 +47,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -61,7 +63,6 @@ import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPrope
 /**
  * @author J.K.SAGE
  * @Date 2015年6月23日
- *
  */
 
 @Service
@@ -240,7 +241,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         int progress = (int) Math.floorDiv(100L * (afterExp - shipService.getSumExpByLevel(afterLv)), shipService.getNextLVExp(afterLv));
 
         memberShip.setLv(afterLv);
-        memberShip.setExp(new long[] { afterExp, nextLvExp - afterExp, progress });
+        memberShip.setExp(new long[]{afterExp, nextLvExp - afterExp, progress});
 
         memberShipDao.updateMemberExp(memberShip);
         // ----------属性成长-----------//
@@ -258,8 +259,8 @@ public class MemberShipServiceImpl implements MemberShipService {
     @Override
     public void consumeFuelAndBullBaseMax(MemberShip memberShip, float fuel, float bull) {
         Ship ship = memberShip.getShip();
-        int consumeFuel = Math.round(ship.getFuelMax() * fuel);
-        int consumeBull = Math.round(ship.getBullMax() * bull);
+        int consumeFuel = DoubleMath.roundToInt(ship.getFuelMax() * fuel, RoundingMode.CEILING);
+        int consumeBull = DoubleMath.roundToInt(ship.getBullMax() * bull, RoundingMode.CEILING);
 
         int nowFuel = memberShip.getFuel();
         int nowBull = memberShip.getBull();
@@ -308,7 +309,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
 
-        int[] powupArray = new int[] { 0, 0, 0, 0 };
+        int[] powupArray = new int[]{0, 0, 0, 0};
         float powupLuck = 0f;
 
         List<MemberShip> powupShips = Lists.newArrayListWithCapacity(powup_ship_ids.size());
@@ -471,7 +472,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     /**
      * 更新装备、 近现代改修需要调用此方法<br>
      * 更新幸运值不需要<br>
-     * 
+     *
      * @param memberShip
      */
     private void updateShipProperties(MemberShip memberShip) {
@@ -502,7 +503,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     public ShipDeckResult getShipDeck(String member_id, int deckPortId) {
-        MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id,deckPortId);
+        MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deckPortId);
         return new ShipDeckResult(deckPort.getShips(), memberDeckPortService.getMemberDeckPorts(member_id));
     }
 }
