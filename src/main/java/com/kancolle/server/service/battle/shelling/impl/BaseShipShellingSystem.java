@@ -42,10 +42,14 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     protected static final float ATTACK_TYPE_MAIN_FACTOR = 1.5f;
     /* --------------------观测CI-------------------- */
 
+    /* -------------------火力阈值------------------ */
     /* 昼战火力阈值 */
     protected static final int HOUG_THRESHOLD = 150;
+    /* 反潜火力阈值 */
+    protected static final int TAISEN_THRESHOLD = 100;
     /* 夜战火力阈值 */
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
+    /* -------------------火力阈值------------------ */
 
     public static final int CL_VALUE_MISS = 0;
     public static final int CL_VALUE_HIT = 1;
@@ -68,6 +72,11 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     protected static final double APAMMO_AUGMENTING = 1.08d;
     /*------------伤害补正------------*/
 
+    /* -----------反潜攻击方式补正-------------*/
+    protected static final int DEPTH_CHARGE_AUGMENTING = 13;
+    protected static final int AIRCRAFT_AUGMENTING = 8;
+    /* -----------反潜攻击方式补正-------------*/
+
 
     /*------------暴击补正------------*/
     public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
@@ -76,17 +85,13 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     protected static final int[] DM_SINGLE_ZER0 = new int[]{0};
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
 
-    /**
-     * ---------命中性能---------
-     **/
+    /* ---------命中性能--------- */
     protected static final double HIT_BASE_RADIOS = 1d;
     private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
     protected static final double HIT_LUCK_AUGMENTING = 0.0015d;
     protected static final double HIT_SLOT_AUGMENTING = 0.01d;
-    /**
-     * ---------命中性能---------
-     **/
+    /* ---------命中性能--------- */
 
     /*-------------回避性能-------------*/
     private static final int HOUK_THRESHOLD = 40;
@@ -98,16 +103,13 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
 
-    protected double combineKaihiRatio(S ship, BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    protected double combineHitRatio(S ship, BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
+    /* ---------------火力阈值--------------*/
     protected final int daylightHougThreshold(double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
+    }
+
+    protected final int taiSenHougThreshold(double basicHoug) {
+        return hougAfterThreshold(basicHoug, TAISEN_THRESHOLD);
     }
 
     protected final int nightHougThreshold(double basicHoug) {
@@ -117,6 +119,7 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     private int hougAfterThreshold(double basicHoug, int threshold) {
         return DoubleMath.roundToInt(basicHoug > threshold ? threshold + Math.sqrt(basicHoug) : basicHoug, RoundingMode.DOWN);
     }
+    /* ---------------火力阈值--------------*/
 
     protected final boolean isHit(double hitValue, double houkValue) {
         return isHit(hitValue, houkValue, 0.05d);
@@ -139,16 +142,12 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
         return hitRate;
     }
 
-    /**
-     * 擦弹和未破防强制扣除当前血量5%~10%
-     */
+    /* 擦弹和未破防强制扣除当前血量5%~10% */
     private int damageAugmenting(int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
-    /**
-     * 击沉保护
-     */
+    /*击沉保护 */
     private int destoryAugmenting(int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
@@ -196,12 +195,10 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
      * <p>
      * 支援艦隊不受補正影響
      */
-    protected final int cLGunAugmenting() {
+    protected final int cLGunAugmenting(IShip ship) {
         return 0;
     }
 
-    /**
-     */
     protected final void BBGunSystem(MemberShip memberShip) {
     }
 
@@ -213,7 +210,6 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     @Override
     public void generateAttackList(S ship, BattleContext context) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override
@@ -240,4 +236,15 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     public void generateDamageList(S attackShip, E defendShip, BattleContext context) {
         throw new UnsupportedOperationException();
     }
+
+    /* -----------------联合舰队补正-----------------*/
+    protected double combineKaihiRatio(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    protected double combineHitRatio(S ship, BattleContext context) {
+        throw new UnsupportedOperationException();
+    }
+
+    /* -----------------联合舰队补正-----------------*/
 }

@@ -346,6 +346,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
 
+    // 攻擊力 =  [ [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]  ×  徹甲彈特效補正 ×  PT小鬼群補正 ]  ×  暴擊補正 ]  × 閾值後補正
     private int attackValue(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
         int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
         double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
@@ -402,7 +403,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
             augmenting *= 1.15d;
         }
         // 阈值前攻击力 = 基本攻击力*阈值前攻击不整参数+轻巡炮攻击力补正
-        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting();
+        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting(attackShip);
     }
 
 

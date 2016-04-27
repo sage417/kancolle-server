@@ -381,15 +381,23 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * @param ship
      * @return
      */
-    private int antiSubmarineBasicHoug(MemberShip ship) {
+    private int taiSenBasicHoug(IShip ship, int attackAugmenting) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
-        return 0;
+        int shipTaisen = 2 * IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.CEILING);
+        int slotTaisen = DoubleMath.roundToInt(1.5d * ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getTaiSen).sum(), RoundingMode.CEILING);
+        return shipTaisen + slotTaisen + attackAugmenting;
     }
 
 
     private int attackValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+        double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
+        return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
+    }
+
+    private int taiSenValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context){
+        int hougBeforeThreshold = taiSenHougThreshold(taiSenAugmentingBeforeThreshold(attackShip, context));
         double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
@@ -436,6 +444,33 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             augmenting *= 0.7d;
         }
 
+        // 阈值前攻击力 = 基本攻击力*阈值前攻击补正参数+轻巡炮攻击力补正
+        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting(attackShip);
+    }
+
+    public double taiSenAugmentingBeforeThreshold(IShip attackShip, BattleContext context){
+
+        double augmenting = 1d;
+
+        //阵型补正
+        int formationIndex = BattleContextUtils.getMemberFormation(context);
+        double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
+        augmenting *= formationAugmenting;
+
+        //航向补正
+        int courseIndex = BattleContextUtils.getBattleCourse(context);
+        double courseAugmenting = CourseEnum.shelllingHougAugment(courseIndex);
+        augmenting *= courseAugmenting;
+
+        //损伤补正
+        if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0
+            augmenting *= 0.4d;
+        } else if (ShipUtils.isMidDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0.8
+            augmenting *= 0.7d;
+        }
+
         //反潜套补正
         List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
         boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
@@ -443,8 +478,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         if (hasHydrophone && hasDepthCharge) {
             augmenting *= 1.15d;
         }
-        // 阈值前攻击力 = 基本攻击力*阈值前攻击不整参数+轻巡炮攻击力补正
-        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting();
+
+        return augmenting * taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
     }
 
 
@@ -466,6 +501,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
         //暴擊補正
         int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
+        // TODO double attack
         boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
         if (isCrtical) {
             augmenting *= SHELLING_CRTICAL_AUGMENTING;
