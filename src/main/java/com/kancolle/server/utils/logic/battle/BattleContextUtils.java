@@ -9,7 +9,7 @@ public abstract class BattleContextUtils {
 
     private static final int MEMBER_FORMATION_INDEX = 0;
 
-    private static final int ENEMY_FORAMTION_INDEX = 1;
+    private static final int ENEMY_FORMATION_INDEX = 1;
 
     private static final int COURSE_INDEX = 2;
 
@@ -20,7 +20,7 @@ public abstract class BattleContextUtils {
 
     public static int getEnemyFormation(BattleContext context) {
         int[] formationArray = getFormationArray(context);
-        return formationArray[ENEMY_FORAMTION_INDEX];
+        return formationArray[ENEMY_FORMATION_INDEX];
     }
 
     public static int getBattleCourse(BattleContext context) {

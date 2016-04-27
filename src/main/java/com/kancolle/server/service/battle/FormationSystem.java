@@ -27,7 +27,24 @@ public abstract class FormationSystem {
             case FORMATION_5:
                 return 0.6d;
             default:
-                throw new IllegalArgumentException("formation argment error");
+                throw new IllegalArgumentException("formation argument error, formation id = " + formation);
+        }
+    }
+
+    public static double taiSenHougAugment(int formation) {
+        switch (formation) {
+            case FORMATION_1:
+                return 0.5d;
+            case FORMATION_2:
+                return 0.6d;
+            case FORMATION_3:
+                return 0.8d;
+            case FORMATION_4:
+                return 0.8d;
+            case FORMATION_5:
+                return 1d;
+            default:
+                throw new IllegalArgumentException("formation argument error, formation id = " + formation);
         }
     }
 }

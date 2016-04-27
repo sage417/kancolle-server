@@ -44,7 +44,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
         List<EnemyShip> enemySSShips = context.getEnemySSShips();
         List<EnemyShip> enemyOtherShips = context.getEnemyOtherShips();
-        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
+        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)) {
             return;
         }
         generateAttackList(attackShip, context);
@@ -54,7 +54,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             generateTaiSenAttackList(context, attackShip);
             defendShip = generateDefendList(enemySSShips, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
-            if (ShipFilter.isAlive.negate().test(defendShip)){
+            if (ShipFilter.isAlive.negate().test(defendShip)) {
                 enemySSShips.remove(defendShip);
             }
         } else {
@@ -63,13 +63,14 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
-            if (ShipFilter.isAlive.negate().test(defendShip)){
+            if (ShipFilter.isAlive.negate().test(defendShip)) {
                 enemyOtherShips.remove(defendShip);
             }
         }
     }
 
     private void generateTaiSenDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
+        HougekiResult hougekiResult = context.getNowHougekiResult();
 
     }
 
@@ -327,7 +328,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         damageSumMap.put(attackShip, memberShipDamageSum);
 
         int nowHp = defendShip.getNowHp() - damageSum;
-        if (nowHp < 0 ){ nowHp = 0; }
+        if (nowHp < 0) {
+            nowHp = 0;
+        }
         defendShip.setNowHp(nowHp);
     }
 
