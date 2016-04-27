@@ -34,7 +34,6 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.SpringUtils;
-import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.kancolle.server.model.kcsapi.battle.BattleResult.*;
 import static com.kancolle.server.service.battle.map.MapBattleService.*;
+import static com.kancolle.server.utils.logic.DeckPortUtils.FIRST_SHELL_SHIP_ORDER;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
 import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
 
@@ -170,9 +170,10 @@ public class BattleService extends BaseService implements IBattleService {
         List<EnemyShip> enemyOtherShips = getTargetShips(enemyShips, ssFilter.negate());
 
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, IShip> enmeyShipMap = IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
-        ImmutableBiMap.Builder<Integer, IShip> abstractShipBuilder = ImmutableBiMap.builder();
-        ImmutableBiMap<Integer, IShip> shipMap = abstractShipBuilder.putAll(memberShipMap).putAll(enmeyShipMap).build();
+        Map<Integer, IShip> enemyShipMap = IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
+
+        ImmutableBiMap.Builder<Integer, IShip> builder = ImmutableBiMap.builder();
+        ImmutableBiMap<Integer, IShip> shipMap = builder.putAll(memberShipMap).putAll(enemyShipMap).build();
 
         // 玩家攻击队列
         List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
@@ -318,21 +319,21 @@ public class BattleService extends BaseService implements IBattleService {
         List<MemberShip> contextMemberAttackShips = context.getMemberAttackShips();
         List<EnemyShip> contextEnemyAttackShips = context.getEnemyAttackShips();
 
-        if (skip) {
+        if (!skip) {
+            memberAttackShips = Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(contextMemberAttackShips));
+            enemyAttackShips = Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(contextEnemyAttackShips));
+        } else {
             memberAttackShips = contextMemberAttackShips.stream()
-                    .filter(s -> s.getNowHp() > 0)
+                    .filter(isAlive)
                     .collect(Collectors.toCollection(LinkedList::new));
             enemyAttackShips = contextEnemyAttackShips.stream()
-                    .filter(s -> s.getNowHp() > 0)
+                    .filter(isAlive)
                     .collect(Collectors.toCollection(LinkedList::new));
-        } else {
-            memberAttackShips = Lists.newLinkedList(DeckPortUtils.FIRST_SHELL_SHIP_ORDER.sortedCopy(contextMemberAttackShips));
-            enemyAttackShips = Lists.newLinkedList(DeckPortUtils.FIRST_SHELL_SHIP_ORDER.sortedCopy(contextEnemyAttackShips));
         }
 
-        int circulRounds = Math.max(memberAttackShips.size(), enemyAttackShips.size());
+        int round = Math.max(memberAttackShips.size(), enemyAttackShips.size());
 
-        for (int i = 0; i < circulRounds; i++) {
+        for (int i = 0; i < round; i++) {
             MemberShip attackShip = memberAttackShips.poll();
             if (ShipFilter.isAlive.test(attackShip)) {
                 context.switchToMemberContext();

@@ -70,6 +70,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     private void generateTaiSenDamageList(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
+
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
