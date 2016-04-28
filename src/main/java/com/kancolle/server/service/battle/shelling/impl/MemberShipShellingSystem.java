@@ -414,14 +414,13 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         return shipTaisen + slotTaisen + attackAugmenting;
     }
 
-
     private int attackValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
         double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
 
-    private int taiSenValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context){
+    private int taiSenValue(MemberShip attackShip, EnemyShip defendShip, BattleContext context) {
         int hougBeforeThreshold = taiSenHougThreshold(taiSenAugmentingBeforeThreshold(attackShip, context));
         double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
@@ -448,28 +447,30 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * 这里补正数值属于炮击战
      */
     public double augmentingBeforeThreshold(IShip attackShip, BattleContext context) {
+        int basicHoug = shellingBaiscHoug(attackShip);
         double augmenting = basicAugmentBeforeThreshold(attackShip, context);
 
-        if (augmenting < 0d){
+        if (augmenting < 0d) {
             augmenting = 0d;
         }
 
         // 阈值前攻击力 = 基本攻击力 * 阈值前攻击补正参数 + 轻巡炮攻击力补正
-        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting(attackShip);
+        return augmenting * basicHoug + cLGunAugmenting(attackShip);
     }
 
-    public double taiSenAugmentingBeforeThreshold(IShip attackShip, BattleContext context){
+    public double taiSenAugmentingBeforeThreshold(IShip attackShip, BattleContext context) {
+        int taisenBasicHoug = taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
         double augmenting = basicAugmentBeforeThreshold(attackShip, context);
 
         //反潜套补正
         double taisenAugmenting = taisenShellingAugmenting(attackShip);
         augmenting += taisenAugmenting;
 
-        if (augmenting < 0d){
+        if (augmenting < 0d) {
             augmenting = 0d;
         }
 
-        return augmenting * taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
+        return augmenting * taisenBasicHoug;
     }
 
     /**

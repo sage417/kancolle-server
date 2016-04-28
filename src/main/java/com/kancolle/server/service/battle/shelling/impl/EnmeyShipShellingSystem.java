@@ -314,7 +314,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
      */
     private int shellingBaiscHoug(IShip ship) {
         //TODO 联合舰队基本攻击力补正
-        //TODO 修改装备攻击力补正
+        //TODO 改修装备攻击力补正
         int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
