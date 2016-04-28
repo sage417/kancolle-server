@@ -20,8 +20,8 @@
 		UPDATE <include refid="table_name"/>
 			<set>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@MAPCELL_ID)">map_cell_id = #{state.mapCellId},</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@GET_RECOURCE)">map_get_rescource = #{state.mapGetResources},</if>
-				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@FETCH_RECOURCE)">map_fetch_rescource = #{state.mapFetchResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@GET_RESOURCE)">map_get_rescource = #{state.mapGetResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@FETCH_RESOURCE)">map_fetch_rescource = #{state.mapFetchResources},</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@BATTLE_FLAG)">battle_flag = #{state.battleFlag},</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@RESULT_FLAG)">result_flag = #{state.resultFlag},</if>
 				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@SESSION)">`session` = #{state.session},</if>
@@ -40,7 +40,7 @@
 		battle_flag,
 		result_flag,
 		`session`
-		FROM  <include refid="table_name" /> WHERE member_id = #{member_id}
+		FROM <include refid="table_name" /> WHERE member_id = #{member_id}
 	</select>
 
 	<insert id="insertMemberMapBattleState" >

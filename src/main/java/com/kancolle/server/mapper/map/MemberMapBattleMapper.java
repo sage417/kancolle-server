@@ -14,8 +14,8 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberMapBattleMapper {
 
     String MAPCELL_ID = "mapCellId";
-    String GET_RECOURCE = "getRecource";
-    String FETCH_RECOURCE = "fetchRecource";
+    String GET_RESOURCE = "getRecource";
+    String FETCH_RESOURCE = "fetchRecource";
     String BATTLE_FLAG = "battleFlag";
     String RESULT_FLAG = "resultFlag";
     String SESSION = "session";
