@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS `t_enemy_deckport` (
   `SHIP` VARCHAR(511) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,-1]',
   `LV`  VARCHAR(33) UNSIGNED NOT NULL DEFAULT '',
   `RANK`  VARCHAR(33) UNSIGNED NOT NULL DEFAULT '',
+  `MEMBER_EXP` INT(10) UNSIGNED NOT NULL DEFAULT 0,
   `BASE_EXP` INT(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`INDEX`))
 ;
@@ -856,4 +857,7 @@ CREATE  OR REPLACE  VIEW `v_member_ship` AS select `t_member_ship`.`member_id` A
 -- -----------------------------------------------------
 CREATE  OR REPLACE  VIEW `v_member_slotitem` AS select `t_member_slotitem`.`member_id` AS `member_id`,`t_member_slotitem`.`ID` AS `ID`,`t_member_slotitem`.`LEVEL` AS `LEVEL`,`t_member_slotitem`.`LOCKED` AS `LOCKED`,`t_member_slotitem`.`SLOTITEM_ID` AS `SLOTITEM_ID` from `t_member_slotitem` where (`t_member_slotitem`.`DELETED` = 0) order by `t_member_slotitem`.`member_id`,`t_member_slotitem`.`ID`;
 
-CREATE OR REPLACE VIEW `v_enemy_deckport`AS SELECT t_enemy_deckport.`INDEX`, t_enemy_deckport.MAPCELL_ID, t_enemy_deckport.`NO`, t_enemy_deckport.FORMATION, t_enemy_deckport.SHIP, t_enemy_deckport.RANK, t_enemy_deckport.LV, t_enemy_deckport.BASE_EXP, t_map_cell.DECKPORT_NAME FROM t_enemy_deckport INNER JOIN t_map_cell ON t_enemy_deckport.MAPCELL_ID = t_map_cell.ID ;
+-- -----------------------------------------------------
+-- View `v_enemy_deckport`
+-- -----------------------------------------------------
+CREATE OR REPLACE ALGORITHM = UNDEFINED DEFINER = `kancolle`@`localhost` SQL SECURITY DEFINER VIEW `kancolle`.`v_enemy_deckport` AS select `t_enemy_deckport`.`INDEX` AS `INDEX`,`t_enemy_deckport`.`MAPCELL_ID` AS `MAPCELL_ID`,`t_enemy_deckport`.`NO` AS `NO`,`t_enemy_deckport`.`FORMATION` AS `FORMATION`,`t_enemy_deckport`.`SHIP` AS `SHIP`,`t_enemy_deckport`.`RANK` AS `RANK`,`t_enemy_deckport`.`LV` AS `LV`,`t_enemy_deckport`.MEMBER_EXP AS MEMBER_EXP, `t_enemy_deckport`.`BASE_EXP` AS `BASE_EXP`,`t_map_cell`.`DECKPORT_NAME` AS `DECKPORT_NAME` from (`t_enemy_deckport` join `t_map_cell` on((`t_enemy_deckport`.`MAPCELL_ID` = `t_map_cell`.`ID`)));
