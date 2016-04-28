@@ -1,6 +1,9 @@
 package com.kancolle.server.utils.logic.battle;
 
+import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
+
+import static com.google.common.collect.Iterables.getLast;
 
 /**
  * Created by J.K.SAGE on 2016/1/17.
@@ -26,6 +29,11 @@ public abstract class BattleContextUtils {
     public static int getBattleCourse(BattleContext context) {
         int[] formationArray = getFormationArray(context);
         return formationArray[COURSE_INDEX];
+    }
+
+    public static int getCurrentAttackType(BattleContext context){
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        return getLast(hougekiResult.getApi_at_type());
     }
 
     private static int[] getFormationArray(BattleContext context) {

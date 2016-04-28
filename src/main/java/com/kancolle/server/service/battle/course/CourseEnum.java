@@ -4,6 +4,7 @@ package com.kancolle.server.service.battle.course;
  * Created by J.K.SAGE on 2016/1/10 0010.
  */
 public enum CourseEnum {
+
     SAME_COURSE(1), OPPOSITE_COURSE(2), T_COURSE_ADVANTAGE(3), T_COURSE_DISADVANTAGE(4);
 
     private final int index;
@@ -27,7 +28,7 @@ public enum CourseEnum {
             case 4:
                 return T_COURSE_DISADVANTAGE;
             default:
-                throw new IllegalArgumentException("unknow course index");
+                throw new IllegalArgumentException("unknown course index");
         }
     }
 
@@ -35,15 +36,15 @@ public enum CourseEnum {
         CourseEnum courseEnum = getCourseEnum(courseIdx);
         switch (courseEnum) {
             case SAME_COURSE:
-                return 1d;
+                return 0d;
             case OPPOSITE_COURSE:
-                return 0.8d;
+                return -0.2d;
             case T_COURSE_ADVANTAGE:
-                return 1.2d;
+                return 0.2d;
             case T_COURSE_DISADVANTAGE:
-                return 0.6d;
+                return -0.4d;
             default:
-                return 1d;
+                return 0d;
         }
     }
 }

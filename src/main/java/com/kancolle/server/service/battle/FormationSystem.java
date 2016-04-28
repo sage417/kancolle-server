@@ -18,14 +18,14 @@ public abstract class FormationSystem {
     public static double shelllingHougAugment(int formation) {
         switch (formation) {
             case FORMATION_1:
-                return 1d;
+                return 0d;
             case FORMATION_2:
-                return 0.8d;
+                return -0.2d;
             case FORMATION_3:
-                return 0.7d;
+                return -0.3d;
             case FORMATION_4:
             case FORMATION_5:
-                return 0.6d;
+                return -0.4d;
             default:
                 throw new IllegalArgumentException("formation argument error, formation id = " + formation);
         }
@@ -34,15 +34,15 @@ public abstract class FormationSystem {
     public static double taiSenHougAugment(int formation) {
         switch (formation) {
             case FORMATION_1:
-                return 0.5d;
+                return -0.5d;
             case FORMATION_2:
-                return 0.6d;
+                return -0.4d;
             case FORMATION_3:
-                return 0.8d;
+                return -0.2d;
             case FORMATION_4:
-                return 0.8d;
+                return -0.2d;
             case FORMATION_5:
-                return 1d;
+                return 0d;
             default:
                 throw new IllegalArgumentException("formation argument error, formation id = " + formation);
         }

@@ -8,7 +8,13 @@ import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.service.battle.FormationSystem;
+import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
+import com.kancolle.server.utils.logic.battle.BattleContextUtils;
+import com.kancolle.server.utils.logic.ship.ShipUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.RoundingMode;
@@ -98,10 +104,12 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     private static final double HOUK_BASE_RADIOS = 0.03d;
     /*-------------回避性能-------------*/
 
+    /* --------------回避阈值-------------- */
     protected final double houkThreshold(double shipKaihi) {
         double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
+    /* --------------回避阈值-------------- */
 
     /* ---------------火力阈值--------------*/
     protected final int daylightHougThreshold(double basicHoug) {
@@ -120,6 +128,62 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
         return DoubleMath.roundToInt(basicHoug > threshold ? threshold + Math.sqrt(basicHoug) : basicHoug, RoundingMode.DOWN);
     }
     /* ---------------火力阈值--------------*/
+
+    /* ---------------炮击火力阈值前补正-------------*/
+    protected final double basicAugmentBeforeThreshold(IShip attackShip, BattleContext context) {
+        int attackType = BattleContextUtils.getCurrentAttackType(context);
+
+        double augmenting = 1d;
+
+        //阵型补正
+        int formationIndex = BattleContextUtils.getMemberFormation(context);
+        double formationAugmenting = formationShellingAugmenting(formationIndex, attackType);
+        augmenting += formationAugmenting;
+
+        //航向补正
+        double courseAugmenting = courseShellingAugmenting(context);
+        augmenting += courseAugmenting;
+
+        //损伤补正
+        double damageAugmenting = damageShellingAugmenting(attackShip);
+        augmenting += damageAugmenting;
+        return augmenting;
+    }
+
+    protected final double courseShellingAugmenting(BattleContext context) {
+        int courseIndex = BattleContextUtils.getBattleCourse(context);
+        return CourseEnum.shelllingHougAugment(courseIndex);
+    }
+
+    protected final double damageShellingAugmenting(IShip attackShip) {
+        if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0
+            return -0.6d;
+        } else if (ShipUtils.isMidDmgStatue.test(attackShip)) {
+            // TODO 雷击战补正0.8
+            return -0.3d;
+        }
+        return 0d;
+    }
+
+    protected final double formationShellingAugmenting(int formationIndex, int attackType) {
+        if (attackType == ATTACK_TYPE_ANTISUBMARINE){
+            return FormationSystem.taiSenHougAugment(formationIndex);
+        } else {
+            return FormationSystem.shelllingHougAugment(formationIndex);
+        }
+    }
+
+    protected final double taisenShellingAugmenting(IShip attackShip){
+        List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
+        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
+        if (hasHydrophone && hasDepthCharge) {
+            return 0.15d;
+        }
+        return 0d;
+    }
+    /* ---------------炮击火力阈值前补正-------------*/
 
     protected final boolean isHit(double hitValue, double houkValue) {
         return isHit(hitValue, houkValue, 0.05d);
