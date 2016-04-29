@@ -8,6 +8,7 @@
 		<result property="no" column="NO"/>
 		<result property="deckName" column="DECKPORT_NAME"/>
 		<result property="exp" column="BASE_EXP"/>
+		<result property="memberExp" column="MEMBER_EXP"/>
 		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
 	</resultMap>
 

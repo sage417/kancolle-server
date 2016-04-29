@@ -35,6 +35,8 @@ public class EnemyDeckPort {
 
     private int exp;
 
+    private int memberExp;
+
     public int getId() {
         return id;
     }
@@ -105,6 +107,14 @@ public class EnemyDeckPort {
 
     public void setExp(int exp) {
         this.exp = exp;
+    }
+
+    public int getMemberExp() {
+        return memberExp;
+    }
+
+    public void setMemberExp(int memberExp) {
+        this.memberExp = memberExp;
     }
 
     @Override
