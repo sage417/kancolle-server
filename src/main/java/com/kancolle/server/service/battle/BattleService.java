@@ -6,6 +6,7 @@ package com.kancolle.server.service.battle;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.math.DoubleMath;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleResult.*;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -238,7 +240,9 @@ public class BattleService extends BaseService implements IBattleService {
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
-        int baseExp = enemyDeckPort.getExp();
+
+        WIN_RANK win_rank = WIN_RANK.getRank(session.getWin_rank());
+        int baseExp = DoubleMath.roundToInt(enemyDeckPort.getExp() * win_rank.aug, RoundingMode.CEILING);
         result.setGet_exp(enemyDeckPort.getMemberExp());
         result.setMvp(session.getMvp());
 
