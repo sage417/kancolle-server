@@ -305,7 +305,11 @@ public class BattleService extends BaseService implements IBattleService {
         state.setResultFlag(false);
         state.setSession(writeJson(session, EMPTY_OBJECT_JSON));
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG, SESSION);
+    }
 
+    public void updateAfterBattleResult(String member_id){
+        MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
+        updateAfterResult(battleState);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
