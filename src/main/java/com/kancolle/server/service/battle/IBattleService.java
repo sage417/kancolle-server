@@ -17,4 +17,6 @@ public interface IBattleService {
     BattleSimulationResult battle(String member_id, BattleForm form);
 
     BattleResult battleresult(String member_id);
+
+    void updateAfterBattleResult(String member_id);
 }

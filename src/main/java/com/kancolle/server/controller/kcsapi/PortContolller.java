@@ -2,7 +2,7 @@ package com.kancolle.server.controller.kcsapi;
 
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.BattleService;
+import com.kancolle.server.service.battle.IBattleService;
 import com.kancolle.server.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +18,7 @@ public class PortContolller {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private BattleService battleService;
+    private IBattleService battleService;
 
     @RequestMapping("/port")
     public APIResponse<MemberPort> port(@ModelAttribute(MEMBER_ID) String member_id) throws Exception {
