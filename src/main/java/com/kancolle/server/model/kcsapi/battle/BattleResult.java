@@ -37,35 +37,12 @@ public class BattleResult {
     public static final int EXMAP_USEITEM_ID = 57;
 
     public enum WIN_RANK {
-        SS("SS", 1.2d), S("S", 1.2d), A("A", 1d), B("B", 1d), C("C", 0.8d), D("D", 0.6d), E("E", 0.5d);
+        SS(1.2d), S(1.2d), A(1d), B(1d), C(0.8d), D(0.6d), E(0.5d);
 
-        public final String value;
         public final double aug;
 
-        WIN_RANK(String value, double aug) {
-            this.value = value;
+        WIN_RANK(double aug) {
             this.aug = aug;
-        }
-
-        public static WIN_RANK getRank(String win_rank) {
-            switch (win_rank) {
-                case "SS":
-                    return SS;
-                case "S":
-                    return S;
-                case "A":
-                    return A;
-                case "B":
-                    return B;
-                case "C":
-                    return C;
-                case "D":
-                    return D;
-                case "E":
-                    return E;
-                default:
-                    return E;
-            }
         }
     }
 

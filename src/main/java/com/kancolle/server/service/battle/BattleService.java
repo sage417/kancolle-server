@@ -212,7 +212,7 @@ public class BattleService extends BaseService implements IBattleService {
         session.setEnemy_deckport_id(enemyDeckPort.getId());
         session.setMvp(getMVP(context));
         session.setShip_id(result.getApi_ship_ke());
-        session.setWin_rank(getWinRank(context, memberShips, enemyShips).value);
+        session.setWin_rank(getWinRank(context, memberShips, enemyShips).name());
 
         updateAfterBattle(battleState, session);
 
@@ -241,7 +241,7 @@ public class BattleService extends BaseService implements IBattleService {
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
 
-        WIN_RANK win_rank = WIN_RANK.getRank(session.getWin_rank());
+        WIN_RANK win_rank = WIN_RANK.valueOf(session.getWin_rank());
         int baseExp = DoubleMath.roundToInt(enemyDeckPort.getExp() * win_rank.aug, RoundingMode.CEILING);
         result.setGet_exp(enemyDeckPort.getMemberExp());
         result.setMvp(session.getMvp());
