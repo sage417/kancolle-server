@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:cache="http://www.springframework.org/schema/cache"
-	   xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<cache:annotation-driven />
 
-	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<!-- <property name="cacheManagerName" value="springEhcache"/> -->
-		<property name="configLocation" value="classpath:ehcache/ehcache.xml" />
-		<property name="shared" value="true"/>
-	</bean>
+	<!--<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+		<!--&lt;!&ndash; <property name="cacheManagerName" value="springEhcache"/> &ndash;&gt;-->
+		<!--<property name="configLocation" value="classpath:ehcache/ehcache.xml" />-->
+		<!--<property name="shared" value="true"/>-->
+	<!--</bean>-->
 
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehcacheManager" />
-		<property name="transactionAware" value="true" />
-	</bean>
+	<!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
+		<!--<property name="cacheManager" ref="ehcacheManager" />-->
+		<!--<property name="transactionAware" value="true" />-->
+	<!--</bean>-->
 
-	<!--<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:redisOperations-ref="redisTemplate"/>-->
+	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:redisOperations-ref="redisTemplate"/>
 
-	<bean id="urlCachingFilter" class="com.kancolle.server.web.filter.UrlCacheFilter"/>
+	<!--<bean id="urlCachingFilter" class="com.kancolle.server.web.filter.UrlCacheFilter"/>-->
 </beans>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.slotitem.SlotItemDao">
 
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+	<cache type="org.mybatis.caches.redis.RedisCache">
 		<property name="eternal" value="true"/>
 		<property name="maxEntriesLocalHeap" value="300"/>
 		<property name="strategy" value="NONE"/>
