@@ -3,16 +3,15 @@
  */
 package com.kancolle.server.dao.slotitem.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author J.K.SAGE
@@ -20,7 +19,7 @@ import com.kancolle.server.model.po.slotitem.MemberSlotItem;
  *
  */
 @Repository
-public class memberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implements MemberSlotItemDao {
+public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implements MemberSlotItemDao {
 
     @Override
     public void update(MemberSlotItem t) {

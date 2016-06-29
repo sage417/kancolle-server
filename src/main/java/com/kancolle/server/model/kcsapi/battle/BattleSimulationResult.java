@@ -22,8 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
 /**
  * @author J.K.SAGE
  * @Date 2015年8月22日
@@ -158,28 +156,28 @@ public class BattleSimulationResult {
     private Object api_raigeki;
 
     private BattleSimulationResult() {
-        this.api_ship_ke = defaultIfNull(this.api_ship_ke, new int[7]);
+        this.api_ship_ke = new int[7];
         Arrays.fill(this.api_ship_ke, -1);
 
-        this.api_ship_lv = defaultIfNull(this.api_ship_lv, new int[7]);
+        this.api_ship_lv = new int[7];
         Arrays.fill(this.api_ship_lv, -1);
 
-        this.api_nowhps = defaultIfNull(this.api_nowhps, new int[13]);
+        this.api_nowhps = new int[13];
         Arrays.fill(this.api_nowhps, -1);
 
-        this.api_maxhps = defaultIfNull(this.api_maxhps, new int[13]);
+        this.api_maxhps = new int[13];
         Arrays.fill(this.api_maxhps, -1);
 
-        this.api_eSlot = defaultIfNull(this.api_eSlot, new int[6][5]);
+        this.api_eSlot = new int[6][5];
         Arrays.stream(this.api_eSlot).forEach(values -> Arrays.fill(values, -1));
 
-        this.api_eKyouka = defaultIfNull(this.api_eKyouka, new int[6][4]);
+        this.api_eKyouka = new int[6][4];
         Arrays.stream(this.api_eKyouka).forEach(values -> Arrays.fill(values, 0));
 
-        this.api_fParam = defaultIfNull(this.api_fParam, new int[6][4]);
+        this.api_fParam = new int[6][4];
         Arrays.stream(this.api_fParam).forEach(values -> Arrays.fill(values, 0));
 
-        this.api_eParam = defaultIfNull(this.api_eParam, new int[6][4]);
+        this.api_eParam = new int[6][4];
         Arrays.stream(this.api_eParam).forEach(values -> Arrays.fill(values, 0));
     }
 

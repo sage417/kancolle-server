@@ -75,7 +75,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     public void generateAttackList(MemberShip attackShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
-        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip).intValue());
+        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
     }
 
     @Override
