@@ -92,10 +92,6 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
         });
     }
 
-    protected <E> E queryForSingleModel(Class<E> clazz, String sql) {
-        return queryForSingleModel(clazz, sql);
-    }
-
     protected <E> E queryForSingleModel(Class<E> clazz, String sql, Map<String, Object> params) {
         try {
             return template.queryForObject(sql, params, (rs, rn) -> {

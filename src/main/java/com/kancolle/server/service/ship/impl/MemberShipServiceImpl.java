@@ -419,7 +419,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         MemberShip memberShip = getMemberShip(member_id, memberShipId);
         if (memberShip == null)
-            throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:{},ship_id:{}", member_id, memberShipId));
+            throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:%s,ship_id:%d", member_id, memberShipId));
 
         List<MemberSlotItem> slotItems = memberShip.getSlot();
 
@@ -431,11 +431,11 @@ public class MemberShipServiceImpl implements MemberShipService {
             MemberSlotItem memberSlotItem = memberSlotItemService.getMemberSlotItem(member_id, memberSlotItemId);
 
             if (memberSlotItem == null) {
-                throw new IllegalArgumentException(String.format("無法找到裝備,member_id:{},slotitem_id:{}", member_id, memberSlotItemId));
+                throw new IllegalArgumentException(String.format("無法找到裝備,member_id:%s,slotitem_id:%d", member_id, memberSlotItemId));
             }
 
             if (!shipService.canEquip(memberShip.getShip().getType(), memberSlotItem.getSlotItem().getType()[2]))
-                throw new IllegalArgumentException(String.format("該類型裝備艦娘無法裝備,member_ship:{},slotitem:{}", memberShip, memberSlotItem));
+                throw new IllegalArgumentException(String.format("該類型裝備艦娘無法裝備,member_ship:%s,slotitem:%s", memberShip, memberSlotItem));
 
             if (slotIndex >= slotItems.size()) {
                 slotItems.add(memberSlotItem);

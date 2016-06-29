@@ -1,11 +1,8 @@
 package com.alibaba.fastjson.support.spring;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.kancolle.server.model.response.APIResponse;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -13,15 +10,17 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.kancolle.server.model.response.APIResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 public class FastJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
     public final static Charset UTF8 = Charset.forName("UTF-8");
 
-    private final static byte[] API_PREFIX = "svdata=".getBytes();
+    private final static byte[] API_PREFIX = "svdata=".getBytes(Charset.forName("ISO-8859-1"));
 
     private Charset charset = UTF8;
 
