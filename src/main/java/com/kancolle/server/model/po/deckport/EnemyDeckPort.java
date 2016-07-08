@@ -6,6 +6,7 @@ package com.kancolle.server.model.po.deckport;
 import com.kancolle.server.model.po.ship.EnemyShip;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ import java.util.Objects;
  *
  */
 @Alias("EnemyDeckPort")
-public class EnemyDeckPort {
+public class EnemyDeckPort implements Serializable {
 
     private int id;
 
