@@ -168,6 +168,15 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
         int radarCount = slotItemInfo.getRadarCount();
         int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
+        // 主炮CI(主主+撤甲)
+        if (mainGunCount > 1 && apAmmoCount > 0) {
+            at_type_list.add(ATTACK_TYPE_MAIN);
+            si_list.add(slotItemInfo.getMainGunIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds()[1]);
+            si_list.add(slotItemInfo.getApAmmoIds()[0]);
+            return;
+        }
+
         // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
@@ -197,15 +206,6 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
             at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
             si_list.add(slotItemInfo.getMainGunIds()[0]);
             si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
-            si_list.add(slotItemInfo.getApAmmoIds()[0]);
-            return;
-        }
-
-        // 主炮CI(主主+撤甲)
-        if (mainGunCount > 1 && apAmmoCount > 0) {
-            at_type_list.add(ATTACK_TYPE_MAIN);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getMainGunIds()[1]);
             si_list.add(slotItemInfo.getApAmmoIds()[0]);
             return;
         }
