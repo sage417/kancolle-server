@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.member;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class MemberLog {
+import java.io.Serializable;
+
+public class MemberLog implements Serializable{
 
     @JSONField(ordinal = 1)
     private int api_no;

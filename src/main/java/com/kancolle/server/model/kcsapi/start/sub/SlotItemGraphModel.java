@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class SlotItemGraphModel {
+import java.io.Serializable;
+
+public class SlotItemGraphModel implements Serializable{
 
     @JSONField(ordinal = 1)
     private int api_id;

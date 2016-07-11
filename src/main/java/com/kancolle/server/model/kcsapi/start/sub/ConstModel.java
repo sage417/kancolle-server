@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class ConstModel {
+import java.io.Serializable;
+
+public class ConstModel implements Serializable{
 
     @JSONField(deserialize = false)
     private static final String STRING_KEY = "api_string_value";

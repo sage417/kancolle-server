@@ -2,8 +2,10 @@ package com.kancolle.server.model.po.duty;
 
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 @Alias("DutyBonus")
-public class DutyBonus {
+public class DutyBonus implements Serializable{
 
     private String dutyBonusId;
 

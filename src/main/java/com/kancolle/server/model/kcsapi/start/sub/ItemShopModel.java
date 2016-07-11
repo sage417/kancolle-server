@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class ItemShopModel {
+import java.io.Serializable;
+
+public class ItemShopModel implements Serializable{
 
     @JSONField(ordinal = 1)
     private JSONArray api_cabinet_1;

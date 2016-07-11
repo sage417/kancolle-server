@@ -8,8 +8,10 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.dao.annotation.Column;
 
+import java.io.Serializable;
+
 @JSONType(serialzeFeatures = SerializerFeature.WriteMapNullValue)
-public class MapInfoModel {
+public class MapInfoModel implements Serializable{
 
     @JSONField(ordinal = 1)
     private int api_id;

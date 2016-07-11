@@ -93,6 +93,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         boolean success = true;
 
+        assert targetSlotItem != null;
         ResourceValue broken = targetSlotItem.getBroken();
 
         do {

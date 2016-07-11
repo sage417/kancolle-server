@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class FurnitureGraphModel {
+import java.io.Serializable;
+
+public class FurnitureGraphModel implements Serializable{
 
     @JSONField(ordinal = 1)
     private int api_id;

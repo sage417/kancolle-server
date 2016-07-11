@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.dao.annotation.Column;
 
-public class MapBgmModel {
+import java.io.Serializable;
+
+public class MapBgmModel implements Serializable{
 
     @JSONField(ordinal = 1)
     private int api_id;
