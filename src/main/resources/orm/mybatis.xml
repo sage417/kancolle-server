@@ -38,7 +38,7 @@
 		<!-- 指定日志实现 -->
 		<setting name="logImpl" value="SLF4J" />
 		<!-- 指定使用cglib代理，3.3.0的javaasist在json序列化时会发生问题 -->
-		<setting name="proxyFactory" value="CGLIB" />
+		<!--<setting name="proxyFactory" value="CGLIB" />-->
 	</settings>
 
 	<typeAliases>
