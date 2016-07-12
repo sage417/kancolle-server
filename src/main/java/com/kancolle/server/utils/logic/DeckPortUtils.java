@@ -70,7 +70,7 @@ public abstract class DeckPortUtils {
         }
         int needValue = 0;
         for (MemberShip ship : ships) {
-            needValue += getShipSearchNeedValue(ship.getShip().getType().getShipTypeId());
+            needValue += getShipSearchNeedValue(ship.getShip().getShipTypeId());
         }
         return needValue / ships.size();
     }
