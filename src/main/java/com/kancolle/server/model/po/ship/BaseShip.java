@@ -42,7 +42,7 @@ public class BaseShip implements Serializable {
     @JsonView(View.BaseShip.class)
     @JsonProperty("api_stype")
     @JSONField(ordinal = 5, name = "api_stype")
-    private Integer shipTypeId;
+    private int shipTypeId;
 
     @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
@@ -84,11 +84,11 @@ public class BaseShip implements Serializable {
         this.yomi = yomi;
     }
 
-    public Integer getShipTypeId() {
+    public int getShipTypeId() {
         return shipTypeId;
     }
 
-    public void setShipTypeId(Integer shipTypeId) {
+    public void setShipTypeId(int shipTypeId) {
         this.shipTypeId = shipTypeId;
     }
 
