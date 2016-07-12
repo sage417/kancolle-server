@@ -10,6 +10,7 @@
 
 	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
+		<result property="shipTypeId" column="TYPE" />
 		<result property="soltNum" column="SLOTNUM" />
 		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 	</resultMap>

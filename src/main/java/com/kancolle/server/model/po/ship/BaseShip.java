@@ -44,13 +44,6 @@ public class BaseShip implements Serializable {
     @JSONField(ordinal = 5, name = "api_stype")
     private Integer shipTypeId;
 
-    public Integer getShipTypeId() {
-        if (this.shipTypeId == null){
-            this.shipTypeId = getType().getShipTypeId();
-        }
-        return this.shipTypeId;
-    }
-
     @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private ShipType type;
@@ -89,6 +82,14 @@ public class BaseShip implements Serializable {
 
     public void setYomi(String yomi) {
         this.yomi = yomi;
+    }
+
+    public Integer getShipTypeId() {
+        return shipTypeId;
+    }
+
+    public void setShipTypeId(Integer shipTypeId) {
+        this.shipTypeId = shipTypeId;
     }
 
     public ShipType getType() {
