@@ -7,7 +7,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.member.MemberNDockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.Assert;
@@ -56,7 +56,7 @@ public class ReqKousyouControllerTest {
     private MemberShipService memberShipService;
 
     @Autowired
-    private MemberNdockService memberNdockService;
+    private MemberNDockService memberNDockService;
 
     @Autowired
     DruidDataSource dataSource;
@@ -110,9 +110,9 @@ public class ReqKousyouControllerTest {
         form.setApi_ndock_id(ndock_id);
         form.setApi_ship_id(memberShip.getMemberShipId());
         form.setApi_highspeed(0);
-        memberNdockService.start(member_id, form);
+        memberNDockService.start(member_id, form);
 
-        MemberNdock ndock = memberNdockService.getMemberNdockByCond(member_id, ndock_id);
+        MemberNdock ndock = memberNDockService.getMemberNdockByCond(member_id, ndock_id);
         Assert.assertEquals(MemberNdock.STATE_USING, ndock.getState());
         Assert.assertEquals(member_ship_id.longValue(), ndock.getMemberShipId());
 

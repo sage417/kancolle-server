@@ -8,7 +8,7 @@ import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.dao.member.MemberNdockDao;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.member.MemberNDockService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.DateUtils;
@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkState;
  *
  */
 @Service
-public class MemberNdockServiceImpl implements MemberNdockService {
+public class MemberNdockServiceImpl implements MemberNDockService {
 
     @Autowired
     private MemberNdockDao memberNdockDao;

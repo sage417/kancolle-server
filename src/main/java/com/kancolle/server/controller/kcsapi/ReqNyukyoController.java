@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.member.MemberNDockService;
 
 /**
  * @author J.K.SAGE
@@ -27,18 +27,18 @@ import com.kancolle.server.service.member.MemberNdockService;
 public class ReqNyukyoController {
 
     @Autowired
-    private MemberNdockService memberNdockService;
+    private MemberNDockService memberNDockService;
 
     @RequestMapping("/start")
     public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) String member_id, NdockStartForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
-        memberNdockService.start(member_id, form);
+        memberNDockService.start(member_id, form);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/speedchange")
     public APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) String member_id, int api_ndock_id) {
-        memberNdockService.speedChange(member_id, api_ndock_id);
+        memberNDockService.speedChange(member_id, api_ndock_id);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 }

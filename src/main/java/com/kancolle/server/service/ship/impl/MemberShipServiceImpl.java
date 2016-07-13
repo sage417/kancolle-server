@@ -15,20 +15,20 @@ import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
-import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
+import com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberNdock;
-import com.kancolle.server.model.po.resource.MemberRescourceResult;
+import com.kancolle.server.model.po.resource.MemberResourceResult;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
-import com.kancolle.server.service.member.MemberNdockService;
+import com.kancolle.server.service.member.MemberNDockService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -56,8 +56,8 @@ import java.util.stream.Collectors;
 import static com.google.common.base.Preconditions.*;
 import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_BULL;
 import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_FUEL;
-import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_FAILED;
-import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult.RESULT_SUCCESS;
+import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_FAILED;
+import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
 
 /**
@@ -89,7 +89,7 @@ public class MemberShipServiceImpl implements MemberShipService {
     private MemberDeckPortService memberDeckPortService;
 
     @Autowired
-    private MemberNdockService memberNdockService;
+    private MemberNDockService memberNDockService;
 
     @Autowired
     private EventBus eventBus;
@@ -143,30 +143,30 @@ public class MemberShipServiceImpl implements MemberShipService {
     }
 
     @Override
-    public void destoryShips(String member_id, List<MemberShip> destoryShips) {
-        long[] InNdockshipIds = memberNdockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
+    public void destroyShips(String member_id, List<MemberShip> destoryShips) {
+        long[] InNdockshipIds = memberNDockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
 
-        for (MemberShip destoryShip : destoryShips) {
-            if (destoryShip == null) {
+        for (MemberShip destroyShip : destoryShips) {
+            if (destroyShip == null) {
                 throw new IllegalArgumentException();
             }
-            long destoryShipId = destoryShip.getMemberShipId();
-            MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, destoryShipId);
+            long destroyShipId = destroyShip.getMemberShipId();
+            MemberDeckPort deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, destroyShipId);
 
-            if (deckport != null) {
-                if (deckport.getDeckId() == 1 && deckport.getShip()[0] == destoryShipId)
+            if (deckPort != null) {
+                if (deckPort.getDeckId() == 1 && deckPort.getShip()[0] == destroyShipId)
                     throw new IllegalStateException("不能解體旗艦");
-                if (deckport.getMemberId() > 0)
+                if (deckPort.getMemberId() > 0)
                     throw new IllegalStateException("不能解体远征舰队中的舰娘");
             }
 
-            if (ArrayUtils.contains(InNdockshipIds, destoryShipId))
+            if (ArrayUtils.contains(InNdockshipIds, destroyShipId))
                 throw new IllegalStateException("不能解体入渠中的舰娘");
 
-            if (destoryShip.isLocked())
+            if (destroyShip.isLocked())
                 throw new IllegalStateException("不能解体上锁的舰娘");
 
-            if (destoryShip.isLockedEquip())
+            if (destroyShip.isLockedEquip())
                 throw new IllegalStateException("不能解体拥有上锁装备的舰娘");
         }
         List<Long> member_ship_ids = destoryShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
@@ -175,18 +175,18 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberRescourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id) {
+    public MemberResourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id) {
         MemberShip memberShip = getMemberShip(member_id, member_ship_id);
         if (memberShip == null) {
             throw new IllegalArgumentException();
         }
 
-        destoryShips(member_id, Collections.singletonList(memberShip));
+        destroyShips(member_id, Collections.singletonList(memberShip));
 
         memberResourceService.increaseMaterial(member_id, memberShip.getShip().getBrokenArray());
         Resource memberResource = memberResourceService.getMemberResouce(member_id);
 
-        return new MemberRescourceResult(memberResource);
+        return new MemberResourceResult(memberResource);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         if (memberShip == null) {
             throw new IllegalArgumentException();
         }
-        Boolean lock = Boolean.valueOf(!memberShip.isLocked());
+        Boolean lock = !memberShip.isLocked();
         memberShipDao.updateMemberShipLockStatue(member_id, member_ship_id, lock);
         return new MemberShipLockResult(lock);
     }
@@ -293,7 +293,7 @@ public class MemberShipServiceImpl implements MemberShipService {
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form) {
+    public MemberShipPowerUpResult powerUp(String member_id, ShipPowerUpForm form) {
         Long target_ship_id = form.getApi_id();
         List<Long> powup_ship_ids = form.getApi_id_items();
 
@@ -305,79 +305,79 @@ public class MemberShipServiceImpl implements MemberShipService {
 
         // TODO 合成舰娘不能在入渠状态
         // TODO 合成舰娘不能在远征状态
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
+        MemberDeckPort deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
 
         int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
 
-        int[] powupArray = new int[]{0, 0, 0, 0};
-        float powupLuck = 0f;
+        int[] powUpArray = new int[]{0, 0, 0, 0};
+        float powUpLuck = 0f;
 
-        List<MemberShip> powupShips = Lists.newArrayListWithCapacity(powup_ship_ids.size());
+        List<MemberShip> powUpShips = Lists.newArrayListWithCapacity(powup_ship_ids.size());
 
         for (Long powup_ship_id : powup_ship_ids) {
-            MemberShip powupShip = getMemberShip(member_id, powup_ship_id);
-            if (powupShip == null) {
+            MemberShip powUpShip = getMemberShip(member_id, powup_ship_id);
+            if (powUpShip == null) {
                 LOGGER.warn("用户ID:{} 获取不存在的舰娘{}", member_id, target_ship_id);
                 throw new IllegalArgumentException();
             }
-            if (powupShip.isLocked() || powupShip.isLockedEquip()) {
+            if (powUpShip.isLocked() || powUpShip.isLockedEquip()) {
                 LOGGER.warn("用户ID:{} 请求解体上锁的舰娘{}", member_id, target_ship_id);
                 throw new IllegalStateException();
             }
-            powupShips.add(powupShip);
+            powUpShips.add(powUpShip);
 
             // -----------如果在舰队中则退出舰队-------------//
 
-            deckport = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, powup_ship_id);
+            deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, powup_ship_id);
             // 如果合成舰娘在舰队中
-            if (deckport != null) {
-                if (deckport.getMission()[0] != 0)
+            if (deckPort != null) {
+                if (deckPort.getMission()[0] != 0)
                     throw new IllegalStateException();
-                memberDeckPortService.removeDeckPortShips(deckport, Collections.singletonList(powupShip));
+                memberDeckPortService.removeDeckPortShips(deckPort, Collections.singletonList(powUpShip));
             }
 
             // -----------如果在舰队中则退出舰队-------------//
 
             // -----------解除装备并解体装备-------------//
-            if (!powupShip.getSlot().isEmpty()) {
-                List<MemberSlotItem> removeSlotitems = unSetAllSlotItems(powupShip);
+            if (!powUpShip.getSlot().isEmpty()) {
+                List<MemberSlotItem> removeSlotitems = unSetAllSlotItems(powUpShip);
                 memberSlotItemService.destorySlotitems(member_id, removeSlotitems);
             }
             // -----------解除装备并解体装备-------------//
 
-            int[] shippowup = powupShip.getShip().getPowUpArray();
-            for (int i = 0; i < shippowup.length; i++) {
-                powupArray[i] += shippowup[i];
+            int[] shippowUp = powUpShip.getShip().getPowUpArray();
+            for (int i = 0; i < shippowUp.length; i++) {
+                powUpArray[i] += shippowUp[i];
             }
 
             // ------------增加运------------//
-            if (powupShip.getShip().getShipId() == 163) {
-                powupLuck += 1.2f;
-            } else if (powupShip.getShip().getShipId() == 402) {
-                powupLuck += 1.6f;
+            if (powUpShip.getShip().getShipId() == 163) {
+                powUpLuck += 1.2f;
+            } else if (powUpShip.getShip().getShipId() == 402) {
+                powUpLuck += 1.6f;
             }
             // ------------增加运------------//
         }
 
         boolean powUpResult = false;
 
-        for (int i = 0; i < powupArray.length; i++) {
-            if (powupArray[i] > 0) {
+        for (int i = 0; i < powUpArray.length; i++) {
+            if (powUpArray[i] > 0) {
                 // 奖励补正
-                powupArray[i] += (powupArray[i] + 1) / 5;
+                powUpArray[i] += (powUpArray[i] + 1) / 5;
                 // 随机补正
-                powupArray[i] /= RandomUtils.nextInt(1, 3);
+                powUpArray[i] /= RandomUtils.nextInt(1, 3);
                 // 最大值补正
-                if (powupArray[i] > 0) {
+                if (powUpArray[i] > 0) {
                     powUpResult = true;
-                    targetShip.getKyouka()[i] = targetShip.getKyouka()[i] + powupArray[i];
+                    targetShip.getKyouka()[i] = targetShip.getKyouka()[i] + powUpArray[i];
                     if (targetShip.getKyouka()[i] > powUpMaxArray[i])
                         targetShip.getKyouka()[i] = powUpMaxArray[i];
                 }
             }
         }
 
-        int addLuck = (int) powupLuck;
+        int addLuck = (int) powUpLuck;
 
         if (addLuck > 0) {
             if (addLuck < 8)
@@ -394,11 +394,11 @@ public class MemberShipServiceImpl implements MemberShipService {
         }
         updateShipProperties(targetShip);
 
-        destoryShips(member_id, powupShips);
+        destroyShips(member_id, powUpShips);
 
         eventBus.post(new PowUpEvent(member_id));
 
-        return new MemberShipPowerupResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, targetShip, memberDeckPortService.getMemberDeckPorts(member_id));
+        return new MemberShipPowerUpResult(powUpResult ? RESULT_SUCCESS : RESULT_FAILED, targetShip, memberDeckPortService.getMemberDeckPorts(member_id));
     }
 
     /**
@@ -459,7 +459,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void unsetslotAll(String member_id, Long memberShip_id) {
+    public void unSetSlotsAll(String member_id, Long memberShip_id) {
         MemberShip memberShip = getMemberShip(member_id, memberShip_id);
         if (memberShip == null) {
             LOGGER.warn("用户ID{}查询不存在的舰娘{}", member_id, memberShip_id);

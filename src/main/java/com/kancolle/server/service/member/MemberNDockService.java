@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 2015年6月22日
  *
  */
-public interface MemberNdockService {
+public interface MemberNDockService {
 
     List<MemberNdock> getMemberNdocks(String member_id);
 

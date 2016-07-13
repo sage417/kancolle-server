@@ -9,7 +9,7 @@ import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
 import com.kancolle.server.model.kcsapi.slotitem.CreateItemResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemDestoryResult;
 import com.kancolle.server.model.po.member.MemberKdock;
-import com.kancolle.server.model.po.resource.MemberRescourceResult;
+import com.kancolle.server.model.po.resource.MemberResourceResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.member.MemberKdockService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -62,9 +62,9 @@ public class ReqKousyouController {
     }
 
     @RequestMapping("/destroyship")
-    public APIResponse<MemberRescourceResult> destroyShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_ship_id", required = true) Long member_ship_id) {
-        MemberRescourceResult api_data = memberShipService.destroyShipAndReturnResource(member_id, member_ship_id);
-        return new APIResponse<MemberRescourceResult>().setApi_data(api_data);
+    public APIResponse<MemberResourceResult> destroyShip(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_ship_id", required = true) Long member_ship_id) {
+        MemberResourceResult api_data = memberShipService.destroyShipAndReturnResource(member_id, member_ship_id);
+        return new APIResponse<MemberResourceResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/createitem")

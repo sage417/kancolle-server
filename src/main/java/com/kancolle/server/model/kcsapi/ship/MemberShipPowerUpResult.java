@@ -14,7 +14,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
  * @Date 2015年7月3日
  *
  */
-public class MemberShipPowerupResult {
+public class MemberShipPowerUpResult {
     public static final int RESULT_SUCCESS = 1;
     public static final int RESULT_FAILED = 0;
 
@@ -27,7 +27,7 @@ public class MemberShipPowerupResult {
     @JSONField(ordinal = 3)
     private List<MemberDeckPort> api_deck;
 
-    public MemberShipPowerupResult(int success, MemberShip memberShip, List<MemberDeckPort> memberDeckPorts) {
+    public MemberShipPowerUpResult(int success, MemberShip memberShip, List<MemberDeckPort> memberDeckPorts) {
         this.api_powerup_flag = success;
         this.api_ship = memberShip;
         this.api_deck = memberDeckPorts;

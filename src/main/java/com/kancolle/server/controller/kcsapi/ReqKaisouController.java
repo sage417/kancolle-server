@@ -5,7 +5,7 @@ package com.kancolle.server.controller.kcsapi;
 
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
-import com.kancolle.server.model.kcsapi.ship.MemberShipPowerupResult;
+import com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult;
 import com.kancolle.server.model.kcsapi.slotitem.MemberSlotItemLockResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -42,7 +42,7 @@ public class ReqKaisouController {
 
     @RequestMapping("/unsetslot_all")
     public APIResponse<Object> unsetslotAll(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_id", required = true) long memberShip_id) {
-        memberShipService.unsetslotAll(member_id, memberShip_id);
+        memberShipService.unSetSlotsAll(member_id, memberShip_id);
         return new APIResponse<Object>();
     }
 
@@ -53,9 +53,9 @@ public class ReqKaisouController {
     }
 
     @RequestMapping("/powerup")
-    public APIResponse<MemberShipPowerupResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipPowerUpForm form, BindingResult result) {
+    public APIResponse<MemberShipPowerUpResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipPowerUpForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
-        MemberShipPowerupResult api_data = memberShipService.powerup(member_id, form);
-        return new APIResponse<MemberShipPowerupResult>().setApi_data(api_data);
+        MemberShipPowerUpResult api_data = memberShipService.powerUp(member_id, form);
+        return new APIResponse<MemberShipPowerUpResult>().setApi_data(api_data);
     }
 }
