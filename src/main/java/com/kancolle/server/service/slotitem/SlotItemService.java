@@ -21,6 +21,6 @@ public interface SlotItemService {
 
     List<SlotItem> getSlotItemsCanDevelop(Integer integer);
 
-    List<Integer> getSllotItemTypeCanDevelop(ShipType type);
+    List<Integer> getSlotItemTypeCanDevelop(ShipType type);
 
 }

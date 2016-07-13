@@ -41,7 +41,7 @@ public class SlotItemServiceImpl implements SlotItemService {
     }
 
     @Override
-    public List<Integer> getSllotItemTypeCanDevelop(ShipType type) {
+    public List<Integer> getSlotItemTypeCanDevelop(ShipType type) {
         List<Integer> types = Lists.newArrayList();
         for (Entry<String, Object> entry : type.getEquipTypes().entrySet()) {
             Integer slotItemType = Integer.valueOf(entry.getKey());

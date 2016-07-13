@@ -340,7 +340,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
             // -----------解除装备并解体装备-------------//
             if (!powupShip.getSlot().isEmpty()) {
-                List<MemberSlotItem> removeSlotitems = unsetAllSlotitems(powupShip);
+                List<MemberSlotItem> removeSlotitems = unSetAllSlotItems(powupShip);
                 memberSlotItemService.destorySlotitems(member_id, removeSlotitems);
             }
             // -----------解除装备并解体装备-------------//
@@ -450,7 +450,7 @@ public class MemberShipServiceImpl implements MemberShipService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip) {
+    public List<MemberSlotItem> unSetAllSlotItems(MemberShip memberShip) {
         List<MemberSlotItem> removeSlots = ImmutableList.copyOf(memberShip.getSlot());
         memberShip.getSlot().removeAll(removeSlots);
         memberShipDao.removeSlot(memberShip, removeSlots);
@@ -465,7 +465,7 @@ public class MemberShipServiceImpl implements MemberShipService {
             LOGGER.warn("用户ID{}查询不存在的舰娘{}", member_id, memberShip_id);
             throw new IllegalArgumentException();
         }
-        unsetAllSlotitems(memberShip);
+        unSetAllSlotItems(memberShip);
         updateShipProperties(memberShip);
     }
 

@@ -78,7 +78,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         SlotItem targetSlotItem = null;
 
-        List<Integer> slotItemTypes = slotItemService.getSllotItemTypeCanDevelop(leaderShip.getShip().getType());
+        List<Integer> slotItemTypes = slotItemService.getSlotItemTypeCanDevelop(leaderShip.getShip().getType());
         List<SlotItem> slotItems = slotItemService.getSlotItemsCanDevelop(CollectionsUtils.randomGet(slotItemTypes));
         int rare_count = slotItems.stream().mapToInt(slot -> 6 - slot.getRare()).sum();
         int randomValue = RandomUtils.nextInt(0, rare_count);

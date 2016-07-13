@@ -102,7 +102,7 @@ public class ReqKousyouControllerTest {
         MemberShip memberShip = memberShipService.getMemberShip(member_id, member_ship_id);
         memberShip.setNowHp(1);
         memberShipService.updateHpAndCond(memberShip);
-        memberShipService.unsetAllSlotitems(memberShip);
+        memberShipService.unSetAllSlotItems(memberShip);
         // 解锁
         memberShipService.lock(member_id, member_ship_id);
 

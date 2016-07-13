@@ -46,7 +46,7 @@ public class ShipPictureBook implements Serializable{
 
     @JSONField(ordinal = 6, name = "api_stype")
     public int getShipType() {
-        return getShip().getType().getShipTypeId();
+        return getShip().getShipTypeId();
     }
 
     @JSONField(ordinal = 7, name = "api_ctype")
