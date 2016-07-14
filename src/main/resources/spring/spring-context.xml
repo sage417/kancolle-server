@@ -8,5 +8,5 @@
 	<import resource="classpath:spring/db-context.xml" />
 	<import resource="classpath:spring/service-context.xml" />
 	<import resource="classpath:spring/spring-cache.xml" />
-	<import resource="classpath:spring/spring-redis.xml" />
+	<!--<import resource="classpath:spring/spring-redis.xml" />-->
 </beans>

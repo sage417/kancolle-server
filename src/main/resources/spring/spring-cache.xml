@@ -9,18 +9,18 @@
 
 	<cache:annotation-driven />
 
-	<!--<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
-		<!--&lt;!&ndash; <property name="cacheManagerName" value="springEhcache"/> &ndash;&gt;-->
-		<!--<property name="configLocation" value="classpath:ehcache/ehcache.xml" />-->
-		<!--<property name="shared" value="true"/>-->
-	<!--</bean>-->
+	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<!-- <property name="cacheManagerName" value="springEhcache"/> -->
+		<property name="configLocation" value="classpath:ehcache/ehcache.xml" />
+		<property name="shared" value="true"/>
+	</bean>
 
-	<!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
-		<!--<property name="cacheManager" ref="ehcacheManager" />-->
-		<!--<property name="transactionAware" value="true" />-->
-	<!--</bean>-->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcacheManager" />
+		<property name="transactionAware" value="true" />
+	</bean>
 
-	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:redisOperations-ref="redisTemplate"/>
+	<!--<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:redisOperations-ref="redisTemplate"/>-->
 
-	<!--<bean id="urlCachingFilter" class="com.kancolle.server.web.filter.UrlCacheFilter"/>-->
+	<bean id="urlCachingFilter" class="com.kancolle.server.web.filter.UrlCacheFilter"/>
 </beans>
