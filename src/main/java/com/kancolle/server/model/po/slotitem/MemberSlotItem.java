@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.slotitem;
 
@@ -12,7 +12,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * @author J.K.SAGE
  * @Date 2015年5月31日
- *
  */
 @Alias("MemberSlotItem")
 public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
@@ -26,9 +25,7 @@ public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Seria
     private long memberSlotItemId;
 
     @JSONField(ordinal = 2, name = "api_slotitem_id")
-    public int returnSlotItemId() {
-        return getSlotItem().getSlotItemId();
-    }
+    private int slotItemId;
 
     @JSONField(ordinal = 3, name = "api_locked")
     private boolean locked;
@@ -44,6 +41,15 @@ public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Seria
         this.memberId = memberId;
     }
 
+    @Override
+    public int getSlotItemId() {
+        return slotItemId;
+    }
+
+    public void setSlotItemId(int slotItemId) {
+        this.slotItemId = slotItemId;
+    }
+
     public long getMemberSlotItemId() {
         return memberSlotItemId;
     }
@@ -52,7 +58,7 @@ public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Seria
         this.memberSlotItemId = memberSlotItemId;
     }
 
-    public boolean getLocked() {
+    public boolean isLocked() {
         return locked;
     }
 
