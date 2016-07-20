@@ -18,6 +18,7 @@
 	<resultMap type="Ship" id="ShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
 		<result property="afterLv" column="AFTERLV" />
+		<result property="afterShipId" column="AFTERSHIPID"/>
 		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler" />
 		<result property="souk" column="SOUK" typeHandler="MaxMinValueHandler" />
 		<result property="houg" column="HOUG" typeHandler="MaxMinValueHandler" />

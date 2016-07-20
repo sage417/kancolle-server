@@ -48,9 +48,7 @@ public class Ship extends BaseShip implements Serializable {
     @JsonView(View.Ship.class)
     @JsonProperty(value = "api_aftershipid", index = 7)
     @JSONField(ordinal = 7, name = "api_aftershipid")
-    public String getAfterShipId() {
-        return afterShip == null ? "0" : Integer.toString(afterShip.getShipId());
-    }
+    public String afterShipId;
 
     /**
      * 耐久
@@ -270,6 +268,14 @@ public class Ship extends BaseShip implements Serializable {
 
     public void setAfterShip(Ship afterShip) {
         this.afterShip = afterShip;
+    }
+
+    public String getAfterShipId() {
+        return afterShipId;
+    }
+
+    public void setAfterShipId(String afterShipId) {
+        this.afterShipId = afterShipId;
     }
 
     public MaxMinValue getTaik() {
