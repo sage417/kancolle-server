@@ -19,7 +19,7 @@ import java.io.Serializable;
  *
  */
 @Alias("BaseShip")
-@JsonPropertyOrder({"shipId", "name", "yomi", "soku", "soltNum"})
+@JsonPropertyOrder({"shipId", "name", "yomi", "soku", "slotNum"})
 public class BaseShip implements Serializable {
 
     private static final long serialVersionUID = -7322805228630342223L;
@@ -58,7 +58,7 @@ public class BaseShip implements Serializable {
     @JsonView(View.BaseShip.class)
     @JsonProperty("api_slot_num")
     @JSONField(ordinal = 16, name = "api_slot_num")
-    private int soltNum;
+    private int slotNum;
 
     public int getShipId() {
         return shipId;
@@ -108,12 +108,12 @@ public class BaseShip implements Serializable {
         this.soku = soku;
     }
 
-    public int getSoltNum() {
-        return soltNum;
+    public int getSlotNum() {
+        return slotNum;
     }
 
-    public void setSoltNum(int soltNum) {
-        this.soltNum = soltNum;
+    public void setSlotNum(int slotNum) {
+        this.slotNum = slotNum;
     }
 
     @Override

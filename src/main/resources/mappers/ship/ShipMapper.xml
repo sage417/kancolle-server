@@ -11,7 +11,7 @@
 	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
 		<result property="shipTypeId" column="TYPE" />
-		<result property="soltNum" column="SLOTNUM" />
+		<result property="slotNum" column="SLOTNUM" />
 		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 	</resultMap>
 
@@ -28,7 +28,7 @@
 		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
 		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
-		<result property="soltNum" column="SLOTNUM" />
+		<result property="slotNum" column="SLOTNUM" />
 		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHandler" />
 		<result property="buildTime" column="BUILDTIME" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />

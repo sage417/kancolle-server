@@ -129,7 +129,7 @@ public class MemberShip implements IShip, Serializable {
 
     @JSONField(ordinal = 15, name = "api_slotnum")
     public int returnslotNum() {
-        return getShip().getSoltNum();
+        return getShip().getSlotNum();
     }
 
     @JSONField(ordinal = 18, name = "api_srate")
