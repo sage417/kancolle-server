@@ -20,5 +20,21 @@ public class PortMember extends Member {
         this.api_large_dock = api_large_dock;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Member member = (Member) o;
+
+        return getMemberId() == member.getMemberId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getMemberId() ^ (getMemberId() >>> 32));
+    }
+
 
 }
