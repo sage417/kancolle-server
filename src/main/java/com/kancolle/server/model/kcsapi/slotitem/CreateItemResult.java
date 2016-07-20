@@ -50,7 +50,7 @@ public class CreateItemResult {
         this(memberResource);
         this.api_create_flag = api_create_flag;
         this.api_shizai_flag = api_shizai_flag;
-        this.api_slot_item = new CreateItem(memberSlotItem.getMemberSlotItemId(), memberSlotItem.returnSlotItemId());
+        this.api_slot_item = new CreateItem(memberSlotItem.getMemberSlotItemId(), memberSlotItem.getSlotItemId());
         this.api_type3 = api_type3;
         this.api_unsetslot = api_unsetslot;
     }

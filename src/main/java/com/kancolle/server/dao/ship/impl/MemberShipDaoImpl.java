@@ -75,7 +75,7 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
 
         int memberShipLength = Math.max(slotLength, memberShip.getShip().getLeng());
 
-        boolean lockedEquip = slotItems.stream().anyMatch(MemberSlotItem::getLocked);
+        boolean lockedEquip = slotItems.stream().anyMatch(MemberSlotItem::isLocked);
 
         while (slot.size() < MemberShip.SLOT_SIZE_MAX) {
             slot.add(-1L);

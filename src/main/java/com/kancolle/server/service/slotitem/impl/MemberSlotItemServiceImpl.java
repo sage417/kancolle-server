@@ -178,7 +178,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
-        boolean allMatch = removeSlotitems.stream().allMatch(slotItem -> slotItem != null && !slotItem.getLocked());
+        boolean allMatch = removeSlotitems.stream().allMatch(slotItem -> slotItem != null && !slotItem.isLocked());
         checkArgument(allMatch, "装备不符合移除条件");
         List<Long> slotitem_ids = removeSlotitems.stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
         memberSlotItemDao.delete(member_id, slotitem_ids);
@@ -199,7 +199,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         for (Long slotitem_id : slotitem_ids) {
             MemberSlotItem slotitem = getMemberSlotItem(member_id, slotitem_id);
-            checkState(slotitem != null && unSlots.contains(slotitem) && !slotitem.getLocked());
+            checkState(slotitem != null && unSlots.contains(slotitem) && !slotitem.isLocked());
             IntArrayUtils.intsArraySum(returnMaterials, slotitem.getSlotItem().getBrokenArray());
         }
         memberSlotItemDao.delete(member_id, slotitem_ids);
@@ -246,7 +246,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
         checkNotNull(memberSlotItem, "用户ID:%s请求不存在的装备ID:%s", member_id, slotitem_id);
 
-        Boolean lock = Boolean.valueOf(!memberSlotItem.getLocked());
+        Boolean lock = Boolean.valueOf(!memberSlotItem.isLocked());
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
         return new MemberSlotItemLockResult(lock.booleanValue());
     }
