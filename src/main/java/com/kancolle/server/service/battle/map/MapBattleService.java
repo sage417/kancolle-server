@@ -87,12 +87,11 @@ public class MapBattleService{
 
         MemberDeckPort deckPort = state.getMemberDeckPort();
 
-        updateMemberMapCellInfo(member_id, mapCellId);
-
         MapNextResult result = traveller.next(deckPort);
 
         int nextMapCellId = traveller.getCurrentMapCell().getMapCellId();
 
+        updateMemberMapCellInfo(member_id, nextMapCellId);
         state.setMapCellId(nextMapCellId);
         memberMapBattleMapper.update(state, MAPCELL_ID);
 
