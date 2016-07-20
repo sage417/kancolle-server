@@ -15,7 +15,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 @Alias("MemberSlotItem")
-public class MemberSlotItem extends AbstractSlotItem implements Serializable {
+public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 
     private static final long serialVersionUID = -7169523354675835935L;
 

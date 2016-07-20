@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.slotitem;
 
@@ -8,9 +8,8 @@ import com.kancolle.server.model.po.common.ResourceValue;
 /**
  * @author J.K.SAGE
  * @Date 2015年10月2日
- *
  */
-public abstract class AbstractSlotItem {
+public abstract class AbstractSlotItem implements ISlotItem {
 
     public static final int TYPE_HYDROPHONE = 14;
     public static final int TYPE_DEPTHCHARGE = 15;
@@ -23,38 +22,6 @@ public abstract class AbstractSlotItem {
 
     public void setSlotItem(SlotItem slotItem) {
         this.slotItem = slotItem;
-    }
-
-    public abstract int getTaiSen();
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getSlotItem() == null) ? 0 : getSlotItem().hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AbstractSlotItem other = (AbstractSlotItem) obj;
-        if (getSlotItem() == null) {
-            if (other.getSlotItem() != null)
-                return false;
-        } else if (!getSlotItem().equals(other.getSlotItem()))
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("AbstractSlotItem [slotItem=%s]", getSlotItem());
     }
 
     public int[] getBrokenArray() {
@@ -163,6 +130,36 @@ public abstract class AbstractSlotItem {
 
     public String getUseBull() {
         return getSlotItem().getUseBull();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getSlotItem() == null) ? 0 : getSlotItem().hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractSlotItem other = (AbstractSlotItem) obj;
+        if (getSlotItem() == null) {
+            if (other.getSlotItem() != null)
+                return false;
+        } else if (!getSlotItem().equals(other.getSlotItem()))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("AbstractSlotItem [slotItem=%s]", getSlotItem());
     }
 
 }

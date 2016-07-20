@@ -13,7 +13,7 @@ import org.apache.ibatis.type.Alias;
  *
  */
 @Alias("EnemySlotItem")
-public class EnemySlotItem extends AbstractSlotItem implements Serializable {
+public class EnemySlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 
     private static final long serialVersionUID = -1044011355581146491L;
 
