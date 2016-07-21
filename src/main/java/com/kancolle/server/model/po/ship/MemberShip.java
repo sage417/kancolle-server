@@ -33,6 +33,8 @@ public class MemberShip implements IShip, Serializable {
 
     public static final int GOOD_COND = 50;
 
+    @JSONField(ordinal = 3, name = "api_ship_id")
+    private int shipId;
     @JSONField(serialize = false, deserialize = false)
     private Ship ship;
     @JSONField(serialize = false, deserialize = false)
@@ -117,11 +119,6 @@ public class MemberShip implements IShip, Serializable {
         return getShip().getSortno();
     }
 
-    @JSONField(ordinal = 3, name = "api_ship_id")
-    public int returnShipId() {
-        return getShip().getShipId();
-    }
-
     @JSONField(ordinal = 12, name = "api_backs")
     public int returnBacks() {
         return getShip().getBacks();
@@ -187,6 +184,14 @@ public class MemberShip implements IShip, Serializable {
     @JSONField(ordinal = 29, name = "api_locked_equip")
     public int getEquipLockStatue() {
         return lockedEquip ? 1 : 0;
+    }
+
+    public int getShipId() {
+        return shipId;
+    }
+
+    public void setShipId(int shipId) {
+        this.shipId = shipId;
     }
 
     public Ship getShip() {

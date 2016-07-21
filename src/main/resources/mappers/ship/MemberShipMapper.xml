@@ -5,6 +5,7 @@
 	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
 		<id property="memberId" column="member_id" />
 		<id property="memberShipId" column="ID" />
+		<result property="shipId" column="SHIP_ID" />
 		<result property="exp" column="EXP" typeHandler="LongJsonArrayHandler" />
 		<result property="nowHp" column="NOWHP" />
 		<result property="maxHp" column="MAXHP" />
