@@ -16,6 +16,8 @@ public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
         E defendShip = chooseTargetShip(attackShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);
+
+        callbackDamage(attackShip, damages, context);
     }
 
     public abstract E chooseTargetShip(T attackShip, BattleContext context);
@@ -37,6 +39,6 @@ public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
 
     protected abstract HougkeConst.HitType hitCondition(T attackShip, E defendShip, int attackType, BattleContext context);
 
-    protected abstract void callbackDamage();
+    protected abstract void callbackDamage(T attackShip, int[] damages, BattleContext context);
 
 }
