@@ -4,9 +4,9 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
-import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.UnderSeaShip;
 
 import java.util.List;
 import java.util.Map;
@@ -20,13 +20,13 @@ public class BattleContext {
 
     private List<MemberShip> memberOtherShips;
 
-    private List<EnemyShip> enemySSShips;
+    private List<UnderSeaShip> underSeaSSShips;
 
-    private List<EnemyShip> enemyOtherShips;
+    private List<UnderSeaShip> underSeaNormalShips;
 
     private List<MemberShip> memberAttackShips;
 
-    private List<EnemyShip> enemyAttackShips;
+    private List<UnderSeaShip> underSeaAttackShips;
 
     private ImmutableBiMap<Integer, IShip> shipMap;
 
@@ -43,8 +43,8 @@ public class BattleContext {
     }
 
     public void switchToMemberContext(){
-        this.nowSSShips = Objects.requireNonNull(this.enemySSShips);
-        this.nowOtherShips = Objects.requireNonNull(this.enemyOtherShips);
+        this.nowSSShips = Objects.requireNonNull(this.underSeaSSShips);
+        this.nowOtherShips = Objects.requireNonNull(this.underSeaNormalShips);
     }
 
     public void switchToEnemyContext(){
@@ -76,20 +76,20 @@ public class BattleContext {
         this.memberOtherShips = memberOtherShips;
     }
 
-    public List<EnemyShip> getEnemySSShips() {
-        return enemySSShips;
+    public List<UnderSeaShip> getUnderSeaSSShips() {
+        return underSeaSSShips;
     }
 
-    public void setEnemySSShips(List<EnemyShip> enemySSShips) {
-        this.enemySSShips = enemySSShips;
+    public void setUnderSeaSSShips(List<UnderSeaShip> underSeaSSShips) {
+        this.underSeaSSShips = underSeaSSShips;
     }
 
-    public List<EnemyShip> getEnemyOtherShips() {
-        return enemyOtherShips;
+    public List<UnderSeaShip> getUnderSeaNormalShips() {
+        return underSeaNormalShips;
     }
 
-    public void setEnemyOtherShips(List<EnemyShip> enemyOtherShips) {
-        this.enemyOtherShips = enemyOtherShips;
+    public void setUnderSeaNormalShips(List<UnderSeaShip> underSeaNormalShips) {
+        this.underSeaNormalShips = underSeaNormalShips;
     }
 
     public List<MemberShip> getMemberAttackShips() {
@@ -100,12 +100,12 @@ public class BattleContext {
         this.memberAttackShips = memberAttackShips;
     }
 
-    public List<EnemyShip> getEnemyAttackShips() {
-        return enemyAttackShips;
+    public List<UnderSeaShip> getUnderSeaAttackShips() {
+        return underSeaAttackShips;
     }
 
-    public void setEnemyAttackShips(List<EnemyShip> enemyAttackShips) {
-        this.enemyAttackShips = enemyAttackShips;
+    public void setUnderSeaAttackShips(List<UnderSeaShip> underSeaAttackShips) {
+        this.underSeaAttackShips = underSeaAttackShips;
     }
 
     public ImmutableBiMap<Integer, IShip> getShipMap() {

@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.model.po.deckport;
 
-import com.kancolle.server.model.po.ship.EnemyShip;
+import com.kancolle.server.model.po.ship.UnderSeaShip;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public class EnemyDeckPort implements Serializable {
 
     private String deckName;
 
-    private List<EnemyShip> enemyShips;
+    private List<UnderSeaShip> underSeaShips;
 
     private int formation;
 
@@ -70,12 +70,12 @@ public class EnemyDeckPort implements Serializable {
         this.deckName = deckName;
     }
 
-    public List<EnemyShip> getEnemyShips() {
-        return enemyShips;
+    public List<UnderSeaShip> getUnderSeaShips() {
+        return underSeaShips;
     }
 
-    public void setEnemyShips(List<EnemyShip> enemyShips) {
-        this.enemyShips = enemyShips;
+    public void setUnderSeaShips(List<UnderSeaShip> underSeaShips) {
+        this.underSeaShips = underSeaShips;
     }
 
     public int getFormation() {
@@ -133,6 +133,6 @@ public class EnemyDeckPort implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("EnemyDeckPort [mapCellId=%s, no=%s, enemyShips=%s, formation=%s]", mapCellId, no, enemyShips, formation);
+        return String.format("EnemyDeckPort [mapCellId=%s, no=%s, underSeaShips=%s, formation=%s]", mapCellId, no, underSeaShips, formation);
     }
 }

@@ -9,7 +9,7 @@
 		<result property="deckName" column="DECKPORT_NAME"/>
 		<result property="exp" column="BASE_EXP"/>
 		<result property="memberExp" column="MEMBER_EXP"/>
-		<collection property="enemyShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectEnemyDeckPortShips"/>
+		<collection property="underSeaShips" ofType="EnemyShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectUnderSeaDeckPortShips"/>
 	</resultMap>
 
 	<select id="selectEnemyDeckPorts" resultMap="EnemyDeckPortRM">
@@ -20,7 +20,7 @@
 		SELECT * FROM v_enemy_deckport WHERE `INDEX` = #{id}
 	</select>
 
-	<select id="selectEnemyDeckPortShips" resultMap="com.kancolle.server.dao.ship.EnemyShipMapper.EnemyShipRM">
+	<select id="selectUnderSeaDeckPortShips" resultMap="com.kancolle.server.dao.ship.UnderSeaShipMapper.UnderSeaShipRM">
 		SELECT m.SHIP_ID FROM t_enemy_deckport_mapping m
 		INNER JOIN v_enemy_deckport d ON d.MAPCELL_ID = m.MAPCELL_ID AND d.NO = m.NO
 		WHERE m.MAPCELL_ID = #{map_cell_id} AND m.NO = #{no}

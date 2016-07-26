@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.ship.EnemyShipMapper">
+<mapper namespace="com.kancolle.server.dao.ship.UnderSeaShipMapper">
 
-    <resultMap id="EnemyShipRM" type="EnemyShip">
+    <resultMap id="UnderSeaShipRM" type="UnderSeaShip">
         <association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
-        <collection property="slot" ofType="EnemySlotItem" column="SHIP_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectEnemyShipSlots"/>
+        <collection property="slot" ofType="EnemySlotItem" column="SHIP_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectUnderSeaShipSlots"/>
     </resultMap>
 
 </mapper>

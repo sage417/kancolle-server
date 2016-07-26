@@ -8,9 +8,9 @@ import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialUtils;
@@ -33,13 +33,13 @@ import static com.google.common.collect.Iterables.getLast;
 import static com.google.common.collect.Iterables.isEmpty;
 
 @Service
-public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, MemberShip> {
+public class EnmeyShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
 
     @Autowired
-    private BaseShipShellingSystem<MemberShip, EnemyShip> memberShipShellingSystem;
+    private BaseShipShellingSystem<MemberShip, UnderSeaShip> memberShipShellingSystem;
 
     @Override
-    public void generateHougkeResult(EnemyShip attackShip, BattleContext context) {
+    public void generateHougkeResult(UnderSeaShip attackShip, BattleContext context) {
         List<MemberShip> enemySSShips = context.getMemberSSShips();
         List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
         if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
@@ -66,7 +66,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
         }
     }
 
-    private void generateTaiSenDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
+    private void generateTaiSenDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
@@ -74,7 +74,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
     @Override
-    public void generateAttackList(EnemyShip attackShip, BattleContext context) {
+    public void generateAttackList(UnderSeaShip attackShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
@@ -106,8 +106,8 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
      * @param ship
      * @return
      */
-    private double shipHitRatios(EnemyShip ship) {
-        // TODO EnemyShip lv
+    private double shipHitRatios(UnderSeaShip ship) {
+        // TODO UnderSeaShip lv
         int nowLv = 1;
         double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
 
@@ -122,7 +122,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
     @Override
-    protected double combineKaihiRatio(EnemyShip ship, BattleContext context) {
+    protected double combineKaihiRatio(UnderSeaShip ship, BattleContext context) {
 
         int shipKaihi = ship.getShipKaihi();
 
@@ -133,7 +133,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
     @Override
-    protected final double combineHitRatio(EnemyShip ship, BattleContext context) {
+    protected final double combineHitRatio(UnderSeaShip ship, BattleContext context) {
         return  shipHitRatios(ship);
     }
 
@@ -148,7 +148,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
     @Override
-    public void generateShellingAttackTypeList(EnemyShip attackShip, BattleContext context) {
+    public void generateShellingAttackTypeList(UnderSeaShip attackShip, BattleContext context) {
         HougekiResult nowHougekiResult = context.getNowHougekiResult();
 
         KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
@@ -228,11 +228,11 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
     @Override
-    public void generateSlotItemList(EnemyShip ship, BattleContext context) {
+    public void generateSlotItemList(UnderSeaShip ship, BattleContext context) {
     }
 
     @Override
-    public void generateCrticalList(EnemyShip attackShip, MemberShip defShip, BattleContext context) {
+    public void generateCrticalList(UnderSeaShip attackShip, MemberShip defShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
 
@@ -258,7 +258,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
     }
 
     @Override
-    public void generateDamageList(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
+    public void generateDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
         int damageSum = 0;
@@ -347,7 +347,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
 
 
     // 攻擊力 =  [ [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]  ×  徹甲彈特效補正 ×  PT小鬼群補正 ]  ×  暴擊補正 ]  × 閾值後補正
-    private int attackValue(EnemyShip attackShip, MemberShip defendShip, BattleContext context) {
+    private int attackValue(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
         int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
         double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
@@ -412,7 +412,7 @@ public class EnmeyShipShellingSystem extends BaseShipShellingSystem<EnemyShip, M
      *
      * @return
      */
-    public double augmentingAfterThreshold(EnemyShip attackShip, BattleContext context) {
+    public double augmentingAfterThreshold(UnderSeaShip attackShip, BattleContext context) {
         double augmenting = 1d;
 
         HougekiResult hougekiResult = context.getNowHougekiResult();

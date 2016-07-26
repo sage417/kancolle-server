@@ -3,19 +3,18 @@
  */
 package com.kancolle.server.service.battle.reconnaissance;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.logic.DeckPortUtils;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author J.K.SAGE
@@ -74,14 +73,14 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
 
     @Override
     public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
-        List<EnemyShip> ships = enemyDeckPort.getEnemyShips();
+        List<UnderSeaShip> underSeaShips = enemyDeckPort.getUnderSeaShips();
 
         int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
 
-        int searchValue = ships.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
-        boolean searchSuccess = searchValue / ships.size() > searchNeedValue;
+        int searchValue = underSeaShips.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
+        boolean searchSuccess = searchValue / underSeaShips.size() > searchNeedValue;
 
-        boolean planeSearch = ships.stream().anyMatch(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1);
+        boolean planeSearch = underSeaShips.stream().anyMatch(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1);
 
         return searchSuccess ? planeSearch ? PLANE_SUCCESS : SEARCH_SUCCESS : planeSearch ? PLANE_FAIL : SEARCH_FAIL;
     }

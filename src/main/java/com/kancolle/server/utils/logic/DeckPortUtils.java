@@ -8,10 +8,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.ship.EnemyShip;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
+import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -76,12 +76,12 @@ public abstract class DeckPortUtils {
     }
 
     public static int calEnemyDeckPortSearchMinValue(EnemyDeckPort enemyDeckPort) {
-        List<EnemyShip> ships = enemyDeckPort.getEnemyShips();
+        List<UnderSeaShip> ships = enemyDeckPort.getUnderSeaShips();
         if (ships.isEmpty()) {
             return 0;
         }
         int needValue = 0;
-        for (EnemyShip ship : ships) {
+        for (UnderSeaShip ship : ships) {
             needValue += getShipSearchNeedValue(ship.getShip().getShipTypeId());
         }
         return needValue / ships.size();
