@@ -28,7 +28,7 @@ public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
     protected abstract void prepareContext(BattleContext context);
 
     private E chooseTargetShip(T attackShip, BattleContext context) {
-
+        return null;
     }
 
     protected abstract E callbackAfterChooseTargetShip(E defendShip, BattleContext context);
