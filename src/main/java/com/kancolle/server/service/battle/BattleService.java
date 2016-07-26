@@ -174,8 +174,7 @@ public class BattleService extends BaseService implements IBattleService {
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
         Map<Integer, IShip> enemyShipMap = IntStream.range(0, enemyShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, enemyShips::get));
 
-        ImmutableBiMap.Builder<Integer, IShip> builder = ImmutableBiMap.builder();
-        ImmutableBiMap<Integer, IShip> shipMap = builder.putAll(memberShipMap).putAll(enemyShipMap).build();
+        ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(enemyShipMap).build();
 
         // 玩家攻击队列
         List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, enemyOtherShips.isEmpty());
