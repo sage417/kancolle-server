@@ -1,8 +1,8 @@
 package com.kancolle.server.service.battle.shelling.template;
 
-import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.IShip;
+import com.kancolle.server.service.battle.shelling.HougkeConst;
 
 /**
  * Package: com.kancolle.server.service.battle.shelling
@@ -11,31 +11,31 @@ import com.kancolle.server.model.po.ship.IShip;
  */
 public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
 
-    public final void generateShellingResult(T attackShip, BattleContext context) {
+    public void generateHougkeResult(T attackShip, BattleContext context) {
 
-        int attackType = getAttackType(attackShip, context);
-        addToAttackTypeList(context, attackType);
+        E defendShip = chooseTargetShip(attackShip, context);
 
-        E defendShip = getDefendShip(context);
-
-        boolean isHit = getIsHit(attackShip, defendShip, context);
-
+        int[] damages = generateDamageResult(attackShip, defendShip, context);
 
     }
 
-    protected abstract int getAttackType(T attackShip, BattleContext context);
+    public abstract E chooseTargetShip(T attackShip, BattleContext context);
 
-    protected abstract E getDefendShip(BattleContext context);
+    public int[] generateDamageResult(T attackShip, E defendShip, BattleContext context) {
+        int attackType = chooseAttackType(attackShip, defendShip);
 
-    protected abstract boolean getIsHit(T attackShip, E defendShip, BattleContext context);
+        switch (hitCondition(attackShip, defendShip, attackType, context)) {
+            case HIT:
+            case SCRATCH:
+            case MISS:
+            default:
+        }
 
-    private void addToAttackTypeList(BattleContext context, int attackType) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_at_type().add(attackType);
+        return new int[0];
     }
 
-    private void addToDefendList(BattleContext context, int[] defArr) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_df_list().add(defArr);
-    }
+    protected abstract int chooseAttackType(T attackShip, E defendShip);
+
+    protected abstract HougkeConst.HitType hitCondition(T attackShip, E defendShip, int attackType, BattleContext context);
+
 }
