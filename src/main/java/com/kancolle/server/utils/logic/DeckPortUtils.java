@@ -110,7 +110,7 @@ public abstract class DeckPortUtils {
 
         // 如果全是潜艇，则所有非反潜船不能参加
         if (isAllSS) {
-            shipStream = shipStream.filter(ship -> antiSSShipFilter.test(ship));
+            shipStream = shipStream.filter(antiSSShipFilter::test);
         }
         return shipStream.collect(Collectors.toList());
     }
@@ -125,7 +125,7 @@ public abstract class DeckPortUtils {
 
         checkNotNull(index);
 
-        boolean attackFlagShip = 1 == index.intValue();
+        boolean attackFlagShip = 1 == index;
 
         if (attackFlagShip) {
             return getShelfShip(targetShip, ships);
