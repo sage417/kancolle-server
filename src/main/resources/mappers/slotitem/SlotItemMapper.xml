@@ -15,7 +15,7 @@
 		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
 	</resultMap>
 	
-	<resultMap type="EnemySlotItem" id="EnemySlotItemRM" autoMapping="true">
+	<resultMap type="UnderSeaSlotItem" id="UnderSeaSlotItemRM" autoMapping="true">
 		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
 	</resultMap>
 
@@ -34,7 +34,7 @@
 		SELECT * FROM t_slotitem WHERE DEVELOP = 1 AND func_get_split_string(TYPE,3) = #{slotitem_type} ORDER BY RARE ASC
 	</select>
 
-	<select id="selectUnderSeaShipSlots" resultMap="EnemySlotItemRM">
+	<select id="selectUnderSeaShipSlots" resultMap="UnderSeaSlotItemRM">
 		SELECT m.SLOTITEM_ID FROM t_enemy_ship_slotitem_mapping m 
 			INNER JOIN t_enemy_ship_slotitem s ON s.`ENEMY_SHIP_ID` = m.`SHIP_ID` 
 		WHERE m.`SHIP_ID` = #{enemy_ship_id}

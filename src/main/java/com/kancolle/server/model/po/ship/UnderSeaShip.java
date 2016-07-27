@@ -1,7 +1,7 @@
 package com.kancolle.server.model.po.ship;
 
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.EnemySlotItem;
+import com.kancolle.server.model.po.slotitem.UnderSeaSlotItem;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class UnderSeaShip implements IShip, Serializable {
 
     private Ship ship;
 
-    private List<EnemySlotItem> slot;
+    private List<UnderSeaSlotItem> slot;
 
     private int nowHp;
 
@@ -37,11 +37,11 @@ public class UnderSeaShip implements IShip, Serializable {
         this.currentEQ = Arrays.copyOf(currentEQ, currentEQ.length);
     }
 
-    public List<EnemySlotItem> getSlot() {
+    public List<UnderSeaSlotItem> getSlot() {
         return slot;
     }
 
-    public void setSlot(List<EnemySlotItem> slot) {
+    public void setSlot(List<UnderSeaSlotItem> slot) {
         this.slot = slot;
     }
 
