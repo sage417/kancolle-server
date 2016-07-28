@@ -3,6 +3,7 @@
  */
 package com.kancolle.server.model.po.slotitem;
 
+import com.google.common.collect.ImmutableList;
 import com.kancolle.server.model.po.common.ResourceValue;
 
 /**
@@ -40,7 +41,7 @@ public abstract class AbstractSlotItem implements ISlotItem {
         return getSlotItem().getName();
     }
 
-    public int[] getType() {
+    public ImmutableList<Integer> getType() {
         return getSlotItem().getType();
     }
 

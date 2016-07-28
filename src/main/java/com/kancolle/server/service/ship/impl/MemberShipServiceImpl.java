@@ -37,6 +37,7 @@ import com.kancolle.server.service.ship.utils.ChargeType;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.common.LvUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
@@ -434,7 +435,7 @@ public class MemberShipServiceImpl implements MemberShipService {
                 throw new IllegalArgumentException(String.format("無法找到裝備,member_id:%s,slotitem_id:%d", member_id, memberSlotItemId));
             }
 
-            if (!shipService.canEquip(memberShip.getShip().getType(), memberSlotItem.getSlotItem().getType()[2]))
+            if (!shipService.canEquip(memberShip.getShip().getType(), SlotItemUtils.getType(memberSlotItem)))
                 throw new IllegalArgumentException(String.format("該類型裝備艦娘無法裝備,member_ship:%s,slotitem:%s", memberShip, memberSlotItem));
 
             if (slotIndex >= slotItems.size()) {

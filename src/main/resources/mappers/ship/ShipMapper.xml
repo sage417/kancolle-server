@@ -31,7 +31,7 @@
 		<result property="slotNum" column="SLOTNUM" />
 		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHandler" />
 		<result property="buildTime" column="BUILDTIME" />
-		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
+		<result property="broken" column="BROKEN" typeHandler="ResourceValueHandler" />
 		<result property="powUp" column="POWUP" typeHandler="PowUpHandler" />
 		<result property="afterFuel" column="AFTERFUEL" />
 		<result property="afterBull" column="AFTERBULL" />

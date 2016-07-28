@@ -4,6 +4,7 @@
 package com.kancolle.server.model.po.slotitem;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.google.common.collect.ImmutableList;
 import com.kancolle.server.model.po.common.ResourceValue;
 import org.apache.ibatis.type.Alias;
 
@@ -30,7 +31,7 @@ public class SlotItem implements Serializable {
     private String name;
 
     @JSONField(ordinal = 4, name = "api_type")
-    private int[] type;
+    private ImmutableList<Integer> type;
 
     @JSONField(ordinal = 5, name = "api_taik")
     private int taik;
@@ -138,11 +139,11 @@ public class SlotItem implements Serializable {
         this.name = name;
     }
 
-    public int[] getType() {
+    public ImmutableList<Integer> getType() {
         return type;
     }
 
-    public void setType(int[] type) {
+    public void setType(ImmutableList<Integer> type) {
         this.type = type;
     }
 

@@ -13,7 +13,7 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 public abstract class SlotItemUtils {
 
     public static int getType(AbstractSlotItem slotItem) {
-        return slotItem.getType()[2];
+        return slotItem.getType().get(2);
     }
 
     public static boolean isSearchPlane(AbstractSlotItem slotItem) {

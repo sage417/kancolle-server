@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.common;
 
@@ -8,26 +8,20 @@ import java.io.Serializable;
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
- *
  */
 public class ResourceValue implements Serializable {
 
     private static final long serialVersionUID = -8819379300218819433L;
 
-    private int fuel;
+    private final int fuel;
 
-    private int bull;
+    private final int bull;
 
-    private int steel;
+    private final int steel;
 
-    private int baxuite;
+    private final int baxuite;
 
-    public ResourceValue() {
-        super();
-    }
-
-    public ResourceValue(int fuel, int bull, int steel, int baxuite) {
-        super();
+    public ResourceValue(final int fuel, final int bull, final int steel, final int baxuite) {
         this.fuel = fuel;
         this.bull = bull;
         this.steel = steel;
@@ -38,32 +32,16 @@ public class ResourceValue implements Serializable {
         return fuel;
     }
 
-    public void setFuel(int fuel) {
-        this.fuel = fuel;
-    }
-
     public int getBull() {
         return bull;
-    }
-
-    public void setBull(int bull) {
-        this.bull = bull;
     }
 
     public int getSteel() {
         return steel;
     }
 
-    public void setSteel(int steel) {
-        this.steel = steel;
-    }
-
     public int getBaxuite() {
         return baxuite;
-    }
-
-    public void setBaxuite(int baxuite) {
-        this.baxuite = baxuite;
     }
 
     @Override
@@ -103,6 +81,6 @@ public class ResourceValue implements Serializable {
     }
 
     public int[] toArray() {
-        return new int[] { fuel, bull, steel, baxuite };
+        return new int[]{fuel, bull, steel, baxuite};
     }
 }

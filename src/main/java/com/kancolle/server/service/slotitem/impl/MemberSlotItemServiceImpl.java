@@ -3,24 +3,6 @@
  */
 package com.kancolle.server.service.slotitem.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
-import java.text.MessageFormat;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.google.common.primitives.Ints;
 import com.kancolle.server.controller.kcsapi.form.item.CreateItemForm;
 import com.kancolle.server.dao.slotitem.MemberSlotItemDao;
@@ -39,6 +21,22 @@ import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.IntArrayUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.MessageFormat;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.google.common.base.Preconditions.*;
 
 /**
  * @author J.K.SAGE
@@ -162,8 +160,8 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         if (success) {
             MemberSlotItem createItem = createSlotItem(member_id, targetSlotItem.getSlotItemId());
-            int createItemType = createItem.getSlotItem().getType()[2];
-            long[] api_unsetslot = getUnsetSlotList(member_id).stream().filter(slotItem -> slotItem.getSlotItem().getType()[2] == createItemType).mapToLong(MemberSlotItem::getMemberSlotItemId).toArray();
+            int createItemType = SlotItemUtils.getType(createItem);
+            long[] api_unsetslot = getUnsetSlotList(member_id).stream().filter(slotItem -> SlotItemUtils.getType(slotItem) == createItemType).mapToLong(MemberSlotItem::getMemberSlotItemId).toArray();
             return new CreateItemResult(CreateItemResult.CREATE_SUCCESS, 1, createItem, memberResource, createItemType, api_unsetslot);
         } else {
             return new CreateItemResult(CreateItemResult.CREATE_FAIL, 0, "2," + targetSlotItem.getSlotItemId(), memberResource);
@@ -234,7 +232,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
         Map<String, Object> unslotMap = new LinkedHashMap<String, Object>(slotTypeCount);
 
         Stream.iterate(1, n -> ++n).limit(slotTypeCount).forEach(i -> {
-            List<Long> ids = unsetSlots.stream().filter(slotitem -> slotitem.getSlotItem().getType()[2] == i).map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
+            List<Long> ids = unsetSlots.stream().filter(slotitem -> SlotItemUtils.getType(slotitem) == i).map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
             unslotMap.put(MessageFormat.format("api_slottype{0}", i), ids.isEmpty() ? -1 : ids);
         });
         return unslotMap;
