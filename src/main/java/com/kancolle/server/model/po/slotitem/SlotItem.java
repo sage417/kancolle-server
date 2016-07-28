@@ -106,7 +106,7 @@ public class SlotItem implements Serializable {
 
     @JSONField(ordinal = 24, name = "api_broken")
     public int[] getBrokenArray() {
-        return broken.toArray();
+        return broken.getResourceArr();
     }
 
     @JSONField(ordinal = 25, name = "api_info")

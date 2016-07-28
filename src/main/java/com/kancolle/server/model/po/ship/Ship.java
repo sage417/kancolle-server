@@ -184,7 +184,7 @@ public class Ship extends BaseShip implements Serializable {
     @JsonProperty(value = "api_broken", index = 19)
     @JSONField(ordinal = 19, name = "api_broken")
     public int[] getBrokenArray() {
-        return broken.toArray();
+        return broken.getResourceArr();
     }
 
     /**
@@ -198,7 +198,7 @@ public class Ship extends BaseShip implements Serializable {
     @JsonProperty(value = "api_powup", index = 20)
     @JSONField(ordinal = 20, name = "api_powup")
     public int[] getPowUpArray() {
-        return powUp.toArray();
+        return powUp.getPowUpArr();
     }
 
     @JsonView(View.Ship.class)

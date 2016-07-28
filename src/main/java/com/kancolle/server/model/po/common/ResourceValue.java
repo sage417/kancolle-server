@@ -4,6 +4,7 @@
 package com.kancolle.server.model.po.common;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author J.K.SAGE
@@ -21,11 +22,14 @@ public class ResourceValue implements Serializable {
 
     private final int baxuite;
 
+    private final int[] resourceArr;
+
     public ResourceValue(final int fuel, final int bull, final int steel, final int baxuite) {
         this.fuel = fuel;
         this.bull = bull;
         this.steel = steel;
         this.baxuite = baxuite;
+        this.resourceArr = new int[]{fuel, bull, steel, baxuite};
     }
 
     public int getFuel() {
@@ -42,6 +46,10 @@ public class ResourceValue implements Serializable {
 
     public int getBaxuite() {
         return baxuite;
+    }
+
+    public int[] getResourceArr() {
+        return Arrays.copyOf(this.resourceArr, this.resourceArr.length);
     }
 
     @Override
@@ -78,9 +86,5 @@ public class ResourceValue implements Serializable {
     @Override
     public String toString() {
         return String.format("[%s,%s,%s,%s]", fuel, bull, steel, baxuite);
-    }
-
-    public int[] toArray() {
-        return new int[]{fuel, bull, steel, baxuite};
     }
 }
