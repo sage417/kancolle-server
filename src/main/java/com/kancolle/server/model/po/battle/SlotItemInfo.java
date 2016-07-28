@@ -128,80 +128,40 @@ public class SlotItemInfo {
         return searchPlaneCount;
     }
 
-    public void setSearchPlaneCount(int searchPlaneCount) {
-        this.searchPlaneCount = searchPlaneCount;
-    }
-
     public int getMainGunCount() {
         return mainGunCount;
-    }
-
-    public void setMainGunCount(int mainGunCount) {
-        this.mainGunCount = mainGunCount;
     }
 
     public int getSecondaryGunCount() {
         return secondaryGunCount;
     }
 
-    public void setSecondaryGunCount(int secondaryGunCount) {
-        this.secondaryGunCount = secondaryGunCount;
-    }
-
     public int getRadarCount() {
         return radarCount;
-    }
-
-    public void setRadarCount(int radarCount) {
-        this.radarCount = radarCount;
     }
 
     public int getAPAmmoCount() {
         return APAmmoCount;
     }
 
-    public void setAPAmmoCount(int aPAmmoCount) {
-        APAmmoCount = aPAmmoCount;
-    }
-
     public long[] getMainGunIds() {
         return mainGunIds;
-    }
-
-    public void setMainGunIds(long[] mainGunIds) {
-        this.mainGunIds = mainGunIds;
     }
 
     public long[] getSecondaryGunIds() {
         return secondaryGunIds;
     }
 
-    public void setSecondaryGunIds(long[] secondaryGunIds) {
-        this.secondaryGunIds = secondaryGunIds;
-    }
-
     public long[] getSearchPlaneIds() {
         return searchPlaneIds;
-    }
-
-    public void setSearchPlaneIds(long[] searchPlaneIds) {
-        this.searchPlaneIds = searchPlaneIds;
     }
 
     public long[] getRadarIds() {
         return radarIds;
     }
 
-    public void setRadarIds(long[] radarIds) {
-        this.radarIds = radarIds;
-    }
-
     public long[] getApAmmoIds() {
         return apAmmoIds;
-    }
-
-    public void setApAmmoIds(long[] apAmmoIds) {
-        this.apAmmoIds = apAmmoIds;
     }
 
     @Override
