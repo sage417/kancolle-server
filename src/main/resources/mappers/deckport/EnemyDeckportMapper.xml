@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.mapper.deckport.UnderSeaDeckPortMapper">
 
-	<resultMap type="EnemyDeckPort" id="EnemyDeckPortRM" autoMapping="true">
+	<resultMap type="UnderSeaDeckPort" id="UnderSeaDeckPortRM" autoMapping="true">
 		<id property="id" column="INDEX"/>
 		<result property="mapCellId" column="MAPCELL_ID"/>
 		<result property="no" column="NO"/>
@@ -12,11 +12,11 @@
 		<collection property="underSeaShips" ofType="UnderSeaShip" column="{map_cell_id=MAPCELL_ID, no=NO}" select="selectUnderSeaDeckPortShips"/>
 	</resultMap>
 
-	<select id="selectEnemyDeckPorts" resultMap="EnemyDeckPortRM">
+	<select id="selectUnderSeaDeckPorts" resultMap="UnderSeaDeckPortRM">
 		SELECT * FROM v_enemy_deckport WHERE MAPCELL_ID = #{map_cell_id}
 	</select>
 
-	<select id="selectEnemyDeckPortById" resultMap="EnemyDeckPortRM">
+	<select id="selectUnderSeaDeckPortById" resultMap="UnderSeaDeckPortRM">
 		SELECT * FROM v_enemy_deckport WHERE `INDEX` = #{id}
 	</select>
 

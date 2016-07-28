@@ -15,7 +15,7 @@ import java.util.Objects;
  * @Date 2015年8月22日
  *
  */
-@Alias("EnemyDeckPort")
+@Alias("UnderSeaDeckPort")
 public class UnderSeaDeckPort implements Serializable {
 
     private int id;
