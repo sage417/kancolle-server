@@ -15,7 +15,7 @@ import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSIO
  * Date: 16/7/27
  */
 @Configuration
-public class ServiceBeans {
+public class ServiceConfig {
 
     @Bean(name = "dutyBus")
     public EventBus getDutyEventBus() {

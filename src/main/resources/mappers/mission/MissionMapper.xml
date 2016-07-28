@@ -10,6 +10,7 @@
 
 	<resultMap type="Mission" id="MissionRM" autoMapping="true">
 		<id property="missionId" column="ID" />
+		<result property="mapAreaId" column="MAPAREA_ID" />
 		<result property="useFuel" column="USE_FUEL" />
 		<result property="useBull" column="USE_BULL" />
 		<result property="materials" column="MATERIALS" typeHandler="IntJsonArrayHandler"/>

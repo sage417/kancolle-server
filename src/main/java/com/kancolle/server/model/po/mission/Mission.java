@@ -3,12 +3,11 @@
  */
 package com.kancolle.server.model.po.mission;
 
-import java.io.Serializable;
-
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.kancolle.server.model.po.map.MapArea;
+import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
@@ -27,9 +26,7 @@ public class Mission implements Serializable {
     private MapArea maparea;
 
     @JSONField(ordinal = 2, name = "api_maparea_id")
-    public int getMapareaId() {
-        return maparea.getMapareaId();
-    }
+    private int mapAreaId;
 
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
@@ -55,13 +52,13 @@ public class Mission implements Serializable {
     @JSONField(ordinal = 10, name = "api_win_item2")
     private int[] winItem2;
 
-    @JSONField(serialize = false, deserialize = false)
-    private boolean returnFlag;
-
     @JSONField(ordinal = 11, name = "api_return_flag")
     public int returnFlag() {
         return returnFlag ? 1 : 0;
     }
+
+    @JSONField(serialize = false, deserialize = false)
+    private boolean returnFlag;
 
     @JSONField(serialize = false, deserialize = false)
     private MissionExp missionExp;
@@ -83,6 +80,14 @@ public class Mission implements Serializable {
 
     public void setMaparea(MapArea maparea) {
         this.maparea = maparea;
+    }
+
+    public int getMapAreaId() {
+        return mapAreaId;
+    }
+
+    public void setMapAreaId(int mapAreaId) {
+        this.mapAreaId = mapAreaId;
     }
 
     public String getName() {
