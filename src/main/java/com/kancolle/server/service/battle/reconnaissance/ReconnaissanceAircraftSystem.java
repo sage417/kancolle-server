@@ -3,8 +3,8 @@
  */
 package com.kancolle.server.service.battle.reconnaissance;
 
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -46,10 +46,10 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
     private MemberShipService memberShipService;
 
     @Override
-    public int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState) {
+    public int memberDeckPortSearchEnemy(MemberDeckPort deckport, UnderSeaDeckPort underSeaDeckPort, int aerialState) {
         List<MemberShip> ships = deckport.getShips();
 
-        int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(enemyDeckPort);
+        int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(underSeaDeckPort);
         int searchValue = ships.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
 
         boolean searchSuccess = searchValue / ships.size() > searchNeedValue;
@@ -72,8 +72,8 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
     }
 
     @Override
-    public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
-        List<UnderSeaShip> underSeaShips = enemyDeckPort.getUnderSeaShips();
+    public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, UnderSeaDeckPort underSeaDeckPort) {
+        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
 
         int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
 

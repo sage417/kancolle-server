@@ -4,7 +4,7 @@
 package com.kancolle.server.service.map.mapcells.map11;
 
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.map.mapcells.INormalMapCell;
 import org.springframework.stereotype.Component;
@@ -19,8 +19,8 @@ public class MapCell3 extends AbstractMapCell {
     private static final int MAPCELL_ID = 3;
 
     @Override
-    public EnemyDeckPort getEnemyDeckPort() {
-        return getEnemyDeckPort(MAPCELL_ID);
+    public UnderSeaDeckPort getUnderSeaDeckPort() {
+        return getUnderSeaDeckPort(MAPCELL_ID);
     }
 
     @Override

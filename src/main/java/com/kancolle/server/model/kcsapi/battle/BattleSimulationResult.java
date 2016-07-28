@@ -11,8 +11,8 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
@@ -181,12 +181,12 @@ public class BattleSimulationResult {
         Arrays.stream(this.api_eParam).forEach(values -> Arrays.fill(values, 0));
     }
 
-    public BattleSimulationResult(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort) {
+    public BattleSimulationResult(MemberDeckPort memberDeckPort, UnderSeaDeckPort underSeaDeckPort) {
         this();
         this.api_dock_id = memberDeckPort.getDeckId();
 
         List<MemberShip> memberShips = memberDeckPort.getShips();
-        List<UnderSeaShip> underSeaShips = enemyDeckPort.getUnderSeaShips();
+        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
 
         int enemyShipSize = underSeaShips.size();
         int memberShipSize = memberShips.size();

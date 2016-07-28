@@ -6,8 +6,8 @@ package com.kancolle.server.utils.logic;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -75,8 +75,8 @@ public abstract class DeckPortUtils {
         return needValue / ships.size();
     }
 
-    public static int calEnemyDeckPortSearchMinValue(EnemyDeckPort enemyDeckPort) {
-        List<UnderSeaShip> ships = enemyDeckPort.getUnderSeaShips();
+    public static int calEnemyDeckPortSearchMinValue(UnderSeaDeckPort underSeaDeckPort) {
+        List<UnderSeaShip> ships = underSeaDeckPort.getUnderSeaShips();
         if (ships.isEmpty()) {
             return 0;
         }

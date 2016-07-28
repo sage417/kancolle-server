@@ -16,8 +16,8 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -28,7 +28,7 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
-import com.kancolle.server.service.deckport.EnemyDeckPortService;
+import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.member.MemberService;
@@ -77,7 +77,7 @@ public class BattleService extends BaseService implements IBattleService {
     @Autowired
     private MapService mapService;
     @Autowired
-    private EnemyDeckPortService enemyDeckPortService;
+    private UnderSeaDeckPortService underSeaDeckPortService;
     @Autowired
     private ShipService shipService;
     @Autowired
@@ -101,24 +101,24 @@ public class BattleService extends BaseService implements IBattleService {
         int mapCellId = battleState.getMapCellId();
         AbstractMapCell mapCell = SpringUtils.getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
-        EnemyDeckPort enemyDeckPort = mapCell.getEnemyDeckPort();
-        BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, enemyDeckPort);
+        UnderSeaDeckPort underSeaDeckPort = mapCell.getUnderSeaDeckPort();
+        BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, underSeaDeckPort);
 
         // 判断航向
         int course = courseSystem.generateCourse();
-        result.setApi_formation(new int[]{formation, enemyDeckPort.getFormation(), course});
+        result.setApi_formation(new int[]{formation, underSeaDeckPort.getFormation(), course});
 
         // 制空权
         int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberDeckPort.getShips());
-        int underSeaAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(enemyDeckPort.getUnderSeaShips());
+        int underSeaAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(underSeaDeckPort.getUnderSeaShips());
         int aerialState = aerialBattleSystem.getAerialPowerStatue(memberAerialPower, underSeaAerialPower);
 
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, enemyDeckPort, aerialState);
+        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, aerialState);
         /** 敌方索敌 */
-        int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, enemyDeckPort);
+        int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, underSeaDeckPort);
 
         result.setApi_search(new int[]{fsResult, esResult});
 
@@ -155,7 +155,7 @@ public class BattleService extends BaseService implements IBattleService {
 
         /*--------------------------5.炮击战---------------------------*/
         List<MemberShip> memberShips = memberDeckPort.getShips();
-        List<UnderSeaShip> underSeaShips = enemyDeckPort.getUnderSeaShips();
+        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
 
         boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || underSeaShips.stream().anyMatch(BBShipFilter);
         int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
@@ -208,7 +208,7 @@ public class BattleService extends BaseService implements IBattleService {
 
 
         BattleSession session = new BattleSession();
-        session.setEnemy_deckport_id(enemyDeckPort.getId());
+        session.setEnemy_deckport_id(underSeaDeckPort.getId());
         session.setMvp(getMVP(context));
         session.setShip_id(result.getApi_ship_ke());
         session.setWin_rank(getWinRank(context, memberShips, underSeaShips).name());
@@ -234,15 +234,15 @@ public class BattleService extends BaseService implements IBattleService {
         BattleSession session = readJson(state.getSession(), BattleSession.class);
 
         int enemyDeckPortId = session.getEnemy_deckport_id();
-        EnemyDeckPort enemyDeckPort = enemyDeckPortService.getEnemyDeckportById(enemyDeckPortId);
+        UnderSeaDeckPort underSeaDeckPort = underSeaDeckPortService.getUnderSeaDeckPortById(enemyDeckPortId);
 
         BattleResult result = new BattleResult();
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
 
         WIN_RANK win_rank = WIN_RANK.valueOf(session.getWin_rank());
-        int baseExp = DoubleMath.roundToInt(enemyDeckPort.getExp() * win_rank.aug, RoundingMode.CEILING);
-        result.setGet_exp(enemyDeckPort.getMemberExp());
+        int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * win_rank.aug, RoundingMode.CEILING);
+        result.setGet_exp(underSeaDeckPort.getMemberExp());
         result.setMvp(session.getMvp());
 
         Member member = memberService.getMember(member_id);
@@ -250,7 +250,7 @@ public class BattleService extends BaseService implements IBattleService {
         result.setMember_lv(member.getLevel());
 
         result.setMember_exp(member.getExperience());
-        result.setBase_exp(enemyDeckPort.getExp());
+        result.setBase_exp(underSeaDeckPort.getExp());
         int[] ship_exps = result.getShip_exp();
 
         for (ListIterator<MemberShip> iterator = memberShips.listIterator(); iterator.hasNext(); ) {
@@ -277,7 +277,7 @@ public class BattleService extends BaseService implements IBattleService {
 
         result.setQuest_name(mapInfo.getApi_name());
         result.setQuest_level(mapInfo.getApi_level());
-        result.setEnemy_info(enemyDeckPort);
+        result.setEnemy_info(underSeaDeckPort);
         result.setFirst_clear(0);
         result.setMapcell_incentive(0);
 

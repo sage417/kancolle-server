@@ -3,8 +3,8 @@
  */
 package com.kancolle.server.service.battle.reconnaissance;
 
-import com.kancolle.server.model.po.deckport.EnemyDeckPort;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 
 /**
  * @author J.K.SAGE
@@ -13,9 +13,9 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
  */
 public interface IReconnaissanceAircraftSystem {
 
-    int memberDeckPortSearchEnemy(MemberDeckPort deckport, EnemyDeckPort enemyDeckPort, int aerialState);
+    int memberDeckPortSearchEnemy(MemberDeckPort deckport, UnderSeaDeckPort underSeaDeckPort, int aerialState);
 
-    int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, EnemyDeckPort enemyDeckPort);
+    int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, UnderSeaDeckPort underSeaDeckPort);
 
     boolean isSearchSuccess(int fsResult);
 }
