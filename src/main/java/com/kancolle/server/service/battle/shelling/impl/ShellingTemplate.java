@@ -49,10 +49,6 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
     protected abstract int chooseAttackType(A attackShip, D defendShip);
 
-    protected abstract void augmentingDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
-
-    protected abstract void callbackAfterDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
-
     private boolean attackTwice(int attackType) {
         return attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
     }
@@ -60,4 +56,8 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     protected abstract int[] generateOnceDamageResult(A attackShip, D defendShip, BattleContext context);
 
     protected abstract int[] generateTwiceDamageResult(A attackShip, D defendShip, BattleContext context);
+
+    protected abstract void augmentingDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
+
+    protected abstract void callbackAfterDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
 }

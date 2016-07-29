@@ -42,8 +42,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
         prepareContext(context);
 
-        List<UnderSeaShip> underSeaSSShips = context.getUnderSeaSSShips();
-        List<UnderSeaShip> underSeaNormalShips = context.getUnderSeaNormalShips();
+        List<UnderSeaShip> underSeaSSShips = context.getAliveUnderSeaSSShips();
+        List<UnderSeaShip> underSeaNormalShips = context.getAliveUnderSeaNormalShips();
         if (isEmpty(underSeaSSShips) && isEmpty(underSeaNormalShips)) {
             return;
         }
@@ -71,8 +71,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     protected void prepareContext(BattleContext context) {
-        context.setEnemyNormalShips(context.getUnderSeaNormalShips());
-        context.setEnemySSShips(context.getUnderSeaSSShips());
+        context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
+        context.setEnemySSShips(context.getAliveUnderSeaSSShips());
     }
 
     @Override

@@ -1,7 +1,7 @@
+package com.kancolle.server.service.battle;
 /**
  *
  */
-package com.kancolle.server.service.battle;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
@@ -165,32 +165,25 @@ public class BattleService extends BaseService implements IBattleService {
         List<UnderSeaShip> aliveUnderSeaDefendShips = underSeaShips.stream().filter(ShipFilter.isAlive).collect(Collectors.toList());
 
         // 玩家潜艇队列，无法被攻击的潜艇将被移除
-        List<MemberShip> memberSSShips = getTargetShips(aliveMemberDefendShips, ssFilter);
+        List<MemberShip> aliveMemberSSShips = getTargetShips(aliveMemberDefendShips, ssFilter);
         // 玩家非潜艇队列，无法被攻击的舰船将被移除
-        List<MemberShip> memberOtherShips = getTargetShips(aliveMemberDefendShips, ssFilter.negate());
+        List<MemberShip> aliveMemberNormalShips = getTargetShips(aliveMemberDefendShips, ssFilter.negate());
 
         // 敌方潜艇队列，无法被攻击的潜艇将被移除
-        List<UnderSeaShip> underSeaSSShips = getTargetShips(aliveUnderSeaDefendShips, ssFilter);
+        List<UnderSeaShip> aliveUnderSeaSSShips = getTargetShips(aliveUnderSeaDefendShips, ssFilter);
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
-        List<UnderSeaShip> underSeaNormalShip = getTargetShips(aliveUnderSeaDefendShips, ssFilter.negate());
+        List<UnderSeaShip> aliveUnderSeaNormalShip = getTargetShips(aliveUnderSeaDefendShips, ssFilter.negate());
 
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
         Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, underSeaShips::get));
 
         ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(underSeaShipMap).build();
 
-        // 玩家攻击队列
-        List<MemberShip> memberAttackShips = getAttackShips(memberOtherShips, underSeaNormalShip.isEmpty());
-        // 敌人攻击队列
-        List<UnderSeaShip> underSeaAttackShips = getAttackShips(underSeaNormalShip, memberOtherShips.isEmpty());
-
         context.setBattleResult(result);
-        context.setMemberSSShips(memberSSShips);
-        context.setMemberNormalShips(memberOtherShips);
-        context.setMemberAttackShips(memberAttackShips);
-        context.setUnderSeaSSShips(underSeaSSShips);
-        context.setUnderSeaNormalShips(underSeaNormalShip);
-        context.setUnderSeaAttackShips(underSeaAttackShips);
+        context.setAliveMemberSSShips(aliveMemberSSShips);
+        context.setAliveMemberNormalShips(aliveMemberNormalShips);
+        context.setAliveUnderSeaSSShips(aliveUnderSeaSSShips);
+        context.setAliveUnderSeaNormalShips(aliveUnderSeaNormalShip);
         context.setShipMap(shipMap);
 
 
@@ -200,7 +193,7 @@ public class BattleService extends BaseService implements IBattleService {
             HougekiResult hougekiResult = new HougekiResult();
             result.addHougekiResult(hougekiResult);
             context.setNowHougekiResult(hougekiResult);
-            shellingRound(context, i > 0);
+            shellingRound(context);
         }
 
         /*--------------------------炮击战---------------------------*/
@@ -309,7 +302,7 @@ public class BattleService extends BaseService implements IBattleService {
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG, SESSION);
     }
 
-    public void updateAfterBattleResult(String member_id){
+    public void updateAfterBattleResult(String member_id) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
         updateAfterResult(battleState);
     }
@@ -321,25 +314,30 @@ public class BattleService extends BaseService implements IBattleService {
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
     }
 
-    private void shellingRound(BattleContext context, boolean skip) {
+    private void firstShellingRound(BattleContext context) {
+        // 玩家攻击队列
+        List<MemberShip> memberAttackShips = getAttackShips(context.getAliveMemberNormalShips());
+        // 敌人攻击队列
+        List<UnderSeaShip> underSeaAttackShips = getAttackShips(context.getAliveUnderSeaNormalShips());
 
-        LinkedList<MemberShip> memberAttackShips;
-        LinkedList<UnderSeaShip> underSeaAttackShips;
+        context.setMemberAttackShips(Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(memberAttackShips)));
+        context.setUnderSeaAttackShips(Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(underSeaAttackShips)));
+    }
 
-        List<MemberShip> contextMemberAttackShips = context.getMemberAttackShips();
-        List<UnderSeaShip> contextUnderSeaAttackShips = context.getUnderSeaAttackShips();
+    private void secondShellingRound(BattleContext context) {
 
-        if (!skip) {
-            memberAttackShips = Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(contextMemberAttackShips));
-            underSeaAttackShips = Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(contextUnderSeaAttackShips));
-        } else {
-            memberAttackShips = contextMemberAttackShips.stream()
-                    .filter(isAlive)
-                    .collect(Collectors.toCollection(LinkedList::new));
-            underSeaAttackShips = contextUnderSeaAttackShips.stream()
-                    .filter(isAlive)
-                    .collect(Collectors.toCollection(LinkedList::new));
-        }
+        // 玩家攻击队列
+        List<MemberShip> memberAttackShips = getAttackShips(context.getAliveMemberNormalShips());
+        // 敌人攻击队列
+        List<UnderSeaShip> underSeaAttackShips = getAttackShips(context.getAliveUnderSeaNormalShips());
+
+        context.setMemberAttackShips(Lists.newLinkedList(memberAttackShips));
+        context.setUnderSeaAttackShips(Lists.newLinkedList(underSeaAttackShips));
+    }
+
+    private void shellingRound(BattleContext context) {
+        LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
+        LinkedList<UnderSeaShip> underSeaAttackShips = context.getUnderSeaAttackShips();
 
         int round = Math.max(memberAttackShips.size(), underSeaAttackShips.size());
 
@@ -388,7 +386,7 @@ public class BattleService extends BaseService implements IBattleService {
     }
 
     /**
-     * @param context    battle context
+     * @param context       battle context
      * @param underSeaShips enemy ship list
      * @return win rank
      */

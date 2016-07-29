@@ -101,17 +101,12 @@ public abstract class DeckPortUtils {
         // 200) < RandomUtils.nextInt(0, 101);
     }
 
-    public static <T extends IShip> List<T> getAttackShips(List<T> ships, boolean isAllSS) {
-        // TODO 被击沉的舰船不能进行炮击战
+    public static <T extends IShip> List<T> getAttackShips(List<T> ships) {
         // 潜艇不能参加炮击战
-        Stream<T> shipStream = ships.stream().filter(ship -> ssFilter.negate().test(ship));
+        Stream<T> shipStream = ships.stream().filter(ssFilter.negate());
         // 没有搭载攻击机的空母不能参加炮击战
         shipStream = shipStream.filter(ship -> carrierFilter.negate().test(ship) || attackableCarrierFilter.test(ship));
 
-        // 如果全是潜艇，则所有非反潜船不能参加
-        if (isAllSS) {
-            shipStream = shipStream.filter(antiSSShipFilter::test);
-        }
         return shipStream.collect(Collectors.toList());
     }
 

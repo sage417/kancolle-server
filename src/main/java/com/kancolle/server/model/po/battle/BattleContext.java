@@ -8,6 +8,7 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,17 +16,17 @@ public class BattleContext {
 
     private BattleSimulationResult battleResult;
 
-    private List<MemberShip> memberSSShips;
+    private List<MemberShip> aliveMemberSSShips;
 
-    private List<MemberShip> memberNormalShips;
+    private List<MemberShip> aliveMemberNormalShips;
 
-    private List<UnderSeaShip> underSeaSSShips;
+    private List<UnderSeaShip> aliveUnderSeaSSShips;
 
-    private List<UnderSeaShip> underSeaNormalShips;
+    private List<UnderSeaShip> aliveUnderSeaNormalShips;
 
-    private List<MemberShip> memberAttackShips;
+    private LinkedList<MemberShip> memberAttackShips;
 
-    private List<UnderSeaShip> underSeaAttackShips;
+    private LinkedList<UnderSeaShip> underSeaAttackShips;
 
     private ImmutableBiMap<Integer, IShip> shipMap;
 
@@ -49,51 +50,51 @@ public class BattleContext {
         this.battleResult = battleResult;
     }
 
-    public List<MemberShip> getMemberSSShips() {
-        return memberSSShips;
+    public List<MemberShip> getAliveMemberSSShips() {
+        return aliveMemberSSShips;
     }
 
-    public void setMemberSSShips(List<MemberShip> memberSSShips) {
-        this.memberSSShips = memberSSShips;
+    public void setAliveMemberSSShips(List<MemberShip> aliveMemberSSShips) {
+        this.aliveMemberSSShips = aliveMemberSSShips;
     }
 
-    public List<MemberShip> getMemberNormalShips() {
-        return memberNormalShips;
+    public List<MemberShip> getAliveMemberNormalShips() {
+        return aliveMemberNormalShips;
     }
 
-    public void setMemberNormalShips(List<MemberShip> memberNormalShips) {
-        this.memberNormalShips = memberNormalShips;
+    public void setAliveMemberNormalShips(List<MemberShip> aliveMemberNormalShips) {
+        this.aliveMemberNormalShips = aliveMemberNormalShips;
     }
 
-    public List<UnderSeaShip> getUnderSeaSSShips() {
-        return underSeaSSShips;
+    public List<UnderSeaShip> getAliveUnderSeaSSShips() {
+        return aliveUnderSeaSSShips;
     }
 
-    public void setUnderSeaSSShips(List<UnderSeaShip> underSeaSSShips) {
-        this.underSeaSSShips = underSeaSSShips;
+    public void setAliveUnderSeaSSShips(List<UnderSeaShip> aliveUnderSeaSSShips) {
+        this.aliveUnderSeaSSShips = aliveUnderSeaSSShips;
     }
 
-    public List<UnderSeaShip> getUnderSeaNormalShips() {
-        return underSeaNormalShips;
+    public List<UnderSeaShip> getAliveUnderSeaNormalShips() {
+        return aliveUnderSeaNormalShips;
     }
 
-    public void setUnderSeaNormalShips(List<UnderSeaShip> underSeaNormalShips) {
-        this.underSeaNormalShips = underSeaNormalShips;
+    public void setAliveUnderSeaNormalShips(List<UnderSeaShip> aliveUnderSeaNormalShips) {
+        this.aliveUnderSeaNormalShips = aliveUnderSeaNormalShips;
     }
 
-    public List<MemberShip> getMemberAttackShips() {
+    public LinkedList<MemberShip> getMemberAttackShips() {
         return memberAttackShips;
     }
 
-    public void setMemberAttackShips(List<MemberShip> memberAttackShips) {
+    public void setMemberAttackShips(LinkedList<MemberShip> memberAttackShips) {
         this.memberAttackShips = memberAttackShips;
     }
 
-    public List<UnderSeaShip> getUnderSeaAttackShips() {
+    public LinkedList<UnderSeaShip> getUnderSeaAttackShips() {
         return underSeaAttackShips;
     }
 
-    public void setUnderSeaAttackShips(List<UnderSeaShip> underSeaAttackShips) {
+    public void setUnderSeaAttackShips(LinkedList<UnderSeaShip> underSeaAttackShips) {
         this.underSeaAttackShips = underSeaAttackShips;
     }
 
