@@ -186,14 +186,15 @@ public class BattleService extends BaseService implements IBattleService {
         context.setAliveUnderSeaNormalShips(aliveUnderSeaNormalShip);
         context.setShipMap(shipMap);
 
-
         int shellingRound = hasBB ? 2 : 1;
 
-        for (int i = 0; i < shellingRound; i++) {
-            HougekiResult hougekiResult = new HougekiResult();
-            result.addHougekiResult(hougekiResult);
-            context.setNowHougekiResult(hougekiResult);
-            shellingRound(context);
+        switch (shellingRound) {
+            case 2:
+                firstShellingRound(context);
+            case 1:
+                secondShellingRound(context);
+            default:
+                break;
         }
 
         /*--------------------------炮击战---------------------------*/
@@ -314,7 +315,9 @@ public class BattleService extends BaseService implements IBattleService {
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG);
     }
 
-    private void firstShellingRound(BattleContext context) {
+    private void firstShellingRound(final BattleContext context) {
+        prepareHougkiContext(context);
+
         // 玩家攻击队列
         List<MemberShip> memberAttackShips = getAttackShips(context.getAliveMemberNormalShips());
         // 敌人攻击队列
@@ -322,9 +325,12 @@ public class BattleService extends BaseService implements IBattleService {
 
         context.setMemberAttackShips(Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(memberAttackShips)));
         context.setUnderSeaAttackShips(Lists.newLinkedList(FIRST_SHELL_SHIP_ORDER.sortedCopy(underSeaAttackShips)));
+
+        startShellingRound(context);
     }
 
-    private void secondShellingRound(BattleContext context) {
+    private void secondShellingRound(final BattleContext context) {
+        prepareHougkiContext(context);
 
         // 玩家攻击队列
         List<MemberShip> memberAttackShips = getAttackShips(context.getAliveMemberNormalShips());
@@ -333,9 +339,17 @@ public class BattleService extends BaseService implements IBattleService {
 
         context.setMemberAttackShips(Lists.newLinkedList(memberAttackShips));
         context.setUnderSeaAttackShips(Lists.newLinkedList(underSeaAttackShips));
+
+        startShellingRound(context);
     }
 
-    private void shellingRound(BattleContext context) {
+    private void prepareHougkiContext(final BattleContext context) {
+        HougekiResult hougekiResult = new HougekiResult();
+        context.getBattleResult().addHougekiResult(hougekiResult);
+        context.setNowHougekiResult(hougekiResult);
+    }
+
+    private void startShellingRound(final BattleContext context) {
         LinkedList<MemberShip> memberAttackShips = context.getMemberAttackShips();
         LinkedList<UnderSeaShip> underSeaAttackShips = context.getUnderSeaAttackShips();
 
