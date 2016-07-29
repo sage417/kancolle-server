@@ -40,8 +40,10 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     public void generateHougkeResult(UnderSeaShip attackShip, BattleContext context) {
+        prepareContext(context);
+
         List<MemberShip> enemySSShips = context.getMemberSSShips();
-        List<MemberShip> enemyOtherShips = context.getMemberOtherShips();
+        List<MemberShip> enemyOtherShips = context.getMemberNormalShips();
         if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
             return;
         }
@@ -64,6 +66,47 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
                 enemyOtherShips.remove(defendShip);
             }
         }
+    }
+
+    @Override
+    protected void prepareContext(BattleContext context) {
+        context.setEnemyNormalShips(context.getMemberNormalShips());
+        context.setEnemySSShips(context.getMemberSSShips());
+    }
+
+    @Override
+    protected MemberShip chooseTargetShip(UnderSeaShip attackShip, BattleContext context) {
+        return null;
+    }
+
+    @Override
+    protected MemberShip callbackAfterChooseTargetShip(MemberShip defendShip, BattleContext context) {
+        return null;
+    }
+
+    @Override
+    protected int chooseAttackType(UnderSeaShip attackShip, MemberShip defendShip) {
+        return 0;
+    }
+
+    @Override
+    protected void augmentingDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
+
+    }
+
+    @Override
+    protected void callbackAfterDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
+
+    }
+
+    @Override
+    protected int[] generateOnceDamageResult(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
+        return new int[0];
+    }
+
+    @Override
+    protected int[] generateTwiceDamageResult(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
+        return new int[0];
     }
 
     private void generateTaiSenDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {

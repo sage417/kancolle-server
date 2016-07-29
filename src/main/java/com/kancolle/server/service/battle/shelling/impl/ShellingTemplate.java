@@ -8,12 +8,12 @@ import com.kancolle.server.model.po.ship.IShip;
  * Author: mac
  * Date: 16/4/28
  */
-public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
+public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
-    public void generateHougkeResult(T attackShip, BattleContext context) {
+    public void generateHougkeResult(A attackShip, BattleContext context) {
         prepareContext(context);
 
-        E defendShip = chooseTargetShip(attackShip, context);
+        D defendShip = chooseTargetShip(attackShip, context);
         defendShip = callbackAfterChooseTargetShip(defendShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);
@@ -27,13 +27,11 @@ public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
      */
     protected abstract void prepareContext(BattleContext context);
 
-    private E chooseTargetShip(T attackShip, BattleContext context) {
-        return null;
-    }
+    protected abstract D chooseTargetShip(A attackShip, BattleContext context);
 
-    protected abstract E callbackAfterChooseTargetShip(E defendShip, BattleContext context);
+    protected abstract D callbackAfterChooseTargetShip(D defendShip, BattleContext context);
 
-    private int[] generateDamageResult(T attackShip, E defendShip, BattleContext context) {
+    private int[] generateDamageResult(A attackShip, D defendShip, BattleContext context) {
         int attackType = chooseAttackType(attackShip, defendShip);
 
         int[] damages = attackTwice(attackType) ?
@@ -45,17 +43,17 @@ public abstract class ShellingTemplate<T extends IShip, E extends IShip> {
         return damages;
     }
 
-    protected abstract int chooseAttackType(T attackShip, E defendShip);
+    protected abstract int chooseAttackType(A attackShip, D defendShip);
 
-    protected abstract void augmentingDamage(T attackShip, E defendShip, int[] damages, BattleContext context);
+    protected abstract void augmentingDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
 
-    protected abstract void callbackAfterDamage(T attackShip, E defendShip, int[] damages, BattleContext context);
+    protected abstract void callbackAfterDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
 
     private boolean attackTwice(int attackType) {
         return attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
     }
 
-    protected abstract int[] generateOnceDamageResult(T attackShip, E defendShip, BattleContext context);
+    protected abstract int[] generateOnceDamageResult(A attackShip, D defendShip, BattleContext context);
 
-    protected abstract int[] generateTwiceDamageResult(T attackShip, E defendShip, BattleContext context);
+    protected abstract int[] generateTwiceDamageResult(A attackShip, D defendShip, BattleContext context);
 }

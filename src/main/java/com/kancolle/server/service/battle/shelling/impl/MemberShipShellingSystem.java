@@ -40,6 +40,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
+        prepareContext(context);
+
         List<UnderSeaShip> underSeaSSShips = context.getUnderSeaSSShips();
         List<UnderSeaShip> underSeaNormalShips = context.getUnderSeaNormalShips();
         if (isEmpty(underSeaSSShips) && isEmpty(underSeaNormalShips)) {
@@ -65,6 +67,47 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
                 underSeaNormalShips.remove(defendShip);
             }
         }
+    }
+
+    @Override
+    protected void prepareContext(BattleContext context) {
+        context.setEnemyNormalShips(context.getUnderSeaNormalShips());
+        context.setEnemySSShips(context.getUnderSeaSSShips());
+    }
+
+    @Override
+    protected UnderSeaShip chooseTargetShip(MemberShip attackShip, BattleContext context) {
+        return null;
+    }
+
+    @Override
+    protected UnderSeaShip callbackAfterChooseTargetShip(UnderSeaShip defendShip, BattleContext context) {
+        return null;
+    }
+
+    @Override
+    protected int chooseAttackType(MemberShip attackShip, UnderSeaShip defendShip) {
+        return 0;
+    }
+
+    @Override
+    protected void augmentingDamage(MemberShip attackShip, UnderSeaShip defendShip, int[] damages, BattleContext context) {
+
+    }
+
+    @Override
+    protected void callbackAfterDamage(MemberShip attackShip, UnderSeaShip defendShip, int[] damages, BattleContext context) {
+
+    }
+
+    @Override
+    protected int[] generateOnceDamageResult(MemberShip attackShip, UnderSeaShip defendShip, BattleContext context) {
+        return new int[0];
+    }
+
+    @Override
+    protected int[] generateTwiceDamageResult(MemberShip attackShip, UnderSeaShip defendShip, BattleContext context) {
+        return new int[0];
     }
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {

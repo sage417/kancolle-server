@@ -183,7 +183,7 @@ public class BattleService extends BaseService implements IBattleService {
 
         context.setBattleResult(result);
         context.setMemberSSShips(memberSSShips);
-        context.setMemberOtherShips(memberOtherShips);
+        context.setMemberNormalShips(memberOtherShips);
         context.setMemberAttackShips(memberAttackShips);
         context.setUnderSeaSSShips(underSeaSSShips);
         context.setUnderSeaNormalShips(underSeaNormalShip);
@@ -343,12 +343,10 @@ public class BattleService extends BaseService implements IBattleService {
         for (int i = 0; i < round; i++) {
             MemberShip attackShip = memberAttackShips.poll();
             if (ShipFilter.isAlive.test(attackShip)) {
-                context.switchToMemberContext();
                 memberShipShellingSystem.generateHougkeResult(attackShip, context);
             }
             UnderSeaShip enemyAttackShip = underSeaAttackShips.poll();
             if (ShipFilter.isAlive.test(enemyAttackShip)) {
-                context.switchToEnemyContext();
                 underSeaShipShellingSystem.generateHougkeResult(enemyAttackShip, context);
             }
         }

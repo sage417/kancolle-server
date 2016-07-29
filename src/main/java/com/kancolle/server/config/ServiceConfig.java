@@ -23,7 +23,7 @@ public class ServiceConfig {
     }
 
     @Bean(name = "springUtils")
-    public SpringUtils getSpringUtils() {
+    public static SpringUtils getSpringUtils() {
         return new SpringUtils();
     }
 

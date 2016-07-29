@@ -21,11 +21,11 @@ import java.math.RoundingMode;
 import java.util.List;
 
 /**
- * @param <S>
+ * @param <A>
  * @author J.K.SAGE
  * @Date 2015年11月1日
  */
-public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements IShellingSystem<S, E> {
+public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> extends ShellingTemplate<A, D> implements IShellingSystem<A, D> {
 
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
@@ -167,14 +167,14 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     }
 
     protected final double formationShellingAugmenting(int formationIndex, int attackType) {
-        if (attackType == ATTACK_TYPE_ANTISUBMARINE){
+        if (attackType == ATTACK_TYPE_ANTISUBMARINE) {
             return FormationSystem.taiSenHougAugment(formationIndex);
         } else {
             return FormationSystem.shelllingHougAugment(formationIndex);
         }
     }
 
-    protected final double taisenShellingAugmenting(IShip attackShip){
+    protected final double taisenShellingAugmenting(IShip attackShip) {
         List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
         boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
         boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
@@ -267,46 +267,46 @@ public class BaseShipShellingSystem<S extends IShip, E extends IShip> implements
     }
 
     @Override
-    public void generateHougkeResult(S ship, BattleContext context) {
+    public void generateHougkeResult(A ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateAttackList(S ship, BattleContext context) {
+    public void generateAttackList(A ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public E generateDefendList(List<E> ship, BattleContext context) {
+    public D generateDefendList(List<D> ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateShellingAttackTypeList(S attackShip, BattleContext context) {
+    public void generateShellingAttackTypeList(A attackShip, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateSlotItemList(S ship, BattleContext context) {
+    public void generateSlotItemList(A ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateCrticalList(S attackShip, E defendShip, BattleContext context) {
+    public void generateCrticalList(A attackShip, D defendShip, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateDamageList(S attackShip, E defendShip, BattleContext context) {
+    public void generateDamageList(A attackShip, D defendShip, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     /* -----------------联合舰队补正-----------------*/
-    protected double combineKaihiRatio(S ship, BattleContext context) {
+    protected double combineKaihiRatio(A ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
-    protected double combineHitRatio(S ship, BattleContext context) {
+    protected double combineHitRatio(A ship, BattleContext context) {
         throw new UnsupportedOperationException();
     }
 

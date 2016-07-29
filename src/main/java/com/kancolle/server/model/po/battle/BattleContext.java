@@ -10,7 +10,6 @@ import com.kancolle.server.model.po.ship.UnderSeaShip;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class BattleContext {
 
@@ -18,7 +17,7 @@ public class BattleContext {
 
     private List<MemberShip> memberSSShips;
 
-    private List<MemberShip> memberOtherShips;
+    private List<MemberShip> memberNormalShips;
 
     private List<UnderSeaShip> underSeaSSShips;
 
@@ -32,24 +31,14 @@ public class BattleContext {
 
     private HougekiResult nowHougekiResult;
 
-    private List<? extends IShip> nowSSShips;
+    private List<? extends IShip> enemySSShips;
 
-    private List<? extends IShip> nowOtherShips;
+    private List<? extends IShip> enemyNormalShips;
 
     private final Map<MemberShip, Integer> damageSum;
 
     public BattleContext() {
         this.damageSum = Maps.newHashMap();
-    }
-
-    public void switchToMemberContext(){
-        this.nowSSShips = Objects.requireNonNull(this.underSeaSSShips);
-        this.nowOtherShips = Objects.requireNonNull(this.underSeaNormalShips);
-    }
-
-    public void switchToEnemyContext(){
-        this.nowSSShips = Objects.requireNonNull(this.memberSSShips);
-        this.nowOtherShips = Objects.requireNonNull(this.memberOtherShips);
     }
 
     public BattleSimulationResult getBattleResult() {
@@ -68,12 +57,12 @@ public class BattleContext {
         this.memberSSShips = memberSSShips;
     }
 
-    public List<MemberShip> getMemberOtherShips() {
-        return memberOtherShips;
+    public List<MemberShip> getMemberNormalShips() {
+        return memberNormalShips;
     }
 
-    public void setMemberOtherShips(List<MemberShip> memberOtherShips) {
-        this.memberOtherShips = memberOtherShips;
+    public void setMemberNormalShips(List<MemberShip> memberNormalShips) {
+        this.memberNormalShips = memberNormalShips;
     }
 
     public List<UnderSeaShip> getUnderSeaSSShips() {
@@ -124,20 +113,20 @@ public class BattleContext {
         this.nowHougekiResult = nowHougekiResult;
     }
 
-    public List<? extends IShip> getNowSSShips() {
-        return nowSSShips;
+    public List<? extends IShip> getEnemySSShips() {
+        return enemySSShips;
     }
 
-    public void setNowSSShips(List<? extends IShip> nowSSShips) {
-        this.nowSSShips = nowSSShips;
+    public void setEnemySSShips(List<? extends IShip> enemySSShips) {
+        this.enemySSShips = enemySSShips;
     }
 
-    public List<? extends IShip> getNowOtherShips() {
-        return nowOtherShips;
+    public List<? extends IShip> getEnemyNormalShips() {
+        return enemyNormalShips;
     }
 
-    public void setNowOtherShips(List<? extends IShip> nowOtherShips) {
-        this.nowOtherShips = nowOtherShips;
+    public void setEnemyNormalShips(List<? extends IShip> enemyNormalShips) {
+        this.enemyNormalShips = enemyNormalShips;
     }
 
     public Map<MemberShip, Integer> getDamageSum() {
