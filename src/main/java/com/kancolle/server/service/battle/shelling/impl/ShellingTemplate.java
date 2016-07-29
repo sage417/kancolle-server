@@ -14,6 +14,10 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         prepareContext(context);
 
         D defendShip = chooseTargetShip(attackShip, context);
+
+        if (defendShip == null) {
+            return;
+        }
         defendShip = callbackAfterChooseTargetShip(defendShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);

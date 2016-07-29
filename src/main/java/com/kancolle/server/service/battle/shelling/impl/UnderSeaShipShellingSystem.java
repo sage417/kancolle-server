@@ -96,7 +96,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected void callbackAfterDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
+        if (!ShipFilter.isAlive.test(defendShip)){
 
+        }
     }
 
     @Override

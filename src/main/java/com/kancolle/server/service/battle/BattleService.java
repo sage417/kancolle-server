@@ -161,15 +161,18 @@ public class BattleService extends BaseService implements IBattleService {
         int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
         result.setApi_hourai_flag(api_hourai_flag);
 
+        List<MemberShip> aliveMemberDefendShips = memberShips.stream().filter(ShipFilter.isAlive).collect(Collectors.toList());
+        List<UnderSeaShip> aliveUnderSeaDefendShips = underSeaShips.stream().filter(ShipFilter.isAlive).collect(Collectors.toList());
+
         // 玩家潜艇队列，无法被攻击的潜艇将被移除
-        List<MemberShip> memberSSShips = getTargetShips(memberShips, ssFilter);
+        List<MemberShip> memberSSShips = getTargetShips(aliveMemberDefendShips, ssFilter);
         // 玩家非潜艇队列，无法被攻击的舰船将被移除
-        List<MemberShip> memberOtherShips = getTargetShips(memberShips, ssFilter.negate());
+        List<MemberShip> memberOtherShips = getTargetShips(aliveMemberDefendShips, ssFilter.negate());
 
         // 敌方潜艇队列，无法被攻击的潜艇将被移除
-        List<UnderSeaShip> underSeaSSShips = getTargetShips(underSeaShips, ssFilter);
+        List<UnderSeaShip> underSeaSSShips = getTargetShips(aliveUnderSeaDefendShips, ssFilter);
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
-        List<UnderSeaShip> underSeaNormalShip = getTargetShips(underSeaShips, ssFilter.negate());
+        List<UnderSeaShip> underSeaNormalShip = getTargetShips(aliveUnderSeaDefendShips, ssFilter.negate());
 
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
         Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, underSeaShips::get));
