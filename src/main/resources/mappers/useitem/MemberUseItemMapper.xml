@@ -40,7 +40,7 @@
 				JOIN t_useitem u ON ((s.ID = 42 AND u.ID = 50) OR (s.ID = 43 AND u.ID = 51))
 				WHERE
 					member_id = #{member_id}
-				GROUP BY ms.member_id, ms.SLOTITEM_ID
+				GROUP BY ms.member_id, u.ID
 				) tmp
 		ORDER BY member_id, ID
 	</select>
