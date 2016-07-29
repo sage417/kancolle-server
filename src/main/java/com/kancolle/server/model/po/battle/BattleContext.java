@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Maps;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
@@ -15,6 +17,10 @@ import java.util.Map;
 public class BattleContext {
 
     private BattleSimulationResult battleResult;
+
+    private MemberDeckPort memberDeckPort;
+
+    private UnderSeaDeckPort underSeaDeckPort;
 
     private List<MemberShip> aliveMemberSSShips;
 
@@ -48,6 +54,22 @@ public class BattleContext {
 
     public void setBattleResult(BattleSimulationResult battleResult) {
         this.battleResult = battleResult;
+    }
+
+    public MemberDeckPort getMemberDeckPort() {
+        return memberDeckPort;
+    }
+
+    public void setMemberDeckPort(MemberDeckPort memberDeckPort) {
+        this.memberDeckPort = memberDeckPort;
+    }
+
+    public UnderSeaDeckPort getUnderSeaDeckPort() {
+        return underSeaDeckPort;
+    }
+
+    public void setUnderSeaDeckPort(UnderSeaDeckPort underSeaDeckPort) {
+        this.underSeaDeckPort = underSeaDeckPort;
     }
 
     public List<MemberShip> getAliveMemberSSShips() {

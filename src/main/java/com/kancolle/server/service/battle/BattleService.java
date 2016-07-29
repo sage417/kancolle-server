@@ -102,6 +102,8 @@ public class BattleService extends BaseService implements IBattleService {
         AbstractMapCell mapCell = SpringUtils.getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
         UnderSeaDeckPort underSeaDeckPort = mapCell.getUnderSeaDeckPort();
+        context.setMemberDeckPort(memberDeckPort);
+        context.setUnderSeaDeckPort(underSeaDeckPort);
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, underSeaDeckPort);
 
         // 判断航向
@@ -431,7 +433,8 @@ public class BattleService extends BaseService implements IBattleService {
 
         Ordering<MemberShip> ordering = Ordering.natural().onResultOf(s -> contextDamageSum.getOrDefault(s, 0));
 
-        MemberShip mvpShip = ordering.max(context.getMemberAttackShips());
+        List<MemberShip> memberShips = context.getMemberDeckPort().getShips();
+        MemberShip mvpShip = ordering.max(memberShips);
 
         return context.getShipMap().inverse().get(mvpShip);
     }
