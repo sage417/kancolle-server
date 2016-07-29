@@ -191,8 +191,10 @@ public class BattleService extends BaseService implements IBattleService {
         switch (shellingRound) {
             case 2:
                 firstShellingRound(context);
-            case 1:
                 secondShellingRound(context);
+                break;
+            case 1:
+                firstShellingRound(context);
             default:
                 break;
         }
