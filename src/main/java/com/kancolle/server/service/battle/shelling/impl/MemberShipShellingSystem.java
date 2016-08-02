@@ -42,29 +42,29 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     public void generateHougkeResult(MemberShip attackShip, BattleContext context) {
         prepareContext(context);
 
-        List<UnderSeaShip> underSeaSSShips = context.getAliveUnderSeaSSShips();
-        List<UnderSeaShip> underSeaNormalShips = context.getAliveUnderSeaNormalShips();
-        if (isEmpty(underSeaSSShips) && isEmpty(underSeaNormalShips)) {
+        List<UnderSeaShip> aliveUnderSeaSSShips = context.getAliveUnderSeaSSShips();
+        List<UnderSeaShip> aliveUnderSeaNormalShips = context.getAliveUnderSeaNormalShips();
+        if (isEmpty(aliveUnderSeaSSShips) && isEmpty(aliveUnderSeaNormalShips)) {
             return;
         }
         generateAttackList(attackShip, context);
 
         UnderSeaShip defendShip;
-        if (isTaisenAttack(attackShip, underSeaSSShips)) {
+        if (isTaisenAttack(attackShip, aliveUnderSeaSSShips)) {
             generateTaiSenAttackList(context, attackShip);
-            defendShip = generateDefendList(underSeaSSShips, context);
+            defendShip = generateDefendList(aliveUnderSeaSSShips, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
             if (ShipFilter.isAlive.negate().test(defendShip)) {
-                underSeaSSShips.remove(defendShip);
+                aliveUnderSeaSSShips.remove(defendShip);
             }
         } else {
             generateShellingAttackTypeList(attackShip, context);
-            defendShip = generateDefendList(underSeaNormalShips, context);
+            defendShip = generateDefendList(aliveUnderSeaNormalShips, context);
             //generateSlotItemList(attackShip, context);
             //generateCrticalList(attackShip, defendShip, context);
             generateDamageList(attackShip, defendShip, context);
             if (ShipFilter.isAlive.negate().test(defendShip)) {
-                underSeaNormalShips.remove(defendShip);
+                aliveUnderSeaNormalShips.remove(defendShip);
             }
         }
     }
@@ -76,12 +76,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected UnderSeaShip chooseTargetShip(MemberShip attackShip, BattleContext context) {
-        return null;
-    }
-
-    @Override
-    protected UnderSeaShip callbackAfterChooseTargetShip(UnderSeaShip defendShip, BattleContext context) {
+    protected UnderSeaShip callbackAfterChooseTargetShip(MemberShip attackShip, UnderSeaShip defendShip, BattleContext context) {
+        generateAttackList(attackShip, context);
         return null;
     }
 

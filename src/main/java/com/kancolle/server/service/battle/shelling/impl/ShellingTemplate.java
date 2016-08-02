@@ -2,6 +2,12 @@ package com.kancolle.server.service.battle.shelling.impl;
 
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.IShip;
+import com.kancolle.server.utils.CollectionsUtils;
+import com.kancolle.server.utils.logic.ship.ShipFilter;
+
+import java.util.List;
+
+import static com.google.common.collect.Iterables.isEmpty;
 
 /**
  * Package: com.kancolle.server.service.battle.shelling
@@ -18,7 +24,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         if (defendShip == null) {
             return;
         }
-        defendShip = callbackAfterChooseTargetShip(defendShip, context);
+        defendShip = callbackAfterChooseTargetShip(attackShip, defendShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);
         callbackAfterDamage(attackShip, defendShip, damages, context);
@@ -31,9 +37,19 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      */
     protected abstract void prepareContext(BattleContext context);
 
-    protected abstract D chooseTargetShip(A attackShip, BattleContext context);
+    protected D chooseTargetShip(A attackShip, BattleContext context) {
+        final List<D> enemySSShips = (List<D>) context.getEnemySSShips();
+        if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
+            return CollectionsUtils.randomGet(enemySSShips);
+        }
+        final List<D> enemyNormalShips = (List<D>) context.getEnemyNormalShips();
+        if (!isEmpty(enemyNormalShips)) {
+            return CollectionsUtils.randomGet(enemyNormalShips);
+        }
+        return null;
+    }
 
-    protected abstract D callbackAfterChooseTargetShip(D defendShip, BattleContext context);
+    protected abstract D callbackAfterChooseTargetShip(A attackShip, D defendShip, BattleContext context);
 
     private int[] generateDamageResult(A attackShip, D defendShip, BattleContext context) {
         int attackType = chooseAttackType(attackShip, defendShip);

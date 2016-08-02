@@ -75,12 +75,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected MemberShip chooseTargetShip(UnderSeaShip attackShip, BattleContext context) {
-        return null;
-    }
-
-    @Override
-    protected MemberShip callbackAfterChooseTargetShip(MemberShip defendShip, BattleContext context) {
+    protected MemberShip callbackAfterChooseTargetShip(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
         return null;
     }
 
