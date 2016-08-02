@@ -47,7 +47,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         if (isEmpty(aliveUnderSeaSSShips) && isEmpty(aliveUnderSeaNormalShips)) {
             return;
         }
-        generateAttackList(attackShip, context);
+        addToAttackList(attackShip, context);
 
         UnderSeaShip defendShip;
         if (isTaisenAttack(attackShip, aliveUnderSeaSSShips)) {
@@ -77,13 +77,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     protected UnderSeaShip callbackAfterChooseTargetShip(MemberShip attackShip, UnderSeaShip defendShip, BattleContext context) {
-        generateAttackList(attackShip, context);
         return null;
-    }
-
-    @Override
-    protected int chooseAttackType(MemberShip attackShip, UnderSeaShip defendShip) {
-        return 0;
     }
 
     @Override
@@ -108,13 +102,6 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
-    }
-
-    @Override
-    public void generateAttackList(MemberShip attackShip, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
-        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
     }
 
     @Override

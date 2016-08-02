@@ -197,6 +197,7 @@ public class BattleService extends BaseService implements IBattleService {
                 break;
             case 1:
                 firstShellingRound(context);
+                break;
             default:
                 break;
         }

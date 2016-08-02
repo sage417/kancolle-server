@@ -47,7 +47,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
             return;
         }
-        generateAttackList(attackShip, context);
+        addToAttackList(attackShip, context);
 
         MemberShip defendShip;
 
@@ -80,11 +80,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected int chooseAttackType(UnderSeaShip attackShip, MemberShip defendShip) {
-        return 0;
-    }
-
-    @Override
     protected void augmentingDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
 
     }
@@ -114,21 +109,14 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    public void generateAttackList(UnderSeaShip attackShip, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
-        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
-    }
-
-    @Override
     public MemberShip generateDefendList(List<MemberShip> enemySSShips, BattleContext context) {
         MemberShip defendShip = CollectionsUtils.randomGet(enemySSShips);
         HougekiResult hougekiResult = context.getNowHougekiResult();
 
-        int attackType = hougekiResult.getApi_at_type().getLast().intValue();
+        int attackType = hougekiResult.getApi_at_type().getLast();
         ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
 
-        int defShipIdx = shipsMap.inverse().get(defendShip).intValue();
+        int defShipIdx = shipsMap.inverse().get(defendShip);
 
         int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
         hougekiResult.getApi_df_list().add(defArr);
@@ -274,7 +262,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     public void generateCrticalList(UnderSeaShip attackShip, MemberShip defShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+        int attackType = getLast(hougekiResult.getApi_at_type());
 
         int[] clArray = null;
 
@@ -300,7 +288,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     public void generateDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+        int attackType = getLast(hougekiResult.getApi_at_type());
         int damageSum = 0;
 
         int[] clArray;
@@ -456,7 +444,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         double augmenting = 1d;
 
         HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type()).intValue();
+        int attackType = getLast(hougekiResult.getApi_at_type());
 
         SlotItemInfo slotInfo = SlotItemInfo.of(attackShip);
         if (slotInfo.getAPAmmoCount() > 0) {

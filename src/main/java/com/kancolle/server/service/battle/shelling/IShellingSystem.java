@@ -9,8 +9,6 @@ public interface IShellingSystem<T extends IShip, E extends IShip> {
 
     void generateHougkeResult(T ship, BattleContext context);
 
-    void generateAttackList(T ship, BattleContext context);
-
     E generateDefendList(List<E> ship, BattleContext context);
 
     void generateShellingAttackTypeList(T attackShip, BattleContext context);
