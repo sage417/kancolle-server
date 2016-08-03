@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.battle;
 
@@ -8,12 +8,9 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.List;
-
 /**
  * @author J.K.SAGE
  * @Date 2015年11月14日
- *
  */
 public class SlotItemInfo {
 
@@ -39,11 +36,10 @@ public class SlotItemInfo {
 
     private SlotItemInfo() { }
 
-    public static SlotItemInfo of(IShip ship){
+    public static SlotItemInfo of(IShip ship) {
         SlotItemInfo info = new SlotItemInfo();
-        List<? extends AbstractSlotItem> slots = ship.getSlotItems();
-        for (int i = 0; i < slots.size(); i++) {
-            AbstractSlotItem slotItem = slots.get(i);
+
+        for (AbstractSlotItem slotItem : ship.getSlotItems()) {
             long slotItemId = slotItem.getSlotItemId();
             int slotType = SlotItemUtils.getType(slotItem);
             switch (slotType) {
@@ -64,8 +60,8 @@ public class SlotItemInfo {
                     break;
                 case 9:
                 case 10:
-                        info.searchPlaneCount++;
-                        ArrayUtils.add(info.searchPlaneIds, slotItemId);
+                    info.searchPlaneCount++;
+                    ArrayUtils.add(info.searchPlaneIds, slotItemId);
                     break;
                 case 19:
                     info.APAmmoCount++;

@@ -15,7 +15,7 @@ import java.io.Serializable;
 public abstract class AbstractSlotItem implements ISlotItem, Serializable {
 
     public static final int TYPE_HYDRO_PHONE = 14;
-    public static final int TYPE_DEPTH_CHARGE = 15;s
+    public static final int TYPE_DEPTH_CHARGE = 15;
 
     private SlotItem slotItem;
 
