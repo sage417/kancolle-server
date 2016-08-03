@@ -425,8 +425,8 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         //反潜套补正
         List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
-        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
-        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
+        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
+        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         if (hasHydrophone && hasDepthCharge) {
             augmenting *= 1.15d;
         }

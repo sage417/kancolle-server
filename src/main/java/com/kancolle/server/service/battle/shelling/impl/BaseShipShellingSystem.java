@@ -176,8 +176,8 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     protected final double taisenShellingAugmenting(IShip attackShip) {
         List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
-        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDROPHONE);
-        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTHCHARGE);
+        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
+        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         if (hasHydrophone && hasDepthCharge) {
             return 0.15d;
         }

@@ -31,7 +31,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         defendShip = callbackAfterChooseTargetShip(attackShip, defendShip, context);
 
         // 2. decide attack type
-        int attackType = chooseAttackType(attackShip, defendShip, context);
+        int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);
         callbackAfterDamage(attackShip, defendShip, damages, context);
@@ -72,7 +72,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     protected abstract D callbackAfterChooseTargetShip(A attackShip, D defendShip, BattleContext context);
 
     private int[] generateDamageResult(A attackShip, D defendShip, BattleContext context) {
-        int attackType = chooseAttackType(attackShip, defendShip, context);
+        int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
         int[] damages = attackTwice(attackType) ?
                 generateTwiceDamageResult(attackShip, defendShip, context) :
@@ -83,7 +83,10 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return damages;
     }
 
-    protected int chooseAttackType(A attackShip, D defendShip, BattleContext context) {
+    protected int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, BattleContext context) {
+        if (ShipFilter.ssFilter.test(defendShip)) {
+            return BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE;
+        }
         return 0;
     }
 

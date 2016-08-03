@@ -3,10 +3,8 @@
  */
 package com.kancolle.server.model.po.battle;
 
-import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.ship.UnderSeaShip;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -41,7 +39,7 @@ public class SlotItemInfo {
 
     private SlotItemInfo() { }
 
-    public static SlotItemInfo of(UnderSeaShip ship){
+    public static SlotItemInfo of(IShip ship){
         SlotItemInfo info = new SlotItemInfo();
         List<? extends AbstractSlotItem> slots = ship.getSlotItems();
         for (int i = 0; i < slots.size(); i++) {
@@ -77,50 +75,6 @@ public class SlotItemInfo {
                     break;
             }
         }
-        return info;
-    }
-
-    public static SlotItemInfo of(MemberShip ship) {
-        SlotItemInfo info = new SlotItemInfo();
-
-        List<MemberSlotItem> slots = ship.getSlot();
-        int[] currentEQ = ship.getCurrentEQ();
-        for (int i = 0; i < slots.size(); i++) {
-            MemberSlotItem slotItem = slots.get(i);
-            long slotItemId = slotItem.getMemberSlotItemId();
-            int slotType = SlotItemUtils.getType(slotItem);
-            switch (slotType) {
-            case 1:
-            case 2:
-            case 3:
-                info.mainGunCount++;
-                ArrayUtils.add(info.mainGunIds, slotItemId);
-                break;
-            case 4:
-                info.secondaryGunCount++;
-                ArrayUtils.add(info.secondaryGunIds, slotItemId);
-                break;
-            case 12:
-            case 13:
-                info.radarCount++;
-                ArrayUtils.add(info.radarIds, slotItemId);
-                break;
-            case 9:
-            case 10:
-                if (currentEQ[i] > 0) {
-                    info.searchPlaneCount++;
-                    ArrayUtils.add(info.searchPlaneIds, slotItemId);
-                }
-                break;
-            case 19:
-                info.APAmmoCount++;
-                ArrayUtils.add(info.apAmmoIds, slotItemId);
-                break;
-            default:
-                break;
-            }
-        }
-
         return info;
     }
 

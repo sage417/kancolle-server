@@ -6,14 +6,16 @@ package com.kancolle.server.model.po.slotitem;
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.model.po.common.ResourceValue;
 
+import java.io.Serializable;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年10月2日
  */
-public abstract class AbstractSlotItem implements ISlotItem {
+public abstract class AbstractSlotItem implements ISlotItem, Serializable {
 
-    public static final int TYPE_HYDROPHONE = 14;
-    public static final int TYPE_DEPTHCHARGE = 15;
+    public static final int TYPE_HYDRO_PHONE = 14;
+    public static final int TYPE_DEPTH_CHARGE = 15;s
 
     private SlotItem slotItem;
 
