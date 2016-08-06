@@ -40,16 +40,11 @@ public class JackJsonTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws JsonProcessingException {
         A a = new A("sage", 14, 120, 60);
         ObjectMapper om = new ObjectMapper();
-        try {
-            String out = om.writeValueAsString(a);
-            Assert.assertEquals("{\"age\":14,\"height\":120,\"weight\":60,\"NAME\":\"sage\"}", out);
-        } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        String out = om.writeValueAsString(a);
+        Assert.assertEquals("{\"friends\":\"\",\"age\":14,\"height\":120,\"weight\":60,\"NAME\":\"sage\"}", out);
     }
 
     @Test
@@ -110,7 +105,7 @@ public class JackJsonTest {
         }
     }
 
-    @JsonPropertyOrder(value = {"age", "height", "weight", "name"})
+    @JsonPropertyOrder(value = {"friends", "age", "height", "weight", "name"})
     private static class A {
 
         @JsonProperty("NAME")
@@ -121,6 +116,11 @@ public class JackJsonTest {
         private int height;
 
         private int weight;
+
+        @JsonProperty("friends")
+        public String getFriendNames() {
+            return "";
+        }
 
         public A(String name, int age, int height, int weight) {
             super();

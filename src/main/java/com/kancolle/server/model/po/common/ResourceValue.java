@@ -85,6 +85,6 @@ public class ResourceValue implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[%s,%s,%s,%s]", fuel, bull, steel, baxuite);
+        return String.format("[%d,%d,%d,%d]", fuel, bull, steel, baxuite);
     }
 }

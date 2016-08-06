@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.common.handler;
 
@@ -12,18 +12,19 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
- *
  */
 public class ResourceValueHandler extends BaseTypeHandler<ResourceValue> {
     private static final Function<String, ResourceValue> toResourceValue = str -> {
         List<Integer> values = JSON.parseArray(str, Integer.class);
-        return new ResourceValue(values.get(0), values.get(1), values.get(2), values.get(3));
+        Iterator<Integer> iterator = values.iterator();
+        return new ResourceValue(iterator.next(), iterator.next(), iterator.next(), iterator.next());
     };
 
     @Override

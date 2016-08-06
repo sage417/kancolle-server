@@ -10,6 +10,10 @@
 
 	<resultMap type="SlotItem" id="slotItemRM" autoMapping="true">
 		<id property="slotItemId" column="ID" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="photographId" column="PHOTOGRAPH_ID" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="iconId" column="ICON_ID" />
 		<result property="useBull" column="USEBULL" />
 		<result property="type" column="TYPE" typeHandler="ImmutableIntListHandler" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceValueHandler" />

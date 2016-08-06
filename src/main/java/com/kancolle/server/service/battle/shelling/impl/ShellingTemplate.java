@@ -30,7 +30,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         addToAttackList(attackShip, context);
         defendShip = callbackAfterChooseTargetShip(attackShip, defendShip, context);
 
-        // 2. decide attack type
+        // 2. decide attack type and slotItem
         int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
         int[] damages = generateDamageResult(attackShip, defendShip, context);
