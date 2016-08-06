@@ -1206,3 +1206,34 @@ CREATE TABLE `t_user` (
   `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- View structure for v_enemy_deckport
+-- ----------------------------
+DROP VIEW IF EXISTS `v_enemy_deckport`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`kancolle`@`localhost` SQL SECURITY DEFINER  VIEW `v_enemy_deckport` AS select `t_enemy_deckport`.`INDEX` AS `INDEX`,`t_enemy_deckport`.`MAPCELL_ID` AS `MAPCELL_ID`,`t_enemy_deckport`.`NO` AS `NO`,`t_enemy_deckport`.`FORMATION` AS `FORMATION`,`t_enemy_deckport`.`SHIP` AS `SHIP`,`t_enemy_deckport`.`RANK` AS `RANK`,`t_enemy_deckport`.`LV` AS `LV`,`t_enemy_deckport`.`MEMBER_EXP` AS `MEMBER_EXP`,`t_enemy_deckport`.`BASE_EXP` AS `BASE_EXP`,`t_map_cell`.`DECKPORT_NAME` AS `DECKPORT_NAME` from (`t_enemy_deckport` join `t_map_cell` on((`t_enemy_deckport`.`MAPCELL_ID` = `t_map_cell`.`ID`))) ;
+
+-- ----------------------------
+-- View structure for v_member_deckport
+-- ----------------------------
+DROP VIEW IF EXISTS `v_member_deckport`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_member_deckport` AS select `t_member_deckport`.`member_id` AS `member_id`,`t_member_deckport`.`ID` AS `ID`,`t_member_deckport`.`NAME` AS `NAME`,`t_member_deckport`.`NAME_ID` AS `NAME_ID`,concat('[',concat_ws(',',`t_member_deckport`.`MISSION_STATUS`,ifnull(`t_member_deckport`.`MISSION_ID`,0),`t_member_deckport`.`MISSION_COMPLETE_TIME`,`t_member_deckport`.`MISSION_FLAG`),']') AS `MISSION`,`t_member_deckport`.`FLAGSHIP` AS `FLAGSHIP`,`t_member_deckport`.`SHIP` AS `SHIP`,`t_member_deckport`.`LOCK` AS `lock` from `t_member_deckport` where (`t_member_deckport`.`LOCK` = 0) ;
+
+-- ----------------------------
+-- View structure for v_member_mission
+-- ----------------------------
+DROP VIEW IF EXISTS `v_member_mission`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_member_mission` AS select `t_member_mission`.`member_id` AS `member_id`,`t_member_mission`.`mission_id` AS `mission_id`,`t_member_mission`.`state` AS `state` from `t_member_mission` where (`t_member_mission`.`state` > -(1)) ;
+
+-- ----------------------------
+-- View structure for v_member_ship
+-- ----------------------------
+DROP VIEW IF EXISTS `v_member_ship`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_member_ship` AS select `t_member_ship`.`member_id` AS `member_id`,`t_member_ship`.`ID` AS `ID`,`t_member_ship`.`SHIP_ID` AS `SHIP_ID`,`t_member_ship`.`LV` AS `LV`,`t_member_ship`.`EXP` AS `EXP`,`t_member_ship`.`NOWHP` AS `NOWHP`,`t_member_ship`.`MAXHP` AS `MAXHP`,`t_member_ship`.`LENG` AS `LENG`,`t_member_ship`.`SLOT` AS `SLOT`,`t_member_ship`.`ONSLOT` AS `ONSLOT`,`t_member_ship`.`KYOUKA` AS `KYOUKA`,`t_member_ship`.`FUEL` AS `FUEL`,`t_member_ship`.`BULL` AS `BULL`,`t_member_ship`.`SRATE` AS `SRATE`,`t_member_ship`.`COND` AS `COND`,`t_member_ship`.`KARYOKU` AS `KARYOKU`,`t_member_ship`.`RAISOU` AS `RAISOU`,`t_member_ship`.`TAIKU` AS `TAIKU`,`t_member_ship`.`SOUKOU` AS `SOUKOU`,`t_member_ship`.`KAIHI` AS `KAIHI`,`t_member_ship`.`TAISEN` AS `TAISEN`,`t_member_ship`.`SAKUTEKI` AS `SAKUTEKI`,`t_member_ship`.`LUCKY` AS `LUCKY`,`t_member_ship`.`LOCKED` AS `LOCKED`,`t_member_ship`.`LOCKED_EQUIP` AS `LOCKED_EQUIP` from `t_member_ship` where (`t_member_ship`.`DELETED` = 0) order by `t_member_ship`.`member_id`,`t_member_ship`.`ID` ;
+
+-- ----------------------------
+-- View structure for v_member_slotitem
+-- ----------------------------
+DROP VIEW IF EXISTS `v_member_slotitem`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_member_slotitem` AS select `t_member_slotitem`.`member_id` AS `member_id`,`t_member_slotitem`.`ID` AS `ID`,`t_member_slotitem`.`LEVEL` AS `LEVEL`,`t_member_slotitem`.`LOCKED` AS `LOCKED`,`t_member_slotitem`.`SLOTITEM_ID` AS `SLOTITEM_ID` from `t_member_slotitem` where (`t_member_slotitem`.`DELETED` = 0) order by `t_member_slotitem`.`member_id`,`t_member_slotitem`.`ID` ;
+
