@@ -81,6 +81,11 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
+    protected void addToCIList(MemberShip attackShip, int attackType, UnderSeaShip defendShip, BattleContext context) {
+
+    }
+
+    @Override
     protected void augmentingDamage(MemberShip attackShip, UnderSeaShip defendShip, int[] damages, BattleContext context) {
 
     }

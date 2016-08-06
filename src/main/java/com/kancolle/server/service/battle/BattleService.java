@@ -97,14 +97,25 @@ public class BattleService extends BaseService implements IBattleService {
         BattleContext context = new BattleContext();
 
         MemberDeckPort memberDeckPort = checkNotNull(battleState.getMemberDeckPort());
+        context.setMemberDeckPort(memberDeckPort);
 
         int mapCellId = battleState.getMapCellId();
         AbstractMapCell mapCell = SpringUtils.getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
 
         UnderSeaDeckPort underSeaDeckPort = mapCell.getUnderSeaDeckPort();
-        context.setMemberDeckPort(memberDeckPort);
         context.setUnderSeaDeckPort(underSeaDeckPort);
+
+        List<MemberShip> memberShips = memberDeckPort.getShips();
+        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
+
+        // build ship idx map
+        Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
+        Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, underSeaShips::get));
+        ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(underSeaShipMap).build();
+        context.setShipMap(shipMap);
+
         BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, underSeaDeckPort);
+        context.setBattleResult(result);
 
         // 判断航向
         int course = courseSystem.generateCourse();
@@ -156,8 +167,6 @@ public class BattleService extends BaseService implements IBattleService {
         /*--------------------------开幕雷击结束---------------------------*/
 
         /*--------------------------5.炮击战---------------------------*/
-        List<MemberShip> memberShips = memberDeckPort.getShips();
-        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
 
         boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || underSeaShips.stream().anyMatch(BBShipFilter);
         int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
@@ -168,25 +177,17 @@ public class BattleService extends BaseService implements IBattleService {
 
         // 玩家潜艇队列，无法被攻击的潜艇将被移除
         List<MemberShip> aliveMemberSSShips = getTargetShips(aliveMemberDefendShips, ssFilter);
+        context.setAliveMemberSSShips(aliveMemberSSShips);
         // 玩家非潜艇队列，无法被攻击的舰船将被移除
         List<MemberShip> aliveMemberNormalShips = getTargetShips(aliveMemberDefendShips, ssFilter.negate());
+        context.setAliveMemberNormalShips(aliveMemberNormalShips);
 
         // 敌方潜艇队列，无法被攻击的潜艇将被移除
         List<UnderSeaShip> aliveUnderSeaSSShips = getTargetShips(aliveUnderSeaDefendShips, ssFilter);
+        context.setAliveUnderSeaSSShips(aliveUnderSeaSSShips);
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
         List<UnderSeaShip> aliveUnderSeaNormalShip = getTargetShips(aliveUnderSeaDefendShips, ssFilter.negate());
-
-        Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, underSeaShips::get));
-
-        ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(underSeaShipMap).build();
-
-        context.setBattleResult(result);
-        context.setAliveMemberSSShips(aliveMemberSSShips);
-        context.setAliveMemberNormalShips(aliveMemberNormalShips);
-        context.setAliveUnderSeaSSShips(aliveUnderSeaSSShips);
         context.setAliveUnderSeaNormalShips(aliveUnderSeaNormalShip);
-        context.setShipMap(shipMap);
 
         int shellingRound = hasBB ? 2 : 1;
 

@@ -1,6 +1,7 @@
 package com.kancolle.server.model.po.battle;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
@@ -35,6 +36,8 @@ public class BattleContext {
     private LinkedList<UnderSeaShip> underSeaAttackShips;
 
     private ImmutableBiMap<Integer, IShip> shipMap;
+
+    private ImmutableMap<IShip, SlotItemInfo> shipSlotItemInfoMap;
 
     private HougekiResult nowHougekiResult;
 
@@ -126,6 +129,14 @@ public class BattleContext {
 
     public void setShipMap(ImmutableBiMap<Integer, IShip> shipMap) {
         this.shipMap = shipMap;
+    }
+
+    public ImmutableMap<IShip, SlotItemInfo> getShipSlotItemInfoMap() {
+        return shipSlotItemInfoMap;
+    }
+
+    public void setShipSlotItemInfoMap(ImmutableMap<IShip, SlotItemInfo> shipSlotItemInfoMap) {
+        this.shipSlotItemInfoMap = shipSlotItemInfoMap;
     }
 
     public HougekiResult getNowHougekiResult() {

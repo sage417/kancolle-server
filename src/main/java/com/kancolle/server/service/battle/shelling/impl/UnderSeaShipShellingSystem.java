@@ -80,6 +80,11 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
+    protected void addToCIList(UnderSeaShip attackShip, int attackType, MemberShip defendShip, BattleContext context) {
+
+    }
+
+    @Override
     protected void augmentingDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
 
     }
