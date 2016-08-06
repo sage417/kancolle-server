@@ -36,7 +36,7 @@ public class JackJsonTest {
         objectMapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
         A a = new A("中文", 14, 120, 60);
         String out = objectMapper.writeValueAsString(a);
-        Assert.assertEquals("{\"age\":14,\"height\":120,\"weight\":60,\"NAME\":\"\\u4E2D\\u6587\"}", out);
+        Assert.assertEquals("{\"friends\":\"\",\"age\":14,\"height\":120,\"weight\":60,\"NAME\":\"\\u4E2D\\u6587\"}", out);
     }
 
     @Test
