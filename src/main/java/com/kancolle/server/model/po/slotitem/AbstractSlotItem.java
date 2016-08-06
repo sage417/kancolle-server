@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.model.po.slotitem;
 
-import com.google.common.collect.ImmutableList;
 import com.kancolle.server.model.po.common.ResourceValue;
 
 import java.io.Serializable;
@@ -43,8 +42,20 @@ public abstract class AbstractSlotItem implements ISlotItem, Serializable {
         return getSlotItem().getName();
     }
 
-    public ImmutableList<Integer> getType() {
-        return getSlotItem().getType();
+    public int getClassId() {
+        return slotItem.getClassId();
+    }
+
+    public int getPhotographId() {
+        return slotItem.getPhotographId();
+    }
+
+    public int getCategoryId() {
+        return slotItem.getCategoryId();
+    }
+
+    public int getIconId() {
+        return slotItem.getIconId();
     }
 
     public int getTaik() {

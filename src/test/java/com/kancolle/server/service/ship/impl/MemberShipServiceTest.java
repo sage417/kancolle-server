@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
-@Sql(value = {"classpath:sql/kancolle-schema.sql", "classpath:sql/kancolle-data.sql"})
+@Sql(value = {"classpath:sql/kancolle-dump.sql"})
 public class MemberShipServiceTest {
     @Autowired
     private MemberShipService service;

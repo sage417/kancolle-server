@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
-@Sql(value = {"classpath:sql/kancolle-schema.sql", "classpath:sql/kancolle-data.sql"})
+@Sql(value = {"classpath:sql/kancolle-dump.sql"})
 public class BattleControllerTest {
 
     @Autowired

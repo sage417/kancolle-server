@@ -30,7 +30,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
         @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
 })
-@Sql(value = {"classpath:sql/kancolle-schema.sql", "classpath:sql/kancolle-data.sql"})
+@Sql(value = {"classpath:sql/kancolle-dump.sql"})
 public class MemberServiceTest {
 
     @Autowired
