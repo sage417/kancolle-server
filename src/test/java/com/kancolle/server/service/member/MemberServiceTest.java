@@ -61,6 +61,7 @@ public class MemberServiceTest {
                 .maxSlotItem(500)
                 .token(LoginUtils.generateMemberToken())
                 .build();
+        member.setNickNameId("");
         memberService.addMember(member);
     }
 }

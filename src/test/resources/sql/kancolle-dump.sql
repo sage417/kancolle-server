@@ -1211,7 +1211,7 @@ CREATE TABLE `t_user` (
 -- View structure for v_enemy_deckport
 -- ----------------------------
 DROP VIEW IF EXISTS `v_enemy_deckport`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`kancolle`@`localhost` SQL SECURITY DEFINER  VIEW `v_enemy_deckport` AS select `t_enemy_deckport`.`INDEX` AS `INDEX`,`t_enemy_deckport`.`MAPCELL_ID` AS `MAPCELL_ID`,`t_enemy_deckport`.`NO` AS `NO`,`t_enemy_deckport`.`FORMATION` AS `FORMATION`,`t_enemy_deckport`.`SHIP` AS `SHIP`,`t_enemy_deckport`.`RANK` AS `RANK`,`t_enemy_deckport`.`LV` AS `LV`,`t_enemy_deckport`.`MEMBER_EXP` AS `MEMBER_EXP`,`t_enemy_deckport`.`BASE_EXP` AS `BASE_EXP`,`t_map_cell`.`DECKPORT_NAME` AS `DECKPORT_NAME` from (`t_enemy_deckport` join `t_map_cell` on((`t_enemy_deckport`.`MAPCELL_ID` = `t_map_cell`.`ID`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `v_enemy_deckport` AS select `t_enemy_deckport`.`INDEX` AS `INDEX`,`t_enemy_deckport`.`MAPCELL_ID` AS `MAPCELL_ID`,`t_enemy_deckport`.`NO` AS `NO`,`t_enemy_deckport`.`FORMATION` AS `FORMATION`,`t_enemy_deckport`.`SHIP` AS `SHIP`,`t_enemy_deckport`.`RANK` AS `RANK`,`t_enemy_deckport`.`LV` AS `LV`,`t_enemy_deckport`.`MEMBER_EXP` AS `MEMBER_EXP`,`t_enemy_deckport`.`BASE_EXP` AS `BASE_EXP`,`t_map_cell`.`DECKPORT_NAME` AS `DECKPORT_NAME` from (`t_enemy_deckport` join `t_map_cell` on((`t_enemy_deckport`.`MAPCELL_ID` = `t_map_cell`.`ID`))) ;
 
 -- ----------------------------
 -- View structure for v_member_deckport
