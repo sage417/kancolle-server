@@ -69,7 +69,7 @@ CREATE TABLE `t_duty` (
   PRIMARY KEY (`DUTY_NO`),
   KEY `CATEGORY_ID` (`CATEGORY_ID`) USING BTREE,
   KEY `t_duty_ibfk_1` (`PARENT_ID`) USING BTREE,
-  KEY `TYPE` (`TYPE`) USING BTREE,
+  KEY `TYPE` (`TYPE`) USING BTREE
   --CONSTRAINT `t_duty_ibfk_1` FOREIGN KEY (`PARENT_ID`) REFERENCES `t_duty` (`DUTY_NO`),
   --CONSTRAINT `t_duty_ibfk_2` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `t_duty_category` (`CATEGORY_ID`),
   --CONSTRAINT `t_duty_ibfk_3` FOREIGN KEY (`TYPE`) REFERENCES `t_duty_type` (`TYPE_ID`)
@@ -90,7 +90,7 @@ CREATE TABLE `t_duty_bonus` (
   `BONUS_ITEM_ID` int(10) unsigned NOT NULL DEFAULT '0',
   `BONUS_COUNT` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID`),
-  KEY `DUTY_NO` (`DUTY_NO`) USING BTREE,
+  KEY `DUTY_NO` (`DUTY_NO`) USING BTREE
   --CONSTRAINT `t_duty_bonus_ibfk_1` FOREIGN KEY (`DUTY_NO`) REFERENCES `t_duty` (`DUTY_NO`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
@@ -141,7 +141,7 @@ CREATE TABLE `t_enemy_deckport` (
   `BASE_EXP` int(10) unsigned NOT NULL DEFAULT '0',
   `MEMBER_EXP` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`INDEX`),
-  UNIQUE KEY `MAPCELL_ID` (`MAPCELL_ID`,`NO`),
+  UNIQUE KEY `MAPCELL_ID` (`MAPCELL_ID`,`NO`)
   --CONSTRAINT `t_enemy_deckport_ibfk_1` FOREIGN KEY (`MAPCELL_ID`) REFERENCES `t_map_cell` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
@@ -160,7 +160,7 @@ CREATE TABLE `t_enemy_deckport_mapping` (
   `SHIP_ID` int(10) unsigned NOT NULL,
   PRIMARY KEY (`INDEX`),
   KEY `MAPCELL_ID` (`MAPCELL_ID`),
-  KEY `SHIP_ID` (`SHIP_ID`),
+  KEY `SHIP_ID` (`SHIP_ID`)
   --CONSTRAINT `t_enemy_deckport_mapping_ibfk_1` FOREIGN KEY (`MAPCELL_ID`) REFERENCES `t_map_cell` (`ID`),
   --CONSTRAINT `t_enemy_deckport_mapping_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
@@ -176,7 +176,7 @@ DROP TABLE IF EXISTS `t_enemy_ship_slotitem`;
 CREATE TABLE `t_enemy_ship_slotitem` (
   `ENEMY_SHIP_ID` int(11) unsigned NOT NULL,
   `SLOT` varchar(63) NOT NULL DEFAULT '[-1,-1,-1,-1,-1,]',
-  PRIMARY KEY (`ENEMY_SHIP_ID`),
+  PRIMARY KEY (`ENEMY_SHIP_ID`)
   --CONSTRAINT `t_enemy_ship_slotitem_ibfk_1` FOREIGN KEY (`ENEMY_SHIP_ID`) REFERENCES `t_ship` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -194,7 +194,7 @@ CREATE TABLE `t_enemy_ship_slotitem_mapping` (
   `SLOTITEM_ID` int(10) unsigned NOT NULL,
   PRIMARY KEY (`INDEX`),
   KEY `SLOTITEM_ID` (`SLOTITEM_ID`),
-  KEY `t_enemy_ship_slotitem_mapping_ibfk_1` (`SHIP_ID`),
+  KEY `t_enemy_ship_slotitem_mapping_ibfk_1` (`SHIP_ID`)
   --CONSTRAINT `t_enemy_ship_slotitem_mapping_ibfk_1` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`),
   --CONSTRAINT `t_enemy_ship_slotitem_mapping_ibfk_2` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -225,7 +225,7 @@ CREATE TABLE `t_exp_mission` (
   `ID` int(10) unsigned NOT NULL,
   `EXP` int(10) unsigned NOT NULL,
   `SHIP_EXP` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ID`),
+  PRIMARY KEY (`ID`)
   --CONSTRAINT `t_exp_mission_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -378,7 +378,7 @@ CREATE TABLE `t_map_cell_traveller` (
   `NEXT` int(11) NOT NULL,
   `COMMENT_KIND` int(11) NOT NULL,
   `PRODUCTION_KIND` int(11) NOT NULL,
-  PRIMARY KEY (`CELL_ID`),
+  PRIMARY KEY (`CELL_ID`)
   --CONSTRAINT `t_map_cell_traveller_ibfk_1` FOREIGN KEY (`CELL_ID`) REFERENCES `t_map_cell` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -477,7 +477,7 @@ CREATE TABLE `t_member_deckport` (
   `LOCK` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否解锁',
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
-  KEY `MISSION_ID` (`MISSION_ID`) USING BTREE,
+  KEY `MISSION_ID` (`MISSION_ID`) USING BTREE
   --CONSTRAINT `t_member_deckport_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   --CONSTRAINT `t_member_deckport_ibfk_2` FOREIGN KEY (`MISSION_ID`) REFERENCES `t_mission` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
@@ -496,7 +496,7 @@ CREATE TABLE `t_member_deckport_ship_mapping` (
   `deck_id` tinyint(3) unsigned NOT NULL,
   `member_ship_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`index`),
-  UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`) USING BTREE,
+  UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`) USING BTREE
   --CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
@@ -517,7 +517,7 @@ CREATE TABLE `t_member_duty` (
   `counter` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`duty_no`) USING BTREE,
-  KEY `t_member_duty_ibfk_2` (`duty_no`) USING BTREE,
+  KEY `t_member_duty_ibfk_2` (`duty_no`) USING BTREE
   --CONSTRAINT `t_member_duty_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`),
   --CONSTRAINT `t_member_duty_ibfk_2` FOREIGN KEY (`duty_no`) REFERENCES `t_duty` (`DUTY_NO`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -537,7 +537,7 @@ CREATE TABLE `t_member_furniture` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `unique_index` (`member_id`,`furniture_id`) USING BTREE,
   KEY `member_id` (`member_id`) USING BTREE,
-  KEY `furniture_id` (`furniture_id`) USING BTREE,
+  KEY `furniture_id` (`furniture_id`) USING BTREE
   --CONSTRAINT `t_member_furniture_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   --CONSTRAINT `t_member_furniture_ibfk_2` FOREIGN KEY (`furniture_id`) REFERENCES `t_furniture` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=267 DEFAULT CHARSET=utf8;
@@ -564,7 +564,7 @@ CREATE TABLE `t_member_kdock` (
   `ITEM4` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ITEM5` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE
   --CONSTRAINT `t_member_kdock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -584,7 +584,7 @@ CREATE TABLE `t_member_log` (
   `STATE` varchar(255) NOT NULL,
   `MESSAGE` varchar(255) NOT NULL,
   PRIMARY KEY (`index`),
-  KEY `member_id` (`member_id`) USING BTREE,
+  KEY `member_id` (`member_id`) USING BTREE
   --CONSTRAINT `t_member_log_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -607,7 +607,7 @@ CREATE TABLE `t_member_map_battle_status` (
   `createTime` datetime NOT NULL,
   PRIMARY KEY (`member_id`),
   KEY `map_area_id` (`traveller_no`) USING BTREE,
-  KEY `map_cell_id` (`map_cell_id`) USING BTREE,
+  KEY `map_cell_id` (`map_cell_id`) USING BTREE
   --CONSTRAINT `t_member_map_battle_status_ibfk_1` FOREIGN KEY (`map_cell_id`) REFERENCES `t_map_cell` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   --CONSTRAINT `t_member_map_battle_status_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -627,7 +627,7 @@ CREATE TABLE `t_member_mapcell_info` (
   `PASS_FLAG` tinyint(3) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`INDEX`),
   KEY `memmber_id` (`member_id`),
-  KEY `MAPCELL_ID` (`MAPCELL_ID`),
+  KEY `MAPCELL_ID` (`MAPCELL_ID`)
   --CONSTRAINT `t_member_mapcell_info_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`),
   --CONSTRAINT `t_member_mapcell_info_ibfk_3` FOREIGN KEY (`MAPCELL_ID`) REFERENCES `t_map_cell` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=411 DEFAULT CHARSET=utf8;
@@ -670,7 +670,7 @@ CREATE TABLE `t_member_material` (
   `DEV_ITEM` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `ENH_ITEM` mediumint(8) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`),
-  KEY `member_id` (`member_id`) USING BTREE,
+  KEY `member_id` (`member_id`) USING BTREE
   --CONSTRAINT `t_member_material_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -689,7 +689,7 @@ CREATE TABLE `t_member_mission` (
   `state` tinyint(4) NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`mission_id`) USING BTREE,
-  KEY `mission_id` (`mission_id`) USING BTREE,
+  KEY `mission_id` (`mission_id`) USING BTREE
   --CONSTRAINT `t_member_mission_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   --CONSTRAINT `t_member_mission_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `t_mission` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
@@ -715,7 +715,7 @@ CREATE TABLE `t_member_ndock` (
   `ITEM3` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `ITEM4` mediumint(9) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`index`),
-  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
+  UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE
   --CONSTRAINT `t_member_ndock_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -734,7 +734,7 @@ CREATE TABLE `t_member_picturebook` (
   `state` varchar(255) NOT NULL DEFAULT '[[1,0,0,0]]',
   PRIMARY KEY (`MEMBER_PICTUREBOOK_ID`),
   KEY `member_id` (`member_id`),
-  KEY `SHIP_SORTNO` (`SHIP_SORTNO`),
+  KEY `SHIP_SORTNO` (`SHIP_SORTNO`)
   --CONSTRAINT `t_member_picturebook_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`),
   --CONSTRAINT `t_member_picturebook_ibfk_2` FOREIGN KEY (`SHIP_SORTNO`) REFERENCES `t_ship` (`SORTNO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=369 DEFAULT CHARSET=utf8;
@@ -778,7 +778,7 @@ CREATE TABLE `t_member_ship` (
   `DELETED_TIME` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
-  KEY `SHIP_ID` (`SHIP_ID`) USING BTREE,
+  KEY `SHIP_ID` (`SHIP_ID`) USING BTREE
   --CONSTRAINT `t_member_ship_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   --CONSTRAINT `t_member_ship_ibfk_2` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
@@ -818,7 +818,7 @@ CREATE TABLE `t_member_slotitem` (
   PRIMARY KEY (`index`),
   UNIQUE KEY `unique_index` (`member_id`,`ID`) USING BTREE,
   KEY `SLOTITEM_ID` (`SLOTITEM_ID`) USING BTREE,
-  KEY `member_id` (`member_id`) USING BTREE,
+  KEY `member_id` (`member_id`) USING BTREE
   --CONSTRAINT `t_member_slotitem_ibfk_1` FOREIGN KEY (`SLOTITEM_ID`) REFERENCES `t_slotitem` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   --CONSTRAINT `t_member_slotitem_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
@@ -838,7 +838,7 @@ CREATE TABLE `t_member_useitem` (
   `COUNT` int(10) NOT NULL,
   PRIMARY KEY (`index`),
   UNIQUE KEY `member_id` (`member_id`,`ID`) USING BTREE,
-  KEY `ID` (`ID`) USING BTREE,
+  KEY `ID` (`ID`) USING BTREE
   --CONSTRAINT `t_member_useitem_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   --CONSTRAINT `t_member_useitem_ibfk_2` FOREIGN KEY (`ID`) REFERENCES `t_useitem` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
@@ -942,7 +942,7 @@ CREATE TABLE `t_ship` (
   PRIMARY KEY (`ID`),
   KEY `type_index` (`TYPE`) USING BTREE,
   KEY `sortno_index` (`SORTNO`) USING BTREE,
-  KEY `AFTERSHIPID` (`AFTERSHIPID`) USING BTREE,
+  KEY `AFTERSHIPID` (`AFTERSHIPID`) USING BTREE
   --CONSTRAINT `t_ship_ibfk_1` FOREIGN KEY (`TYPE`) REFERENCES `t_ship_type` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -990,7 +990,7 @@ CREATE TABLE `t_ship_picturebook` (
   `CTYPE` tinyint(3) unsigned NOT NULL,
   `CNUM` tinyint(3) unsigned NOT NULL,
   `SHIP_INFO` varchar(255) NOT NULL,
-  PRIMARY KEY (`SHIP_ID`),
+  PRIMARY KEY (`SHIP_ID`)
   --CONSTRAINT `t_ship_picturebook_ibfk_1` FOREIGN KEY (`SHIP_ID`) REFERENCES `t_ship` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1073,7 +1073,7 @@ CREATE TABLE `t_slotitem` (
   KEY `CLASS_ID` (`CLASS_ID`),
   KEY `PHOTOGRAPH_ID` (`PHOTOGRAPH_ID`),
   KEY `CATEGORY_ID` (`CATEGORY_ID`),
-  KEY `ICON_ID` (`ICON_ID`),
+  KEY `ICON_ID` (`ICON_ID`)
   --CONSTRAINT `t_slotitem_ibfk_1` FOREIGN KEY (`CLASS_ID`) REFERENCES `t_slotitem_class` (`SLOTITEM_CLASS_ID`),
   --CONSTRAINT `t_slotitem_ibfk_2` FOREIGN KEY (`PHOTOGRAPH_ID`) REFERENCES `t_slotitem_photograph` (`SLOTITEM_PHOTOGRAPH_ID`),
   --CONSTRAINT `t_slotitem_ibfk_3` FOREIGN KEY (`CATEGORY_ID`) REFERENCES `t_slotitem_categoty` (`SLOTITEM_CATEGORY_ID`),
