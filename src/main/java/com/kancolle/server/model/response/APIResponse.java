@@ -1,7 +1,10 @@
 package com.kancolle.server.model.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder(value = {"api_result", "api_result_msg", "api_data"})
 public class APIResponse<T> {
 
     private static final String SUCCESS_MSG = "成功";
@@ -12,12 +15,15 @@ public class APIResponse<T> {
     public static final APIResponse<Object> EMPTY_SUCCESS_RESPONSE = new APIResponse<>(SUCCESS_CODE, SUCCESS_MSG);
     public static final APIResponse<Object> EMPTY_FAILED_RESPONSE = new APIResponse<>(100, FAILED_MSG);
 
+    @JsonProperty(value = "api_result")
     @JSONField(ordinal = 1)
     private int api_result;
 
+    @JsonProperty(value = "api_result_msg")
     @JSONField(ordinal = 2)
     private String api_result_msg;
 
+    @JsonProperty(value = "api_data")
     @JSONField(ordinal = 3)
     private T api_data;
 

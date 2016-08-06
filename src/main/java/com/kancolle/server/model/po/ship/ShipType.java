@@ -1,14 +1,19 @@
 package com.kancolle.server.model.po.ship;
 
-import java.io.Serializable;
-
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.parser.Feature;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
+@JsonPropertyOrder(value = {
+        "shipTypeId", "sortNo", "name", "scnt",
+        "kcnt", "equipTypes"
+})
 @Alias("ShipType")
 public class ShipType implements Serializable {
     private static final long serialVersionUID = 2560822460694469946L;
@@ -39,21 +44,27 @@ public class ShipType implements Serializable {
 
     public static final int TYPE_SSV = 14;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int shipTypeId;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2, name = "api_sortno")
     private int sortNo;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_scnt")
     @JSONField(ordinal = 4, name = "api_scnt")
     private int scnt;
 
+    @JsonProperty(value = "api_kcnt")
     @JSONField(ordinal = 5, name = "api_kcnt")
     private int kcnt;
 
+    @JsonProperty(value = "api_equip_type")
     @JSONField(ordinal = 6, name = "api_equip_type")
     private JSONObject equipTypes;
 

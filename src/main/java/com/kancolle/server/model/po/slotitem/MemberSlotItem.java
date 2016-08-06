@@ -6,6 +6,7 @@ package com.kancolle.server.model.po.slotitem;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -14,6 +15,9 @@ import java.io.Serializable;
  * @author J.K.SAGE
  * @Date 2015年5月31日
  */
+@JsonPropertyOrder(value = {
+        "memberSlotItemId", "slotItemId", "locked", "level"
+})
 @Alias("MemberSlotItem")
 public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 

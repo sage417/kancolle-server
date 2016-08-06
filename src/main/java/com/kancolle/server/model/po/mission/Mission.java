@@ -1,9 +1,12 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.mission;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.map.MapArea;
 import org.apache.ibatis.type.Alias;
 
@@ -12,57 +15,76 @@ import java.io.Serializable;
 /**
  * @author J.K.SAGE
  * @Date 2015年6月30日
- *
  */
+@JsonPropertyOrder(value = {
+        "missionId", "mapAreaId", "name", "details",
+        "time", "difficulty", "useFuel", "useBull",
+        "winItem1", "winItem2", "api_return_flag"
+})
 @Alias("Mission")
 public class Mission implements Serializable {
 
     private static final long serialVersionUID = -3997082699476879973L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int missionId;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MapArea maparea;
 
+    @JsonProperty(value = "api_maparea_id")
     @JSONField(ordinal = 2, name = "api_maparea_id")
     private int mapAreaId;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_details")
     @JSONField(ordinal = 4, name = "api_details")
     private String details;
 
+    @JsonProperty(value = "api_time")
     @JSONField(ordinal = 5, name = "api_time")
     private int time;
 
+    @JsonProperty(value = "api_difficulty")
     @JSONField(ordinal = 6, name = "api_difficulty")
     private int difficulty;
 
+    @JsonProperty(value = "api_use_fuel")
     @JSONField(ordinal = 7, name = "api_use_fuel")
     private double useFuel;
 
+    @JsonProperty(value = "api_use_bull")
     @JSONField(ordinal = 8, name = "api_use_bull")
     private double useBull;
 
+    @JsonProperty(value = "api_win_item1")
     @JSONField(ordinal = 9, name = "api_win_item1")
     private int[] winItem1;
 
+    @JsonProperty(value = "api_win_item2")
     @JSONField(ordinal = 10, name = "api_win_item2")
     private int[] winItem2;
 
+    @JsonProperty(value = "api_return_flag")
     @JSONField(ordinal = 11, name = "api_return_flag")
     public int returnFlag() {
         return returnFlag ? 1 : 0;
     }
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private boolean returnFlag;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MissionExp missionExp;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private int[] materials;
 

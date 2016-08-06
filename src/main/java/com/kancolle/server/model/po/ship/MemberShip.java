@@ -4,6 +4,9 @@
 package com.kancolle.server.model.po.ship;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
@@ -20,6 +23,16 @@ import java.util.stream.IntStream;
  * @author J.K.SAGE
  * @Date 2015年5月30日
  */
+@JsonPropertyOrder(value = {
+        "memberShipId", "api_sortno", "shipId", "lv",
+        "exp", "nowHp", "maxHp", "leng",
+        "api_slot", "onslot", "kyouka", "api_backs",
+        "fuel", "bull", "api_slotnum", "ndockTime",
+        "ndockItem", "api_srate", "cond", "api_karyoku",
+        "api_raisou", "api_taiku", "api_soukou", "api_kaihi",
+        "api_taisen", "api_sakuteki", "api_lucky", "api_locked",
+        "api_locked_equip"
+})
 @Alias("MemberShip")
 public class MemberShip implements IShip, Serializable {
 
@@ -33,102 +46,151 @@ public class MemberShip implements IShip, Serializable {
 
     public static final int GOOD_COND = 50;
 
+    @JsonProperty(value = "api_ship_id")
     @JSONField(ordinal = 3, name = "api_ship_id")
     private int shipId;
+
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private Ship ship;
+
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
+
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
+
+    @JsonProperty(value = "api_lv")
     @JSONField(ordinal = 4, name = "api_lv")
     private int lv;
+
+    @JsonProperty(value = "api_exp")
     @JSONField(ordinal = 5, name = "api_exp")
     private long[] exp;
+
+    @JsonProperty(value = "api_nowhp")
     @JSONField(ordinal = 6, name = "api_nowhp")
     private int nowHp;
+
+    @JsonProperty(value = "api_maxhp")
     @JSONField(ordinal = 7, name = "api_maxhp")
     private int maxHp;
+
+    @JsonProperty(value = "api_leng")
     @JSONField(ordinal = 8, name = "api_leng")
     private int leng;
+
+    @JsonProperty(value = "api_slot")
     @JSONField(ordinal = 9)
     private long[] api_slot;
+
+@JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private List<MemberSlotItem> slot;
+
+    @JsonProperty(value = "api_onslot")
     @JSONField(ordinal = 10, name = "api_onslot")
     private int[] onslot;
+
+    @JsonProperty(value = "api_kyouka")
     @JSONField(ordinal = 11, name = "api_kyouka")
     private int[] kyouka;
+
+    @JsonProperty(value = "api_fuel")
     @JSONField(ordinal = 13, name = "api_fuel")
     private int fuel;
+
+    @JsonProperty(value = "api_bull")
     @JSONField(ordinal = 14, name = "api_bull")
     private int bull;
+
+    @JsonProperty(value = "api_ndock_time")
     @JSONField(ordinal = 16, name = "api_ndock_time")
     private long ndockTime;
-    @JSONField(ordinal = 17, name ="api_ndock_item" )
+
+    @JsonProperty(value = "api_ndock_item")
+    @JSONField(ordinal = 17, name = "api_ndock_item")
     private int[] ndockItem;
+
+    @JsonProperty(value = "api_cond")
     @JSONField(ordinal = 19, name = "api_cond")
     private int cond;
     /**
      * 火力
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue karyoku;
     /**
      * 雷装
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue raisou;
     /**
      * 对空
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue taiku;
     /**
      * 装甲
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue soukou;
     /**
      * 回避
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue kaihi;
     /**
      * 对潜
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue taisen;
     /**
      * 索敌
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue sakuteki;
     /**
      * 运
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue lucky;
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private boolean locked;
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private boolean lockedEquip;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2, name = "api_sortno")
     public int returnSortNo() {
         return getShip().getSortno();
     }
 
+    @JsonProperty(value = "api_backs")
     @JSONField(ordinal = 12, name = "api_backs")
     public int returnBacks() {
         return getShip().getBacks();
     }
 
+    @JsonProperty(value = "api_slotnum")
     @JSONField(ordinal = 15, name = "api_slotnum")
     public int returnslotNum() {
         return getShip().getSlotNum();
     }
 
+    @JsonProperty(value = "api_srate")
     @JSONField(ordinal = 18, name = "api_srate")
     public int returnSrate() {
         int grownSum = IntStream.of(MemberShipUtils.getShipPowupMaxArray(getShip())).sum();
@@ -136,51 +198,61 @@ public class MemberShip implements IShip, Serializable {
         return (int) (5f * grownValue / grownSum + 1);
     }
 
+    @JsonProperty(value = "api_karyoku")
     @JSONField(ordinal = 20, name = "api_karyoku")
     public int[] returnKaryoku() {
         return getKaryoku().toArray();
     }
 
+    @JsonProperty(value = "api_raisou")
     @JSONField(ordinal = 21, name = "api_raisou")
     public int[] returnRaisou() {
         return getRaisou().toArray();
     }
 
+    @JsonProperty(value = "api_taiku")
     @JSONField(ordinal = 22, name = "api_taiku")
     public int[] returnTaiku() {
         return getTaiku().toArray();
     }
 
+    @JsonProperty(value = "api_soukou")
     @JSONField(ordinal = 23, name = "api_soukou")
     public int[] returnSoukou() {
         return getSoukou().toArray();
     }
 
+    @JsonProperty(value = "api_kaihi")
     @JSONField(ordinal = 24, name = "api_kaihi")
     public int[] returnKaihi() {
         return getKaihi().toArray();
     }
 
+    @JsonProperty(value = "api_taisen")
     @JSONField(ordinal = 25, name = "api_taisen")
     public int[] returnTaisen() {
         return getTaisen().toArray();
     }
 
+    @JsonProperty(value = "api_sakuteki")
     @JSONField(ordinal = 26, name = "api_sakuteki")
     public int[] returnSakuteki() {
         return getSakuteki().toArray();
     }
 
+    @JsonProperty(value = "api_lucky")
     @JSONField(ordinal = 27, name = "api_lucky")
     public int[] returnLuck() {
         return getLucky().toArray();
     }
 
+    @JsonProperty(value = "api_locked")
     @JSONField(ordinal = 28, name = "api_locked")
     public int getLockStatue() {
         return locked ? 1 : 0;
     }
 
+    @JsonProperty(value = "api_locked_equip")
     @JSONField(ordinal = 29, name = "api_locked_equip")
     public int getEquipLockStatue() {
         return lockedEquip ? 1 : 0;

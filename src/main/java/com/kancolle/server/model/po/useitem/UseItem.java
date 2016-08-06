@@ -1,32 +1,43 @@
 package com.kancolle.server.model.po.useitem;
 
-import java.io.Serializable;
-
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
+@JsonPropertyOrder(value = {
+        "useitemId", "usetype", "category", "name",
+        "description", "price"
+})
 @Alias("UseItem")
 public class UseItem implements Serializable {
 
     private static final long serialVersionUID = -138311826015722610L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int useitemId;
 
+    @JsonProperty(value = "api_usetype")
     @JSONField(ordinal = 2, name = "api_usetype")
     private int usetype;
 
+    @JsonProperty(value = "api_category")
     @JSONField(ordinal = 3, name = "api_category")
     private int category;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 4, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_description")
     @JSONField(ordinal = 5, name = "api_description")
     private JSONArray description;
 
+    @JsonProperty(value = "api_price")
     @JSONField(ordinal = 6, name = "api_price")
     private int price;
 

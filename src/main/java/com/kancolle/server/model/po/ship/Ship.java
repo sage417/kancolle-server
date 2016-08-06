@@ -6,6 +6,7 @@ package com.kancolle.server.model.po.ship;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.kancolle.server.model.po.View;
 import com.kancolle.server.model.po.common.MaxMinValue;
@@ -18,8 +19,16 @@ import java.io.Serializable;
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
- *
  */
+@JsonPropertyOrder(value = {
+        "shipId", "sortno", "name", "api_yomi",
+        "shipTypeId", "afterLv", "afterShipId", "api_taik",
+        "api_souk", "api_houg", "api_raig", "api_tyku",
+        "api_luck", "soku", "leng", "slotNum",
+        "maxEq", "buildTime", "api_broken", "api_powup",
+        "api_backs", "getmes", "afterFuel", "afterBull",
+        "fuelMax", "bullMax", "voicef"
+})
 @Alias("Ship")
 public class Ship extends BaseShip implements Serializable {
 
@@ -64,7 +73,9 @@ public class Ship extends BaseShip implements Serializable {
         return taik.toArray();
     }
 
-    /** 装甲 */
+    /**
+     * 装甲
+     */
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue souk;
 
@@ -75,7 +86,9 @@ public class Ship extends BaseShip implements Serializable {
         return souk.toArray();
     }
 
-    /** 火力 */
+    /**
+     * 火力
+     */
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue houg;
 

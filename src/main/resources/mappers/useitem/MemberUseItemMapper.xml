@@ -5,6 +5,8 @@
 	<resultMap type="MemberUseItem" id="MemberUseItemRM" autoMapping="true">
 		<id property="member_id" column="member_id"/>
 		<id property="useItemId" column="ID"/>
+		<result property="value" column="COUNT"/>
+		<result property="count" column="COUNT"/>
 		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHandler"/>
 	</resultMap>
 

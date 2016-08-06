@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.ship;
 
