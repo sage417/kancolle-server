@@ -4,3 +4,5 @@ jdk:
 services:
     - redis-server
     - mysql
+before_install:
+  - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
