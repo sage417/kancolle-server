@@ -52,7 +52,6 @@ public class MemberServiceTest {
         Assert.assertFalse(token.equals(member.getToken()));
     }
 
-    @Test
     public void createNewMember(){
         Member member = Member.builder()
                 .nickName("sage417")
@@ -61,7 +60,6 @@ public class MemberServiceTest {
                 .maxSlotItem(500)
                 .token(LoginUtils.generateMemberToken())
                 .build();
-        member.setNickNameId("");
         memberService.addMember(member);
     }
 }
