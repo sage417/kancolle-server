@@ -68,6 +68,53 @@ public class JackJsonTest {
 
     }
 
+    @Test
+    public void testOrder() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        S s = new S();
+        s.setId(2);
+        s.setValue(3);
+        s.setLen(4);
+        Assert.assertEquals("{\"id\":2,\"value\":3,\"len\":4}", mapper.writeValueAsString(s));
+    }
+
+
+    private static class P {
+        private int id;
+
+        private int len;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getLen() {
+            return len;
+        }
+
+        public void setLen(int len) {
+            this.len = len;
+        }
+    }
+
+    @JsonPropertyOrder(value = {"id", "value", "len"})
+    private static class S extends P {
+
+        private int value;
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }
+    }
+
 
     private static class B {
 
