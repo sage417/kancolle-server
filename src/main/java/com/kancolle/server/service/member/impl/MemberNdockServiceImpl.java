@@ -73,7 +73,7 @@ public class MemberNdockServiceImpl implements MemberNDockService {
             repairMemberShip(memberShip);
         else {
             MemberNdock memberNdock = checkNotNull(getMemberNdockByCond(member_id, ndock_id));
-            checkState(memberNdock.getState() == MemberNdock.STATE_AVILABLE);
+            checkState(memberNdock.getState() == MemberNdock.STATE_AVAILABLE);
 
             // 状态设定
             memberNdock.setState(MemberNdock.STATE_USING);
@@ -100,10 +100,10 @@ public class MemberNdockServiceImpl implements MemberNDockService {
         MemberNdock memberNdock = checkNotNull(getMemberNdockByCond(member_id, ndock_id));
         checkState(memberNdock.getState() == MemberNdock.STATE_USING);
 
-        MemberShip memberShip = memberShipService.getMemberShip(member_id, Long.valueOf(memberNdock.getMemberShipId()));
+        MemberShip memberShip = memberShipService.getMemberShip(member_id, memberNdock.getMemberShipId());
         repairMemberShip(checkNotNull(memberShip));
 
-        memberNdock.setState(MemberNdock.STATE_AVILABLE);
+        memberNdock.setState(MemberNdock.STATE_AVAILABLE);
         memberNdock.setMemberShipId(0L);
         memberNdock.setCompleteTime(0L);
         memberNdock.setCompleteTimeStr("0");
@@ -116,8 +116,8 @@ public class MemberNdockServiceImpl implements MemberNDockService {
         MemberNdock ndock;
         for (int id = 1; id < 5; id++) {
             ndock = id < 3?
-                    new MemberNdock(member_id, id, MemberNdock.STATE_AVILABLE):
-                    new MemberNdock(member_id, id, MemberNdock.STATE_UNAVILABLE);
+                    new MemberNdock(member_id, id, MemberNdock.STATE_AVAILABLE):
+                    new MemberNdock(member_id, id, MemberNdock.STATE_UNAVAILABLE);
             ndocks.add(ndock);
         }
         memberNdockDao.insertMemberNdocks(ndocks);
