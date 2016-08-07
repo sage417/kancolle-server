@@ -22,7 +22,7 @@
 	<mvc:annotation-driven ignore-default-model-on-redirect="true" enable-matrix-variables="false">
 		<mvc:message-converters>
 			<!-- <ref bean="stringHttpMessageConverter" /> -->
-			<ref bean="fastJsonHttpMessageConverter" />
+			<!--<ref bean="fastJsonHttpMessageConverter" />-->
 			<!-- <ref bean="marshallingHttpMessageConverter" /> -->
 			<ref bean="jacksonHttpMessageConverter" />
 		</mvc:message-converters>
