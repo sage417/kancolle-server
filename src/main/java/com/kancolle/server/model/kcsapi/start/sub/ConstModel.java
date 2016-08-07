@@ -2,28 +2,32 @@ package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
 
-public class ConstModel implements Serializable{
+@JsonPropertyOrder(value = {
+        "api_boko_max_ships", "api_dpflag_quest", "api_parallel_quest_max"
+})
+public class ConstModel implements Serializable {
 
-    @JSONField(deserialize = false)
     private static final String STRING_KEY = "api_string_value";
 
-    @JSONField(deserialize = false)
     private static final String INT_KEY = "api_int_value";
 
+    @JsonProperty(value = "api_boko_max_ships")
     @JSONField(ordinal = 1)
     private static final JSONObject api_boko_max_ships = new JSONObject(2);
 
+    @JsonProperty(value = "api_dpflag_quest")
     @JSONField(ordinal = 2)
     private static final JSONObject api_dpflag_quest = new JSONObject(2);
 
+    @JsonProperty(value = "api_parallel_quest_max")
     @JSONField(ordinal = 3)
     private static final JSONObject api_parallel_quest_max = new JSONObject(2);
 
-
-    @JSONField(deserialize = false)
     private static final ConstModel SINGLON = new ConstModel();
 
     static {

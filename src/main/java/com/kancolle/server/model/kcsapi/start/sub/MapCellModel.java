@@ -1,27 +1,39 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
 
 import java.io.Serializable;
 
-public class MapCellModel implements Serializable{
+@JsonPropertyOrder(value = {
+        "api_map_no", "api_maparea_id", "api_mapinfo_no", "api_id",
+        "api_no", "api_color_no"
+})
+public class MapCellModel implements Serializable {
 
+    @JsonProperty(value = "api_map_no")
     @JSONField(name = "api_map_no", ordinal = 1)
     private int api_map_no;
 
+    @JsonProperty(value = "api_maparea_id")
     @JSONField(name = "api_maparea_id", ordinal = 2)
     private int api_maparea_id;
 
+    @JsonProperty(value = "api_mapinfo_no")
     @JSONField(name = "api_mapinfo_no", ordinal = 3)
     private int api_mapinfo_no;
 
+    @JsonProperty(value = "api_id")
     @JSONField(name = "api_id", ordinal = 4)
     private int api_id;
 
+    @JsonProperty(value = "api_no")
     @JSONField(name = "api_no", ordinal = 5)
     private int api_no;
 
+    @JsonProperty(value = "api_color_no")
     @JSONField(name = "api_color_no", ordinal = 6)
     private int api_color_no;
 

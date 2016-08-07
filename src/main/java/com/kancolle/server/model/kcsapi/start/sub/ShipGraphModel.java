@@ -3,66 +3,94 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
 
 import java.io.Serializable;
 
-public class ShipGraphModel implements Serializable{
+@JsonPropertyOrder(value = {
+        "api_id", "api_sortno", "api_filename", "api_version",
+        "api_boko_n", "api_boko_d", "api_kaisyu_n", "api_kaisyu_d",
+        "api_kaizo_n", "api_kaizo_d", "api_map_n", "api_map_d",
+        "api_ensyuf_n", "api_ensyuf_d", "api_ensyue_n", "api_battle_n",
+        "api_battle_d", "api_weda", "api_wedb"
+})
+public class ShipGraphModel implements Serializable {
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private int api_id;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2)
     private int api_sortno;
 
+    @JsonProperty(value = "api_filename")
     @JSONField(ordinal = 3)
     private String api_filename;
 
+    @JsonProperty(value = "api_version")
     @JSONField(ordinal = 4)
     private String api_version;
 
+    @JsonProperty(value = "api_boko_n")
     @JSONField(ordinal = 5)
     private JSONArray api_boko_n;
 
+    @JsonProperty(value = "api_boko_d")
     @JSONField(ordinal = 6)
     private JSONArray api_boko_d;
 
+    @JsonProperty(value = "api_kaisyu_n")
     @JSONField(ordinal = 7)
     private JSONArray api_kaisyu_n;
 
+    @JsonProperty(value = "api_kaisyu_d")
     @JSONField(ordinal = 8)
     private JSONArray api_kaisyu_d;
 
+    @JsonProperty(value = "api_kaizo_n")
     @JSONField(ordinal = 9)
     private JSONArray api_kaizo_n;
 
+    @JsonProperty(value = "api_kaizo_d")
     @JSONField(ordinal = 10)
     private JSONArray api_kaizo_d;
 
+    @JsonProperty(value = "api_map_n")
     @JSONField(ordinal = 11)
     private JSONArray api_map_n;
 
+    @JsonProperty(value = "api_map_d")
     @JSONField(ordinal = 12)
     private JSONArray api_map_d;
 
+    @JsonProperty(value = "api_ensyuf_n")
     @JSONField(ordinal = 13)
     private JSONArray api_ensyuf_n;
 
+    @JsonProperty(value = "api_ensyuf_d")
     @JSONField(ordinal = 14)
     private JSONArray api_ensyuf_d;
 
+    @JsonProperty(value = "api_ensyue_n")
     @JSONField(ordinal = 15)
     private JSONArray api_ensyue_n;
 
+    @JsonProperty(value = "api_battle_n")
     @JSONField(ordinal = 16)
     private JSONArray api_battle_n;
 
+    @JsonProperty(value = "api_battle_d")
     @JSONField(ordinal = 17)
     private JSONArray api_battle_d;
 
+    @JsonProperty(value = "api_weda")
     @JSONField(ordinal = 18)
     private JSONArray api_weda;
 
+    @JsonProperty(value = "api_wedb")
     @JSONField(ordinal = 19)
     private JSONArray api_wedb;
 

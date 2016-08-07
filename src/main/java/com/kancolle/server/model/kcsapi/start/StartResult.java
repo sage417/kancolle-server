@@ -2,6 +2,7 @@ package com.kancolle.server.model.kcsapi.start;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.start.sub.*;
 import com.kancolle.server.model.po.furniture.BGM;
 import com.kancolle.server.model.po.furniture.Furniture;
@@ -14,83 +15,90 @@ import com.kancolle.server.model.po.useitem.UseItem;
 import java.io.Serializable;
 import java.util.List;
 
+@JsonPropertyOrder(value = {
+        "api_mst_ship", "api_mst_shipgraph", "api_mst_slotitem_equiptype", "api_mst_stype",
+        "api_mst_slotitem", "api_mst_slotitemgraph", "api_mst_furniture", "api_mst_furnituregraph",
+        "api_mst_useitem", "api_mst_payitem", "api_mst_item_shop", "api_mst_maparea",
+        "api_mst_mapinfo", "api_mst_mapbgm", "api_mst_mapcell", "api_mst_mission",
+        "api_mst_const", "api_mst_shipupgrade", "api_mst_bgm"
+})
 public class StartResult implements Serializable {
 
     private static final long serialVersionUID = -8937536676698120512L;
 
-    @JsonProperty(value = "api_mst_ship", index = 1)
+    @JsonProperty(value = "api_mst_ship")
     @JSONField(ordinal = 1)
     private List<BaseShip> api_mst_ship;
 
-    @JsonProperty(value = "api_mst_shipgraph", index = 2)
+    @JsonProperty(value = "api_mst_shipgraph")
     @JSONField(ordinal = 2)
     private List<ShipGraphModel> api_mst_shipgraph;
 
-    @JsonProperty(value = "api_mst_slotitem_equiptype", index = 3)
+    @JsonProperty(value = "api_mst_slotitem_equiptype")
     @JSONField(ordinal = 3)
     private List<EquipTypeModel> api_mst_slotitem_equiptype;
 
-    @JsonProperty(value = "api_mst_stype", index = 4)
+    @JsonProperty(value = "api_mst_stype")
     @JSONField(ordinal = 4)
     private List<ShipType> api_mst_stype;
 
-    @JsonProperty(value = "api_mst_slotitem", index = 5)
+    @JsonProperty(value = "api_mst_slotitem")
     @JSONField(ordinal = 5)
     private List<SlotItem> api_mst_slotitem;
 
-    @JsonProperty(value = "api_mst_slotitemgraph", index = 6)
+    @JsonProperty(value = "api_mst_slotitemgraph")
     @JSONField(ordinal = 6)
     private List<SlotItemGraphModel> api_mst_slotitemgraph;
 
-    @JsonProperty(value = "api_mst_furniture", index = 7)
+    @JsonProperty(value = "api_mst_furniture")
     @JSONField(ordinal = 7)
     private List<Furniture> api_mst_furniture;
 
-    @JsonProperty(value = "api_mst_furnituregraph", index = 8)
+    @JsonProperty(value = "api_mst_furnituregraph")
     @JSONField(ordinal = 8)
     private List<FurnitureGraphModel> api_mst_furnituregraph;
 
-    @JsonProperty(value = "api_mst_useitem", index = 9)
+    @JsonProperty(value = "api_mst_useitem")
     @JSONField(ordinal = 9)
     private List<UseItem> api_mst_useitem;
 
-    @JsonProperty(value = "api_mst_payitem", index = 10)
+    @JsonProperty(value = "api_mst_payitem")
     @JSONField(ordinal = 10)
     private List<PayItemModel> api_mst_payitem;
 
-    @JsonProperty(value = "api_mst_item_shop", index = 11)
+    @JsonProperty(value = "api_mst_item_shop")
     @JSONField(ordinal = 11)
     private ItemShopModel api_mst_item_shop;
 
-    @JsonProperty(value = "api_mst_maparea", index = 12)
+    @JsonProperty(value = "api_mst_maparea")
     @JSONField(ordinal = 12)
     private List<MapAreaModel> api_mst_maparea;
 
-    @JsonProperty(value = "api_mst_mapinfo", index = 13)
+    @JsonProperty(value = "api_mst_mapinfo")
     @JSONField(ordinal = 13)
     private List<MapInfoModel> api_mst_mapinfo;
 
-    @JsonProperty(value = "api_mst_mapbgm", index = 14)
+    @JsonProperty(value = "api_mst_mapbgm")
     @JSONField(ordinal = 14)
     private List<MapBgmModel> api_mst_mapbgm;
 
-    @JsonProperty(value = "api_mst_mapcell", index = 15)
+    @JsonProperty(value = "api_mst_mapcell")
     @JSONField(ordinal = 15)
     private List<MapCellModel> api_mst_mapcell;
 
-    @JsonProperty(value = "api_mst_mission", index = 16)
+    @JsonProperty(value = "api_mst_mission")
     @JSONField(ordinal = 16)
     private List<Mission> api_mst_mission;
 
-    @JsonProperty(value = "api_mst_const", index = 17)
+    @JsonProperty(value = "api_mst_const")
     @JSONField(ordinal = 17)
     private ConstModel api_mst_const;
 
-    @JsonProperty(value = "api_mst_shipupgrade", index = 18)
+    @JsonProperty(value = "api_mst_shipupgrade")
     @JSONField(ordinal = 18)
     private List<ShipUpgradeModel> api_mst_shipupgrade;
 
-    @JsonProperty(value = "api_mst_bgm", index = 19)
+    @JsonProperty(value = "api_mst_bgm")
     @JSONField(ordinal = 19)
     private List<BGM> api_mst_bgm;
 

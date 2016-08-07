@@ -1,27 +1,39 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
 
 import java.io.Serializable;
 
-public class ShipUpgradeModel implements Serializable{
+@JsonPropertyOrder(value = {
+        "api_id", "api_original_ship_id", "api_upgrade_type", "api_upgrade_level",
+        "api_drawing_count", "api_sortno"
+})
+public class ShipUpgradeModel implements Serializable {
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private int api_id;
 
+    @JsonProperty(value = "api_original_ship_id")
     @JSONField(ordinal = 2)
     private int api_original_ship_id;
 
+    @JsonProperty(value = "api_upgrade_type")
     @JSONField(ordinal = 3)
     private int api_upgrade_type;
 
+    @JsonProperty(value = "api_upgrade_level")
     @JSONField(ordinal = 4)
     private int api_upgrade_level;
 
+    @JsonProperty(value = "api_drawing_count")
     @JSONField(ordinal = 5)
     private int api_drawing_count;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 6)
     private int api_sortno;
 
