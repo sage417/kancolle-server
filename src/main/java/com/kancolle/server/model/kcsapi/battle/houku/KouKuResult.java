@@ -1,26 +1,34 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.battle.houku;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年11月14日
- *
  */
+@JsonPropertyOrder(value = {
+        "api_plane_from", "stage1", "stage2", "stage3"
+})
 public class KouKuResult {
 
+    @JsonProperty(value = "api_plane_from")
     @JSONField(name = "api_plane_from", ordinal = 1)
     private int[][] api_plane_from;
 
+    @JsonProperty(value = "api_stage1")
     @JSONField(name = "api_stage1", ordinal = 2)
     private KouKuStage1 stage1;
 
+    @JsonProperty(value = "api_stage2")
     @JSONField(name = "api_stage2", ordinal = 3)
     private KouKuStage2 stage2;
 
+    @JsonProperty(value = "stage3")
     @JSONField(name = "api_stage3", ordinal = 4)
     private KouKuStage3 stage3;
 

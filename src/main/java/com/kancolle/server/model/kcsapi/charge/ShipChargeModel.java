@@ -1,28 +1,36 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.charge;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月22日
- *
  */
+@JsonPropertyOrder(value = {
+        "api_id", "api_fuel", "api_bull", "api_onslot"
+})
 public class ShipChargeModel {
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private long api_id;
 
-    @JSONField(ordinal = 1)
+    @JsonProperty(value = "api_fuel")
+    @JSONField(ordinal = 2)
     private int api_fuel;
 
-    @JSONField(ordinal = 1)
+    @JsonProperty(value = "api_bull")
+    @JSONField(ordinal = 3)
     private int api_bull;
 
-    @JSONField(ordinal = 1)
+    @JsonProperty(value = "api_onslot")
+    @JSONField(ordinal = 4)
     private int[] api_onslot;
 
     /**

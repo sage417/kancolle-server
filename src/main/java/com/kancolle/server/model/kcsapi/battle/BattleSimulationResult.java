@@ -7,6 +7,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
@@ -27,6 +28,14 @@ import java.util.stream.Stream;
  * @Date 2015年8月22日
  *
  */
+@JsonPropertyOrder(value = {
+        "api_dock_id", "api_ship_ke", "api_ship_lv", "api_nowhps",
+        "api_maxhps", "api_midnight_flag", "api_eSlot", "api_eKyouka",
+        "api_fParam", "api_eParam", "api_search", "api_formation",
+        "api_stage_flag", "api_kouku", "api_support_flag", "api_support_info",
+        "api_opening_flag", "api_opening_atack", "api_hourai_flag", "api_hougeki1",
+        "api_hougeki2", "api_hougeki3", "api_raigeki"
+})
 public class BattleSimulationResult {
 
     private static final int MAX_SHELLING_ROUND = 3;
