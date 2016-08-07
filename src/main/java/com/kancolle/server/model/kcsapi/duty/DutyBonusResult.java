@@ -1,18 +1,26 @@
 package com.kancolle.server.model.kcsapi.duty;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.duty.bunous.Bonus;
 import com.kancolle.server.model.kcsapi.duty.bunous.BonusItem;
 import com.kancolle.server.model.kcsapi.duty.bunous.BonusShip;
 
+@JsonPropertyOrder(value = {
+        "api_type", "api_count", "api_item"
+})
 public class DutyBonusResult {
 
+    @JsonProperty(value = "api_type")
     @JSONField(ordinal = 1)
     private int api_type;
 
+    @JsonProperty(value = "api_count")
     @JSONField(ordinal = 2)
     private int api_count;
 
+    @JsonProperty(value = "api_item")
     @JSONField(ordinal = 3)
     private Bonus api_item;
 

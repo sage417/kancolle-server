@@ -1,45 +1,58 @@
 package com.kancolle.server.model.kcsapi.member;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
-
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.member.port.PortMember;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
+import org.springframework.beans.BeanUtils;
 
-public class MemberPort implements Serializable{
+import java.io.Serializable;
+import java.util.List;
+
+@JsonPropertyOrder(value = {
+        "api_material", "api_deck_port", "api_ndock", "api_ship",
+        "api_basic", "api_log", "api_p_bgm_id", "api_parallel_quest_count"
+})
+public class MemberPort implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8195617907701218535L;
 
+    @JsonProperty(value = "api_material")
     @JSONField(ordinal = 1)
     private List<MemberMeterialDto> api_material;
 
+    @JsonProperty(value = "api_deck_port")
     @JSONField(ordinal = 2)
     private List<MemberDeckPort> api_deck_port;
 
+    @JsonProperty(value = "api_ndock")
     @JSONField(ordinal = 3)
     private List<MemberNdock> api_ndock;
 
+    @JsonProperty(value = "api_ship")
     @JSONField(ordinal = 4)
     private List<MemberShip> api_ship;
 
+    @JsonProperty(value = "api_basic")
     @JSONField(ordinal = 5)
     private PortMember api_basic;
 
+    @JsonProperty(value = "api_log")
     @JSONField(ordinal = 6)
     private List<MemberLog> api_log;
 
+    @JsonProperty(value = "api_p_bgm_id")
     @JSONField(ordinal = 7)
     private int api_p_bgm_id;
 
+    @JsonProperty(value = "api_parallel_quest_count")
     @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
