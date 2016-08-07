@@ -18,7 +18,6 @@ package org.mybatis.caches.ehcache;
 import com.kancolle.server.utils.SpringUtils;
 import net.sf.ehcache.CacheManager;
 import org.apache.ibatis.cache.Cache;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 public class EhcacheCache extends AbstractEhcacheCache implements Cache {
 

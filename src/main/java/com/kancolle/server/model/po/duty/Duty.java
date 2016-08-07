@@ -1,9 +1,9 @@
 package com.kancolle.server.model.po.duty;
 
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.apache.ibatis.type.Alias;
 
 @Alias("Duty")
 public class Duty implements Serializable {

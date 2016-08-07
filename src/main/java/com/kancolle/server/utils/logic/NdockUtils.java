@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.utils.logic;
 
-import java.math.RoundingMode;
-
 import com.google.common.math.LongMath;
+
+import java.math.RoundingMode;
 
 /**
  * @author J.K.SAGE

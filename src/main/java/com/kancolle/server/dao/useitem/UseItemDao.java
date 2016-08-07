@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.dao.useitem;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.useitem.UseItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

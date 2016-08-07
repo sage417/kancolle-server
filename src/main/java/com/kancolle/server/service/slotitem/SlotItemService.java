@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.service.slotitem;
 
-import java.util.List;
-
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

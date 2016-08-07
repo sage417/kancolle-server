@@ -1,5 +1,14 @@
 package com.kancolle.server.utils;
 
+import com.kancolle.server.dao.annotation.Column;
+import com.kancolle.server.dao.annotation.Id;
+import com.kancolle.server.dao.base.BaseDao;
+import com.kancolle.server.dao.lambda.ThrowingFunction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.ResolvableType;
+import org.springframework.util.ClassUtils;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
@@ -11,16 +20,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.ResolvableType;
-import org.springframework.util.ClassUtils;
-
-import com.kancolle.server.dao.annotation.Column;
-import com.kancolle.server.dao.annotation.Id;
-import com.kancolle.server.dao.base.BaseDao;
-import com.kancolle.server.dao.lambda.ThrowingFunction;
 
 public class DaoUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DaoUtils.class);

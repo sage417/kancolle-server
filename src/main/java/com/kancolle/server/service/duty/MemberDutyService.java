@@ -1,11 +1,11 @@
 package com.kancolle.server.service.duty;
 
-import java.util.List;
-
 import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
 import com.kancolle.server.model.po.duty.MemberDuty;
+
+import java.util.List;
 
 public interface MemberDutyService {
 

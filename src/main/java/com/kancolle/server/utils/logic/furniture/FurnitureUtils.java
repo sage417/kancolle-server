@@ -3,26 +3,20 @@
  */
 package com.kancolle.server.utils.logic.furniture;
 
-import static com.kancolle.server.model.po.furniture.FurnitureType.DESK;
-import static com.kancolle.server.model.po.furniture.FurnitureType.FLOOR;
-import static com.kancolle.server.model.po.furniture.FurnitureType.SHELF;
-import static com.kancolle.server.model.po.furniture.FurnitureType.WALLHANGING;
-import static com.kancolle.server.model.po.furniture.FurnitureType.WALLPAPER;
-import static com.kancolle.server.model.po.furniture.FurnitureType.WINDOW;
-
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.po.furniture.FurnitureType;
 import com.kancolle.server.utils.BeanUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import static com.kancolle.server.model.po.furniture.FurnitureType.*;
 
 /**
  * @author J.K.SAGE

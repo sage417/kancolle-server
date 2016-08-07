@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.model.po.mission;
 
-import java.io.Serializable;
-
 import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE

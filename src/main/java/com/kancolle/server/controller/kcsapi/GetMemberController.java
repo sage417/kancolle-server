@@ -13,6 +13,7 @@ import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 import com.kancolle.server.model.kcsapi.ship.Ship2Result;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
 import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
+import com.kancolle.server.model.kcsapi.start.requireInfo.RequireInfo;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.map.MemberMapCell;
@@ -85,6 +86,13 @@ public class GetMemberController {
 
     @Autowired
     private PortDao portDao;
+
+    @RequestMapping("/requireInfo")
+    public APIResponse<RequireInfo> requireInfo(@ModelAttribute(MEMBER_ID) String member_id) {
+
+
+        return new APIResponse<RequireInfo>().setApi_data(new RequireInfo());
+    }
 
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -197,7 +205,7 @@ public class GetMemberController {
     }
 
     @RequestMapping("/ship_deck")
-    public  APIResponse<ShipDeckResult> shipDeck(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_deck_rid")int deckPortId){
+    public APIResponse<ShipDeckResult> shipDeck(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_deck_rid") int deckPortId) {
         ShipDeckResult api_data = memberShipService.getShipDeck(member_id, deckPortId);
         return new APIResponse<ShipDeckResult>().setApi_data(api_data);
     }

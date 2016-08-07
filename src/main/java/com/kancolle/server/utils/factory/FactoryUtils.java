@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.utils.factory;
 
-import java.util.Arrays;
-
 import org.apache.commons.lang3.RandomUtils;
+
+import java.util.Arrays;
 
 /**
  * @author J.K.SAGE

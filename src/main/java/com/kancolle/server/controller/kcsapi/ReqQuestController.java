@@ -1,17 +1,12 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.kancolle.server.model.kcsapi.duty.DutyItemGetResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.duty.MemberDutyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_quest", method = RequestMethod.POST)

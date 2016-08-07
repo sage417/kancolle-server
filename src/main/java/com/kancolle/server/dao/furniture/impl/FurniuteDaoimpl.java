@@ -3,14 +3,13 @@
  */
 package com.kancolle.server.dao.furniture.impl;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.furniture.FurnitureDao;
 import com.kancolle.server.model.po.furniture.Furniture;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author J.K.SAGE

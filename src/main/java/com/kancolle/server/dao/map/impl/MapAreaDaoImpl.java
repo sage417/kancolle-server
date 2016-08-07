@@ -1,13 +1,12 @@
 package com.kancolle.server.dao.map.impl;
 
-import java.util.Collections;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.map.MapAreaDao;
 import com.kancolle.server.model.kcsapi.start.sub.MapAreaModel;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.Map;
 
 @Repository
 public class MapAreaDaoImpl extends BaseDaoImpl<MapAreaModel> implements MapAreaDao {

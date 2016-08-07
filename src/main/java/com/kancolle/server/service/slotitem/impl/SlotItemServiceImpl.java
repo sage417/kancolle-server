@@ -3,17 +3,16 @@
  */
 package com.kancolle.server.service.slotitem.impl;
 
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.slotitem.SlotItemDao;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.slotitem.SlotItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @author J.K.SAGE

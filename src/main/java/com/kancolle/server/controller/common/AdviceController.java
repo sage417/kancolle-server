@@ -3,6 +3,8 @@
  */
 package com.kancolle.server.controller.common;
 
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +13,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
-
-import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberService;
 
 /**
  * @author J.K.SAGE

@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
+import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.member.MemberNDockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
-import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.member.MemberNDockService;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 /**
  * @author J.K.SAGE

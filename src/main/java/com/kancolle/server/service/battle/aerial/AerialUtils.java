@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.service.battle.aerial;
 
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
+
 import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_ADVANTAGE;
 import static com.kancolle.server.service.battle.aerial.AerialBattleSystem.AIR_BATTLE_GUARANTEE;
-
-import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 
 /**
  * @author J.K.SAGE

@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.service.useitem;
 
-import java.util.List;
-
 import com.kancolle.server.model.po.useitem.UseItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

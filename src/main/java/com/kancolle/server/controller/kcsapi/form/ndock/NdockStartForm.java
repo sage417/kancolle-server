@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.controller.kcsapi.form.ndock;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Range;
 
 /**
  * @author J.K.SAGE

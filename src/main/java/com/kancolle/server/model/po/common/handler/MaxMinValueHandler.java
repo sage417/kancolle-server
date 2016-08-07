@@ -3,18 +3,17 @@
  */
 package com.kancolle.server.model.po.common.handler;
 
+import com.alibaba.fastjson.JSON;
+import com.kancolle.server.model.po.common.MaxMinValue;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
-
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-
-import com.alibaba.fastjson.JSON;
-import com.kancolle.server.model.po.common.MaxMinValue;
 
 /**
  * @author J.K.SAGE

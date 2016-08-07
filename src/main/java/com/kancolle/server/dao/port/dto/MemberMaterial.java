@@ -1,16 +1,16 @@
 package com.kancolle.server.dao.port.dto;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.annotation.Column;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.utils.BeanUtils;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class MemberMaterial {
 

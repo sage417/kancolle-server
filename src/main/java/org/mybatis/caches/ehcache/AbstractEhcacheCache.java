@@ -15,12 +15,11 @@
  */
 package org.mybatis.caches.ehcache;
 
-import java.util.concurrent.locks.ReadWriteLock;
-
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-
 import org.apache.ibatis.cache.Cache;
+
+import java.util.concurrent.locks.ReadWriteLock;
 
 /**
  * Cache adapter for Ehcache.

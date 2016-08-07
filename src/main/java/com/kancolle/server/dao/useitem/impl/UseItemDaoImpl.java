@@ -3,13 +3,12 @@
  */
 package com.kancolle.server.dao.useitem.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.useitem.UseItemDao;
 import com.kancolle.server.model.po.useitem.UseItem;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

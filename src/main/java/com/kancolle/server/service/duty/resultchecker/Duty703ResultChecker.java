@@ -1,9 +1,8 @@
 package com.kancolle.server.service.duty.resultchecker;
 
-import org.springframework.stereotype.Component;
-
 import com.kancolle.server.model.po.duty.MemberDuty;
 import com.kancolle.server.service.duty.DutyResultChecker;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Duty703ResultChecker implements DutyResultChecker {
