@@ -1,30 +1,36 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.map;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月30日
- *
  */
+@JsonPropertyOrder(value = {
+        "mapareaId", "name", "type"
+})
 @Alias("MapArea")
 public class MapArea implements Serializable {
 
     private static final long serialVersionUID = 6925572948954757048L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int mapareaId;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 2, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_type")
     @JSONField(ordinal = 3, name = "api_type")
     private int type;
 

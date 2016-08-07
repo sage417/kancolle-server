@@ -5,6 +5,8 @@ package com.kancolle.server.model.po.deckport;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.ship.MemberShip;
 import org.apache.ibatis.type.Alias;
 
@@ -16,6 +18,10 @@ import java.util.List;
  * @author J.K.SAGE
  * @Date 2015年6月30日
  */
+@JsonPropertyOrder(value = {
+        "memberId", "deckId", "name", "name_id",
+        "mission", "flagship", "ship"
+})
 @Alias("MemberDeckPort")
 public class MemberDeckPort implements Serializable {
 
@@ -25,24 +31,31 @@ public class MemberDeckPort implements Serializable {
 
     private static final long[] EMPTY_SHIPS = new long[]{-1L, -1L, -1L, -1L, -1L, -1L};
 
+    @JsonProperty(value = "api_member_id")
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 2, name = "api_id")
     private int deckId;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_name_id")
     @JSONField(ordinal = 4, name = "api_name_id")
     private String name_id;
 
+    @JsonProperty(value = "api_mission")
     @JSONField(ordinal = 5, name = "api_mission")
     private long[] mission;
 
+    @JsonProperty(value = "api_flagship")
     @JSONField(ordinal = 6, name = "api_flagship")
     private String flagship;
 
+    @JsonProperty(value = "api_ship")
     @JSONField(ordinal = 7, name = "api_ship")
     private long[] ship;
 

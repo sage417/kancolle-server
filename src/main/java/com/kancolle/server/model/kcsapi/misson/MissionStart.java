@@ -1,12 +1,19 @@
 package com.kancolle.server.model.kcsapi.misson;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder(value = {
+        "api_complatetime", "api_complatetime_str"
+})
 public class MissionStart {
 
+    @JsonProperty(value = "api_complatetime")
     @JSONField(ordinal = 1)
     private long api_complatetime;
 
+    @JsonProperty(value = "api_complatetime_str")
     @JSONField(ordinal = 2)
     private String api_complatetime_str;
 

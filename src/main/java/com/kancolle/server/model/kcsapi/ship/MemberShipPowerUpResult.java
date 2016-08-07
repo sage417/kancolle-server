@@ -1,29 +1,36 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.ship;
 
-import java.util.List;
-
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月3日
- *
  */
+@JsonPropertyOrder(value = {
+        "api_powerup_flag", "api_ship", "api_deck"
+})
 public class MemberShipPowerUpResult {
     public static final int RESULT_SUCCESS = 1;
     public static final int RESULT_FAILED = 0;
 
+    @JsonProperty(value = "api_powerup_flag")
     @JSONField(ordinal = 1)
     private int api_powerup_flag;
 
+    @JsonProperty(value = "api_ship")
     @JSONField(ordinal = 2)
     private MemberShip api_ship;
 
+    @JsonProperty(value = "api_deck")
     @JSONField(ordinal = 3)
     private List<MemberDeckPort> api_deck;
 

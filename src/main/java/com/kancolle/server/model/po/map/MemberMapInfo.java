@@ -1,41 +1,52 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.map;
 
-import org.apache.ibatis.type.Alias;
-
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年8月17日
- *
  */
+@JsonPropertyOrder(value = {
+        "mapId", "api_cleared", "api_exboss_flag", "defeatCount"
+})
 @Alias("MemberMapInfo")
 public class MemberMapInfo {
 
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int mapId;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private boolean isCleared;
 
+    @JsonProperty(value = "api_cleared")
     @JSONField(ordinal = 2, name = "api_cleared")
     public int getIsCleared() {
         return isCleared() ? 1 : 0;
     }
 
+    @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
     private boolean exBossFlag;
 
+    @JsonProperty(value = "api_exboss_flag")
     @JSONField(ordinal = 3, name = "api_exboss_flag")
     public int getIsExBossFlag() {
         return isExBossFlag() ? 1 : 0;
     }
 
+    @JsonProperty(value = "api_defeat_countS")
     @JSONField(ordinal = 4, name = "api_defeat_count")
     private int defeatCount;
 

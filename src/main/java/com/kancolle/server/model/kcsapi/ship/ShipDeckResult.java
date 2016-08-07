@@ -1,16 +1,23 @@
 package com.kancolle.server.model.kcsapi.ship;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.List;
 
+@JsonPropertyOrder(value = {
+        "api_ship_data", "api_deck_data"
+})
 public class ShipDeckResult {
 
+    @JsonProperty(value = "api_ship_data")
     @JSONField(ordinal = 1)
     private List<MemberShip> api_ship_data;
 
+    @JsonProperty(value = "api_deck_data")
     @JSONField(ordinal = 2)
     private List<MemberDeckPort> api_deck_data;
 

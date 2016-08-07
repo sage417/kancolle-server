@@ -1,14 +1,26 @@
 package com.kancolle.server.model.kcsapi.member.port;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.member.Member;
 
+@JsonPropertyOrder(value = {
+        "memberId", "nickName", "nickNameId", "activeFlag",
+        "startTime", "level", "rank", "experience",
+        "fleetName", "comment", "commentId", "maxChara",
+        "maxSlotItem", "maxKagu", "playTime", "tutorial",
+        "furniture", "deckCount", "kdockCount", "ndockCount",
+        "fCoin", "attackWin", "attackLose", "missionCount",
+        "missionSuccess", "practiceWin", "practiceLose", "practiceChallenged",
+        "practiceChallengedWin", "firstFlag", "tutorialProgress", "pvp",
+        "medals","api_large_dock"
+})
 public class PortMember extends Member {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4885012780581892057L;
+
+    @JsonProperty(value = "api_large_dock")
     @JSONField(ordinal = 999)
     private int api_large_dock;
 

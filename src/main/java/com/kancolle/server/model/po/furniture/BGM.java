@@ -1,27 +1,32 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.furniture;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月27日
- *
  */
+@JsonPropertyOrder(value = {
+        "bgmId", "name"
+})
 @Alias("BGM")
 public class BGM implements Serializable {
 
     private static final long serialVersionUID = -6386444954987433645L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int bgmId;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 2, name = "api_name")
     private String name;
 

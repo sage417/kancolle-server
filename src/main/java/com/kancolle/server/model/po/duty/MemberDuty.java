@@ -1,11 +1,18 @@
 package com.kancolle.server.model.po.duty;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
+@JsonPropertyOrder(value = {
+        "dutyNo", "api_category", "api_type", "state",
+        "api_title", "api_detail", "api_get_material", "api_bonus_flag",
+        "api_progress_flag", "api_invalid_flag"
+})
 @Alias("MemberDuty")
 public class MemberDuty implements Serializable {
 
@@ -20,51 +27,63 @@ public class MemberDuty implements Serializable {
 
     private static final long serialVersionUID = 4233366344226823086L;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private Duty duty;
 
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
+    @JsonProperty(value = "api_no")
     @JSONField(name = "api_no", ordinal = 1)
     private int dutyNo;
 
+    @JsonProperty(value = "api_category")
     @JSONField(name = "api_category", ordinal = 2)
     public int gerCategory() {
         return getDuty().getCategory();
     }
 
+    @JsonProperty(value = "api_type")
     @JSONField(name = "api_type", ordinal = 3)
     public int getType() {
         return getDuty().getType();
     }
 
+    @JsonProperty(value = "api_state")
     @JSONField(name = "api_state", ordinal = 4)
     private int state;
 
+    @JsonProperty(value = "api_title")
     @JSONField(name = "api_title", ordinal = 5)
     public String getTitle() {
         return getDuty().getTitle();
     }
 
+    @JsonProperty(value = "api_detail")
     @JSONField(name = "api_detail", ordinal = 6)
     public String getDetail() {
         return getDuty().getDetail();
     }
 
+    @JsonProperty(value = "api_get_material")
     @JSONField(name = "api_get_material", ordinal = 7)
     public int[] getMaterial() {
         return getDuty().getMaterial();
     }
 
+    @JsonProperty(value = "api_bonus_flag")
     @JSONField(name = "api_bonus_flag", ordinal = 8)
     public int getBonusFlag() {
         return getDuty().getBonusFlag() == Duty.BONUS_TYPE_SHIP ? 2 : 1;
     }
 
+    @JsonProperty(value = "api_progress_flag")
     @JSONField(name = "api_progress_flag", ordinal = 9)
     private int progressFlag;
 
+    @JsonProperty(value = "api_invalid_flag")
     @JSONField(name = "api_invalid_flag", ordinal = 10)
     public int getInvalidFlag() {
         return getDuty().getInvalidFlag();

@@ -1,41 +1,53 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.slotitem;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月12日
- *
  */
+@JsonPropertyOrder(value = {
+        "api_create_flag", "api_shizai_flag", "api_slot_item", "api_fdata",
+        "api_material", "api_type3", "api_unsetslot"
+})
 public class CreateItemResult {
 
     public static final int CREATE_SUCCESS = 1;
 
     public static final int CREATE_FAIL = 0;
 
+    @JsonProperty(value = "api_create_flag")
     @JSONField(ordinal = 1)
     private int api_create_flag;
 
+    @JsonProperty(value = "api_shizai_flag")
     @JSONField(ordinal = 2)
     private int api_shizai_flag;
 
+    @JsonProperty(value = "api_slot_item")
     @JSONField(ordinal = 3)
     private CreateItem api_slot_item;
 
+    @JsonProperty(value = "api_fdata")
     @JSONField(ordinal = 4)
     private String api_fdata;
 
+    @JsonProperty(value = "api_material")
     @JSONField(ordinal = 5)
     private int[] api_material;
 
+    @JsonProperty(value = "api_type3")
     @JSONField(ordinal = 6)
     private int api_type3;
 
+    @JsonProperty(value = "api_unsetslot")
     @JSONField(ordinal = 7)
     private long[] api_unsetslot;
 
@@ -57,8 +69,8 @@ public class CreateItemResult {
 
     private CreateItemResult(Resource memberResource) {
         super();
-        this.api_material = new int[] { memberResource.getFuel(), memberResource.getBull(), memberResource.getSteel(), memberResource.getBauxite(), memberResource.getFastBuild(),
-                memberResource.getFastRecovery(), memberResource.getDevItem(), memberResource.getDevItem() };
+        this.api_material = new int[]{memberResource.getFuel(), memberResource.getBull(), memberResource.getSteel(), memberResource.getBauxite(), memberResource.getFastBuild(),
+                memberResource.getFastRecovery(), memberResource.getDevItem(), memberResource.getDevItem()};
     }
 
     public int getApi_create_flag() {
