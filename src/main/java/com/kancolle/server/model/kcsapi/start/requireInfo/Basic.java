@@ -7,21 +7,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Created by J.K.SAGE on 2016/8/8 0008.
  */
 @JsonPropertyOrder(value = {
-    "api_member_id","api_firstflag"
+        "api_member_id", "api_firstflag"
 })
-public class Baisc {
+public class Basic {
 
     @JsonProperty(value = "api_member_id")
-    private long api_member_id;
+    private String api_member_id;
 
     @JsonProperty(value = "api_firstflag")
     private int api_firstflag;
 
-    public long getApi_member_id() {
+    public String getApi_member_id() {
         return api_member_id;
     }
 
-    public void setApi_member_id(long api_member_id) {
+    public void setApi_member_id(String api_member_id) {
         this.api_member_id = api_member_id;
     }
 

@@ -3,7 +3,7 @@ package com.kancolle.server.model.kcsapi.start.requireInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
-import com.kancolle.server.model.po.member.MemberNdock;
+import com.kancolle.server.model.po.member.MemberKdock;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.useitem.MemberUseItem;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class RequireInfo {
 
     @JsonProperty(value = "api_basic")
-    private Baisc api_basic;
+    private Basic api_basic;
 
     @JsonProperty(value = "api_slot_item")
     private List<MemberSlotItem> api_slot_item;
@@ -29,7 +29,7 @@ public class RequireInfo {
     private Map<String, Object> api_unsetslot;
 
     @JsonProperty(value = "api_kdock")
-    private List<MemberNdock> api_kdock;
+    private List<MemberKdock> api_kdock;
 
     @JsonProperty(value = "api_useitem")
     private List<MemberUseItem> api_useitem;
@@ -37,11 +37,11 @@ public class RequireInfo {
     @JsonProperty(value = "api_furniture")
     private List<MemberFurniture> api_furniture;
 
-    public Baisc getApi_basic() {
+    public Basic getApi_basic() {
         return api_basic;
     }
 
-    public void setApi_basic(Baisc api_basic) {
+    public void setApi_basic(Basic api_basic) {
         this.api_basic = api_basic;
     }
 
@@ -61,11 +61,11 @@ public class RequireInfo {
         this.api_unsetslot = api_unsetslot;
     }
 
-    public List<MemberNdock> getApi_kdock() {
+    public List<MemberKdock> getApi_kdock() {
         return api_kdock;
     }
 
-    public void setApi_kdock(List<MemberNdock> api_kdock) {
+    public void setApi_kdock(List<MemberKdock> api_kdock) {
         this.api_kdock = api_kdock;
     }
 

@@ -1,6 +1,7 @@
 package com.kancolle.server.model.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -23,6 +24,7 @@ public class APIResponse<T> {
     @JSONField(ordinal = 2)
     private String api_result_msg;
 
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
     @JsonProperty(value = "api_data")
     @JSONField(ordinal = 3)
     private T api_data;
@@ -35,6 +37,12 @@ public class APIResponse<T> {
     public APIResponse(int api_result, String api_result_msg) {
         this.api_result = api_result;
         this.api_result_msg = api_result_msg;
+    }
+
+    public APIResponse(Builder<T> builder) {
+        this.api_result = builder.api_result;
+        this.api_result_msg = builder.api_result_msg;
+        this.api_data = builder.api_data;
     }
 
     public T getApi_data() {
@@ -60,5 +68,33 @@ public class APIResponse<T> {
 
     public void setApi_result_msg(String api_result_msg) {
         this.api_result_msg = api_result_msg;
+    }
+
+    public static class Builder<T> {
+
+        private int api_result = SUCCESS_CODE;
+
+        private String api_result_msg = SUCCESS_MSG;
+
+        private T api_data;
+
+        public Builder<T> result(final int result) {
+            this.api_result = result;
+            return this;
+        }
+
+        public Builder<T> msg(final String msg) {
+            this.api_result_msg = msg;
+            return this;
+        }
+
+        public Builder<T> data(final T data) {
+            this.api_data = data;
+            return this;
+        }
+
+        public APIResponse<T> build() {
+            return new APIResponse<>(this);
+        }
     }
 }

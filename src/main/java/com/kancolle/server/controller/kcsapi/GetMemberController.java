@@ -35,6 +35,7 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.picturebook.MemberPictureBookService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
+import com.kancolle.server.service.start.StartService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -85,13 +86,15 @@ public class GetMemberController {
     private MemberMapService memberMapService;
 
     @Autowired
+    private StartService startService;
+
+    @Autowired
     private PortDao portDao;
 
     @RequestMapping("/requireInfo")
     public APIResponse<RequireInfo> requireInfo(@ModelAttribute(MEMBER_ID) String member_id) {
-
-
-        return new APIResponse<RequireInfo>().setApi_data(new RequireInfo());
+        RequireInfo requireInfo = startService.getRequireInfo(member_id);
+        return new APIResponse.Builder<RequireInfo>().data(requireInfo).build();
     }
 
     @RequestMapping("/basic")
