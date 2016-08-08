@@ -76,6 +76,7 @@ public class Ship extends BaseShip implements Serializable {
     /**
      * 装甲
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue souk;
 
@@ -89,6 +90,7 @@ public class Ship extends BaseShip implements Serializable {
     /**
      * 火力
      */
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue houg;
 

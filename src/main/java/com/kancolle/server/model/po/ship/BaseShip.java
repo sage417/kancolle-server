@@ -19,7 +19,7 @@ import java.io.Serializable;
  *
  */
 @Alias("BaseShip")
-@JsonPropertyOrder({"shipId", "name", "yomi", "soku", "slotNum"})
+@JsonPropertyOrder({"shipId", "name", "yomi", "shipTypeId","soku", "slotNum"})
 public class BaseShip implements Serializable {
 
     private static final long serialVersionUID = -7322805228630342223L;
