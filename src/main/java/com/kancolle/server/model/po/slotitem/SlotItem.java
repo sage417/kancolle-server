@@ -74,7 +74,7 @@ public class SlotItem implements Serializable {
     private int souk;
 
     /** 火力 */
-    @JsonProperty(value = "api_id")
+    @JsonProperty(value = "api_houg")
     @JSONField(ordinal = 7, name = "api_houg")
     private int houg;
 
