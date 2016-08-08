@@ -18,7 +18,8 @@ import org.springframework.web.context.request.NativeWebRequest;
  * @author J.K.SAGE
  * @Date 2015年6月9日
  */
-@ControllerAdvice(value = "com.kancolle.server.controller.kcsapi")
+//@ControllerAdvice(value = "com.kancolle.server.controller.kcsapi")
+@RestControllerAdvice(value = "com.kancolle.server.controller.kcsapi")
 public class AdviceController {
     private static final Logger logger = LoggerFactory.getLogger(AdviceController.class);
 
@@ -41,7 +42,7 @@ public class AdviceController {
         }
     }
 
-    @ResponseBody
+    //@ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
     public APIResponse<Object> processRuntimeException(NativeWebRequest request, RuntimeException e) {
