@@ -4,8 +4,8 @@
 
 	<resultMap type="ShipPictureBook" id="ShipPictureBookRM" autoMapping="true">
 		<result property="shipInfo" column="SHIP_INFO"/>
-		<association property="ship" column="SHIP_ID" select="com.kancolle.server.mapper.ship.shipMapper.selectShipsByCond"/>
-		<collection property="api_table_id" column="SHIP_SORTNO" select="com.kancolle.server.mapper.ship.shipMapper.selectShipIdsBySortNo"/>
+		<association property="ship" column="SHIP_ID" select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond"/>
+		<collection property="api_table_id" column="SHIP_SORTNO" select="com.kancolle.server.mapper.ship.ShipMapper.selectShipIdsBySortNo"/>
 	</resultMap>
 
 	<select id="selectPictureBook" resultMap="ShipPictureBookRM">
