@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.mapper.ship.ShipGraphMapper">
 
-    <insert id="replace">
+    <insert id="replaceShipGraph">
 		REPLACE INTO `kancolle`.`t_ship_graph` (`ID`, `SORTNO`, `FILENAME`, `VERSION`, `BOKO_N`, `BOKO_D`, `KAISYU_N`, `KAISYU_D`, `KAIZO_N`, `KAIZO_D`, `MAP_N`, `MAP_D`, `ENSYUF_N`, `ENSYUF_D`, `ENSYUE_N`, `BATTLE_N`, `BATTLE_D`, `WEDA`, `WEDB`) VALUES
 		(#{ID}, #{SORTNO},#{FILENAME},#{VERSION,  typeHandler=JsonArrayHandler},
 		#{BOKO_N,  typeHandler=JsonArrayHandler},#{BOKO_D,  typeHandler=JsonArrayHandler},

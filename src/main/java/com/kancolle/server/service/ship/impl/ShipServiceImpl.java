@@ -2,7 +2,7 @@ package com.kancolle.server.service.ship.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.mapper.ship.ShipMapper;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -16,29 +16,29 @@ import java.util.List;
 public class ShipServiceImpl implements ShipService {
 
     @Autowired
-    private ShipDao shipDao;
+    private ShipMapper shipMapper;
 
     @Override
     public List<BaseShip> getShips() {
         List<BaseShip> ships = Lists.newArrayListWithCapacity(600);
-        ships.addAll(shipDao.selectShips());
-        ships.addAll(shipDao.selectEmShip());
+        ships.addAll(shipMapper.selectShipsByCond());
+        ships.addAll(shipMapper.selectEmShip());
         return ImmutableList.copyOf(ships);
     }
 
     @Override
     public List<ShipType> getShipTypes() {
-        return shipDao.selectShipTypes();
+        return shipMapper.selectShipTypes();
     }
 
     @Override
     public int getCountOfShipTypes() {
-        return shipDao.selectCountOfShipTypes();
+        return shipMapper.selectCountOfShipTypes();
     }
 
     @Override
     public int getShipLVByExp(long afterExp) {
-        return shipDao.getShipLVByExp(afterExp);
+        return shipMapper.selectShipLVByExp(afterExp);
     }
 
     /**
@@ -61,12 +61,12 @@ public class ShipServiceImpl implements ShipService {
      */
     @Override
     public long getSumExpByLevel(int level) {
-        return shipDao.selectShipNeedExpByLevel(level);
+        return shipMapper.selectShipNeedExpByLevel(level);
     }
 
     @Override
     public ShipType getShipType(int typeId) {
-        return shipDao.selectShipTypeByCond(typeId);
+        return shipMapper.selectShipTypeByCond(typeId);
     }
 
     @Override
@@ -76,6 +76,6 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public Ship getShipById(int ship_id) {
-        return shipDao.selectShipByCond(ship_id);
+        return shipMapper.selectShipsByCond(ship_id);
     }
 }

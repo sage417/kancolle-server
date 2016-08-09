@@ -7,5 +7,5 @@ import java.util.Map;
  */
 public interface ShipGraphMapper {
 
-    void replace(Map<String, Object> shipGraph);
+    void replaceShipGraph(Map<String, Object> shipGraph);
 }

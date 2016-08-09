@@ -39,6 +39,6 @@ public class UpdateController {
             domains.add(domain);
         }
 
-        domains.forEach(shipGraphMapper::replace);
+        domains.forEach(shipGraphMapper::replaceShipGraph);
     }
 }
