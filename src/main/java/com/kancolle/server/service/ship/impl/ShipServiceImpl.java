@@ -3,6 +3,7 @@ package com.kancolle.server.service.ship.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.kancolle.server.mapper.ship.ShipMapper;
+import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -17,6 +18,8 @@ public class ShipServiceImpl implements ShipService {
 
     @Autowired
     private ShipMapper shipMapper;
+    @Autowired
+    private ShipTypeMapper shipTypeMapper;
 
     @Override
     public List<BaseShip> getShips() {
@@ -28,7 +31,7 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public List<ShipType> getShipTypes() {
-        return shipMapper.selectShipTypes();
+        return shipTypeMapper.selectShipTypes();
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public ShipType getShipType(int typeId) {
-        return shipMapper.selectShipTypeByCond(typeId);
+        return shipTypeMapper.selectShipTypeByCond(typeId);
     }
 
     @Override

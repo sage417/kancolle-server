@@ -12,7 +12,7 @@
 		<id property="shipId" column="ID" />
 		<result property="shipTypeId" column="STYPE" />
 		<result property="slotNum" column="SLOT_NUM" />
-		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.mapper.ship.ShipTypeMapper.selectShipTypeByCond"/>
 	</resultMap>
 
 	<resultMap type="Ship" id="ShipRM" autoMapping="true">
@@ -40,7 +40,7 @@
 		<result property="bullMax" column="BULL_MAX" />
 		<result property="lv" column="LV"/>
 
-		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.mapper.ship.ShipTypeMapper.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
