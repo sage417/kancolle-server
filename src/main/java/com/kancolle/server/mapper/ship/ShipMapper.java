@@ -21,4 +21,6 @@ public interface ShipMapper {
     Ship selectShipsByCond(int ship_id);
 
     void replaceShip(Map<String, Object> model);
+
+    void insertBaseShip(Map<String, Object> stringObjectMap);
 }

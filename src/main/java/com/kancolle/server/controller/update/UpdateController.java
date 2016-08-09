@@ -44,12 +44,13 @@ public class UpdateController {
 
     @GetMapping("/ship")
     void updateShip() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8"))).getJSONObject("api_data").getJSONArray("api_mst_ship");
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8"))).getJSONObject("api_data").getJSONArray("api_mst_ship");
 
         try {
             functionMapper.disableForeignKeyChecks();
             List<Map<String, Object>> domains = getDomainMap(array);
-            domains.stream().filter(d -> (Integer) d.get("ID") < 501).forEach(shipMapper::replaceShip);
+            //domains.stream().filter(d -> (Integer) d.get("ID") < 501).forEach(shipMapper::replaceShip);
+            domains.stream().filter(d -> (Integer) d.get("ID") > 613).forEach(shipMapper::insertBaseShip);
         } finally {
             functionMapper.enableForeignKeyChecks();
         }

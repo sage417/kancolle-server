@@ -86,6 +86,10 @@
 		`BULL_MAX`=#{BULL_MAX}, `VOICEF`=#{VOICEF}
 	</insert>
 
+	<insert id="insertBaseShip">
+		INSERT INTO `t_ship` (`ID`,`NAME`,`YOMI`,`STYPE`,`SOKU`,`SLOT_NUM`) VALUES (#{ID}, #{NAME}, #{YOMI}, #{STYPE}, #{SOKU}, #{SLOT_NUM})
+	</insert>
+
 	<!-- ANOTHER TABLE -->
 	<select id="selectShipNeedExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}

@@ -5,6 +5,7 @@ package com.kancolle.server.model.po.slotitem;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +27,7 @@ import java.util.Objects;
         "atap", "houm", "raim", "houk",
         "raik", "bakk", "saku", "sakb",
         "luck", "leng", "rare", "api_broken",
-        "info", "useBull"
+        "info", "useBull", "cost", "distance"
 })
 public class SlotItem implements Serializable {
 
@@ -168,6 +169,14 @@ public class SlotItem implements Serializable {
     @JsonProperty(value = "api_usebull")
     @JSONField(ordinal = 26, name = "api_usebull")
     private String useBull;
+
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
+    @JsonProperty("api_cost")
+    Integer cost;
+
+    @JsonInclude(value = JsonInclude.Include.NON_NULL)
+    @JsonProperty("api_distance")
+    Integer distance;
 
     public int getSlotItemId() {
         return slotItemId;
@@ -407,6 +416,22 @@ public class SlotItem implements Serializable {
 
     public void setUseBull(String useBull) {
         this.useBull = useBull;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     @Override
