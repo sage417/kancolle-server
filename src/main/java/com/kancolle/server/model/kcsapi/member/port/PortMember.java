@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.member.port;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 
 @JsonPropertyOrder(value = {
         "memberId", "nickName", "nickNameId", "activeFlag",
@@ -22,13 +24,14 @@ public class PortMember extends Member {
 
     @JsonProperty(value = "api_large_dock")
     @JSONField(ordinal = 999)
-    private int api_large_dock;
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean api_large_dock;
 
-    public int getApi_large_dock() {
+    public boolean getApi_large_dock() {
         return api_large_dock;
     }
 
-    public void setApi_large_dock(int api_large_dock) {
+    public void setApi_large_dock(boolean api_large_dock) {
         this.api_large_dock = api_large_dock;
     }
 

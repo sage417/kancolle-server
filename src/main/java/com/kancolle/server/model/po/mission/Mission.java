@@ -7,10 +7,13 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.kancolle.server.model.po.map.MapArea;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author J.K.SAGE
@@ -19,7 +22,7 @@ import java.io.Serializable;
 @JsonPropertyOrder(value = {
         "missionId", "mapAreaId", "name", "details",
         "time", "difficulty", "useFuel", "useBull",
-        "winItem1", "winItem2", "api_return_flag"
+        "winItem1", "winItem2", "returnFlag"
 })
 @Alias("Mission")
 public class Mission implements Serializable {
@@ -56,11 +59,11 @@ public class Mission implements Serializable {
 
     @JsonProperty(value = "api_use_fuel")
     @JSONField(ordinal = 7, name = "api_use_fuel")
-    private double useFuel;
+    private BigDecimal useFuel;
 
     @JsonProperty(value = "api_use_bull")
     @JSONField(ordinal = 8, name = "api_use_bull")
-    private double useBull;
+    private BigDecimal useBull;
 
     @JsonProperty(value = "api_win_item1")
     @JSONField(ordinal = 9, name = "api_win_item1")
@@ -71,13 +74,7 @@ public class Mission implements Serializable {
     private int[] winItem2;
 
     @JsonProperty(value = "api_return_flag")
-    @JSONField(ordinal = 11, name = "api_return_flag")
-    public int returnFlag() {
-        return returnFlag ? 1 : 0;
-    }
-
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
+    @JsonSerialize(using = NumericBooleanSerializer.class)
     private boolean returnFlag;
 
     @JsonIgnore
@@ -144,19 +141,19 @@ public class Mission implements Serializable {
         this.difficulty = difficulty;
     }
 
-    public double getUseFuel() {
+    public BigDecimal getUseFuel() {
         return useFuel;
     }
 
-    public void setUseFuel(double useFuel) {
+    public void setUseFuel(BigDecimal useFuel) {
         this.useFuel = useFuel;
     }
 
-    public double getUseBull() {
+    public BigDecimal getUseBull() {
         return useBull;
     }
 
-    public void setUseBull(double useBull) {
+    public void setUseBull(BigDecimal useBull) {
         this.useBull = useBull;
     }
 

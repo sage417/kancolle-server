@@ -10,7 +10,7 @@
 
 	<resultMap type="Furniture" id="FurnitureRM" autoMapping="true">
 		<id property="furnitureId" column="ID" />
-		<result property="saleFalg" column="SALEFLG"/>
+		<result property="saleFlag" column="SALEFLG"/>
 	</resultMap>
 
 	<select id="selectFurnitureById" resultMap="FurnitureRM">

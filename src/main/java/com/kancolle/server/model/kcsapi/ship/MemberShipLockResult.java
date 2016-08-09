@@ -1,18 +1,22 @@
 package com.kancolle.server.model.kcsapi.ship;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
+
 public class MemberShipLockResult {
 
-    private int api_locked;
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean api_locked;
 
     public MemberShipLockResult(boolean lock) {
-        this.api_locked = lock ? 1 : 0;
+        this.api_locked = lock;
     }
 
-    public int getApi_locked() {
+    public boolean getApi_locked() {
         return api_locked;
     }
 
-    public void setApi_locked(int api_locked) {
+    public void setApi_locked(boolean api_locked) {
         this.api_locked = api_locked;
     }
 }

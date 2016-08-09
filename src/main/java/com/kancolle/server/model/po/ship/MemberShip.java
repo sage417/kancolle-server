@@ -7,9 +7,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.NdockUtils;
 import org.apache.ibatis.type.Alias;
@@ -30,8 +32,8 @@ import java.util.stream.IntStream;
         "fuel", "bull", "api_slotnum", "ndockTime",
         "ndockItem", "api_srate", "cond", "api_karyoku",
         "api_raisou", "api_taiku", "api_soukou", "api_kaihi",
-        "api_taisen", "api_sakuteki", "api_lucky", "api_locked",
-        "api_locked_equip"
+        "api_taisen", "api_sakuteki", "api_lucky", "locked",
+        "lockedEquip"
 })
 @Alias("MemberShip")
 public class MemberShip implements IShip, Serializable {
@@ -86,7 +88,7 @@ public class MemberShip implements IShip, Serializable {
     @JSONField(ordinal = 9)
     private long[] api_slot;
 
-@JsonIgnore
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private List<MemberSlotItem> slot;
 
@@ -165,12 +167,6 @@ public class MemberShip implements IShip, Serializable {
     @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private MaxMinValue lucky;
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
-    private boolean locked;
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
-    private boolean lockedEquip;
 
     @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2, name = "api_sortno")
@@ -247,16 +243,12 @@ public class MemberShip implements IShip, Serializable {
     }
 
     @JsonProperty(value = "api_locked")
-    @JSONField(ordinal = 28, name = "api_locked")
-    public int getLockStatue() {
-        return locked ? 1 : 0;
-    }
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean locked;
 
     @JsonProperty(value = "api_locked_equip")
-    @JSONField(ordinal = 29, name = "api_locked_equip")
-    public int getEquipLockStatue() {
-        return lockedEquip ? 1 : 0;
-    }
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean lockedEquip;
 
     public int getShipId() {
         return shipId;

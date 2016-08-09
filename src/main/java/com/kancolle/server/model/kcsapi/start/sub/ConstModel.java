@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 
 @JsonPropertyOrder(value = {
-        "api_boko_max_ships", "api_dpflag_quest", "api_parallel_quest_max"
+        "api_parallel_quest_max", "api_dpflag_quest", "api_boko_max_ships"
 })
 public class ConstModel implements Serializable {
 

@@ -4,9 +4,10 @@
 package com.kancolle.server.model.po.furniture;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.io.Serializable;
  */
 @JsonPropertyOrder(value = {
         "furnitureId", "type", "no", "title",
-        "description", "rarity", "price", "api_saleflg",
+        "description", "rarity", "price", "saleFlag",
         "season"
 })
 @Alias("Furniture")
@@ -53,15 +54,9 @@ public class Furniture implements Serializable {
     @JSONField(ordinal = 7, name = "api_price")
     private int price;
 
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
-    private boolean saleFalg;
-
     @JsonProperty(value = "api_saleflg")
-    @JSONField(ordinal = 8, name = "api_saleflg")
-    public int getSaleState() {
-        return saleFalg ? 1 : 0;
-    }
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean saleFlag;
 
     @JsonProperty(value = "api_season")
     @JSONField(ordinal = 9, name = "api_season")
@@ -123,12 +118,12 @@ public class Furniture implements Serializable {
         this.price = price;
     }
 
-    public boolean isSaleFalg() {
-        return saleFalg;
+    public boolean isSaleFlag() {
+        return saleFlag;
     }
 
-    public void setSaleFalg(boolean saleFalg) {
-        this.saleFalg = saleFalg;
+    public void setSaleFlag(boolean saleFlag) {
+        this.saleFlag = saleFlag;
     }
 
     public int getSeason() {
@@ -147,7 +142,7 @@ public class Furniture implements Serializable {
         result = prime * result + no;
         result = prime * result + price;
         result = prime * result + rarity;
-        result = prime * result + (saleFalg ? 1231 : 1237);
+        result = prime * result + (saleFlag ? 1231 : 1237);
         result = prime * result + season;
         result = prime * result + type;
         return result;
@@ -170,7 +165,7 @@ public class Furniture implements Serializable {
             return false;
         if (rarity != other.rarity)
             return false;
-        if (saleFalg != other.saleFalg)
+        if (saleFlag != other.saleFlag)
             return false;
         if (season != other.season)
             return false;

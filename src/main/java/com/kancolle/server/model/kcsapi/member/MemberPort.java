@@ -91,7 +91,7 @@ public class MemberPort implements Serializable {
     public void setApi_basic(Member api_basic) {
         this.api_basic = new PortMember();
         BeanUtils.copyProperties(api_basic, this.api_basic);
-        this.api_basic.setApi_large_dock(api_basic.isLargeDock() ? 1 : 0);
+        this.api_basic.setApi_large_dock(api_basic.isLargeDock());
         this.api_p_bgm_id = api_basic.getPortBGMId();
         this.api_parallel_quest_count = api_basic.getParallelQuestCount();
     }

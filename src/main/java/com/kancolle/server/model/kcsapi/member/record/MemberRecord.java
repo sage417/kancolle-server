@@ -3,7 +3,9 @@ package com.kancolle.server.model.kcsapi.member.record;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -101,7 +103,8 @@ public class MemberRecord {
 
     @JsonProperty(value = "api_large_dock")
     @JSONField(ordinal = 21)
-    private int api_large_dock;
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean api_large_dock;
 
     @JsonProperty(value = "api_material_max")
     @JSONField(ordinal = 22)
@@ -272,11 +275,11 @@ public class MemberRecord {
         this.api_complate = api_complate;
     }
 
-    public int getApi_large_dock() {
+    public boolean getApi_large_dock() {
         return api_large_dock;
     }
 
-    public void setApi_large_dock(int api_large_dock) {
+    public void setApi_large_dock(boolean api_large_dock) {
         this.api_large_dock = api_large_dock;
     }
 

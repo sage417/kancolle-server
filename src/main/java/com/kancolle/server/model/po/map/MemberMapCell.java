@@ -7,6 +7,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -16,7 +18,7 @@ import java.io.Serializable;
  * @Date 2015年8月19日
  */
 @JsonPropertyOrder(value = {
-        "mapCellId", "api_passed"
+        "mapCellId", "passFlag"
 })
 @Alias("MemberMapCell")
 public class MemberMapCell implements Serializable {
@@ -31,15 +33,9 @@ public class MemberMapCell implements Serializable {
     @JSONField(ordinal = 1, name = "api_id")
     private int mapCellId;
 
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
-    private boolean passFlag;
-
     @JsonProperty(value = "api_passed")
-    @JSONField(ordinal = 2, name = "api_passed")
-    public int returnPassFlag() {
-        return passFlag ? 1 : 0;
-    }
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean passFlag;
 
     public String getMemberId() {
         return memberId;

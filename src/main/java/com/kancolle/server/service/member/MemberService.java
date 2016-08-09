@@ -113,7 +113,7 @@ public class MemberService {
         int furniture_count = memberFurnitureService.getCountOfMemberFurniture(member_id);
         memberRecord.setApi_ship(Lists.newArrayList(ship_count, basic.getMaxChara()));
         memberRecord.setApi_slotitem(Lists.newArrayList(furniture_count, basic.getMaxSlotItem()));
-        memberRecord.setApi_large_dock(basic.isLargeDock() ? 1 : 0);
+        memberRecord.setApi_large_dock(basic.isLargeDock());
         memberRecord.setApi_material_max(750 + 250 * basic.getLevel());
         return memberRecord;
     }

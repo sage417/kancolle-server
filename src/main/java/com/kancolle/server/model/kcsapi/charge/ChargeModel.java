@@ -6,9 +6,11 @@ package com.kancolle.server.model.kcsapi.charge;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class ChargeModel {
 
     @JsonProperty(value = "api_use_bou")
     @JSONField(ordinal = 3)
-    private int api_use_bou;
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean api_use_bou;
 
     /**
      * @param memberShips
@@ -43,7 +46,7 @@ public class ChargeModel {
             this.api_ship.add(new ShipChargeModel(memberShip));
         }
         this.api_material = new int[]{rescource.getFuel(), rescource.getBull(), rescource.getSteel(), rescource.getBauxite()};
-        this.api_use_bou = useBauxite ? 1 : 0;
+        this.api_use_bou = useBauxite;
     }
 
     public List<ShipChargeModel> getApi_ship() {
@@ -62,11 +65,11 @@ public class ChargeModel {
         this.api_material = api_material;
     }
 
-    public int getApi_use_bou() {
+    public boolean getApi_use_bou() {
         return api_use_bou;
     }
 
-    public void setApi_use_bou(int api_use_bou) {
+    public void setApi_use_bou(boolean api_use_bou) {
         this.api_use_bou = api_use_bou;
     }
 }
