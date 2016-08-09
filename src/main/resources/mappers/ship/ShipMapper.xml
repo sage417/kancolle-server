@@ -10,14 +10,14 @@
 
 	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
-		<result property="shipTypeId" column="TYPE" />
-		<result property="slotNum" column="SLOTNUM" />
-		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+		<result property="shipTypeId" column="STYPE" />
+		<result property="slotNum" column="SLOT_NUM" />
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 	</resultMap>
 
 	<resultMap type="Ship" id="ShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
-		<result property="shipTypeId" column="TYPE" />
+		<result property="shipTypeId" column="STYPE" />
 		<result property="afterLv" column="AFTERLV" />
 		<result property="afterShipId" column="AFTERSHIPID"/>
 		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler" />
@@ -29,7 +29,7 @@
 		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
 		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
-		<result property="slotNum" column="SLOTNUM" />
+		<result property="slotNum" column="SLOT_NUM" />
 		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHandler" />
 		<result property="buildTime" column="BUILDTIME" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceValueHandler" />
@@ -40,12 +40,12 @@
 		<result property="bullMax" column="BULL_MAX" />
 		<result property="lv" column="LV"/>
 
-		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
 
 	<select id="selectEmShip" resultMap="BaseShipRM">
-		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 501 AND 900
+		SELECT ID, `NAME`, YOMI, STYPE, SOKU, SLOT_NUM FROM t_ship WHERE ID BETWEEN 501 AND 900
 	</select>
 
 	<select id="selectShipsByCond" resultMap="ShipRM">
