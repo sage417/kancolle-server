@@ -27,14 +27,14 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     private MemberResourceDao memberResourceDao;
 
     @Override
-    public Resource getMemberResouce(String member_id) {
+    public Resource getMemberResource(String member_id) {
         return memberResourceDao.selectMemberResource(member_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
     public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
-        Resource resource = getMemberResouce(member_id);
+        Resource resource = getMemberResource(member_id);
         if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite) && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild)
                 && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
             // TODO LOG
@@ -45,7 +45,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
-        Resource resource = getMemberResouce(member_id);
+        Resource resource = getMemberResource(member_id);
 
         if (resource.getFuel() + increaseFuel > MAX_RESOURCE_VALUE) {
             increaseFuel = MAX_RESOURCE_VALUE - resource.getFuel();

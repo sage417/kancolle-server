@@ -140,7 +140,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         memberResourceService.consumeResource(member_id, chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
         memberShipDao.chargeMemberShips(member_id, memberShipIds, chargeKind);
 
-        return new ChargeModel(memberShips, memberResourceService.getMemberResouce(member_id), comsumeBauxite > 0);
+        return new ChargeModel(memberShips, memberResourceService.getMemberResource(member_id), comsumeBauxite > 0);
     }
 
     @Override
@@ -185,7 +185,7 @@ public class MemberShipServiceImpl implements MemberShipService {
         destroyShips(member_id, Collections.singletonList(memberShip));
 
         memberResourceService.increaseMaterial(member_id, memberShip.getShip().getBrokenArray());
-        Resource memberResource = memberResourceService.getMemberResouce(member_id);
+        Resource memberResource = memberResourceService.getMemberResource(member_id);
 
         return new MemberResourceResult(memberResource);
     }

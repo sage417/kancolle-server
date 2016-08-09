@@ -156,7 +156,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
         } while (false);
 
         memberResourceService.consumeResource(member_id, fuel, bull, steel, baxuite, 0, 0, success ? 1 : 0, 0);
-        Resource memberResource = memberResourceService.getMemberResouce(member_id);
+        Resource memberResource = memberResourceService.getMemberResource(member_id);
 
         if (success) {
             MemberSlotItem createItem = createSlotItem(member_id, targetSlotItem.getSlotItemId());
