@@ -32,7 +32,7 @@ public class ShipGraphModel implements Serializable {
 
     @JsonProperty(value = "api_version")
     @JSONField(ordinal = 4)
-    private String api_version;
+    private JSONArray api_version;
 
     @JsonProperty(value = "api_boko_n")
     @JSONField(ordinal = 5)
@@ -158,7 +158,7 @@ public class ShipGraphModel implements Serializable {
         return api_sortno;
     }
 
-    public String getApi_version() {
+    public JSONArray getApi_version() {
         return api_version;
     }
 
@@ -252,7 +252,7 @@ public class ShipGraphModel implements Serializable {
 
     @Column(name = "VERSION", type = String.class)
     public void setApi_version(String api_version) {
-        this.api_version = api_version;
+        this.api_version = JSON.parseArray(api_version);
     }
 
     @Column(name = "WEDA", type = String.class)

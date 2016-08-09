@@ -20,9 +20,7 @@ import java.util.function.Function;
  *
  */
 public class JsonArrayHandler extends BaseTypeHandler<JSONArray> {
-    private static final Function<String, JSONArray> toJsonArray = str -> {
-        return JSON.parseArray(str);
-    };
+    private static final Function<String, JSONArray> toJsonArray = JSON::parseArray;
 
     @Override
     public JSONArray getNullableResult(ResultSet rs, String columnName) throws SQLException {

@@ -25,7 +25,7 @@ import java.util.Objects;
         "soku", "baku", "tyku", "tais",
         "atap", "houm", "raim", "houk",
         "raik", "bakk", "saku", "sakb",
-        "luck", "luck", "rare", "api_broken",
+        "luck", "leng", "rare", "api_broken",
         "info", "useBull"
 })
 public class SlotItem implements Serializable {
