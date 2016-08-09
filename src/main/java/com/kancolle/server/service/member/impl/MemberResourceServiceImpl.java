@@ -33,18 +33,18 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
+    public void consumeResource(String member_id, int chargeFuel, int chargeBull, int consumeSteel, int consumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
         Resource resource = getMemberResource(member_id);
-        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(comsumeSteel) && !resource.hasEnoughBauxite(comsumeBauxite) && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild)
+        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(consumeSteel) && !resource.hasEnoughBauxite(consumeBauxite) && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild)
                 && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
             // TODO LOG
             throw new IllegalArgumentException();
         }
-        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -comsumeSteel, -comsumeBauxite, -fastRecovery, -fastBuild, -DevItem, -EhItem);
+        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -consumeSteel, -consumeBauxite, -fastRecovery, -fastBuild, -DevItem, -EhItem);
     }
 
     @Override
-    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int increaseSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
+    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
         Resource resource = getMemberResource(member_id);
 
         if (resource.getFuel() + increaseFuel > MAX_RESOURCE_VALUE) {
@@ -55,8 +55,8 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             increaseBull = MAX_RESOURCE_VALUE - resource.getBull();
         }
 
-        if (resource.getSteel() + increaseSteel > MAX_RESOURCE_VALUE) {
-            increaseSteel = MAX_RESOURCE_VALUE - resource.getSteel();
+        if (resource.getSteel() + consumeSteel > MAX_RESOURCE_VALUE) {
+            consumeSteel = MAX_RESOURCE_VALUE - resource.getSteel();
         }
 
         if (resource.getBauxite() + increaseBauxite > MAX_RESOURCE_VALUE) {
@@ -79,7 +79,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
             increaseEhItem = MAX_METERIAL_VALUE - resource.getEhItem();
         }
 
-        memberResourceDao.updateMemberResource(member_id, increaseFuel, increaseBull, increaseSteel, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
+        memberResourceDao.updateMemberResource(member_id, increaseFuel, increaseBull, consumeSteel, increaseBauxite, increaseFastRecovery, increaseFastBuild, increaseDevItem, increaseEhItem);
     }
 
     @Override

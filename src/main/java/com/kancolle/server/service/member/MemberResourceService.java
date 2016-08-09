@@ -14,10 +14,10 @@ public interface MemberResourceService {
 
     Resource getMemberResource(String member_id);
 
-    void consumeResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem);
+    void consumeResource(String member_id, int chargeFuel, int chargeBull, int consumeSteel, int consumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem);
 
-    void increaseResource(String member_id, int increaseFuel, int increaseBull, int comsumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
-            int increaseEhItem);
+    void increaseResource(String member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
+                          int increaseEhItem);
 
     void increaseMaterial(String member_id, int[] increaseMaterials);
 
