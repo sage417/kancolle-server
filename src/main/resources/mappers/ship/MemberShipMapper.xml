@@ -23,7 +23,7 @@
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
 		<result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler" />
 		<result property="lockedEquip" column="LOCKED_EQUIP" />
-		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.dao.ship.ShipDao.selectShipsByCond" />
+		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.mapper.ship.shipMapper.selectShipsByCond" />
 		<collection property="slot" ofType="MemberSlotItem" column="{member_id=member_id,ship_id=ID}" select="com.kancolle.server.dao.slotitem.MemberSlotItemDao.selectMemberShipSlots"/>
 	</resultMap>
 

@@ -62,6 +62,30 @@
 		SELECT ID FROM t_ship WHERE SORTNO = #{sort_no} AND ID BETWEEN 1 AND 500
 	</select>
 
+	<insert id="replaceShip">
+		INSERT into `t_ship` (`ID`, `SORTNO`, `NAME`, `YOMI`, `STYPE`, `LV`, `AFTERLV`, `AFTERSHIPID`, `TAIK`, `SOUK`, `HOUG`, `RAIG`, `TYKU`, `LUCK`, `SOKU`, `LENG`, `SLOT_NUM`, `MAXEQ`, `BUILDTIME`, `BROKEN`, `POWUP`, `BACKS`, `GETMES`, `AFTERFUEL`, `AFTERBULL`, `FUEL_MAX`, `BULL_MAX`, `VOICEF`)
+		values (#{ID}, #{SORTNO}, #{NAME}, #{YOMI}, #{STYPE}, 1, #{AFTERLV}, #{AFTERSHIPID},
+					   #{TAIK ,typeHandler=JsonArrayHandler}, #{SOUK ,typeHandler=JsonArrayHandler},
+					   #{HOUG ,typeHandler=JsonArrayHandler}, #{RAIG ,typeHandler=JsonArrayHandler},
+															  #{TYKU ,typeHandler=JsonArrayHandler}, #{LUCK ,typeHandler=JsonArrayHandler},
+															  #{SOKU}, #{LENG}, #{SLOT_NUM},
+															  #{MAXEQ ,typeHandler=JsonArrayHandler}, #{BUILDTIME},
+															  #{BROKEN ,typeHandler=JsonArrayHandler}, #{POWUP ,typeHandler=JsonArrayHandler},
+				#{BACKS}, #{GETMES},
+				#{AFTERFUEL}, #{AFTERBULL},
+				#{FUEL_MAX}, #{BULL_MAX},
+				#{VOICEF}) ON DUPLICATE KEY UPDATE
+		`SORTNO`=#{SORTNO}, `NAME`=#{NAME}, `YOMI`=#{YOMI},
+		`STYPE`=#{STYPE}, `LV`=1, `AFTERLV`=#{AFTERLV}, `AFTERSHIPID`=#{AFTERSHIPID},
+		`TAIK`=#{TAIK ,typeHandler=JsonArrayHandler}, `SOUK`=#{SOUK ,typeHandler=JsonArrayHandler}, `HOUG`=#{HOUG ,typeHandler=JsonArrayHandler},
+		`RAIG`=#{RAIG ,typeHandler=JsonArrayHandler}, `TYKU`=#{TYKU ,typeHandler=JsonArrayHandler}, `LUCK`=#{LUCK ,typeHandler=JsonArrayHandler},
+		`SOKU`=#{SOKU}, `LENG`=#{LENG}, `SLOT_NUM`=#{SLOT_NUM},
+		`MAXEQ`=#{MAXEQ ,typeHandler=JsonArrayHandler}, `BUILDTIME`=#{BUILDTIME}, `BROKEN`=#{BROKEN ,typeHandler=JsonArrayHandler},
+		`POWUP`=#{POWUP,typeHandler=JsonArrayHandler}, `BACKS`=#{BACKS}, `GETMES`=#{GETMES},
+		`AFTERFUEL`=#{AFTERFUEL}, `AFTERBULL`=#{AFTERBULL}, `FUEL_MAX`=#{FUEL_MAX},
+		`BULL_MAX`=#{BULL_MAX}, `VOICEF`=#{VOICEF}
+	</insert>
+
 	<!-- ANOTHER TABLE -->
 	<select id="selectShipNeedExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
