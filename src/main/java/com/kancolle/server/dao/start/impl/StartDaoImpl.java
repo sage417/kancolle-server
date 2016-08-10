@@ -5,6 +5,7 @@ import com.kancolle.server.dao.start.StartDao;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.item.PayItemMapper;
 import com.kancolle.server.mapper.map.MapAreaMapper;
+import com.kancolle.server.mapper.map.MapBGMMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.slotItem.SlotItemGraphMapper;
 import com.kancolle.server.model.kcsapi.start.StartResult;
@@ -40,6 +41,8 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
     private MapAreaMapper mapAreaMapper;
     @Autowired
     private PayItemMapper payItemMapper;
+    @Autowired
+    private MapBGMMapper mapBGMMapper;
 
     @Override
     public ConstModel getMstConst() {
@@ -66,7 +69,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Override
     public List<MapBgmModel> getMstMapbgm() {
-        return queryForModels(MapBgmModel.class, MST_MAPBGM_TB);
+        return mapBGMMapper.selectMapBgms();
     }
 
     @Override

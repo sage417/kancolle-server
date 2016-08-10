@@ -6,9 +6,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
+@Alias("MapBgmModel")
 @JsonPropertyOrder(value = {
         "api_id", "api_maparea_id", "api_no", "api_map_bgm",
         "api_boss_bgm"
