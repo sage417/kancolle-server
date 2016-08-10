@@ -16,6 +16,10 @@
         <result property="api_sally_flag" column="SALLY_FLAG"/>
     </resultMap>
 
+    <select id="selectMapInfos" resultMap="MapInfoRM">
+        SELECT * FROM t_map_info
+    </select>
+
     <select id="selectMapInfo" resultMap="MapInfoRM">
 		SELECT * FROM t_map_info WHERE MAPAREA_ID = #{mapArea_id} AND NO = #{no}
 	</select>
