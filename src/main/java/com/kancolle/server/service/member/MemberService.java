@@ -62,7 +62,8 @@ public class MemberService {
     }
 
     public Basic getBasic2(String member_id) {
-        return null;
+        Member member = getMember(member_id);
+        return new Basic(member_id, member.getFirstFlag());
     }
 
     public Member getMember(String memberId) {
