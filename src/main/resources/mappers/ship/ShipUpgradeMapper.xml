@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.ship.ShipUpgradeMapper">
+
+	<resultMap id="ShipUpgradeModelRM" type="ShipUpgradeModel">
+		<id property="api_id" column="ID"/>
+		<result property="api_original_ship_id" column="ORIGINAL_SHIP_ID"/>
+		<result property="api_upgrade_type" column="UPGRADE_TYPE"/>
+		<result property="api_upgrade_level" column="UPGRADE_LEVEL"/>
+		<result property="api_drawing_count" column="DRAWING_COUNT"/>
+		<result property="api_sortno" column="SORTNO"/>
+	</resultMap>
+
+	<select id="selectShipUpgrades" resultMap="ShipUpgradeModelRM">
+		SELECT * FROM t_ship_upgrade
+	</select>
+</mapper>

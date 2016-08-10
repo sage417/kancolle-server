@@ -8,6 +8,7 @@ import com.kancolle.server.mapper.map.MapAreaMapper;
 import com.kancolle.server.mapper.map.MapBGMMapper;
 import com.kancolle.server.mapper.map.MapInfoMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
+import com.kancolle.server.mapper.ship.ShipUpgradeMapper;
 import com.kancolle.server.mapper.slotItem.SlotItemGraphMapper;
 import com.kancolle.server.model.kcsapi.start.StartResult;
 import com.kancolle.server.model.kcsapi.start.sub.*;
@@ -20,17 +21,9 @@ import java.util.List;
 
 @Repository
 public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
-    private static final String MST_SHIPGRAPH_TB = SELECT_ALL + "t_ship_graph";
     private static final String MST_SLOTITEMEQUIPTYPE_TB = SELECT_ALL + "t_slotitem_equiptype";
-    private static final String MST_SLOTITEMGRAPH_TB = SELECT_ALL + "t_slotitem_graph";
-    private static final String MST_FURNITUREGRAPH_TB = SELECT_ALL + "t_furniture_graph";
-    private static final String MST_PAYITEM_TB = SELECT_ALL + "t_pay_item";
     private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM t_item_shop WHERE NAME = :shop_name";
-    private static final String MST_MAPAREA_TB = SELECT_ALL + "t_map_area";
-    private static final String MST_MAPINFO_TB = SELECT_ALL + "t_map_info";
-    private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
-    private static final String MST_SHIPUPGRADE_TB = SELECT_ALL + "t_ship_upgrade";
 
     @Autowired
     private ShipGraphMapper shipGraphMapper;
@@ -46,6 +39,8 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
     private MapBGMMapper mapBGMMapper;
     @Autowired
     private MapInfoMapper mapInfoMapper;
+    @Autowired
+    private ShipUpgradeMapper shipUpgradeMapper;
 
     @Override
     public ConstModel getMstConst() {
@@ -97,7 +92,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Override
     public List<ShipUpgradeModel> getMstShipupgrade() {
-        return queryForModels(ShipUpgradeModel.class, MST_SHIPUPGRADE_TB);
+        return shipUpgradeMapper.selectShipUpgrades();
     }
 
     @Override
