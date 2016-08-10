@@ -3,10 +3,12 @@ package com.kancolle.server.controller.update;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.google.common.collect.Lists;
 import com.kancolle.server.mapper.function.FunctionMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipMapper;
+import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,11 @@ public class UpdateController {
     private ShipMapper shipMapper;
     @Autowired
     private FunctionMapper functionMapper;
+    @Autowired
+    private ShipTypeMapper shipTypeMapper;
 
     @GetMapping("/ship_graph")
-    public void updateShipGraph() throws IOException {
+    void updateShipGraph() throws IOException {
         JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8"))).getJSONObject("api_data").getJSONArray("api_mst_shipgraph");
 
         List<Map<String, Object>> domains = getDomainMap(array);
@@ -54,6 +58,14 @@ public class UpdateController {
         } finally {
             functionMapper.enableForeignKeyChecks();
         }
+    }
+
+    @GetMapping("/shipType")
+    void updateShipType() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_stype");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.stream().forEach(shipTypeMapper::updateShipType);
     }
 
     private List<Map<String, Object>> getDomainMap(JSONArray array) {

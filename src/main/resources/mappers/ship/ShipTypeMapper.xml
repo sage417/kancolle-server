@@ -27,4 +27,11 @@
 	<select id="selectCountOfShipTypes" resultType="_int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype
 	</select>
+
+	<update id="updateShipType">
+		INSERT INTO `kancolle`.`t_ship_type` (`ID`, `EQUIP_TYPE`, `KCNT`, `NAME`, `SCNT`, `SORTNO`) VALUES
+		(#{ID}, #{EQUIP_TYPE, typeHandler=JsonObjectHandler}, #{KCNT}, #{NAME}, #{SCNT}, #{SORTNO})
+		ON DUPLICATE KEY UPDATE
+		 `ID`=#{ID}, `EQUIP_TYPE`= #{EQUIP_TYPE, typeHandler=JsonObjectHandler}, `KCNT`=#{KCNT}, `NAME`=#{NAME}, `SCNT`=#{SCNT}, `SORTNO`=#{SORTNO}
+	</update>
 </mapper>

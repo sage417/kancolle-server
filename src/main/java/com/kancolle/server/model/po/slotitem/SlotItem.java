@@ -170,13 +170,13 @@ public class SlotItem implements Serializable {
     @JSONField(ordinal = 26, name = "api_usebull")
     private String useBull;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    @JsonProperty("api_cost")
-    Integer cost;
+    @JsonInclude(value = JsonInclude.Include.NON_DEFAULT)
+    @JsonProperty(value = "api_cost", defaultValue = "0")
+    private int cost;
 
     @JsonInclude(value = JsonInclude.Include.NON_NULL)
-    @JsonProperty("api_distance")
-    Integer distance;
+    @JsonProperty(value = "api_distance", defaultValue = "0")
+    private int distance;
 
     public int getSlotItemId() {
         return slotItemId;
@@ -418,19 +418,19 @@ public class SlotItem implements Serializable {
         this.useBull = useBull;
     }
 
-    public Integer getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
-    public Integer getDistance() {
+    public int getDistance() {
         return distance;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(int distance) {
         this.distance = distance;
     }
 

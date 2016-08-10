@@ -16,6 +16,7 @@ import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DaoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,9 +48,14 @@ public class StartService {
     @Autowired
     private MemberFurnitureService memberFurnitureService;
 
+    @Autowired
+    @Qualifier("equip_exslot")
+    private int[] api_mst_equip_exslot;
+
     public StartResult getStartModel() throws InstantiationException, IllegalAccessException {
         StartResult startResult = DaoUtils.setBean(startDao, new Class<?>[]{}, new Object[]{}, "setApi_mst_slotitem", "setApi_mst_ship", "setApi_mst_stype", "setApi_mst_furniture",
                 "setApi_mst_mission", "setApi_mst_useitem", "setApi_mst_slotitemgraph", "setApi_mst_bgm");
+        startResult.setApi_mst_equip_exslot(api_mst_equip_exslot);
         startResult.setApi_mst_ship(shipService.getShips());
         startResult.setApi_mst_stype(shipService.getShipTypes());
         startResult.setApi_mst_slotitem(slotItemService.getSlotItems());

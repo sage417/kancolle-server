@@ -15,4 +15,9 @@ public class Const {
     public int[] createUseItemIds() {
         return new int[]{10, 11, 12, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63};
     }
+
+    @Bean(name = "equip_exslot")
+    public int[] equip_exslot() {
+        return new int[]{23, 43, 44};
+    }
 }

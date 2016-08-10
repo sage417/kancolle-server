@@ -5,6 +5,7 @@ package com.kancolle.server.model.po.common.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -20,9 +21,7 @@ import java.util.function.Function;
  *
  */
 public class JsonObjectHandler extends BaseTypeHandler<JSONObject> {
-    private static final Function<String, JSONObject> toJsonObject = str -> {
-        return JSON.parseObject(str);
-    };
+    private static final Function<String, JSONObject> toJsonObject = str -> JSON.parseObject(str, Feature.OrderedField);
 
     @Override
     public JSONObject getNullableResult(ResultSet rs, String columnName) throws SQLException {

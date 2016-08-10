@@ -11,6 +11,6 @@
 	</select>
 	
 	<select id="selectMapAreaById" resultMap="MapAreaRM">
-		SELECT * FROM t_map_area ID = #{maparea_id}
+		SELECT * FROM t_map_area WHERE ID = #{maparea_id}
 	</select>	
 </mapper>
