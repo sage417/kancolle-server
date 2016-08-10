@@ -8,6 +8,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -32,6 +35,7 @@ public class Member implements Serializable {
 
     private static final long serialVersionUID = -8080060402377336023L;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_member_id")
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;
@@ -40,136 +44,169 @@ public class Member implements Serializable {
     @JSONField(serialize = false, deserialize = false)
     private String token;
 
-    @JsonProperty(value = "api_nickname_id")
+    @JsonView(MemberView.class)
+    @JsonProperty(value = "api_nickname")
     @JSONField(ordinal = 2, name = "api_nickname")
     private String nickName;
 
-    @JsonProperty(value = "")
+    @JsonView(MemberView.class)
+    @JsonProperty(value = "api_nickname_id")
     @JSONField(ordinal = 3, name = "api_nickname_id")
     private String nickNameId;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_active_flag")
     @JSONField(ordinal = 4, name = "api_active_flag")
     private int activeFlag;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_starttime")
     @JSONField(ordinal = 5, name = "api_starttime")
     private long startTime;
 
-    @JsonProperty(value = "api_rank")
+    @JsonView(MemberView.class)
+    @JsonProperty(value = "api_level")
     @JSONField(ordinal = 6, name = "api_level")
     private int level;
 
-    @JsonProperty(value = "")
+    @JsonView(MemberView.class)
+    @JsonProperty(value = "api_rank")
     @JSONField(ordinal = 7, name = "api_rank")
     private int rank;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_experience")
     @JSONField(ordinal = 8, name = "api_experience")
     private long experience;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_fleetname")
     @JSONField(ordinal = 9, name = "api_fleetname", serialzeFeatures = {SerializerFeature.WriteMapNullValue})
     private String fleetName;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_comment")
     @JSONField(ordinal = 10, name = "api_comment")
     private String comment;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_comment_id")
     @JSONField(ordinal = 11, name = "api_comment_id")
     private String commentId;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_max_chara")
     @JSONField(ordinal = 12, name = "api_max_chara")
     private int maxChara;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_max_slotitem")
     @JSONField(ordinal = 13, name = "api_max_slotitem")
     private int maxSlotItem;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_max_kagu")
     @JSONField(ordinal = 14, name = "api_max_kagu")
     private int maxKagu;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_playtime")
     @JSONField(ordinal = 15, name = "api_playtime")
     private long playTime;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_tutorial")
     @JSONField(ordinal = 16, name = "api_tutorial")
     private int tutorial;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_furniture")
     @JSONField(ordinal = 17, name = "api_furniture")
     private int[] furniture;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_count_deck")
     @JSONField(ordinal = 18, name = "api_count_deck")
     private int deckCount;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_count_kdock")
     @JSONField(ordinal = 19, name = "api_count_kdock")
     private int kdockCount;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_count_ndock")
     @JSONField(ordinal = 20, name = "api_count_ndock")
     private int ndockCount;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_fcoin")
     @JSONField(ordinal = 21, name = "api_fcoin")
     private int fCoin;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_st_win")
     @JSONField(ordinal = 22, name = "api_st_win")
     private int attackWin;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_st_lose")
     @JSONField(ordinal = 23, name = "api_st_lose")
     private int attackLose;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_ms_count")
     @JSONField(ordinal = 24, name = "api_ms_count")
     private int missionCount;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_ms_success")
     @JSONField(ordinal = 25, name = "api_ms_success")
     private int missionSuccess;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_pt_win")
     @JSONField(ordinal = 26, name = "api_pt_win")
     private int practiceWin;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_pt_lose")
     @JSONField(ordinal = 27, name = "api_pt_lose")
     private int practiceLose;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_pt_challenged")
     @JSONField(ordinal = 28, name = "api_pt_challenged")
     private int practiceChallenged;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_pt_challenged_win")
     @JSONField(ordinal = 29, name = "api_pt_challenged_win")
     private int practiceChallengedWin;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_firstflag")
     @JSONField(ordinal = 30, name = "api_firstflag")
     private int firstFlag;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_tutorial_progress")
     @JSONField(ordinal = 31, name = "api_tutorial_progress")
     private int tutorialProgress;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_pvp")
     @JSONField(ordinal = 32, name = "api_pvp")
     private int[] pvp;
 
+    @JsonView(MemberView.class)
     @JsonProperty(value = "api_medals")
     @JSONField(ordinal = 33, name = "api_medals")
     private int medals;
 
-    @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
+    @JsonView(PortView.class)
+    @JsonProperty(value = "api_large_dock")
+    @JsonSerialize(using = NumericBooleanSerializer.class)
     private boolean largeDock;
 
     @JsonIgnore
@@ -534,4 +571,7 @@ public class Member implements Serializable {
     public String toString() {
         return String.format("Member [getMemberId()=%s, getNickName()=%s, getLevel()=%s]", getMemberId(), getNickName(), getLevel());
     }
+
+    public interface MemberView {}
+    public interface PortView extends MemberView {}
 }

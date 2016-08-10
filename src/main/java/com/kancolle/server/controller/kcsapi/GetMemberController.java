@@ -1,5 +1,6 @@
 package com.kancolle.server.controller.kcsapi;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.kancolle.server.controller.kcsapi.form.map.MapCellForm;
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
@@ -97,6 +98,7 @@ public class GetMemberController {
         return new APIResponse.Builder<RequireInfo>().data(requireInfo).build();
     }
 
+    @JsonView(Member.MemberView.class)
     @RequestMapping("/basic")
     public APIResponse<Member> basic(@ModelAttribute(MEMBER_ID) String member_id) {
         Member api_data = memberService.getBasic(member_id);

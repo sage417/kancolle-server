@@ -3,12 +3,10 @@ package com.kancolle.server.model.kcsapi.member;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.model.kcsapi.member.port.PortMember;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,7 +40,7 @@ public class MemberPort implements Serializable {
 
     @JsonProperty(value = "api_basic")
     @JSONField(ordinal = 5)
-    private PortMember api_basic;
+    private Member api_basic;
 
     @JsonProperty(value = "api_log")
     @JSONField(ordinal = 6)
@@ -56,7 +54,7 @@ public class MemberPort implements Serializable {
     @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
-    public PortMember getApi_basic() {
+    public Member getApi_basic() {
         return api_basic;
     }
 
@@ -89,9 +87,7 @@ public class MemberPort implements Serializable {
     }
 
     public void setApi_basic(Member api_basic) {
-        this.api_basic = new PortMember();
-        BeanUtils.copyProperties(api_basic, this.api_basic);
-        this.api_basic.setApi_large_dock(api_basic.isLargeDock());
+        this.api_basic = api_basic;
         this.api_p_bgm_id = api_basic.getPortBGMId();
         this.api_parallel_quest_count = api_basic.getParallelQuestCount();
     }

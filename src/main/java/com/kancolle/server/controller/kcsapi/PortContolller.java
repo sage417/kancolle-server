@@ -1,6 +1,8 @@
 package com.kancolle.server.controller.kcsapi;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
+import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.battle.IBattleService;
 import com.kancolle.server.service.member.MemberService;
@@ -20,6 +22,7 @@ public class PortContolller {
     @Autowired
     private IBattleService battleService;
 
+    @JsonView(Member.PortView.class)
     @RequestMapping("/port")
     public APIResponse<MemberPort> port(@ModelAttribute(MEMBER_ID) String member_id) throws Exception {
         battleService.updateAfterBattleResult(member_id);
