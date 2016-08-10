@@ -15,7 +15,7 @@
 		<result property="categoryId" column="CATEGORY_ID" />
 		<result property="iconId" column="ICON_ID" />
 		<result property="useBull" column="USEBULL" />
-		<result property="type" column="TYPE" typeHandler="ImmutableIntListHandler" />
+		<result property="type" column="TYPE" typeHandler="IntegerImmutableListHandler" />
 		<result property="broken" column="BROKEN" typeHandler="ResourceValueHandler" />
 	</resultMap>
 	

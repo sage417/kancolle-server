@@ -44,6 +44,7 @@
 	<typeAliases>
 		<!-- 同时扫描了typehandler -->
 		<package name="com.kancolle.server.model.po" />
+		<package name="com.kancolle.server.model.kcsapi" />
 	</typeAliases>
 
 	<plugins>

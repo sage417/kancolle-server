@@ -2,8 +2,10 @@ package com.kancolle.server.dao.start.impl;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.start.StartDao;
+import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.model.kcsapi.start.StartResult;
 import com.kancolle.server.model.kcsapi.start.sub.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -22,6 +24,9 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
     private static final String MST_MAPBGM_TB = SELECT_ALL + "t_map_bgm";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
     private static final String MST_SHIPUPGRADE_TB = SELECT_ALL + "t_ship_upgrade";
+
+    @Autowired
+    private ShipGraphMapper shipGraphMapper;
 
     @Override
     public ConstModel getMstConst() {
@@ -69,7 +74,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Override
     public List<ShipGraphModel> getMstShipgraph() {
-        return queryForModels(ShipGraphModel.class, MST_SHIPGRAPH_TB);
+        return shipGraphMapper.selectShipGraphs();
     }
 
     @Override
