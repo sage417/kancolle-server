@@ -15,7 +15,7 @@
 		<result property="api_kaizo_d" column="KAIZO_D" typeHandler="IntegerImmutableListHandler"/>
 		<result property="api_map_n" column="MAP_N" typeHandler="IntegerImmutableListHandler"/>
 		<result property="api_map_d" column="MAP_D" typeHandler="IntegerImmutableListHandler"/>
-		<result property="api_ensyuf_n" column="ENSYUE_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_ensyuf_n" column="ENSYUF_N" typeHandler="IntegerImmutableListHandler"/>
 		<result property="api_ensyuf_d" column="ENSYUF_D" typeHandler="IntegerImmutableListHandler"/>
 		<result property="api_ensyue_n" column="ENSYUE_N" typeHandler="IntegerImmutableListHandler"/>
 		<result property="api_battle_n" column="BATTLE_N" typeHandler="IntegerImmutableListHandler"/>

@@ -17,7 +17,7 @@ import java.util.List;
 
 @JsonPropertyOrder(value = {
         "api_mst_ship", "api_mst_shipgraph", "api_mst_slotitem_equiptype", "api_mst_stype",
-        "api_mst_slotitem", "api_mst_slotitemgraph", "api_mst_furniture", "api_mst_furnituregraph",
+        "api_mst_slotitem", "api_mst_furniture", "api_mst_furnituregraph",
         "api_mst_useitem", "api_mst_payitem", "api_mst_item_shop", "api_mst_maparea",
         "api_mst_mapinfo", "api_mst_mapbgm", "api_mst_mapcell", "api_mst_mission",
         "api_mst_const", "api_mst_shipupgrade", "api_mst_bgm"
@@ -45,10 +45,6 @@ public class StartResult implements Serializable {
     @JsonProperty(value = "api_mst_slotitem")
     @JSONField(ordinal = 5)
     private List<SlotItem> api_mst_slotitem;
-
-    @JsonProperty(value = "api_mst_slotitemgraph")
-    @JSONField(ordinal = 6)
-    private List<SlotItemGraphModel> api_mst_slotitemgraph;
 
     @JsonProperty(value = "api_mst_furniture")
     @JSONField(ordinal = 7)
@@ -166,10 +162,6 @@ public class StartResult implements Serializable {
         return api_mst_slotitem_equiptype;
     }
 
-    public List<SlotItemGraphModel> getApi_mst_slotitemgraph() {
-        return api_mst_slotitemgraph;
-    }
-
     public List<ShipType> getApi_mst_stype() {
         return api_mst_stype;
     }
@@ -240,10 +232,6 @@ public class StartResult implements Serializable {
 
     public void setApi_mst_slotitem_equiptype(List<EquipTypeModel> api_mst_slotitem_equiptype) {
         this.api_mst_slotitem_equiptype = api_mst_slotitem_equiptype;
-    }
-
-    public void setApi_mst_slotitemgraph(List<SlotItemGraphModel> api_mst_slotitemgraph) {
-        this.api_mst_slotitemgraph = api_mst_slotitemgraph;
     }
 
     public void setApi_mst_stype(List<ShipType> api_mst_stype) {

@@ -2,7 +2,9 @@ package com.kancolle.server.dao.start.impl;
 
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.start.StartDao;
+import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
+import com.kancolle.server.mapper.slotItem.SlotItemGraphMapper;
 import com.kancolle.server.model.kcsapi.start.StartResult;
 import com.kancolle.server.model.kcsapi.start.sub.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Autowired
     private ShipGraphMapper shipGraphMapper;
+    @Autowired
+    private FurnitureGraphMapper furnitureGraphMapper;
+    @Autowired
+    private SlotItemGraphMapper slotItemGraphMapper;
 
     @Override
     public ConstModel getMstConst() {
@@ -35,7 +41,7 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Override
     public List<FurnitureGraphModel> getMstFurnituregraph() {
-        return queryForModels(FurnitureGraphModel.class, MST_FURNITUREGRAPH_TB);
+        return furnitureGraphMapper.selectFurnitureGraphs();
     }
 
     @Override
@@ -89,7 +95,6 @@ public class StartDaoImpl extends BaseDaoImpl<StartResult> implements StartDao {
 
     @Override
     public List<SlotItemGraphModel> getMstSlotitemgraph() {
-        return queryForModels(SlotItemGraphModel.class, MST_SLOTITEMGRAPH_TB);
-
+        return slotItemGraphMapper.selectSlotItemGraphs();
     }
 }
