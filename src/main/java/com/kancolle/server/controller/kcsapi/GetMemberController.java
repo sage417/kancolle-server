@@ -92,7 +92,7 @@ public class GetMemberController {
     @Autowired
     private PortDao portDao;
 
-    @RequestMapping("/requireInfo")
+    @RequestMapping("/require_info")
     public APIResponse<RequireInfo> requireInfo(@ModelAttribute(MEMBER_ID) String member_id) {
         RequireInfo requireInfo = startService.getRequireInfo(member_id);
         return new APIResponse.Builder<RequireInfo>().data(requireInfo).build();
