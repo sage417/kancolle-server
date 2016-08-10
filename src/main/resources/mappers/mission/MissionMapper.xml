@@ -17,7 +17,7 @@
 		<result property="winItem1" column="WIN_ITEM1" typeHandler="IntJsonArrayHandler" />
 		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHandler" />
 		<result property="returnFlag" column="RETURN_FLAG" />
-		<association property="maparea" column="MAPAREA_ID" select="com.kancolle.server.dao.map.MapAreaDao.selectMapAreasByCond" />
+		<association property="maparea" column="MAPAREA_ID" select="com.kancolle.server.mapper.map.MapAreaMapper.selectMapAreaById" />
 		<association property="missionExp" column="ID" select="selectMissionExp" />
 	</resultMap>
 

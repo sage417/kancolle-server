@@ -3,6 +3,7 @@ package com.kancolle.server.dao.start;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.kcsapi.start.StartResult;
 import com.kancolle.server.model.kcsapi.start.sub.*;
+import com.kancolle.server.model.po.map.MapArea;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface StartDao extends BaseDao<StartResult> {
 
     ItemShopModel getMstItemShop();
 
-    List<MapAreaModel> getMstMaparea();
+    List<MapArea> getMstMaparea();
 
     List<MapBgmModel> getMstMapbgm();
 

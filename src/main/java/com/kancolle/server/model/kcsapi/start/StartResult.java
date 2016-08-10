@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.start.sub.*;
 import com.kancolle.server.model.po.furniture.BGM;
 import com.kancolle.server.model.po.furniture.Furniture;
+import com.kancolle.server.model.po.map.MapArea;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -68,7 +69,7 @@ public class StartResult implements Serializable {
 
     @JsonProperty(value = "api_mst_maparea")
     @JSONField(ordinal = 12)
-    private List<MapAreaModel> api_mst_maparea;
+    private List<MapArea> api_mst_maparea;
 
     @JsonProperty(value = "api_mst_mapinfo")
     @JSONField(ordinal = 13)
@@ -118,7 +119,7 @@ public class StartResult implements Serializable {
         return api_mst_item_shop;
     }
 
-    public List<MapAreaModel> getApi_mst_maparea() {
+    public List<MapArea> getApi_mst_maparea() {
         return api_mst_maparea;
     }
 
@@ -190,7 +191,7 @@ public class StartResult implements Serializable {
         this.api_mst_item_shop = api_mst_item_shop;
     }
 
-    public void setApi_mst_maparea(List<MapAreaModel> api_mst_maparea) {
+    public void setApi_mst_maparea(List<MapArea> api_mst_maparea) {
         this.api_mst_maparea = api_mst_maparea;
     }
 
