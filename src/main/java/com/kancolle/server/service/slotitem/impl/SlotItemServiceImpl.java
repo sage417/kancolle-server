@@ -4,7 +4,7 @@
 package com.kancolle.server.service.slotitem.impl;
 
 import com.google.common.collect.Lists;
-import com.kancolle.server.dao.slotitem.SlotItemDao;
+import com.kancolle.server.mapper.slotItem.SlotItemMapper;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.slotitem.SlotItemService;
@@ -22,11 +22,11 @@ import java.util.Map.Entry;
 @Service
 public class SlotItemServiceImpl implements SlotItemService {
     @Autowired
-    private SlotItemDao slotItemDao;
+    private SlotItemMapper slotItemDao;
 
     @Override
     public List<SlotItem> getSlotItems() {
-        return slotItemDao.getSlotItems();
+        return slotItemDao.selectSlotItemsByCond();
     }
 
     @Override

@@ -174,7 +174,7 @@ public class SlotItem implements Serializable {
     @JsonProperty(value = "api_cost", defaultValue = "0")
     private int cost;
 
-    @JsonInclude(value = JsonInclude.Include.NON_NULL)
+    @JsonInclude(value = JsonInclude.Include.NON_DEFAULT)
     @JsonProperty(value = "api_distance", defaultValue = "0")
     private int distance;
 

@@ -1,6 +1,7 @@
 package com.kancolle.server.mapper.ship;
 
 import com.kancolle.server.model.po.ship.ShipType;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public interface ShipTypeMapper {
 
     List<ShipType> selectShipTypes();
 
-    ShipType selectShipTypeByCond(int type_id);
+    ShipType selectShipTypeByCond(@Param("type_id") int type_id);
 
     void updateShipType(Map<String, Object> stringObjectMap);
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.slotitem.SlotItemDao">
+<mapper namespace="com.kancolle.server.mapper.slotItem.SlotItemMapper">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
 		<property name="eternal" value="true"/>
@@ -20,7 +20,7 @@
 	</resultMap>
 	
 	<resultMap type="UnderSeaSlotItem" id="UnderSeaSlotItemRM" autoMapping="true">
-		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
+		<association property="slotItem" column="SLOTITEM_ID" select="selectSlotItemsByCond"/>
 	</resultMap>
 
 	<select id="selectSlotItemsByCond" resultMap="slotItemRM">
@@ -44,4 +44,11 @@
 		WHERE m.`SHIP_ID` = #{enemy_ship_id}
 		ORDER BY POSITION(CONCAT(m.`SLOTITEM_ID`, ',') IN s.`SLOT`)
 	</select>
+
+	<update id="replaceSlotItem">
+		INSERT INTO `kancolle`.`t_slotitem` (`ID`, `SORTNO`, `NAME`, `TYPE`, `TAIK`, `SOUK`, `HOUG`, `RAIG`, `SOKU`, `BAKU`, `TYKU`, `TAIS`, `ATAP`, `HOUM`, `RAIM`, `HOUK`, `RAIK`, `BAKK`, `SAKU`, `SAKB`, `LUCK`, `LENG`, `RARE`, `BROKEN`, `INFO`, `USEBULL`, `COST`, `DISTANCE`)
+		VALUES (#{ID}, #{SORTNO}, #{NAME}, #{TYPE  ,typeHandler=JsonArrayHandler}, #{TAIK}, #{SOUK}, #{HOUG}, #{RAIG}, #{SOKU}, #{BAKU}, #{TYKU}, #{TAIS}, #{ATAP}, #{HOUM}, #{RAIM}, #{HOUK}, #{RAIK}, #{BAKK}, #{SAKU}, #{SAKB}, #{LUCK}, #{LENG}, #{RARE}, #{BROKEN ,typeHandler=JsonArrayHandler}, #{INFO}, #{USEBULL}, IFNULL(#{COST},0), IFNULL(#{DISTANCE},0))
+		ON DUPLICATE KEY
+		UPDATE `ID`=#{ID}, `SORTNO`=#{SORTNO}, `NAME`=#{NAME}, `TYPE`=#{TYPE  ,typeHandler=JsonArrayHandler}, `TAIK`=#{TAIK}, `SOUK`=#{SOUK}, `HOUG`=#{HOUG}, `RAIG`=#{RAIG}, `SOKU`=#{SOKU}, `BAKU`=#{BAKU}, `TYKU`=#{TYKU}, `TAIS`=#{TAIS}, `ATAP`=#{ATAP}, `HOUM`=#{HOUM}, `RAIM`=#{RAIM}, `HOUK`=#{HOUK}, `RAIK`=#{RAIK}, `BAKK`=#{BAKK}, `SAKU`=#{SAKU}, `SAKB`=#{SAKB}, `LUCK`=#{LUCK}, `LENG`=#{LENG}, `RARE`=#{RARE}, `BROKEN`=#{BROKEN ,typeHandler=JsonArrayHandler}, `INFO`=#{INFO}, `USEBULL`=#{USEBULL}, `COST`=IFNULL(#{COST},0), `DISTANCE`=IFNULL(#{DISTANCE},0)
+	</update>
 </mapper>

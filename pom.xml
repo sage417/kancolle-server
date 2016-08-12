@@ -119,7 +119,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.2.RELEASE</spring.version>
         <jetty.version>9.3.8.v20160314</jetty.version>
-        <jackson.version>2.8.1</jackson.version>
+        <jackson.version>2.7.6</jackson.version>
     </properties>
 
     <dependencies>

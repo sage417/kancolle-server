@@ -9,6 +9,7 @@ import com.kancolle.server.mapper.function.FunctionMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipMapper;
 import com.kancolle.server.mapper.ship.ShipTypeMapper;
+import com.kancolle.server.mapper.slotItem.SlotItemMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class UpdateController {
     private FunctionMapper functionMapper;
     @Autowired
     private ShipTypeMapper shipTypeMapper;
+    @Autowired
+    private SlotItemMapper slotItemMapper;
 
     @GetMapping("/ship_graph")
     void updateShipGraph() throws IOException {
@@ -65,7 +68,15 @@ public class UpdateController {
         JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_stype");
 
         List<Map<String, Object>> domains = getDomainMap(array);
-        domains.stream().forEach(shipTypeMapper::updateShipType);
+        domains.forEach(shipTypeMapper::updateShipType);
+    }
+
+    @GetMapping("/shipSlotItem")
+    void replaceSlotItem() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_slotitem");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(slotItemMapper::replaceSlotItem);
     }
 
     private List<Map<String, Object>> getDomainMap(JSONArray array) {
