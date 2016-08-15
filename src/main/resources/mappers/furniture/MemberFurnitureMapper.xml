@@ -4,7 +4,8 @@
 
 	<resultMap type="MemberFurniture" id="MemberFurnitureRM">
 		<result property="member_id" column="member_id" />
-		<association property="furniture" column="furniture_id" select="com.kancolle.server.dao.furniture.FurnitureDao.selectFurnitureById" />
+		<association property="furniture" column="furniture_id"
+					 select="com.kancolle.server.mapper.furniture.FurnitureMapper.selectFurnitureById"/>
 	</resultMap>
 
 	<select id="selectMemberFurnitures" resultMap="MemberFurnitureRM">

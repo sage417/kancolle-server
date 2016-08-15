@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.service.furniture.impl;
 
-import com.kancolle.server.dao.furniture.FurnitureDao;
+import com.kancolle.server.mapper.furniture.FurnitureMapper;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.service.furniture.FurnitureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import java.util.List;
 @Service
 public class FurnitureServiceImpl implements FurnitureService {
     @Autowired
-    private FurnitureDao furnitureDao;
+    private FurnitureMapper furnitureDao;
 
     @Override
     public List<Furniture> getFurnitures() {
-        return furnitureDao.selectFurnitures();
+        return furnitureDao.selectFurnitureByCond();
     }
 
     @Override

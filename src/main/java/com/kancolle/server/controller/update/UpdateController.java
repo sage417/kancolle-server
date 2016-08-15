@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.google.common.collect.Lists;
 import com.kancolle.server.mapper.function.FunctionMapper;
+import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
+import com.kancolle.server.mapper.furniture.FurnitureMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipMapper;
 import com.kancolle.server.mapper.ship.ShipTypeMapper;
@@ -40,6 +42,10 @@ public class UpdateController {
     private ShipTypeMapper shipTypeMapper;
     @Autowired
     private SlotItemMapper slotItemMapper;
+    @Autowired
+    private FurnitureMapper furnitureMapper;
+    @Autowired
+    private FurnitureGraphMapper furnitureGraphMapper;
 
     @GetMapping("/ship_graph")
     void updateShipGraph() throws IOException {
@@ -77,6 +83,22 @@ public class UpdateController {
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(slotItemMapper::replaceSlotItem);
+    }
+
+    @GetMapping("/furniture")
+    void replaceFurneture() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furniture");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(furnitureMapper::replaceFurniture);
+    }
+
+    @GetMapping("/furniture_graph")
+    void replaceFurnetureGraph() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furnituregraph");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(furnitureGraphMapper::replaceFurnitureGraph);
     }
 
     private List<Map<String, Object>> getDomainMap(JSONArray array) {

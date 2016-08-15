@@ -13,4 +13,10 @@
 	<select id="selectFurnitureGraphs" resultMap="FurnitureGraphModelRM">
 		SELECT * FROM t_furniture_graph
 	</select>
+
+	<update id="replaceFurnitureGraph">
+		INSERT INTO `kancolle`.`t_furniture_graph` (`ID`, `TYPE`, `NO`, `FILENAME`, `VERSION`) VALUES (#{ID}, #{TYPE}, #{NO}, #{FILENAME}, #{VERSION})
+		ON DUPLICATE KEY
+		UPDATE `ID`=#{ID}, `TYPE`=#{TYPE}, `NO`=#{NO}, `FILENAME`=#{FILENAME}, `VERSION`=#{VERSION}
+	</update>
 </mapper>

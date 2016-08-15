@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.furniture.FurnitureDao">
+<mapper namespace="com.kancolle.server.mapper.furniture.FurnitureMapper">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
 		<property name="eternal" value="true"/>
@@ -28,4 +28,11 @@
 			</if>
 		</where>
 	</select>
+
+	<update id="replaceFurniture">
+		INSERT INTO `kancolle`.`t_furniture` (`ID`, `TYPE`, `NO`, `TITLE`, `DESCRIPTION`, `RARITY`, `PRICE`, `SALEFLG`, `SEASON`)
+		VALUES (#{ID}, #{TYPE}, #{NO}, #{TITLE}, #{DESCRIPTION}, #{RARITY}, #{PRICE}, #{SALEFLG}, #{SEASON})
+		ON DUPLICATE KEY
+		UPDATE `ID`=#{ID}, `TYPE`=#{TYPE}, `NO`=#{NO}, `TITLE`=#{TITLE}, `DESCRIPTION`=#{DESCRIPTION}, `RARITY`=#{RARITY}, `PRICE`=#{PRICE}, `SALEFLG`=#{SALEFLG}, `SEASON`=#{SEASON}
+	</update>
 </mapper>
