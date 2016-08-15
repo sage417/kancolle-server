@@ -6,6 +6,7 @@ import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
@@ -213,5 +214,11 @@ public class GetMemberController {
     public APIResponse<ShipDeckResult> shipDeck(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam("api_deck_rid") int deckPortId) {
         ShipDeckResult api_data = memberShipService.getShipDeck(member_id, deckPortId);
         return new APIResponse<ShipDeckResult>().setApi_data(api_data);
+    }
+
+    @PostMapping("/preset_deck")
+    public APIResponse<PresetDeckResponse> presetDeck(@ModelAttribute(MEMBER_ID) String member_id) {
+        PresetDeckResponse api_data = memberDeckPortService.getMemberPresetDeckResponse(member_id);
+        return new APIResponse.Builder<PresetDeckResponse>().data(api_data).build();
     }
 }

@@ -3,7 +3,11 @@
  */
 package com.kancolle.server.service.deckport;
 
+import com.kancolle.server.mapper.deckport.UnderSeaDeckPortMapper;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,9 +16,18 @@ import java.util.List;
  * @Date 2015年8月22日
  *
  */
-public interface UnderSeaDeckPortService {
+@Service
+public class UnderSeaDeckPortService {
 
-    List<UnderSeaDeckPort> getUnderSeaDeckPorts(int mapCellId);
+    @Autowired
+    private UnderSeaDeckPortMapper underSeaDeckPortMapper;
 
-    UnderSeaDeckPort getUnderSeaDeckPortById(int underSeaDeckPortId);
+    @Cacheable(value = "enemyDeckPorts", key = "#mapCellId", cacheManager = "cacheManager")
+    public List<UnderSeaDeckPort> getUnderSeaDeckPorts(int mapCellId) {
+        return underSeaDeckPortMapper.selectUnderSeaDeckPorts(mapCellId);
+    }
+
+    public UnderSeaDeckPort getUnderSeaDeckPortById(int underSeaDeckPortId) {
+        return underSeaDeckPortMapper.selectUnderSeaDeckPortById(underSeaDeckPortId);
+    }
 }
