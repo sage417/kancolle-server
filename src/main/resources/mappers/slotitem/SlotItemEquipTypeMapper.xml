@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.slotItem.SlotItemEquipTypeMapper">
+
+	<resultMap type="EquipTypeModel" id="EquipTypeModelRM">
+		<id property="api_id" column="ID" />
+		<result property="api_name" column="NAME" />
+		<result property="api_show_flg" column="SHOW_FLG" />
+	</resultMap>
+
+	<select id="selectEquipTypes" resultMap="EquipTypeModelRM">
+		SELECT * FROM t_slotitem_equiptype
+	</select>
+
+</mapper>

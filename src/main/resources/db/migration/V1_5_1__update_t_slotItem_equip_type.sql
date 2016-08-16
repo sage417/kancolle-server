@@ -1,0 +1,1 @@
+ALTER TABLE `kancolle`.`t_slotitem_equiptype` CHANGE COLUMN `TYPE` `NAME` varchar(63) NOT NULL, CHANGE COLUMN `SHOW_FLAG` `SHOW_FLG` tinyint(4) NOT NULL;
