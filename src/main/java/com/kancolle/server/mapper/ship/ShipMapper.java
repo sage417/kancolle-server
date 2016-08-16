@@ -15,7 +15,7 @@ public interface ShipMapper {
 
     int selectCountOfShipTypes();
 
-    long selectShipNeedExpByLevel(@Param("nowLv") int nowLv);
+    long selectShipNeedExpByLevel(@Param("level") int nowLv);
 
     int selectShipLVByExp(@Param("exp") long nowExp);
 
