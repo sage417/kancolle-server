@@ -9,6 +9,7 @@ import com.kancolle.server.mapper.function.FunctionMapper;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.furniture.FurnitureMapper;
 import com.kancolle.server.mapper.map.MapBGMMapper;
+import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipMapper;
 import com.kancolle.server.mapper.ship.ShipTypeMapper;
@@ -52,6 +53,8 @@ public class UpdateController {
     private MapBGMMapper mapBGMMapper;
     @Autowired
     private UseItemMapper useItemMapper;
+    @Autowired
+    private MapCellMapper mapCellMapper;
 
     @GetMapping("/ship_graph")
     void updateShipGraph() throws IOException {
@@ -121,6 +124,14 @@ public class UpdateController {
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(useItemMapper::replaceUseItem);
+    }
+
+    @GetMapping("/mapcell")
+    void replaceMapcell() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapcell");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(mapCellMapper::replaceMapCell);
     }
 
     private List<Map<String, Object>> getDomainMap(JSONArray array) {
