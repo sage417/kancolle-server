@@ -6,13 +6,18 @@
         <id property="api_id" column="ID"/>
         <result property="api_maparea_id" column="MAPAREA_ID"/>
         <result property="api_no" column="NO"/>
-        <result property="api_map_bgm" column="MAP_BGM"/>
-        <result property="api_boss_bgm" column="BOSS_BGM"/>
+        <result property="api_map_bgm" column="MAP_BGM" typeHandler="IntegerImmutableListHandler"/>
+        <result property="api_boss_bgm" column="BOSS_BGM" typeHandler="IntegerImmutableListHandler"/>
     </resultMap>
 
     <select id="selectMapBgms" resultMap="MapBGMModelRM">
-        SELECT *
-        FROM t_map_bgm
+        SELECT * FROM t_map_bgm
     </select>
+
+    <update id="replaceMapBgm">
+        INSERT INTO `kancolle`.`t_map_bgm` (`ID`, `MAPAREA_ID`, `NO`, `MAP_BGM`, `BOSS_BGM`) VALUES (#{ID}, #{MAPAREA_ID}, #{NO}, #{MAP_BGM,typeHandler=JsonArrayHandler}, #{BOSS_BGM,typeHandler=JsonArrayHandler})
+        ON DUPLICATE KEY
+        UPDATE  `MAPAREA_ID`=#{MAPAREA_ID}, `NO`=#{NO}, `MAP_BGM`=#{MAP_BGM, typeHandler=JsonArrayHandler}, `BOSS_BGM`=#{BOSS_BGM,typeHandler=JsonArrayHandler}
+    </update>
 
 </mapper>

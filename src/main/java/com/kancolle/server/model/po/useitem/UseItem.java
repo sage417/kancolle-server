@@ -1,18 +1,18 @@
 package com.kancolle.server.model.po.useitem;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
+@Alias("UseItem")
 @JsonPropertyOrder(value = {
         "useitemId", "usetype", "category", "name",
         "description", "price"
 })
-@Alias("UseItem")
 public class UseItem implements Serializable {
 
     private static final long serialVersionUID = -138311826015722610L;
@@ -35,7 +35,7 @@ public class UseItem implements Serializable {
 
     @JsonProperty(value = "api_description")
     @JSONField(ordinal = 5, name = "api_description")
-    private JSONArray description;
+    private ImmutableList<String> description;
 
     @JsonProperty(value = "api_price")
     @JSONField(ordinal = 6, name = "api_price")
@@ -73,11 +73,11 @@ public class UseItem implements Serializable {
         this.name = name;
     }
 
-    public JSONArray getDescription() {
+    public ImmutableList<String> getDescription() {
         return description;
     }
 
-    public void setDescription(JSONArray description) {
+    public void setDescription(ImmutableList<String> description) {
         this.description = description;
     }
 

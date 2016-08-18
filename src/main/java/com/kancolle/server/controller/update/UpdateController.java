@@ -8,10 +8,12 @@ import com.google.common.collect.Lists;
 import com.kancolle.server.mapper.function.FunctionMapper;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.furniture.FurnitureMapper;
+import com.kancolle.server.mapper.map.MapBGMMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipMapper;
 import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import com.kancolle.server.mapper.slotItem.SlotItemMapper;
+import com.kancolle.server.mapper.useItem.UseItemMapper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,10 @@ public class UpdateController {
     private FurnitureMapper furnitureMapper;
     @Autowired
     private FurnitureGraphMapper furnitureGraphMapper;
+    @Autowired
+    private MapBGMMapper mapBGMMapper;
+    @Autowired
+    private UseItemMapper useItemMapper;
 
     @GetMapping("/ship_graph")
     void updateShipGraph() throws IOException {
@@ -99,6 +105,22 @@ public class UpdateController {
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(furnitureGraphMapper::replaceFurnitureGraph);
+    }
+
+    @GetMapping("/map_bgm")
+    void replaceMapBgm() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapbgm");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(mapBGMMapper::replaceMapBgm);
+    }
+
+    @GetMapping("/useItem")
+    void replaceUseItem() throws IOException {
+        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("E:\\Users\\J.K.SAGE\\Desktop\\now.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_useitem");
+
+        List<Map<String, Object>> domains = getDomainMap(array);
+        domains.forEach(useItemMapper::replaceUseItem);
     }
 
     private List<Map<String, Object>> getDomainMap(JSONArray array) {
