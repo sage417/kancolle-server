@@ -34,9 +34,9 @@ public class ConstModel implements Serializable {
         api_parallel_quest_max.put(STRING_KEY, "");
         api_parallel_quest_max.put(INT_KEY, 10);
         api_boko_max_ships.put(STRING_KEY, "");
-        api_boko_max_ships.put(INT_KEY, 260);
+        api_boko_max_ships.put(INT_KEY, 300);
         api_dpflag_quest.put(STRING_KEY, "");
-        api_dpflag_quest.put(INT_KEY, 1);
+        api_dpflag_quest.put(INT_KEY, 0);
     }
 
     public static ConstModel getInstance() {
