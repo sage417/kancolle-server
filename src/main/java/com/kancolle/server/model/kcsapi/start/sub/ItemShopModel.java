@@ -4,35 +4,47 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
 @JsonPropertyOrder(value = {
-        "api_cabinet_1","api_cabinet_2"
+        "cabinet_1","cabinet_2"
 })
 public class ItemShopModel implements Serializable{
 
+    @Id
+    private String id;
+
     @JsonProperty(value = "api_cabinet_1")
     @JSONField(ordinal = 1)
-    private JSONArray api_cabinet_1;
+    private JSONArray cabinet_1;
 
-    @JsonProperty(value = "")
+    @JsonProperty(value = "api_cabinet_2")
     @JSONField(ordinal = 2)
-    private JSONArray api_cabinet_2;
+    private JSONArray cabinet_2;
 
-    public JSONArray getApi_cabinet_1() {
-        return api_cabinet_1;
+    public String getId() {
+        return id;
     }
 
-    public JSONArray getApi_cabinet_2() {
-        return api_cabinet_2;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setApi_cabinet_1(JSONArray api_cabinet_1) {
-        this.api_cabinet_1 = api_cabinet_1;
+    public JSONArray getCabinet_1() {
+        return cabinet_1;
     }
 
-    public void setApi_cabinet_2(JSONArray api_cabinet_2) {
-        this.api_cabinet_2 = api_cabinet_2;
+    public JSONArray getCabinet_2() {
+        return cabinet_2;
+    }
+
+    public void setCabinet_1(JSONArray cabinet_1) {
+        this.cabinet_1 = cabinet_1;
+    }
+
+    public void setCabinet_2(JSONArray cabinet_2) {
+        this.cabinet_2 = cabinet_2;
     }
 }

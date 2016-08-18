@@ -68,6 +68,7 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private UseItemService useItemService;
     @Autowired
     private com.kancolle.server.service.bgm.BGMService BGMService;
+
     @Autowired
     @Qualifier("equip_exslot")
     private int[] api_mst_equip_exslot;
@@ -82,8 +83,8 @@ public class StartDao extends BaseDaoImpl<StartResult> {
 
     public ItemShopModel getMstItemShop() {
         ItemShopModel model = new ItemShopModel();
-        model.setApi_cabinet_1(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_1")));
-        model.setApi_cabinet_2(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_2")));
+        model.setCabinet_1(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_1")));
+        model.setCabinet_2(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_2")));
         return model;
     }
 
@@ -127,31 +128,31 @@ public class StartDao extends BaseDaoImpl<StartResult> {
         return api_mst_equip_exslot;
     }
 
-    public List<BaseShip> getMstShip(){
+    public List<BaseShip> getMstShip() {
         return shipService.getShips();
     }
 
-    public List<ShipType> getMstStype(){
+    public List<ShipType> getMstStype() {
         return shipService.getShipTypes();
     }
 
-    public List<SlotItem> getMstSlotitem(){
+    public List<SlotItem> getMstSlotitem() {
         return slotItemService.getSlotItems();
     }
 
-    public List<Furniture> getMstFurniture(){
+    public List<Furniture> getMstFurniture() {
         return furnitureService.getFurnitures();
     }
 
-    public List<Mission> getMstMission(){
+    public List<Mission> getMstMission() {
         return missionService.getMissions();
     }
 
-    public List<UseItem> getMstUseitem(){
+    public List<UseItem> getMstUseitem() {
         return useItemService.getUseItems();
     }
 
-    public List<BGM> getMsgtBgm(){
+    public List<BGM> getMstBgm() {
         return BGMService.getBGMs();
     }
 }
