@@ -17,7 +17,7 @@
 		SELECT * FROM t_useitem
 	</select>
 
-	<select id="selectUseItemById" resultMap="UseItemRm">
+	<select id="selectUseItemById" resultMap="UseItemRM">
 		SELECT * FROM t_useitem WHERE ID = #{useitem_id}
 	</select>
 
