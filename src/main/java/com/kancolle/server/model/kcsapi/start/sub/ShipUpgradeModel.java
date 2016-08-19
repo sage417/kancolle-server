@@ -8,14 +8,17 @@ import com.kancolle.server.dao.annotation.Column;
 import java.io.Serializable;
 
 @JsonPropertyOrder(value = {
-        "api_id", "api_original_ship_id", "api_upgrade_type", "api_upgrade_level",
-        "api_drawing_count", "api_sortno"
+        "api_id", "api_current_ship_id", "api_original_ship_id", "api_upgrade_type",
+        "api_upgrade_level", "api_drawing_count", "api_catapult_count", "api_sortno"
 })
 public class ShipUpgradeModel implements Serializable {
 
     @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private int api_id;
+
+    @JsonProperty(value = "api_current_ship_id")
+    private int api_current_ship_id;
 
     @JsonProperty(value = "api_original_ship_id")
     @JSONField(ordinal = 2)
@@ -33,32 +36,51 @@ public class ShipUpgradeModel implements Serializable {
     @JSONField(ordinal = 5)
     private int api_drawing_count;
 
+    @JsonProperty(value = "api_catapult_count")
+    private int api_catapult_count;
+
     @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 6)
     private int api_sortno;
 
-    public int getApi_drawing_count() {
-        return api_drawing_count;
-    }
-
     public int getApi_id() {
         return api_id;
+    }
+
+    public int getApi_current_ship_id() {
+        return api_current_ship_id;
+    }
+
+    public void setApi_current_ship_id(int api_current_ship_id) {
+        this.api_current_ship_id = api_current_ship_id;
     }
 
     public int getApi_original_ship_id() {
         return api_original_ship_id;
     }
 
-    public int getApi_sortno() {
-        return api_sortno;
+    public int getApi_upgrade_type() {
+        return api_upgrade_type;
     }
 
     public int getApi_upgrade_level() {
         return api_upgrade_level;
     }
 
-    public int getApi_upgrade_type() {
-        return api_upgrade_type;
+    public int getApi_drawing_count() {
+        return api_drawing_count;
+    }
+
+    public int getApi_catapult_count() {
+        return api_catapult_count;
+    }
+
+    public void setApi_catapult_count(int api_catapult_count) {
+        this.api_catapult_count = api_catapult_count;
+    }
+
+    public int getApi_sortno() {
+        return api_sortno;
     }
 
     @Column(name = "DRAWING_COUNT", type = int.class)

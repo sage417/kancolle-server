@@ -1,5 +1,6 @@
 package com.kancolle.server.dao.start;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.item.PayItemMapper;
@@ -25,16 +26,18 @@ import com.kancolle.server.service.mission.MissionService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.service.useitem.UseItemService;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
 
 @Repository
 public class StartDao extends BaseDaoImpl<StartResult> {
-    private static final String MST_ITEMSHOP_TB = "SELECT ITEM_ID FROM t_item_shop WHERE NAME = :shop_name";
     private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
 
     @Autowired
@@ -55,6 +58,8 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private ShipUpgradeMapper shipUpgradeMapper;
     @Autowired
     private SlotItemEquipTypeMapper slotItemEquipTypeMapper;
+    @Autowired
+    private MongoClient mongoClient;
 
     @Autowired
     private SlotItemService slotItemService;
@@ -70,6 +75,9 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private com.kancolle.server.service.bgm.BGMService BGMService;
 
     @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
     @Qualifier("equip_exslot")
     private int[] api_mst_equip_exslot;
 
@@ -82,10 +90,17 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     }
 
     public ItemShopModel getMstItemShop() {
-        ItemShopModel model = new ItemShopModel();
-        model.setCabinet_1(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_1")));
-        model.setCabinet_2(parseJSONArray(MST_ITEMSHOP_TB, Collections.singletonMap("shop_name", "api_cabinet_2")));
-        return model;
+        MongoCollection<Document> shops = mongoClient.getDatabase("kancolle").getCollection("shop");
+        Document shop = shops.find().first();
+        return readValue(shop, ItemShopModel.class);
+    }
+
+    private <T> T readValue(final Document doc, final Class<T> type) {
+        try {
+            return objectMapper.readValue(doc.toJson(), type);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public List<MapArea> getMstMaparea() {
