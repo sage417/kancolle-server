@@ -8,5 +8,4 @@ services:
 before_install:
   - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
 before_script:
-  - sleep 15
   - mongoimport -d kancolle -c shop ./shop.dat
