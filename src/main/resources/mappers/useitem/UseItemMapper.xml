@@ -13,11 +13,12 @@
 		<result property="description" column="DESCRIPTION" typeHandler="StringImmutableListHandler"/>
 	</resultMap>
 	
-	<select id="selectUseItemByCond" resultMap="UseItemRM" >
+	<select id="selectUseItems" resultMap="UseItemRM" >
 		SELECT * FROM t_useitem
-		<where>
-			<if test="_parameter != null">ID = #{useitem_id}</if>
-		</where>
+	</select>
+
+	<select id="selectUseItemById" resultMap="UseItemRm">
+		SELECT * FROM t_useitem WHERE ID = #{useitem_id}
 	</select>
 
 	<update id="replaceUseItem">
