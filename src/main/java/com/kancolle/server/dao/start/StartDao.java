@@ -1,6 +1,7 @@
 package com.kancolle.server.dao.start;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.item.PayItemMapper;
@@ -27,6 +28,7 @@ import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.service.slotitem.SlotItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class StartDao extends BaseDaoImpl<StartResult> {
@@ -148,7 +151,10 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     }
 
     public List<ShipType> getMstStype() {
-        return shipService.getShipTypes();
+        MongoCollection<Document> sTypeCollection = mongoClient.getDatabase("kancolle").getCollection("stype");
+        FindIterable<Document> documents = sTypeCollection.find().batchSize((int) sTypeCollection.count());
+        List<Document> sTypes = Lists.newArrayList(documents);
+        return sTypes.stream().map(doc -> readValue(doc, ShipType.class)).collect(Collectors.toList());
     }
 
     public List<SlotItem> getMstSlotitem() {

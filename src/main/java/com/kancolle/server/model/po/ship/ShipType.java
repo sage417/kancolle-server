@@ -1,7 +1,6 @@
 package com.kancolle.server.model.po.ship;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.parser.Feature;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
+import java.util.Map;
 
 @JsonPropertyOrder(value = {
         "shipTypeId", "sortNo", "name", "scnt",
@@ -66,7 +66,10 @@ public class ShipType implements Serializable {
 
     @JsonProperty(value = "api_equip_type")
     @JSONField(ordinal = 6, name = "api_equip_type")
-    private JSONObject equipTypes;
+    private Map<?, ?> equipTypes;
+
+    public ShipType() {
+    }
 
     public ShipType(String equipTypes) {
         this.equipTypes = JSON.parseObject(equipTypes, Feature.OrderedField);
@@ -112,11 +115,11 @@ public class ShipType implements Serializable {
         this.kcnt = kcnt;
     }
 
-    public JSONObject getEquipTypes() {
+    public Map<?, ?> getEquipTypes() {
         return equipTypes;
     }
 
-    public void setEquipTypes(JSONObject equipTypes) {
+    public void setEquipTypes(Map<?, ?> equipTypes) {
         this.equipTypes = equipTypes;
     }
 
