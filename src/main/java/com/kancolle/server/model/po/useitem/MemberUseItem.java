@@ -8,12 +8,12 @@ import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
+@Alias("MemberUseItem")
 @JsonPropertyOrder(value = {
         "member_id", "useItemId", "value", "api_usetype",
-        "api_category", "api_name", "api_description", "api_price",
+        "api_category", "api_name", "description", "api_price",
         "count"
 })
-@Alias("MemberUseItem")
 public class MemberUseItem implements Serializable {
 
     private static final long serialVersionUID = 3773472417961605052L;
@@ -31,7 +31,7 @@ public class MemberUseItem implements Serializable {
     private final UseItem useItem;
 
     @JsonProperty(value = "api_description")
-    private final ImmutableList<String> description = ImmutableList.of("","");
+    private final ImmutableList<String> description = ImmutableList.of("", "");
 
     @JsonProperty(value = "api_count")
     private int count;
@@ -47,15 +47,22 @@ public class MemberUseItem implements Serializable {
         return member_id;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public int getUseItemId() {
         return useItemId;
     }
 
-    @JsonProperty(value = "api_count")
+    public int getValue() {
+        return value;
+    }
+
+    public UseItem getUseItem() {
+        return useItem;
+    }
+
+    public ImmutableList<String> getDescription() {
+        return description;
+    }
+
     public int getCount() {
         return count;
     }
@@ -79,17 +86,9 @@ public class MemberUseItem implements Serializable {
         return useItem.getName();
     }
 
-    public ImmutableList<String> getDescription() {
-        return description;
-    }
-
     @JsonProperty(value = "api_price")
     public int getPrice() {
         return useItem.getPrice();
-    }
-
-    public UseItem getUseItem() {
-        return useItem;
     }
 
     @Override
