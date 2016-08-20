@@ -18,23 +18,23 @@ import java.util.List;
 public class SlotItemInfo {
 
     // 主炮数量
-    private final ImmutableList<Long> mainGunIds;
+    private final ImmutableList<Integer> mainGunIds;
 
     // 副炮数量
-    private final ImmutableList<Long> secondaryGunIds;
+    private final ImmutableList<Integer> secondaryGunIds;
 
     // 侦察机数量
-    private final ImmutableList<Long> searchPlaneIds;
+    private final ImmutableList<Integer> searchPlaneIds;
 
     // 雷达数量
-    private final ImmutableList<Long> radarIds;
+    private final ImmutableList<Integer> radarIds;
 
     // 撤甲弹数量
-    private final ImmutableList<Long> apAmmoIds;
+    private final ImmutableList<Integer> apAmmoIds;
 
-    private SlotItemInfo(ImmutableList<Long> mainGunIds, ImmutableList<Long> secondaryGunIds,
-                        ImmutableList<Long> searchPlaneIds, ImmutableList<Long> radarIds,
-                        ImmutableList<Long> apAmmoIds) {
+    private SlotItemInfo(final ImmutableList<Integer> mainGunIds, final ImmutableList<Integer> secondaryGunIds,
+                         final ImmutableList<Integer> searchPlaneIds, final ImmutableList<Integer> radarIds,
+                         final ImmutableList<Integer> apAmmoIds) {
         this.mainGunIds = mainGunIds;
         this.secondaryGunIds = secondaryGunIds;
         this.searchPlaneIds = searchPlaneIds;
@@ -42,19 +42,19 @@ public class SlotItemInfo {
         this.apAmmoIds = apAmmoIds;
     }
 
-    public static SlotItemInfo of(IShip ship) {
+    public static SlotItemInfo of(final IShip ship) {
 
-        List<Long> mainGunIds = Lists.newArrayListWithCapacity(4);
-        List<Long> secondaryGunIds = Lists.newArrayListWithCapacity(4);
-        List<Long> radarIds = Lists.newArrayListWithCapacity(4);
-        List<Long> searchPlaneIds = Lists.newArrayListWithCapacity(4);
-        List<Long> apAmmoIds = Lists.newArrayListWithCapacity(4);
+        final List<Integer> mainGunIds = Lists.newArrayListWithCapacity(4);
+        final List<Integer> secondaryGunIds = Lists.newArrayListWithCapacity(4);
+        final List<Integer> radarIds = Lists.newArrayListWithCapacity(4);
+        final List<Integer> searchPlaneIds = Lists.newArrayListWithCapacity(4);
+        final List<Integer> apAmmoIds = Lists.newArrayListWithCapacity(4);
 
         int EQIdx = 0;
 
-        for (AbstractSlotItem slotItem : ship.getSlotItems()) {
-            long slotItemId = slotItem.getSlotItemId();
-            int slotType = SlotItemUtils.getType(slotItem);
+        for (final AbstractSlotItem slotItem : ship.getSlotItems()) {
+            final Integer slotItemId = slotItem.getSlotItemId();
+            final int slotType = SlotItemUtils.getType(slotItem);
             switch (slotType) {
                 case 1:
                 case 2:
@@ -108,23 +108,23 @@ public class SlotItemInfo {
         return apAmmoIds.size();
     }
 
-    public ImmutableList<Long> getMainGunIds() {
+    public ImmutableList<Integer> getMainGunIds() {
         return mainGunIds;
     }
 
-    public ImmutableList<Long> getSecondaryGunIds() {
+    public ImmutableList<Integer> getSecondaryGunIds() {
         return secondaryGunIds;
     }
 
-    public ImmutableList<Long> getSearchPlaneIds() {
+    public ImmutableList<Integer> getSearchPlaneIds() {
         return searchPlaneIds;
     }
 
-    public ImmutableList<Long> getRadarIds() {
+    public ImmutableList<Integer> getRadarIds() {
         return radarIds;
     }
 
-    public ImmutableList<Long> getApAmmoIds() {
+    public ImmutableList<Integer> getApAmmoIds() {
         return apAmmoIds;
     }
 
