@@ -88,6 +88,7 @@
 
 	<insert id="insertBaseShip">
 		INSERT INTO `t_ship` (`ID`,`NAME`,`YOMI`,`STYPE`,`SOKU`,`SLOT_NUM`) VALUES (#{ID}, #{NAME}, #{YOMI}, #{STYPE}, #{SOKU}, #{SLOT_NUM})
+		ON DUPLICATE KEY UPDATE `NAME` = #{NAME}, YOMI = #{YOMI}, STYPE = #{STYPE}, SOKU = #{SOKU}, SLOT_NUM = #{SLOT_NUM}
 	</insert>
 
 	<!-- ANOTHER TABLE -->

@@ -12,8 +12,8 @@
         <result property="api_infotext" column="INFOTEXT"/>
         <result property="api_item" column="ITEM" typeHandler="IntJsonArrayHandler"/>
         <result property="api_max_maphp" column="MAX_MAPHP"/>
-        <result property="api_required_defeat_count" column="REQUIRED_DEDEAT_COUNT"/>
-        <result property="api_sally_flag" column="SALLY_FLAG"/>
+        <result property="api_required_defeat_count" column="REQUIRED_DEFEAT_COUNT"/>
+        <result property="api_sally_flag" column="SALLY_FLAG" typeHandler="IntJsonArrayHandler"/>
     </resultMap>
 
     <select id="selectMapInfos" resultMap="MapInfoRM">
@@ -27,4 +27,11 @@
     <select id="selectMapInfoById" resultMap="MapInfoRM">
         SELECT * FROM t_map_info WHERE ID = #{id}
     </select>
+
+    <update id="replaceMapInfo">
+        insert into `kancolle`.`t_map_info` ( `ID`, `INFOTEXT`, `ITEM`, `MAX_MAPHP`, `REQUIRED_DEFEAT_COUNT`, `LEVEL`, `MAPAREA_ID`, `NAME`, `NO`, `OPETEXT`, `SALLY_FLAG`)
+        values ( #{ID}, #{INFOTEXT}, #{ITEM, typeHandler=JsonArrayHandler}, #{MAX_MAPHP}, #{REQUIRED_DEFEAT_COUNT}, #{LEVEL}, #{MAPAREA_ID}, #{NAME}, #{NO}, #{OPETEXT}, #{SALLY_FLAG, typeHandler=JsonArrayHandler})
+        ON DUPLICATE KEY UPDATE
+        `INFOTEXT`=#{INFOTEXT}, `ITEM`=#{ITEM, typeHandler=JsonArrayHandler}, `MAX_MAPHP`=#{MAX_MAPHP}, `REQUIRED_DEFEAT_COUNT`=#{REQUIRED_DEFEAT_COUNT}, `LEVEL`=#{LEVEL}, `MAPAREA_ID`=#{MAPAREA_ID}, `NAME`=#{NAME}, `NO`=#{NO}, `OPETEXT`=#{OPETEXT}, `SALLY_FLAG`=#{SALLY_FLAG, typeHandler=JsonArrayHandler}
+    </update>
 </mapper>

@@ -4,14 +4,23 @@
 
 	<resultMap id="ShipUpgradeModelRM" type="ShipUpgradeModel">
 		<id property="api_id" column="ID"/>
+		<result property="api_current_ship_id" column="CURRENT_SHIP_ID"/>
 		<result property="api_original_ship_id" column="ORIGINAL_SHIP_ID"/>
 		<result property="api_upgrade_type" column="UPGRADE_TYPE"/>
 		<result property="api_upgrade_level" column="UPGRADE_LEVEL"/>
 		<result property="api_drawing_count" column="DRAWING_COUNT"/>
+		<result property="api_catapult_count" column="CATAPULT_COUNT"/>
 		<result property="api_sortno" column="SORTNO"/>
 	</resultMap>
 
 	<select id="selectShipUpgrades" resultMap="ShipUpgradeModelRM">
-		SELECT * FROM t_ship_upgrade
+		SELECT `ID`, `CURRENT_SHIP_ID`, `ORIGINAL_SHIP_ID`, `UPGRADE_TYPE`, `UPGRADE_LEVEL`, `DRAWING_COUNT`, `CATAPULT_COUNT`, `SORTNO` FROM t_ship_upgrade
 	</select>
+
+	<update id="replaceShipGrade">
+		insert into `t_ship_upgrade` ( `ID`, `CURRENT_SHIP_ID`, `ORIGINAL_SHIP_ID`, `UPGRADE_TYPE`, `UPGRADE_LEVEL`, `DRAWING_COUNT`, `CATAPULT_COUNT`, `SORTNO`)
+		values ( #{ID}, #{CURRENT_SHIP_ID}, #{ORIGINAL_SHIP_ID}, #{UPGRADE_TYPE}, #{UPGRADE_LEVEL}, #{DRAWING_COUNT}, #{CATAPULT_COUNT}, #{SORTNO})
+		ON DUPLICATE KEY UPDATE
+		`ID`=#{ID}, `CURRENT_SHIP_ID`=#{CURRENT_SHIP_ID}, `ORIGINAL_SHIP_ID`=#{ORIGINAL_SHIP_ID}, `UPGRADE_TYPE`=#{UPGRADE_TYPE}, `UPGRADE_LEVEL`=#{UPGRADE_LEVEL}, `DRAWING_COUNT`=#{DRAWING_COUNT}, `CATAPULT_COUNT`=#{CATAPULT_COUNT}, `SORTNO`=#{SORTNO}
+	</update>
 </mapper>

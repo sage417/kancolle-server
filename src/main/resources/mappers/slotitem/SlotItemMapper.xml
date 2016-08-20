@@ -46,8 +46,8 @@
 	</select>
 
 	<update id="replaceSlotItem">
-		INSERT INTO `kancolle`.`t_slotitem` (`ID`, `SORTNO`, `NAME`, `TYPE`, `TAIK`, `SOUK`, `HOUG`, `RAIG`, `SOKU`, `BAKU`, `TYKU`, `TAIS`, `ATAP`, `HOUM`, `RAIM`, `HOUK`, `RAIK`, `BAKK`, `SAKU`, `SAKB`, `LUCK`, `LENG`, `RARE`, `BROKEN`, `INFO`, `USEBULL`, `COST`, `DISTANCE`)
-		VALUES (#{ID}, #{SORTNO}, #{NAME}, #{TYPE  ,typeHandler=JsonArrayHandler}, #{TAIK}, #{SOUK}, #{HOUG}, #{RAIG}, #{SOKU}, #{BAKU}, #{TYKU}, #{TAIS}, #{ATAP}, #{HOUM}, #{RAIM}, #{HOUK}, #{RAIK}, #{BAKK}, #{SAKU}, #{SAKB}, #{LUCK}, #{LENG}, #{RARE}, #{BROKEN ,typeHandler=JsonArrayHandler}, #{INFO}, #{USEBULL}, IFNULL(#{COST},0), IFNULL(#{DISTANCE},0))
+		INSERT INTO `kancolle`.`t_slotitem` (`ID`, `SORTNO`, `NAME`, `TYPE`, `CLASS_ID`, `PHOTOGRAPH_ID`, `CATEGORY_ID`, `ICON_ID`,`TAIK`, `SOUK`, `HOUG`, `RAIG`, `SOKU`, `BAKU`, `TYKU`, `TAIS`, `ATAP`, `HOUM`, `RAIM`, `HOUK`, `RAIK`, `BAKK`, `SAKU`, `SAKB`, `LUCK`, `LENG`, `RARE`, `BROKEN`, `INFO`, `USEBULL`, `COST`, `DISTANCE`)
+		VALUES (#{ID}, #{SORTNO}, #{NAME}, #{TYPE  ,typeHandler=JsonArrayHandler},1,1,1,1, #{TAIK}, #{SOUK}, #{HOUG}, #{RAIG}, #{SOKU}, #{BAKU}, #{TYKU}, #{TAIS}, #{ATAP}, #{HOUM}, #{RAIM}, #{HOUK}, #{RAIK}, #{BAKK}, #{SAKU}, #{SAKB}, #{LUCK}, #{LENG}, #{RARE}, #{BROKEN ,typeHandler=JsonArrayHandler}, #{INFO}, #{USEBULL}, IFNULL(#{COST},0), IFNULL(#{DISTANCE},0))
 		ON DUPLICATE KEY
 		UPDATE `ID`=#{ID}, `SORTNO`=#{SORTNO}, `NAME`=#{NAME}, `TYPE`=#{TYPE  ,typeHandler=JsonArrayHandler}, `TAIK`=#{TAIK}, `SOUK`=#{SOUK}, `HOUG`=#{HOUG}, `RAIG`=#{RAIG}, `SOKU`=#{SOKU}, `BAKU`=#{BAKU}, `TYKU`=#{TYKU}, `TAIS`=#{TAIS}, `ATAP`=#{ATAP}, `HOUM`=#{HOUM}, `RAIM`=#{RAIM}, `HOUK`=#{HOUK}, `RAIK`=#{RAIK}, `BAKK`=#{BAKK}, `SAKU`=#{SAKU}, `SAKB`=#{SAKB}, `LUCK`=#{LUCK}, `LENG`=#{LENG}, `RARE`=#{RARE}, `BROKEN`=#{BROKEN ,typeHandler=JsonArrayHandler}, `INFO`=#{INFO}, `USEBULL`=#{USEBULL}, `COST`=IFNULL(#{COST},0), `DISTANCE`=IFNULL(#{DISTANCE},0)
 	</update>
