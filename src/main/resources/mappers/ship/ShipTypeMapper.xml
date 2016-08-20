@@ -9,11 +9,9 @@
 	</cache>
 
 	<resultMap type="ShipType" id="ShipTypeRM" autoMapping="true">
-		<constructor>
-			<arg javaType="String" column="EQUIP_TYPE" />
-		</constructor>
 		<id property="shipTypeId" column="ID" />
 		<id property="sortNo" column="SORTNO" />
+		<result property="equipTypes" column="EQUIP_TYPE" typeHandler="MapHandler"/>
 	</resultMap>
 
 	<select id="selectShipTypes" resultMap="ShipTypeRM">
@@ -30,7 +28,7 @@
 
 	<update id="updateShipType">
 		INSERT INTO `kancolle`.`t_ship_type` (`ID`, `EQUIP_TYPE`, `KCNT`, `NAME`, `SCNT`, `SORTNO`) VALUES
-		(#{ID}, #{EQUIP_TYPE, typeHandler=JsonObjectHandler}, #{KCNT}, #{NAME}, #{SCNT}, #{SORTNO})
+		(#{ID}, #{EQUIP_TYPE, typeHandler=MapHandler}, #{KCNT}, #{NAME}, #{SCNT}, #{SORTNO})
 		ON DUPLICATE KEY UPDATE
 		 `ID`=#{ID}, `EQUIP_TYPE`= #{EQUIP_TYPE, typeHandler=JsonObjectHandler}, `KCNT`=#{KCNT}, `NAME`=#{NAME}, `SCNT`=#{SCNT}, `SORTNO`=#{SORTNO}
 	</update>

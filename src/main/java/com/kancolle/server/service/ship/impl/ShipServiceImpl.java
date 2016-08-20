@@ -74,7 +74,7 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public boolean canEquip(ShipType shipType, int slotItem_id) {
-        return shipType.getEquipTypes().getIntValue(Integer.toString(slotItem_id)) == 1;
+        return shipType.getEquipTypes().get(Integer.toString(slotItem_id)) == 1;
     }
 
     @Override
