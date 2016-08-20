@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.member.MemberUseItemDao">
 
-	<resultMap type="MemberUseItem" id="MemberUseItemRM" autoMapping="true">
-		<id property="member_id" column="member_id"/>
-		<id property="useItemId" column="ID"/>
-		<result property="value" column="COUNT"/>
+	<resultMap type="MemberUseItem" id="MemberUseItemRM">
+		<constructor>
+			<idArg column="member_id" javaType="_long"/>
+			<idArg column="ID" javaType="_int"/>
+			<arg column="COUNT" javaType="_int"/>
+			<arg select="com.kancolle.server.mapper.useItem.UseItemMapper.selectUseItemById" column="ID" javaType="UseItem"/>
+		</constructor>
 		<result property="count" column="COUNT"/>
-		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHandler"/>
 	</resultMap>
 
 	<select id="selectMemberUseItems" resultMap="MemberUseItemRM">
@@ -15,26 +17,15 @@
 				SELECT
 					mu.`member_id` AS `member_id`,
 					mu.`ID` AS `ID`,
-					u.`USETYPE` AS `USETYPE`,
-					u.`CATEGORY` AS `CATEGORY`,
-					u.`NAME` AS `NAME`,
-					'["",""]' AS `DESCRIPTION`,
-					u.`PRICE` AS `PRICE`,
 					mu.`COUNT` AS `COUNT`
 				FROM
 					`t_member_useitem` mu
-				JOIN `t_useitem` u ON mu.`ID` = u.`ID`
 				WHERE
 					mu.`COUNT` > 0 AND mu.member_id = #{member_id}
 				UNION ALL
 				SELECT
 					ms.member_id AS `member_id`,
 					u.ID AS `ID`,
-					u.USETYPE AS `USETYPE`,
-					u.CATEGORY AS `CATEGORY`,
-					u.`NAME` AS `NAME`,
-					'["",""]' AS `DESCRIPTION`,
-					u.PRICE AS `PRICE`,
 					COUNT(u.ID) AS `COUNT`
 				FROM
 					t_member_slotitem ms
