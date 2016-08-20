@@ -43,19 +43,19 @@ public abstract class AbstractSlotItem implements ISlotItem, Serializable {
     }
 
     public int getClassId() {
-        return slotItem.getClassId();
+        return getSlotItem().getClassId();
     }
 
     public int getPhotographId() {
-        return slotItem.getPhotographId();
+        return getSlotItem().getPhotographId();
     }
 
     public int getCategoryId() {
-        return slotItem.getCategoryId();
+        return getSlotItem().getCategoryId();
     }
 
     public int getIconId() {
-        return slotItem.getIconId();
+        return getSlotItem().getIconId();
     }
 
     public int getTaik() {
