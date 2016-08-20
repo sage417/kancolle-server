@@ -7,8 +7,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.kancolle.server.model.po.View;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -24,22 +22,21 @@ public class BaseShip implements Serializable {
 
     private static final long serialVersionUID = -7322805228630342223L;
 
-    @JsonView(View.BaseShip.class)
     @JsonProperty("api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int shipId;
 
-    @JsonView(View.BaseShip.class)
+
     @JsonProperty("api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
-    @JsonView(View.BaseShip.class)
+
     @JsonProperty("api_yomi")
     @JSONField(ordinal = 4, name = "api_yomi")
     private String yomi;
 
-    @JsonView(View.BaseShip.class)
+
     @JsonProperty("api_stype")
     @JSONField(ordinal = 5, name = "api_stype")
     private int shipTypeId;
@@ -49,13 +46,13 @@ public class BaseShip implements Serializable {
     private ShipType type;
 
     /** 速力 */
-    @JsonView(View.BaseShip.class)
+
     @JsonProperty("api_soku")
     @JSONField(ordinal = 14, name = "api_soku")
     private int soku;
 
     /** 可装备数 */
-    @JsonView(View.BaseShip.class)
+
     @JsonProperty("api_slot_num")
     @JSONField(ordinal = 16, name = "api_slot_num")
     private int slotNum;

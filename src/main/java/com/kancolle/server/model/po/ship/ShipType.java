@@ -66,9 +66,6 @@ public class ShipType implements Serializable {
     @JSONField(ordinal = 6, name = "api_equip_type")
     private Map<String, Integer> equipTypes;
 
-    public ShipType() {
-    }
-
     public int getShipTypeId() {
         return shipTypeId;
     }
