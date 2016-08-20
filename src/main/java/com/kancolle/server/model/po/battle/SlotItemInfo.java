@@ -32,7 +32,7 @@ public class SlotItemInfo {
     // 撤甲弹数量
     private final ImmutableList<Long> apAmmoIds;
 
-    public SlotItemInfo(ImmutableList<Long> mainGunIds, ImmutableList<Long> secondaryGunIds,
+    private SlotItemInfo(ImmutableList<Long> mainGunIds, ImmutableList<Long> secondaryGunIds,
                         ImmutableList<Long> searchPlaneIds, ImmutableList<Long> radarIds,
                         ImmutableList<Long> apAmmoIds) {
         this.mainGunIds = mainGunIds;

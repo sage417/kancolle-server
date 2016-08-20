@@ -11,6 +11,10 @@ import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleResult.*;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuStage1;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuStage2;
+import com.kancolle.server.model.kcsapi.battle.houku.KouKuStage3;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
@@ -141,11 +145,15 @@ public class BattleService extends BaseService implements IBattleService {
 
         /*------------------------2.航空战开始开始------------------------*/
 
+        KouKuResult kouKuResult = new KouKuResult();
         /*-------制空战开始-------*/
+        KouKuStage1 stage1 = new KouKuStage1();
+        stage1.setApi_disp_seiku(aerialState);
 
         /*-------制空战结束-------*/
 
         /*------防空火炮迎击开始------*/
+        KouKuStage2 stage2 = new KouKuStage2();
 
         /*------防空火炮迎击结束------*/
 
@@ -154,8 +162,13 @@ public class BattleService extends BaseService implements IBattleService {
         /*-------航空接触结束-------*/
 
         /*-------攻击机、轰炸机的雷击、轰炸-----*/
+        KouKuStage3 stage3 = new KouKuStage3();
 
         /*-------攻击机、轰炸机的雷击、轰炸结束-----*/
+
+        kouKuResult.setStage1(stage1);
+        kouKuResult.setStage2(stage2);
+        kouKuResult.setStage3(stage3);
         /*-------------------------航空战开始结束-----------------------*/
 
         /*-------------------------3支援舰队达到------------------------*/

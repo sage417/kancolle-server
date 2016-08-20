@@ -105,57 +105,57 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /*-------------回避性能-------------*/
 
     /* --------------回避阈值-------------- */
-    protected final double houkThreshold(double shipKaihi) {
-        double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
+    protected final double houkThreshold(final double shipKaihi) {
+        final double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
     /* --------------回避阈值-------------- */
 
     /* ---------------火力阈值--------------*/
-    protected final int daylightHougThreshold(double basicHoug) {
+    protected final int daylightHougThreshold(final double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
     }
 
-    protected final int taiSenHougThreshold(double basicHoug) {
+    protected final int taiSenHougThreshold(final double basicHoug) {
         return hougAfterThreshold(basicHoug, TAISEN_THRESHOLD);
     }
 
-    protected final int nightHougThreshold(double basicHoug) {
+    protected final int nightHougThreshold(final double basicHoug) {
         return hougAfterThreshold(basicHoug, NIGHT_HOUG_THRESHOLD);
     }
 
-    private int hougAfterThreshold(double basicHoug, int threshold) {
+    private int hougAfterThreshold(final double basicHoug, final int threshold) {
         return DoubleMath.roundToInt(basicHoug > threshold ? threshold + Math.sqrt(basicHoug) : basicHoug, RoundingMode.DOWN);
     }
     /* ---------------火力阈值--------------*/
 
     /* ---------------炮击火力阈值前补正-------------*/
-    protected final double basicAugmentBeforeThreshold(IShip attackShip, BattleContext context) {
-        int attackType = BattleContextUtils.getCurrentAttackType(context);
+    protected final double basicAugmentBeforeThreshold(final IShip attackShip, final BattleContext context) {
+        final int attackType = BattleContextUtils.getCurrentAttackType(context);
 
         double augmenting = 1d;
 
         //阵型补正
-        int formationIndex = BattleContextUtils.getMemberFormation(context);
-        double formationAugmenting = formationShellingAugmenting(formationIndex, attackType);
+        final int formationIndex = BattleContextUtils.getMemberFormation(context);
+        final double formationAugmenting = formationShellingAugmenting(formationIndex, attackType);
         augmenting += formationAugmenting;
 
         //航向补正
-        double courseAugmenting = courseShellingAugmenting(context);
+        final double courseAugmenting = courseShellingAugmenting(context);
         augmenting += courseAugmenting;
 
         //损伤补正
-        double damageAugmenting = damageShellingAugmenting(attackShip);
+        final double damageAugmenting = damageShellingAugmenting(attackShip);
         augmenting += damageAugmenting;
         return augmenting;
     }
 
-    protected final double courseShellingAugmenting(BattleContext context) {
-        int courseIndex = BattleContextUtils.getBattleCourse(context);
+    protected final double courseShellingAugmenting(final BattleContext context) {
+        final int courseIndex = BattleContextUtils.getBattleCourse(context);
         return CourseEnum.shelllingHougAugment(courseIndex);
     }
 
-    protected final double damageShellingAugmenting(IShip attackShip) {
+    protected final double damageShellingAugmenting(final IShip attackShip) {
         if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
             // TODO 雷击战补正0
             return -0.6d;
@@ -166,7 +166,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return 0d;
     }
 
-    protected final double formationShellingAugmenting(int formationIndex, int attackType) {
+    protected final double formationShellingAugmenting(final int formationIndex, final int attackType) {
         if (attackType == ATTACK_TYPE_ANTISUBMARINE) {
             return FormationSystem.taiSenHougAugment(formationIndex);
         } else {
@@ -174,10 +174,10 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         }
     }
 
-    protected final double taisenShellingAugmenting(IShip attackShip) {
-        List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
-        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
-        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
+    protected final double taisenShellingAugmenting(final IShip attackShip) {
+        final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
+        final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         if (hasHydrophone && hasDepthCharge) {
             return 0.15d;
         }
@@ -185,15 +185,15 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
     /* ---------------炮击火力阈值前补正-------------*/
 
-    protected final boolean isHit(double hitValue, double houkValue) {
+    protected final boolean isHit(final double hitValue, final double houkValue) {
         return isHit(hitValue, houkValue, 0.05d);
     }
 
-    protected final boolean isCIHit(double hitValue, double houkValue) {
+    protected final boolean isCIHit(final double hitValue, final double houkValue) {
         return isHit(hitValue, houkValue, 0.15d);
     }
 
-    private boolean isHit(double hitValue, double houkValue, double increaseRate) {
+    private boolean isHit(final double hitValue, final double houkValue, final double increaseRate) {
         double hitRate = increaseRate + hitValue - houkValue;
         hitRate = hitRadiosThreshold(hitRate);
         return RandomUtils.nextDouble(0d, 1d) <= hitRate;
@@ -207,19 +207,19 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
 
     /* 擦弹和未破防强制扣除当前血量5%~10% */
-    private int damageAugmenting(int nowHp) {
+    private int damageAugmenting(final int nowHp) {
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
     /*击沉保护 */
-    private int destoryAugmenting(int nowHp) {
+    private int destoryAugmenting(final int nowHp) {
         // 当前血量20%~50%浮动
         return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
 
     /* 破甲机制+保护机制*/
-    protected final int damageValue(int attackValue, IShip defShip, boolean destoryProtect) {
-        int nowHp = defShip.getNowHp();
+    protected final int damageValue(final int attackValue, final IShip defShip, final boolean destoryProtect) {
+        final int nowHp = defShip.getNowHp();
 
         int damage = attackValue - getShipDefendValue(defShip);
         if (damage < 1) {
@@ -234,13 +234,13 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return damage;
     }
 
-    public final int getShipDefendValue(IShip ship) {
-        int rdmValue = RandomUtils.nextInt(2, 5);
+    public final int getShipDefendValue(final IShip ship) {
+        final int rdmValue = RandomUtils.nextInt(2, 5);
         return rdmValue * ship.getShipSoukou() / 3;
     }
 
-    protected final void generateTaiSenAttackList(BattleContext context, IShip ship) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
+    protected final void generateTaiSenAttackList(final BattleContext context, final IShip ship) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
         hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
     }
 
@@ -259,49 +259,47 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * <p>
      * 支援艦隊不受補正影響
      */
-    protected final int cLGunAugmenting(IShip ship) {
+    protected final int cLGunAugmenting(final IShip ship) {
         return 0;
     }
 
-    protected final void BBGunSystem(MemberShip memberShip) {
+    protected final void BBGunSystem(final MemberShip memberShip) {
     }
 
     @Override
-    public void generateHougkeResult(A ship, BattleContext context) {
+    public void generateHougkeResult(final A ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public D generateDefendList(List<D> ship, BattleContext context) {
+    public D generateDefendList(final List<D> ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateShellingAttackTypeList(A attackShip, BattleContext context) {
+    public abstract void generateShellingAttackTypeList(A attackShip, BattleContext context);
+
+    @Override
+    public void generateSlotItemList(final A ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateSlotItemList(A ship, BattleContext context) {
+    public void generateCrticalList(final A attackShip, final D defendShip, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void generateCrticalList(A attackShip, D defendShip, BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void generateDamageList(A attackShip, D defendShip, BattleContext context) {
+    public void generateDamageList(final A attackShip, final D defendShip, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
     /* -----------------联合舰队补正-----------------*/
-    protected double combineKaihiRatio(A ship, BattleContext context) {
+    protected double combineKaihiRatio(final A ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
-    protected double combineHitRatio(A ship, BattleContext context) {
+    protected double combineHitRatio(final A ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 
