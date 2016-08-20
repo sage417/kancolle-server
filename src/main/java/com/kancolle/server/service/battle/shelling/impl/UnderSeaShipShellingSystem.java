@@ -3,7 +3,6 @@ package com.kancolle.server.service.battle.shelling.impl;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
-import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
@@ -44,7 +43,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         List<MemberShip> enemySSShips = context.getAliveMemberSSShips();
         List<MemberShip> enemyOtherShips = context.getAliveMemberNormalShips();
-        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)){
+        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)) {
             return;
         }
         addToAttackList(attackShip, context);
@@ -55,33 +54,29 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             generateTaiSenAttackList(context, attackShip);
             defendShip = generateDefendList(enemySSShips, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
-            if (defendShip.getNowHp() < 0){
+            if (defendShip.getNowHp() < 0) {
                 enemySSShips.remove(defendShip);
             }
         } else {
             generateShellingAttackTypeList(attackShip, context);
             defendShip = generateDefendList(enemyOtherShips, context);
             generateDamageList(attackShip, defendShip, context);
-            if (defendShip.getNowHp() < 0){
+            if (defendShip.getNowHp() < 0) {
                 enemyOtherShips.remove(defendShip);
             }
         }
     }
 
     @Override
-    protected void prepareContext(BattleContext context) {
+    protected int[] addToCriticalList(UnderSeaShip attackShip, int attackType, MemberShip defendShip, BattleContext context) {
+        return new int[0];
+    }
+
+    @Override
+    protected void prepareContext(final BattleContext context) {
+        super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
-    }
-
-    @Override
-    protected MemberShip callbackAfterChooseTargetShip(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
-        return null;
-    }
-
-    @Override
-    protected void addToCIList(UnderSeaShip attackShip, int attackType, MemberShip defendShip, BattleContext context) {
-
     }
 
     @Override
@@ -91,7 +86,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected void callbackAfterDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
-        if (!ShipFilter.isAlive.test(defendShip)){
+        if (!ShipFilter.isAlive.test(defendShip)) {
 
         }
     }
@@ -167,7 +162,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected final double combineHitRatio(UnderSeaShip ship, BattleContext context) {
-        return  shipHitRatios(ship);
+        return shipHitRatios(ship);
     }
 
     /**
@@ -204,42 +199,41 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         // 主炮CI(主主+撤甲)
         if (mainGunCount > 1 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_MAIN);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getMainGunIds()[1]);
-            si_list.add(slotItemInfo.getApAmmoIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().subList(0, 2));
+            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
             return;
         }
 
         // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
-            si_list.add(Longs.asList(slotItemInfo.getMainGunIds()));
+            si_list.add(slotItemInfo.getMainGunIds());
             return;
         }
 
         // 主副CI(主副)
         if (mainGunCount > 0 && secondaryGunCount > 0) {
             at_type_list.add(ATTACK_TYPE_SECONDARY);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
             return;
         }
 
         // 电探CI(主副+电探)
         if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0) {
             at_type_list.add(ATTACK_TYPE_RADAR);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
-            si_list.add(slotItemInfo.getRadarIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+            si_list.add(slotItemInfo.getRadarIds().iterator().next());
             return;
         }
 
         // 撤甲弹CI(主副+撤甲)
         if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
-            si_list.add(slotItemInfo.getApAmmoIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
             return;
         }
 
@@ -252,9 +246,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         at_type_list.add(ATTACK_TYPE_NORMAL);
         if (info.getMainGunCount() > 0) {
-            si_list.add(info.getMainGunIds()[0]);
+            si_list.add(info.getMainGunIds().iterator().next());
         } else if (info.getSecondaryGunCount() > 0) {
-            si_list.add(info.getSecondaryGunIds()[0]);
+            si_list.add(info.getSecondaryGunIds().iterator().next());
         } else {
             si_list.add(Collections.singletonList(-1));
         }

@@ -3,6 +3,7 @@ package com.kancolle.server.service.battle.shelling.impl;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -18,7 +19,7 @@ import static com.google.common.collect.Iterables.isEmpty;
  */
 public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
-    public void generateHougkeResult(A attackShip, BattleContext context) {
+    public void generateHougkeResult(final A attackShip, final BattleContext context) {
         prepareContext(context);
 
         D defendShip = chooseTargetShip(attackShip, context);
@@ -28,24 +29,37 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         }
         // 1. add idx to attack list
         addToAttackList(attackShip, context);
-        // 2. add idx to defend list
-        defendShip = callbackAfterChooseTargetShip(attackShip, defendShip, context);
 
-        // 3. decide attack type and slotItem
+        defendShip = callBackAfterChooseTargetShip(attackShip, defendShip, context);
+
+        // 2. decide attack type and slotItem
         int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
-        // 4. add ci result
-        addToCIList(attackShip, attackType, defendShip, context);
+        // 3. add idx to defend list
+        addToDefendList(defendShip, attackType, context);
 
-        //5. add damage result
-        int[] damages = generateDamageResult(attackShip, defendShip, context);
+        // 4. add critical list
+        int[] criticals = addToCriticalList(attackShip, attackType, defendShip, context);
+
+        // 5. add damage result
+        int[] damages = generateDamageResult(attackShip, defendShip, attackType, criticals, context);
         callbackAfterDamage(attackShip, defendShip, damages, context);
     }
 
-    protected void addToAttackList(A attackShip, BattleContext context) {
+    protected abstract int[] addToCriticalList(A attackShip, int attackType, D defendShip, BattleContext context);
+
+    protected final void addToAttackList(final A attackShip, final BattleContext context) {
         HougekiResult hougekiResult = context.getNowHougekiResult();
         ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
+    }
+
+    private final void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
+        HougekiResult hougekiResult = context.getNowHougekiResult();
+        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
+        int defShipIdx = shipsMap.inverse().get(defendShip);
+        int[] defArr = attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
+        hougekiResult.getApi_df_list().add(defArr);
     }
 
     /**
@@ -53,7 +67,9 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      *
      * @param context
      */
-    protected abstract void prepareContext(BattleContext context);
+    protected void prepareContext(final BattleContext context) {
+
+    }
 
     /**
      * 选取攻击目标
@@ -62,7 +78,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @param context
      * @return
      */
-    protected D chooseTargetShip(A attackShip, BattleContext context) {
+    final D chooseTargetShip(final A attackShip, final BattleContext context) {
         List<? extends IShip> attackableShips = null;
         final List<? extends IShip> enemySSShips = context.getEnemySSShips();
         if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
@@ -75,13 +91,15 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return attackableShips == null ? null : (D) CollectionsUtils.randomGet(attackableShips);
     }
 
-    protected abstract D callbackAfterChooseTargetShip(A attackShip, D defendShip, BattleContext context);
+    protected final D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
+        // 如果是旗舰受攻击,僚舰可以为其抵挡攻击
 
-    protected abstract void addToCIList(A attackShip, int attackType, D defendShip, BattleContext context);
+        // 如果旗舰是潜艇,只有其他潜艇可以为其抵挡伤害
 
-    private int[] generateDamageResult(A attackShip, D defendShip, BattleContext context) {
-        int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
+        return defendShip;
+    }
 
+    private int[] generateDamageResult(A attackShip, D defendShip, int attackType, int[] criticals, BattleContext context) {
         int[] damages = attackTwice(attackType) ?
                 generateTwiceDamageResult(attackShip, defendShip, context) :
                 generateOnceDamageResult(attackShip, defendShip, context);
@@ -91,10 +109,15 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return damages;
     }
 
-    protected int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, BattleContext context) {
+    protected int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final BattleContext context) {
         if (ShipFilter.ssFilter.test(defendShip)) {
             return BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE;
         }
+
+        SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
+
+
+
         return BaseShipShellingSystem.ATTACK_TYPE_NORMAL;
     }
 

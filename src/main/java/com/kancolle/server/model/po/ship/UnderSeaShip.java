@@ -32,6 +32,7 @@ public class UnderSeaShip implements IShip, Serializable {
 
     public void setShip(Ship ship) {
         this.ship = ship;
+        // TODO move to constructor
         this.nowHp = this.ship.getTaik().getMaxValue();
         int[] currentEQ = this.ship.getMaxEq();
         this.currentEQ = Arrays.copyOf(currentEQ, currentEQ.length);

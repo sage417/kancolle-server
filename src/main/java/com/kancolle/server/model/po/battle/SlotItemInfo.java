@@ -3,10 +3,13 @@
  */
 package com.kancolle.server.model.po.battle;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
-import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -15,29 +18,39 @@ import org.apache.commons.lang3.ArrayUtils;
 public class SlotItemInfo {
 
     // 主炮数量
-    private int mainGunCount;
-    private long[] mainGunIds = new long[4];
+    private final ImmutableList<Long> mainGunIds;
 
     // 副炮数量
-    private int secondaryGunCount;
-    private long[] secondaryGunIds = new long[4];
+    private final ImmutableList<Long> secondaryGunIds;
 
     // 侦察机数量
-    private int searchPlaneCount;
-    private long[] searchPlaneIds = new long[4];
+    private final ImmutableList<Long> searchPlaneIds;
 
     // 雷达数量
-    private int radarCount;
-    private long[] radarIds = new long[4];
+    private final ImmutableList<Long> radarIds;
 
     // 撤甲弹数量
-    private int APAmmoCount;
-    private long[] apAmmoIds = new long[4];
+    private final ImmutableList<Long> apAmmoIds;
 
-    private SlotItemInfo() { }
+    public SlotItemInfo(ImmutableList<Long> mainGunIds, ImmutableList<Long> secondaryGunIds,
+                        ImmutableList<Long> searchPlaneIds, ImmutableList<Long> radarIds,
+                        ImmutableList<Long> apAmmoIds) {
+        this.mainGunIds = mainGunIds;
+        this.secondaryGunIds = secondaryGunIds;
+        this.searchPlaneIds = searchPlaneIds;
+        this.radarIds = radarIds;
+        this.apAmmoIds = apAmmoIds;
+    }
 
     public static SlotItemInfo of(IShip ship) {
-        SlotItemInfo info = new SlotItemInfo();
+
+        List<Long> mainGunIds = Lists.newArrayListWithCapacity(4);
+        List<Long> secondaryGunIds = Lists.newArrayListWithCapacity(4);
+        List<Long> radarIds = Lists.newArrayListWithCapacity(4);
+        List<Long> searchPlaneIds = Lists.newArrayListWithCapacity(4);
+        List<Long> apAmmoIds = Lists.newArrayListWithCapacity(4);
+
+        int EQIdx = 0;
 
         for (AbstractSlotItem slotItem : ship.getSlotItems()) {
             long slotItemId = slotItem.getSlotItemId();
@@ -46,88 +59,84 @@ public class SlotItemInfo {
                 case 1:
                 case 2:
                 case 3:
-                    info.mainGunCount++;
-                    ArrayUtils.add(info.mainGunIds, slotItemId);
+                    mainGunIds.add(slotItemId);
                     break;
                 case 4:
-                    info.secondaryGunCount++;
-                    ArrayUtils.add(info.secondaryGunIds, slotItemId);
+                    secondaryGunIds.add(slotItemId);
                     break;
                 case 12:
                 case 13:
-                    info.radarCount++;
-                    ArrayUtils.add(info.radarIds, slotItemId);
+                    radarIds.add(slotItemId);
                     break;
                 case 9:
                 case 10:
-                    info.searchPlaneCount++;
-                    ArrayUtils.add(info.searchPlaneIds, slotItemId);
+                    if (ship.getCurrentEQ()[EQIdx] > 0) {
+                        searchPlaneIds.add(slotItemId);
+                    }
                     break;
                 case 19:
-                    info.APAmmoCount++;
-                    ArrayUtils.add(info.apAmmoIds, slotItemId);
+                    apAmmoIds.add(slotItemId);
                     break;
                 default:
                     break;
             }
+            EQIdx++;
         }
-        return info;
+
+        return new SlotItemInfo(ImmutableList.copyOf(mainGunIds), ImmutableList.copyOf(secondaryGunIds)
+                , ImmutableList.copyOf(searchPlaneIds), ImmutableList.copyOf(radarIds)
+                , ImmutableList.copyOf(apAmmoIds));
     }
 
     public int getSearchPlaneCount() {
-        return searchPlaneCount;
+        return searchPlaneIds.size();
     }
 
     public int getMainGunCount() {
-        return mainGunCount;
+        return mainGunIds.size();
     }
 
     public int getSecondaryGunCount() {
-        return secondaryGunCount;
+        return secondaryGunIds.size();
     }
 
     public int getRadarCount() {
-        return radarCount;
+        return radarIds.size();
     }
 
     public int getAPAmmoCount() {
-        return APAmmoCount;
+        return apAmmoIds.size();
     }
 
-    public long[] getMainGunIds() {
+    public ImmutableList<Long> getMainGunIds() {
         return mainGunIds;
     }
 
-    public long[] getSecondaryGunIds() {
+    public ImmutableList<Long> getSecondaryGunIds() {
         return secondaryGunIds;
     }
 
-    public long[] getSearchPlaneIds() {
+    public ImmutableList<Long> getSearchPlaneIds() {
         return searchPlaneIds;
     }
 
-    public long[] getRadarIds() {
+    public ImmutableList<Long> getRadarIds() {
         return radarIds;
     }
 
-    public long[] getApAmmoIds() {
+    public ImmutableList<Long> getApAmmoIds() {
         return apAmmoIds;
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("SlotItemInfo [mainGunCount=");
-        builder.append(mainGunCount);
-        builder.append(", secondaryGunCount=");
-        builder.append(secondaryGunCount);
-        builder.append(", searchPlaneCount=");
-        builder.append(searchPlaneCount);
-        builder.append(", radarCount=");
-        builder.append(radarCount);
-        builder.append(", APAmmoCount=");
-        builder.append(APAmmoCount);
-        builder.append("]");
-        return builder.toString();
+        final StringBuilder sb = new StringBuilder("SlotItemInfo{");
+        sb.append("mainGunIds=").append(mainGunIds);
+        sb.append(", secondaryGunIds=").append(secondaryGunIds);
+        sb.append(", searchPlaneIds=").append(searchPlaneIds);
+        sb.append(", radarIds=").append(radarIds);
+        sb.append(", apAmmoIds=").append(apAmmoIds);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -3,7 +3,6 @@ package com.kancolle.server.service.battle.shelling.impl;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
-import com.google.common.primitives.Longs;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
@@ -70,19 +69,15 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected void prepareContext(BattleContext context) {
+    protected int[] addToCriticalList(MemberShip attackShip, int attackType, UnderSeaShip defendShip, BattleContext context) {
+        return new int[0];
+    }
+
+    @Override
+    protected void prepareContext(final BattleContext context) {
+        super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
         context.setEnemySSShips(context.getAliveUnderSeaSSShips());
-    }
-
-    @Override
-    protected UnderSeaShip callbackAfterChooseTargetShip(MemberShip attackShip, UnderSeaShip defendShip, BattleContext context) {
-        return null;
-    }
-
-    @Override
-    protected void addToCIList(MemberShip attackShip, int attackType, UnderSeaShip defendShip, BattleContext context) {
-
     }
 
     @Override
@@ -205,7 +200,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
-    public void generateShellingAttackTypeList(MemberShip attackShip, BattleContext context) {
+    public void generateShellingAttackTypeList(UnderSeaShip attackShip, BattleContext context) {
         HougekiResult nowHougekiResult = context.getNowHougekiResult();
 
         KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
@@ -228,42 +223,41 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         // 主炮CI(主主+撤甲)
         if (mainGunCount > 1 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_MAIN);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getMainGunIds()[1]);
-            si_list.add(slotItemInfo.getApAmmoIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().subList(0, 2));
+            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
             return;
         }
 
         // 连击(主主)
         if (mainGunCount > 1) {
             at_type_list.add(ATTACK_TYPE_DOUBLE);
-            si_list.add(Longs.asList(slotItemInfo.getMainGunIds()));
+            si_list.add(slotItemInfo.getMainGunIds());
             return;
         }
 
         // 主副CI(主副)
         if (mainGunCount > 0 && secondaryGunCount > 0) {
             at_type_list.add(ATTACK_TYPE_SECONDARY);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
             return;
         }
 
         // 电探CI(主副+电探)
         if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0) {
             at_type_list.add(ATTACK_TYPE_RADAR);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
-            si_list.add(slotItemInfo.getRadarIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+            si_list.add(slotItemInfo.getRadarIds().iterator().next());
             return;
         }
 
         // 撤甲弹CI(主副+撤甲)
         if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0) {
             at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
-            si_list.add(slotItemInfo.getMainGunIds()[0]);
-            si_list.add(slotItemInfo.getSecondaryGunIds()[0]);
-            si_list.add(slotItemInfo.getApAmmoIds()[0]);
+            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
             return;
         }
 
@@ -276,9 +270,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
         at_type_list.add(ATTACK_TYPE_NORMAL);
         if (info.getMainGunCount() > 0) {
-            si_list.add(info.getMainGunIds()[0]);
+            si_list.add(info.getMainGunIds().iterator().next());
         } else if (info.getSecondaryGunCount() > 0) {
-            si_list.add(info.getSecondaryGunIds()[0]);
+            si_list.add(info.getSecondaryGunIds().iterator().next());
         } else {
             si_list.add(Collections.singletonList(-1));
         }
