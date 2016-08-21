@@ -21,6 +21,8 @@ public interface IShip {
 
     int getNowLuck();
 
+    int getNowLv();
+
     int getNowHp();
 
     int getMaxHp();
@@ -33,6 +35,8 @@ public interface IShip {
 
     /** 装甲 */
     int getShipSoukou();
+
+    int getNowCond();
 
     /** 对潜 */
     int getShipTaiSen();

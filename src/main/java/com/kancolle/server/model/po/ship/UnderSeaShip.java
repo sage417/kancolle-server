@@ -79,6 +79,15 @@ public class UnderSeaShip implements IShip, Serializable {
         return getShip().getSouk().getMinValue();
     }
 
+    public int getNowLv() {
+        return getShip().getLv();
+    }
+
+    @Override
+    public int getNowCond() {
+        return 0;
+    }
+
     @Override
     public int getNowLuck() {
         return getShip().getLuck().getMinValue();

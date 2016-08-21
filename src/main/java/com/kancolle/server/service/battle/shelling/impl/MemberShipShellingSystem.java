@@ -9,7 +9,6 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -94,18 +93,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
-    private double shipHitRatios(final MemberShip ship, final BattleContext context) {
-        int nowLv = ship.getLv();
-        final double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
-
-        final int lucky = ship.getNowLuck();
-        final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
-
-        final int slotHoum = ship.getSlot().stream().mapToInt(MemberSlotItem::getHoum).sum();
-        final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
-
-        final int shipCond = ship.getCond();
-        return HIT_BASE_RADIOS + (0.93d + levelRatios + luckyRatios + slotRatios) * getHoumFormationFactor(context) * getHoumCondFactor(shipCond);
+    protected final double shipHoumRatios(final IShip attackShip, final BattleContext context) {
+        final int shipCond = attackShip.getNowCond();
+        return HIT_BASE_RADIOS + (HIT_MEMBER_RADIOS + shipHoumRatios(attackShip)) * getHoumFormationFactor(context) * getHoumCondFactor(shipCond);
     }
 
     @Override
@@ -164,7 +154,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                final boolean hit = isHit(shipHitRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
+                final boolean hit = isHit(shipHoumRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else
@@ -200,7 +190,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         int damageSum = 0;
         final int[] clArray;
 
-        final boolean hit = isHit(shipHitRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
+        final boolean hit = isHit(shipHoumRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
         if (!hit) {
             clArray = CL_SINGLE_MISS;
         } else {

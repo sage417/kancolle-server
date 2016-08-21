@@ -1,7 +1,6 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
 import com.google.common.math.DoubleMath;
-import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
@@ -98,30 +97,8 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
-    /**
-     * 影响舰船命中率包含：
-     * 1.舰船等级
-     * 2.装备
-     * 3.幸运值
-     * <p>
-     * 不考虑阵型加成
-     *
-     * @param ship
-     * @return
-     */
-    private double shipHitRatios(final UnderSeaShip ship) {
-        // TODO UnderSeaShip lv
-        int nowLv = 1;
-        final double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
-
-        final int lucky = ship.getNowLuck();
-        final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
-
-        // TODO cacheValue
-        final int slotHoum = ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
-        final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
-
-        return HIT_BASE_RADIOS + levelRatios + luckyRatios + slotRatios;
+    protected final double shipHoumRatios(final IShip attackShip, final BattleContext context) {
+        return HIT_BASE_RADIOS + (HIT_UNDERSEA_RADIOS + shipHoumRatios(attackShip)) * getHoumFormationFactor(context);
     }
 
     @Override
@@ -148,7 +125,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                final boolean hit = isHit(shipHitRatios(attackShip), memberShipShellingSystem.combineKaihiRatio(defendShip, context));
+                final boolean hit = isHit(shipHoumRatios(attackShip, context), memberShipShellingSystem.combineKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else

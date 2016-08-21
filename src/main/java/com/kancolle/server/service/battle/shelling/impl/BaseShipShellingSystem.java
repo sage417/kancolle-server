@@ -5,6 +5,7 @@ package com.kancolle.server.service.battle.shelling.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.math.DoubleMath;
+import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
@@ -99,6 +100,8 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     /* ---------命中性能--------- */
     protected static final double HIT_BASE_RADIOS = 0.07d;
+    protected static final double HIT_MEMBER_RADIOS = 0.93d;
+    protected static final double HIT_UNDERSEA_RADIOS = 0.93d;
     private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
     protected static final double HIT_LUCK_AUGMENTING = 0.0015d;
@@ -210,6 +213,20 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
             hitRate = HIT_RADIOS_THRESHOLD;
         }
         return hitRate;
+    }
+
+    protected abstract double shipHoumRatios(final IShip attackShip, final BattleContext context);
+
+    protected final double shipHoumRatios(final IShip attackShip) {
+        int nowLv = attackShip.getNowLv();
+        final double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
+
+        final int lucky = attackShip.getNowLuck();
+        final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
+
+        final int slotHoum = attackShip.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
+        final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
+        return levelRatios + luckyRatios + slotRatios;
     }
 
     /* 擦弹和未破防强制扣除当前血量5%~10% */

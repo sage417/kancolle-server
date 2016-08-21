@@ -535,6 +535,16 @@ public class MemberShip implements IShip, Serializable {
     }
 
     @Override
+    public int getNowLv() {
+        return this.lv;
+    }
+
+    @Override
+    public int getNowCond() {
+        return this.cond;
+    }
+
+    @Override
     public int getShipTaiSen() {
         return getTaisen().getMinValue();
     }
