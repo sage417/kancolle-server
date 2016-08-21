@@ -114,7 +114,8 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /*-------------回避性能-------------*/
 
     /* --------------回避阈值-------------- */
-    protected final double houkThreshold(final double shipKaihi) {
+    protected final double houkThreshold(final IShip defendShip) {
+        final int shipKaihi = defendShip.getShipKaihi();
         final double f = shipKaihi >= HOUK_THRESHOLD ? HOUK_THRESHOLD + shipKaihi : HOUK_THRESHOLD << 1;
         return HOUK_BASE_RADIOS + shipKaihi / f;
     }
@@ -208,14 +209,18 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return RandomUtils.nextDouble(0d, 1d) <= hitRate;
     }
 
-    private double hitRadiosThreshold(double hitRate) {
-        if (hitRate > HIT_RADIOS_THRESHOLD) {
-            hitRate = HIT_RADIOS_THRESHOLD;
-        }
-        return hitRate;
+    private double hitRadiosThreshold(final double hitRate) {
+        return hitRate > HIT_RADIOS_THRESHOLD ? HIT_RADIOS_THRESHOLD : hitRate;
     }
 
-    protected abstract double shipHoumRatios(final IShip attackShip, final BattleContext context);
+    /**
+     * 命中项
+     *
+     * @param attackShip
+     * @param context
+     * @return
+     */
+    protected abstract double shipHoumRatios(final A attackShip, final BattleContext context);
 
     protected final double shipHoumRatios(final IShip attackShip) {
         int nowLv = attackShip.getNowLv();
@@ -227,6 +232,21 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         final int slotHoum = attackShip.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
         final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
         return levelRatios + luckyRatios + slotRatios;
+    }
+
+    /**
+     * 回避项
+     *
+     * @param ship
+     * @return
+     */
+    protected abstract double shipKaihiRatio(final A ship, final BattleContext context);
+
+    protected final double getKaihiFormationFactor(final int formation) {
+        return (formation == FormationSystem.FORMATION_2
+                || formation == FormationSystem.FORMATION_4
+                || formation == FormationSystem.FORMATION_5) ?
+                1.2d : 1d;
     }
 
     /* 擦弹和未破防强制扣除当前血量5%~10% */
@@ -434,10 +454,4 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     public void generateDamageList(final A attackShip, final D defendShip, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
-
-    /* -----------------联合舰队补正-----------------*/
-    protected double combineKaihiRatio(final A ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-    /* -----------------联合舰队补正-----------------*/
 }

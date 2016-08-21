@@ -75,7 +75,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected void callbackAfterDamage(final UnderSeaShip attackShip, final MemberShip defendShip, final int[] damages, final BattleContext context) {
-        if (!ShipFilter.isAlive.test(defendShip)) {
+        if (ShipFilter.isAlive.negate().test(defendShip)) {
 
         }
     }
@@ -97,19 +97,17 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
-    protected final double shipHoumRatios(final IShip attackShip, final BattleContext context) {
+    @Override
+    protected final double shipHoumRatios(final UnderSeaShip attackShip, final BattleContext context) {
         return HIT_BASE_RADIOS + (HIT_UNDERSEA_RADIOS + shipHoumRatios(attackShip)) * getHoumFormationFactor(context);
     }
 
     @Override
-    protected double combineKaihiRatio(final UnderSeaShip ship, final BattleContext context) {
+    protected double shipKaihiRatio(final UnderSeaShip ship, final BattleContext context) {
 
-        final int shipKaihi = ship.getShipKaihi();
+        final int formation = BattleContextUtils.getUnderSeaFormation(context);
 
-        final int courseIdx = BattleContextUtils.getBattleCourse(context);
-        final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
-
-        return houkThreshold(shipKaihi) * courseAugmenting;
+        return houkThreshold(ship) * getKaihiFormationFactor(formation);
     }
 
     public void generateDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
@@ -125,7 +123,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                final boolean hit = isHit(shipHoumRatios(attackShip, context), memberShipShellingSystem.combineKaihiRatio(defendShip, context));
+                final boolean hit = isHit(shipHoumRatios(attackShip, context), memberShipShellingSystem.shipKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else
