@@ -128,12 +128,15 @@ public class BattleService extends BaseService implements IBattleService {
         // 制空权
         int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberDeckPort.getShips());
         int underSeaAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(underSeaDeckPort.getUnderSeaShips());
-        int aerialState = aerialBattleSystem.getAerialPowerStatue(memberAerialPower, underSeaAerialPower);
+        int memberAerialState = aerialBattleSystem.getAerialPowerStatue(memberAerialPower, underSeaAerialPower);
+        int underSeaAerialState = aerialBattleSystem.getAerialPowerStatue(underSeaAerialPower, memberAerialPower);
+        context.setMemberAerialState(memberAerialState);
+        context.setUnderSeaAerialState(underSeaAerialState);
 
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, aerialState);
+        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, underSeaAerialState);
         /** 敌方索敌 */
         int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, underSeaDeckPort);
 
@@ -148,7 +151,7 @@ public class BattleService extends BaseService implements IBattleService {
         KouKuResult kouKuResult = new KouKuResult();
         /*-------制空战开始-------*/
         KouKuStage1 stage1 = new KouKuStage1();
-        stage1.setApi_disp_seiku(aerialState);
+        stage1.setApi_disp_seiku(underSeaAerialState);
 
         /*-------制空战结束-------*/
 

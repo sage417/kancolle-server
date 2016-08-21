@@ -52,7 +52,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @param context
      * @return
      */
-    private D chooseTargetShip(final A attackShip, final BattleContext context) {
+    protected final D chooseTargetShip(final A attackShip, final BattleContext context) {
         List<? extends IShip> attackableShips = null;
         final List<? extends IShip> enemySSShips = context.getEnemySSShips();
         if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
@@ -95,7 +95,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return null;
     }
 
-    private void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
+    protected final void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         final int defShipIdx = shipsMap.inverse().get(defendShip);

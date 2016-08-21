@@ -1,9 +1,7 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
-import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
@@ -12,9 +10,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
-import com.kancolle.server.service.battle.aerial.AerialUtils;
 import com.kancolle.server.service.battle.course.CourseEnum;
-import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
@@ -24,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.getLast;
@@ -40,6 +34,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     public void generateHougkeResult(final UnderSeaShip attackShip, final BattleContext context) {
         prepareContext(context);
+        int aerialStatue = context.getUnderSeaAerialState();
 
         final List<MemberShip> enemySSShips = context.getAliveMemberSSShips();
         final List<MemberShip> enemyOtherShips = context.getAliveMemberNormalShips();
@@ -48,18 +43,18 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         }
         addToAttackList(attackShip, context);
 
-        final MemberShip defendShip;
+        final MemberShip defendShip = chooseTargetShip(attackShip, context);
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
             generateTaiSenAttackList(context, attackShip);
-            defendShip = generateDefendList(enemySSShips, context);
+            addToDefendList(defendShip, BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE, context);
             generateTaiSenDamageList(attackShip, defendShip, context);
             if (defendShip.getNowHp() < 0) {
                 enemySSShips.remove(defendShip);
             }
         } else {
-            generateShellingAttackTypeList(attackShip, context);
-            defendShip = generateDefendList(enemyOtherShips, context);
+            int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, aerialStatue, context);
+            addToDefendList(defendShip, attackType, context);
             generateDamageList(attackShip, defendShip, context);
             if (defendShip.getNowHp() < 0) {
                 enemyOtherShips.remove(defendShip);
@@ -103,21 +98,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
-    @Override
-    public MemberShip generateDefendList(final List<MemberShip> enemySSShips, final BattleContext context) {
-        final MemberShip defendShip = CollectionsUtils.randomGet(enemySSShips);
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
-
-        final int attackType = hougekiResult.getApi_at_type().getLast();
-        final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
-
-        final int defShipIdx = shipsMap.inverse().get(defendShip);
-
-        final int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
-        hougekiResult.getApi_df_list().add(defArr);
-        return defendShip;
-    }
-
     /**
      * 影响舰船命中率包含：
      * 1.舰船等级
@@ -153,125 +133,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
 
         return houkThreshold(shipKaihi) * courseAugmenting;
-    }
-
-    /**
-     * 彈著觀測射擊：
-     * <p>
-     * 發動條件：
-     * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
-     * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
-     * 3.大破艦娘不能發動彈著觀測射擊
-     * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
-     * 若彈著觀測射擊未發動成功，則會進行通常砲擊
-     */
-    @Override
-    public void generateShellingAttackTypeList(final UnderSeaShip attackShip, final BattleContext context) {
-        final HougekiResult nowHougekiResult = context.getNowHougekiResult();
-
-        final KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
-        //TODO cache
-        final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
-
-        if (!AerialUtils.testAerialAdvence(kouKuResult) || ShipUtils.isBadlyDmg.test(attackShip) || slotItemInfo.getSearchPlaneCount() < 1) {
-            generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
-            return;
-        }
-
-        final LinkedList<Integer> at_type_list = nowHougekiResult.getApi_at_type();
-        final LinkedList<Object> si_list = nowHougekiResult.getApi_si_list();
-
-        final int mainGunCount = slotItemInfo.getMainGunCount();
-        final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
-        final int radarCount = slotItemInfo.getRadarCount();
-        final int apAmmoCount = slotItemInfo.getAPAmmoCount();
-
-        // 主炮CI(主主+撤甲)
-        if (mainGunCount > 1 && apAmmoCount > 0) {
-            at_type_list.add(ATTACK_TYPE_MAIN);
-            si_list.add(slotItemInfo.getMainGunIds().subList(0, 2));
-            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
-            return;
-        }
-
-        // 连击(主主)
-        if (mainGunCount > 1) {
-            at_type_list.add(ATTACK_TYPE_DOUBLE);
-            si_list.add(slotItemInfo.getMainGunIds());
-            return;
-        }
-
-        // 主副CI(主副)
-        if (mainGunCount > 0 && secondaryGunCount > 0) {
-            at_type_list.add(ATTACK_TYPE_SECONDARY);
-            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
-            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-            return;
-        }
-
-        // 电探CI(主副+电探)
-        if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0) {
-            at_type_list.add(ATTACK_TYPE_RADAR);
-            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
-            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-            si_list.add(slotItemInfo.getRadarIds().iterator().next());
-            return;
-        }
-
-        // 撤甲弹CI(主副+撤甲)
-        if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0) {
-            at_type_list.add(ATTACK_TYPE_EXPOSEARMOR);
-            si_list.add(slotItemInfo.getMainGunIds().iterator().next());
-            si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-            si_list.add(slotItemInfo.getApAmmoIds().iterator().next());
-            return;
-        }
-
-        generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
-    }
-
-    private void generateNormalShellingAttackTypeAndSlotItemList(final SlotItemInfo info, final HougekiResult hougekiResult) {
-        final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
-        final LinkedList<Object> si_list = hougekiResult.getApi_si_list();
-
-        at_type_list.add(ATTACK_TYPE_NORMAL);
-        if (info.getMainGunCount() > 0) {
-            si_list.add(info.getMainGunIds().iterator().next());
-        } else if (info.getSecondaryGunCount() > 0) {
-            si_list.add(info.getSecondaryGunIds().iterator().next());
-        } else {
-            si_list.add(Collections.singletonList(-1));
-        }
-    }
-
-    @Override
-    public void generateSlotItemList(final UnderSeaShip ship, final BattleContext context) {
-    }
-
-    @Override
-    public void generateCrticalList(final UnderSeaShip attackShip, final MemberShip defShip, final BattleContext context) {
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
-        final int attackType = getLast(hougekiResult.getApi_at_type());
-
-        final int[] clArray = null;
-
-        switch (attackType) {
-            case ATTACK_TYPE_NORMAL:
-                break;
-            case ATTACK_TYPE_DOUBLE:
-                break;
-            case ATTACK_TYPE_EXPOSEARMOR:
-                break;
-            case ATTACK_TYPE_MAIN:
-                break;
-            case ATTACK_TYPE_RADAR:
-                break;
-            case ATTACK_TYPE_SECONDARY:
-                break;
-            default:
-                throw new IllegalArgumentException("attack type error");
-        }
-        hougekiResult.getApi_cl_list().add(clArray);
     }
 
     public void generateDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {

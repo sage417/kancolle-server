@@ -413,24 +413,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
 
     @Override
-    public D generateDefendList(final List<D> ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public abstract void generateShellingAttackTypeList(A attackShip, BattleContext context);
-
-    @Override
-    public void generateSlotItemList(final A ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void generateCrticalList(final A attackShip, final D defendShip, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void generateDamageList(final A attackShip, final D defendShip, final BattleContext context) {
         throw new UnsupportedOperationException();
     }

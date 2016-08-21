@@ -31,6 +31,10 @@ public class BattleContext {
 
     private List<UnderSeaShip> aliveUnderSeaNormalShips;
 
+    private int memberAerialState;
+
+    private int underSeaAerialState;
+
     private LinkedList<MemberShip> memberAttackShips;
 
     private LinkedList<UnderSeaShip> underSeaAttackShips;
@@ -45,10 +49,9 @@ public class BattleContext {
 
     private List<? extends IShip> enemyNormalShips;
 
-    private final Map<MemberShip, Integer> damageSum;
+    private final Map<MemberShip, Integer> damageSum = Maps.newHashMap();
 
     public BattleContext() {
-        this.damageSum = Maps.newHashMap();
     }
 
     public BattleSimulationResult getBattleResult() {
@@ -105,6 +108,22 @@ public class BattleContext {
 
     public void setAliveUnderSeaNormalShips(List<UnderSeaShip> aliveUnderSeaNormalShips) {
         this.aliveUnderSeaNormalShips = aliveUnderSeaNormalShips;
+    }
+
+    public int getMemberAerialState() {
+        return memberAerialState;
+    }
+
+    public void setMemberAerialState(int memberAerialState) {
+        this.memberAerialState = memberAerialState;
+    }
+
+    public int getUnderSeaAerialState() {
+        return underSeaAerialState;
+    }
+
+    public void setUnderSeaAerialState(int underSeaAerialState) {
+        this.underSeaAerialState = underSeaAerialState;
     }
 
     public LinkedList<MemberShip> getMemberAttackShips() {
