@@ -23,7 +23,6 @@ import java.math.RoundingMode;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.getLast;
-import static com.google.common.collect.Iterables.isEmpty;
 
 @Service
 public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
@@ -34,16 +33,16 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     public void generateHougkeResult(final UnderSeaShip attackShip, final BattleContext context) {
         prepareContext(context);
-        int aerialStatue = context.getUnderSeaAerialState();
 
         final List<MemberShip> enemySSShips = context.getAliveMemberSSShips();
         final List<MemberShip> enemyOtherShips = context.getAliveMemberNormalShips();
-        if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)) {
-            return;
-        }
-        addToAttackList(attackShip, context);
 
         final MemberShip defendShip = chooseTargetShip(attackShip, context);
+        if (defendShip == null) {
+            return;
+        }
+
+        addToAttackList(attackShip, context);
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
             generateTaiSenAttackList(context, attackShip);
@@ -53,7 +52,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
                 enemySSShips.remove(defendShip);
             }
         } else {
-            int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, aerialStatue, context);
+            int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
             addToDefendList(defendShip, attackType, context);
             generateDamageList(attackShip, defendShip, context);
             if (defendShip.getNowHp() < 0) {
@@ -67,6 +66,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
+        context.setCurrentAerialState(context.getUnderSeaAerialState());
     }
 
     @Override

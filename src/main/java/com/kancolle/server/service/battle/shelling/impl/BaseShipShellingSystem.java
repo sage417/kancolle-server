@@ -260,7 +260,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
-    protected final int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final int aerialState, final BattleContext context) {
+    protected final int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
 
         final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
@@ -275,6 +275,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 break;
             }
 
+            final int aerialState = context.getCurrentAerialState();
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
             if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {

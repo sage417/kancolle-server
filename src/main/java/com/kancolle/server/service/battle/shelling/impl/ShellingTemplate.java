@@ -18,7 +18,7 @@ import static com.google.common.collect.Iterables.isEmpty;
  */
 public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
-    public void generateHougkeResult(final A attackShip, final BattleContext context, final int aerialState) {
+    public void generateHougkeResult(final A attackShip, final BattleContext context) {
         prepareContext(context);
 
         D defendShip = chooseTargetShip(attackShip, context);
@@ -32,7 +32,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         defendShip = callBackAfterChooseTargetShip(attackShip, defendShip, context);
 
         // 2. decide attack type and slotItem
-        final int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, aerialState, context);
+        final int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
         // 3. add idx to defend list
         addToDefendList(defendShip, attackType, context);
@@ -46,7 +46,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     }
 
     /**
-     * 选取攻击目标
+     * Step 1 choose attack target
      *
      * @param attackShip
      * @param context
@@ -85,14 +85,14 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      *
      * @param attackShip
      * @param defendShip
-     * @param aerialState
      * @param context
      * @return
      */
-    protected abstract int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, int aerialState, BattleContext context);
+    protected abstract int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, BattleContext context);
 
     private int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
-        return null;
+        int[] criticals = attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
+        return criticals;
     }
 
     protected final void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {

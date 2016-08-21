@@ -31,6 +31,8 @@ public class BattleContext {
 
     private List<UnderSeaShip> aliveUnderSeaNormalShips;
 
+    private int currentAerialState;
+
     private int memberAerialState;
 
     private int underSeaAerialState;
@@ -108,6 +110,14 @@ public class BattleContext {
 
     public void setAliveUnderSeaNormalShips(List<UnderSeaShip> aliveUnderSeaNormalShips) {
         this.aliveUnderSeaNormalShips = aliveUnderSeaNormalShips;
+    }
+
+    public int getCurrentAerialState() {
+        return currentAerialState;
+    }
+
+    public void setCurrentAerialState(int currentAerialState) {
+        this.currentAerialState = currentAerialState;
     }
 
     public int getMemberAerialState() {
