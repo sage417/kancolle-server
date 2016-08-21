@@ -38,17 +38,17 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     private BaseShipShellingSystem<MemberShip, UnderSeaShip> memberShipShellingSystem;
 
     @Override
-    public void generateHougkeResult(UnderSeaShip attackShip, BattleContext context) {
+    public void generateHougkeResult(final UnderSeaShip attackShip, final BattleContext context) {
         prepareContext(context);
 
-        List<MemberShip> enemySSShips = context.getAliveMemberSSShips();
-        List<MemberShip> enemyOtherShips = context.getAliveMemberNormalShips();
+        final List<MemberShip> enemySSShips = context.getAliveMemberSSShips();
+        final List<MemberShip> enemyOtherShips = context.getAliveMemberNormalShips();
         if (isEmpty(enemySSShips) && isEmpty(enemyOtherShips)) {
             return;
         }
         addToAttackList(attackShip, context);
 
-        MemberShip defendShip;
+        final MemberShip defendShip;
 
         if (isTaisenAttack(attackShip, enemySSShips)) {
             generateTaiSenAttackList(context, attackShip);
@@ -68,11 +68,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected int[] addToCriticalList(UnderSeaShip attackShip, int attackType, MemberShip defendShip, BattleContext context) {
-        return new int[0];
-    }
-
-    @Override
     protected void prepareContext(final BattleContext context) {
         super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
@@ -80,45 +75,45 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected void augmentingDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
+    protected void augmentingDamage(final UnderSeaShip attackShip, final MemberShip defendShip, final int[] damages, final BattleContext context) {
 
     }
 
     @Override
-    protected void callbackAfterDamage(UnderSeaShip attackShip, MemberShip defendShip, int[] damages, BattleContext context) {
+    protected void callbackAfterDamage(final UnderSeaShip attackShip, final MemberShip defendShip, final int[] damages, final BattleContext context) {
         if (!ShipFilter.isAlive.test(defendShip)) {
 
         }
     }
 
     @Override
-    protected int[] generateOnceDamageResult(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
+    protected int[] generateOnceDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
         return new int[0];
     }
 
     @Override
-    protected int[] generateTwiceDamageResult(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
+    protected int[] generateTwiceDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
         return new int[0];
     }
 
-    private void generateTaiSenDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
+    private void generateTaiSenDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
     }
 
-    private boolean isTaisenAttack(IShip attackShip, List<? extends IShip> enemySSShips) {
+    private boolean isTaisenAttack(final IShip attackShip, final List<? extends IShip> enemySSShips) {
         return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
     @Override
-    public MemberShip generateDefendList(List<MemberShip> enemySSShips, BattleContext context) {
-        MemberShip defendShip = CollectionsUtils.randomGet(enemySSShips);
-        HougekiResult hougekiResult = context.getNowHougekiResult();
+    public MemberShip generateDefendList(final List<MemberShip> enemySSShips, final BattleContext context) {
+        final MemberShip defendShip = CollectionsUtils.randomGet(enemySSShips);
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
 
-        int attackType = hougekiResult.getApi_at_type().getLast();
-        ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
+        final int attackType = hougekiResult.getApi_at_type().getLast();
+        final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
 
-        int defShipIdx = shipsMap.inverse().get(defendShip);
+        final int defShipIdx = shipsMap.inverse().get(defendShip);
 
-        int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
+        final int[] defArr = attackType == ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
         hougekiResult.getApi_df_list().add(defArr);
         return defendShip;
     }
@@ -134,35 +129,30 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * @param ship
      * @return
      */
-    private double shipHitRatios(UnderSeaShip ship) {
+    private double shipHitRatios(final UnderSeaShip ship) {
         // TODO UnderSeaShip lv
         int nowLv = 1;
-        double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
+        final double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
 
-        int lucky = ship.getNowLuck();
-        double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
+        final int lucky = ship.getNowLuck();
+        final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
 
         // TODO cacheValue
-        int slotHoum = ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
-        double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
+        final int slotHoum = ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
+        final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
 
         return HIT_BASE_RADIOS + levelRatios + luckyRatios + slotRatios;
     }
 
     @Override
-    protected double combineKaihiRatio(UnderSeaShip ship, BattleContext context) {
+    protected double combineKaihiRatio(final UnderSeaShip ship, final BattleContext context) {
 
-        int shipKaihi = ship.getShipKaihi();
+        final int shipKaihi = ship.getShipKaihi();
 
-        int courseIdx = BattleContextUtils.getBattleCourse(context);
-        double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
+        final int courseIdx = BattleContextUtils.getBattleCourse(context);
+        final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
 
         return houkThreshold(shipKaihi) * courseAugmenting;
-    }
-
-    @Override
-    protected final double combineHitRatio(UnderSeaShip ship, BattleContext context) {
-        return shipHitRatios(ship);
     }
 
     /**
@@ -176,25 +166,25 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * 若彈著觀測射擊未發動成功，則會進行通常砲擊
      */
     @Override
-    public void generateShellingAttackTypeList(UnderSeaShip attackShip, BattleContext context) {
-        HougekiResult nowHougekiResult = context.getNowHougekiResult();
+    public void generateShellingAttackTypeList(final UnderSeaShip attackShip, final BattleContext context) {
+        final HougekiResult nowHougekiResult = context.getNowHougekiResult();
 
-        KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
+        final KouKuResult kouKuResult = context.getBattleResult().getApi_kouku();
         //TODO cache
-        SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
+        final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
 
         if (!AerialUtils.testAerialAdvence(kouKuResult) || ShipUtils.isBadlyDmg.test(attackShip) || slotItemInfo.getSearchPlaneCount() < 1) {
             generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
             return;
         }
 
-        LinkedList<Integer> at_type_list = nowHougekiResult.getApi_at_type();
-        LinkedList<Object> si_list = nowHougekiResult.getApi_si_list();
+        final LinkedList<Integer> at_type_list = nowHougekiResult.getApi_at_type();
+        final LinkedList<Object> si_list = nowHougekiResult.getApi_si_list();
 
-        int mainGunCount = slotItemInfo.getMainGunCount();
-        int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
-        int radarCount = slotItemInfo.getRadarCount();
-        int apAmmoCount = slotItemInfo.getAPAmmoCount();
+        final int mainGunCount = slotItemInfo.getMainGunCount();
+        final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+        final int radarCount = slotItemInfo.getRadarCount();
+        final int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
         // 主炮CI(主主+撤甲)
         if (mainGunCount > 1 && apAmmoCount > 0) {
@@ -240,9 +230,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         generateNormalShellingAttackTypeAndSlotItemList(slotItemInfo, nowHougekiResult);
     }
 
-    private void generateNormalShellingAttackTypeAndSlotItemList(SlotItemInfo info, HougekiResult hougekiResult) {
-        LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
-        LinkedList<Object> si_list = hougekiResult.getApi_si_list();
+    private void generateNormalShellingAttackTypeAndSlotItemList(final SlotItemInfo info, final HougekiResult hougekiResult) {
+        final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
+        final LinkedList<Object> si_list = hougekiResult.getApi_si_list();
 
         at_type_list.add(ATTACK_TYPE_NORMAL);
         if (info.getMainGunCount() > 0) {
@@ -255,15 +245,15 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    public void generateSlotItemList(UnderSeaShip ship, BattleContext context) {
+    public void generateSlotItemList(final UnderSeaShip ship, final BattleContext context) {
     }
 
     @Override
-    public void generateCrticalList(UnderSeaShip attackShip, MemberShip defShip, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type());
+    public void generateCrticalList(final UnderSeaShip attackShip, final MemberShip defShip, final BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        final int attackType = getLast(hougekiResult.getApi_at_type());
 
-        int[] clArray = null;
+        final int[] clArray = null;
 
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
@@ -284,13 +274,12 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         hougekiResult.getApi_cl_list().add(clArray);
     }
 
-    @Override
-    public void generateDamageList(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type());
+    public void generateDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        final int attackType = getLast(hougekiResult.getApi_at_type());
         int damageSum = 0;
 
-        int[] clArray;
+        final int[] clArray;
 
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
@@ -298,15 +287,15 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                boolean hit = isHit(combineHitRatio(attackShip, context), memberShipShellingSystem.combineKaihiRatio(defendShip, context));
+                final boolean hit = isHit(shipHitRatios(attackShip), memberShipShellingSystem.combineKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else
                     clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
                 hougekiResult.getApi_cl_list().add(clArray);
 
-                int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
+                final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
                 hougekiResult.getApi_damage().add(new int[]{damageValue});
                 damageSum += damageValue;
                 break;
@@ -315,7 +304,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             default:
                 throw new IllegalArgumentException("attack type error");
         }
-        int nowHp = defendShip.getNowHp();
+        final int nowHp = defendShip.getNowHp();
         defendShip.setNowHp(nowHp - damageSum);
     }
 
@@ -339,14 +328,14 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * @param ship
      * @return
      */
-    private int shellingBaiscHoug(IShip ship) {
+    private int shellingBaiscHoug(final IShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 改修装备攻击力补正
-        int shipHoug = ship.getShipKaryoku();
+        final int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
-            int raiSou = ship.getShipRaisou();
-            int baKu = ShipUtils.getBakuValue(ship);
+            final int raiSou = ship.getShipRaisou();
+            final int baKu = ShipUtils.getBakuValue(ship);
             return (shipHoug + raiSou + baKu * 13 / 10) * 3 / 2 + 55;
         } else {
             return shipHoug + 5;
@@ -366,7 +355,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * @param ship
      * @return
      */
-    private int antiSubmarineBasicHoug(MemberShip ship) {
+    private int antiSubmarineBasicHoug(final MemberShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
         return 0;
@@ -374,9 +363,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
 
     // 攻擊力 =  [ [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]  ×  徹甲彈特效補正 ×  PT小鬼群補正 ]  ×  暴擊補正 ]  × 閾值後補正
-    private int attackValue(UnderSeaShip attackShip, MemberShip defendShip, BattleContext context) {
-        int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
-        double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
+    private int attackValue(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
+        final int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+        final double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
 
@@ -400,17 +389,17 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * <p>
      * 这里补正数值属于炮击战
      */
-    public double augmentingBeforeThreshold(IShip attackShip, BattleContext context) {
+    public double augmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
         double augmenting = 1d;
 
         //阵型补正
-        int formationIndex = BattleContextUtils.getMemberFormation(context);
-        double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
+        final int formationIndex = BattleContextUtils.getMemberFormation(context);
+        final double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
         augmenting *= formationAugmenting;
 
         //航向补正
-        int courseIndex = BattleContextUtils.getBattleCourse(context);
-        double courseAugmenting = CourseEnum.shelllingHougAugment(courseIndex);
+        final int courseIndex = BattleContextUtils.getBattleCourse(context);
+        final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIndex);
         augmenting *= courseAugmenting;
 
         //损伤补正
@@ -423,9 +412,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         }
 
         //反潜套补正
-        List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
-        boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
-        boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
+        final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
+        final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         if (hasHydrophone && hasDepthCharge) {
             augmenting *= 1.15d;
         }
@@ -439,20 +428,20 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      *
      * @return
      */
-    public double augmentingAfterThreshold(UnderSeaShip attackShip, BattleContext context) {
+    public double augmentingAfterThreshold(final UnderSeaShip attackShip, final BattleContext context) {
         double augmenting = 1d;
 
-        HougekiResult hougekiResult = context.getNowHougekiResult();
-        int attackType = getLast(hougekiResult.getApi_at_type());
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        final int attackType = getLast(hougekiResult.getApi_at_type());
 
-        SlotItemInfo slotInfo = SlotItemInfo.of(attackShip);
+        final SlotItemInfo slotInfo = SlotItemInfo.of(attackShip);
         if (slotInfo.getAPAmmoCount() > 0) {
             augmenting *= APAMMO_AUGMENTING;
         }
 
         //暴擊補正
-        int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
-        boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
+        final int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
+        final boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
         if (isCrtical) {
             augmenting *= SHELLING_CRTICAL_AUGMENTING;
         }
@@ -478,5 +467,12 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         }
 
         return augmenting;
+    }
+
+    @Override
+    protected final double getHoumFormationFactor(final BattleContext context) {
+        final int memberFormation = BattleContextUtils.getMemberFormation(context);
+        final int underSeaFormation = BattleContextUtils.getUnderSeaFormation(context);
+        return getHoumFormationFactor(underSeaFormation, memberFormation);
     }
 }

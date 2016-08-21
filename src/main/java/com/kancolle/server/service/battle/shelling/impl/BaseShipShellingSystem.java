@@ -3,21 +3,27 @@
  */
 package com.kancolle.server.service.battle.shelling.impl;
 
+import com.google.common.collect.Lists;
 import com.google.common.math.DoubleMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
+import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
+import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.RoundingMode;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -92,7 +98,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
 
     /* ---------命中性能--------- */
-    protected static final double HIT_BASE_RADIOS = 1d;
+    protected static final double HIT_BASE_RADIOS = 0.07d;
     private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
     protected static final double HIT_LUCK_AUGMENTING = 0.0015d;
@@ -245,6 +251,124 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
 
     /**
+     * 彈著觀測射擊：
+     * <p>
+     * 發動條件：
+     * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
+     * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
+     * 3.大破艦娘不能發動彈著觀測射擊
+     * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
+     * 若彈著觀測射擊未發動成功，則會進行通常砲擊
+     */
+    protected final int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final int aerialState, final BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+
+        final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
+        final LinkedList<Object> si_list = hougekiResult.getApi_si_list();
+
+        int attackType = BaseShipShellingSystem.ATTACK_TYPE_NORMAL;
+        final List<Integer> si = Lists.newArrayListWithCapacity(4);
+
+        do {
+            if (ShipFilter.ssFilter.test(defendShip)) {
+                attackType = BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE;
+                break;
+            }
+
+            // TODO cache slotItem info
+            final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
+            if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
+
+                final int mainGunCount = slotItemInfo.getMainGunCount();
+                final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+                final int radarCount = slotItemInfo.getRadarCount();
+                final int apAmmoCount = slotItemInfo.getAPAmmoCount();
+
+                // 连击(主主)
+                if (mainGunCount > 1 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_DOUBLE, aerialState, context)) {
+                    attackType = BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
+                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
+                    break;
+                }
+
+
+                // 主炮CI(主主+撤甲)
+                if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_MAIN, aerialState, context)) {
+                    attackType = BaseShipShellingSystem.ATTACK_TYPE_MAIN;
+                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
+                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
+                    break;
+                }
+
+                // 主副CI(主副)
+                if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_SECONDARY, aerialState, context)) {
+                    attackType = BaseShipShellingSystem.ATTACK_TYPE_SECONDARY;
+                    si.add(slotItemInfo.getMainGunIds().iterator().next());
+                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                    break;
+                }
+
+                // 电探CI(主副+电探)
+                if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_RADAR, aerialState, context)) {
+                    attackType = BaseShipShellingSystem.ATTACK_TYPE_RADAR;
+                    si.add(slotItemInfo.getMainGunIds().iterator().next());
+                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                    si.add(slotItemInfo.getRadarIds().iterator().next());
+                    break;
+                }
+
+                // 撤甲弹CI(主副+撤甲)
+                if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
+                    attackType = BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR;
+                    si.add(slotItemInfo.getMainGunIds().iterator().next());
+                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
+                    break;
+                }
+            }
+            // 普通攻击
+            if (attackType == BaseShipShellingSystem.ATTACK_TYPE_NORMAL) {
+                if (slotItemInfo.getMainGunCount() > 0) {
+                    si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+                } else if (slotItemInfo.getSecondaryGunCount() > 0) {
+                    si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                } else {
+                    si_list.add(Collections.singletonList(-1));
+                }
+            }
+        } while (false);
+
+        at_type_list.add(attackType);
+        si_list.add(si);
+        return attackType;
+    }
+
+    private boolean canObservationShootingDecideByAerialState(final int aerialState) {
+        switch (aerialState) {
+            case AerialBattleSystem.AIR_BATTLE_GUARANTEE:
+            case AerialBattleSystem.AIR_BATTLE_ADVANTAGE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean canObservationShootingDecideBySlotItem(final SlotItemInfo slotItemInfo) {
+        return slotItemInfo.getSearchPlaneCount() > 0;
+    }
+
+    private boolean doObservationShooting(final A attackShip, final int attackType, final int aerialState, final BattleContext context) {
+        double attackTypeAugmenting = 0d;
+        switch (attackType) {
+            case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
+                attackTypeAugmenting = 0.3d;
+            default:
+                attackTypeAugmenting = 0d;
+        }
+        return false;
+    }
+
+    /**
      * 輕巡適型／輕量砲
      * <p>
      * 適型砲補正 = 2 x √該艦所裝備的連裝砲數量 + √該艦所裝備的單裝砲數量
@@ -262,6 +386,23 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected final int cLGunAugmenting(final IShip ship) {
         return 0;
     }
+
+    /**
+     * 阵型命中项补正
+     *
+     * @param attackFormation
+     * @param defendFormation
+     * @return
+     */
+    protected final double getHoumFormationFactor(final int attackFormation, final int defendFormation) {
+        return (defendFormation != FormationSystem.FORMATION_1 &&
+                (attackFormation == FormationSystem.FORMATION_2 ||
+                        attackFormation == FormationSystem.FORMATION_4 ||
+                        attackFormation == FormationSystem.FORMATION_5)) ?
+                1.2d : 1d;
+    }
+
+    protected abstract double getHoumFormationFactor(final BattleContext context);
 
     protected final void BBGunSystem(final MemberShip memberShip) {
     }
@@ -298,10 +439,5 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected double combineKaihiRatio(final A ship, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
-
-    protected double combineHitRatio(final A ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
     /* -----------------联合舰队补正-----------------*/
 }

@@ -69,11 +69,6 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected int[] addToCriticalList(final MemberShip attackShip, final int attackType, final UnderSeaShip defendShip, final BattleContext context) {
-        return new int[0];
-    }
-
-    @Override
     protected void prepareContext(final BattleContext context) {
         super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
@@ -119,29 +114,18 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         return defendShip;
     }
 
-    /**
-     * 影响舰船命中率包含：
-     * 1.舰船等级
-     * 2.装备
-     * 3.幸运值
-     * <p>
-     * 不考虑阵型加成
-     *
-     * @param ship
-     * @return
-     */
-    private double shipHitRatios(final MemberShip ship) {
+    private double shipHitRatios(final MemberShip ship, final BattleContext context) {
         int nowLv = ship.getLv();
         final double levelRatios = IntMath.sqrt(--nowLv, RoundingMode.DOWN) * HIT_LEVEL_AUGMENTING;
 
         final int lucky = ship.getNowLuck();
         final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
 
-        // TODO cacheValue
         final int slotHoum = ship.getSlot().stream().mapToInt(MemberSlotItem::getHoum).sum();
         final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
 
-        return HIT_BASE_RADIOS + levelRatios + luckyRatios + slotRatios;
+        final int shipCond = ship.getCond();
+        return HIT_BASE_RADIOS + (0.93d + levelRatios + luckyRatios + slotRatios) * getHoumFormationFactor(context) * getHoumCondFactor(shipCond);
     }
 
     @Override
@@ -150,7 +134,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         final int shipKaihi = ship.getShipKaihi();
 
         final int cond = ship.getCond();
-        final double condAugmenting = kaihiCondAugmenting(cond);
+        final double condAugmenting = getKaihiCondFactor(cond);
 
         final int courseIdx = BattleContextUtils.getBattleCourse(context);
         final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIdx);
@@ -159,26 +143,23 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected final double combineHitRatio(final MemberShip ship, final BattleContext context) {
-        final int shipCond = ship.getCond();
-
-        final double shipHitRadio = shipHitRatios(ship);
-        final double condAugmenting = hitCondAugmenting(shipCond);
-
-        return shipHitRadio * condAugmenting;
+    protected final double getHoumFormationFactor(final BattleContext context) {
+        final int memberFormation = BattleContextUtils.getMemberFormation(context);
+        final int enemyFormation = BattleContextUtils.getUnderSeaFormation(context);
+        return getHoumFormationFactor(memberFormation, enemyFormation);
     }
 
-    private double hitCondAugmenting(final int cond) {
+    private double getHoumCondFactor(final int cond) {
         if (cond < MemberShip.BAD_COND) {
             return 0.5d;
-        } else if (cond < MemberShip.WARN_COND) {
-            return 0.75d;
+        } else if (cond >= MemberShip.GOOD_COND) {
+            return 1.2d;
         } else {
             return 1d;
         }
     }
 
-    private double kaihiCondAugmenting(final int cond) {
+    private double getKaihiCondFactor(final int cond) {
         if (cond < MemberShip.BAD_COND) {
             return 0.5d;
         } else if (cond < MemberShip.WARN_COND) {
@@ -321,7 +302,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                final boolean hit = isHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
+                final boolean hit = isHit(shipHitRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
                 if (!hit)
                     clArray = CL_SINGLE_MISS;
                 else
@@ -341,7 +322,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
         final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
 
-        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, Integer.valueOf(0));
+        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
         memberShipDamageSum += damageSum;
         damageSumMap.put(attackShip, memberShipDamageSum);
 
@@ -357,7 +338,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         int damageSum = 0;
         final int[] clArray;
 
-        final boolean hit = isHit(combineHitRatio(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
+        final boolean hit = isHit(shipHitRatios(attackShip, context), enemyShipShellingSystem.combineKaihiRatio(defendShip, context));
         if (!hit) {
             clArray = CL_SINGLE_MISS;
         } else {
@@ -372,7 +353,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
         final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
 
-        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, Integer.valueOf(0));
+        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
         memberShipDamageSum += damageSum;
         damageSumMap.put(attackShip, memberShipDamageSum);
 

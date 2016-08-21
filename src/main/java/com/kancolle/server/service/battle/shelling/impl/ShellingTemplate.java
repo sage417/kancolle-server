@@ -1,17 +1,12 @@
 package com.kancolle.server.service.battle.shelling.impl;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Lists;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
-import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
-import com.kancolle.server.utils.logic.ship.ShipUtils;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.isEmpty;
@@ -85,111 +80,20 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     }
 
     /**
-     * 彈著觀測射擊：
-     * <p>
-     * 發動條件：
-     * 1.必須有觸發航空戰，且我方取得制空優勢或制空權確保下才會有機會發動
-     * 2.艦娘須裝備上水偵或水爆，且水偵或水爆數量必須大於1才有機會發動
-     * 3.大破艦娘不能發動彈著觀測射擊
-     * 4.滿足上述發動配置的裝備數量皆可發動，當裝備滿足複數類型的特殊攻擊時，會機率性的發動其中一樣
-     * 若彈著觀測射擊未發動成功，則會進行通常砲擊
+     * Step 2
+     * Decide attackType and add to sl list
+     *
+     * @param attackShip
+     * @param defendShip
+     * @param aerialState
+     * @param context
+     * @return
      */
-    private int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final int aerialState, final BattleContext context) {
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
+    protected abstract int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, int aerialState, BattleContext context);
 
-        final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
-        final LinkedList<Object> si_list = hougekiResult.getApi_si_list();
-
-        int attackType = BaseShipShellingSystem.ATTACK_TYPE_NORMAL;
-        final List<Integer> si = Lists.newArrayListWithCapacity(4);
-
-        if (ShipFilter.ssFilter.test(defendShip)) {
-            attackType = BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE;
-        } else {
-            // TODO cache slotItem info
-            final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
-            if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
-
-                final int mainGunCount = slotItemInfo.getMainGunCount();
-                final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
-                final int radarCount = slotItemInfo.getRadarCount();
-                final int apAmmoCount = slotItemInfo.getAPAmmoCount();
-
-                // 连击(主主)
-                if (mainGunCount > 1 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_DOUBLE, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
-                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
-                }
-
-
-                // 主炮CI(主主+撤甲)
-                if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_MAIN, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_MAIN;
-                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
-                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
-                }
-
-                // 主副CI(主副)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_SECONDARY, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_SECONDARY;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-                }
-
-                // 电探CI(主副+电探)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_RADAR, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_RADAR;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-                    si.add(slotItemInfo.getRadarIds().iterator().next());
-                }
-
-                // 撤甲弹CI(主副+撤甲)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
-                }
-            }
-        }
-
-        // 普通攻击
-        if (attackType == BaseShipShellingSystem.ATTACK_TYPE_NORMAL && !attackShip.getSlotItems().isEmpty()) {
-            si.add(attackShip.getSlotItems().iterator().next().getSlotItemId());
-        }
-
-        at_type_list.add(attackType);
-        si_list.add(si);
-        return attackType;
+    private int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
+        return null;
     }
-
-    private boolean canObservationShootingDecideByAerialState(final int aerialState) {
-        switch (aerialState) {
-            case AerialBattleSystem.AIR_BATTLE_GUARANTEE:
-            case AerialBattleSystem.AIR_BATTLE_ADVANTAGE:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    private boolean canObservationShootingDecideBySlotItem(final SlotItemInfo slotItemInfo) {
-        return slotItemInfo.getSearchPlaneCount() > 0;
-    }
-
-    private boolean doObservationShooting(final A attackShip, final int attackType, final int aerialState, final BattleContext context) {
-        double attackTypeAugmenting = 0d;
-        switch (attackType) {
-            case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
-                attackTypeAugmenting = 0.3d;
-            default:
-                attackTypeAugmenting = 0d;
-        }
-        return false;
-    }
-
-    protected abstract int[] addToCriticalList(A attackShip, int attackType, D defendShip, BattleContext context);
 
     private void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
