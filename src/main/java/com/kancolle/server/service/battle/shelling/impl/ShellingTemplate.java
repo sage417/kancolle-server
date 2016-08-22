@@ -19,7 +19,7 @@ import static com.google.common.collect.Iterables.isEmpty;
  */
 public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
-    public void generateHougkeResult(final A attackShip, final BattleContext context) {
+    public final void generateHougkeResult(final A attackShip, final BattleContext context) {
         prepareContext(context);
 
         D defendShip = chooseTargetShip(attackShip, context);

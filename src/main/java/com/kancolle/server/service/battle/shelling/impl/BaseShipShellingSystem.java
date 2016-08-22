@@ -442,9 +442,4 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     protected final void BBGunSystem(final MemberShip memberShip) {
     }
-
-    @Override
-    public void generateHougkeResult(final A ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
 }
