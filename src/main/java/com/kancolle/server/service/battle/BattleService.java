@@ -149,7 +149,7 @@ public class BattleService extends BaseService implements IBattleService {
         /*------------------------2.航空战开始开始------------------------*/
 
         KouKuResult kouKuResult = new KouKuResult();
-        result.setApi_kouku(kouKuResult);
+       // result.setApi_kouku(kouKuResult);
         /*-------制空战开始-------*/
         KouKuStage1 stage1 = new KouKuStage1();
         kouKuResult.setStage1(stage1);
