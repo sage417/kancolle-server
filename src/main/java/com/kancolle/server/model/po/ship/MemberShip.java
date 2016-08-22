@@ -303,6 +303,7 @@ public class MemberShip implements IShip, Serializable {
         return nowHp;
     }
 
+    @Override
     public void setNowHp(int nowHp) {
         this.nowHp = nowHp;
     }
@@ -537,11 +538,6 @@ public class MemberShip implements IShip, Serializable {
     @Override
     public int getNowLv() {
         return this.lv;
-    }
-
-    @Override
-    public int getNowCond() {
-        return this.cond;
     }
 
     @Override

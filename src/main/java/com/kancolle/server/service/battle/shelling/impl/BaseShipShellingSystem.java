@@ -15,7 +15,6 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
-import com.kancolle.server.service.battle.shelling.IShellingSystem;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
@@ -32,29 +31,28 @@ import java.util.List;
  * @author J.K.SAGE
  * @Date 2015年11月1日
  */
-public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> extends ShellingTemplate<A, D> implements IShellingSystem<A, D> {
+public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> extends ShellingTemplate<A, D> {
 
+    public static final int CL_VALUE_MISS = 0;
+    public static final int CL_VALUE_HIT = 1;
+    public static final int CL_VALUE_CRTICAL = 2;
+    /*------------暴击补正------------*/
+    public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
-
     protected static final int ATTACK_TYPE_ANTISUBMARINE = 1;
-
     protected static final int ATTACK_TYPE_DOUBLE = 2;
     protected static final float ATTACK_TYPE_DOUBLE_FACTOR = 1.2f;
-
     protected static final int ATTACK_TYPE_SECONDARY = 3;
     protected static final float ATTACK_TYPE_SECONDARY_FACTOR = 1.1f;
-
     protected static final int ATTACK_TYPE_RADAR = 4;
     protected static final float ATTACK_TYPE_RADAR_FACTOR = 1.2f;
-
+    /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_EXPOSEARMOR = 5;
     protected static final float ATTACK_TYPE_EXPOSEARMOR_FACTOR = 1.3f;
-
     protected static final int ATTACK_TYPE_MAIN = 6;
+    /* -------------------火力阈值------------------ */
     protected static final float ATTACK_TYPE_MAIN_FACTOR = 1.5f;
-    /* --------------------观测CI-------------------- */
-
     /* -------------------火力阈值------------------ */
     /* 昼战火力阈值 */
     protected static final int HOUG_THRESHOLD = 150;
@@ -62,12 +60,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final int TAISEN_THRESHOLD = 100;
     /* 夜战火力阈值 */
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
-    /* -------------------火力阈值------------------ */
-
-    public static final int CL_VALUE_MISS = 0;
-    public static final int CL_VALUE_HIT = 1;
-    public static final int CL_VALUE_CRTICAL = 2;
-
     protected static final int[] CL_SINGLE_MISS = new int[]{CL_VALUE_MISS};
     protected static final int[] CL_SINGLE_HIT = new int[]{CL_VALUE_HIT};
     protected static final int[] CL_SINGLE_CRTICAL = new int[]{CL_VALUE_CRTICAL};
@@ -80,21 +72,14 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[]{CL_VALUE_CRTICAL, CL_VALUE_MISS};
     protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[]{CL_VALUE_CRTICAL, CL_VALUE_HIT};
     protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{CL_VALUE_CRTICAL, CL_VALUE_CRTICAL};
-
+    /*------------伤害补正------------*/
     /*------------伤害补正------------*/
     protected static final double APAMMO_AUGMENTING = 1.08d;
-    /*------------伤害补正------------*/
-
     /* -----------反潜攻击方式补正-------------*/
     protected static final int DEPTH_CHARGE_AUGMENTING = 13;
-    protected static final int AIRCRAFT_AUGMENTING = 8;
     /* -----------反潜攻击方式补正-------------*/
-
-
+    protected static final int AIRCRAFT_AUGMENTING = 8;
     /*------------暴击补正------------*/
-    public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
-    /*------------暴击补正------------*/
-
     protected static final int[] DM_SINGLE_ZER0 = new int[]{0};
     protected static final int[] DM_DOUBLE_ZER0 = new int[]{0, 0};
 
@@ -102,12 +87,11 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final double HIT_BASE_RADIOS = 0.07d;
     protected static final double HIT_MEMBER_RADIOS = 0.93d;
     protected static final double HIT_UNDERSEA_RADIOS = 0.93d;
-    private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     protected static final double HIT_LEVEL_AUGMENTING = 0.02d;
     protected static final double HIT_LUCK_AUGMENTING = 0.0015d;
     protected static final double HIT_SLOT_AUGMENTING = 0.01d;
+    private static final double HIT_RADIOS_THRESHOLD = 0.975d;
     /* ---------命中性能--------- */
-
     /*-------------回避性能-------------*/
     private static final int HOUK_THRESHOLD = 40;
     private static final double HOUK_BASE_RADIOS = 0.03d;
@@ -121,7 +105,20 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
     /* --------------回避阈值-------------- */
 
+    protected int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
+        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
+        double houmRatios = shipHoumRatios(attackShip, context);
+        double kaihiRatios = shipKaihiRatio(defendShip, context);
+        final double finalHoumRatios = hitRadiosThreshold(houmRatios - kaihiRatios);
+
+        for (int i = 0; i < criticals.length; i++) {
+            criticals[i] = RandomUtils.nextDouble(0d, 1d) < finalHoumRatios ? CL_VALUE_HIT : CL_VALUE_MISS;
+        }
+        return criticals;
+    }
+
     /* ---------------火力阈值--------------*/
+
     protected final int daylightHougThreshold(final double basicHoug) {
         return hougAfterThreshold(basicHoug, HOUG_THRESHOLD);
     }
@@ -240,7 +237,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * @param ship
      * @return
      */
-    protected abstract double shipKaihiRatio(final A ship, final BattleContext context);
+    protected abstract double shipKaihiRatio(final D ship, final BattleContext context);
 
     protected final double getKaihiFormationFactor(final int formation) {
         return (formation == FormationSystem.FORMATION_2
@@ -400,6 +397,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         switch (attackType) {
             case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
                 attackTypeAugmenting = 0.3d;
+                break;
             default:
                 attackTypeAugmenting = 0d;
         }
@@ -447,11 +445,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     @Override
     public void generateHougkeResult(final A ship, final BattleContext context) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void generateDamageList(final A attackShip, final D defendShip, final BattleContext context) {
         throw new UnsupportedOperationException();
     }
 }

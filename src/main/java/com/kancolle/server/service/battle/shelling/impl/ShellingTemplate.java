@@ -7,6 +7,7 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.collect.Iterables.isEmpty;
@@ -29,24 +30,47 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         // 1. add idx to attack list
         addToAttackList(attackShip, context);
 
+        // 2.
         defendShip = callBackAfterChooseTargetShip(attackShip, defendShip, context);
 
-        // 2. decide attack type and slotItem
+        // 3. decide attack type and slotItem
         final int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
 
-        // 3. add idx to defend list
+        // 4. add idx to defend list
         addToDefendList(defendShip, attackType, context);
 
-        // 4. add critical list
+        // 5. add critical list
         final int[] criticals = addToCriticalList(attackShip, attackType, defendShip, context);
 
-        // 5. add damage result
+        // 6. add damage result
         final int[] damages = generateDamageResult(attackShip, defendShip, attackType, criticals, context);
-        callbackAfterDamage(attackShip, defendShip, damages, context);
+
+        // 7. correct damage
+        final int[] actualDamages = generateActualDamage(defendShip, damages, context);
+
+        // 8. add to damage list
+        addToDamageList(actualDamages, context);
+
+        callbackAfterDamage(attackShip, defendShip, actualDamages, damages, context);
     }
 
     /**
-     * Step 1 choose attack target
+     * Step 0 prepare battle context
+     *
+     * @param context
+     */
+    protected void prepareContext(final BattleContext context) {
+
+    }
+
+    protected final void addToAttackList(final A attackShip, final BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
+        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
+    }
+
+    /**
+     * Step 2 choose attack target
      *
      * @param attackShip
      * @param context
@@ -65,12 +89,6 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return attackableShips == null ? null : (D) CollectionsUtils.randomGet(attackableShips);
     }
 
-    protected final void addToAttackList(final A attackShip, final BattleContext context) {
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
-        final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
-        hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
-    }
-
     private D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
         // 如果是旗舰受攻击,僚舰可以为其抵挡攻击
 
@@ -80,7 +98,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     }
 
     /**
-     * Step 2
+     * Step 3
      * Decide attackType and add to sl list
      *
      * @param attackShip
@@ -90,11 +108,13 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      */
     protected abstract int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, BattleContext context);
 
-    private int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
-        int[] criticals = attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
-        return criticals;
-    }
-
+    /**
+     * Step 4
+     *
+     * @param defendShip
+     * @param attackType
+     * @param context
+     */
     protected final void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
@@ -104,33 +124,42 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     }
 
     /**
-     * 准备战斗上下文
+     * Step 5
      *
+     * @param attackShip
+     * @param attackType
+     * @param defendShip
      * @param context
+     * @return
      */
-    protected void prepareContext(final BattleContext context) {
+    protected abstract int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context);
 
+    /**
+     * Step 6
+     *
+     * @param attackShip
+     * @param defendShip
+     * @param attackType
+     * @param criticals
+     * @param context
+     * @return
+     */
+    protected abstract int[] generateDamageResult(final A attackShip, final D defendShip, final int attackType, final int[] criticals, final BattleContext context);
+
+    protected abstract int[] generateActualDamage(D defendShip, int[] damages, BattleContext context);
+
+    private void addToDamageList(int[] damages, BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        hougekiResult.getApi_damage().add(damages);
     }
 
-    private int[] generateDamageResult(final A attackShip, final D defendShip, final int attackType, final int[] criticals, final BattleContext context) {
-        final int[] damages = attackTwice(attackType) ?
-                generateTwiceDamageResult(attackShip, defendShip, context) :
-                generateOnceDamageResult(attackShip, defendShip, context);
-
-        augmentingDamage(attackShip, defendShip, damages, context);
-
-        return damages;
+    protected void callbackAfterDamage(A attackShip, D defendShip, int[] actualDamages, int[] damages, BattleContext context) {
+        int actualDamageSum = Arrays.stream(actualDamages).sum();
+        defendShip.setNowHp(defendShip.getNowHp() - actualDamageSum);
+        if (ShipFilter.isAlive.negate().test(defendShip)) {
+            defendShip.setNowHp(0);
+            context.getEnemyNormalShips().remove(defendShip);
+            context.getEnemySSShips().remove(defendShip);
+        }
     }
-
-    private boolean attackTwice(final int attackType) {
-        return attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
-    }
-
-    protected abstract int[] generateOnceDamageResult(A attackShip, D defendShip, BattleContext context);
-
-    protected abstract int[] generateTwiceDamageResult(A attackShip, D defendShip, BattleContext context);
-
-    protected abstract void augmentingDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
-
-    protected abstract void callbackAfterDamage(A attackShip, D defendShip, int[] damages, BattleContext context);
 }

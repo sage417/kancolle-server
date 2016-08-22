@@ -60,6 +60,7 @@ public class UnderSeaShip implements IShip, Serializable {
         return this.nowHp;
     }
 
+    @Override
     public void setNowHp(int nowHp) {
         this.nowHp = nowHp;
     }
@@ -81,11 +82,6 @@ public class UnderSeaShip implements IShip, Serializable {
 
     public int getNowLv() {
         return getShip().getLv();
-    }
-
-    @Override
-    public int getNowCond() {
-        return 0;
     }
 
     @Override

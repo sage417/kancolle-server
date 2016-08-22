@@ -17,16 +17,17 @@ import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import com.kancolle.server.mapper.ship.ShipUpgradeMapper;
 import com.kancolle.server.mapper.slotItem.SlotItemMapper;
 import com.kancolle.server.mapper.useItem.UseItemMapper;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,7 +66,8 @@ public class UpdateController {
 
     @GetMapping("/ship")
     void updateShip() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8"))).getJSONObject("api_data").getJSONArray("api_mst_ship");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).
+                getJSONObject("api_data").getJSONArray("api_mst_ship");
 
         try {
             functionMapper.disableForeignKeyChecks();
@@ -79,7 +81,8 @@ public class UpdateController {
 
     @GetMapping("/ship_graph")
     void updateShipGraph() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8"))).getJSONObject("api_data").getJSONArray("api_mst_shipgraph");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).
+                getJSONObject("api_data").getJSONArray("api_mst_shipgraph");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(shipGraphMapper::replaceShipGraph);
@@ -87,7 +90,7 @@ public class UpdateController {
 
     @GetMapping("/shipType")
     void updateShipType() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_stype");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_stype");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(shipTypeMapper::updateShipType);
@@ -95,7 +98,7 @@ public class UpdateController {
 
     @GetMapping("/shipSlotItem")
     void replaceSlotItem() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_slotitem");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_slotitem");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(slotItemMapper::replaceSlotItem);
@@ -103,7 +106,7 @@ public class UpdateController {
 
     @GetMapping("/furniture")
     void replaceFurneture() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furniture");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furniture");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(furnitureMapper::replaceFurniture);
@@ -111,7 +114,7 @@ public class UpdateController {
 
     @GetMapping("/furniture_graph")
     void replaceFurnetureGraph() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furnituregraph");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_furnituregraph");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(furnitureGraphMapper::replaceFurnitureGraph);
@@ -119,7 +122,7 @@ public class UpdateController {
 
     @GetMapping("/map_bgm")
     void replaceMapBgm() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapbgm");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapbgm");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(mapBGMMapper::replaceMapBgm);
@@ -127,7 +130,7 @@ public class UpdateController {
 
     @GetMapping("/useItem")
     void replaceUseItem() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_useitem");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_useitem");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(useItemMapper::replaceUseItem);
@@ -135,7 +138,7 @@ public class UpdateController {
 
     @GetMapping("/mapcell")
     void replaceMapcell() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapcell");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapcell");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(mapCellMapper::replaceMapCell);
@@ -143,7 +146,7 @@ public class UpdateController {
 
     @GetMapping("/mapinfo")
     void replaceMapInfo() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapinfo");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_mapinfo");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(mapInfoMapper::replaceMapInfo);
@@ -151,7 +154,7 @@ public class UpdateController {
 
     @GetMapping("/ship_upgrade")
     void replaceShipUpgrade() throws IOException {
-        JSONArray array = JSON.parseObject(FileUtils.readFileToString(new File("/Users/mac/Desktop/new.json"), Charset.forName("UTF-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_shipupgrade");
+        JSONArray array = JSON.parseObject(IOUtils.toString(Files.newInputStream(ResourceUtils.getFile("json/star2.json").toPath()), Charset.forName("utf-8")), Feature.OrderedField).getJSONObject("api_data").getJSONArray("api_mst_shipupgrade");
 
         List<Map<String, Object>> domains = getDomainMap(array);
         domains.forEach(shipUpgradeMapper::replaceShipGrade);
@@ -162,7 +165,7 @@ public class UpdateController {
         for (int i = 0; i < array.size(); i++) {
             JSONObject o = array.getJSONObject(i);
             Map<String, Object> domain = o.entrySet().stream()
-                    .filter(e-> !Objects.isNull(e.getValue()))
+                    .filter(e -> !Objects.isNull(e.getValue()))
                     .collect(Collectors.toMap(e -> StringUtils.substringAfter(e.getKey(), "api_").toUpperCase(), Map.Entry::getValue));
             domains.add(domain);
         }

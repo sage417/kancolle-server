@@ -31,7 +31,7 @@ import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
-import com.kancolle.server.service.battle.shelling.IShellingSystem;
+import com.kancolle.server.service.battle.shelling.impl.ShellingTemplate;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -75,9 +75,9 @@ public class BattleService extends BaseService implements IBattleService {
     @Autowired
     private IAerialBattleSystem aerialBattleSystem;
     @Autowired
-    private IShellingSystem<MemberShip, UnderSeaShip> memberShipShellingSystem;
+    private ShellingTemplate<MemberShip, UnderSeaShip> memberShipShellingSystem;
     @Autowired
-    private IShellingSystem<UnderSeaShip, MemberShip> underSeaShipShellingSystem;
+    private ShellingTemplate<UnderSeaShip, MemberShip> underSeaShipShellingSystem;
     @Autowired
     private MapService mapService;
     @Autowired
@@ -149,14 +149,17 @@ public class BattleService extends BaseService implements IBattleService {
         /*------------------------2.航空战开始开始------------------------*/
 
         KouKuResult kouKuResult = new KouKuResult();
+        result.setApi_kouku(kouKuResult);
         /*-------制空战开始-------*/
         KouKuStage1 stage1 = new KouKuStage1();
+        kouKuResult.setStage1(stage1);
         stage1.setApi_disp_seiku(underSeaAerialState);
 
         /*-------制空战结束-------*/
 
         /*------防空火炮迎击开始------*/
         KouKuStage2 stage2 = new KouKuStage2();
+        kouKuResult.setStage2(stage2);
 
         /*------防空火炮迎击结束------*/
 
@@ -166,12 +169,10 @@ public class BattleService extends BaseService implements IBattleService {
 
         /*-------攻击机、轰炸机的雷击、轰炸-----*/
         KouKuStage3 stage3 = new KouKuStage3();
+        kouKuResult.setStage3(stage3);
 
         /*-------攻击机、轰炸机的雷击、轰炸结束-----*/
 
-        kouKuResult.setStage1(stage1);
-        kouKuResult.setStage2(stage2);
-        kouKuResult.setStage3(stage3);
         /*-------------------------航空战开始结束-----------------------*/
 
         /*-------------------------3支援舰队达到------------------------*/
