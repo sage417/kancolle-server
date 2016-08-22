@@ -114,6 +114,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         for (int i = 0; i < criticals.length; i++) {
             criticals[i] = RandomUtils.nextDouble(0d, 1d) < finalHoumRatios ? CL_VALUE_HIT : CL_VALUE_MISS;
         }
+        context.getNowHougekiResult().getApi_cl_list().add(criticals);
         return criticals;
     }
 
