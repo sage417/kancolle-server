@@ -63,15 +63,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final int[] CL_SINGLE_MISS = new int[]{CL_VALUE_MISS};
     protected static final int[] CL_SINGLE_HIT = new int[]{CL_VALUE_HIT};
     protected static final int[] CL_SINGLE_CRTICAL = new int[]{CL_VALUE_CRTICAL};
-    protected static final int[] CL_DOUBLE_MISS_MISS = new int[]{CL_VALUE_MISS, CL_VALUE_MISS};
-    protected static final int[] CL_DOUBLE_MISS_HIT = new int[]{CL_VALUE_MISS, CL_VALUE_HIT};
-    protected static final int[] CL_DOUBLE_MISS_CRTICAL = new int[]{CL_VALUE_MISS, CL_VALUE_CRTICAL};
-    protected static final int[] CL_DOUBLE_HIT_MISS = new int[]{CL_VALUE_HIT, CL_VALUE_MISS};
-    protected static final int[] CL_DOUBLE_HIT_HIT = new int[]{CL_VALUE_HIT, CL_VALUE_HIT};
-    protected static final int[] CL_DOUBLE_HIT_CRTICAL = new int[]{CL_VALUE_HIT, CL_VALUE_CRTICAL};
-    protected static final int[] CL_DOUBLE_CRTICAL_MISS = new int[]{CL_VALUE_CRTICAL, CL_VALUE_MISS};
-    protected static final int[] CL_DOUBLE_CRTICAL_HIT = new int[]{CL_VALUE_CRTICAL, CL_VALUE_HIT};
-    protected static final int[] CL_DOUBLE_CRTICAL_CRTICAL = new int[]{CL_VALUE_CRTICAL, CL_VALUE_CRTICAL};
     /*------------伤害补正------------*/
     /*------------伤害补正------------*/
     protected static final double APAMMO_AUGMENTING = 1.08d;
@@ -395,14 +386,26 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     private boolean doObservationShooting(final A attackShip, final int attackType, final int aerialState, final BattleContext context) {
         double attackTypeAugmenting = 0d;
+
+        boolean isFlagShip = isFlagShip(attackShip, context);
+
+
         switch (attackType) {
             case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
                 attackTypeAugmenting = 0.3d;
                 break;
+            case BaseShipShellingSystem.ATTACK_TYPE_MAIN:
+                break;
+            case BaseShipShellingSystem.ATTACK_TYPE_SECONDARY:
+                break;
+            case BaseShipShellingSystem.ATTACK_TYPE_RADAR:
+                break;
+            case BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR:
+                break;
             default:
                 attackTypeAugmenting = 0d;
         }
-        return false;
+        return RandomUtils.nextDouble(0d, 1d) < attackTypeAugmenting;
     }
 
     /**
@@ -443,4 +446,13 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     protected final void BBGunSystem(final MemberShip memberShip) {
     }
+
+    /**
+     * 判断是否是旗舰
+     *
+     * @param ship
+     * @param context
+     * @return
+     */
+    protected abstract boolean isFlagShip(A ship, BattleContext context);
 }

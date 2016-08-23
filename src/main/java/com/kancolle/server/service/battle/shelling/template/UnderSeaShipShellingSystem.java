@@ -5,6 +5,7 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
@@ -285,5 +286,11 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         final int memberFormation = BattleContextUtils.getMemberFormation(context);
         final int underSeaFormation = BattleContextUtils.getUnderSeaFormation(context);
         return getHoumFormationFactor(underSeaFormation, memberFormation);
+    }
+
+    @Override
+    protected boolean isFlagShip(final UnderSeaShip ship, final BattleContext context) {
+        UnderSeaDeckPort underSeaDeckPort = context.getUnderSeaDeckPort();
+        return underSeaDeckPort.getUnderSeaShips().iterator().next().equals(ship);
     }
 }
