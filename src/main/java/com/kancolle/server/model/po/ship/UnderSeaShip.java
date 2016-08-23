@@ -7,6 +7,7 @@ import org.apache.ibatis.type.Alias;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by J.K.SAGE on 2016/3/29 0029.
@@ -23,6 +24,8 @@ public class UnderSeaShip implements IShip, Serializable {
     private int[] currentEQ;
 
     public UnderSeaShip(final Ship ship, final List<UnderSeaSlotItem> slot) {
+        Objects.requireNonNull(ship);
+        Objects.requireNonNull(slot);
         this.ship = ship;
         this.slot = slot;
 
