@@ -25,6 +25,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @param <A>
@@ -314,7 +315,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 // 连击(主主)
                 if (mainGunCount > 1 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_DOUBLE, aerialState, context)) {
                     attackType = BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
-                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
+                    si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     break;
                 }
 
@@ -322,43 +323,42 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 // 主炮CI(主主+撤甲)
                 if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_MAIN, aerialState, context)) {
                     attackType = BaseShipShellingSystem.ATTACK_TYPE_MAIN;
-                    si.addAll(slotItemInfo.getMainGunIds().subList(0, 2));
-                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
+                    si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
+                    si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 主副CI(主副)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_SECONDARY, aerialState, context)) {
                     attackType = BaseShipShellingSystem.ATTACK_TYPE_SECONDARY;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 电探CI(主副+电探)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_RADAR, aerialState, context)) {
                     attackType = BaseShipShellingSystem.ATTACK_TYPE_RADAR;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-                    si.add(slotItemInfo.getRadarIds().iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getRadars().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 撤甲弹CI(主副+撤甲)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
                     attackType = BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR;
-                    si.add(slotItemInfo.getMainGunIds().iterator().next());
-                    si.add(slotItemInfo.getSecondaryGunIds().iterator().next());
-                    si.add(slotItemInfo.getApAmmoIds().iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
-            }
-            // 普通攻击
-            if (attackType == BaseShipShellingSystem.ATTACK_TYPE_NORMAL) {
+
+                // 普通攻击
                 if (slotItemInfo.getMainGunCount() > 0) {
-                    si_list.add(slotItemInfo.getMainGunIds().iterator().next());
+                    si_list.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                 } else if (slotItemInfo.getSecondaryGunCount() > 0) {
-                    si_list.add(slotItemInfo.getSecondaryGunIds().iterator().next());
+                    si_list.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                 } else {
                     si_list.add(Collections.singletonList(-1));
                 }
@@ -385,25 +385,35 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
 
     private boolean doObservationShooting(final A attackShip, final int attackType, final int aerialState, final BattleContext context) {
-        double attackTypeAugmenting = 0d;
-
-        boolean isFlagShip = isFlagShip(attackShip, context);
-
+        double attackTypeAugmenting;
 
         switch (attackType) {
             case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
                 attackTypeAugmenting = 0.3d;
                 break;
             case BaseShipShellingSystem.ATTACK_TYPE_MAIN:
+                attackTypeAugmenting = 0.3d;
                 break;
             case BaseShipShellingSystem.ATTACK_TYPE_SECONDARY:
+                attackTypeAugmenting = 0.3d;
                 break;
             case BaseShipShellingSystem.ATTACK_TYPE_RADAR:
+                attackTypeAugmenting = 0.3d;
                 break;
             case BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR:
+                attackTypeAugmenting = 0.3d;
                 break;
             default:
                 attackTypeAugmenting = 0d;
+        }
+
+        boolean isFlagShip = isFlagShip(attackShip, context);
+        if (isFlagShip) {
+            attackTypeAugmenting += 0.1d;
+        }
+
+        if (aerialState == AerialBattleSystem.AIR_BATTLE_GUARANTEE) {
+            attackTypeAugmenting += 0.1d;
         }
         return RandomUtils.nextDouble(0d, 1d) < attackTypeAugmenting;
     }
