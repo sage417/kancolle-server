@@ -31,7 +31,7 @@ import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
-import com.kancolle.server.service.battle.shelling.impl.ShellingTemplate;
+import com.kancolle.server.service.battle.shelling.template.ShellingTemplate;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -64,7 +64,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  * @Date 2015年8月22日
  */
 @Service
-public class BattleService extends BaseService implements IBattleService {
+public class BattleService extends BaseService {
 
     @Autowired
     private MapBattleService mapBattleService;

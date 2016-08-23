@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.shelling.impl;
+package com.kancolle.server.service.battle.shelling.template;
 
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
@@ -9,41 +9,44 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.FormationSystem;
-import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
-import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Iterables.getLast;
 
 @Service
-public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
+public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip, UnderSeaShip> {
 
     @Override
     protected void prepareContext(final BattleContext context) {
         super.prepareContext(context);
-        context.setEnemyNormalShips(context.getAliveMemberNormalShips());
-        context.setEnemySSShips(context.getAliveMemberSSShips());
-        context.setCurrentAerialState(context.getUnderSeaAerialState());
+        context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
+        context.setEnemySSShips(context.getAliveUnderSeaSSShips());
+        context.setCurrentAerialState(context.getMemberAerialState());
     }
 
     @Override
-    protected int[] generateActualDamage(MemberShip defendShip, int[] damages, BattleContext context) {
+    protected int[] generateActualDamage(UnderSeaShip defendShip, int[] damages, BattleContext context) {
         return damages;
     }
 
     @Override
-    protected void callbackAfterDamage(final UnderSeaShip attackShip, final MemberShip defendShip, final int[] actualDamages, final int[] damages, final BattleContext context) {
+    protected void callbackAfterDamage(final MemberShip attackShip, final UnderSeaShip defendShip, final int[] actualDamages, final int[] damages, final BattleContext context) {
         super.callbackAfterDamage(attackShip, defendShip, actualDamages, damages, context);
-    }
 
-    private void generateTaiSenDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
+        int damageSum = Arrays.stream(damages).sum();
+
+        final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
+        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
+        damageSumMap.put(attackShip, memberShipDamageSum + damageSum);
     }
 
     private boolean isTaisenAttack(final IShip attackShip, final List<? extends IShip> enemySSShips) {
@@ -51,53 +54,50 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected final double shipHoumRatios(final UnderSeaShip attackShip, final BattleContext context) {
-        return HIT_BASE_RADIOS + (HIT_UNDERSEA_RADIOS + shipHoumRatios(attackShip)) * getHoumFormationFactor(context);
+    protected final double shipHoumRatios(final MemberShip attackShip, final BattleContext context) {
+        final int shipCond = attackShip.getCond();
+        return HIT_BASE_RADIOS + (HIT_MEMBER_RADIOS + shipHoumRatios(attackShip)) * getHoumFormationFactor(context) * getHoumCondFactor(shipCond);
     }
 
     @Override
-    protected double shipKaihiRatio(final MemberShip ship, final BattleContext context) {
+    protected double shipKaihiRatio(final UnderSeaShip ship, final BattleContext context) {
 
-        final int cond = ship.getCond();
+        final int formation = BattleContextUtils.getUnderSeaFormation(context);
 
-        final int formation = BattleContextUtils.getMemberFormation(context);
-
-        return houkThreshold(ship) * getKaihiFormationFactor(formation) * getKaihiCondFactor(cond) * getKaihiFuelFactor(ship);
+        return houkThreshold(ship) * getKaihiFormationFactor(formation);
     }
 
     /**
-     * 状态对回避值的因子
+     * 阵型对命中值的因子
+     *
+     * @param context
+     * @return
+     */
+    @Override
+    protected final double getHoumFormationFactor(final BattleContext context) {
+        final int memberFormation = BattleContextUtils.getMemberFormation(context);
+        final int enemyFormation = BattleContextUtils.getUnderSeaFormation(context);
+        return getHoumFormationFactor(memberFormation, enemyFormation);
+    }
+
+    /**
+     * 状态值对命中值的因子
      *
      * @param cond
      * @return
      */
-    private double getKaihiCondFactor(final int cond) {
+    private double getHoumCondFactor(final int cond) {
         if (cond < MemberShip.BAD_COND) {
             return 0.5d;
-        } else if (cond < MemberShip.WARN_COND) {
-            return 0.75d;
-        } else if (cond < MemberShip.GOOD_COND) {
-            return 1d;
+        } else if (cond >= MemberShip.GOOD_COND) {
+            return 1.2d;
         } else {
-            return 1.8d;
+            return 1d;
         }
     }
 
-    /**
-     * 燃料对回避值的因子
-     *
-     * @param ship
-     * @return
-     */
-    private double getKaihiFuelFactor(final MemberShip ship) {
-        int maxFuel = ship.getShip().getFuelMax();
-        int consumeFuel = maxFuel - ship.getFuel();
-        int consume = DoubleMath.roundToInt(Math.floor(100d * consumeFuel / maxFuel), RoundingMode.HALF_DOWN);
-        return IntMath.mod(consume, 20) * 0.16d;
-    }
-
     @Override
-    public int[] generateDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
+    protected final int[] generateDamageResult(final MemberShip attackShip, final UnderSeaShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
         int[] damageList = new int[0];
 
         switch (attackType) {
@@ -115,8 +115,39 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             default:
                 throw new IllegalArgumentException("attack type error");
         }
-
         return damageList;
+    }
+
+    private void generateTaiSenDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+        final HougekiResult hougekiResult = context.getNowHougekiResult();
+        int damageSum = 0;
+        final int[] clArray;
+
+        final boolean hit = isHit(shipHoumRatios(attackShip, context), shipKaihiRatio(defendShip, context));
+        if (!hit) {
+            clArray = CL_SINGLE_MISS;
+        } else {
+            clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+        }
+        hougekiResult.getApi_cl_list().add(clArray);
+
+        final int hougAfterThreshold = taiSenValue(attackShip, defendShip, context);
+        final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+        hougekiResult.getApi_damage().add(new int[]{damageValue});
+        damageSum += damageValue;
+
+        final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
+
+        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
+        memberShipDamageSum += damageSum;
+        damageSumMap.put(attackShip, memberShipDamageSum);
+
+        int nowHp = defendShip.getNowHp() - damageSum;
+        if (nowHp < 0) {
+            nowHp = 0;
+        }
+        defendShip.setNowHp(nowHp);
+
     }
 
     /**
@@ -141,7 +172,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      */
     private int shellingBaiscHoug(final IShip ship) {
         //TODO 联合舰队基本攻击力补正
-        //TODO 改修装备攻击力补正
+        //TODO 修改装备攻击力补正
         final int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
@@ -166,16 +197,22 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * @param ship
      * @return
      */
-    private int antiSubmarineBasicHoug(final MemberShip ship) {
+    private int taiSenBasicHoug(final IShip ship, final int attackAugmenting) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
-        return 0;
+        final int shipTaisen = 2 * IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.CEILING);
+        final int slotTaisen = DoubleMath.roundToInt(1.5d * ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getTaiSen).sum(), RoundingMode.CEILING);
+        return shipTaisen + slotTaisen + attackAugmenting;
     }
 
-
-    // 攻擊力 =  [ [ { 基本攻撃力 × 閾值前補正 + 輕巡適型砲補正 } ]  ×  徹甲彈特效補正 ×  PT小鬼群補正 ]  ×  暴擊補正 ]  × 閾值後補正
-    private int attackValue(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
+    private int attackValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
         final int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+        final double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
+        return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
+    }
+
+    private int taiSenValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+        final int hougBeforeThreshold = taiSenHougThreshold(taiSenAugmentingBeforeThreshold(attackShip, context));
         final double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
@@ -201,49 +238,42 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
      * 这里补正数值属于炮击战
      */
     public double augmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
-        double augmenting = 1d;
+        final int basicHoug = shellingBaiscHoug(attackShip);
+        double augmenting = basicAugmentBeforeThreshold(attackShip, context);
 
-        //阵型补正
-        final int formationIndex = BattleContextUtils.getMemberFormation(context);
-        final double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
-        augmenting *= formationAugmenting;
-
-        //航向补正
-        final int courseIndex = BattleContextUtils.getBattleCourse(context);
-        final double courseAugmenting = CourseEnum.shelllingHougAugment(courseIndex);
-        augmenting *= courseAugmenting;
-
-        //损伤补正
-        if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
-            // TODO 雷击战补正0
-            augmenting *= 0.4d;
-        } else if (ShipUtils.isMidDmgStatue.test(attackShip)) {
-            // TODO 雷击战补正0.8
-            augmenting *= 0.7d;
+        if (augmenting < 0d) {
+            augmenting = 0d;
         }
 
-        //反潜套补正
-        final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
-        final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
-        final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
-        if (hasHydrophone && hasDepthCharge) {
-            augmenting *= 1.15d;
-        }
-        // 阈值前攻击力 = 基本攻击力*阈值前攻击不整参数+轻巡炮攻击力补正
-        return augmenting * shellingBaiscHoug(attackShip) + cLGunAugmenting(attackShip);
+        // 阈值前攻击力 = 基本攻击力 * 阈值前攻击补正参数 + 轻巡炮攻击力补正
+        return augmenting * basicHoug + cLGunAugmenting(attackShip);
     }
 
+    public double taiSenAugmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
+        final int taisenBasicHoug = taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
+        double augmenting = basicAugmentBeforeThreshold(attackShip, context);
+
+        //反潜套补正
+        final double taisenAugmenting = taisenShellingAugmenting(attackShip);
+        augmenting += taisenAugmenting;
+
+        if (augmenting < 0d) {
+            augmenting = 0d;
+        }
+
+        return augmenting * taisenBasicHoug;
+    }
 
     /**
      * 阈值后补正 = 徹甲彈特效補正×暴擊補正×彈着觀測射撃補正
      *
      * @return
      */
-    public double augmentingAfterThreshold(final UnderSeaShip attackShip, final BattleContext context) {
+    public double augmentingAfterThreshold(final MemberShip attackShip, final BattleContext context) {
         double augmenting = 1d;
 
         final HougekiResult hougekiResult = context.getNowHougekiResult();
-        final int attackType = getLast(hougekiResult.getApi_at_type());
+        final int attackType = BattleContextUtils.getCurrentAttackType(context);
 
         final SlotItemInfo slotInfo = SlotItemInfo.of(attackShip);
         if (slotInfo.getAPAmmoCount() > 0) {
@@ -252,6 +282,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         //暴擊補正
         final int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
+        // TODO double attack
         final boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
         if (isCrtical) {
             augmenting *= SHELLING_CRTICAL_AUGMENTING;
@@ -278,12 +309,5 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         }
 
         return augmenting;
-    }
-
-    @Override
-    protected final double getHoumFormationFactor(final BattleContext context) {
-        final int memberFormation = BattleContextUtils.getMemberFormation(context);
-        final int underSeaFormation = BattleContextUtils.getUnderSeaFormation(context);
-        return getHoumFormationFactor(underSeaFormation, memberFormation);
     }
 }

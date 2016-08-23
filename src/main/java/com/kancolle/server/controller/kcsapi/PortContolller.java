@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.IBattleService;
+import com.kancolle.server.service.battle.BattleService;
 import com.kancolle.server.service.member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +20,7 @@ public class PortContolller {
     @Autowired
     private MemberService memberService;
     @Autowired
-    private IBattleService battleService;
+    private BattleService battleService;
 
     @JsonView(Member.PortView.class)
     @RequestMapping("/port")

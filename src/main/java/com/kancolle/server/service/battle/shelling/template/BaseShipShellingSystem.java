@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.kancolle.server.service.battle.shelling.impl;
+package com.kancolle.server.service.battle.shelling.template;
 
 import com.google.common.collect.Lists;
 import com.google.common.math.DoubleMath;

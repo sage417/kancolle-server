@@ -7,7 +7,7 @@ import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.battle.IBattleService;
+import com.kancolle.server.service.battle.BattleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +28,7 @@ import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 @RequestMapping(value = "/kcsapi/api_req_sortie", method = RequestMethod.POST)
 public class ReqSortieController {
     @Autowired
-    private IBattleService battleService;
+    private BattleService battleService;
 
     @RequestMapping("/battle")
     public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Validated BattleForm form, BindingResult result) {
@@ -38,7 +38,7 @@ public class ReqSortieController {
     }
 
     @RequestMapping("/battleresult")
-    public APIResponse<BattleResult> battleesult(@ModelAttribute(MEMBER_ID) String member_id) {
+    public APIResponse<BattleResult> battleResult(@ModelAttribute(MEMBER_ID) String member_id) {
         BattleResult api_data = battleService.battleresult(member_id);
         return new APIResponse<BattleResult>().setApi_data(api_data);
     }
