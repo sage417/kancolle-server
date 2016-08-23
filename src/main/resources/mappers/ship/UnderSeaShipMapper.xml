@@ -6,7 +6,8 @@
         <constructor>
             <arg column="SHIP_ID" javaType="Ship"
                  select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond"/>
-            <arg column="SHIP_ID" select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectUnderSeaShipSlots"/>
+            <arg column="SHIP_ID" javaType="List"
+                 select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectUnderSeaShipSlots"/>
         </constructor>
     </resultMap>
 
