@@ -30,6 +30,7 @@ import com.kancolle.server.service.useitem.UseItemService;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Projections;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -94,7 +95,7 @@ public class StartDao extends BaseDaoImpl<StartResult> {
 
     public ItemShopModel getMstItemShop() {
         MongoCollection<Document> shops = mongoClient.getDatabase("kancolle").getCollection("shop");
-        Document shop = shops.find().first();
+        Document shop = shops.find().projection(Projections.excludeId()).first();
         return readValue(shop, ItemShopModel.class);
     }
 
