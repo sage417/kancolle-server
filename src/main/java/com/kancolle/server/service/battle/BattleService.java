@@ -20,6 +20,7 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
+import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.member.Member;
@@ -139,6 +140,11 @@ public class BattleService extends BaseService {
         int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, underSeaAerialState);
         /** 敌方索敌 */
         int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, underSeaDeckPort);
+
+        final int memberSakuteki = memberShips.stream().map(MemberShip::getSakuteki).mapToInt(MaxMinValue::getMinValue).sum();
+        final int underSeaSakuteki = underSeaShips.stream().mapToInt(UnderSeaShip::getShipSakuteki).sum();
+        context.setMemberSakuteki(memberSakuteki);
+        context.setUnderSeaSakuteki(underSeaSakuteki);
 
         result.setApi_search(new int[]{fsResult, esResult});
 

@@ -59,9 +59,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      *
      * @param context
      */
-    protected void prepareContext(final BattleContext context) {
-
-    }
+    protected abstract void prepareContext(final BattleContext context);
 
     /**
      * Step 1 add attack ship to at list

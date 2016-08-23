@@ -17,19 +17,19 @@ import java.util.List;
  */
 public class SlotItemInfo {
 
-    // 主炮数量
+    // 主炮
     private final ImmutableList<AbstractSlotItem> mainGuns;
 
-    // 副炮数量
+    // 副炮
     private final ImmutableList<AbstractSlotItem> secondaryGuns;
 
-    // 侦察机数量
+    // 侦察机
     private final ImmutableList<AbstractSlotItem> searchPlanes;
 
-    // 雷达数量
+    // 雷达
     private final ImmutableList<AbstractSlotItem> radars;
 
-    // 撤甲弹数量
+    // 撤甲弹
     private final ImmutableList<AbstractSlotItem> apAmmos;
 
     private SlotItemInfo(final ImmutableList<AbstractSlotItem> mainGuns, final ImmutableList<AbstractSlotItem> secondaryGuns,

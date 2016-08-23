@@ -28,10 +28,8 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected void prepareContext(final BattleContext context) {
-        super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
-        context.setCurrentAerialState(context.getUnderSeaAerialState());
     }
 
     @Override
@@ -286,6 +284,17 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         final int memberFormation = BattleContextUtils.getMemberFormation(context);
         final int underSeaFormation = BattleContextUtils.getUnderSeaFormation(context);
         return getHoumFormationFactor(underSeaFormation, memberFormation);
+    }
+
+
+    @Override
+    protected int getCurrentSakutekiSum(final BattleContext context) {
+        return context.getUnderSeaSakuteki();
+    }
+
+    @Override
+    protected int getCurrentAerialState(final BattleContext context) {
+        return context.getUnderSeaAerialState();
     }
 
     @Override

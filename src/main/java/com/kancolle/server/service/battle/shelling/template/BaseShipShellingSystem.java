@@ -19,6 +19,7 @@ import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.RoundingMode;
@@ -97,7 +98,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
     /* --------------回避阈值-------------- */
 
-    protected int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
+    protected final int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
         int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
         double houmRatios = shipHoumRatios(attackShip, context);
         double kaihiRatios = shipKaihiRatio(defendShip, context);
@@ -187,10 +188,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     protected final boolean isHit(final double hitValue, final double houkValue) {
         return isHit(hitValue, houkValue, 0.05d);
-    }
-
-    protected final boolean isCIHit(final double hitValue, final double houkValue) {
-        return isHit(hitValue, houkValue, 0.15d);
     }
 
     private boolean isHit(final double hitValue, final double houkValue, final double increaseRate) {
@@ -293,16 +290,16 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         final LinkedList<Integer> at_type_list = hougekiResult.getApi_at_type();
         final LinkedList<Object> si_list = hougekiResult.getApi_si_list();
 
-        int attackType = BaseShipShellingSystem.ATTACK_TYPE_NORMAL;
+        int attackType = ATTACK_TYPE_NORMAL;
         final List<Integer> si = Lists.newArrayListWithCapacity(4);
 
         do {
             if (ShipFilter.ssFilter.test(defendShip)) {
-                attackType = BaseShipShellingSystem.ATTACK_TYPE_ANTISUBMARINE;
+                attackType = ATTACK_TYPE_ANTISUBMARINE;
                 break;
             }
 
-            final int aerialState = context.getCurrentAerialState();
+            final int aerialState = getCurrentAerialState(context);
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
             if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
@@ -312,33 +309,36 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 final int radarCount = slotItemInfo.getRadarCount();
                 final int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
+                // 列举所有可能计算特殊攻击几率
+                int[] ci_list = getCIList(slotItemInfo);
+
                 // 连击(主主)
-                if (mainGunCount > 1 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_DOUBLE, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_DOUBLE;
+                if (mainGunCount > 1 && doObservationShooting(attackShip, ATTACK_TYPE_DOUBLE, aerialState, context)) {
+                    attackType = ATTACK_TYPE_DOUBLE;
                     si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     break;
                 }
 
 
                 // 主炮CI(主主+撤甲)
-                if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_MAIN, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_MAIN;
+                if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_MAIN, aerialState, context)) {
+                    attackType = ATTACK_TYPE_MAIN;
                     si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 主副CI(主副)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_SECONDARY, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_SECONDARY;
+                if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_SECONDARY, aerialState, context)) {
+                    attackType = ATTACK_TYPE_SECONDARY;
                     si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 电探CI(主副+电探)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_RADAR, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_RADAR;
+                if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_RADAR, aerialState, context)) {
+                    attackType = ATTACK_TYPE_RADAR;
                     si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     si.add(slotItemInfo.getRadars().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
@@ -346,8 +346,8 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 }
 
                 // 撤甲弹CI(主副+撤甲)
-                if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
-                    attackType = BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR;
+                if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
+                    attackType = ATTACK_TYPE_EXPOSEARMOR;
                     si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                     si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
@@ -355,9 +355,9 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 }
 
                 // 普通攻击
-                if (slotItemInfo.getMainGunCount() > 0) {
+                if (mainGunCount > 0) {
                     si_list.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                } else if (slotItemInfo.getSecondaryGunCount() > 0) {
+                } else if (secondaryGunCount > 0) {
                     si_list.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
                 } else {
                     si_list.add(Collections.singletonList(-1));
@@ -368,6 +368,43 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         at_type_list.add(attackType);
         si_list.add(si);
         return attackType;
+    }
+
+    private int[] getCIList(SlotItemInfo slotItemInfo) {
+        final int mainGunCount = slotItemInfo.getMainGunCount();
+        final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+        final int radarCount = slotItemInfo.getRadarCount();
+        final int apAmmoCount = slotItemInfo.getAPAmmoCount();
+
+        int[] ci = new int[2];
+
+        // 连击(主主)
+        if (mainGunCount > 1) {
+            ArrayUtils.add(ci, ATTACK_TYPE_DOUBLE);
+        }
+
+
+        // 主炮CI(主主+撤甲)
+        if (mainGunCount > 1 && apAmmoCount > 0) {
+            ArrayUtils.add(ci, ATTACK_TYPE_MAIN);
+        }
+
+        // 主副CI(主副)
+        if (mainGunCount > 0 && secondaryGunCount > 0) {
+            ArrayUtils.add(ci, ATTACK_TYPE_SECONDARY);
+        }
+
+        // 电探CI(主副+电探)
+        if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0) {
+            ArrayUtils.add(ci, ATTACK_TYPE_RADAR);
+        }
+
+        // 撤甲弹CI(主副+撤甲)
+        if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0) {
+            ArrayUtils.add(ci, ATTACK_TYPE_EXPOSEARMOR);
+        }
+
+        return ci;
     }
 
     private boolean canObservationShootingDecideByAerialState(final int aerialState) {
@@ -388,19 +425,19 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         double attackTypeAugmenting;
 
         switch (attackType) {
-            case BaseShipShellingSystem.ATTACK_TYPE_DOUBLE:
+            case ATTACK_TYPE_DOUBLE:
+                attackTypeAugmenting = 0.4d;
+                break;
+            case ATTACK_TYPE_MAIN:
                 attackTypeAugmenting = 0.3d;
                 break;
-            case BaseShipShellingSystem.ATTACK_TYPE_MAIN:
+            case ATTACK_TYPE_SECONDARY:
                 attackTypeAugmenting = 0.3d;
                 break;
-            case BaseShipShellingSystem.ATTACK_TYPE_SECONDARY:
+            case ATTACK_TYPE_RADAR:
                 attackTypeAugmenting = 0.3d;
                 break;
-            case BaseShipShellingSystem.ATTACK_TYPE_RADAR:
-                attackTypeAugmenting = 0.3d;
-                break;
-            case BaseShipShellingSystem.ATTACK_TYPE_EXPOSEARMOR:
+            case ATTACK_TYPE_EXPOSEARMOR:
                 attackTypeAugmenting = 0.3d;
                 break;
             default:
@@ -415,6 +452,10 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         if (aerialState == AerialBattleSystem.AIR_BATTLE_GUARANTEE) {
             attackTypeAugmenting += 0.1d;
         }
+
+        final int sakutekiSum = getCurrentSakutekiSum(context);
+        attackTypeAugmenting += sakutekiSum / 10000d;
+
         return RandomUtils.nextDouble(0d, 1d) < attackTypeAugmenting;
     }
 
@@ -452,10 +493,26 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 1.2d : 1d;
     }
 
+    /**
+     * 阵型命中项补正
+     *
+     * @param context
+     * @return
+     */
     protected abstract double getHoumFormationFactor(final BattleContext context);
 
     protected final void BBGunSystem(final MemberShip memberShip) {
     }
+
+    protected abstract int getCurrentSakutekiSum(final BattleContext context);
+
+
+    /**
+     * 获取当前制空情况
+     *
+     * @return
+     */
+    protected abstract int getCurrentAerialState(final BattleContext context);
 
     /**
      * 判断是否是旗舰
@@ -464,5 +521,5 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * @param context
      * @return
      */
-    protected abstract boolean isFlagShip(A ship, BattleContext context);
+    protected abstract boolean isFlagShip(final A ship, final BattleContext context);
 }

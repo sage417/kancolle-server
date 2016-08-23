@@ -28,10 +28,8 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     protected void prepareContext(final BattleContext context) {
-        super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
         context.setEnemySSShips(context.getAliveUnderSeaSSShips());
-        context.setCurrentAerialState(context.getMemberAerialState());
     }
 
     @Override
@@ -310,6 +308,16 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         }
 
         return augmenting;
+    }
+
+    @Override
+    protected int getCurrentSakutekiSum(final BattleContext context) {
+        return context.getMemberSakuteki();
+    }
+
+    @Override
+    protected int getCurrentAerialState(final BattleContext context) {
+        return context.getMemberAerialState();
     }
 
     @Override
