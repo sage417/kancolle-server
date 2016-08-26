@@ -1,23 +1,31 @@
 package com.kancolle.server.model.kcsapi.ship;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.MemberShip;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.po.member.MemberDeckPort;
-import com.kancolle.server.model.po.ship.MemberShip;
-
+@JsonPropertyOrder(value = {
+        "api_ship_data", "api_deck_data", "api_slot_data"
+})
 public class Ship3Result {
 
+    @JsonProperty(value = "api_ship_data")
     @JSONField(ordinal = 1)
-    List<MemberShip> api_ship_data;
+    private List<MemberShip> api_ship_data;
 
+    @JsonProperty(value = "api_deck_data")
     @JSONField(ordinal = 2)
-    List<MemberDeckPort> api_deck_data;
+    private List<MemberDeckPort> api_deck_data;
 
+    @JsonProperty(value = "api_slot_data")
     @JSONField(ordinal = 3)
-    Map<String, Object> api_slot_data;
+    private Map<String, Object> api_slot_data;
 
     public Ship3Result(MemberShip memberShip, List<MemberDeckPort> deckPorts, Map<String, Object> unsetSlot) {
         this.api_ship_data = Collections.singletonList(memberShip);

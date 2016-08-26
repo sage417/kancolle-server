@@ -3,11 +3,11 @@
  */
 package com.kancolle.server.service.member;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.kdock.CreateShipForm;
 import com.kancolle.server.model.kcsapi.kcock.GetShipResult;
 import com.kancolle.server.model.po.member.MemberKdock;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -25,5 +25,7 @@ public interface MemberKdockService {
     void speedUp(String member_id, Integer kdock_id);
 
     GetShipResult getShip(String member_id, Integer kdock_id);
+
+    void initMemberKdock(long member_id);
 
 }

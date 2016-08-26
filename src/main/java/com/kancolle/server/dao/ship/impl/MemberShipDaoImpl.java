@@ -1,26 +1,28 @@
 package com.kancolle.server.dao.ship.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Repository;
-
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+import com.kancolle.server.model.po.slotitem.SlotItem;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements MemberShipDao {
 
     @Override
-    public void update(MemberShip memberShip) {
-        throw new UnsupportedOperationException();
+    public void update(MemberShip memberShip, String... columns) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("member_ship", memberShip);
+        params.put("columns", columns);
+        getSqlSession().update("updateMemberShip", params);
     }
 
     @Override
@@ -61,22 +63,29 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
     }
 
     private void updateSlot(MemberShip memberShip) {
-        List<Long> slot = memberShip.getSlot().stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
+        List<MemberSlotItem> slotItems = memberShip.getSlot();
+        List<Long> slot = slotItems.stream()
+                .map(MemberSlotItem::getMemberSlotItemId)
+                .collect(Collectors.toList());
 
-        OptionalInt length = memberShip.getSlot().stream().mapToInt(memberSlotItem -> memberSlotItem.getSlotItem().getLeng()).max();
-        int memberShipLength = Math.max(length.orElse(0), memberShip.getShip().getLeng());
+        int slotLength = slotItems.stream()
+                .map(MemberSlotItem::getSlotItem)
+                .mapToInt(SlotItem::getLeng)
+                .max().orElse(0);
 
-        boolean lockedEquip = memberShip.getSlot().stream().filter(MemberSlotItem::getLocked).count() > 0L;
+        int memberShipLength = Math.max(slotLength, memberShip.getShip().getLeng());
+
+        boolean lockedEquip = slotItems.stream().anyMatch(MemberSlotItem::isLocked);
 
         while (slot.size() < MemberShip.SLOT_SIZE_MAX) {
-            slot.add(Long.valueOf(-1L));
+            slot.add(-1L);
         }
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(5);
         params.put("member_id", memberShip.getMemberId());
         params.put("member_ship_id", memberShip.getMemberShipId());
-        params.put("leng", memberShipLength);
+        params.put("length", memberShipLength);
         params.put("lockedEquip", lockedEquip);
-        params.put("slot", JSON.toJSONString(slot));
+        params.put("slot", generateJsonArray(slot));
         getSqlSession().update("updateMemberShipSlot", params);
     }
 
@@ -161,5 +170,14 @@ public class MemberShipDaoImpl extends BaseDaoImpl<MemberShip> implements Member
         params.put("member_id", member_id);
         params.put("create_ship_id", createShipId);
         return getSqlSession().selectOne("createMemberShip", params);
+    }
+
+    @Override
+    public void updateShipOnSlot(String memberId, long memberShipId, int[] onslot) {
+        Map<String, Object> params = Maps.newHashMap();
+        params.put("member_id", memberId);
+        params.put("member_ship_id", memberShipId);
+        params.put("onslot", onslot);
+        getSqlSession().update("updateShipOnSlot", params);
     }
 }

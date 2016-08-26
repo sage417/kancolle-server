@@ -25,6 +25,13 @@
 				</if>
 			</where>
 	</select>
+
+	<insert id="insertMemberNdocks">
+		REPLACE INTO t_member_ndock (member_id, ID, STATE) VALUES
+			<foreach collection="list" item="ndock" separator=",">
+				(#{ndock.memberId}, #{ndock.dockId}, #{ndock.state})
+			</foreach>
+	</insert>
 	
 	<update id="updateMemberNdock">
 		UPDATE t_member_ndock SET

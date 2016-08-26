@@ -1,33 +1,37 @@
 package com.kancolle.server.model.po.useitem;
 
-import java.io.Serializable;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 @Alias("UseItem")
+@JsonPropertyOrder(value = {
+        "useitemId", "usetype", "category", "name",
+        "description", "price"
+})
 public class UseItem implements Serializable {
 
     private static final long serialVersionUID = -138311826015722610L;
 
-    @JSONField(ordinal = 1, name = "api_id")
+    @JsonProperty(value = "api_id")
     private int useitemId;
 
-    @JSONField(ordinal = 2, name = "api_usetype")
+    @JsonProperty(value = "api_usetype")
     private int usetype;
 
-    @JSONField(ordinal = 3, name = "api_category")
+    @JsonProperty(value = "api_category")
     private int category;
 
-    @JSONField(ordinal = 4, name = "api_name")
+    @JsonProperty(value = "api_name")
     private String name;
 
-    @JSONField(ordinal = 5, name = "api_description")
-    private JSONArray description;
+    @JsonProperty(value = "api_description")
+    private ImmutableList<String> description;
 
-    @JSONField(ordinal = 6, name = "api_price")
+    @JsonProperty(value = "api_price")
     private int price;
 
     public int getUseitemId() {
@@ -62,11 +66,11 @@ public class UseItem implements Serializable {
         this.name = name;
     }
 
-    public JSONArray getDescription() {
+    public ImmutableList<String> getDescription() {
         return description;
     }
 
-    public void setDescription(JSONArray description) {
+    public void setDescription(ImmutableList<String> description) {
         this.description = description;
     }
 

@@ -1,23 +1,22 @@
 package com.kancolle.server.controller.kcsapi;
 
-import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
-
-import java.util.Collections;
-import java.util.Map;
-
-import javax.validation.Valid;
-
+import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
+import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
+import com.kancolle.server.model.response.APIResponse;
+import com.kancolle.server.service.useitem.MemberUseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
-import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
-import com.kancolle.server.model.response.APIResponse;
-import com.kancolle.server.service.useitem.MemberUseItemService;
+import java.util.Collections;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.kancolle.server.controller.common.AdviceController.MEMBER_ID;
 
 @RestController
 @RequestMapping(value = "/kcsapi/api_req_member", method = RequestMethod.POST)
@@ -33,12 +32,9 @@ public class ReqMemberController {
     }
 
     @RequestMapping("/itemuse")
-    public APIResponse<Object> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Valid UseItemForm form, BindingResult result) {
-        if (result.hasErrors()) {
-
-            throw new IllegalArgumentException();
-        }
+    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Validated UseItemForm form, BindingResult result) {
+        checkArgument(!result.hasErrors());
         UseItemResult api_data = memberUseItemService.useItem(member_id, form);
-        return new APIResponse<Object>().setApi_data(api_data);
+        return new APIResponse<UseItemResult>().setApi_data(api_data);
     }
 }

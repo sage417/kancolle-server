@@ -3,14 +3,13 @@
  */
 package com.kancolle.server.service.useitem.impl;
 
-import java.util.List;
-
+import com.kancolle.server.mapper.useItem.UseItemMapper;
+import com.kancolle.server.model.po.useitem.UseItem;
+import com.kancolle.server.service.useitem.UseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kancolle.server.dao.useitem.UseItemDao;
-import com.kancolle.server.model.po.useitem.UseItem;
-import com.kancolle.server.service.useitem.UseItemService;
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -20,15 +19,15 @@ import com.kancolle.server.service.useitem.UseItemService;
 @Service
 public class UseItemServiceImpl implements UseItemService {
     @Autowired
-    private UseItemDao useItemDao;
+    private UseItemMapper useItemMapper;
 
     @Override
     public List<UseItem> getUseItems() {
-        return useItemDao.selectUseItems();
+        return useItemMapper.selectUseItems();
     }
 
     @Override
     public UseItem getUseItemById(Integer useitem_id) {
-        return useItemDao.selectUseItemById(useitem_id);
+        return useItemMapper.selectUseItemById(useitem_id);
     }
 }

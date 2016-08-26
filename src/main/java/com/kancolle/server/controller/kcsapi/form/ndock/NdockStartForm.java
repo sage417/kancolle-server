@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.controller.kcsapi.form.ndock;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Range;
 
 /**
  * @author J.K.SAGE
@@ -19,7 +19,7 @@ public class NdockStartForm {
     private Long api_ship_id;
 
     @NotNull
-    private Integer api_highspeed;
+    private int api_highspeed;
 
     @Range(min = 1L, max = 4L)
     private Integer api_ndock_id;
@@ -32,11 +32,11 @@ public class NdockStartForm {
         this.api_ship_id = api_ship_id;
     }
 
-    public Integer getApi_highspeed() {
+    public int getApi_highspeed() {
         return api_highspeed;
     }
 
-    public void setApi_highspeed(Integer api_highspeed) {
+    public void setApi_highspeed(int api_highspeed) {
         this.api_highspeed = api_highspeed;
     }
 

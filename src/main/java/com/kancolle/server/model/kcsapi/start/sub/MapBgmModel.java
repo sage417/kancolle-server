@@ -1,28 +1,35 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.dao.annotation.Column;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
+import org.apache.ibatis.type.Alias;
 
-public class MapBgmModel {
+import java.io.Serializable;
 
-    @JSONField(ordinal = 1)
+@Alias("MapBgmModel")
+@JsonPropertyOrder(value = {
+        "api_id", "api_maparea_id", "api_no", "api_map_bgm",
+        "api_boss_bgm"
+})
+public class MapBgmModel implements Serializable {
+
+    @JsonProperty(value = "api_id")
     private int api_id;
 
-    @JSONField(ordinal = 2)
+    @JsonProperty(value = "api_maparea_id")
     private int api_maparea_id;
 
-    @JSONField(ordinal = 3)
+    @JsonProperty(value = "api_no")
     private int api_no;
 
-    @JSONField(ordinal = 4)
-    private JSONArray api_map_bgm;
+    @JsonProperty(value = "api_map_bgm")
+    private ImmutableList<Integer> api_map_bgm;
 
-    @JSONField(ordinal = 5)
-    private JSONArray api_boss_bgm;
+    @JsonProperty(value = "api_boss_bgm")
+    private ImmutableList<Integer> api_boss_bgm;
 
-    public JSONArray getApi_boss_bgm() {
+    public ImmutableList<Integer> getApi_boss_bgm() {
         return api_boss_bgm;
     }
 
@@ -30,7 +37,7 @@ public class MapBgmModel {
         return api_id;
     }
 
-    public JSONArray getApi_map_bgm() {
+    public ImmutableList<Integer> getApi_map_bgm() {
         return api_map_bgm;
     }
 
@@ -42,27 +49,22 @@ public class MapBgmModel {
         return api_no;
     }
 
-    @Column(name = "BOSS_BGM", type = String.class)
-    public void setApi_boss_bgm(String api_boss_bgm) {
-        this.api_boss_bgm = JSON.parseArray(api_boss_bgm);
+    public void setApi_boss_bgm(ImmutableList<Integer> api_boss_bgm) {
+        this.api_boss_bgm = api_boss_bgm;
     }
 
-    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    @Column(name = "MAP_BGM", type = String.class)
-    public void setApi_map_bgm(String api_map_bgm) {
-        this.api_map_bgm = JSON.parseArray(api_map_bgm);
+    public void setApi_map_bgm(ImmutableList<Integer> api_map_bgm) {
+        this.api_map_bgm = api_map_bgm;
     }
 
-    @Column(name = "MAPAREA_ID", type = int.class)
     public void setApi_maparea_id(int api_maparea_id) {
         this.api_maparea_id = api_maparea_id;
     }
 
-    @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
     }

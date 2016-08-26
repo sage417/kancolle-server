@@ -17,4 +17,5 @@ public interface MemberResourceDao extends BaseDao<Resource> {
 
     Resource selectMemberResource(String member_id);
 
+    void insertMemberRecource(Resource resource);
 }

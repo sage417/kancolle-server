@@ -3,17 +3,6 @@
  */
 package com.kancolle.server.service.furniture.impl;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.dao.furniture.MemberFurnitureDao;
@@ -23,7 +12,17 @@ import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.utils.logic.FurnitureUtils;
+import com.kancolle.server.utils.logic.furniture.FurnitureUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -32,6 +31,7 @@ import com.kancolle.server.utils.logic.FurnitureUtils;
  */
 @Service
 public class MemberFurnitureServiceImpl implements MemberFurnitureService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberFurnitureServiceImpl.class);
 
     @Autowired
@@ -47,7 +47,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
     @Override
     public void changeFurniture(String member_id, FurnitureChangeForm form) {
-        List<Integer> furnitureIds = Lists.newArrayListWithCapacity(FurnitureType.values().length);
+        int[] furnitureIds = new int[FurnitureType.values().length];
 
         for (FurnitureType type : FurnitureType.values()) {
             Integer furnitureId = FurnitureUtils.getFurnitureIdByType(form, type);
@@ -58,7 +58,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
             if (type.getTypeId() != memberFurniture.getFurniture().getType()) {
                 throw new IllegalArgumentException("家具类型错误");
             }
-            furnitureIds.add(furnitureId);
+            ArrayUtils.add(furnitureIds, furnitureId);
         }
 
         memberFurnitureDao.changeMemberFurniture(member_id, furnitureIds);
@@ -126,5 +126,10 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     @Override
     public int getCountOfMemberFurniture(String member_id) {
         return memberFurnitureDao.selectCountOfMemberFurniture(member_id);
+    }
+
+    @Override
+    public void initMemberFurniture(long member_id) {
+        memberFurnitureDao.insertFurnituresForNewMember(member_id);
     }
 }

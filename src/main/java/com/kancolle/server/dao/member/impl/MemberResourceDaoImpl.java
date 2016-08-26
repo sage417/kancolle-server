@@ -3,14 +3,13 @@
  */
 package com.kancolle.server.dao.member.impl;
 
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberResourceDao;
 import com.kancolle.server.model.po.resource.Resource;
+import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * @author J.K.SAGE
@@ -28,6 +27,11 @@ public class MemberResourceDaoImpl extends BaseDaoImpl<Resource> implements Memb
     @Override
     public Resource selectMemberResource(String member_id) {
         return getSqlSession().selectOne("selectMemberResource", member_id);
+    }
+
+    @Override
+    public void insertMemberRecource(Resource resource) {
+        getSqlSession().insert("insertMemberRecource", resource);
     }
 
     @Override

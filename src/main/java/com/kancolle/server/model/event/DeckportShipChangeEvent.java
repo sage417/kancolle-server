@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.model.event;
 
-import java.util.List;
-
-import com.kancolle.server.model.po.member.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

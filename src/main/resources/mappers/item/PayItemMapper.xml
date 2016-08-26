@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.item.PayItemMapper">
+
+	<resultMap type="PayItemModel" id="PayItemModelRM">
+		<id property="api_id" column="ID"/>
+		<result property="api_type" column="TYPE"/>
+		<result property="api_name" column="NAME"/>
+		<result property="api_description" column="DESCRIPTION"/>
+		<result property="api_item" column="ITEM"/>
+		<result property="api_price" column="PRICE"/>
+	</resultMap>
+
+	<select id="selectPayItems" resultMap="PayItemModelRM">
+		SELECT * FROM t_pay_item
+	</select>
+</mapper>

@@ -1,39 +1,70 @@
 package com.kancolle.server.model.po.ship;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.parser.Feature;
+import java.io.Serializable;
+import java.util.Map;
 
+@JsonPropertyOrder(value = {
+        "shipTypeId", "sortNo", "name", "scnt",
+        "kcnt", "equipTypes"
+})
 @Alias("ShipType")
 public class ShipType implements Serializable {
     private static final long serialVersionUID = 2560822460694469946L;
 
+    public static final int TYPE_DD = 2;
+
+    public static final int TYPE_CL = 3;
+
+    public static final int TYPE_CLT = 4;
+
+    public static final int TYPE_CA = 5;
+
+    public static final int TYPE_CAV = 6;
+
+    public static final int TYPE_CVL = 7;
+
+    public static final int TYPE_BB1 = 8;
+
+    public static final int TYPE_BB2 = 9;
+
+    public static final int TYPE_BBV = 10;
+
+    public static final int TYPE_CV = 11;
+
+    public static final int TYPE_BBS = 12;
+
+    public static final int TYPE_SS = 13;
+
+    public static final int TYPE_SSV = 14;
+
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int shipTypeId;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2, name = "api_sortno")
     private int sortNo;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_scnt")
     @JSONField(ordinal = 4, name = "api_scnt")
     private int scnt;
 
+    @JsonProperty(value = "api_kcnt")
     @JSONField(ordinal = 5, name = "api_kcnt")
     private int kcnt;
 
+    @JsonProperty(value = "api_equip_type")
     @JSONField(ordinal = 6, name = "api_equip_type")
-    private JSONObject equipTypes;
-
-    public ShipType(String equipTypes) {
-        this.equipTypes = JSON.parseObject(equipTypes, Feature.OrderedField);
-    }
+    private Map<String, Integer> equipTypes;
 
     public int getShipTypeId() {
         return shipTypeId;
@@ -75,11 +106,11 @@ public class ShipType implements Serializable {
         this.kcnt = kcnt;
     }
 
-    public JSONObject getEquipTypes() {
+    public Map<String, Integer> getEquipTypes() {
         return equipTypes;
     }
 
-    public void setEquipTypes(JSONObject equipTypes) {
+    public void setEquipTypes(Map<String, Integer> equipTypes) {
         this.equipTypes = equipTypes;
     }
 
@@ -107,6 +138,6 @@ public class ShipType implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("ShipTypeModel [name=%s]", name);
+        return String.format("ShipType [name=%s]", name);
     }
 }

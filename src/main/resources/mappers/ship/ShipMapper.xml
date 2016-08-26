@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.ship.ShipDao">
+<mapper namespace="com.kancolle.server.mapper.ship.ShipMapper">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
 		<property name="eternal" value="true"/>
-		<property name="maxEntriesLocalHeap" value="600"/>
+		<property name="maxEntriesLocalHeap" value="1000"/>
 		<property name="strategy" value="NONE"/>
 	</cache>
 
-	<resultMap type="Ship" id="shipRM" autoMapping="true">
+	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
 		<id property="shipId" column="ID" />
+		<result property="shipTypeId" column="STYPE" />
+		<result property="slotNum" column="SLOT_NUM" />
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.mapper.ship.ShipTypeMapper.selectShipTypeByCond"/>
+	</resultMap>
+
+	<resultMap type="Ship" id="ShipRM" autoMapping="true">
+		<id property="shipId" column="ID" />
+		<result property="shipTypeId" column="STYPE" />
 		<result property="afterLv" column="AFTERLV" />
+		<result property="afterShipId" column="AFTERSHIPID"/>
 		<result property="taik" column="TAIK" typeHandler="MaxMinValueHandler" />
 		<result property="souk" column="SOUK" typeHandler="MaxMinValueHandler" />
 		<result property="houg" column="HOUG" typeHandler="MaxMinValueHandler" />
@@ -20,27 +29,26 @@
 		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
 		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
 		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
-		<result property="soltNum" column="SLOTNUM" />
-		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHanlder" />
+		<result property="slotNum" column="SLOT_NUM" />
+		<result property="maxEq" column="MAXEQ" typeHandler="IntJsonArrayHandler" />
 		<result property="buildTime" column="BUILDTIME" />
-		<result property="broken" column="BROKEN" typeHandler="ResourceVauleHandler" />
-		<result property="powUp" column="POWUP" typeHandler="PowUpHanlder" />
+		<result property="broken" column="BROKEN" typeHandler="ResourceValueHandler" />
+		<result property="powUp" column="POWUP" typeHandler="PowUpHandler" />
 		<result property="afterFuel" column="AFTERFUEL" />
 		<result property="afterBull" column="AFTERBULL" />
 		<result property="fuelMax" column="FUEL_MAX" />
 		<result property="bullMax" column="BULL_MAX" />
+		<result property="lv" column="LV"/>
 
-		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
+		<association property="type" column="STYPE" javaType="ShipType" select="com.kancolle.server.mapper.ship.ShipTypeMapper.selectShipTypeByCond"/>
 		<association property="afterShip" column="AFTERSHIPID" javaType="Ship" select="selectShipsByCond" />
 	</resultMap>
-	
-	<resultMap type="BaseShip" id="BaseShipRM" autoMapping="true">
-		<id property="shipId" column="ID" />
-		<result property="soltNum" column="SLOTNUM" />
-		<association property="type" column="TYPE" javaType="ShipType" select="com.kancolle.server.dao.ship.ShipTypeDao.selectShipTypeByCond"/>
-	</resultMap>
 
-	<select id="selectShipsByCond" resultMap="shipRM">
+	<select id="selectEmShip" resultMap="BaseShipRM">
+		SELECT ID, `NAME`, YOMI, STYPE, SOKU, SLOT_NUM FROM t_ship WHERE ID BETWEEN 501 AND 900
+	</select>
+
+	<select id="selectShipsByCond" resultMap="ShipRM">
 		SELECT * FROM t_ship
 		<where>
 			<choose>
@@ -49,16 +57,47 @@
 			</choose>
 		</where>
 	</select>
-	
-	<select id="selectEmShip" resultMap="BaseShipRM">
-		SELECT ID, NAME, YOMI, TYPE, SOKU, SLOTNUM FROM t_ship WHERE ID BETWEEN 500 AND 900
+
+	<select id="selectShipIdsBySortNo" resultType="_int">
+		SELECT ID FROM t_ship WHERE SORTNO = #{sort_no} AND ID BETWEEN 1 AND 500
 	</select>
 
-	<select id="selectNeedShipExpByLevel" resultType="long">
+	<insert id="replaceShip">
+		INSERT into `t_ship` (`ID`, `SORTNO`, `NAME`, `YOMI`, `STYPE`, `LV`, `AFTERLV`, `AFTERSHIPID`, `TAIK`, `SOUK`, `HOUG`, `RAIG`, `TYKU`, `LUCK`, `SOKU`, `LENG`, `SLOT_NUM`, `MAXEQ`, `BUILDTIME`, `BROKEN`, `POWUP`, `BACKS`, `GETMES`, `AFTERFUEL`, `AFTERBULL`, `FUEL_MAX`, `BULL_MAX`, `VOICEF`)
+		values (#{ID}, #{SORTNO}, #{NAME}, #{YOMI}, #{STYPE}, 1, #{AFTERLV}, #{AFTERSHIPID},
+					   #{TAIK ,typeHandler=JsonArrayHandler}, #{SOUK ,typeHandler=JsonArrayHandler},
+					   #{HOUG ,typeHandler=JsonArrayHandler}, #{RAIG ,typeHandler=JsonArrayHandler},
+															  #{TYKU ,typeHandler=JsonArrayHandler}, #{LUCK ,typeHandler=JsonArrayHandler},
+															  #{SOKU}, #{LENG}, #{SLOT_NUM},
+															  #{MAXEQ ,typeHandler=JsonArrayHandler}, #{BUILDTIME},
+															  #{BROKEN ,typeHandler=JsonArrayHandler}, #{POWUP ,typeHandler=JsonArrayHandler},
+				#{BACKS}, #{GETMES},
+				#{AFTERFUEL}, #{AFTERBULL},
+				#{FUEL_MAX}, #{BULL_MAX},
+				#{VOICEF}) ON DUPLICATE KEY UPDATE
+		`SORTNO`=#{SORTNO}, `NAME`=#{NAME}, `YOMI`=#{YOMI},
+		`STYPE`=#{STYPE}, `LV`=1, `AFTERLV`=#{AFTERLV}, `AFTERSHIPID`=#{AFTERSHIPID},
+		`TAIK`=#{TAIK ,typeHandler=JsonArrayHandler}, `SOUK`=#{SOUK ,typeHandler=JsonArrayHandler}, `HOUG`=#{HOUG ,typeHandler=JsonArrayHandler},
+		`RAIG`=#{RAIG ,typeHandler=JsonArrayHandler}, `TYKU`=#{TYKU ,typeHandler=JsonArrayHandler}, `LUCK`=#{LUCK ,typeHandler=JsonArrayHandler},
+		`SOKU`=#{SOKU}, `LENG`=#{LENG}, `SLOT_NUM`=#{SLOT_NUM},
+		`MAXEQ`=#{MAXEQ ,typeHandler=JsonArrayHandler}, `BUILDTIME`=#{BUILDTIME}, `BROKEN`=#{BROKEN ,typeHandler=JsonArrayHandler},
+		`POWUP`=#{POWUP,typeHandler=JsonArrayHandler}, `BACKS`=#{BACKS}, `GETMES`=#{GETMES},
+		`AFTERFUEL`=#{AFTERFUEL}, `AFTERBULL`=#{AFTERBULL}, `FUEL_MAX`=#{FUEL_MAX},
+		`BULL_MAX`=#{BULL_MAX}, `VOICEF`=#{VOICEF}
+	</insert>
+
+	<insert id="insertBaseShip">
+		INSERT INTO `t_ship` (`ID`,`NAME`,`YOMI`,`STYPE`,`SOKU`,`SLOT_NUM`) VALUES (#{ID}, #{NAME}, #{YOMI}, #{STYPE}, #{SOKU}, #{SLOT_NUM})
+		ON DUPLICATE KEY UPDATE `NAME` = #{NAME}, YOMI = #{YOMI}, STYPE = #{STYPE}, SOKU = #{SOKU}, SLOT_NUM = #{SLOT_NUM}
+	</insert>
+
+	<!-- ANOTHER TABLE -->
+	<select id="selectShipNeedExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_ship WHERE LV = #{level}
 	</select>
 
-	<select id="selectShipLVByExp" resultType="int">
+	<select id="selectShipLVByExp" resultType="_int">
 		SELECT LV FROM t_exp_ship WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
 	</select>
+	<!-- ANOTHER TABLE -->
 </mapper>

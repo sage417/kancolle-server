@@ -1,18 +1,17 @@
 package com.kancolle.server.dao.port.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Repository;
-
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.dao.port.dto.MemberMaterial;
 import com.kancolle.server.model.kcsapi.member.MemberLog;
 import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
@@ -26,7 +25,7 @@ public class PortDaoImpl extends BaseDaoImpl<MemberPort> implements PortDao {
     public List<MemberMeterialDto> getMaterial(String member_id) {
         MemberMaterial memberMeterial = queryForSingleModel(MemberMaterial.class, "SELECT * FROM t_member_material WHERE member_id = :member_id", getMemParamMap(member_id));
 
-        long member = Long.valueOf(member_id);
+        long member = Long.parseLong(member_id);
 
         return memberMeterial.toModel().stream().map(meterial -> {
             meterial.setApi_member_id(member);

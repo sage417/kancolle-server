@@ -5,13 +5,18 @@ package com.kancolle.server.model.po.resource;
 
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月17日
  *
  */
 @Alias("Resource")
-public class Resource {
+public class Resource implements Serializable{
+
+    private static final long serialVersionUID = -8797913114524495827L;
+
     public static final int MAX_RESOURCE_VALUE = 300000;
 
     public static final int MAX_METERIAL_VALUE = 3000;
@@ -33,6 +38,13 @@ public class Resource {
     private int devItem;
 
     private int ehItem;
+
+    public Resource() {
+    }
+
+    public Resource(long memberId) {
+        this.memberId = memberId;
+    }
 
     public long getMemberId() {
         return memberId;

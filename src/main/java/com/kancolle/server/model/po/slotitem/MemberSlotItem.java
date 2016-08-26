@@ -1,42 +1,45 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.slotitem;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年5月31日
- *
  */
+@JsonPropertyOrder(value = {
+        "memberSlotItemId", "slotItemId", "locked", "level"
+})
 @Alias("MemberSlotItem")
-public class MemberSlotItem {
+public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 
+    private static final long serialVersionUID = -7169523354675835935L;
+
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private long memberSlotItemId;
 
+    @JsonProperty(value = "api_slotitem_id")
     @JSONField(ordinal = 2, name = "api_slotitem_id")
-    public int returnSlotItemId() {
-        return getSlotItem().getSlotItemId();
-    }
+    private int slotItemId;
 
-    @JSONField(serialize = false, deserialize = false)
-    private SlotItem slotItem;
-
-    @JSONField(serialize = false, deserialize = false)
+    @JsonProperty(value = "api_locked")
+    @JSONField(ordinal = 3, name = "api_locked")
     private boolean locked;
 
-    @JSONField(ordinal = 3, name = "api_locked")
-    public int returnLocked() {
-        return locked == true ? 1 : 0;
-    }
-
+    @JsonProperty(value = "api_level")
     @JSONField(ordinal = 4, name = "api_level")
     private int level;
 
@@ -48,6 +51,15 @@ public class MemberSlotItem {
         this.memberId = memberId;
     }
 
+    @Override
+    public int getSlotItemId() {
+        return slotItemId;
+    }
+
+    public void setSlotItemId(int slotItemId) {
+        this.slotItemId = slotItemId;
+    }
+
     public long getMemberSlotItemId() {
         return memberSlotItemId;
     }
@@ -56,15 +68,7 @@ public class MemberSlotItem {
         this.memberSlotItemId = memberSlotItemId;
     }
 
-    public SlotItem getSlotItem() {
-        return slotItem;
-    }
-
-    public void setSlotItem(SlotItem slotItem) {
-        this.slotItem = slotItem;
-    }
-
-    public boolean getLocked() {
+    public boolean isLocked() {
         return locked;
     }
 
@@ -110,6 +114,11 @@ public class MemberSlotItem {
 
     @Override
     public String toString() {
-        return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, slotItem, level);
+        return String.format("MemberSlotItem [memberId=%s, memberSlotItemId=%s, slotItem=%s, level=%s]", memberId, memberSlotItemId, getSlotItem(), level);
+    }
+
+    @Override
+    public int getTaiSen() {
+        return getSlotItem().getTais();
     }
 }

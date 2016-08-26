@@ -1,19 +1,30 @@
 package com.kancolle.server.model.kcsapi.member;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
 
-public class MemberLog {
+import java.io.Serializable;
 
+@JsonPropertyOrder(value = {
+        "api_no", "api_type", "api_state", "api_message"
+})
+public class MemberLog implements Serializable {
+
+    @JsonProperty(value = "api_no")
     @JSONField(ordinal = 1)
     private int api_no;
 
+    @JsonProperty(value = "api_type")
     @JSONField(ordinal = 2)
     private String api_type;
 
+    @JsonProperty(value = "api_state")
     @JSONField(ordinal = 3)
     private String api_state;
 
+    @JsonProperty(value = "api_message")
     @JSONField(ordinal = 4)
     private String api_message;
 

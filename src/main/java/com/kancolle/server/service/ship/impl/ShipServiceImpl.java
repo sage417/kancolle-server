@@ -1,43 +1,47 @@
 package com.kancolle.server.service.ship.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.kancolle.server.dao.ship.ShipDao;
+import com.kancolle.server.mapper.ship.ShipMapper;
+import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.service.ship.ShipService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ShipServiceImpl implements ShipService {
+
     @Autowired
-    private ShipDao shipDao;
+    private ShipMapper shipMapper;
+    @Autowired
+    private ShipTypeMapper shipTypeMapper;
 
     @Override
     public List<BaseShip> getShips() {
         List<BaseShip> ships = Lists.newArrayListWithCapacity(600);
-        ships.addAll(shipDao.selectShips());
-        ships.addAll(shipDao.selectEmShip());
-        return ships;
+        ships.addAll(shipMapper.selectShipsByCond());
+        ships.addAll(shipMapper.selectEmShip());
+        return ImmutableList.copyOf(ships);
     }
 
     @Override
     public List<ShipType> getShipTypes() {
-        return shipDao.selectShipTypes();
+        return shipTypeMapper.selectShipTypes();
     }
 
     @Override
     public int getCountOfShipTypes() {
-        return shipDao.selectCountOfShipTypes();
+        return shipMapper.selectCountOfShipTypes();
     }
 
     @Override
     public int getShipLVByExp(long afterExp) {
-        return shipDao.getShipLVByExp(afterExp);
+        return shipMapper.selectShipLVByExp(afterExp);
     }
 
     /**
@@ -60,21 +64,21 @@ public class ShipServiceImpl implements ShipService {
      */
     @Override
     public long getSumExpByLevel(int level) {
-        return shipDao.getNeedExpByLevel(level);
+        return shipMapper.selectShipNeedExpByLevel(level);
     }
 
     @Override
     public ShipType getShipType(int typeId) {
-        return shipDao.selectShipTypeByCond(typeId);
+        return shipTypeMapper.selectShipTypeByCond(typeId);
     }
 
     @Override
-    public boolean canEquip(ShipType shipType, int slotitemId) {
-        return shipType.getEquipTypes().getIntValue(Integer.toString(slotitemId)) == 1;
+    public boolean canEquip(ShipType shipType, int slotItem_id) {
+        return shipType.getEquipTypes().get(Integer.toString(slotItem_id)) == 1;
     }
 
     @Override
-    public Ship getShipByCond(int ship_id) {
-        return shipDao.selectShipByCond(ship_id);
+    public Ship getShipById(int ship_id) {
+        return shipMapper.selectShipsByCond(ship_id);
     }
 }

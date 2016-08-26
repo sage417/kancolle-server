@@ -1,9 +1,9 @@
 package com.kancolle.server.dao.duty;
 
-import java.util.List;
-
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.model.po.duty.MemberDuty;
+
+import java.util.List;
 
 public interface MemberDutyDao extends BaseDao<MemberDuty> {
 

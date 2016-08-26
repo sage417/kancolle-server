@@ -1,39 +1,20 @@
 package com.kancolle.server.service.mission.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_FAILED;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_GREAT_SUCCESS;
-import static com.kancolle.server.model.kcsapi.misson.MissionResult.RESULT_SUCCESS;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.IntStream;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.ContextLoader;
-
 import com.google.common.collect.ImmutableList;
 import com.kancolle.server.controller.kcsapi.form.mission.MissionStartForm;
 import com.kancolle.server.dao.mission.MissionDao;
+import com.kancolle.server.mapper.member.MemberMissionRecordMapper;
 import com.kancolle.server.model.kcsapi.misson.GetUseItem;
 import com.kancolle.server.model.kcsapi.misson.MissionResult;
 import com.kancolle.server.model.kcsapi.misson.MissionReturn;
 import com.kancolle.server.model.kcsapi.misson.MissionStart;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.mission.MissionExp;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.useitem.UseItem;
-import com.kancolle.server.service.member.MemberDeckPortService;
+import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.mission.MissionResultChecker;
 import com.kancolle.server.service.mission.MissionService;
@@ -43,6 +24,22 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
+import com.kancolle.server.utils.SpringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static com.kancolle.server.model.kcsapi.misson.MissionResult.*;
 
 @Service
 public class MissionServiceImpl implements MissionService {
@@ -59,6 +56,9 @@ public class MissionServiceImpl implements MissionService {
 
     @Autowired
     private MissionDao missionDao;
+
+    @Autowired
+    private MemberMissionRecordMapper memberMissionRecordMapper;
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
@@ -84,7 +84,7 @@ public class MissionServiceImpl implements MissionService {
     public MissionReturn callbackMission(String member_id, int deck_id) {
         Instant now = Instant.now();
 
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
         int mission_id = (int) deckport.getMission()[1];
 
         long mission_complete_longtime = deckport.getMission()[2];
@@ -105,9 +105,14 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
+    public void initMemberMission(long member_id) {
+        memberMissionRecordMapper.insertMemberMissionRecords(member_id);
+    }
+
+    @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public MissionResult calMissionResult(String member_id, Integer deck_id) {
-        MemberDeckPort deckport = checkNotNull(memberDeckPortService.getMemberDeckPort(member_id, deck_id), "member_id:%s,deckport)id:%s is null", member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
 
         Mission mission = getMission((int) deckport.getMission()[1]);
         if (mission == null) {
@@ -123,7 +128,7 @@ public class MissionServiceImpl implements MissionService {
         int ship_exp = missionExp.getShipExp();
         int member_exp = missionExp.getMemberExp();
 
-        MissionCondResult mr = ContextLoader.getCurrentWebApplicationContext().getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
+        MissionCondResult mr = SpringUtils.getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
 
         switch (mr) {
         case CALL_BACK:
@@ -195,7 +200,7 @@ public class MissionServiceImpl implements MissionService {
         /*---------计算舰娘经验情况------------*/
         int deck_ship_size = deck_ships.size();
         long[][] ship_exp_lvup = new long[deck_ship_size][];
-        IntStream.iterate(0, i -> i + 1).limit(deck_ship_size).forEach(i -> ship_exp_lvup[i] = ArrayUtils.subarray(deck_ships.get(i).getExp(), 0, 2));
+        IntStream.iterate(0, i -> ++i).limit(deck_ship_size).forEach(i -> ship_exp_lvup[i] = ArrayUtils.subarray(deck_ships.get(i).getExp(), 0, 2));
         result.setApi_get_exp_lvup(ship_exp_lvup);
         /*---------计算舰娘经验情况------------*/
 
@@ -233,7 +238,7 @@ public class MissionServiceImpl implements MissionService {
 
         long mission_complete_longtime = mission_complete_instant.toEpochMilli();
 
-        MemberDeckPort deckport = memberDeckPortService.getMemberDeckPort(member_id, deck_id);
+        MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
 
         long[] mission = deckport.getMission();
         mission[0] = MISSION_PROCESSING;

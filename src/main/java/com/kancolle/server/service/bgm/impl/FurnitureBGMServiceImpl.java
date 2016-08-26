@@ -3,20 +3,19 @@
  */
 package com.kancolle.server.service.bgm.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kancolle.server.dao.bgm.FurnitureBGMDao;
 import com.kancolle.server.model.kcsapi.member.FurnitureCoinResult;
 import com.kancolle.server.model.po.furniture.FurnitureBGM;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.bgm.FurnitureBGMService;
 import com.kancolle.server.service.member.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author J.K.SAGE

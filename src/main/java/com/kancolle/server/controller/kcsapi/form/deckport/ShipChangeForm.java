@@ -1,8 +1,8 @@
 package com.kancolle.server.controller.kcsapi.form.deckport;
 
-import javax.validation.constraints.Min;
-
 import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Min;
 
 public class ShipChangeForm {
 

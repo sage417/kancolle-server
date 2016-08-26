@@ -1,8 +1,13 @@
 package com.kancolle.server.model.kcsapi.member;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
 
+@JsonPropertyOrder(value = {
+        "api_mission_id", "api_state",
+})
 public class MemberMission {
     public static final int STATUS_NEW = 0;
 
@@ -10,9 +15,11 @@ public class MemberMission {
 
     public static final int STATUS_COMPLETE = 2;
 
+    @JsonProperty(value = "api_mission_id")
     @JSONField(ordinal = 1)
     private int api_mission_id;
 
+    @JsonProperty(value = "api_state")
     @JSONField(ordinal = 2)
     private int api_state;
 

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8" ?>
+ <dataset>
+    <T_EXP_SHIP EXP="0" LV="1"/>
+
+    <T_EXP_SHIP EXP="100" LV="2"/>
+
+    <T_EXP_SHIP EXP="300" LV="3"/>
+
+    <T_EXP_SHIP EXP="600" LV="4"/>
+
+    <T_EXP_SHIP EXP="1000" LV="5"/>
+
+    <T_EXP_SHIP EXP="1500" LV="6"/>
+
+    <T_EXP_SHIP EXP="2100" LV="7"/>
+
+    <T_EXP_SHIP EXP="2800" LV="8"/>
+
+    <T_EXP_SHIP EXP="3600" LV="9"/>
+
+    <T_EXP_SHIP EXP="4500" LV="10"/>
+
+    <T_EXP_SHIP EXP="5500" LV="11"/>
+
+    <T_EXP_SHIP EXP="6600" LV="12"/>
+
+    <T_EXP_SHIP EXP="7800" LV="13"/>
+
+    <T_EXP_SHIP EXP="9100" LV="14"/>
+
+    <T_EXP_SHIP EXP="10500" LV="15"/>
+
+    <T_EXP_SHIP EXP="12000" LV="16"/>
+
+    <T_EXP_SHIP EXP="13600" LV="17"/>
+
+    <T_EXP_SHIP EXP="15300" LV="18"/>
+
+    <T_EXP_SHIP EXP="17100" LV="19"/>
+
+    <T_EXP_SHIP EXP="19000" LV="20"/>
+
+    <T_EXP_SHIP EXP="21000" LV="21"/>
+
+    <T_EXP_SHIP EXP="23100" LV="22"/>
+
+    <T_EXP_SHIP EXP="25300" LV="23"/>
+
+    <T_EXP_SHIP EXP="27600" LV="24"/>
+
+    <T_EXP_SHIP EXP="30000" LV="25"/>
+
+    <T_EXP_SHIP EXP="32500" LV="26"/>
+
+    <T_EXP_SHIP EXP="35100" LV="27"/>
+
+    <T_EXP_SHIP EXP="37800" LV="28"/>
+
+    <T_EXP_SHIP EXP="40600" LV="29"/>
+
+    <T_EXP_SHIP EXP="43500" LV="30"/>
+
+    <T_EXP_SHIP EXP="46500" LV="31"/>
+
+    <T_EXP_SHIP EXP="49600" LV="32"/>
+
+    <T_EXP_SHIP EXP="52800" LV="33"/>
+
+    <T_EXP_SHIP EXP="56100" LV="34"/>
+
+    <T_EXP_SHIP EXP="59500" LV="35"/>
+
+    <T_EXP_SHIP EXP="63000" LV="36"/>
+
+    <T_EXP_SHIP EXP="66600" LV="37"/>
+
+    <T_EXP_SHIP EXP="70300" LV="38"/>
+
+    <T_EXP_SHIP EXP="74100" LV="39"/>
+
+    <T_EXP_SHIP EXP="78000" LV="40"/>
+
+    <T_EXP_SHIP EXP="82000" LV="41"/>
+
+    <T_EXP_SHIP EXP="86100" LV="42"/>
+
+    <T_EXP_SHIP EXP="90300" LV="43"/>
+
+    <T_EXP_SHIP EXP="94600" LV="44"/>
+
+    <T_EXP_SHIP EXP="99000" LV="45"/>
+
+    <T_EXP_SHIP EXP="103500" LV="46"/>
+
+    <T_EXP_SHIP EXP="108100" LV="47"/>
+
+    <T_EXP_SHIP EXP="112800" LV="48"/>
+
+    <T_EXP_SHIP EXP="117600" LV="49"/>
+
+    <T_EXP_SHIP EXP="122500" LV="50"/>
+
+    <T_EXP_SHIP EXP="127500" LV="51"/>
+
+    <T_EXP_SHIP EXP="132700" LV="52"/>
+
+    <T_EXP_SHIP EXP="138100" LV="53"/>
+
+    <T_EXP_SHIP EXP="143700" LV="54"/>
+
+    <T_EXP_SHIP EXP="149500" LV="55"/>
+
+    <T_EXP_SHIP EXP="155500" LV="56"/>
+
+    <T_EXP_SHIP EXP="161700" LV="57"/>
+
+    <T_EXP_SHIP EXP="168100" LV="58"/>
+
+    <T_EXP_SHIP EXP="174700" LV="59"/>
+
+    <T_EXP_SHIP EXP="181500" LV="60"/>
+
+    <T_EXP_SHIP EXP="188500" LV="61"/>
+
+    <T_EXP_SHIP EXP="195800" LV="62"/>
+
+    <T_EXP_SHIP EXP="203400" LV="63"/>
+
+    <T_EXP_SHIP EXP="211300" LV="64"/>
+
+    <T_EXP_SHIP EXP="219500" LV="65"/>
+
+    <T_EXP_SHIP EXP="228000" LV="66"/>
+
+    <T_EXP_SHIP EXP="236800" LV="67"/>
+
+    <T_EXP_SHIP EXP="245900" LV="68"/>
+
+    <T_EXP_SHIP EXP="255300" LV="69"/>
+
+    <T_EXP_SHIP EXP="265000" LV="70"/>
+
+    <T_EXP_SHIP EXP="275000" LV="71"/>
+
+    <T_EXP_SHIP EXP="285400" LV="72"/>
+
+    <T_EXP_SHIP EXP="296200" LV="73"/>
+
+    <T_EXP_SHIP EXP="307400" LV="74"/>
+
+    <T_EXP_SHIP EXP="319000" LV="75"/>
+
+    <T_EXP_SHIP EXP="331000" LV="76"/>
+
+    <T_EXP_SHIP EXP="343400" LV="77"/>
+
+    <T_EXP_SHIP EXP="356200" LV="78"/>
+
+    <T_EXP_SHIP EXP="369400" LV="79"/>
+
+    <T_EXP_SHIP EXP="383000" LV="80"/>
+
+    <T_EXP_SHIP EXP="397000" LV="81"/>
+
+    <T_EXP_SHIP EXP="411500" LV="82"/>
+
+    <T_EXP_SHIP EXP="426500" LV="83"/>
+
+    <T_EXP_SHIP EXP="442000" LV="84"/>
+
+    <T_EXP_SHIP EXP="458000" LV="85"/>
+
+    <T_EXP_SHIP EXP="474500" LV="86"/>
+
+    <T_EXP_SHIP EXP="491500" LV="87"/>
+
+    <T_EXP_SHIP EXP="509000" LV="88"/>
+
+    <T_EXP_SHIP EXP="527000" LV="89"/>
+
+    <T_EXP_SHIP EXP="545500" LV="90"/>
+
+    <T_EXP_SHIP EXP="564500" LV="91"/>
+
+    <T_EXP_SHIP EXP="584500" LV="92"/>
+
+    <T_EXP_SHIP EXP="606500" LV="93"/>
+
+    <T_EXP_SHIP EXP="631500" LV="94"/>
+
+    <T_EXP_SHIP EXP="661500" LV="95"/>
+
+    <T_EXP_SHIP EXP="701500" LV="96"/>
+
+    <T_EXP_SHIP EXP="761500" LV="97"/>
+
+    <T_EXP_SHIP EXP="851500" LV="98"/>
+
+    <T_EXP_SHIP EXP="1000000" LV="99"/>
+
+    <T_EXP_SHIP EXP="1000000" LV="100"/>
+
+    <T_EXP_SHIP EXP="1010000" LV="101"/>
+
+    <T_EXP_SHIP EXP="1011000" LV="102"/>
+
+    <T_EXP_SHIP EXP="1013000" LV="103"/>
+
+    <T_EXP_SHIP EXP="1016000" LV="104"/>
+
+    <T_EXP_SHIP EXP="1020000" LV="105"/>
+
+    <T_EXP_SHIP EXP="1025000" LV="106"/>
+
+    <T_EXP_SHIP EXP="1031000" LV="107"/>
+
+    <T_EXP_SHIP EXP="1038000" LV="108"/>
+
+    <T_EXP_SHIP EXP="1046000" LV="109"/>
+
+    <T_EXP_SHIP EXP="1055000" LV="110"/>
+
+    <T_EXP_SHIP EXP="1065000" LV="111"/>
+
+    <T_EXP_SHIP EXP="1077000" LV="112"/>
+
+    <T_EXP_SHIP EXP="1091000" LV="113"/>
+
+    <T_EXP_SHIP EXP="1107000" LV="114"/>
+
+    <T_EXP_SHIP EXP="1125000" LV="115"/>
+
+    <T_EXP_SHIP EXP="1145000" LV="116"/>
+
+    <T_EXP_SHIP EXP="1168000" LV="117"/>
+
+    <T_EXP_SHIP EXP="1194000" LV="118"/>
+
+    <T_EXP_SHIP EXP="1223000" LV="119"/>
+
+    <T_EXP_SHIP EXP="1255000" LV="120"/>
+
+    <T_EXP_SHIP EXP="1290000" LV="121"/>
+
+    <T_EXP_SHIP EXP="1329000" LV="122"/>
+
+    <T_EXP_SHIP EXP="1372000" LV="123"/>
+
+    <T_EXP_SHIP EXP="1419000" LV="124"/>
+
+    <T_EXP_SHIP EXP="1470000" LV="125"/>
+
+    <T_EXP_SHIP EXP="1525000" LV="126"/>
+
+    <T_EXP_SHIP EXP="1584000" LV="127"/>
+
+    <T_EXP_SHIP EXP="1647000" LV="128"/>
+
+    <T_EXP_SHIP EXP="1714000" LV="129"/>
+
+    <T_EXP_SHIP EXP="1785000" LV="130"/>
+
+    <T_EXP_SHIP EXP="1860000" LV="131"/>
+
+    <T_EXP_SHIP EXP="1940000" LV="132"/>
+
+    <T_EXP_SHIP EXP="2025000" LV="133"/>
+
+    <T_EXP_SHIP EXP="2115000" LV="134"/>
+
+    <T_EXP_SHIP EXP="2210000" LV="135"/>
+
+    <T_EXP_SHIP EXP="2310000" LV="136"/>
+
+    <T_EXP_SHIP EXP="2415000" LV="137"/>
+
+    <T_EXP_SHIP EXP="2525000" LV="138"/>
+
+    <T_EXP_SHIP EXP="2640000" LV="139"/>
+
+    <T_EXP_SHIP EXP="2760000" LV="140"/>
+
+    <T_EXP_SHIP EXP="2887000" LV="141"/>
+
+    <T_EXP_SHIP EXP="3021000" LV="142"/>
+
+    <T_EXP_SHIP EXP="3162000" LV="143"/>
+
+    <T_EXP_SHIP EXP="3310000" LV="144"/>
+
+    <T_EXP_SHIP EXP="3465000" LV="145"/>
+
+    <T_EXP_SHIP EXP="3628000" LV="146"/>
+
+    <T_EXP_SHIP EXP="3799000" LV="147"/>
+
+    <T_EXP_SHIP EXP="3978000" LV="148"/>
+
+    <T_EXP_SHIP EXP="4165000" LV="149"/>
+
+    <T_EXP_SHIP EXP="4360000" LV="150"/>
+
+</dataset>

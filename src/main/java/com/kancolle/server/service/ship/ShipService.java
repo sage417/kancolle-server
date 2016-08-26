@@ -1,10 +1,10 @@
 package com.kancolle.server.service.ship;
 
-import java.util.List;
-
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.ship.ShipType;
+
+import java.util.List;
 
 public interface ShipService {
 
@@ -24,5 +24,5 @@ public interface ShipService {
 
     boolean canEquip(ShipType shipType, int slotitemId);
 
-    Ship getShipByCond(int ship_id);
+    Ship getShipById(int ship_id);
 }

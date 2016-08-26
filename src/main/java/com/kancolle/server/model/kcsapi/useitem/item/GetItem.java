@@ -1,23 +1,30 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.kcsapi.useitem.item;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月11日
- *
  */
+@JsonPropertyOrder(value = {
+        "api_usemst", "api_mst_id", "api_getcount"
+})
 public class GetItem {
 
+    @JsonProperty(value = "api_usemst")
     @JSONField(ordinal = 1)
     private int api_usemst;
 
+    @JsonProperty(value = "api_mst_id")
     @JSONField(ordinal = 2)
     private int api_mst_id;
 
+    @JsonProperty(value = "api_getcount")
     @JSONField(ordinal = 3)
     private int api_getcount;
 

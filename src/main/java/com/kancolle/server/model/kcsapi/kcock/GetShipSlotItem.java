@@ -1,12 +1,19 @@
 package com.kancolle.server.model.kcsapi.kcock;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder(value = {
+        "api_id", "api_slotitem_id"
+})
 public class GetShipSlotItem {
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private long api_id;
 
+    @JsonProperty(value = "api_slotitem_id")
     @JSONField(ordinal = 2)
     private int api_slotitem_id;
 

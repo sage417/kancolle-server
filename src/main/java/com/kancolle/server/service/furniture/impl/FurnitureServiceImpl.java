@@ -3,14 +3,13 @@
  */
 package com.kancolle.server.service.furniture.impl;
 
-import java.util.List;
-
+import com.kancolle.server.mapper.furniture.FurnitureMapper;
+import com.kancolle.server.model.po.furniture.Furniture;
+import com.kancolle.server.service.furniture.FurnitureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kancolle.server.dao.furniture.FurnitureDao;
-import com.kancolle.server.model.po.furniture.Furniture;
-import com.kancolle.server.service.furniture.FurnitureService;
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -20,11 +19,15 @@ import com.kancolle.server.service.furniture.FurnitureService;
 @Service
 public class FurnitureServiceImpl implements FurnitureService {
     @Autowired
-    private FurnitureDao furnitureDao;
+    private FurnitureMapper furnitureDao;
 
     @Override
     public List<Furniture> getFurnitures() {
-        return furnitureDao.selectFurnitures();
+        return furnitureDao.selectFurnitureByCond();
     }
 
+    @Override
+    public Furniture getFurnitureById(int furniture_id) {
+        return furnitureDao.selectFurnitureById(furniture_id);
+    }
 }

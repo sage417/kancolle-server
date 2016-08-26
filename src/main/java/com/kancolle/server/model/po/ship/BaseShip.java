@@ -1,13 +1,15 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.ship;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
@@ -15,34 +17,45 @@ import com.alibaba.fastjson.annotation.JSONField;
  *
  */
 @Alias("BaseShip")
+@JsonPropertyOrder({"shipId", "name", "yomi", "shipTypeId","soku", "slotNum"})
 public class BaseShip implements Serializable {
 
     private static final long serialVersionUID = -7322805228630342223L;
 
+    @JsonProperty("api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int shipId;
 
+
+    @JsonProperty("api_name")
     @JSONField(ordinal = 3, name = "api_name")
     private String name;
 
+
+    @JsonProperty("api_yomi")
     @JSONField(ordinal = 4, name = "api_yomi")
     private String yomi;
 
-    @JSONField(ordinal = 5, name = "api_stype")
-    public int returnShipTypeId() {
-        return getType().getShipTypeId();
-    }
 
+    @JsonProperty("api_stype")
+    @JSONField(ordinal = 5, name = "api_stype")
+    private int shipTypeId;
+
+    @JsonIgnore
     @JSONField(serialize = false, deserialize = false)
     private ShipType type;
 
     /** 速力 */
+
+    @JsonProperty("api_soku")
     @JSONField(ordinal = 14, name = "api_soku")
     private int soku;
 
     /** 可装备数 */
+
+    @JsonProperty("api_slot_num")
     @JSONField(ordinal = 16, name = "api_slot_num")
-    private int soltNum;
+    private int slotNum;
 
     public int getShipId() {
         return shipId;
@@ -68,6 +81,14 @@ public class BaseShip implements Serializable {
         this.yomi = yomi;
     }
 
+    public int getShipTypeId() {
+        return shipTypeId;
+    }
+
+    public void setShipTypeId(int shipTypeId) {
+        this.shipTypeId = shipTypeId;
+    }
+
     public ShipType getType() {
         return type;
     }
@@ -84,12 +105,12 @@ public class BaseShip implements Serializable {
         this.soku = soku;
     }
 
-    public int getSoltNum() {
-        return soltNum;
+    public int getSlotNum() {
+        return slotNum;
     }
 
-    public void setSoltNum(int soltNum) {
-        this.soltNum = soltNum;
+    public void setSlotNum(int slotNum) {
+        this.slotNum = slotNum;
     }
 
     @Override

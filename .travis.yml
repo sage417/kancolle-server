@@ -1,4 +1,11 @@
 language: java
 jdk:
-    - openjdk8
     - oraclejdk8
+services:
+    - redis-server
+    - mysql
+    - mongodb
+before_install:
+  - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
+before_script:
+  - mongoimport -d kancolle -c shop ./shop.dat

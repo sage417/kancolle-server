@@ -1,23 +1,23 @@
 package com.kancolle.server.dao.port.dto;
 
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.kancolle.server.dao.annotation.Column;
+import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
+import com.kancolle.server.utils.BeanUtils;
+
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import com.kancolle.server.dao.annotation.Column;
-import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
-import com.kancolle.server.utils.BeanUtils;
 
 public class MemberMaterial {
 
     private static Map<String, Function<MemberMaterial, Integer>> methodMap;
 
     static {
-        methodMap = new HashMap<String, Function<MemberMaterial, Integer>>(8);
+        methodMap = Maps.newHashMapWithExpectedSize(8);
         methodMap.put("1", MemberMaterial::getFuel);
         methodMap.put("2", MemberMaterial::getBull);
         methodMap.put("3", MemberMaterial::getSteal);
@@ -119,9 +119,9 @@ public class MemberMaterial {
 
     public List<MemberMeterialDto> toModel() {
         long count = BeanUtils.getGetMethodStream(MemberMaterial.class, int.class).count();
-        List<MemberMeterialDto> meterials = new ArrayList<>((int) count);
+        List<MemberMeterialDto> meterials = Lists.newArrayListWithCapacity((int) count);
 
-        Stream.iterate(1, n -> ++n).limit(count).forEach(i -> {
+        Stream.iterate(1, i -> ++i).limit(count).forEach(i -> {
             MemberMeterialDto meterial = new MemberMeterialDto();
             meterial.setApi_id(i);
             meterial.setApi_value(methodMap.get(Integer.toString(i)).apply(this));

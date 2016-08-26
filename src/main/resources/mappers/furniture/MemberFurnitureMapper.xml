@@ -4,7 +4,8 @@
 
 	<resultMap type="MemberFurniture" id="MemberFurnitureRM">
 		<result property="member_id" column="member_id" />
-		<association property="furniture" column="furniture_id" select="com.kancolle.server.dao.furniture.FurnitureDao.selectFurnitureById" />
+		<association property="furniture" column="furniture_id"
+					 select="com.kancolle.server.mapper.furniture.FurnitureMapper.selectFurnitureById"/>
 	</resultMap>
 
 	<select id="selectMemberFurnitures" resultMap="MemberFurnitureRM">
@@ -23,15 +24,23 @@
 		</where>
 	</select>
 
-	<insert id="insertMemberFurniture" flushCache="true">
-		INSERT INTO t_member_furniture (member_id, furniture_id) VALUES (#{member_id}, #{furniture_id})
-	</insert>
-
-	<update id="costMemberFurnitureCoin" flushCache="false">
-		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
-	</update>
-
-	<select id="selectCountOfMemberFurniture" resultType="int">
+	<select id="selectCountOfMemberFurniture" resultType="_int">
 		SELECT COUNT(*) FROM t_member_furniture WHERE member_id = #{member_id}
 	</select>
+
+	<insert id="insertMemberFurniture">
+		INSERT INTO t_member_furniture (member_id, furniture_id) VALUES (#{member_id}, #{furniture_id})
+	</insert>
+	
+	<insert id="insertFurnituresForNewMember">
+		INSERT INTO t_member_furniture (member_id, furniture_id) SELECT #{_parameter}, ID FROM t_furniture WHERE t_furniture.`NO` = 0;
+	</insert>
+
+	<update id="changeMemberFurniture">
+		UPDATE t_member SET furniture = #{furniture, typeHandler=IntJsonArrayHandler} WHERE member_id = #{member_id}
+	</update>
+
+	<update id="costMemberFurnitureCoin">
+		UPDATE t_member SET fcoin = fcoin - #{price} WHERE member_id = #{member_id}
+	</update>
 </mapper>

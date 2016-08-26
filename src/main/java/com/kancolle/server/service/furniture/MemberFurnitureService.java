@@ -3,12 +3,12 @@
  */
 package com.kancolle.server.service.furniture;
 
-import java.util.List;
-
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.furniture.MemberFurniture;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -30,4 +30,6 @@ public interface MemberFurnitureService {
     void createMemberFurniture(String member_id, Integer furniture_id);
 
     int getCountOfMemberFurniture(String member_id);
+
+    void initMemberFurniture(long member_id);
 }

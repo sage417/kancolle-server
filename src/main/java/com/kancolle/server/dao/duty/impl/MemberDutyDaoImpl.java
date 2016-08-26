@@ -1,16 +1,15 @@
 package com.kancolle.server.dao.duty.impl;
 
-import static com.google.common.collect.Maps.newHashMap;
-
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.github.pagehelper.PageHelper;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.duty.MemberDutyDao;
 import com.kancolle.server.model.po.duty.MemberDuty;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 @Repository
 public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberDutyDao {

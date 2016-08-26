@@ -2,8 +2,8 @@
 <Configuration status="WARN">
 
 	<properties>
-		<property name="LOG_HOME">logs</property>
-		<property name="FILE_NAME">kcslog</property>
+		<property name="LOG_HOME">log/kcs</property>
+		<property name="FILE_NAME">kcs_log</property>
 	</properties>
 
 	<Appenders>
@@ -26,6 +26,9 @@
 			<AppenderRef ref="Console" />
 		</Root>
 		<logger name="com.kancolle.server.dao" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="com.kancolle.server.mapper" level="DEBUG" additivity="false">
 			<appender-ref ref="Console" />
 		</logger>
 	</Loggers>

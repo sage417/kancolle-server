@@ -1,43 +1,60 @@
 package com.kancolle.server.model.kcsapi.member;
 
-import java.util.List;
-
-import org.springframework.beans.BeanUtils;
-
 import com.alibaba.fastjson.annotation.JSONField;
-import com.kancolle.server.model.kcsapi.member.port.PortMember;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.member.MemberDeckPort;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
 
-public class MemberPort {
+import java.io.Serializable;
+import java.util.List;
 
+@JsonPropertyOrder(value = {
+        "api_material", "api_deck_port", "api_ndock", "api_ship",
+        "api_basic", "api_log", "api_p_bgm_id", "api_parallel_quest_count"
+})
+public class MemberPort implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8195617907701218535L;
+
+    @JsonProperty(value = "api_material")
     @JSONField(ordinal = 1)
     private List<MemberMeterialDto> api_material;
 
+    @JsonProperty(value = "api_deck_port")
     @JSONField(ordinal = 2)
     private List<MemberDeckPort> api_deck_port;
 
+    @JsonProperty(value = "api_ndock")
     @JSONField(ordinal = 3)
     private List<MemberNdock> api_ndock;
 
+    @JsonProperty(value = "api_ship")
     @JSONField(ordinal = 4)
     private List<MemberShip> api_ship;
 
+    @JsonProperty(value = "api_basic")
     @JSONField(ordinal = 5)
-    private PortMember api_basic;
+    private Member api_basic;
 
+    @JsonProperty(value = "api_log")
     @JSONField(ordinal = 6)
     private List<MemberLog> api_log;
 
+    @JsonProperty(value = "api_p_bgm_id")
     @JSONField(ordinal = 7)
     private int api_p_bgm_id;
 
+    @JsonProperty(value = "api_parallel_quest_count")
     @JSONField(ordinal = 8)
     private int api_parallel_quest_count;
 
-    public PortMember getApi_basic() {
+    public Member getApi_basic() {
         return api_basic;
     }
 
@@ -70,9 +87,7 @@ public class MemberPort {
     }
 
     public void setApi_basic(Member api_basic) {
-        this.api_basic = new PortMember();
-        BeanUtils.copyProperties(api_basic, this.api_basic);
-        this.api_basic.setApi_large_dock(api_basic.isLargeDock() ? 1 : 0);
+        this.api_basic = api_basic;
         this.api_p_bgm_id = api_basic.getPortBGMId();
         this.api_parallel_quest_count = api_basic.getParallelQuestCount();
     }

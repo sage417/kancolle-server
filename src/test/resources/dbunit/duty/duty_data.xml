@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <T_duty DUTY_NO="701" CATEGORY_ID="7" TYPE="1" TITLE="はじめての「近代化改修」！" DETAIL="任意の艦を近代化改修(合成)して、強化せよ！" OPERATE="1" MATERIAL="[0,0,50,50]" BONUS_FLAG="1" INVALID_FLAG="0" />
+</dataset>

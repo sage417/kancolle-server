@@ -16,7 +16,7 @@ public class MaxMinValue implements Serializable {
 
     private int minValue;
 
-    private int MaxValue;
+    private int maxValue;
 
     public MaxMinValue() {
         super();
@@ -25,7 +25,7 @@ public class MaxMinValue implements Serializable {
     public MaxMinValue(int minValue, int maxValue) {
         super();
         this.minValue = minValue;
-        MaxValue = maxValue;
+        this.maxValue = maxValue;
     }
 
     public int getMinValue() {
@@ -37,18 +37,18 @@ public class MaxMinValue implements Serializable {
     }
 
     public int getMaxValue() {
-        return MaxValue;
+        return maxValue;
     }
 
     public void setMaxValue(int maxValue) {
-        MaxValue = maxValue;
+        this.maxValue = maxValue;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + MaxValue;
+        result = prime * result + maxValue;
         result = prime * result + minValue;
         return result;
     }
@@ -62,7 +62,7 @@ public class MaxMinValue implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         MaxMinValue other = (MaxMinValue) obj;
-        if (MaxValue != other.MaxValue)
+        if (maxValue != other.maxValue)
             return false;
         if (minValue != other.minValue)
             return false;
@@ -71,7 +71,7 @@ public class MaxMinValue implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[%s,%s]", minValue, MaxValue);
+        return String.format("[%s,%s]", minValue, maxValue);
     }
 
     public int[] toArray() {

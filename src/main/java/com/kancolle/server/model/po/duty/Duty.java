@@ -1,8 +1,9 @@
 package com.kancolle.server.model.po.duty;
 
-import java.io.Serializable;
-
 import org.apache.ibatis.type.Alias;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Alias("Duty")
 public class Duty implements Serializable {
@@ -15,7 +16,7 @@ public class Duty implements Serializable {
     public static final int BONUS_TYPE_RESOURCE = 1;
 
     /** 舰队开放 */
-    public static final int BONUS_TYPE_DECKPORT = 2;
+    public static final int BONUS_TYPE_OPEN_DECK = 2;
 
     /** 家具箱 */
     public static final int BONUS_TYPE_FURNITUREBOX = 3;
@@ -27,16 +28,16 @@ public class Duty implements Serializable {
     public static final int BONUS_TYPE_SHIP = 11;
 
     /** 装备奖励 */
-    public static final int BONUS_TYPE_SLOT = 12;
+    public static final int BONUS_TYPE_SLOTITEM = 12;
 
     /** 物品奖励 */
-    public static final int BONUS_TYPE_ITEM = 13;
+    public static final int BONUS_TYPE_USEITEM = 13;
 
     /** 家具奖励 */
     public static final int BONUS_TYPE_FURNITURE = 14;
 
     /** 机种转换 */
-    public static final int BONUS_TYPE_FLIGHT = 15;
+    public static final int BONUS_TYPE_MODEL_CHANGE = 15;
 
     private int no;
 
@@ -55,13 +56,9 @@ public class Duty implements Serializable {
 
     private int bonusFlag;
 
-    private int bonusItemId;
+    private List<DutyBonus> dutyBonus;
 
     private int invalidFlag;
-
-    private int[] winItem1;
-
-    private int[] winItem2;
 
     private Duty parent;
 
@@ -129,12 +126,12 @@ public class Duty implements Serializable {
         this.bonusFlag = bonusFlag;
     }
 
-    public int getBonusItemId() {
-        return bonusItemId;
+    public List<DutyBonus> getDutyBonus() {
+        return dutyBonus;
     }
 
-    public void setBonusItemId(int bonusItemId) {
-        this.bonusItemId = bonusItemId;
+    public void setDutyBonus(List<DutyBonus> dutyBonus) {
+        this.dutyBonus = dutyBonus;
     }
 
     public int getInvalidFlag() {
@@ -143,22 +140,6 @@ public class Duty implements Serializable {
 
     public void setInvalidFlag(int invalidFlag) {
         this.invalidFlag = invalidFlag;
-    }
-
-    public int[] getWinItem1() {
-        return winItem1;
-    }
-
-    public void setWinItem1(int[] winItem1) {
-        this.winItem1 = winItem1;
-    }
-
-    public int[] getWinItem2() {
-        return winItem2;
-    }
-
-    public void setWinItem2(int[] winItem2) {
-        this.winItem2 = winItem2;
     }
 
     public Duty getParent() {

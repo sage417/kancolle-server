@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MemberMapCellMapper">
+
+	<resultMap type="MemberMapCell" id="MemberMapCellRM" autoMapping="true">
+		<id property="memberId" column="member_id"/>
+		<id property="mapCellId" column="MAPCELL_ID"/>
+		<result property="passFlag"  column="PASS_FLAG"/>
+	</resultMap>
+
+	<select id="selectMemberMapCellInfos" resultMap="MemberMapCellRM">
+		SELECT i.* FROM t_member_mapcell_info i
+			INNER JOIN t_map_cell c ON c.ID = i.MAPCELL_ID
+		WHERE c.MAPAREA_ID = #{maparea_id} AND c.MAPINFO_NO = #{map_no} AND i.member_id = #{member_id}
+	</select>
+
+	<insert id="insertMemberMapCellInfos">
+		INSERT INTO t_member_mapcell_info(member_id, MAPCELL_ID) SELECT #{member_id}, ID FROM t_map_cell
+	</insert>
+
+	<update id="updateMemberMapCellInfo">
+		UPDATE t_member_mapcell_info SET PASS_FLAG = #{passFlag}
+		WHERE member_id = #{member_id} AND MAPCELL_ID = #{mapcell_id}
+	</update>
+</mapper>

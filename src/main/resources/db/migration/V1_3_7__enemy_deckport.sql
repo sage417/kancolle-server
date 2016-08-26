@@ -1,0 +1,2 @@
+ALTER TABLE `t_enemy_deckport`
+DROP COLUMN `DECK_NAME`;

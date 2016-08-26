@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.service.furniture;
 
-import java.util.List;
-
 import com.kancolle.server.model.po.furniture.Furniture;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -15,5 +15,7 @@ import com.kancolle.server.model.po.furniture.Furniture;
 public interface FurnitureService {
 
     List<Furniture> getFurnitures();
+
+    Furniture getFurnitureById(int furniture_id);
 
 }

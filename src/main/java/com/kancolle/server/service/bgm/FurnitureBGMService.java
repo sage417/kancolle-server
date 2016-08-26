@@ -3,10 +3,10 @@
  */
 package com.kancolle.server.service.bgm;
 
-import java.util.List;
-
 import com.kancolle.server.model.kcsapi.member.FurnitureCoinResult;
 import com.kancolle.server.model.po.furniture.FurnitureBGM;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

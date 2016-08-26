@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.ship.ShipGraphMapper">
+
+	<resultMap id="ShipGraphRM" type="ShipGraphModel">
+		<id property="api_id" column="ID"/>
+		<result property="api_sortno" column="SORTNO"/>
+		<result property="api_filename" column="FILENAME"/>
+		<result property="api_version" column="VERSION" typeHandler="StringImmutableListHandler"/>
+		<result property="api_boko_n" column="BOKO_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_boko_d" column="BOKO_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_kaisyu_n" column="KAISYU_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_kaisyu_d" column="KAISYU_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_kaizo_n" column="KAIZO_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_kaizo_d" column="KAIZO_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_map_n" column="MAP_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_map_d" column="MAP_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_ensyuf_n" column="ENSYUF_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_ensyuf_d" column="ENSYUF_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_ensyue_n" column="ENSYUE_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_battle_n" column="BATTLE_N" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_battle_d" column="BATTLE_D" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_weda" column="WEDA" typeHandler="IntegerImmutableListHandler"/>
+		<result property="api_wedb" column="WEDB" typeHandler="IntegerImmutableListHandler"/>
+	</resultMap>
+
+	<select id="selectShipGraphs" resultMap="ShipGraphRM">
+		SELECT * FROM t_ship_graph
+	</select>
+
+    <insert id="replaceShipGraph">
+		REPLACE INTO `kancolle`.`t_ship_graph` (`ID`, `SORTNO`, `FILENAME`, `VERSION`, `BOKO_N`, `BOKO_D`, `KAISYU_N`, `KAISYU_D`, `KAIZO_N`, `KAIZO_D`, `MAP_N`, `MAP_D`, `ENSYUF_N`, `ENSYUF_D`, `ENSYUE_N`, `BATTLE_N`, `BATTLE_D`, `WEDA`, `WEDB`) VALUES
+		(#{ID}, #{SORTNO}, #{FILENAME}, #{VERSION,  typeHandler=JsonArrayHandler},
+		#{BOKO_N,  typeHandler=JsonArrayHandler},#{BOKO_D,  typeHandler=JsonArrayHandler},
+		#{KAISYU_N,  typeHandler=JsonArrayHandler}, #{KAISYU_D,  typeHandler=JsonArrayHandler},
+		#{KAIZO_N,  typeHandler=JsonArrayHandler}, #{KAIZO_D,  typeHandler=JsonArrayHandler},
+		#{MAP_N,  typeHandler=JsonArrayHandler}, #{MAP_D,  typeHandler=JsonArrayHandler},
+	    #{ENSYUF_N,  typeHandler=JsonArrayHandler}, #{ENSYUF_D,  typeHandler=JsonArrayHandler},
+		#{ENSYUE_N,  typeHandler=JsonArrayHandler}, #{BATTLE_N,  typeHandler=JsonArrayHandler},
+	  	#{BATTLE_D,  typeHandler=JsonArrayHandler}, #{WEDA,  typeHandler=JsonArrayHandler},
+	  	#{WEDB,  typeHandler=JsonArrayHandler})
+	</insert>
+</mapper>

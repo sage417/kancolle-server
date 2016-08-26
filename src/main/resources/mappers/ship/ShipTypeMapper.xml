@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.ship.ShipTypeDao">
+<mapper namespace="com.kancolle.server.mapper.ship.ShipTypeMapper">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
 		<property name="eternal" value="true"/>
@@ -9,11 +9,9 @@
 	</cache>
 
 	<resultMap type="ShipType" id="ShipTypeRM" autoMapping="true">
-		<constructor>
-			<arg javaType="String" column="EQUIP_TYPE" />
-		</constructor>
 		<id property="shipTypeId" column="ID" />
 		<id property="sortNo" column="SORTNO" />
+		<result property="equipTypes" column="EQUIP_TYPE" typeHandler="MapHandler"/>
 	</resultMap>
 
 	<select id="selectShipTypes" resultMap="ShipTypeRM">
@@ -24,7 +22,14 @@
 		SELECT * FROM t_ship_type WHERE ID = #{type_id}
 	</select>
 
-	<select id="selectCountOfShipTypes" resultType="int">
+	<select id="selectCountOfShipTypes" resultType="_int">
 		SELECT COUNT(*) FROM t_slotitem_equiptype
 	</select>
+
+	<update id="updateShipType">
+		INSERT INTO `kancolle`.`t_ship_type` (`ID`, `EQUIP_TYPE`, `KCNT`, `NAME`, `SCNT`, `SORTNO`) VALUES
+		(#{ID}, #{EQUIP_TYPE, typeHandler=MapHandler}, #{KCNT}, #{NAME}, #{SCNT}, #{SORTNO})
+		ON DUPLICATE KEY UPDATE
+		 `ID`=#{ID}, `EQUIP_TYPE`= #{EQUIP_TYPE, typeHandler=JsonObjectHandler}, `KCNT`=#{KCNT}, `NAME`=#{NAME}, `SCNT`=#{SCNT}, `SORTNO`=#{SORTNO}
+	</update>
 </mapper>

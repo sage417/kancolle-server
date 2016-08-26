@@ -4,6 +4,8 @@
 package com.kancolle.server.model.kcsapi.useitem;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 
 /**
@@ -11,46 +13,50 @@ import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
  * @Date 2015年6月11日
  *
  */
+@JsonPropertyOrder({"cautionFlag","flag","getItem"})
 public class UseItemResult {
 
-    @JSONField(ordinal = 1)
-    private int api_caution_flag;
+    @JsonProperty("api_caution_flag")
+    @JSONField(name="api_caution_flag",ordinal = 1)
+    private int cautionFlag;
 
-    @JSONField(ordinal = 2)
-    private int api_flag;
+    @JsonProperty("api_flag")
+    @JSONField(name="api_flag",ordinal = 2)
+    private int flag;
 
-    @JSONField(ordinal = 3)
-    private GetItem api_getitem;
+    @JsonProperty("api_getitem")
+    @JSONField(name="api_getitem",ordinal = 3)
+    private GetItem getItem;
 
     public UseItemResult() {
     }
 
-    public UseItemResult(int api_caution_flag, int api_flag) {
-        this.api_caution_flag = api_caution_flag;
-        this.api_flag = api_flag;
+    public UseItemResult(int cautionFlag, int flag) {
+        this.cautionFlag = cautionFlag;
+        this.flag = flag;
     }
 
-    public int getApi_caution_flag() {
-        return api_caution_flag;
+    public int getCautionFlag() {
+        return cautionFlag;
     }
 
-    public void setApi_caution_flag(int api_caution_flag) {
-        this.api_caution_flag = api_caution_flag;
+    public void setCautionFlag(int cautionFlag) {
+        this.cautionFlag = cautionFlag;
     }
 
-    public int getApi_flag() {
-        return api_flag;
+    public int getFlag() {
+        return flag;
     }
 
-    public void setApi_flag(int api_flag) {
-        this.api_flag = api_flag;
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 
-    public GetItem getApi_getitem() {
-        return api_getitem;
+    public GetItem getGetItem() {
+        return getItem;
     }
 
-    public void setApi_getitem(GetItem api_getitem) {
-        this.api_getitem = api_getitem;
+    public void setGetItem(GetItem getItem) {
+        this.getItem = getItem;
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.member.MemberMissionRecordMapper">
+
+	<insert id="insertMemberMissionRecords">
+		REPLACE INTO t_member_mission (member_id, mission_id, state)
+			SELECT #{member_id}, ID , -1 FROM t_mission
+	</insert>
+
+</mapper>

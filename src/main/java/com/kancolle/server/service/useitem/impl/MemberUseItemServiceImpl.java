@@ -1,15 +1,7 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.useitem.impl;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.item.UseItemForm;
@@ -18,8 +10,16 @@ import com.kancolle.server.model.kcsapi.useitem.UseItemResult;
 import com.kancolle.server.model.kcsapi.useitem.item.FurnitureCoin;
 import com.kancolle.server.model.kcsapi.useitem.item.GetItem;
 import com.kancolle.server.model.po.member.Member;
+import com.kancolle.server.model.po.useitem.MemberUseItem;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -36,6 +36,11 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
 
     @Autowired
     private MemberService memberService;
+
+    @Override
+    public List<MemberUseItem> getMemberUseItems(String member_id) {
+        return memberUseItemDao.selectMemberUseItems(member_id);
+    }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -57,9 +62,12 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
             } else if (useItemId == 12) {
                 getItem = new FurnitureCoin(700 * itemCount);
             }
-            Member member = memberService.getMember(member_id);
-            member.setfCoin(member.getfCoin() + getItem.getApi_getcount());
-            memberService.updateMember(member);
+
+            if (getItem != null) {
+                Member member = memberService.getMember(member_id);
+                member.setfCoin(member.getfCoin() + getItem.getApi_getcount());
+                memberService.updateMember(member);
+            }
         }
 
         // 甲级徽章
@@ -77,7 +85,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
 
         }
 
-        result.setApi_getitem(getItem);
+        result.setGetItem(getItem);
         return result;
     }
 
@@ -85,6 +93,11 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public int getCountOfMemberUseItem(String member_id, Integer useItem_id) {
         return memberUseItemDao.countMemberItem(member_id, useItem_id);
+    }
+
+    @Override
+    public void initMemberUseItem(long member_id, int[] useItemIds) {
+        memberUseItemDao.insertMemberUseItems(member_id, useItemIds);
     }
 
     @Override

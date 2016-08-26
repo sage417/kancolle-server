@@ -3,25 +3,41 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
-public class PayItemModel {
+import java.io.Serializable;
 
+@Alias("PayItemModel")
+@JsonPropertyOrder(value = {
+        "api_id", "api_type", "api_name", "api_description",
+        "api_item", "api_price"
+})
+public class PayItemModel implements Serializable {
+
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private int api_id;
 
+    @JsonProperty(value = "api_type")
     @JSONField(ordinal = 2)
     private int api_type;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 3)
     private String api_name;
 
+    @JsonProperty(value = "api_description")
     @JSONField(ordinal = 4)
     private String api_description;
 
+    @JsonProperty(value = "api_item")
     @JSONField(ordinal = 5)
     private JSONArray api_item;
 
+    @JsonProperty(value = "api_price")
     @JSONField(ordinal = 6)
     private int api_price;
 

@@ -1,47 +1,76 @@
 package com.kancolle.server.model.po.member;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
+@JsonPropertyOrder(value = {
+        "memberId", "dockId", "state", "memberShipId",
+        "completeTime", "completeTimeStr", "item1", "item2",
+        "item3", "item4"
+})
 @Alias("MemberNdock")
-public class MemberNdock {
+public class MemberNdock implements Serializable{
+
+    private static final long serialVersionUID = 7814147582159739062L;
     /** 未开启 */
-    public static final int STATE_UNAVILABLE = -1;
+    public static final int STATE_UNAVAILABLE = -1;
     /** 可用 */
-    public static final int STATE_AVILABLE = 0;
+    public static final int STATE_AVAILABLE = 0;
     /** 占用中 */
     public static final int STATE_USING = 1;
 
+    @JsonProperty(value = "api_member_id")
     @JSONField(ordinal = 1, name = "api_member_id")
     private long memberId;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 2, name = "api_id")
     private int dockId;
 
+    @JsonProperty(value = "api_state")
     @JSONField(ordinal = 3, name = "api_state")
     private int state;
 
+    @JsonProperty(value = "api_ship_id")
     @JSONField(ordinal = 4, name = "api_ship_id")
     private long memberShipId;
 
+    @JsonProperty(value = "api_complete_time")
     @JSONField(ordinal = 5, name = "api_complete_time")
     private long completeTime;
 
+    @JsonProperty(value = "api_complete_time_str")
     @JSONField(ordinal = 6, name = "api_complete_time_str")
     private String completeTimeStr;
 
+    @JsonProperty(value = "api_item1")
     @JSONField(ordinal = 7, name = "api_item1")
     private int item1;
 
+    @JsonProperty(value = "api_item2")
     @JSONField(ordinal = 8, name = "api_item2")
     private int item2;
 
+    @JsonProperty(value = "api_item3")
     @JSONField(ordinal = 9, name = "api_item3")
     private int item3;
 
+    @JsonProperty(value = "api_item4")
     @JSONField(ordinal = 10, name = "api_item4")
     private int item4;
+
+    public MemberNdock() {
+    }
+
+    public MemberNdock(long memberId, int dockId, int state) {
+        this.memberId = memberId;
+        this.dockId = dockId;
+        this.state = state;
+    }
 
     public long getMemberId() {
         return memberId;

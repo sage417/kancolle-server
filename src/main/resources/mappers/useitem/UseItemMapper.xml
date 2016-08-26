@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kancolle.server.dao.member.MemberUseItemDao">
+<mapper namespace="com.kancolle.server.mapper.useItem.UseItemMapper">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
 		<property name="eternal" value="true"/>
@@ -10,13 +10,20 @@
 
 	<resultMap type="UseItem" id="UseItemRM" autoMapping="true">
 		<id property="useitemId" column="ID" />
-		<result property="description" column="DESCRIPTION" typeHandler="JsonArrayHanlder"/>
+		<result property="description" column="DESCRIPTION" typeHandler="StringImmutableListHandler"/>
 	</resultMap>
 	
-	<select id="selectUseItemByCond" resultMap="UseItemRM" >
+	<select id="selectUseItems" resultMap="UseItemRM" >
 		SELECT * FROM t_useitem
-		<where>
-			<if test="_parameter != null">ID = #{useitem_id}</if>
-		</where>
 	</select>
+
+	<select id="selectUseItemById" resultMap="UseItemRM">
+		SELECT * FROM t_useitem WHERE ID = #{useitem_id}
+	</select>
+
+	<update id="replaceUseItem">
+		INSERT INTO `kancolle`.`t_useitem` (`ID`, `USETYPE`, `CATEGORY`, `NAME`, `DESCRIPTION`, `PRICE`) VALUES (#{ID}, #{USETYPE}, #{CATEGORY}, #{NAME}, #{DESCRIPTION, typeHandler=JsonArrayHandler}, #{PRICE})
+		ON DUPLICATE KEY
+		UPDATE  `USETYPE`=#{USETYPE}, `CATEGORY`=#{CATEGORY}, `NAME`=#{NAME}, `DESCRIPTION`=#{DESCRIPTION, typeHandler=JsonArrayHandler}, `PRICE`=#{PRICE}
+	</update>
 </mapper>

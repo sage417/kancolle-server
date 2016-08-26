@@ -3,12 +3,11 @@
  */
 package com.kancolle.server.controller.kcsapi.form.ship;
 
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author J.K.SAGE

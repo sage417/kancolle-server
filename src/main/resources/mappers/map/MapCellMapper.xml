@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MapCellMapper">
+
+    <resultMap type="MapCell" id="MapCellRM" autoMapping="true">
+        <id property="cellId" column="CELL_ID"/>
+        <result property="rashinFlag" column="RASHIN_FLAG"/>
+        <result property="mapareaId" column="MAPAREA_ID"/>
+        <result property="mapinfoId" column="MAPINFO_ID"/>
+        <result property="rashinId" column="RASHIN_ID"/>
+        <result property="colorNo" column="COLOR_NO"/>
+        <result property="eventId" column="EVENT_ID"/>
+        <result property="eventKind" column="EVENT_KIND"/>
+        <result property="commentKind" column="COMMENT_KIND"/>
+        <result property="production_kind" column="PRODUCTION_KIND"/>
+    </resultMap>
+
+    <select id="selectMapCellById" resultMap="MapCellRM">
+		SELECT
+			t.CELL_ID,
+			c.MAPAREA_ID,
+			c.MAPINFO_NO AS MAPINFO_ID,
+			c.NO,
+			t.RASHIN_FLAG,
+			t.RASHIN_ID,
+			t.COLOR_NO,
+			t.EVENT_ID,
+			t.EVENT_KIND,
+			t.NEXT,
+			t.COMMENT_KIND,
+			t.PRODUCTION_KIND
+		FROM t_map_cell_traveller t
+			INNER JOIN t_map_cell c ON t.CELL_ID = c.ID
+		WHERE t.CELL_ID = #{cellId}
+    </select>
+
+	<insert id="replaceMapCell">
+		INSERT INTO `kancolle`.`t_map_cell` (`ID`, `NO`, `COLOR_NO`, `MAP_NO`, `MAPAREA_ID`, `MAPINFO_NO`) VALUES (#{ID}, #{NO}, #{COLOR_NO}, #{MAP_NO}, #{MAPAREA_ID}, #{MAPINFO_NO})
+		ON DUPLICATE KEY
+		UPDATE `NO`=#{NO}, `COLOR_NO`=#{COLOR_NO}, `MAP_NO`=#{MAP_NO}, `MAPAREA_ID`=#{MAPAREA_ID}, `MAPINFO_NO`=#{MAPINFO_NO}
+	</insert>
+</mapper>

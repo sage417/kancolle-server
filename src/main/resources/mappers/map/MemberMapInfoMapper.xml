@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MemberMapInfoMapper">
+
+	<resultMap type="MemberMapInfo" id="MemberMapInfoRM" autoMapping="true">
+		<id property="memberId" column="member_id" />
+		<id property="mapId" column="MAPINFO_ID" />
+		<result property="isCleared" column="CLEAR_FLAG" />
+		<result property="exBossFlag" column="EXBOSS_FLAG" />
+		<result property="defeatCount" column="DEFEATED_COUNT" />
+	</resultMap>
+
+	<select id="selectMemberMapInfosByMemberId" resultMap="MemberMapInfoRM">
+		SELECT * FROM t_member_mapinfo WHERE member_id = #{member_id} AND OPEN_FLAG = 1
+	</select>
+
+	<select id="selectMemberMapInfo" resultMap="MemberMapInfoRM">
+		SELECT * FROM t_member_mapinfo WHERE member_id = #{member_id} AND MAPINFO_ID = #{mapInfo_id}
+	</select>
+
+	<insert id="insertMemberMapInfos">
+		INSERT INTO t_member_mapinfo(member_id, MAPINFO_ID, EXBOSS_FLAG)
+		SELECT #{member_id}, ID, REQUIRED_DEFEAT_COUNT > 0 FROM t_map_info
+	</insert>
+
+	<update id="activeMemberMapInfo">
+		UPDATE t_member_mapinfo SET OPEN_FLAG = 1 WHERE member_id = #{member_id} and MAPINFO_ID = #{mapInfo_id};
+	</update>
+</mapper>

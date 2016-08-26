@@ -3,17 +3,16 @@
  */
 package com.kancolle.server.service.slotitem.impl;
 
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Lists;
-import com.kancolle.server.dao.slotitem.SlotItemDao;
+import com.kancolle.server.mapper.slotItem.SlotItemMapper;
 import com.kancolle.server.model.po.ship.ShipType;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.service.slotitem.SlotItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @author J.K.SAGE
@@ -23,11 +22,11 @@ import com.kancolle.server.service.slotitem.SlotItemService;
 @Service
 public class SlotItemServiceImpl implements SlotItemService {
     @Autowired
-    private SlotItemDao slotItemDao;
+    private SlotItemMapper slotItemDao;
 
     @Override
     public List<SlotItem> getSlotItems() {
-        return slotItemDao.getSlotItems();
+        return slotItemDao.selectSlotItemsByCond();
     }
 
     @Override
@@ -41,11 +40,11 @@ public class SlotItemServiceImpl implements SlotItemService {
     }
 
     @Override
-    public List<Integer> getSllotItemTypeCanDevelop(ShipType type) {
+    public List<Integer> getSlotItemTypeCanDevelop(ShipType type) {
         List<Integer> types = Lists.newArrayList();
-        for (Entry<String, Object> entry : type.getEquipTypes().entrySet()) {
+        for (Entry<String, Integer> entry : type.getEquipTypes().entrySet()) {
             Integer slotItemType = Integer.valueOf(entry.getKey());
-            if (entry.getValue().equals(Integer.valueOf(1)) && !getSlotItemsCanDevelop(slotItemType).isEmpty())
+            if (entry.getValue().equals(1) && !getSlotItemsCanDevelop(slotItemType).isEmpty())
                 types.add(slotItemType);
         }
         return types;

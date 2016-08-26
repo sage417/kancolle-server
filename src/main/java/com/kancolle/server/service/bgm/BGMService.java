@@ -3,9 +3,9 @@
  */
 package com.kancolle.server.service.bgm;
 
-import java.util.List;
-
 import com.kancolle.server.model.po.furniture.BGM;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE

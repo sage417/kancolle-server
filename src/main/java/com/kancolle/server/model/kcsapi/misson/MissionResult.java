@@ -1,8 +1,16 @@
 package com.kancolle.server.model.kcsapi.misson;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.po.mission.Mission;
 
+@JsonPropertyOrder(value = {
+        "api_ship_id", "api_clear_result", "api_get_exp", "api_member_lv",
+        "api_member_exp", "api_get_ship_exp", "api_get_exp_lvup", "api_maparea_name",
+        "api_detail", "api_quest_name", "api_quest_level", "api_get_material",
+        "api_useitem_flag", "api_get_item1", "api_get_item2",
+})
 public class MissionResult {
 
     public static final int RESULT_FAILED = 0;
@@ -11,48 +19,63 @@ public class MissionResult {
 
     public static final int RESULT_GREAT_SUCCESS = 2;
 
+    @JsonProperty(value = "api_ship_id")
     @JSONField(ordinal = 1)
     private long[] api_ship_id;
 
+    @JsonProperty(value = "api_clear_result")
     @JSONField(ordinal = 2)
     private int api_clear_result;
 
+    @JsonProperty(value = "api_get_exp")
     @JSONField(ordinal = 3)
     private int api_get_exp;
 
+    @JsonProperty(value = "api_member_lv")
     @JSONField(ordinal = 4)
     private int api_member_lv;
 
+    @JsonProperty(value = "api_member_exp")
     @JSONField(ordinal = 5)
     private long api_member_exp;
 
+    @JsonProperty(value = "api_get_ship_exp")
     @JSONField(ordinal = 6)
     private int[] api_get_ship_exp;
 
+    @JsonProperty(value = "api_get_exp_lvup")
     @JSONField(ordinal = 7)
     private long[][] api_get_exp_lvup;
 
+    @JsonProperty(value = "api_maparea_name")
     @JSONField(ordinal = 8)
     private String api_maparea_name;
 
+    @JsonProperty(value = "api_detail")
     @JSONField(ordinal = 9)
     private String api_detail;
 
+    @JsonProperty(value = "api_quest_name")
     @JSONField(ordinal = 10)
     private String api_quest_name;
 
+    @JsonProperty(value = "api_quest_level")
     @JSONField(ordinal = 11)
     private int api_quest_level;
 
+    @JsonProperty(value = "api_get_material")
     @JSONField(ordinal = 12)
     private int[] api_get_material;
 
+    @JsonProperty(value = "api_useitem_flag")
     @JSONField(ordinal = 13)
     private int[] api_useitem_flag;
 
+    @JsonProperty(value = "api_get_item1")
     @JSONField(ordinal = 14)
     private GetUseItem api_get_item1;
 
+    @JsonProperty(value = "api_get_item2")
     @JSONField(ordinal = 15)
     private GetUseItem api_get_item2;
 

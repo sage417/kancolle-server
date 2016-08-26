@@ -1,9 +1,7 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.ship;
-
-import java.util.List;
 
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
@@ -11,11 +9,14 @@ import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
+import com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult;
 import com.kancolle.server.model.kcsapi.ship.Ship3Result;
-import com.kancolle.server.model.po.resource.MemberRescourceResult;
+import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
+import com.kancolle.server.model.po.resource.MemberResourceResult;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.model.po.ship.MemberShipPowerupResult;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
+
+import java.util.List;
 
 /**
  * @author J.K.SAGE
@@ -27,10 +28,10 @@ public interface MemberShipService {
     /** 补给燃弹 */
     ChargeModel chargeShips(String member_id, ShipChargeForm form);
 
-    void destoryShips(String member_id, List<MemberShip> memberShips);
+    void destroyShips(String member_id, List<MemberShip> memberShips);
 
     /** 解体 */
-    MemberRescourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id);
+    MemberResourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id);
 
     /** 获取提督舰娘数 */
     int getCountOfMemberShip(String member_id);
@@ -47,22 +48,27 @@ public interface MemberShipService {
     /** 舰娘获得经验 */
     void increaseMemberShipExp(MemberShip memberShip, int exp);
 
+    void consumeFuelAndBullBaseMax(MemberShip memberShip, float fuel, float bull);
+
     /** 上锁 */
     MemberShipLockResult lock(String member_id, Long member_ship_id);
 
     /** 合成 */
-    MemberShipPowerupResult powerup(String member_id, ShipPowerUpForm form);
+    MemberShipPowerUpResult powerUp(String member_id, ShipPowerUpForm form);
 
     /** 改装 */
     void setSlot(String member_id, ShipSetSlotForm form);
 
-    List<MemberSlotItem> unsetAllSlotitems(MemberShip memberShip);
+    List<MemberSlotItem> unSetAllSlotItems(MemberShip memberShip);
 
     /** 移除所有裝備 */
-    void unsetslotAll(String member_id, Long memberShip_id);
+    void unSetSlotsAll(String member_id, Long memberShip_id);
 
     void updateHpAndCond(MemberShip memberShip);
 
     MemberShip createShip(String member_id, int createShipId);
 
+    void updateShipOnSlot(MemberShip keyShip);
+
+    ShipDeckResult getShipDeck(String member_id, int deckPortId);
 }

@@ -1,17 +1,24 @@
 package com.kancolle.server.model.kcsapi.member.record;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
+@JsonPropertyOrder(value = {
+        "api_win", "api_lose", "api_rate"
+})
 public class MemberRecordPractise {
 
+    @JsonProperty(value = "api_win")
     @JSONField(ordinal = 1)
     private String api_win;
 
+    @JsonProperty(value = "api_lose")
     @JSONField(ordinal = 2)
     private String api_lose;
 
+    @JsonProperty(value = "api_rate")
     @JSONField(ordinal = 3)
     private String api_rate;
 

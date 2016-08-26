@@ -3,20 +3,19 @@
 <mapper namespace="com.kancolle.server.dao.duty.DutyDao">
 
 	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
-		<property name="eternal" value="true"/>
-		<property name="maxEntriesLocalHeap" value="100"/>
-		<property name="strategy" value="NONE"/>
-	</cache>
+		<property name="eternal" value="true" />
+		<property name="maxEntriesLocalHeap" value="100" />
+		<property name="strategy" value="NONE" />
+	</cache> 
 
 	<resultMap type="Duty" id="DutyRM" autoMapping="true">
 		<id property="no" column="DUTY_NO"/>
 		<result property="category" column="CATEGORY_ID"/>
-		<result property="material" column="MATERIAL" typeHandler="IntJsonArrayHanlder"/>
+		<result property="material" column="MATERIAL" typeHandler="IntJsonArrayHandler"/>
 		<result property="bonusFlag" column="BONUS_FLAG"/>
 		<result property="invalidFlag" column="INVALID_FLAG"/>
-		<result property="winItem1" column="WIN_ITEM1" typeHandler="IntJsonArrayHanlder"/>
-		<result property="winItem2" column="WIN_ITEM2" typeHandler="IntJsonArrayHanlder"/>
 		<association property="parent" column="PARENT_ID" select="selectDutyById"/>
+		<collection property="dutyBonus" column="DUTY_NO" select="com.kancolle.server.dao.duty.DutyBonusDao.selectDutyBonusByDutyNo"/>
 	</resultMap>
 	
 	<select id="selectDutyById" resultMap="DutyRM">

@@ -1,19 +1,32 @@
 package com.kancolle.server.model.kcsapi.start.sub;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
-public class SlotItemGraphModel {
+import java.io.Serializable;
 
+@Alias("SlotItemGraphModel")
+@JsonPropertyOrder(value = {
+        "api_id", "api_sortno", "api_filename", "api_version"
+})
+public class SlotItemGraphModel implements Serializable {
+
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1)
     private int api_id;
 
+    @JsonProperty(value = "api_sortno")
     @JSONField(ordinal = 2)
     private int api_sortno;
 
+    @JsonProperty(value = "api_filename")
     @JSONField(ordinal = 3)
     private String api_filename;
 
+    @JsonProperty(value = "api_version")
     @JSONField(ordinal = 4)
     private String api_version;
 

@@ -1,77 +1,112 @@
 package com.kancolle.server.model.kcsapi.member.record;
 
-import java.util.List;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Lists;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.commons.lang3.StringUtils;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.google.common.collect.Lists;
+import java.util.List;
 
+
+@JsonPropertyOrder(value = {
+        "api_member_id", "api_nickname", "api_nickname_id", "api_cmt",
+        "api_cmt_id", "api_photo_url", "api_level", "api_rank",
+        "api_experience", "api_war", "api_mission", "api_practice",
+        "api_friend", "api_deck", "api_kdoc", "api_ndoc",
+        "api_ship", "api_slotitem", "api_furniture", "api_complate",
+        "api_large_dock", "api_material_max"
+})
 public class MemberRecord {
 
+    @JsonProperty(value = "api_member_id")
     @JSONField(ordinal = 1)
     private long api_member_id;
 
+    @JsonProperty(value = "api_nickname")
     @JSONField(ordinal = 2)
     private String api_nickname;
 
+    @JsonProperty(value = "api_nickname_id")
     @JSONField(ordinal = 3)
     private String api_nickname_id;
 
+    @JsonProperty(value = "api_cmt")
     @JSONField(ordinal = 4)
     private String api_cmt;
 
+    @JsonProperty(value = "api_cmt_id")
     @JSONField(ordinal = 5)
     private String api_cmt_id;
 
+    @JsonProperty(value = "api_photo_url")
     @JSONField(ordinal = 6)
     private String api_photo_url;
 
+    @JsonProperty(value = "api_level")
     @JSONField(ordinal = 7)
     private int api_level;
 
+    @JsonProperty(value = "api_rank")
     @JSONField(ordinal = 8)
     private int api_rank;
 
+    @JsonProperty(value = "api_experience")
     @JSONField(ordinal = 9)
     private List<Long> api_experience;
 
+    @JsonProperty(value = "api_war")
     @JSONField(ordinal = 10)
     private MemberRecordFight api_war;
 
+    @JsonProperty(value = "api_mission")
     @JSONField(ordinal = 11)
     private MemberRecordMission api_mission;
 
+    @JsonProperty(value = "api_practice")
     @JSONField(ordinal = 12)
     private MemberRecordPractise api_practice;
 
+    @JsonProperty(value = "api_friend")
     @JSONField(ordinal = 13)
     private int api_friend;
 
+    @JsonProperty(value = "api_deck")
     @JSONField(ordinal = 14)
     private int api_deck;
 
+    @JsonProperty(value = "api_kdoc")
     @JSONField(ordinal = 15)
     private int api_kdoc;
 
+    @JsonProperty(value = "api_ndoc")
     @JSONField(ordinal = 16)
     private int api_ndoc;
 
+    @JsonProperty(value = "api_ship")
     @JSONField(ordinal = 17)
     private List<Integer> api_ship;
 
+    @JsonProperty(value = "api_slotitem")
     @JSONField(ordinal = 18)
     private List<Integer> api_slotitem;
 
+    @JsonProperty(value = "api_furniture")
     @JSONField(ordinal = 19)
     private int api_furniture;
 
+    @JsonProperty(value = "api_complate")
     @JSONField(ordinal = 20)
     private List<String> api_complate;
 
+    @JsonProperty(value = "api_large_dock")
     @JSONField(ordinal = 21)
-    private int api_large_dock;
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean api_large_dock;
 
+    @JsonProperty(value = "api_material_max")
     @JSONField(ordinal = 22)
     private int api_material_max;
 
@@ -240,11 +275,11 @@ public class MemberRecord {
         this.api_complate = api_complate;
     }
 
-    public int getApi_large_dock() {
+    public boolean getApi_large_dock() {
         return api_large_dock;
     }
 
-    public void setApi_large_dock(int api_large_dock) {
+    public void setApi_large_dock(boolean api_large_dock) {
         this.api_large_dock = api_large_dock;
     }
 

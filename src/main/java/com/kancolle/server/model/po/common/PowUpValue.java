@@ -1,73 +1,62 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.common;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年5月30日
- *
  */
 public class PowUpValue implements Serializable {
 
     private static final long serialVersionUID = 3413235819803368244L;
 
     /** 火力 */
-    private int houg;
+    private final int houg;
 
     /** 雷装 */
-    private int raig;
+    private final int raig;
 
     /** 对空 */
-    private int tyku;
+    private final int tyku;
 
     /** 装甲 */
-    private int souk;
+    private final int souk;
 
-    public PowUpValue() {
-        super();
-    }
+    private final int[] powUpArr;
 
-    public PowUpValue(int houg, int raig, int tyku, int souk) {
-        super();
+    public PowUpValue(final int houg, final int raig, final int tyku, final int souk) {
         this.houg = houg;
         this.raig = raig;
         this.tyku = tyku;
         this.souk = souk;
+        this.powUpArr = new int[]{houg, raig, tyku, souk};
     }
 
     public int getHoug() {
         return houg;
     }
 
-    public void setHoug(int houg) {
-        this.houg = houg;
-    }
 
     public int getRaig() {
         return raig;
     }
 
-    public void setRaig(int raig) {
-        this.raig = raig;
-    }
 
     public int getTyku() {
         return tyku;
     }
 
-    public void setTyku(int tyku) {
-        this.tyku = tyku;
-    }
 
     public int getSouk() {
         return souk;
     }
 
-    public void setSouk(int souk) {
-        this.souk = souk;
+    public int[] getPowUpArr() {
+        return Arrays.copyOf(this.powUpArr, this.powUpArr.length);
     }
 
     @Override
@@ -104,9 +93,5 @@ public class PowUpValue implements Serializable {
     @Override
     public String toString() {
         return String.format("[%s,%s,%s,%s]", houg, raig, tyku, souk);
-    }
-
-    public int[] toArray() {
-        return new int[] { houg, raig, tyku, souk };
     }
 }

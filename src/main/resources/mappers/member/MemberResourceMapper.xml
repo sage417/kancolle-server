@@ -12,8 +12,12 @@
 	<select id="selectMemberResource" resultMap="ResourceRM">
 		SELECT * FROM t_member_material WHERE member_id = #{memberId}
 	</select>
+	
+	<insert id="insertMemberRecource" parameterType="Resource">
+		REPLACE INTO t_member_material (member_id) VALUES (#{memberId})
+	</insert>
 
-	<update id="updateMemberResource">
+	<update id="updateMemberResource" parameterType="Resource">
 		UPDATE t_member_material SET
 			FUEL = FUEL + #{fuel},
 			BULL = BULL + #{bull},

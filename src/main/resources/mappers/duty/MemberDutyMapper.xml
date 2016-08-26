@@ -39,6 +39,6 @@
 	</delete>
 	
 	<insert id="insertAfterDutys" parameterType="MemberDuty">
-		INSERT INTO t_member_duty(member_id, duty_no) SELECT #{member_id}, DUTY_NO FROM t_duty WHERE PARENT_ID = #{dutyNo}
+		INSERT INTO t_member_duty(member_id, duty_no) SELECT #{memberId}, DUTY_NO FROM t_duty WHERE PARENT_ID = #{dutyNo}
 	</insert>
 </mapper>

@@ -5,7 +5,9 @@
 	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
 		<id property="memberId" column="member_id"/>
 		<id property="memberSlotItemId" column="ID" />
-		<association property="slotItem" column="SLOTITEM_ID" select="com.kancolle.server.dao.slotitem.SlotItemDao.selectSlotItemsByCond" />
+		<result property="slotItemId" column="SLOTITEM_ID" />
+		<association property="slotItem" column="SLOTITEM_ID"
+					 select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectSlotItemsByCond"/>
 	</resultMap>
 	
 	<!-- 查询指定装备 -->
@@ -24,7 +26,7 @@
 		WHERE
 			mem_slot.`member_id` = #{member_id}
 			AND m.`member_ship_id` = #{ship_id}
-		ORDER BY POSITION( CAST(mem_slot.`ID` AS CHAR) IN mem_ship.`SLOT`)
+		ORDER BY POSITION(CONCAT(mem_slot.`ID`, ',') IN mem_ship.`SLOT`)
 	</select>
 	
 	<select id="selectMemberUnslot"  resultMap="memberSlotItemRM">
@@ -51,7 +53,7 @@
 			</foreach>
 	</update>
 	
-	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM">
+	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM" flushCache="true">
 		{call create_slotitem(#{member_id}, #{slotitem_id})}
 	</select>
 	

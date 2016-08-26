@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MapInfoMapper">
+
+    <resultMap type="com.kancolle.server.model.kcsapi.start.sub.MapInfoModel" id="MapInfoRM" autoMapping="true">
+        <id property="api_id" column="ID"/>
+        <result property="api_maparea_id" column="MAPAREA_ID"/>
+        <result property="api_no" column="NO"/>
+        <result property="api_name" column="NAME"/>
+        <result property="api_level" column="LEVEL"/>
+        <result property="api_opetext" column="OPETEXT"/>
+        <result property="api_infotext" column="INFOTEXT"/>
+        <result property="api_item" column="ITEM" typeHandler="IntJsonArrayHandler"/>
+        <result property="api_max_maphp" column="MAX_MAPHP"/>
+        <result property="api_required_defeat_count" column="REQUIRED_DEFEAT_COUNT"/>
+        <result property="api_sally_flag" column="SALLY_FLAG" typeHandler="IntJsonArrayHandler"/>
+    </resultMap>
+
+    <select id="selectMapInfos" resultMap="MapInfoRM">
+        SELECT * FROM t_map_info
+    </select>
+
+    <select id="selectMapInfo" resultMap="MapInfoRM">
+		SELECT * FROM t_map_info WHERE MAPAREA_ID = #{mapArea_id} AND NO = #{no}
+	</select>
+
+    <select id="selectMapInfoById" resultMap="MapInfoRM">
+        SELECT * FROM t_map_info WHERE ID = #{id}
+    </select>
+
+    <update id="replaceMapInfo">
+        insert into `kancolle`.`t_map_info` ( `ID`, `INFOTEXT`, `ITEM`, `MAX_MAPHP`, `REQUIRED_DEFEAT_COUNT`, `LEVEL`, `MAPAREA_ID`, `NAME`, `NO`, `OPETEXT`, `SALLY_FLAG`)
+        values ( #{ID}, #{INFOTEXT}, #{ITEM, typeHandler=JsonArrayHandler}, #{MAX_MAPHP}, #{REQUIRED_DEFEAT_COUNT}, #{LEVEL}, #{MAPAREA_ID}, #{NAME}, #{NO}, #{OPETEXT}, #{SALLY_FLAG, typeHandler=JsonArrayHandler})
+        ON DUPLICATE KEY UPDATE
+        `INFOTEXT`=#{INFOTEXT}, `ITEM`=#{ITEM, typeHandler=JsonArrayHandler}, `MAX_MAPHP`=#{MAX_MAPHP}, `REQUIRED_DEFEAT_COUNT`=#{REQUIRED_DEFEAT_COUNT}, `LEVEL`=#{LEVEL}, `MAPAREA_ID`=#{MAPAREA_ID}, `NAME`=#{NAME}, `NO`=#{NO}, `OPETEXT`=#{OPETEXT}, `SALLY_FLAG`=#{SALLY_FLAG, typeHandler=JsonArrayHandler}
+    </update>
+</mapper>

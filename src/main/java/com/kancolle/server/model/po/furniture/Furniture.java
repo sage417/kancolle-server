@@ -1,53 +1,64 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.furniture;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.kancolle.server.utils.jackson.NumericBooleanSerializer;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月10日
- *
  */
+@JsonPropertyOrder(value = {
+        "furnitureId", "type", "no", "title",
+        "description", "rarity", "price", "saleFlag",
+        "season"
+})
 @Alias("Furniture")
 public class Furniture implements Serializable {
 
     private static final long serialVersionUID = -6302293499953139928L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int furnitureId;
 
+    @JsonProperty(value = "api_type")
     @JSONField(ordinal = 2, name = "api_type")
     private int type;
 
+    @JsonProperty(value = "api_no")
     @JSONField(ordinal = 3, name = "api_no")
     private int no;
 
+    @JsonProperty(value = "api_title")
     @JSONField(ordinal = 4, name = "api_title")
     private String title;
 
+    @JsonProperty(value = "api_description")
     @JSONField(ordinal = 5, name = "api_description")
     private String description;
 
+    @JsonProperty(value = "api_rarity")
     @JSONField(ordinal = 6, name = "api_rarity")
     private int rarity;
 
+    @JsonProperty(value = "api_price")
     @JSONField(ordinal = 7, name = "api_price")
     private int price;
 
-    @JSONField(serialize = false, deserialize = false)
-    private boolean saleFalg;
+    @JsonProperty(value = "api_saleflg")
+    @JsonSerialize(using = NumericBooleanSerializer.class)
+    private boolean saleFlag;
 
-    @JSONField(ordinal = 8, name = "api_saleflg")
-    public int getSaleState() {
-        return saleFalg ? 1 : 0;
-    }
-
+    @JsonProperty(value = "api_season")
     @JSONField(ordinal = 9, name = "api_season")
     private int season;
 
@@ -107,12 +118,12 @@ public class Furniture implements Serializable {
         this.price = price;
     }
 
-    public boolean isSaleFalg() {
-        return saleFalg;
+    public boolean isSaleFlag() {
+        return saleFlag;
     }
 
-    public void setSaleFalg(boolean saleFalg) {
-        this.saleFalg = saleFalg;
+    public void setSaleFlag(boolean saleFlag) {
+        this.saleFlag = saleFlag;
     }
 
     public int getSeason() {
@@ -131,7 +142,7 @@ public class Furniture implements Serializable {
         result = prime * result + no;
         result = prime * result + price;
         result = prime * result + rarity;
-        result = prime * result + (saleFalg ? 1231 : 1237);
+        result = prime * result + (saleFlag ? 1231 : 1237);
         result = prime * result + season;
         result = prime * result + type;
         return result;
@@ -154,7 +165,7 @@ public class Furniture implements Serializable {
             return false;
         if (rarity != other.rarity)
             return false;
-        if (saleFalg != other.saleFalg)
+        if (saleFlag != other.saleFlag)
             return false;
         if (season != other.season)
             return false;

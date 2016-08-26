@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.map.MemberMapBattleMapper">
+
+	<resultMap type="MemberMapBattleState" id="MemberMapBattleStateRM" autoMapping="true">
+		<id property="memberId" column="member_id"/>
+		<result property="travellerNo" column="traveller_no"/>
+		<result property="mapCellId" column="map_cell_id"/>
+		<result property="mapGetResources" column="map_get_resource" typeHandler="IntJsonArrayHandler"/>
+		<result property="mapFetchResources" column="map_fetch_resource" typeHandler="IntJsonArrayHandler"/>
+		<result property="battleFlag" column="battle_flag"/>
+		<result property="resultFlag" column="result_flag"/>
+		<result property="session" column="session"/>
+		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
+	</resultMap>
+
+	<sql id="table_name">t_member_map_battle_status</sql>
+
+	<update id="update">
+		UPDATE <include refid="table_name"/>
+			<set>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@MAPCELL_ID)">map_cell_id = #{state.mapCellId},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@GET_RESOURCE)">map_get_rescource = #{state.mapGetResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@FETCH_RESOURCE)">map_fetch_rescource = #{state.mapFetchResources},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@BATTLE_FLAG)">battle_flag = #{state.battleFlag},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@RESULT_FLAG)">result_flag = #{state.resultFlag},</if>
+				<if test="@org.apache.commons.lang3.ArrayUtils@contains(updateColumns, @com.kancolle.server.mapper.map.MemberMapBattleMapper@SESSION)">`session` = #{state.session},</if>
+			</set>
+		WHERE member_id = #{state.memberId}
+	</update>
+
+	<select id="selectMemberMapBattleState" resultMap="MemberMapBattleStateRM">
+		SELECT
+		member_id,
+		deck_id,
+		traveller_no,
+		map_cell_id,
+		map_get_resource,
+		map_fetch_rescource,
+		battle_flag,
+		result_flag,
+		`session`
+		FROM <include refid="table_name" /> WHERE member_id = #{member_id}
+	</select>
+
+	<insert id="insertMemberMapBattleState" >
+		REPLACE INTO <include refid="table_name" />(member_id, deck_id, traveller_no, map_cell_id, battle_flag, result_flag, createTime)
+		VALUES (#{member_id}, #{deck_id}, #{traveller_No}, #{map_no}, false, false, NOW())
+	</insert>
+
+	<delete id="deleteMemberMapBattleState">
+		DELETE FROM <include refid="table_name" /> WHERE member_id = #{member_id} AND deck_id = #{deck_id}
+	</delete>
+</mapper>

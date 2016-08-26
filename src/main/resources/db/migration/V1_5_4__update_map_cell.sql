@@ -1,0 +1,1 @@
+ALTER TABLE `t_map_cell` CHANGE COLUMN `MAP_NO` `MAP_NO` smallint UNSIGNED NOT NULL;

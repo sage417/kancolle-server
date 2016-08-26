@@ -1,42 +1,53 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.model.po.furniture;
 
-import java.io.Serializable;
-
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import java.io.Serializable;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年7月27日
- *
  */
+@JsonPropertyOrder(value = {
+        "id", "name", "description", "bgmId",
+        "useCoin", "bgmFlag", "loops",
+})
 @Alias("FurnitureBGM")
 public class FurnitureBGM implements Serializable {
 
     private static final long serialVersionUID = 2706276442054216220L;
 
+    @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
     private int id;
 
+    @JsonProperty(value = "api_name")
     @JSONField(ordinal = 2, name = "api_name")
     private String name;
 
+    @JsonProperty(value = "api_description")
     @JSONField(ordinal = 3, name = "api_description")
     private String description;
 
+    @JsonProperty(value = "api_bgm_id")
     @JSONField(ordinal = 4, name = "api_bgm_id")
     private int bgmId;
 
+    @JsonProperty(value = "api_use_coin")
     @JSONField(ordinal = 5, name = "api_use_coin")
     private int useCoin;
 
+    @JsonProperty(value = "api_bgm_flag")
     @JSONField(ordinal = 6, name = "api_bgm_flag")
     private int bgmFlag;
 
+    @JsonProperty(value = "api_loops")
     @JSONField(ordinal = 7, name = "api_loops")
     private int loops;
 

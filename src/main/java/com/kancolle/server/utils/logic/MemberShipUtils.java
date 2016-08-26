@@ -7,6 +7,8 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
+import com.kancolle.server.utils.logic.common.LvUtils;
+import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 /**
  * @author J.K.SAGE
@@ -40,7 +42,7 @@ public class MemberShipUtils {
             // 雷装
             shipRaig += slotitem.getRaig();
             // 对空
-            if (slotitem.getType()[2] == 6) {
+            if (SlotItemUtils.getType(memberSlotItem) == 6) {
                 shipTaiku += (slotitem.getTyku() * Math.round((float) Math.sqrt(memberShip.getShip().getMaxEq()[memberShip.getSlot().indexOf(memberSlotItem)])));
             } else {
                 shipTaiku += slotitem.getTyku();
@@ -50,7 +52,7 @@ public class MemberShipUtils {
             // 回避
             shipKaihi += slotitem.getHouk();
             // 索敌
-            shipSakuteki += slotitem.getSaku();
+            shipSakuteki += memberSlotItem.getSaku();
         }
         memberShip.getSoukou().setMinValue(shipSouk);
         memberShip.getKaryoku().setMinValue(shipHoug);

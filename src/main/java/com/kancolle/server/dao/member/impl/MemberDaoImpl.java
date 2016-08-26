@@ -1,24 +1,22 @@
 package com.kancolle.server.dao.member.impl;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
-import com.kancolle.server.model.kcsapi.member.MemberUseItem;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.po.member.Member;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
 
     @Override
-    public String getMemberByApiToken(String api_token) {
+    public String getMemberIdByApiToken(String api_token) {
         return getTemplate().queryForObject("SELECT member_id FROM t_member WHERE api_token = :token", Collections.singletonMap("token", api_token), String.class);
     }
 
@@ -34,11 +32,6 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public MemberRecord selectMemberRecord(String member_id) {
         return getSqlSession().selectOne("selectMemberRecord", member_id);
-    }
-
-    @Override
-    public List<MemberUseItem> getUseItem(String member_id) {
-        return queryForModels(MemberUseItem.class, "SELECT * FROM v_member_useitem WHERE member_id = :member_id", getMemParamMap(member_id));
     }
 
     @Override
@@ -62,5 +55,10 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
         params.put("member_id", member_id);
         params.put("token", token);
         getSqlSession().update("updateMemberToken", params);
+    }
+
+    @Override
+    public void insert(Member member) {
+        getSqlSession().insert("insert", member);
     }
 }
