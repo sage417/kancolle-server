@@ -11,4 +11,10 @@ import java.util.List;
 public interface MemberPresetDeckMapper {
 
     List<PresetDeck> selectPresetDeckByMemberId(@Param("member_id") String member_id);
+
+    PresetDeck getPresetDeckByMemberIdAndNo(@Param("member_id") String member_id, @Param("preset_no") int api_preset_no);
+
+    int updatePresetDeck(PresetDeck presetDeck);
+
+    int insertPresetDecks(List<PresetDeck> presetDecks);
 }

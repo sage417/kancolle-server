@@ -183,6 +183,8 @@ public class MemberService {
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
         memberMapService.initMemberMapCellInfo(member_id);
+        // 创建PresetDeck记录
+        memberDeckPortService.insertMemberPresetDecks(member_id);
         return member;
     }
 }

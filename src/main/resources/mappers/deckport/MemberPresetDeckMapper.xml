@@ -7,7 +7,25 @@
         <result property="ship" column="ship" typeHandler="LongImmutableListHandler"/>
     </resultMap>
 
+    <insert id="insertPresetDecks">
+        INSERT INTO `t_member_preset_deck` (`member_id`, `no`, `name`, `name_id`, `ship`) VALUES
+        <foreach collection="list" item="presetDeck" separator=",">(
+            #{presetDeck.member_id}, #{presetDeck.no}, #{presetDeck.name}, #{presetDeck.name_id}, #{presetDeck.ship, typeHandler=LongImmutableListHandler})
+        </foreach>
+    </insert>
+
     <select id="selectPresetDeckByMemberId" resultMap="PresetDeckRM">
 		SELECT * FROM t_member_preset_deck WHERE member_id = #{member_id}
 	</select>
+
+    <select id="getPresetDeckByMemberIdAndNo" resultMap="PresetDeckRM">
+        SELECT * FROM t_member_preset_deck WHERE member_id = #{member_id} AND no = #{preset_no}
+    </select>
+
+    <update id="updatePresetDeck" parameterType="PresetDeck">
+        UPDATE t_member_preset_deck SET
+        name = #{name},
+        name_id = #{name_id},
+        ship = #{ship, typeHandler=LongImmutableListHandler}
+    </update>
 </mapper>

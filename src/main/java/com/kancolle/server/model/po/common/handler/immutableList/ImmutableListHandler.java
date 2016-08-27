@@ -25,8 +25,8 @@ public abstract class ImmutableListHandler<T> extends BaseTypeHandler<ImmutableL
 
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, ImmutableList<T> parameter, JdbcType jdbcType) throws SQLException {
-        throw new UnsupportedOperationException();
+    public void setNonNullParameter(PreparedStatement ps, int columnIndex, ImmutableList<T> value, JdbcType jdbcType) throws SQLException {
+        ps.setString(columnIndex, JSON.toJSONString(value));
     }
 
     @Override
