@@ -1,10 +1,11 @@
-package com.kancolle.server.service.battle.shelling.impl;
+package com.kancolle.server.service.battle.shelling.template;
 
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
+import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
@@ -27,10 +28,8 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected void prepareContext(final BattleContext context) {
-        super.prepareContext(context);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
-        context.setCurrentAerialState(context.getUnderSeaAerialState());
     }
 
     @Override
@@ -285,5 +284,22 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
         final int memberFormation = BattleContextUtils.getMemberFormation(context);
         final int underSeaFormation = BattleContextUtils.getUnderSeaFormation(context);
         return getHoumFormationFactor(underSeaFormation, memberFormation);
+    }
+
+
+    @Override
+    protected int getCurrentSakutekiSum(final BattleContext context) {
+        return context.getUnderSeaSakuteki();
+    }
+
+    @Override
+    protected int getCurrentAerialState(final BattleContext context) {
+        return context.getUnderSeaAerialState();
+    }
+
+    @Override
+    protected boolean isFlagShip(final UnderSeaShip ship, final BattleContext context) {
+        UnderSeaDeckPort underSeaDeckPort = context.getUnderSeaDeckPort();
+        return underSeaDeckPort.getUnderSeaShips().iterator().next().equals(ship);
     }
 }

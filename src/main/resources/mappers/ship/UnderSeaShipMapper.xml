@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.dao.ship.UnderSeaShipMapper">
+
+    <resultMap id="UnderSeaShipRM" type="UnderSeaShip">
+        <constructor>
+            <arg column="SHIP_ID" javaType="Ship"
+                 select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond"/>
+            <arg column="SHIP_ID" javaType="list"
+                 select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectUnderSeaShipSlots"/>
+        </constructor>
+    </resultMap>
+
+</mapper>

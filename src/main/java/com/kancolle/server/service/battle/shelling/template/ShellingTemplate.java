@@ -1,4 +1,4 @@
-package com.kancolle.server.service.battle.shelling.impl;
+package com.kancolle.server.service.battle.shelling.template;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
@@ -59,11 +59,15 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      *
      * @param context
      */
-    protected void prepareContext(final BattleContext context) {
+    protected abstract void prepareContext(final BattleContext context);
 
-    }
-
-    protected final void addToAttackList(final A attackShip, final BattleContext context) {
+    /**
+     * Step 1 add attack ship to at list
+     *
+     * @param attackShip
+     * @param context
+     */
+    private void addToAttackList(final A attackShip, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         hougekiResult.getApi_at_list().add(shipsMap.inverse().get(attackShip));
@@ -76,7 +80,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @param context
      * @return
      */
-    protected final D chooseTargetShip(final A attackShip, final BattleContext context) {
+    private D chooseTargetShip(final A attackShip, final BattleContext context) {
         List<? extends IShip> attackableShips = null;
         final List<? extends IShip> enemySSShips = context.getEnemySSShips();
         if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
@@ -106,7 +110,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @param context
      * @return
      */
-    protected abstract int chooseAttackTypeAndSlotItem(A attackShip, D defendShip, BattleContext context);
+    protected abstract int chooseAttackTypeAndSlotItem(final A attackShip, final D defendShip, final BattleContext context);
 
     /**
      * Step 4
@@ -115,7 +119,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @param attackType
      * @param context
      */
-    protected final void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
+    private void addToDefendList(final D defendShip, final int attackType, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         final int defShipIdx = shipsMap.inverse().get(defendShip);
@@ -153,7 +157,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         hougekiResult.getApi_damage().add(damages);
     }
 
-    protected void callbackAfterDamage(A attackShip, D defendShip, int[] actualDamages, int[] damages, BattleContext context) {
+    protected void callbackAfterDamage(final A attackShip, final D defendShip, final int[] actualDamages, final int[] damages, final BattleContext context) {
         int actualDamageSum = Arrays.stream(actualDamages).sum();
         defendShip.setNowHp(defendShip.getNowHp() - actualDamageSum);
         if (ShipFilter.isAlive.negate().test(defendShip)) {

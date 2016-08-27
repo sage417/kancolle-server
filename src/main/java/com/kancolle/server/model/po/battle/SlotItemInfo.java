@@ -17,65 +17,64 @@ import java.util.List;
  */
 public class SlotItemInfo {
 
-    // 主炮数量
-    private final ImmutableList<Integer> mainGunIds;
+    // 主炮
+    private final ImmutableList<AbstractSlotItem> mainGuns;
 
-    // 副炮数量
-    private final ImmutableList<Integer> secondaryGunIds;
+    // 副炮
+    private final ImmutableList<AbstractSlotItem> secondaryGuns;
 
-    // 侦察机数量
-    private final ImmutableList<Integer> searchPlaneIds;
+    // 侦察机
+    private final ImmutableList<AbstractSlotItem> searchPlanes;
 
-    // 雷达数量
-    private final ImmutableList<Integer> radarIds;
+    // 雷达
+    private final ImmutableList<AbstractSlotItem> radars;
 
-    // 撤甲弹数量
-    private final ImmutableList<Integer> apAmmoIds;
+    // 撤甲弹
+    private final ImmutableList<AbstractSlotItem> apAmmos;
 
-    private SlotItemInfo(final ImmutableList<Integer> mainGunIds, final ImmutableList<Integer> secondaryGunIds,
-                         final ImmutableList<Integer> searchPlaneIds, final ImmutableList<Integer> radarIds,
-                         final ImmutableList<Integer> apAmmoIds) {
-        this.mainGunIds = mainGunIds;
-        this.secondaryGunIds = secondaryGunIds;
-        this.searchPlaneIds = searchPlaneIds;
-        this.radarIds = radarIds;
-        this.apAmmoIds = apAmmoIds;
+    private SlotItemInfo(final ImmutableList<AbstractSlotItem> mainGuns, final ImmutableList<AbstractSlotItem> secondaryGuns,
+                         final ImmutableList<AbstractSlotItem> searchPlanes, final ImmutableList<AbstractSlotItem> radars,
+                         final ImmutableList<AbstractSlotItem> apAmmos) {
+        this.mainGuns = mainGuns;
+        this.secondaryGuns = secondaryGuns;
+        this.searchPlanes = searchPlanes;
+        this.radars = radars;
+        this.apAmmos = apAmmos;
     }
 
     public static SlotItemInfo of(final IShip ship) {
 
-        final List<Integer> mainGunIds = Lists.newArrayListWithCapacity(4);
-        final List<Integer> secondaryGunIds = Lists.newArrayListWithCapacity(4);
-        final List<Integer> radarIds = Lists.newArrayListWithCapacity(4);
-        final List<Integer> searchPlaneIds = Lists.newArrayListWithCapacity(4);
-        final List<Integer> apAmmoIds = Lists.newArrayListWithCapacity(4);
+        final List<AbstractSlotItem> mainGunIds = Lists.newArrayListWithCapacity(4);
+        final List<AbstractSlotItem> secondaryGunIds = Lists.newArrayListWithCapacity(4);
+        final List<AbstractSlotItem> radarIds = Lists.newArrayListWithCapacity(4);
+        final List<AbstractSlotItem> searchPlaneIds = Lists.newArrayListWithCapacity(4);
+        final List<AbstractSlotItem> apAmmoIds = Lists.newArrayListWithCapacity(4);
 
         int EQIdx = 0;
 
         for (final AbstractSlotItem slotItem : ship.getSlotItems()) {
-            final Integer slotItemId = slotItem.getSlotItemId();
             final int slotType = SlotItemUtils.getType(slotItem);
             switch (slotType) {
                 case 1:
                 case 2:
                 case 3:
-                    mainGunIds.add(slotItemId);
+                    mainGunIds.add(slotItem);
                     break;
                 case 4:
-                    secondaryGunIds.add(slotItemId);
+                    secondaryGunIds.add(slotItem);
                     break;
                 case 12:
                 case 13:
-                    radarIds.add(slotItemId);
+                    radarIds.add(slotItem);
                     break;
                 case 9:
                 case 10:
                     if (ship.getCurrentEQ()[EQIdx] > 0) {
-                        searchPlaneIds.add(slotItemId);
+                        searchPlaneIds.add(slotItem);
                     }
                     break;
                 case 19:
-                    apAmmoIds.add(slotItemId);
+                    apAmmoIds.add(slotItem);
                     break;
                 default:
                     break;
@@ -89,53 +88,53 @@ public class SlotItemInfo {
     }
 
     public int getSearchPlaneCount() {
-        return searchPlaneIds.size();
+        return searchPlanes.size();
     }
 
     public int getMainGunCount() {
-        return mainGunIds.size();
+        return mainGuns.size();
     }
 
     public int getSecondaryGunCount() {
-        return secondaryGunIds.size();
+        return secondaryGuns.size();
     }
 
     public int getRadarCount() {
-        return radarIds.size();
+        return radars.size();
     }
 
     public int getAPAmmoCount() {
-        return apAmmoIds.size();
+        return apAmmos.size();
     }
 
-    public ImmutableList<Integer> getMainGunIds() {
-        return mainGunIds;
+    public ImmutableList<AbstractSlotItem> getMainGuns() {
+        return mainGuns;
     }
 
-    public ImmutableList<Integer> getSecondaryGunIds() {
-        return secondaryGunIds;
+    public ImmutableList<AbstractSlotItem> getSecondaryGuns() {
+        return secondaryGuns;
     }
 
-    public ImmutableList<Integer> getSearchPlaneIds() {
-        return searchPlaneIds;
+    public ImmutableList<AbstractSlotItem> getSearchPlanes() {
+        return searchPlanes;
     }
 
-    public ImmutableList<Integer> getRadarIds() {
-        return radarIds;
+    public ImmutableList<AbstractSlotItem> getRadars() {
+        return radars;
     }
 
-    public ImmutableList<Integer> getApAmmoIds() {
-        return apAmmoIds;
+    public ImmutableList<AbstractSlotItem> getApAmmos() {
+        return apAmmos;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("SlotItemInfo{");
-        sb.append("mainGunIds=").append(mainGunIds);
-        sb.append(", secondaryGunIds=").append(secondaryGunIds);
-        sb.append(", searchPlaneIds=").append(searchPlaneIds);
-        sb.append(", radarIds=").append(radarIds);
-        sb.append(", apAmmoIds=").append(apAmmoIds);
+        sb.append("mainGuns=").append(mainGuns);
+        sb.append(", secondaryGuns=").append(secondaryGuns);
+        sb.append(", searchPlanes=").append(searchPlanes);
+        sb.append(", radars=").append(radars);
+        sb.append(", apAmmos=").append(apAmmos);
         sb.append('}');
         return sb.toString();
     }

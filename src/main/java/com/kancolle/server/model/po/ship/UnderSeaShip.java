@@ -7,6 +7,7 @@ import org.apache.ibatis.type.Alias;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by J.K.SAGE on 2016/3/29 0029.
@@ -14,15 +15,23 @@ import java.util.List;
 @Alias("UnderSeaShip")
 public class UnderSeaShip implements IShip, Serializable {
 
-    private Ship ship;
+    private final Ship ship;
 
-    private List<UnderSeaSlotItem> slot;
+    private final List<UnderSeaSlotItem> slot;
 
     private int nowHp;
 
     private int[] currentEQ;
 
-    public UnderSeaShip() {
+    public UnderSeaShip(final Ship ship, final List<UnderSeaSlotItem> slot) {
+        Objects.requireNonNull(ship);
+        Objects.requireNonNull(slot);
+        this.ship = ship;
+        this.slot = slot;
+
+        this.nowHp = this.ship.getTaik().getMaxValue();
+        int[] currentEQ = this.ship.getMaxEq();
+        this.currentEQ = Arrays.copyOf(currentEQ, currentEQ.length);
     }
 
     @Override
@@ -30,29 +39,17 @@ public class UnderSeaShip implements IShip, Serializable {
         return this.ship;
     }
 
-    public void setShip(Ship ship) {
-        this.ship = ship;
-        // TODO move to constructor
-        this.nowHp = this.ship.getTaik().getMaxValue();
-        int[] currentEQ = this.ship.getMaxEq();
-        this.currentEQ = Arrays.copyOf(currentEQ, currentEQ.length);
-    }
-
     public List<UnderSeaSlotItem> getSlot() {
         return slot;
     }
 
-    public void setSlot(List<UnderSeaSlotItem> slot) {
-        this.slot = slot;
-    }
-
     @Override
     public int[] getCurrentEQ() {
-        return this.currentEQ;
+        return Arrays.copyOf(this.currentEQ, this.currentEQ.length);
     }
 
     public void setCurrentEQ(int[] currentEQ) {
-        this.currentEQ = currentEQ;
+        this.currentEQ = Arrays.copyOf(currentEQ, currentEQ.length);
     }
 
     @Override
@@ -72,60 +69,60 @@ public class UnderSeaShip implements IShip, Serializable {
 
     @Override
     public int getLeng() {
-        return getShip().getLeng();
+        return this.ship.getLeng();
     }
 
     @Override
     public int getShipSoukou() {
-        return getShip().getSouk().getMinValue();
+        return this.ship.getSouk().getMinValue();
     }
 
     public int getNowLv() {
-        return getShip().getLv();
+        return this.ship.getLv();
     }
 
     @Override
     public int getNowLuck() {
-        return getShip().getLuck().getMinValue();
+        return this.ship.getLuck().getMinValue();
     }
 
     @Override
     public int getMaxHp() {
-        return getShip().getTaik().getMaxValue();
+        return this.ship.getTaik().getMaxValue();
     }
 
     @Override
     public int getShipTaiSen() {
-        return getShip().getTaisen().getMinValue();
+        return this.ship.getTaisen().getMinValue();
     }
 
     @Override
     public int getShipKaihi() {
-        return getShip().getKaihi().getMinValue();
+        return this.ship.getKaihi().getMinValue();
     }
 
     @Override
     public int getShipKaryoku() {
-        return getShip().getHoug().getMinValue();
+        return this.ship.getHoug().getMinValue();
     }
 
     @Override
     public int getShipRaisou() {
-        return getShip().getRaig().getMinValue();
+        return this.ship.getRaig().getMinValue();
     }
 
     @Override
     public int getShipSakuteki() {
-        return getShip().getSakuteki().getMinValue();
+        return this.ship.getSakuteki().getMinValue();
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UnderSeaShip{");
-        sb.append("currentEQ=").append(Arrays.toString(currentEQ));
-        sb.append(", ship=").append(ship);
+        sb.append("ship=").append(ship);
         sb.append(", slot=").append(slot);
         sb.append(", nowHp=").append(nowHp);
+        sb.append(", currentEQ=").append(Arrays.toString(currentEQ));
         sb.append('}');
         return sb.toString();
     }

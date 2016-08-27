@@ -20,6 +20,7 @@ import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
+import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.member.Member;
@@ -31,7 +32,7 @@ import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
-import com.kancolle.server.service.battle.shelling.impl.ShellingTemplate;
+import com.kancolle.server.service.battle.shelling.template.ShellingTemplate;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -64,7 +65,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  * @Date 2015年8月22日
  */
 @Service
-public class BattleService extends BaseService implements IBattleService {
+public class BattleService extends BaseService {
 
     @Autowired
     private MapBattleService mapBattleService;
@@ -139,6 +140,11 @@ public class BattleService extends BaseService implements IBattleService {
         int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, underSeaAerialState);
         /** 敌方索敌 */
         int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, underSeaDeckPort);
+
+        final int memberSakuteki = memberShips.stream().map(MemberShip::getSakuteki).mapToInt(MaxMinValue::getMinValue).sum();
+        final int underSeaSakuteki = underSeaShips.stream().mapToInt(UnderSeaShip::getShipSakuteki).sum();
+        context.setMemberSakuteki(memberSakuteki);
+        context.setUnderSeaSakuteki(underSeaSakuteki);
 
         result.setApi_search(new int[]{fsResult, esResult});
 

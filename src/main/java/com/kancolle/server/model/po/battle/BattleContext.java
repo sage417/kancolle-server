@@ -31,11 +31,13 @@ public class BattleContext {
 
     private List<UnderSeaShip> aliveUnderSeaNormalShips;
 
-    private int currentAerialState;
-
     private int memberAerialState;
 
     private int underSeaAerialState;
+
+    private int memberSakuteki;
+
+    private int underSeaSakuteki;
 
     private LinkedList<MemberShip> memberAttackShips;
 
@@ -112,14 +114,6 @@ public class BattleContext {
         this.aliveUnderSeaNormalShips = aliveUnderSeaNormalShips;
     }
 
-    public int getCurrentAerialState() {
-        return currentAerialState;
-    }
-
-    public void setCurrentAerialState(int currentAerialState) {
-        this.currentAerialState = currentAerialState;
-    }
-
     public int getMemberAerialState() {
         return memberAerialState;
     }
@@ -134,6 +128,22 @@ public class BattleContext {
 
     public void setUnderSeaAerialState(int underSeaAerialState) {
         this.underSeaAerialState = underSeaAerialState;
+    }
+
+    public int getMemberSakuteki() {
+        return memberSakuteki;
+    }
+
+    public void setMemberSakuteki(int memberSakuteki) {
+        this.memberSakuteki = memberSakuteki;
+    }
+
+    public int getUnderSeaSakuteki() {
+        return underSeaSakuteki;
+    }
+
+    public void setUnderSeaSakuteki(int underSeaSakuteki) {
+        this.underSeaSakuteki = underSeaSakuteki;
     }
 
     public LinkedList<MemberShip> getMemberAttackShips() {
