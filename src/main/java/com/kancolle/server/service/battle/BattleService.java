@@ -267,7 +267,7 @@ public class BattleService extends BaseService {
         result.setWinRank(session.getWin_rank());
 
         WIN_RANK win_rank = WIN_RANK.valueOf(session.getWin_rank());
-        int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * win_rank.aug, RoundingMode.CEILING);
+        int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * BattleResult.EXP_AUG.get(win_rank.ordinal()), RoundingMode.CEILING);
         result.setGet_exp(underSeaDeckPort.getMemberExp());
         result.setMvp(session.getMvp());
 
