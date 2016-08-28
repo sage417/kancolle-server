@@ -258,6 +258,7 @@ public class BattleService extends BaseService {
         List<MemberShip> memberShips = memberDeckPort.getShips();
 
         BattleSession session = readJson(state.getSession(), BattleSession.class);
+        final int mvp_idx = session.getMvp();
 
         int enemyDeckPortId = session.getEnemy_deckport_id();
         UnderSeaDeckPort underSeaDeckPort = underSeaDeckPortService.getUnderSeaDeckPortById(enemyDeckPortId);
@@ -266,10 +267,10 @@ public class BattleService extends BaseService {
         result.setShip_id(session.getShip_id());
         result.setWinRank(session.getWin_rank());
 
-        WIN_RANK win_rank = WIN_RANK.valueOf(session.getWin_rank());
-        int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * BattleResult.EXP_AUG.get(win_rank.ordinal()), RoundingMode.CEILING);
+        WinRank winRank = WinRank.valueOf(session.getWin_rank());
+        int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * BattleResult.EXP_AUG.get(winRank.ordinal()), RoundingMode.CEILING);
         result.setGet_exp(underSeaDeckPort.getMemberExp());
-        result.setMvp(session.getMvp());
+        result.setMvp(mvp_idx);
 
         Member member = memberService.getMember(member_id);
         memberService.increaseMemberExp(member, baseExp);
@@ -279,6 +280,7 @@ public class BattleService extends BaseService {
         result.setBase_exp(underSeaDeckPort.getExp());
         int[] ship_exps = result.getShip_exp();
 
+        // exp
         for (ListIterator<MemberShip> iterator = memberShips.listIterator(); iterator.hasNext(); ) {
             int idx = iterator.nextIndex() + 1;
             MemberShip memberShip = iterator.next();
@@ -286,7 +288,7 @@ public class BattleService extends BaseService {
             if (idx == 1) {
                 ship_exps[1] += baseExp;
             }
-            ship_exps[idx] = idx == session.getMvp() ? 2 * baseExp : baseExp;
+            ship_exps[idx] = idx == mvp_idx ? 2 * baseExp : baseExp;
 
             int nowLv = memberShip.getLv();
             long[] now_exp = memberShip.getExp();
@@ -300,6 +302,8 @@ public class BattleService extends BaseService {
             }
             result.addExp_lvup(exp);
         }
+
+        processCondAfterBattleResult(memberShips, mvp_idx, winRank);
 
         result.setQuest_name(mapInfo.getApi_name());
         result.setQuest_level(mapInfo.getApi_level());
@@ -433,22 +437,22 @@ public class BattleService extends BaseService {
      * @param underSeaShips enemy ship list
      * @return win rank
      */
-    private WIN_RANK getWinRank(BattleContext context, List<MemberShip> memberShips, List<UnderSeaShip> underSeaShips) {
+    private WinRank getWinRank(BattleContext context, List<MemberShip> memberShips, List<UnderSeaShip> underSeaShips) {
         double memberLose = getMemberLose(context);
         double enemyLose = getEnemyLose(context);
         double enemyLostRatio = getEnemyDeckPortLostRatio(underSeaShips);
         boolean lost = isMemberShipLost(memberShips);
 
         if (enemyLose == 1d && !lost) {
-            return memberLose == 0d ? WIN_RANK.SS : WIN_RANK.S;
+            return memberLose == 0d ? WinRank.SS : WinRank.S;
         } else if (enemyLostRatio >= 2d / 3d && !lost) {
-            return WIN_RANK.A;
+            return WinRank.A;
         } else if (enemyLose >= 2 * memberLose) {
-            return WIN_RANK.B;
+            return WinRank.B;
         } else if (enemyLose >= memberLose) {
-            return WIN_RANK.C;
+            return WinRank.C;
         } else {
-            return lost ? WIN_RANK.E : WIN_RANK.D;
+            return lost ? WinRank.E : WinRank.D;
         }
     }
 
@@ -462,6 +466,25 @@ public class BattleService extends BaseService {
         MemberShip mvpShip = ordering.max(memberShips);
 
         return context.getShipMap().inverse().get(mvpShip);
+    }
+
+    /**
+     * 根据战斗评价和mvp计算状态值增益
+     * @param ships
+     * @param mvp_idx
+     * @param winRank
+     */
+    private void processCondAfterBattleResult(List<MemberShip> ships, int mvp_idx, WinRank winRank) {
+        int[] increase_conds = new int[ships.size()];
+        Arrays.fill(increase_conds, BattleResult.COND_AUG.get(winRank.ordinal()));
+        increase_conds[0] += 3;
+        increase_conds[mvp_idx] += 10;
+
+        IntStream.range(0, ships.size()).forEach(i -> {
+            int increaseCond = increase_conds[i];
+            MemberShip ship = ships.get(i);
+            memberShipService.updateMemberShipCond(ship, increaseCond);
+        });
     }
 }
 

@@ -41,7 +41,7 @@ public class BattleResult {
 
     public static final ImmutableList<Integer> COND_AUG = ImmutableList.of(4, 3, 2, 1, 0, 0);
 
-    public enum WIN_RANK {
+    public enum WinRank {
         SS, S, A, B, C, D, E
     }
 
