@@ -321,8 +321,17 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected boolean isFlagShip(final MemberShip ship, final BattleContext context) {
-        MemberDeckPort memberDeckPort = context.getMemberDeckPort();
-        return memberDeckPort.getShips().iterator().next().equals(ship);
+    protected int getCurrentFormation(final BattleContext context) {
+        return BattleContextUtils.getMemberFormation(context);
+    }
+
+    @Override
+    protected List<? extends IShip> getCurrentAliveNormalShips(BattleContext context) {
+        return context.getAliveMemberNormalShips();
+    }
+
+    @Override
+    protected List<? extends IShip> getCurrentAliveSSShips(BattleContext context) {
+        return context.getAliveMemberSSShips();
     }
 }

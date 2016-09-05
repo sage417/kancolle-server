@@ -5,7 +5,6 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
@@ -204,7 +203,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         //阵型补正
         final int formationIndex = BattleContextUtils.getMemberFormation(context);
-        final double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
+        final double formationAugmenting = FormationSystem.shellingHougAugment(formationIndex);
         augmenting *= formationAugmenting;
 
         //航向补正
@@ -298,8 +297,17 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    protected boolean isFlagShip(final UnderSeaShip ship, final BattleContext context) {
-        UnderSeaDeckPort underSeaDeckPort = context.getUnderSeaDeckPort();
-        return underSeaDeckPort.getUnderSeaShips().iterator().next().equals(ship);
+    protected int getCurrentFormation(final BattleContext context) {
+        return BattleContextUtils.getUnderSeaFormation(context);
+    }
+
+    @Override
+    protected List<? extends IShip> getCurrentAliveNormalShips(final BattleContext context) {
+        return context.getAliveUnderSeaNormalShips();
+    }
+
+    @Override
+    protected List<? extends IShip> getCurrentAliveSSShips(final BattleContext context) {
+        return context.getAliveUnderSeaSSShips();
     }
 }
