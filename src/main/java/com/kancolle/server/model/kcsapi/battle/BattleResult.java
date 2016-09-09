@@ -7,6 +7,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.common.collect.ImmutableList;
 import com.kancolle.server.model.kcsapi.battle.enemy.EnemyInfo;
 import com.kancolle.server.model.kcsapi.battle.event.BattleGetShipResult;
 import com.kancolle.server.model.kcsapi.battle.event.GetEventItem;
@@ -36,14 +37,12 @@ public class BattleResult {
 
     public static final int EXMAP_USEITEM_ID = 57;
 
-    public enum WIN_RANK {
-        SS(1.2d), S(1.2d), A(1d), B(1d), C(0.8d), D(0.6d), E(0.5d);
+    public static final ImmutableList<Double> EXP_AUG = ImmutableList.of(1.2d, 1.2d, 1d, 0.8d, 0.6d, 0.5d);
 
-        public final double aug;
+    public static final ImmutableList<Integer> COND_AUG = ImmutableList.of(4, 3, 2, 1, 0, 0);
 
-        WIN_RANK(double aug) {
-            this.aug = aug;
-        }
+    public enum WinRank {
+        SS, S, A, B, C, D, E
     }
 
     public static final int GET_NONE = 0;

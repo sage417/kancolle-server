@@ -170,7 +170,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         if (attackType == ATTACK_TYPE_ANTISUBMARINE) {
             return FormationSystem.taiSenHougAugment(formationIndex);
         } else {
-            return FormationSystem.shelllingHougAugment(formationIndex);
+            return FormationSystem.shellingHougAugment(formationIndex);
         }
     }
 
@@ -229,9 +229,9 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected abstract double shipKaihiRatio(final D ship, final BattleContext context);
 
     protected final double getKaihiFormationFactor(final int formation) {
-        return (formation == FormationSystem.FORMATION_2
-                || formation == FormationSystem.FORMATION_4
-                || formation == FormationSystem.FORMATION_5) ?
+        return (formation == FormationSystem.DOUBLELINE
+                || formation == FormationSystem.ECHELON
+                || formation == FormationSystem.LINEABREAST) ?
                 1.2d : 1d;
     }
 
@@ -271,6 +271,35 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected final void generateTaiSenAttackList(final BattleContext context, final IShip ship) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
+    }
+
+    @Override
+    protected D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
+        // 如果是旗舰受攻击,
+
+        D coverShip = getCoverShip(defendShip, context);
+
+        return coverShip == null ? defendShip:coverShip;
+    }
+
+    private D getCoverShip(final D defendShip,final BattleContext context) {
+
+        if (!BattleContextUtils.isFlagShip(defendShip, context)) {
+            return null;
+        }
+
+        boolean isSS = ShipFilter.ssFilter.test(defendShip);
+
+        List<? extends IShip> ships  = isSS ? getCurrentAliveSSShips(context):getCurrentAliveNormalShips(context);
+
+        if (ships.isEmpty()) {
+            return null;
+        }
+
+        int currentFormation = getCurrentFormation(context);
+        double coverRate = FormationSystem.shellingCoverAugment(currentFormation);
+
+        return null;
     }
 
     /**
@@ -403,7 +432,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 attackTypeAugmenting = 0d;
         }
 
-        boolean isFlagShip = isFlagShip(attackShip, context);
+        boolean isFlagShip = BattleContextUtils.isFlagShip(attackShip, context);
         if (isFlagShip) {
             attackTypeAugmenting += 0.1d;
         }
@@ -445,10 +474,10 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * @return
      */
     protected final double getHoumFormationFactor(final int attackFormation, final int defendFormation) {
-        return (defendFormation != FormationSystem.FORMATION_1 &&
-                (attackFormation == FormationSystem.FORMATION_2 ||
-                        attackFormation == FormationSystem.FORMATION_4 ||
-                        attackFormation == FormationSystem.FORMATION_5)) ?
+        return (defendFormation != FormationSystem.LINEAHEAD &&
+                (attackFormation == FormationSystem.DOUBLELINE ||
+                        attackFormation == FormationSystem.ECHELON ||
+                        attackFormation == FormationSystem.LINEABREAST)) ?
                 1.2d : 1d;
     }
 
@@ -469,16 +498,33 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /**
      * 获取当前制空情况
      *
+     * @param context
      * @return
      */
     protected abstract int getCurrentAerialState(final BattleContext context);
 
     /**
-     * 判断是否是旗舰
+     * 获取当前阵型
      *
-     * @param ship
      * @param context
      * @return
      */
-    protected abstract boolean isFlagShip(final A ship, final BattleContext context);
+    protected abstract int getCurrentFormation(final BattleContext context);
+
+    /**
+     * 获得当前存活水面舰
+     *
+     * @param context
+     * @return
+     */
+    protected abstract List<? extends IShip> getCurrentAliveNormalShips(final BattleContext context);
+
+    /**
+     * 获得当前存活潜艇
+     *
+     * @param context
+     * @return
+     */
+    protected abstract List<? extends IShip> getCurrentAliveSSShips(final BattleContext context);
+
 }

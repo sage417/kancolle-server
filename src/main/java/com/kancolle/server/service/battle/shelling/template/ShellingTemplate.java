@@ -93,13 +93,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         return attackableShips == null ? null : (D) CollectionsUtils.randomGet(attackableShips);
     }
 
-    private D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
-        // 如果是旗舰受攻击,僚舰可以为其抵挡攻击
-
-        // 如果旗舰是潜艇,只有其他潜艇可以为其抵挡伤害
-
-        return defendShip;
-    }
+    protected abstract D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context);
 
     /**
      * Step 3

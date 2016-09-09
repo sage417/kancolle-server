@@ -10,6 +10,7 @@ public interface MemberShipDao extends BaseDao<MemberShip> {
 
     String UPDATE_COLUMN_FUEL = "fuel";
     String UPDATE_COLUMN_BULL = "bull";
+    String UPDATE_COLUMN_COND = "cond";
 
     MemberShip selectMemberShip(String member_id, Long ship_id);
 
