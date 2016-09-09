@@ -5,15 +5,17 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
@@ -26,8 +28,13 @@ import static com.google.common.collect.Iterables.getLast;
 @Service
 public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip, UnderSeaShip> {
 
+    @Autowired
+    @Qualifier("memberBattleContextApply")
+    private BattleContextApply apply;
+
     @Override
     protected void prepareContext(final BattleContext context) {
+        context.setApply(apply);
         context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
         context.setEnemySSShips(context.getAliveUnderSeaSSShips());
     }
@@ -313,25 +320,5 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     @Override
     protected int getCurrentSakutekiSum(final BattleContext context) {
         return context.getMemberSakuteki();
-    }
-
-    @Override
-    protected int getCurrentAerialState(final BattleContext context) {
-        return context.getMemberAerialState();
-    }
-
-    @Override
-    protected int getCurrentFormation(final BattleContext context) {
-        return BattleContextUtils.getMemberFormation(context);
-    }
-
-    @Override
-    protected List<? extends IShip> getCurrentAliveNormalShips(BattleContext context) {
-        return context.getAliveMemberNormalShips();
-    }
-
-    @Override
-    protected List<? extends IShip> getCurrentAliveSSShips(BattleContext context) {
-        return context.getAliveMemberSSShips();
     }
 }
