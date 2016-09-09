@@ -391,7 +391,7 @@ public class BattleService extends BaseService {
         for (int i = 0; i < round; i++) {
             MemberShip attackShip = memberAttackShips.poll();
             if (ShipFilter.isAlive.test(attackShip)) {
-                memberShipShellingSystem.generateHougkeResult(attackShip, context);
+                memberShipShellingSystem. (attackShip, context);
             }
             UnderSeaShip enemyAttackShip = underSeaAttackShips.poll();
             if (ShipFilter.isAlive.test(enemyAttackShip)) {

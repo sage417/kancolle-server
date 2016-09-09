@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -66,33 +67,26 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
     }
 
     protected <E> List<E> queryForModels(Class<E> clazz, String sql, Map<String, Object> params) {
-        return getTemplate().query(sql, params, (rs, rn) -> {
-            E instance = null;
-            try {
-                instance = clazz.newInstance();
-                DaoUtils.setObject(instance, rs);
-            } catch (Exception e) {
-                LOGGER.error("Error Happen when queryForModels", e);
-            }
-            return instance;
-        });
+        return getTemplate().query(sql, params, (rs, rn) -> this.setObject(clazz, rs));
     }
 
     protected <E> E queryForSingleModel(Class<E> clazz, String sql, Map<String, Object> params) {
         try {
-            return template.queryForObject(sql, params, (rs, rn) -> {
-                E instance = null;
-                try {
-                    instance = clazz.newInstance();
-                    DaoUtils.setObject(instance, rs);
-                } catch (Exception e) {
-                    LOGGER.error("Error Happen when queryForSingleModel", e);
-                }
-                return instance;
-            });
+            return template.queryForObject(sql, params, (rs, rn) -> this.setObject(clazz, rs));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    private <V> V setObject(Class<V> clazz, ResultSet rs) {
+        V instance = null;
+        try {
+            instance = clazz.newInstance();
+            DaoUtils.setObject(instance, rs);
+        } catch (Exception e) {
+            LOGGER.error("Error Happen when queryForSingleModel", e);
+        }
+        return instance;
     }
 
     protected String generateJsonArray(Iterable<?> parts) {
