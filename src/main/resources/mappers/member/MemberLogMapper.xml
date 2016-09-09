@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.member.MemberLogMapper">
+
+    <resultMap type="MemberLog" id="MemberLogRM">
+        <id property="memberId" column="member_id"/>
+        <result property="api_no" column="NO"/>
+        <result property="api_type" column="TYPE"/>
+        <result property="api_state" column="STATE"/>
+        <result property="api_message" column="MESSAGE"/>
+    </resultMap>
+
+    <select id="selectMemberLogs" resultMap="MemberLog">
+        SELECT *
+        FROM t_member_log
+        WHERE member_id = #{member_id}
+        ORDER BY createTime
+        LIMIT 0, 5
+    </select>
+
+    <insert id="insertMemberLog" parameterType="MemberLog">
+        INSERT INTO t_member_log (member_id, NO, TYPE, STATE, MESSAGE)
+        VALUES (#{member_id}, #{api_no}, #{api_type}, #{api_state}, #{api_message})
+    </insert>
+</mapper>

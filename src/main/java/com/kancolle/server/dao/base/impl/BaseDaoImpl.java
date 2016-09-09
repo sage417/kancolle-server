@@ -1,7 +1,5 @@
 package com.kancolle.server.dao.base.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.Joiner;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
@@ -35,7 +33,6 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
         super.setSqlSessionFactory(sqlSessionFactory);
     }
 
-    @SuppressWarnings("unchecked")
     public BaseDaoImpl() {
         Type genType = getClass().getGenericSuperclass();
         Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
@@ -62,17 +59,6 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
     }
 
     public void replace(T t) {
-    }
-
-    /**
-     * 解析数据库字符串，返回JSONArray对象
-     *
-     * @param sql
-     * @param params
-     * @return
-     */
-    protected JSONArray parseJSONArray(String sql, Map<String, Object> params) {
-        return JSON.parseArray(template.queryForObject(sql, params, String.class));
     }
 
     protected <E> List<E> queryForModels(Class<E> clazz, String sql) {

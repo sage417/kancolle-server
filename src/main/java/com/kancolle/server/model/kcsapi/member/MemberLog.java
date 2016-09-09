@@ -1,16 +1,22 @@
 package com.kancolle.server.model.kcsapi.member;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
+@Alias("MemberLog")
 @JsonPropertyOrder(value = {
         "api_no", "api_type", "api_state", "api_message"
 })
 public class MemberLog implements Serializable {
+
+    @JsonIgnore
+    private String member_id;
 
     @JsonProperty(value = "api_no")
     @JSONField(ordinal = 1)
@@ -27,6 +33,14 @@ public class MemberLog implements Serializable {
     @JsonProperty(value = "api_message")
     @JSONField(ordinal = 4)
     private String api_message;
+
+    public String getMember_id() {
+        return member_id;
+    }
+
+    public void setMember_id(String member_id) {
+        this.member_id = member_id;
+    }
 
     public String getApi_message() {
         return api_message;
