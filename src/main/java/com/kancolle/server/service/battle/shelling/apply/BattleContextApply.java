@@ -28,10 +28,10 @@ public interface BattleContextApply {
     int getCurrentFormation(final BattleContext context);
 
     /**
-     * 获取当前舰队
+     * 获取敌舰队
      *
      * @param context
      * @return
      */
-    <T extends IShip> List<T> getCurrentShips(final BattleContext context);
+    <T extends IShip> List<T> getEnemyShips(BattleContext context);
 }

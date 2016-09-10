@@ -297,7 +297,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
             return null;
         }
 
-        List<D> ships = context.getApply().getCurrentShips(context);
+        List<D> ships = context.getApply().getEnemyShips(context);
 
         Predicate<IShip> filter = ShipFilter.ssFilter.test(defendShip) ? ShipFilter.ssFilter : ShipFilter.ssFilter.negate();
 

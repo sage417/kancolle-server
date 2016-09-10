@@ -1,7 +1,10 @@
 package com.kancolle.server.service.battle.shelling.apply;
 
 import com.kancolle.server.model.po.battle.BattleContext;
+import com.kancolle.server.model.po.ship.IShip;
+import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
+import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +26,7 @@ public class UnderSeaBattleContextApply implements BattleContextApply {
     }
 
     @Override
-    public List<UnderSeaShip> getCurrentShips(BattleContext context) {
-        return context.getUnderSeaDeckPort().getUnderSeaShips();
+    public List<MemberShip> getEnemyShips(BattleContext context) {
+        return context.getMemberDeckPort().getShips();
     }
 }
