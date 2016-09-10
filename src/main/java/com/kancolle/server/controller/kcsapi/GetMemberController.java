@@ -8,7 +8,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
-import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
+import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
@@ -186,9 +186,9 @@ public class GetMemberController {
     }
 
     @RequestMapping("/material")
-    public APIResponse<List<MemberMeterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberMeterialDto> api_data = portDao.getMaterial(member_id);
-        return new APIResponse<List<MemberMeterialDto>>().setApi_data(api_data);
+    public APIResponse<List<MemberMaterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMaterialDto> api_data = portDao.getMaterial(member_id);
+        return new APIResponse<List<MemberMaterialDto>>().setApi_data(api_data);
     }
 
     @RequestMapping("/questlist")

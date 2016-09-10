@@ -3,6 +3,7 @@ package com.kancolle.server.service.member;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.mapper.member.MemberLogMapper;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -35,6 +36,8 @@ public class MemberService {
     private MemberDao memberDao;
     @Autowired
     private PortDao portDao;
+    @Autowired
+    private MemberLogMapper memberLogMapper;
     @Autowired
     private MemberResourceService memberResourceService;
     @Autowired
@@ -89,7 +92,7 @@ public class MemberService {
         Member member = getBasic(member_id);
         port.setApi_basic(member);
         port.setApi_material(portDao.getMaterial(member_id));
-        port.setApi_log(portDao.getLog(member_id));
+        port.setApi_log(memberLogMapper.selectMemberLogs(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
         port.setApi_ndock(memberNDockService.getMemberNdocks(member_id));
@@ -183,6 +186,8 @@ public class MemberService {
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
         memberMapService.initMemberMapCellInfo(member_id);
+        // 创建PresetDeck记录
+        memberDeckPortService.insertMemberPresetDecks(member_id);
         return member;
     }
 }

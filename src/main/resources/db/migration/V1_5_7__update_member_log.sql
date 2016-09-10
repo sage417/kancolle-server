@@ -1,0 +1,1 @@
+ALTER TABLE `kancolle`.`t_member_log` DROP COLUMN `NO`;

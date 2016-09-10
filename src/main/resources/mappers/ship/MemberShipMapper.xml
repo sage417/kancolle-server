@@ -142,6 +142,7 @@
 		<set>
 			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_FUEL)">FUEL = #{member_ship.fuel},</if>
 			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_BULL)">BULL = #{member_ship.bull},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_COND)">COND = #{member_ship.cond},</if>
 		</set>
 		WHERE member_id = #{member_ship.memberId}
 		AND ID = #{member_ship.memberShipId}

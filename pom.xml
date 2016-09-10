@@ -76,7 +76,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>4.0.3</version>
                 <configuration>
-                    <configFile>src/main/resources/flyway.properties</configFile>
+                    <configFile>src/main/resources/db/migration/flyway.properties</configFile>
                 </configuration>
             </plugin>
         </plugins>

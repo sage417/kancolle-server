@@ -15,6 +15,7 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
@@ -25,6 +26,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -98,7 +100,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /* --------------回避阈值-------------- */
 
     protected final int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
-        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
+        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[2] : new int[1];
         double houmRatios = shipHoumRatios(attackShip, context);
         double kaihiRatios = shipKaihiRatio(defendShip, context);
         final double finalHoumRatios = hitRadiosThreshold(houmRatios - kaihiRatios);
@@ -170,7 +172,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         if (attackType == ATTACK_TYPE_ANTISUBMARINE) {
             return FormationSystem.taiSenHougAugment(formationIndex);
         } else {
-            return FormationSystem.shelllingHougAugment(formationIndex);
+            return FormationSystem.shellingHougAugment(formationIndex);
         }
     }
 
@@ -229,9 +231,9 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected abstract double shipKaihiRatio(final D ship, final BattleContext context);
 
     protected final double getKaihiFormationFactor(final int formation) {
-        return (formation == FormationSystem.FORMATION_2
-                || formation == FormationSystem.FORMATION_4
-                || formation == FormationSystem.FORMATION_5) ?
+        return (formation == FormationSystem.DOUBLELINE
+                || formation == FormationSystem.ECHELON
+                || formation == FormationSystem.LINEABREAST) ?
                 1.2d : 1d;
     }
 
@@ -273,6 +275,37 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
     }
 
+    @Override
+    protected D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
+        // 如果是旗舰受攻击,
+
+        D coverShip = getCoverShip(defendShip, context);
+
+        return coverShip == null ? defendShip : coverShip;
+    }
+
+    private D getCoverShip(final D defendShip, final BattleContext context) {
+
+        if (!BattleContextUtils.isFlagShip(defendShip, context)) {
+            return null;
+        }
+
+        int currentFormation = context.getApply().getCurrentFormation(context);
+        double coverRate = FormationSystem.shellingCoverAugment(currentFormation);
+
+        if (RandomUtils.nextDouble(0d,1d)> coverRate) {
+            return null;
+        }
+
+        List<D> ships = context.getApply().getEnemyShips(context);
+
+        Predicate<IShip> filter = ShipFilter.ssFilter.test(defendShip) ? ShipFilter.ssFilter : ShipFilter.ssFilter.negate();
+
+        List<D> coverShips = ships.stream().filter(filter).filter(ShipUtils.isTinyDmg.negate()).collect(Collectors.toList());
+
+        return CollectionsUtils.randomGet(coverShips);
+    }
+
     /**
      * 彈著觀測射擊：
      * <p>
@@ -298,7 +331,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 break;
             }
 
-            final int aerialState = getCurrentAerialState(context);
+            final int aerialState = context.getApply().getCurrentAerialState(context);
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
             if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
@@ -403,7 +436,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 attackTypeAugmenting = 0d;
         }
 
-        boolean isFlagShip = isFlagShip(attackShip, context);
+        boolean isFlagShip = BattleContextUtils.isFlagShip(attackShip, context);
         if (isFlagShip) {
             attackTypeAugmenting += 0.1d;
         }
@@ -445,10 +478,10 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
      * @return
      */
     protected final double getHoumFormationFactor(final int attackFormation, final int defendFormation) {
-        return (defendFormation != FormationSystem.FORMATION_1 &&
-                (attackFormation == FormationSystem.FORMATION_2 ||
-                        attackFormation == FormationSystem.FORMATION_4 ||
-                        attackFormation == FormationSystem.FORMATION_5)) ?
+        return (defendFormation != FormationSystem.LINEAHEAD &&
+                (attackFormation == FormationSystem.DOUBLELINE ||
+                        attackFormation == FormationSystem.ECHELON ||
+                        attackFormation == FormationSystem.LINEABREAST)) ?
                 1.2d : 1d;
     }
 
@@ -465,20 +498,4 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     protected abstract int getCurrentSakutekiSum(final BattleContext context);
 
-
-    /**
-     * 获取当前制空情况
-     *
-     * @return
-     */
-    protected abstract int getCurrentAerialState(final BattleContext context);
-
-    /**
-     * 判断是否是旗舰
-     *
-     * @param ship
-     * @param context
-     * @return
-     */
-    protected abstract boolean isFlagShip(final A ship, final BattleContext context);
 }
