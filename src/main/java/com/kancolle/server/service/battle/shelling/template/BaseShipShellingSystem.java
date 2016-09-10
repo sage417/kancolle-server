@@ -100,7 +100,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /* --------------回避阈值-------------- */
 
     protected final int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
-        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
+        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[2] : new int[1];
         double houmRatios = shipHoumRatios(attackShip, context);
         double kaihiRatios = shipKaihiRatio(defendShip, context);
         final double finalHoumRatios = hitRadiosThreshold(houmRatios - kaihiRatios);
