@@ -155,7 +155,7 @@ public class BattleService extends BaseService {
         /*------------------------2.航空战开始开始------------------------*/
 
         KouKuResult kouKuResult = new KouKuResult();
-       // result.setApi_kouku(kouKuResult);
+        // result.setApi_kouku(kouKuResult);
         /*-------制空战开始-------*/
         KouKuStage1 stage1 = new KouKuStage1();
         kouKuResult.setStage1(stage1);
@@ -470,21 +470,23 @@ public class BattleService extends BaseService {
 
     /**
      * 根据战斗评价和mvp计算状态值增益
+     *
      * @param ships
      * @param mvp_idx
      * @param winRank
      */
-    private void processCondAfterBattleResult(List<MemberShip> ships, int mvp_idx, WinRank winRank) {
-        int[] increase_conds = new int[ships.size()];
+    private void processCondAfterBattleResult(final List<MemberShip> ships,final int mvp_idx,final WinRank winRank) {
+        final int[] increase_conds = new int[ships.size()];
         Arrays.fill(increase_conds, BattleResult.COND_AUG.get(winRank.ordinal()));
         increase_conds[0] += 3;
-        increase_conds[mvp_idx] += 10;
+        increase_conds[mvp_idx - 1] += 10;
 
-        IntStream.range(0, ships.size()).forEach(i -> {
-            int increaseCond = increase_conds[i];
-            MemberShip ship = ships.get(i);
-            memberShipService.updateMemberShipCond(ship, increaseCond);
-        });
+        IntStream.range(0, ships.size())
+                .forEach(i -> {
+                    int increaseCond = increase_conds[i];
+                    MemberShip ship = ships.get(i);
+                    memberShipService.updateMemberShipCond(ship, increaseCond);
+                });
     }
 }
 
