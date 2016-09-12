@@ -10,12 +10,15 @@ import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
+import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class BattleContext {
+
+    private BattleContextApply apply;
 
     private BattleSimulationResult battleResult;
 
@@ -56,6 +59,14 @@ public class BattleContext {
     private final Map<MemberShip, Integer> damageSum = Maps.newHashMap();
 
     public BattleContext() {
+    }
+
+    public BattleContextApply getApply() {
+        return apply;
+    }
+
+    public void setApply(BattleContextApply apply) {
+        this.apply = apply;
     }
 
     public BattleSimulationResult getBattleResult() {

@@ -15,6 +15,7 @@ import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
@@ -25,6 +26,7 @@ import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -98,7 +100,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /* --------------回避阈值-------------- */
 
     protected final int[] addToCriticalList(final A attackShip, final int attackType, final D defendShip, final BattleContext context) {
-        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[1] : new int[2];
+        int[] criticals = attackType == ATTACK_TYPE_DOUBLE ? new int[2] : new int[1];
         double houmRatios = shipHoumRatios(attackShip, context);
         double kaihiRatios = shipKaihiRatio(defendShip, context);
         final double finalHoumRatios = hitRadiosThreshold(houmRatios - kaihiRatios);
@@ -279,27 +281,29 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
         D coverShip = getCoverShip(defendShip, context);
 
-        return coverShip == null ? defendShip:coverShip;
+        return coverShip == null ? defendShip : coverShip;
     }
 
-    private D getCoverShip(final D defendShip,final BattleContext context) {
+    private D getCoverShip(final D defendShip, final BattleContext context) {
 
         if (!BattleContextUtils.isFlagShip(defendShip, context)) {
             return null;
         }
 
-        boolean isSS = ShipFilter.ssFilter.test(defendShip);
+        int currentFormation = context.getApply().getCurrentFormation(context);
+        double coverRate = FormationSystem.shellingCoverAugment(currentFormation);
 
-        List<? extends IShip> ships  = isSS ? getCurrentAliveSSShips(context):getCurrentAliveNormalShips(context);
-
-        if (ships.isEmpty()) {
+        if (RandomUtils.nextDouble(0d,1d)> coverRate) {
             return null;
         }
 
-        int currentFormation = getCurrentFormation(context);
-        double coverRate = FormationSystem.shellingCoverAugment(currentFormation);
+        List<D> ships = context.getApply().getEnemyShips(context);
 
-        return null;
+        Predicate<IShip> filter = ShipFilter.ssFilter.test(defendShip) ? ShipFilter.ssFilter : ShipFilter.ssFilter.negate();
+
+        List<D> coverShips = ships.stream().filter(filter).filter(ShipUtils.isTinyDmg.negate()).collect(Collectors.toList());
+
+        return CollectionsUtils.randomGet(coverShips);
     }
 
     /**
@@ -327,7 +331,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                 break;
             }
 
-            final int aerialState = getCurrentAerialState(context);
+            final int aerialState = context.getApply().getCurrentAerialState(context);
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
             if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
@@ -493,38 +497,5 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     }
 
     protected abstract int getCurrentSakutekiSum(final BattleContext context);
-
-
-    /**
-     * 获取当前制空情况
-     *
-     * @param context
-     * @return
-     */
-    protected abstract int getCurrentAerialState(final BattleContext context);
-
-    /**
-     * 获取当前阵型
-     *
-     * @param context
-     * @return
-     */
-    protected abstract int getCurrentFormation(final BattleContext context);
-
-    /**
-     * 获得当前存活水面舰
-     *
-     * @param context
-     * @return
-     */
-    protected abstract List<? extends IShip> getCurrentAliveNormalShips(final BattleContext context);
-
-    /**
-     * 获得当前存活潜艇
-     *
-     * @param context
-     * @return
-     */
-    protected abstract List<? extends IShip> getCurrentAliveSSShips(final BattleContext context);
 
 }

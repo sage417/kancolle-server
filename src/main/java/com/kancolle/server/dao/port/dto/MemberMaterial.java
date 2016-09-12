@@ -1,33 +1,27 @@
 package com.kancolle.server.dao.port.dto;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
 import com.kancolle.server.dao.annotation.Column;
-import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
-import com.kancolle.server.utils.BeanUtils;
+import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class MemberMaterial {
 
-    private static Map<String, Function<MemberMaterial, Integer>> methodMap;
+    private static final ImmutableMap<Integer, Function<MemberMaterial, Integer>> methodMap = new ImmutableMap.Builder<Integer, Function<MemberMaterial, Integer>>()
+            .put(1, MemberMaterial::getFuel)
+            .put(2, MemberMaterial::getBull)
+            .put(3, MemberMaterial::getSteal)
+            .put(4, MemberMaterial::getBauxite)
+            .put(5, MemberMaterial::getFast_build)
+            .put(6, MemberMaterial::getFast_rec)
+            .put(7, MemberMaterial::getDev_item)
+            .put(8, MemberMaterial::getEnh_item)
+            .build();
 
-    static {
-        methodMap = Maps.newHashMapWithExpectedSize(8);
-        methodMap.put("1", MemberMaterial::getFuel);
-        methodMap.put("2", MemberMaterial::getBull);
-        methodMap.put("3", MemberMaterial::getSteal);
-        methodMap.put("4", MemberMaterial::getBauxite);
-        methodMap.put("5", MemberMaterial::getFast_build);
-        methodMap.put("6", MemberMaterial::getFast_rec);
-        methodMap.put("7", MemberMaterial::getDev_item);
-        methodMap.put("8", MemberMaterial::getEnh_item);
-        methodMap = Collections.unmodifiableMap(methodMap);
-    }
 
     private int fuel;
 
@@ -117,17 +111,15 @@ public class MemberMaterial {
         this.steal = steal;
     }
 
-    public List<MemberMeterialDto> toModel() {
-        long count = BeanUtils.getGetMethodStream(MemberMaterial.class, int.class).count();
-        List<MemberMeterialDto> meterials = Lists.newArrayListWithCapacity((int) count);
+    public List<MemberMaterialDto> toModel() {
 
-        Stream.iterate(1, i -> ++i).limit(count).forEach(i -> {
-            MemberMeterialDto meterial = new MemberMeterialDto();
-            meterial.setApi_id(i);
-            meterial.setApi_value(methodMap.get(Integer.toString(i)).apply(this));
-            meterials.add(meterial);
-        });
+        final int count = methodMap.size() + 1;
 
-        return meterials;
+        return IntStream.range(1, count).boxed().map(i -> {
+            MemberMaterialDto material = new MemberMaterialDto();
+            material.setApi_id(i);
+            material.setApi_value(methodMap.get(i).apply(this));
+            return material;
+        }).collect(Collectors.toList());
     }
 }

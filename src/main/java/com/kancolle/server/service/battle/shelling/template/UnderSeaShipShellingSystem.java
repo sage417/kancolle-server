@@ -11,10 +11,13 @@ import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
@@ -25,8 +28,13 @@ import static com.google.common.collect.Iterables.getLast;
 @Service
 public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
 
+    @Autowired
+    @Qualifier("underSeaBattleContextApply")
+    private BattleContextApply apply;
+
     @Override
     protected void prepareContext(final BattleContext context) {
+        context.setApply(apply);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
     }
@@ -289,25 +297,5 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     protected int getCurrentSakutekiSum(final BattleContext context) {
         return context.getUnderSeaSakuteki();
-    }
-
-    @Override
-    protected int getCurrentAerialState(final BattleContext context) {
-        return context.getUnderSeaAerialState();
-    }
-
-    @Override
-    protected int getCurrentFormation(final BattleContext context) {
-        return BattleContextUtils.getUnderSeaFormation(context);
-    }
-
-    @Override
-    protected List<? extends IShip> getCurrentAliveNormalShips(final BattleContext context) {
-        return context.getAliveUnderSeaNormalShips();
-    }
-
-    @Override
-    protected List<? extends IShip> getCurrentAliveSSShips(final BattleContext context) {
-        return context.getAliveUnderSeaSSShips();
     }
 }
