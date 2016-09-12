@@ -45,7 +45,8 @@
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="config,stat" />
 
-		<property name="connectionProperties" value="config.file=jdbc.properties" />
+		<property name="connectionProperties"
+				  value="config.decrypt=${config.decrypt};config.decrypt.key=${config.decrypt.key}"/>
 	</bean>
 
 	<bean id="template" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
