@@ -34,11 +34,9 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
         super.setSqlSessionFactory(sqlSessionFactory);
     }
 
+    @SuppressWarnings("unchecked")
     public BaseDaoImpl() {
-        Type genType = getClass().getGenericSuperclass();
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-
-        Class<T> entityClass = (Class<T>) params[0];
+        Class<T> entityClass = (Class<T>) DaoUtils.getSuperClassGenricType(this.getClass());
         className = entityClass.getSimpleName();
     }
 
