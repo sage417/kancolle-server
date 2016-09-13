@@ -12,8 +12,7 @@
     <version>2.0.0-SNAPSHOT</version>
 
     <build>
-        <finalName>kancolle-server</finalName>
-
+        <finalName>kancolle-server-${project.version}</finalName>
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
@@ -29,8 +28,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -63,7 +62,9 @@
                 <jdbc.pass>OzKoQs3rYTpoXrdv9hjViybUmD5fTpGollOCiad6flZffa7G9ZGHb8V2PjS32DMTqtIWzxtByysukXebEJ8JCA==
                 </jdbc.pass>
                 <config.decrypt>true</config.decrypt>
-                <config.decrypt.key>MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIzeBDdOBNu1m5sTKKnuP/BiU1q4LW9IUUCj5vsanveFrPBaTLoWihje0fjYfTGMmdoMXJJx1vgUcs41zSGAO9sCAwEAAQ==</config.decrypt.key>
+                <config.decrypt.key>
+                    MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIzeBDdOBNu1m5sTKKnuP/BiU1q4LW9IUUCj5vsanveFrPBaTLoWihje0fjYfTGMmdoMXJJx1vgUcs41zSGAO9sCAwEAAQ==
+                </config.decrypt.key>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -87,6 +88,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.2.RELEASE</spring.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <parent>

@@ -8,4 +8,4 @@ services:
 before_install:
   - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
 before_script:
-  - mongoimport -d kancolle -c shop ./shop.dat
+  - mongoimport -d kancolle -c shop ./mongo_init/shop.dat
