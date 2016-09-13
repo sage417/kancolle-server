@@ -29,7 +29,7 @@ public class ServiceConfig {
         return new SpringUtils();
     }
 
-    @Bean(name = "jackson2ObjectMapper")
+    @Bean
     public Jackson2ObjectMapperFactoryBean getJackson2ObjectMapperFactoryBean() {
         Jackson2ObjectMapperFactoryBean factoryBean = new Jackson2ObjectMapperFactoryBean();
         factoryBean.setFeaturesToEnable(ESCAPE_NON_ASCII, DEFAULT_VIEW_INCLUSION);
