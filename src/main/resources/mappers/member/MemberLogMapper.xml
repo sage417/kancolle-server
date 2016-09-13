@@ -3,7 +3,7 @@
 <mapper namespace="com.kancolle.server.mapper.member.MemberLogMapper">
 
     <resultMap type="MemberLog" id="MemberLogRM">
-        <id property="memberId" column="member_id"/>
+        <id property="member_id" column="member_id"/>
         <result property="api_no" column="NO"/>
         <result property="api_type" column="TYPE"/>
         <result property="api_state" column="STATE"/>

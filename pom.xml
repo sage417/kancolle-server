@@ -87,8 +87,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.3.2.RELEASE</spring.version>
-        <jetty.version>9.3.8.v20160314</jetty.version>
-        <jackson.version>2.7.6</jackson.version>
     </properties>
 
     <parent>
@@ -108,7 +106,7 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
-            <version>4.0.0</version>
+            <version>4.1.6</version>
         </dependency>
 
         <dependency>
