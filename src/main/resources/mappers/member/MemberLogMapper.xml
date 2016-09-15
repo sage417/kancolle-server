@@ -12,14 +12,15 @@
 
     <select id="selectMemberLogs" resultMap="MemberLogRM">
         SELECT
-        l.*,
+        l.TYPE, l.STATE, l.MESSAGE,
         (@rowNum := @rowNum + 1) AS `No`
         FROM
         t_member_log l,
-        (SELECT (@rowNum := 0)) b
+        (SELECT (@rowNum := -1)) b
+        WHERE l.member_id = #{member_id}
         ORDER BY
         l.createTime DESC
-        LIMIT 0, 5
+        LIMIT 0, 6
     </select>
 
     <insert id="insertMemberLog" parameterType="MemberLog">
