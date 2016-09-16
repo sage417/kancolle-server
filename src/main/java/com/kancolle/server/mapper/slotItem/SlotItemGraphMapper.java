@@ -1,6 +1,7 @@
 package com.kancolle.server.mapper.slotItem;
 
 import com.kancolle.server.model.kcsapi.start.sub.SlotItemGraphModel;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * Author: mac
  * Date: 16/8/10
  */
+@Mapper
 public interface SlotItemGraphMapper {
 
     List<SlotItemGraphModel> selectSlotItemGraphs();

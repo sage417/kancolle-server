@@ -4,6 +4,7 @@
 package com.kancolle.server.mapper.map;
 
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -11,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @Date 2015年8月21日
  *
  */
+@Mapper
 public interface MemberMapBattleMapper {
 
     String MAPCELL_ID = "mapCellId";

@@ -1,6 +1,7 @@
 package com.kancolle.server.mapper.ship;
 
 import com.kancolle.server.model.po.ship.ShipType;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
  * Author: mac
  * Date: 16/8/9
  */
+@Mapper
 public interface ShipTypeMapper {
 
     List<ShipType> selectShipTypes();
