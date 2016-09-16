@@ -29,8 +29,8 @@ public class MemberShipUtils {
         // --------------根据等级成长属性---------------//
         int lv = memberShip.getLv();
         int shipKaihi = LvUtils.getLvValue(ship.getKaihi(), lv);
-        int shipTaisen = LvUtils.getLvValue(ship.getKaihi(), lv);
-        int shipSakuteki = LvUtils.getLvValue(ship.getKaihi(), lv);
+        int shipTaisen = LvUtils.getLvValue(ship.getTaisen(), lv);
+        int shipSakuteki = LvUtils.getLvValue(ship.getSakuteki(), lv);
         // --------------根据等级成长属性---------------//
 
         for (MemberSlotItem memberSlotItem : memberShip.getSlot()) {

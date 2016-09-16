@@ -8,9 +8,9 @@ import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
+import com.kancolle.server.utils.logic.common.LvUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -206,9 +206,10 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     private int taiSenBasicHoug(final IShip ship, final int attackAugmenting) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
-        final int shipTaisen = 2 * IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.CEILING);
-        final int slotTaisen = DoubleMath.roundToInt(1.5d * ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getTaiSen).sum(), RoundingMode.CEILING);
-        return shipTaisen + slotTaisen + attackAugmenting;
+        final int shipTaisen = LvUtils.getLvValue(ship.getShip().getTaisen(), ship.getNowLv());
+        final int slotTaisen = ship.getShipTaiSen() - shipTaisen;
+        final int augmenting = ShipFilter.carrierFilter.test(ship) ? AIRCRAFT_AUGMENTING : DEPTH_CHARGE_AUGMENTING;
+        return 2 * IntMath.sqrt(shipTaisen, RoundingMode.CEILING) + DoubleMath.roundToInt(1.5d * slotTaisen, RoundingMode.CEILING) + augmenting;
     }
 
     private int attackValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
