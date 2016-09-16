@@ -1,15 +1,13 @@
 /**
  *
  */
-package com.kancolle.server.service.member.impl;
+package com.kancolle.server.service.member;
 
 import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.ndock.NdockStartForm;
 import com.kancolle.server.dao.member.MemberNdockDao;
 import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.ship.MemberShip;
-import com.kancolle.server.service.member.MemberNDockService;
-import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,7 @@ import static com.google.common.base.Preconditions.checkState;
  * @Date 2015年6月22日
  */
 @Service
-public class MemberNdockServiceImpl {
+public class MemberNdockService {
 
     @Autowired
     private MemberNdockDao memberNdockDao;
@@ -121,6 +119,7 @@ public class MemberNdockServiceImpl {
      * 入渠完成：
      * 1. 恢复至满血
      * 2. 恢复状态值至40
+     *
      * @param memberShip
      */
     private void repairMemberShip(final MemberShip memberShip) {
@@ -129,5 +128,9 @@ public class MemberNdockServiceImpl {
             memberShip.setCond(MemberShip.WARN_COND);
         }
         memberShipService.updateHpAndCond(memberShip);
+    }
+
+    public MemberNdock getMemberNdockByMemberIdAndMemberShipId(final String member_id, final long member_ship_id) {
+        return memberNdockDao.selectMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
     }
 }

@@ -28,7 +28,7 @@ import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
-import com.kancolle.server.service.member.MemberNDockService;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberResourceService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.utils.ChargeType;
@@ -89,7 +89,7 @@ public class MemberShipService {
     private MemberDeckPortService memberDeckPortService;
 
     @Autowired
-    private MemberNDockService memberNDockService;
+    private MemberNdockService memberNdockService;
 
     @Autowired
     private EventBus eventBus;
@@ -144,7 +144,7 @@ public class MemberShipService {
 
 
     public void destroyShips(String member_id, List<MemberShip> destoryShips) {
-        long[] InNdockshipIds = memberNDockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
+        long[] InNdockshipIds = memberNdockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
 
         for (MemberShip destroyShip : destoryShips) {
             if (destroyShip == null) {
@@ -311,9 +311,12 @@ public class MemberShipService {
             throw new IllegalArgumentException();
         }
 
-        // TODO 合成舰娘不能在入渠状态
-        // TODO 合成舰娘不能在远征状态
+        // 远征检查
         MemberDeckPort deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
+        checkState(deckPort == null || deckPort.getMission()[0] == 0, "用户ID:%s，强化的舰娘处于远征状态，ID:%d", member_id, target_ship_id);
+        // 入渠检查
+        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id,target_ship_id);
+        checkState(ndock == null, "用户ID:%s，强化的舰娘正在入渠，ID:%d", member_id, target_ship_id);
 
         int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
 

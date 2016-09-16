@@ -26,6 +26,14 @@
 			</where>
 	</select>
 
+	<select id="selectMemberNdockByMemberIdAndMemberShipId" resultMap="MemberNdockRM">
+		SELECT * FROM t_member_ndockmember_id = #{member_id}
+		<where>
+			<if test="member_id != null"> member_id = #{member_id} </if>
+			<if test="member_ship_id != null">AND SHIP_ID = #{member_ship_id}</if>
+		</where>
+	</select>
+
 	<insert id="insertMemberNdocks">
 		REPLACE INTO t_member_ndock (member_id, ID, STATE) VALUES
 			<foreach collection="list" item="ndock" separator=",">

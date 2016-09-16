@@ -45,7 +45,7 @@ public class MemberService {
     @Autowired
     private MemberKdockService memberKdockService;
     @Autowired
-    private MemberNDockService memberNDockService;
+    private MemberNdockService memberNdockService;
     @Autowired
     private MemberShipService memberShipService;
     @Autowired
@@ -95,7 +95,7 @@ public class MemberService {
         port.setApi_log(memberLogMapper.selectMemberLogs(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
-        port.setApi_ndock(memberNDockService.getMemberNdocks(member_id));
+        port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
         return port;
     }
 
@@ -177,7 +177,7 @@ public class MemberService {
         // 创建工厂
         memberKdockService.initMemberKdock(member_id);
         // 创建渠
-        memberNDockService.initMemberNdock(member_id);
+        memberNdockService.initMemberNdock(member_id);
         // 创建家具记录
         memberFurnitureService.initMemberFurniture(member_id);
         // 创建item记录

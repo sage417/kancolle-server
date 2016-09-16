@@ -37,4 +37,12 @@ public class MemberNdockDaoImpl extends BaseDaoImpl<MemberNdock> implements Memb
     public void insertMemberNdocks(List<MemberNdock> ndocks) {
         getSqlSession().insert("insertMemberNdocks",ndocks);
     }
+
+    @Override
+    public MemberNdock selectMemberNdockByMemberIdAndMemberShipId(String member_id, long member_ship_id) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("member_ship_id", member_ship_id);
+        return getSqlSession().selectOne("selectMemberNdockByMemberIdAndMemberShipId", params);
+    }
 }
