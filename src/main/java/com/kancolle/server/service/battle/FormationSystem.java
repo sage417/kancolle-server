@@ -18,14 +18,14 @@ public abstract class FormationSystem {
     public static double shellingHougAugment(final int formation) {
         switch (formation) {
             case LINEAHEAD:
-                return 0d;
+                return 1d;
             case DOUBLELINE:
-                return -0.2d;
+                return 0.8d;
             case DIAMOND:
-                return -0.3d;
+                return 0.7d;
             case ECHELON:
             case LINEABREAST:
-                return -0.4d;
+                return 0.6d;
             default:
                 return throwIllegalFormationIdx(formation);
         }
@@ -34,15 +34,15 @@ public abstract class FormationSystem {
     public static double taiSenHougAugment(final int formation) {
         switch (formation) {
             case LINEAHEAD:
-                return -0.5d;
+                return 0.5d;
             case DOUBLELINE:
-                return -0.4d;
+                return 0.6d;
             case DIAMOND:
-                return -0.2d;
+                return 0.8d;
             case ECHELON:
-                return -0.2d;
+                return 0.8d;
             case LINEABREAST:
-                return 0d;
+                return 1d;
             default:
                 return throwIllegalFormationIdx(formation);
         }

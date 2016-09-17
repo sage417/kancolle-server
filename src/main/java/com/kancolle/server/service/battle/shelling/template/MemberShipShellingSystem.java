@@ -203,7 +203,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * @param ship
      * @return
      */
-    private int taiSenBasicHoug(final IShip ship, final int attackAugmenting) {
+    private int taiSenBasicHoug(final IShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
         final int shipTaisen = LvUtils.getLvValue(ship.getShip().getTaisen(), ship.getNowLv());
@@ -257,12 +257,12 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     public double taiSenAugmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
-        final int taisenBasicHoug = taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
+        final int taisenBasicHoug = taiSenBasicHoug(attackShip);
         double augmenting = basicAugmentBeforeThreshold(attackShip, context);
 
         //反潜套补正
         final double taisenAugmenting = taisenShellingAugmenting(attackShip);
-        augmenting += taisenAugmenting;
+        augmenting *= taisenAugmenting;
 
         if (augmenting < 0d) {
             augmenting = 0d;

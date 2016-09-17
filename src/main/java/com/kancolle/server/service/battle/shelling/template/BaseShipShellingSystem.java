@@ -138,17 +138,17 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         double augmenting = 1d;
 
         //阵型补正
-        final int formationIndex = BattleContextUtils.getMemberFormation(context);
+        final int formationIndex = context.getApply().getCurrentFormation(context);
         final double formationAugmenting = formationShellingAugmenting(formationIndex, attackType);
-        augmenting += formationAugmenting;
+        augmenting *= formationAugmenting;
 
         //航向补正
         final double courseAugmenting = courseShellingAugmenting(context);
-        augmenting += courseAugmenting;
+        augmenting *= courseAugmenting;
 
         //损伤补正
         final double damageAugmenting = damageShellingAugmenting(attackShip);
-        augmenting += damageAugmenting;
+        augmenting *= damageAugmenting;
         return augmenting;
     }
 
@@ -160,12 +160,12 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected final double damageShellingAugmenting(final IShip attackShip) {
         if (ShipUtils.isBadlyDmgStatue.test(attackShip)) {
             // TODO 雷击战补正0
-            return -0.6d;
+            return 0.4d;
         } else if (ShipUtils.isMidDmgStatue.test(attackShip)) {
             // TODO 雷击战补正0.8
-            return -0.3d;
+            return 0.7d;
         }
-        return 0d;
+        return 1.0d;
     }
 
     protected final double formationShellingAugmenting(final int formationIndex, final int attackType) {
@@ -180,10 +180,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
         final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
         final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
-        if (hasHydrophone && hasDepthCharge) {
-            return 0.15d;
-        }
-        return 0d;
+        return hasHydrophone && hasDepthCharge ? 1.15d : 1d;
     }
     /* ---------------炮击火力阈值前补正-------------*/
 
@@ -293,7 +290,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         int currentFormation = context.getApply().getCurrentFormation(context);
         double coverRate = FormationSystem.shellingCoverAugment(currentFormation);
 
-        if (RandomUtils.nextDouble(0d,1d)> coverRate) {
+        if (RandomUtils.nextDouble(0d, 1d) > coverRate) {
             return null;
         }
 

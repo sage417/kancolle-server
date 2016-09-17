@@ -36,15 +36,15 @@ public enum CourseEnum {
         CourseEnum courseEnum = getCourseEnum(courseIdx);
         switch (courseEnum) {
             case SAME_COURSE:
-                return 0d;
+                return 1d;
             case OPPOSITE_COURSE:
-                return -0.2d;
+                return 0.8d;
             case T_COURSE_ADVANTAGE:
-                return 0.2d;
+                return 1.2d;
             case T_COURSE_DISADVANTAGE:
-                return -0.4d;
+                return 0.6d;
             default:
-                return 0d;
+                return 1.0d;
         }
     }
 }
