@@ -16,6 +16,7 @@ import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,20 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     protected int[] generateActualDamage(MemberShip defendShip, int[] damages, BattleContext context) {
+        for (int i = 0; i < damages.length; i++) {
+            int damage = damages[i];
+            int nowHp = defendShip.getNowHp();
+            if (damage >= nowHp) {
+                damages[i] = destroyAugmenting(nowHp);
+            }
+        }
         return damages;
+    }
+
+    /*击沉保护 */
+    private int destroyAugmenting(final int nowHp) {
+        // 当前血量20%~50%浮动
+        return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
 
     @Override
@@ -113,7 +127,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
                 final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                final int damageValue = damageValue(hougAfterThreshold, defendShip);
                 damageList = new int[]{damageValue};
                 break;
             case ATTACK_TYPE_DOUBLE:

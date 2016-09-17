@@ -113,7 +113,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
                 final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                final int damageValue = damageValue(hougAfterThreshold, defendShip);
                 damageList = new int[]{damageValue};
                 break;
             case ATTACK_TYPE_DOUBLE:
@@ -138,7 +138,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         hougekiResult.getApi_cl_list().add(clArray);
 
         final int hougAfterThreshold = taiSenValue(attackShip, defendShip, context);
-        final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+        final int damageValue = damageValue(hougAfterThreshold, defendShip);
         hougekiResult.getApi_damage().add(new int[]{damageValue});
         damageSum += damageValue;
 

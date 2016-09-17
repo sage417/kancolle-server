@@ -239,25 +239,13 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return RandomUtils.nextInt(nowHp / 20, nowHp / 10 + 1);
     }
 
-    /*击沉保护 */
-    private int destoryAugmenting(final int nowHp) {
-        // 当前血量20%~50%浮动
-        return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
-    }
-
     /* 破甲机制+保护机制*/
-    protected final int damageValue(final int attackValue, final IShip defShip, final boolean destoryProtect) {
+    protected final int damageValue(final int attackValue, final IShip defShip) {
         final int nowHp = defShip.getNowHp();
 
         int damage = attackValue - getShipDefendValue(defShip);
         if (damage < 1) {
             damage = damageAugmenting(nowHp);
-        }
-        if (!destoryProtect) {
-            return damage;
-        }
-        if (damage >= nowHp) {
-            return destoryAugmenting(nowHp);
         }
         return damage;
     }
