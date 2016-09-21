@@ -144,7 +144,6 @@ public class MemberShipService {
 
 
     public void destroyShips(String member_id, List<MemberShip> destoryShips) {
-        long[] InNdockshipIds = memberNdockService.getMemberNdocks(member_id).stream().mapToLong(MemberNdock::getMemberShipId).toArray();
 
         for (MemberShip destroyShip : destoryShips) {
             if (destroyShip == null) {
@@ -160,7 +159,8 @@ public class MemberShipService {
                     throw new IllegalStateException("不能解体远征舰队中的舰娘");
             }
 
-            if (ArrayUtils.contains(InNdockshipIds, destroyShipId))
+            MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, destroyShipId);
+            if (ndock != null)
                 throw new IllegalStateException("不能解体入渠中的舰娘");
 
             if (destroyShip.isLocked())
@@ -431,6 +431,10 @@ public class MemberShipService {
         MemberShip memberShip = getMemberShip(member_id, memberShipId);
         if (memberShip == null)
             throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:%s,ship_id:%d", member_id, memberShipId));
+
+        // 入渠检查
+        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id,memberShipId);
+        checkState(ndock == null, "用户ID:%s，改装的舰娘正在入渠，ID:%d", member_id, memberShipId);
 
         List<MemberSlotItem> slotItems = memberShip.getSlot();
 

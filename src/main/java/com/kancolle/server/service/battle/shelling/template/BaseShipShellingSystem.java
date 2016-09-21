@@ -255,11 +255,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return rdmValue * ship.getShipSoukou() / 3;
     }
 
-    protected final void generateTaiSenAttackList(final BattleContext context, final IShip ship) {
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_at_type().add(ATTACK_TYPE_ANTISUBMARINE);
-    }
-
     @Override
     protected D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context) {
         // 如果是旗舰受攻击,
