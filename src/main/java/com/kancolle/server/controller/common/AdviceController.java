@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年6月9日
@@ -45,8 +47,9 @@ public class AdviceController {
     //@ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
-    public APIResponse<Object> processRuntimeException(NativeWebRequest request, RuntimeException e) {
-        logger.warn(e.getMessage(), e);
+    public APIResponse<Object> processRuntimeException(NativeWebRequest nativeWebRequest, RuntimeException e) {
+        HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
+        logger.error("ip:{} url:{} reason:{}", request.getRemoteAddr(), request.getRequestURI(), e.getMessage(), e);
         return APIResponse.EMPTY_FAILED_RESPONSE;
     }
 }

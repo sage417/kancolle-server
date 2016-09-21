@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -130,7 +131,18 @@ public class MemberNdockService {
         memberShipService.updateHpAndCond(memberShip);
     }
 
+    /**
+     * 根据舰娘查询对应入渠信息
+     * @param member_id
+     * @param member_ship_id
+     * @return
+     */
     public MemberNdock getMemberNdockByMemberIdAndMemberShipId(final String member_id, final long member_ship_id) {
         return memberNdockDao.selectMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
+    }
+
+    public void checkIfInNdock(final String member_id, final long member_ship_id) {
+        MemberNdock ndock = getMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
+        checkArgument(ndock == null,"用户ID:%s操作正在入渠的舰娘");
     }
 }
