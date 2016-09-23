@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.jdbc.Sql;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author J.K.SAGE
  * @Date 2015年7月13日
  */
+@ActiveProfiles("dev")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy({

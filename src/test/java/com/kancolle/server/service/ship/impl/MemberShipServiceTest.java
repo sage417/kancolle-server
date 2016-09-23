@@ -5,11 +5,12 @@ import com.kancolle.server.service.ship.MemberShipService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+@ActiveProfiles("dev")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy({
         @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
