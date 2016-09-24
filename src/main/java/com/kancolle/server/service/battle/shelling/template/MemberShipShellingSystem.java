@@ -5,15 +5,17 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
+import com.kancolle.server.utils.logic.common.LvUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
@@ -26,8 +28,13 @@ import static com.google.common.collect.Iterables.getLast;
 @Service
 public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip, UnderSeaShip> {
 
+    @Autowired
+    @Qualifier("memberBattleContextApply")
+    private BattleContextApply apply;
+
     @Override
     protected void prepareContext(final BattleContext context) {
+        context.setApply(apply);
         context.setEnemyNormalShips(context.getAliveUnderSeaNormalShips());
         context.setEnemySSShips(context.getAliveUnderSeaSSShips());
     }
@@ -106,7 +113,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
                 final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                final int damageValue = damageValue(hougAfterThreshold, defendShip);
                 damageList = new int[]{damageValue};
                 break;
             case ATTACK_TYPE_DOUBLE:
@@ -131,7 +138,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         hougekiResult.getApi_cl_list().add(clArray);
 
         final int hougAfterThreshold = taiSenValue(attackShip, defendShip, context);
-        final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+        final int damageValue = damageValue(hougAfterThreshold, defendShip);
         hougekiResult.getApi_damage().add(new int[]{damageValue});
         damageSum += damageValue;
 
@@ -196,12 +203,13 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * @param ship
      * @return
      */
-    private int taiSenBasicHoug(final IShip ship, final int attackAugmenting) {
+    private int taiSenBasicHoug(final IShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击路补正
-        final int shipTaisen = 2 * IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.CEILING);
-        final int slotTaisen = DoubleMath.roundToInt(1.5d * ship.getSlotItems().stream().mapToInt(AbstractSlotItem::getTaiSen).sum(), RoundingMode.CEILING);
-        return shipTaisen + slotTaisen + attackAugmenting;
+        final int shipTaisen = LvUtils.getLvValue(ship.getShip().getTaisen(), ship.getNowLv());
+        final int slotTaisen = ship.getShipTaiSen() - shipTaisen;
+        final int augmenting = ShipFilter.carrierFilter.test(ship) ? AIRCRAFT_AUGMENTING : DEPTH_CHARGE_AUGMENTING;
+        return 2 * IntMath.sqrt(shipTaisen, RoundingMode.CEILING) + DoubleMath.roundToInt(1.5d * slotTaisen, RoundingMode.CEILING) + augmenting;
     }
 
     private int attackValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
@@ -249,12 +257,12 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     public double taiSenAugmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
-        final int taisenBasicHoug = taiSenBasicHoug(attackShip, DEPTH_CHARGE_AUGMENTING);
+        final int taisenBasicHoug = taiSenBasicHoug(attackShip);
         double augmenting = basicAugmentBeforeThreshold(attackShip, context);
 
         //反潜套补正
         final double taisenAugmenting = taisenShellingAugmenting(attackShip);
-        augmenting += taisenAugmenting;
+        augmenting *= taisenAugmenting;
 
         if (augmenting < 0d) {
             augmenting = 0d;
@@ -313,16 +321,5 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     @Override
     protected int getCurrentSakutekiSum(final BattleContext context) {
         return context.getMemberSakuteki();
-    }
-
-    @Override
-    protected int getCurrentAerialState(final BattleContext context) {
-        return context.getMemberAerialState();
-    }
-
-    @Override
-    protected boolean isFlagShip(final MemberShip ship, final BattleContext context) {
-        MemberDeckPort memberDeckPort = context.getMemberDeckPort();
-        return memberDeckPort.getShips().iterator().next().equals(ship);
     }
 }

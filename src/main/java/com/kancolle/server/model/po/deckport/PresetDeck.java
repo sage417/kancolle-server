@@ -18,7 +18,10 @@ public class PresetDeck {
     @JsonIgnore
     private long id;
 
-    @JsonProperty(value = "api_no")
+    @JsonIgnore
+    private long member_id;
+
+    @JsonProperty(value = "api_preset_no")
     private int no;
 
     @JsonProperty(value = "api_name")
@@ -36,6 +39,14 @@ public class PresetDeck {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getMember_id() {
+        return member_id;
+    }
+
+    public void setMember_id(long member_id) {
+        this.member_id = member_id;
     }
 
     public int getNo() {
@@ -68,5 +79,31 @@ public class PresetDeck {
 
     public void setShip(ImmutableList<Long> ship) {
         this.ship = ship;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PresetDeck that = (PresetDeck) o;
+
+        return id == that.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "PresetDeck{" +
+                "member_id=" + member_id +
+                ", no=" + no +
+                ", name='" + name + '\'' +
+                ", ship=" + ship +
+                '}';
     }
 }

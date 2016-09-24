@@ -29,4 +29,6 @@ public interface MemberNdockDao extends BaseDao<MemberNdock> {
     MemberNdock selectMemberNdock(String member_id, int ndockId);
 
     void insertMemberNdocks(List<MemberNdock> ndocks);
+
+    MemberNdock selectMemberNdockByMemberIdAndMemberShipId(String member_id, long member_ship_id);
 }

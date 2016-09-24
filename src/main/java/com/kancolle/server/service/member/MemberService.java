@@ -3,6 +3,7 @@ package com.kancolle.server.service.member;
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
+import com.kancolle.server.mapper.member.MemberLogMapper;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -36,13 +37,15 @@ public class MemberService {
     @Autowired
     private PortDao portDao;
     @Autowired
+    private MemberLogMapper memberLogMapper;
+    @Autowired
     private MemberResourceService memberResourceService;
     @Autowired
     private MemberFurnitureService memberFurnitureService;
     @Autowired
     private MemberKdockService memberKdockService;
     @Autowired
-    private MemberNDockService memberNDockService;
+    private MemberNdockService memberNdockService;
     @Autowired
     private MemberShipService memberShipService;
     @Autowired
@@ -89,10 +92,10 @@ public class MemberService {
         Member member = getBasic(member_id);
         port.setApi_basic(member);
         port.setApi_material(portDao.getMaterial(member_id));
-        port.setApi_log(portDao.getLog(member_id));
+        port.setApi_log(memberLogMapper.selectMemberLogs(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
-        port.setApi_ndock(memberNDockService.getMemberNdocks(member_id));
+        port.setApi_ndock(memberNdockService.getMemberNdocks(member_id));
         return port;
     }
 
@@ -174,7 +177,7 @@ public class MemberService {
         // 创建工厂
         memberKdockService.initMemberKdock(member_id);
         // 创建渠
-        memberNDockService.initMemberNdock(member_id);
+        memberNdockService.initMemberNdock(member_id);
         // 创建家具记录
         memberFurnitureService.initMemberFurniture(member_id);
         // 创建item记录
@@ -183,6 +186,8 @@ public class MemberService {
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
         memberMapService.initMemberMapCellInfo(member_id);
+        // 创建PresetDeck记录
+        memberDeckPortService.insertMemberPresetDecks(member_id);
         return member;
     }
 }

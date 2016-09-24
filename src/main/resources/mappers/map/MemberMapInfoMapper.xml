@@ -20,7 +20,7 @@
 
 	<insert id="insertMemberMapInfos">
 		INSERT INTO t_member_mapinfo(member_id, MAPINFO_ID, EXBOSS_FLAG)
-		SELECT #{member_id}, ID, REQUIRED_DEFEAT_COUNT > 0 FROM t_map_info
+		SELECT #{member_id}, ID, IFNULL(REQUIRED_DEFEAT_COUNT, 0) > 0 FROM t_map_info
 	</insert>
 
 	<update id="activeMemberMapInfo">

@@ -24,7 +24,7 @@ public class MemberPort implements Serializable {
 
     @JsonProperty(value = "api_material")
     @JSONField(ordinal = 1)
-    private List<MemberMeterialDto> api_material;
+    private List<MemberMaterialDto> api_material;
 
     @JsonProperty(value = "api_deck_port")
     @JSONField(ordinal = 2)
@@ -66,7 +66,7 @@ public class MemberPort implements Serializable {
         return api_log;
     }
 
-    public List<MemberMeterialDto> getApi_material() {
+    public List<MemberMaterialDto> getApi_material() {
         return api_material;
     }
 
@@ -100,7 +100,7 @@ public class MemberPort implements Serializable {
         this.api_log = api_log;
     }
 
-    public void setApi_material(List<MemberMeterialDto> api_material) {
+    public void setApi_material(List<MemberMaterialDto> api_material) {
         this.api_material = api_material;
     }
 

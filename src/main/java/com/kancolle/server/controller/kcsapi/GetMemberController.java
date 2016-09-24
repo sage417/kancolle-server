@@ -8,7 +8,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
-import com.kancolle.server.model.kcsapi.member.MemberMeterialDto;
+import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
 import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
@@ -32,7 +32,7 @@ import com.kancolle.server.service.duty.MemberDutyService;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.service.member.MemberKdockService;
-import com.kancolle.server.service.member.MemberNDockService;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.picturebook.MemberPictureBookService;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -58,7 +58,7 @@ public class GetMemberController {
     private MemberService memberService;
 
     @Autowired
-    private MemberNDockService memberNDockService;
+    private MemberNdockService memberNdockService;
 
     @Autowired
     private MemberKdockService memberKdockService;
@@ -120,7 +120,7 @@ public class GetMemberController {
 
     @RequestMapping("/ndock")
     public APIResponse<List<MemberNdock>> ndock(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberNdock> api_data = memberNDockService.getMemberNdocks(member_id);
+        List<MemberNdock> api_data = memberNdockService.getMemberNdocks(member_id);
         return new APIResponse<List<MemberNdock>>().setApi_data(api_data);
     }
 
@@ -186,9 +186,9 @@ public class GetMemberController {
     }
 
     @RequestMapping("/material")
-    public APIResponse<List<MemberMeterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberMeterialDto> api_data = portDao.getMaterial(member_id);
-        return new APIResponse<List<MemberMeterialDto>>().setApi_data(api_data);
+    public APIResponse<List<MemberMaterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
+        List<MemberMaterialDto> api_data = portDao.getMaterial(member_id);
+        return new APIResponse<List<MemberMaterialDto>>().setApi_data(api_data);
     }
 
     @RequestMapping("/questlist")

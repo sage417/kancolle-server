@@ -14,8 +14,6 @@
         http://www.springframework.org/schema/jdbc 
         http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
 
-    <context:property-placeholder location="classpath:jdbc.properties" file-encoding="utf-8" />
-
     <context:component-scan base-package="com.kancolle.server.dao"/>
 
     <bean id="dbUnitDatabaseConfig"
@@ -31,7 +29,7 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/kancolle"/>
-        <property name="username"  value="root"></property>
+        <property name="username" value="root"/>
     </bean>
 
     <!--<jdbc:initialize-database data-source="dataSource">-->

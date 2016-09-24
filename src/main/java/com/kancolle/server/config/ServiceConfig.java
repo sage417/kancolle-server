@@ -2,8 +2,10 @@ package com.kancolle.server.config;
 
 import com.google.common.eventbus.EventBus;
 import com.kancolle.server.utils.SpringUtils;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
 
 import static com.fasterxml.jackson.core.JsonGenerator.Feature.ESCAPE_NON_ASCII;
@@ -15,6 +17,8 @@ import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSIO
  * Date: 16/7/27
  */
 @Configuration
+@MapperScan(basePackages = {"com.kancolle.server.mapper"})
+@ImportResource(value = "classpath:spring/spring-context.xml")
 public class ServiceConfig {
 
     @Bean(name = "dutyBus")

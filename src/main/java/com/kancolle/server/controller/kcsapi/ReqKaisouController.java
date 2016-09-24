@@ -37,13 +37,13 @@ public class ReqKaisouController {
     public APIResponse<Object> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipSetSlotForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberShipService.setSlot(member_id, form);
-        return new APIResponse<Object>();
+        return new APIResponse<>();
     }
 
     @RequestMapping("/unsetslot_all")
     public APIResponse<Object> unsetslotAll(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_id", required = true) long memberShip_id) {
         memberShipService.unSetSlotsAll(member_id, memberShip_id);
-        return new APIResponse<Object>();
+        return new APIResponse<>();
     }
 
     @RequestMapping("/lock")

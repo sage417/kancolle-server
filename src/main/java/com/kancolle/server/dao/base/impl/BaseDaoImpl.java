@@ -1,7 +1,5 @@
 package com.kancolle.server.dao.base.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.common.base.Joiner;
 import com.kancolle.server.dao.base.BaseDao;
 import com.kancolle.server.utils.DaoUtils;
@@ -16,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +36,7 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
 
     @SuppressWarnings("unchecked")
     public BaseDaoImpl() {
-        Type genType = getClass().getGenericSuperclass();
-        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-
-        Class<T> entityClass = (Class<T>) params[0];
+        Class<T> entityClass = (Class<T>) DaoUtils.getSuperClassGenricType(this.getClass());
         className = entityClass.getSimpleName();
     }
 
@@ -64,49 +60,31 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
     public void replace(T t) {
     }
 
-    /**
-     * 解析数据库字符串，返回JSONArray对象
-     *
-     * @param sql
-     * @param params
-     * @return
-     */
-    protected JSONArray parseJSONArray(String sql, Map<String, Object> params) {
-        return JSON.parseArray(template.queryForObject(sql, params, String.class));
-    }
-
     protected <E> List<E> queryForModels(Class<E> clazz, String sql) {
         return queryForModels(clazz, sql, null);
     }
 
     protected <E> List<E> queryForModels(Class<E> clazz, String sql, Map<String, Object> params) {
-        return getTemplate().query(sql, params, (rs, rn) -> {
-            E instance = null;
-            try {
-                instance = clazz.newInstance();
-                DaoUtils.setObject(instance, rs);
-            } catch (Exception e) {
-                LOGGER.error("Error Happen when queryForModels", e);
-            }
-            return instance;
-        });
+        return getTemplate().query(sql, params, (rs, rn) -> this.setObject(clazz, rs));
     }
 
     protected <E> E queryForSingleModel(Class<E> clazz, String sql, Map<String, Object> params) {
         try {
-            return template.queryForObject(sql, params, (rs, rn) -> {
-                E instance = null;
-                try {
-                    instance = clazz.newInstance();
-                    DaoUtils.setObject(instance, rs);
-                } catch (Exception e) {
-                    LOGGER.error("Error Happen when queryForSingleModel", e);
-                }
-                return instance;
-            });
+            return template.queryForObject(sql, params, (rs, rn) -> this.setObject(clazz, rs));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    private <V> V setObject(Class<V> clazz, ResultSet rs) {
+        V instance = null;
+        try {
+            instance = clazz.newInstance();
+            DaoUtils.setObject(instance, rs);
+        } catch (Exception e) {
+            LOGGER.error("Error Happen when queryForSingleModel", e);
+        }
+        return instance;
     }
 
     protected String generateJsonArray(Iterable<?> parts) {

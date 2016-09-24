@@ -1,6 +1,7 @@
 package com.kancolle.server.mapper.useItem;
 
 import com.kancolle.server.model.po.useitem.UseItem;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
  * Author: mac
  * Date: 16/8/19
  */
+@Mapper
 public interface UseItemMapper {
 
     List<UseItem> selectUseItems();

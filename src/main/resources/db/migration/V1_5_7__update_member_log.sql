@@ -1,0 +1,3 @@
+ALTER TABLE `kancolle`.`t_member_log` DROP COLUMN `NO`;
+ALTER TABLE `kancolle`.`t_member_log` CHANGE COLUMN `createTime` `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE COLUMN `TYPE` `TYPE` tinyint NOT NULL, CHANGE COLUMN `STATE` `STATE` tinyint UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `kancolle`.`t_member_log` CHANGE COLUMN `createTime` `createTime` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6);

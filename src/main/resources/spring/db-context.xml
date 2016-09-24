@@ -11,10 +11,6 @@
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
-	<context:property-placeholder location="classpath:jdbc.properties" />
-
-	<context:component-scan base-package="com.kancolle.server.dao" />
-
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<!-- 基本属性 url、user、password -->
 		<property name="url" value="${jdbc.url}" />
@@ -47,22 +43,23 @@
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="config,stat" />
 
-		<property name="connectionProperties" value="config.file=jdbc.properties" />
+		<property name="connectionProperties"
+				  value="config.decrypt=${config.decrypt};config.decrypt.key=${config.decrypt.key}"/>
 	</bean>
 
 	<bean id="template" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
 		<constructor-arg ref="dataSource" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="configLocation" value="classpath:orm/mybatis.xml"/>
-		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml"/>
-	</bean>
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+		<!--<property name="configLocation" value="classpath:orm/mybatis.xml"/>-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+		<!--<property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml"/>-->
+	<!--</bean>-->
 
-	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.kancolle.server.mapper" />
-	</bean>
+	<!--<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--<property name="basePackage" value="com.kancolle.server.mapper" />-->
+	<!--</bean>-->
 
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />

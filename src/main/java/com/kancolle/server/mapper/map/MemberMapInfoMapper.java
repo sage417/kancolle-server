@@ -4,6 +4,7 @@
 package com.kancolle.server.mapper.map;
 
 import com.kancolle.server.model.po.map.MemberMapInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @Date 2015年8月17日
  *
  */
+@Mapper
 public interface MemberMapInfoMapper {
 
     List<MemberMapInfo> selectMemberMapInfosByMemberId(@Param("member_id") String member_id);

@@ -5,17 +5,20 @@ import com.google.common.math.IntMath;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.SlotItemInfo;
-import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
 import com.kancolle.server.service.battle.FormationSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
@@ -26,15 +29,33 @@ import static com.google.common.collect.Iterables.getLast;
 @Service
 public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
 
+    @Autowired
+    @Qualifier("underSeaBattleContextApply")
+    private BattleContextApply apply;
+
     @Override
     protected void prepareContext(final BattleContext context) {
+        context.setApply(apply);
         context.setEnemyNormalShips(context.getAliveMemberNormalShips());
         context.setEnemySSShips(context.getAliveMemberSSShips());
     }
 
     @Override
     protected int[] generateActualDamage(MemberShip defendShip, int[] damages, BattleContext context) {
+        for (int i = 0; i < damages.length; i++) {
+            int damage = damages[i];
+            int nowHp = defendShip.getNowHp();
+            if (damage >= nowHp) {
+                damages[i] = destroyAugmenting(nowHp);
+            }
+        }
         return damages;
+    }
+
+    /*击沉保护 */
+    private int destroyAugmenting(final int nowHp) {
+        // 当前血量20%~50%浮动
+        return RandomUtils.nextInt(nowHp / 5, nowHp / 2 + 1);
     }
 
     @Override
@@ -106,7 +127,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
                 final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                final int damageValue = damageValue(hougAfterThreshold, defendShip, false);
+                final int damageValue = damageValue(hougAfterThreshold, defendShip);
                 damageList = new int[]{damageValue};
                 break;
             case ATTACK_TYPE_DOUBLE:
@@ -204,7 +225,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         //阵型补正
         final int formationIndex = BattleContextUtils.getMemberFormation(context);
-        final double formationAugmenting = FormationSystem.shelllingHougAugment(formationIndex);
+        final double formationAugmenting = FormationSystem.shellingHougAugment(formationIndex);
         augmenting *= formationAugmenting;
 
         //航向补正
@@ -290,16 +311,5 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     protected int getCurrentSakutekiSum(final BattleContext context) {
         return context.getUnderSeaSakuteki();
-    }
-
-    @Override
-    protected int getCurrentAerialState(final BattleContext context) {
-        return context.getUnderSeaAerialState();
-    }
-
-    @Override
-    protected boolean isFlagShip(final UnderSeaShip ship, final BattleContext context) {
-        UnderSeaDeckPort underSeaDeckPort = context.getUnderSeaDeckPort();
-        return underSeaDeckPort.getUnderSeaShips().iterator().next().equals(ship);
     }
 }
