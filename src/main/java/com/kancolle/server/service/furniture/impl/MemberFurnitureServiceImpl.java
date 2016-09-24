@@ -1,8 +1,10 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.furniture.impl;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureBuyForm;
 import com.kancolle.server.controller.kcsapi.form.forniture.FurnitureChangeForm;
 import com.kancolle.server.dao.furniture.MemberFurnitureDao;
@@ -12,8 +14,6 @@ import com.kancolle.server.model.po.furniture.MemberFurniture;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.service.furniture.MemberFurnitureService;
 import com.kancolle.server.service.member.MemberService;
-import com.kancolle.server.utils.logic.furniture.FurnitureUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,15 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+
+import static com.kancolle.server.model.po.furniture.FurnitureType.*;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月7日
- *
  */
 @Service
 public class MemberFurnitureServiceImpl implements MemberFurnitureService {
@@ -36,9 +39,24 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
     @Autowired
     private MemberFurnitureDao memberFurnitureDao;
-
     @Autowired
     private MemberService memberService;
+
+    private static final ImmutableMap<FurnitureType, Function<FurnitureChangeForm, Integer>> typeToFurnitureId =
+            new ImmutableMap.Builder<FurnitureType, Function<FurnitureChangeForm, Integer>>()
+                    .put(FLOOR, FurnitureChangeForm::getApi_floor)
+                    .put(WALLPAPER, FurnitureChangeForm::getApi_wallpaper)
+                    .put(WINDOW, FurnitureChangeForm::getApi_window)
+                    .put(WALLHANGING, FurnitureChangeForm::getApi_wallhanging)
+                    .put(SHELF, FurnitureChangeForm::getApi_shelf)
+                    .put(DESK, FurnitureChangeForm::getApi_desk)
+                    .build();
+
+
+    private Integer getFurnitureIdByType(FurnitureChangeForm form, FurnitureType type) {
+        return typeToFurnitureId.get(type).apply(form);
+    }
+
 
     @Override
     public List<MemberFurniture> getFurniture(String member_id) {
@@ -46,20 +64,19 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     }
 
     @Override
-    public void changeFurniture(String member_id, FurnitureChangeForm form) {
-        int[] furnitureIds = new int[FurnitureType.values().length];
+    public void changeFurniture(final String member_id, final FurnitureChangeForm form) {
+        final FurnitureType[] furnitureTypes = FurnitureType.values();
 
-        for (FurnitureType type : FurnitureType.values()) {
-            Integer furnitureId = FurnitureUtils.getFurnitureIdByType(form, type);
+        int[] furnitureIds = Arrays.stream(furnitureTypes).mapToInt(type -> {
+            Integer furnitureId = getFurnitureIdByType(form, type);
             MemberFurniture memberFurniture = getMemberFurniture(member_id, furnitureId);
-            if (memberFurniture == null) {
-                throw new IllegalArgumentException("不拥有该家具");
-            }
-            if (type.getTypeId() != memberFurniture.getFurniture().getType()) {
-                throw new IllegalArgumentException("家具类型错误");
-            }
-            ArrayUtils.add(furnitureIds, furnitureId);
-        }
+            Preconditions.checkNotNull(memberFurniture, "尝试使用不存在或未购买的家具, furniture_id:%d", furnitureId);
+            final int typeId = type.getTypeId();
+            final int furnitureTypeId = memberFurniture.getFurniture().getType();
+            Preconditions.checkArgument(typeId == furnitureTypeId,
+                    "设置家具类型对应错误,furniture_id:%d, set_type:%d, actual_type:%d", furnitureId, typeId, furnitureTypeId);
+            return furnitureId;
+        }).toArray();
 
         memberFurnitureDao.changeMemberFurniture(member_id, furnitureIds);
     }
