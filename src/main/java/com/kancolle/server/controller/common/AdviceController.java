@@ -47,9 +47,9 @@ public class AdviceController {
     //@ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RuntimeException.class)
-    public APIResponse<Object> processRuntimeException(NativeWebRequest nativeWebRequest, RuntimeException e) {
+    public APIResponse<Object> processRuntimeException(NativeWebRequest nativeWebRequest, RuntimeException re) {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        logger.error("ip:{} url:{} reason:{}", request.getRemoteAddr(), request.getRequestURI(), e.getMessage(), e);
+        logger.error("ip:{} url:{}", request.getRemoteAddr(), request.getRequestURI(), re);
         return APIResponse.EMPTY_FAILED_RESPONSE;
     }
 }
