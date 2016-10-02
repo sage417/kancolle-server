@@ -24,8 +24,9 @@
 
     <update id="updatePresetDeck" parameterType="PresetDeck">
         UPDATE t_member_preset_deck SET
-        name = #{name},
+        `name` = #{name},
         name_id = #{name_id},
         ship = #{ship, typeHandler=LongImmutableListHandler}
+        WHERE id = #{id}
     </update>
 </mapper>

@@ -241,7 +241,7 @@ public class MemberDeckPortService {
         checkArgument(update == 3);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional
     public PresetDeck registerMemberPresetDeck(final String member_id, final PresetDeckRegisterFrom form) {
 
         final int api_preset_no = form.getApi_preset_no();
@@ -264,7 +264,7 @@ public class MemberDeckPortService {
 
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional
     public void deleteMemberPresetDeck(String member_id, int api_preset_no) {
 
         final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id, api_preset_no);
