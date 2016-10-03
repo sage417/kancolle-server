@@ -31,7 +31,7 @@ import com.kancolle.server.service.base.BaseService;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
-import com.kancolle.server.service.battle.reconnaissance.IReconnaissanceAircraftSystem;
+import com.kancolle.server.service.battle.reconnaissance.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.template.ShellingTemplate;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
@@ -70,7 +70,7 @@ public class BattleService extends BaseService {
     @Autowired
     private MapBattleService mapBattleService;
     @Autowired
-    private IReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
+    private ReconnaissanceAircraftSystem reconnaissanceAircraftSystem;
     @Autowired
     private ICourseSystem courseSystem;
     @Autowired
@@ -111,7 +111,9 @@ public class BattleService extends BaseService {
         context.setUnderSeaDeckPort(underSeaDeckPort);
 
         List<MemberShip> memberShips = memberDeckPort.getShips();
-        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
+        List<UnderSeaShip> underSeaShips = underSeaDeckPortService.getUnderSeaDeckPortShips(underSeaDeckPort);
+        context.setMemberShips(memberShips);
+        context.setUnderSeaShips(underSeaShips);
 
         // build ship idx map
         Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
@@ -119,7 +121,7 @@ public class BattleService extends BaseService {
         ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(underSeaShipMap).build();
         context.setShipMap(shipMap);
 
-        BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, underSeaDeckPort);
+        BattleSimulationResult result = new BattleSimulationResult(memberDeckPort, underSeaShips);
         context.setBattleResult(result);
 
         // 判断航向
@@ -127,8 +129,8 @@ public class BattleService extends BaseService {
         result.setApi_formation(new int[]{formation, underSeaDeckPort.getFormation(), course});
 
         // 制空权
-        int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberDeckPort.getShips());
-        int underSeaAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(underSeaDeckPort.getUnderSeaShips());
+        int memberAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(memberShips);
+        int underSeaAerialPower = aerialBattleSystem.getMemberDeckPortAerialPower(underSeaShips);
         int memberAerialState = aerialBattleSystem.getAerialPowerStatue(memberAerialPower, underSeaAerialPower);
         int underSeaAerialState = aerialBattleSystem.getAerialPowerStatue(underSeaAerialPower, memberAerialPower);
         context.setMemberAerialState(memberAerialState);
@@ -137,9 +139,9 @@ public class BattleService extends BaseService {
         /*------------------------1.索敌开始------------------------*/
 
         /** 我方索敌 */
-        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberDeckPort, underSeaDeckPort, underSeaAerialState);
+        int fsResult = reconnaissanceAircraftSystem.memberDeckPortSearchEnemy(memberShips, underSeaShips, underSeaAerialState);
         /** 敌方索敌 */
-        int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberDeckPort, underSeaDeckPort);
+        int esResult = reconnaissanceAircraftSystem.enemyDeckPortSearchMember(memberShips, underSeaShips);
 
         final int memberSakuteki = memberShips.stream().map(MemberShip::getSakuteki).mapToInt(MaxMinValue::getMinValue).sum();
         final int underSeaSakuteki = underSeaShips.stream().mapToInt(UnderSeaShip::getShipSakuteki).sum();

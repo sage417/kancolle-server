@@ -1,10 +1,8 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.battle.reconnaissance;
 
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -19,10 +17,9 @@ import java.util.Optional;
 /**
  * @author J.K.SAGE
  * @Date 2015年8月24日
- *
  */
 @Service
-public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSystem {
+public class ReconnaissanceAircraftSystem {
 
     /** 1 = 成功 */
     public static final int PLANE_SUCCESS = 1;
@@ -45,15 +42,13 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
     @Autowired
     private MemberShipService memberShipService;
 
-    @Override
-    public int memberDeckPortSearchEnemy(MemberDeckPort deckport, UnderSeaDeckPort underSeaDeckPort, int aerialState) {
-        List<MemberShip> ships = deckport.getShips();
+    public int memberDeckPortSearchEnemy(final List<MemberShip> memberShips, final List<UnderSeaShip> underSeaShips, int aerialState) {
 
-        int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(underSeaDeckPort);
-        int searchValue = ships.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
+        int searchNeedValue = 2 * DeckPortUtils.calEnemyDeckPortSearchMinValue(underSeaShips);
+        int searchValue = memberShips.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
 
-        boolean searchSuccess = searchValue / ships.size() > searchNeedValue;
-        Optional<MemberShip> shipHasSearchPlane = ships.stream().filter(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1).findFirst();
+        boolean searchSuccess = searchValue / memberShips.size() > searchNeedValue;
+        Optional<MemberShip> shipHasSearchPlane = memberShips.stream().filter(ship -> ShipUtils.getSearchPlaneIndex(ship) > -1).findFirst();
         boolean planeSearch = shipHasSearchPlane.isPresent();
 
         if (planeSearch) {
@@ -71,11 +66,9 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
         }
     }
 
-    @Override
-    public int enemyDeckPortSearchMember(MemberDeckPort memberDeckPort, UnderSeaDeckPort underSeaDeckPort) {
-        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
+    public int enemyDeckPortSearchMember(final List<MemberShip> memberShips, final List<UnderSeaShip> underSeaShips) {
 
-        int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberDeckPort);
+        int searchNeedValue = 2 * DeckPortUtils.calMemberDeckPortSearchMinValue(memberShips);
 
         int searchValue = underSeaShips.stream().mapToInt(ShipUtils::getShipSearchValue).sum();
         boolean searchSuccess = searchValue / underSeaShips.size() > searchNeedValue;
@@ -85,7 +78,6 @@ public class ReconnaissanceAircraftSystem implements IReconnaissanceAircraftSyst
         return searchSuccess ? planeSearch ? PLANE_SUCCESS : SEARCH_SUCCESS : planeSearch ? PLANE_FAIL : SEARCH_FAIL;
     }
 
-    @Override
     public boolean isSearchSuccess(int resultCode) {
         return resultCode == PLANE_SUCCESS || resultCode == PLANE_SUCCESS_AND_FALLEN || resultCode == SEARCH_SUCCESS;
     }

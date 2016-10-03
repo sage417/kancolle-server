@@ -190,12 +190,11 @@ public class BattleSimulationResult {
         Arrays.stream(this.api_eParam).forEach(values -> Arrays.fill(values, 0));
     }
 
-    public BattleSimulationResult(MemberDeckPort memberDeckPort, UnderSeaDeckPort underSeaDeckPort) {
+    public BattleSimulationResult(final MemberDeckPort memberDeckPort, final List<UnderSeaShip> underSeaShips) {
         this();
         this.api_dock_id = memberDeckPort.getDeckId();
 
         List<MemberShip> memberShips = memberDeckPort.getShips();
-        List<UnderSeaShip> underSeaShips = underSeaDeckPort.getUnderSeaShips();
 
         int enemyShipSize = underSeaShips.size();
         int memberShipSize = memberShips.size();

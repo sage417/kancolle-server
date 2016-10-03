@@ -26,7 +26,7 @@ public class UnderSeaBattleContextApply implements BattleContextApply {
     }
 
     @Override
-    public List<MemberShip> getEnemyShips(BattleContext context) {
-        return context.getMemberDeckPort().getShips();
+    public List<MemberShip> getEnemyShips(final BattleContext context) {
+        return context.getMemberShips();
     }
 }

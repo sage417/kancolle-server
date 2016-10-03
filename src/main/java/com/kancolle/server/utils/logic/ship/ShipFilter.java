@@ -34,11 +34,11 @@ public abstract class ShipFilter {
     };
 
     /**
-     * 过滤出空母
+     * 过滤出轻型航母，正规航母，装甲航母
      */
     public final static Predicate<IShip> carrierFilter = ship -> {
         int shipType = ship.getShip().getShipTypeId();
-        return shipType == 7 || shipType == 11;
+        return shipType == 7 || shipType == 11 || shipType == 18;
     };
 
     public final static Predicate<IShip> attackableCarrierFilter = hasTargetPlaneFilter.apply(plane -> {

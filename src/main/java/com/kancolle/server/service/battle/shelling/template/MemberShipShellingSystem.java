@@ -14,6 +14,8 @@ import com.kancolle.server.utils.logic.common.LvUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
 import org.apache.commons.lang3.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import static com.google.common.collect.Iterables.getLast;
 
 @Service
 public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip, UnderSeaShip> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipShellingSystem.class);
 
     @Autowired
     @Qualifier("memberBattleContextApply")
@@ -179,15 +183,28 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     private int shellingBaiscHoug(final IShip ship) {
         //TODO 联合舰队基本攻击力补正
         //TODO 修改装备攻击力补正
+
+        final int result;
+
         final int shipHoug = ship.getShipKaryoku();
 
         if (ShipFilter.carrierFilter.test(ship)) {
+            // 基本攻撃力 = [55 +(火力 + [爆装×1.3]+ 雷装 + 改修補正(砲擊) + 聯合艦隊補正(註) )×1.5]
+            // 基本攻撃力 = 火力*1.5+雷装*1.5+爆装*2+55
+            // 舰船自身拥有雷装，从舰船自身属性读取
             final int raiSou = ship.getShipRaisou();
+            LOGGER.debug("火力计算: 空母{}, 雷装:{}", ship, raiSou);
+            // 舰船没有爆装属性, 计算装备的爆装属性和
             final int baKu = ShipUtils.getBakuValue(ship);
-            return (shipHoug + raiSou + baKu * 13 / 10) * 3 / 2 + 55;
+            LOGGER.debug("火力计算: 空母{}, 爆装:{}", ship, baKu);
+
+            LOGGER.debug("使用空母火力计算公式: 空母{}, 基本火力:{}", ship, raiSou);
+            result = DoubleMath.roundToInt(shipHoug * 1.5d + raiSou * 1.5d + baKu * 2, RoundingMode.DOWN) + 55;
         } else {
-            return shipHoug + 5;
+            // 基本攻撃力 = 火力 + 改修補正(砲擊) + 聯合艦隊補正(註) + 5
+            result = shipHoug + 5;
         }
+        return result;
     }
 
     /**

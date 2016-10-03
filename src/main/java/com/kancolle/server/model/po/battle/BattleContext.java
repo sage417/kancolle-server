@@ -24,7 +24,11 @@ public class BattleContext {
 
     private MemberDeckPort memberDeckPort;
 
+    private List<MemberShip> memberShips;
+
     private UnderSeaDeckPort underSeaDeckPort;
+
+    private List<UnderSeaShip> underSeaShips;
 
     private List<MemberShip> aliveMemberSSShips;
 
@@ -217,4 +221,19 @@ public class BattleContext {
         return damageSum;
     }
 
+    public List<MemberShip> getMemberShips() {
+        return memberShips;
+    }
+
+    public void setMemberShips(List<MemberShip> memberShips) {
+        this.memberShips = memberShips;
+    }
+
+    public List<UnderSeaShip> getUnderSeaShips() {
+        return underSeaShips;
+    }
+
+    public void setUnderSeaShips(List<UnderSeaShip> underSeaShips) {
+        this.underSeaShips = underSeaShips;
+    }
 }

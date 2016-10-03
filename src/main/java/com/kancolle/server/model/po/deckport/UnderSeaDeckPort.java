@@ -26,8 +26,6 @@ public class UnderSeaDeckPort implements Serializable {
 
     private String deckName;
 
-    private List<UnderSeaShip> underSeaShips;
-
     private int formation;
 
     private String rank;
@@ -68,14 +66,6 @@ public class UnderSeaDeckPort implements Serializable {
 
     public void setDeckName(String deckName) {
         this.deckName = deckName;
-    }
-
-    public List<UnderSeaShip> getUnderSeaShips() {
-        return underSeaShips;
-    }
-
-    public void setUnderSeaShips(List<UnderSeaShip> underSeaShips) {
-        this.underSeaShips = underSeaShips;
     }
 
     public int getFormation() {
@@ -133,6 +123,6 @@ public class UnderSeaDeckPort implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("UnderSeaDeckPort [mapCellId=%s, no=%s, underSeaShips=%s, formation=%s]", mapCellId, no, underSeaShips, formation);
+        return String.format("UnderSeaDeckPort [mapCellId=%s, no=%s, formation=%s]", mapCellId, no, formation);
     }
 }

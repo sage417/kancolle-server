@@ -48,6 +48,8 @@ public class MemberShip implements IShip, Serializable {
 
     public static final int GOOD_COND = 50;
 
+    public static final int MAX_COND = 100;
+
     @JsonProperty(value = "api_ship_id")
     @JSONField(ordinal = 3, name = "api_ship_id")
     private int shipId;

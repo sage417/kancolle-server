@@ -6,8 +6,6 @@ package com.kancolle.server.utils.logic;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -60,31 +58,29 @@ public abstract class DeckPortUtils {
     }
 
     /**
-     * @param memberDeckPort
+     * @param memberShips
      * @return
      */
-    public static int calMemberDeckPortSearchMinValue(MemberDeckPort memberDeckPort) {
-        List<MemberShip> ships = memberDeckPort.getShips();
-        if (ships.isEmpty()) {
+    public static int calMemberDeckPortSearchMinValue(final List<MemberShip> memberShips) {
+        if (memberShips.isEmpty()) {
             return 0;
         }
         int needValue = 0;
-        for (MemberShip ship : ships) {
+        for (MemberShip ship : memberShips) {
             needValue += getShipSearchNeedValue(ship.getShip().getShipTypeId());
         }
-        return needValue / ships.size();
+        return needValue / memberShips.size();
     }
 
-    public static int calEnemyDeckPortSearchMinValue(UnderSeaDeckPort underSeaDeckPort) {
-        List<UnderSeaShip> ships = underSeaDeckPort.getUnderSeaShips();
-        if (ships.isEmpty()) {
+    public static int calEnemyDeckPortSearchMinValue(final List<UnderSeaShip> underSeaShips) {
+        if (underSeaShips.isEmpty()) {
             return 0;
         }
         int needValue = 0;
-        for (UnderSeaShip ship : ships) {
+        for (UnderSeaShip ship : underSeaShips) {
             needValue += getShipSearchNeedValue(ship.getShip().getShipTypeId());
         }
-        return needValue / ships.size();
+        return needValue / underSeaShips.size();
     }
 
     public static boolean attackAirSearchPlane(int aerialState) {

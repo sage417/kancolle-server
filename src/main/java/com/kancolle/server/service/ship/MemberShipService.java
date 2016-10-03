@@ -36,7 +36,6 @@ import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.utils.logic.MemberShipUtils;
 import com.kancolle.server.utils.logic.common.LvUtils;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +52,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
-import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_BULL;
-import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_COND;
-import static com.kancolle.server.dao.ship.MemberShipDao.UPDATE_COLUMN_FUEL;
+import static com.kancolle.server.dao.ship.MemberShipDao.*;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_FAILED;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -272,8 +269,11 @@ public class MemberShipService {
 
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public void updateMemberShipCond(final MemberShip memberShip,final int increaseCond) {
+    public void updateMemberShipCond(final MemberShip memberShip, final int increaseCond) {
         int nowCond = memberShip.getCond() + increaseCond;
+        if (nowCond > MemberShip.MAX_COND) {
+            nowCond = MemberShip.MAX_COND;
+        }
         memberShip.setCond(nowCond);
         memberShipDao.update(memberShip, UPDATE_COLUMN_COND);
     }
@@ -315,7 +315,7 @@ public class MemberShipService {
         MemberDeckPort deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
         checkState(deckPort == null || deckPort.getMission()[0] == 0, "用户ID:%s，强化的舰娘处于远征状态，ID:%d", member_id, target_ship_id);
         // 入渠检查
-        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id,target_ship_id);
+        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, target_ship_id);
         checkState(ndock == null, "用户ID:%s，强化的舰娘正在入渠，ID:%d", member_id, target_ship_id);
 
         int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
@@ -433,7 +433,7 @@ public class MemberShipService {
             throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:%s,ship_id:%d", member_id, memberShipId));
 
         // 入渠检查
-        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id,memberShipId);
+        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, memberShipId);
         checkState(ndock == null, "用户ID:%s，改装的舰娘正在入渠，ID:%d", member_id, memberShipId);
 
         List<MemberSlotItem> slotItems = memberShip.getSlot();
