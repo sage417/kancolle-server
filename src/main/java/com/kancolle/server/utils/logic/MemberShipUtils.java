@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.utils.logic;
 
@@ -8,12 +8,10 @@ import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.utils.logic.common.LvUtils;
-import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 /**
  * @author J.K.SAGE
  * @Date 2015年6月29日
- *
  */
 public class MemberShipUtils {
 
@@ -42,11 +40,7 @@ public class MemberShipUtils {
             // 雷装
             shipRaig += slotitem.getRaig();
             // 对空
-            if (SlotItemUtils.getType(memberSlotItem) == 6) {
-                shipTaiku += (slotitem.getTyku() * Math.round((float) Math.sqrt(memberShip.getShip().getMaxEq()[memberShip.getSlot().indexOf(memberSlotItem)])));
-            } else {
-                shipTaiku += slotitem.getTyku();
-            }
+            shipTaiku += slotitem.getTyku();
             // 对潜
             shipTaisen += slotitem.getTais();
             // 回避
@@ -65,6 +59,6 @@ public class MemberShipUtils {
     }
 
     public static int[] getShipPowupMaxArray(Ship ship) {
-        return new int[] { ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue() };
+        return new int[]{ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue()};
     }
 }

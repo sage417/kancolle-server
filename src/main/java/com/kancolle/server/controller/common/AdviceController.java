@@ -49,7 +49,7 @@ public class AdviceController {
     @ExceptionHandler(RuntimeException.class)
     public APIResponse<Object> processRuntimeException(NativeWebRequest nativeWebRequest, RuntimeException re) {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
-        logger.error("ip:{} url:{}", request.getRemoteAddr(), request.getRequestURI(), re);
+        logger.error("client ip:{} url:{}", request.getRemoteAddr(), request.getRequestURI(), re);
         return APIResponse.EMPTY_FAILED_RESPONSE;
     }
 }
