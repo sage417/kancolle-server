@@ -1,5 +1,6 @@
 package com.kancolle.server.service.battle.shelling.template;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;
@@ -7,6 +8,7 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,16 +24,16 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
     public final void generateHougkeResult(final A attackShip, final BattleContext context) {
         prepareContext(context);
 
-        D defendShip = chooseTargetShip(attackShip, context);
+        final D attemptChooseShip = chooseTargetShip(attackShip, context);
 
-        if (defendShip == null) {
+        if (attemptChooseShip == null) {
             return;
         }
         // 1. add idx to attack list
         addToAttackList(attackShip, context);
 
         // 2.
-        defendShip = callBackAfterChooseTargetShip(attackShip, defendShip, context);
+        final D defendShip = callBackAfterChooseTargetShip(attackShip, attemptChooseShip, context);
 
         // 3. decide attack type and slotItem
         final int attackType = chooseAttackTypeAndSlotItem(attackShip, defendShip, context);
@@ -49,7 +51,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         final int[] actualDamages = generateActualDamage(defendShip, damages, context);
 
         // 8. add to damage list
-        addToDamageList(actualDamages, context);
+        addToDamageList(actualDamages, attemptChooseShip, defendShip, context);
 
         callbackAfterDamage(attackShip, defendShip, actualDamages, damages, context);
     }
@@ -146,9 +148,29 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
     protected abstract int[] generateActualDamage(D defendShip, int[] damages, BattleContext context);
 
-    private void addToDamageList(int[] damages, BattleContext context) {
+    private void addToDamageList(final int[] damages, final D attemptChooseShip, final D defendShip, final BattleContext context) {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
-        hougekiResult.getApi_damage().add(damages);
+
+        Object damageResult = attemptChooseShip != defendShip ?
+                toCoverDamages(damages) : damages;
+
+        hougekiResult.getApi_damage().add(damageResult);
+    }
+
+    /**
+     * 转为援护伤害
+     * @param damages
+     * @return
+     */
+    private BigDecimal[] toCoverDamages(final int[] damages) {
+        // TODO
+        final BigDecimal offset = new BigDecimal("0.1");
+        return Arrays.stream(damages)
+                .boxed()
+                .map(Object::toString)
+                .map(BigDecimal::new)
+                .map(offset::add)
+                .toArray(BigDecimal[]::new);
     }
 
     protected void callbackAfterDamage(final A attackShip, final D defendShip, final int[] actualDamages, final int[] damages, final BattleContext context) {
