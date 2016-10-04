@@ -340,7 +340,9 @@ public class BattleService extends BaseService {
 
     public void updateAfterBattleResult(String member_id) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
-        updateAfterResult(battleState);
+        if (battleState != null) {
+            updateAfterResult(battleState);
+        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -402,26 +404,12 @@ public class BattleService extends BaseService {
         }
     }
 
-    private double getMemberLose(BattleContext context) {
-        BattleSimulationResult result = context.getBattleResult();
-        int[] maxHps = result.getApi_maxhps();
-        int[] nowHps = result.getApi_nowhps();
+    private double getLose(final int[] nowHps, final List<? extends IShip> ships) {
+        double nowHpSum = Arrays.stream(nowHps).limit(ships.size()).sum();
 
-        double maxHpSum = Arrays.stream(maxHps).skip(1L).limit(6L).sum();
-        double nowHpSum = Arrays.stream(nowHps).skip(1L).limit(6L).sum();
+        double afterBattleHpSum = ships.stream().mapToInt(IShip::getNowHp).sum();
 
-        return nowHpSum / maxHpSum;
-    }
-
-    private double getEnemyLose(BattleContext context) {
-        BattleSimulationResult result = context.getBattleResult();
-        int[] maxHps = result.getApi_maxhps();
-        int[] nowHps = result.getApi_nowhps();
-
-        double maxHpSum = Arrays.stream(maxHps).skip(7L).limit(6L).sum();
-        double nowHpSum = Arrays.stream(nowHps).skip(7L).limit(6L).sum();
-
-        return nowHpSum / maxHpSum;
+        return 1d - afterBattleHpSum / nowHpSum;
     }
 
     private double getEnemyDeckPortLostRatio(List<UnderSeaShip> underSeaShips) {
@@ -430,7 +418,7 @@ public class BattleService extends BaseService {
         return loseCount / shipCount;
     }
 
-    private boolean isMemberShipLost(List<MemberShip> memberShips) {
+    private boolean isMemberShipLost(List<? extends IShip> memberShips) {
         return memberShips.stream().anyMatch(ShipFilter.isAlive.negate());
     }
 
@@ -440,8 +428,12 @@ public class BattleService extends BaseService {
      * @return win rank
      */
     private WinRank getWinRank(BattleContext context, List<MemberShip> memberShips, List<UnderSeaShip> underSeaShips) {
-        double memberLose = getMemberLose(context);
-        double enemyLose = getEnemyLose(context);
+        final int[] nowHps = context.getBattleResult().getApi_nowhps();
+        final int[] memberNowHps = Arrays.copyOfRange(nowHps, 1, 7);
+        final int[] underSeaNowHps = Arrays.copyOfRange(nowHps, 7, nowHps.length + 1);
+
+        double memberLose = getLose(memberNowHps, context.getMemberShips());
+        double enemyLose = getLose(underSeaNowHps, context.getUnderSeaShips());
         double enemyLostRatio = getEnemyDeckPortLostRatio(underSeaShips);
         boolean lost = isMemberShipLost(memberShips);
 
@@ -477,7 +469,7 @@ public class BattleService extends BaseService {
      * @param mvp_idx
      * @param winRank
      */
-    private void processCondAfterBattleResult(final List<MemberShip> ships,final int mvp_idx,final WinRank winRank) {
+    private void processCondAfterBattleResult(final List<MemberShip> ships, final int mvp_idx, final WinRank winRank) {
         final int[] increase_conds = new int[ships.size()];
         Arrays.fill(increase_conds, BattleResult.COND_AUG.get(winRank.ordinal()));
         increase_conds[0] += 3;
