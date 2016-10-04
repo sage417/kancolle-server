@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSIO
  */
 @Configuration
 @MapperScan(basePackages = {"com.kancolle.server.mapper"})
-@ImportResource(value = "classpath:spring/spring-context.xml")
+@ImportResource(value = {"classpath:spring/spring-cache.xml","classpath:spring/db-context.xml"})
 public class ServiceConfig {
 
     @Bean(name = "dutyBus")
