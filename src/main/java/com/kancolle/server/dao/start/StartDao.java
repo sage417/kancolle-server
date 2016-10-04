@@ -38,7 +38,10 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class StartDao extends BaseDaoImpl<StartResult> {
@@ -153,9 +156,8 @@ public class StartDao extends BaseDaoImpl<StartResult> {
 
     public List<ShipType> getMstStype() {
         MongoCollection<Document> sTypeCollection = mongoClient.getDatabase("kancolle").getCollection("stype");
-        FindIterable<Document> documents = sTypeCollection.find().batchSize((int) sTypeCollection.count());
-        List<Document> sTypes = Lists.newArrayList(documents);
-        return sTypes.stream().map(doc -> readValue(doc, ShipType.class)).collect(Collectors.toList());
+        FindIterable<Document> documents = sTypeCollection.find().projection(Projections.excludeId()).batchSize((int) sTypeCollection.count());
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(documents.iterator(), Spliterator.ORDERED), false).map(doc -> readValue(doc, ShipType.class)).collect(Collectors.toList());
     }
 
     public List<SlotItem> getMstSlotitem() {

@@ -77,8 +77,4 @@ public class MaxMinValue implements Serializable {
     public int[] toArray() {
         return new int[] { getMinValue(), getMaxValue() };
     }
-
-    public int getGrowValue() {
-        return getMaxValue() - getMinValue();
-    }
 }

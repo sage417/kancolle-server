@@ -3,11 +3,14 @@
  */
 package com.kancolle.server.utils.logic;
 
+import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.model.po.slotitem.MemberSlotItem;
 import com.kancolle.server.model.po.slotitem.SlotItem;
 import com.kancolle.server.utils.logic.common.LvUtils;
+
+import java.util.Objects;
 
 /**
  * @author J.K.SAGE
@@ -16,8 +19,8 @@ import com.kancolle.server.utils.logic.common.LvUtils;
 public class MemberShipUtils {
 
     public static void calMemberShipPropertiesViaSlot(MemberShip memberShip) {
-        Ship ship = memberShip.getShip();
         // ---------------可改造属性-------------//
+        Ship ship = memberShip.getShip();
         int shipHoug = ship.getHoug().getMinValue() + memberShip.getKyouka()[0];
         int shipRaig = ship.getRaig().getMinValue() + memberShip.getKyouka()[1];
         int shipTaiku = ship.getTyku().getMinValue() + memberShip.getKyouka()[2];
@@ -46,7 +49,7 @@ public class MemberShipUtils {
             // 回避
             shipKaihi += slotitem.getHouk();
             // 索敌
-            shipSakuteki += memberSlotItem.getSaku();
+            shipSakuteki += slotitem.getSaku();
         }
         memberShip.getSoukou().setMinValue(shipSouk);
         memberShip.getKaryoku().setMinValue(shipHoug);
@@ -58,7 +61,12 @@ public class MemberShipUtils {
         // memberShip.getLucky().setMinValue(shipLuck);
     }
 
-    public static int[] getShipPowupMaxArray(Ship ship) {
-        return new int[]{ship.getHoug().getGrowValue(), ship.getRaig().getGrowValue(), ship.getTyku().getGrowValue(), ship.getSouk().getGrowValue()};
+    public static int[] getShipPowupMaxArray(final Ship ship) {
+        return new int[]{growValue(ship.getHoug()), growValue(ship.getRaig()), growValue(ship.getTyku()), growValue(ship.getSouk())};
+    }
+
+    private static int growValue(final MaxMinValue value) {
+        Objects.requireNonNull(value);
+        return value.getMaxValue() - value.getMinValue();
     }
 }

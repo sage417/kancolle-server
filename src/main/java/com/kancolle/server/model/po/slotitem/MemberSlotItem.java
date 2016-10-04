@@ -15,10 +15,10 @@ import java.io.Serializable;
  * @author J.K.SAGE
  * @Date 2015年5月31日
  */
+@Alias("MemberSlotItem")
 @JsonPropertyOrder(value = {
         "memberSlotItemId", "slotItemId", "locked", "level"
 })
-@Alias("MemberSlotItem")
 public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 
     private static final long serialVersionUID = -7169523354675835935L;
