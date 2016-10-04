@@ -10,7 +10,7 @@
 		<result property="exp" column="EXP" typeHandler="LongJsonArrayHandler" />
 		<result property="nowHp" column="NOWHP" />
 		<result property="maxHp" column="MAXHP" />
-		<result property="api_slot" column="SLOT" typeHandler="LongJsonArrayHandler" />
+		<result property="slotIds" column="SLOT" typeHandler="LongJsonArrayHandler" />
 		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler" />
 		<result property="kyouka" column="KYOUKA" typeHandler="IntJsonArrayHandler"/>
 		<result property="ndockTime" column="NDOCK_TIME" />
