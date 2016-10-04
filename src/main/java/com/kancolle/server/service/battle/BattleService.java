@@ -266,10 +266,12 @@ public class BattleService extends BaseService {
         UnderSeaDeckPort underSeaDeckPort = underSeaDeckPortService.getUnderSeaDeckPortById(enemyDeckPortId);
 
         BattleResult result = new BattleResult();
-        result.setShip_id(session.getShip_id());
-        result.setWinRank(session.getWin_rank());
 
-        WinRank winRank = WinRank.valueOf(session.getWin_rank());
+        result.setShip_id(session.getShip_id());
+
+        final WinRank winRank = WinRank.valueOf(session.getWin_rank());
+        result.setWinRank(winRank.showName);
+
         int baseExp = DoubleMath.roundToInt(underSeaDeckPort.getExp() * BattleResult.EXP_AUG.get(winRank.ordinal()), RoundingMode.CEILING);
         result.setGet_exp(underSeaDeckPort.getMemberExp());
         result.setMvp(mvp_idx);

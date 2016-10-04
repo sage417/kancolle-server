@@ -42,7 +42,13 @@ public class BattleResult {
     public static final ImmutableList<Integer> COND_AUG = ImmutableList.of(4, 3, 2, 1, 0, 0);
 
     public enum WinRank {
-        SS, S, A, B, C, D, E
+        SS("S"), S("S"), A("A"), B("B"), C("C"), D("D"), E("E");
+
+        public final String showName;
+
+        WinRank(final String showName) {
+            this.showName = showName;
+        }
     }
 
     public static final int GET_NONE = 0;
