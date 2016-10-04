@@ -62,7 +62,8 @@ public class MemberNdockService {
         MemberShip memberShip = checkNotNull(memberShipService.getMemberShip(member_id, member_ship_id));
         checkState(memberShip.getNowHp() < memberShip.getMaxHp());
 
-        memberResourceService.consumeResource(member_id, memberShip.getApi_ndock_item()[0], 0, memberShip.getApi_ndock_item()[1], 0, form.getApi_highspeed(), 0, 0, 0);
+        final int[] ndockItem = memberShip.getNdockItem();
+        memberResourceService.consumeResource(member_id, ndockItem[0], 0, ndockItem[1], 0, form.getApi_highspeed(), 0, 0, 0);
 
         if (useHighSpeed)
             repairMemberShip(memberShip);
@@ -80,8 +81,8 @@ public class MemberNdockService {
             memberNdock.setCompleteTimeStr(DateUtils.format(completeInstant));
 
             // 消耗资源记录
-            memberNdock.setItem1(memberShip.getApi_ndock_item()[0]);
-            memberNdock.setItem3(memberShip.getApi_ndock_item()[1]);
+            memberNdock.setItem1(ndockItem[0]);
+            memberNdock.setItem3(ndockItem[1]);
 
             updateMemberNdock(memberNdock);
         }

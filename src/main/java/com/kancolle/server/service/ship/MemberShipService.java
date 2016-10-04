@@ -3,10 +3,12 @@
  */
 package com.kancolle.server.service.ship;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.math.DoubleMath;
+import com.kancolle.server.controller.kcsapi.form.ship.ExChangeSlotForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
 import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
@@ -14,10 +16,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
-import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
-import com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult;
-import com.kancolle.server.model.kcsapi.ship.Ship3Result;
-import com.kancolle.server.model.kcsapi.ship.ShipDeckResult;
+import com.kancolle.server.model.kcsapi.ship.*;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
@@ -52,7 +51,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
-import static com.kancolle.server.dao.ship.MemberShipDao.*;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_FAILED;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -66,6 +64,9 @@ import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPrope
 public class MemberShipService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipService.class);
+    private static final String UPDATE_COLUMN_FUEL = "fuel";
+    private static final String UPDATE_COLUMN_BULL = "bull";
+    private static final String UPDATE_COLUMN_COND = "cond";
 
     @Autowired
     private MemberShipDao memberShipDao;
@@ -195,6 +196,11 @@ public class MemberShipService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberShip getMemberShip(String member_id, Long ship_id) {
         return memberShipDao.selectMemberShip(member_id, ship_id);
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
+    public MemberShip getNonNullMemberShip(final String member_id, final Long member_ship_id) {
+        return Preconditions.checkNotNull(getMemberShip(member_id, member_ship_id), "查询不存在的舰娘ID:%d", member_ship_id);
     }
 
 
@@ -474,14 +480,39 @@ public class MemberShipService {
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void unSetSlotsAll(String member_id, Long memberShip_id) {
-        MemberShip memberShip = getMemberShip(member_id, memberShip_id);
-        if (memberShip == null) {
-            LOGGER.warn("用户ID{}查询不存在的舰娘{}", member_id, memberShip_id);
-            throw new IllegalArgumentException();
-        }
+    public void unSetSlotsAll(String member_id, Long member_ship_id) {
+        MemberShip memberShip = getNonNullMemberShip(member_id, member_ship_id);
         unSetAllSlotItems(memberShip);
         updateShipProperties(memberShip);
+    }
+
+    /**
+     * 交换装备位置
+     *
+     * @param member_id
+     * @param form
+     */
+    @Transactional
+    public ExchangeSlotResult exchangeIndex(String member_id, ExChangeSlotForm form) {
+        final Long member_ship_id = form.getApi_id();
+        final int src_idx = form.getApi_src_idx();
+        final int dst_idx = form.getApi_dst_idx();
+
+        final MemberShip memberShip = getNonNullMemberShip(member_id, member_ship_id);
+        final long[] memberSlot = memberShip.getSlotIds();
+        checkArgument(memberSlot[src_idx] != -1L);
+        checkArgument(memberSlot[dst_idx] != -1L);
+
+        final long[] slot = Arrays.copyOf(memberSlot, memberSlot.length);
+
+        long temp = memberSlot[dst_idx];
+        slot[dst_idx] = slot[src_idx];
+        slot[src_idx] = temp;
+
+        int updateCount = memberShipDao.updateSlot(memberShip.getId(), slot);
+        checkState(updateCount == 1);
+
+        return new ExchangeSlotResult(slot);
     }
 
     /**

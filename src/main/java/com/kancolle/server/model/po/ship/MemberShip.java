@@ -28,7 +28,7 @@ import java.util.stream.IntStream;
 @JsonPropertyOrder(value = {
         "memberShipId", "api_sortno", "shipId", "lv",
         "exp", "nowHp", "maxHp", "leng",
-        "api_slot", "onslot", "kyouka", "api_backs",
+        "slotIds", "onslot", "kyouka", "api_backs",
         "fuel", "bull", "api_slotnum", "ndockTime",
         "ndockItem", "api_srate", "cond", "api_karyoku",
         "api_raisou", "api_taiku", "api_soukou", "api_kaihi",
@@ -50,146 +50,127 @@ public class MemberShip implements IShip, Serializable {
 
     public static final int MAX_COND = 100;
 
+    @JsonIgnore
+    private long id;
+
     @JsonProperty(value = "api_ship_id")
-    @JSONField(ordinal = 3, name = "api_ship_id")
     private int shipId;
 
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private Ship ship;
 
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private String memberId;
 
     @JsonProperty(value = "api_id")
-    @JSONField(ordinal = 1, name = "api_id")
     private long memberShipId;
 
     @JsonProperty(value = "api_lv")
-    @JSONField(ordinal = 4, name = "api_lv")
     private int lv;
 
     @JsonProperty(value = "api_exp")
-    @JSONField(ordinal = 5, name = "api_exp")
     private long[] exp;
 
     @JsonProperty(value = "api_nowhp")
-    @JSONField(ordinal = 6, name = "api_nowhp")
     private int nowHp;
 
     @JsonProperty(value = "api_maxhp")
-    @JSONField(ordinal = 7, name = "api_maxhp")
     private int maxHp;
 
     @JsonProperty(value = "api_leng")
-    @JSONField(ordinal = 8, name = "api_leng")
     private int leng;
 
     @JsonProperty(value = "api_slot")
-    @JSONField(ordinal = 9)
-    private long[] api_slot;
+    private long[] slotIds;
 
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private List<MemberSlotItem> slot;
 
     @JsonProperty(value = "api_onslot")
-    @JSONField(ordinal = 10, name = "api_onslot")
     private int[] onslot;
 
     @JsonProperty(value = "api_kyouka")
-    @JSONField(ordinal = 11, name = "api_kyouka")
     private int[] kyouka;
 
     @JsonProperty(value = "api_fuel")
-    @JSONField(ordinal = 13, name = "api_fuel")
     private int fuel;
 
     @JsonProperty(value = "api_bull")
-    @JSONField(ordinal = 14, name = "api_bull")
     private int bull;
 
     @JsonProperty(value = "api_ndock_time")
-    @JSONField(ordinal = 16, name = "api_ndock_time")
     private long ndockTime;
 
     @JsonProperty(value = "api_ndock_item")
-    @JSONField(ordinal = 17, name = "api_ndock_item")
     private int[] ndockItem;
 
     @JsonProperty(value = "api_cond")
-    @JSONField(ordinal = 19, name = "api_cond")
     private int cond;
     /**
      * 火力
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue karyoku;
     /**
      * 雷装
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue raisou;
     /**
      * 对空
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue taiku;
     /**
      * 装甲
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue soukou;
     /**
      * 回避
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue kaihi;
     /**
      * 对潜
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue taisen;
     /**
      * 索敌
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue sakuteki;
     /**
      * 运
      */
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private MaxMinValue lucky;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @JsonProperty(value = "api_sortno")
-    @JSONField(ordinal = 2, name = "api_sortno")
     public int returnSortNo() {
         return getShip().getSortno();
     }
 
     @JsonProperty(value = "api_backs")
-    @JSONField(ordinal = 12, name = "api_backs")
     public int returnBacks() {
         return getShip().getBacks();
     }
 
     @JsonProperty(value = "api_slotnum")
-    @JSONField(ordinal = 15, name = "api_slotnum")
     public int returnslotNum() {
         return getShip().getSlotNum();
     }
 
     @JsonProperty(value = "api_srate")
-    @JSONField(ordinal = 18, name = "api_srate")
     public int returnSrate() {
         int grownSum = IntStream.of(MemberShipUtils.getShipPowupMaxArray(getShip())).sum();
         int grownValue = IntStream.of(getKyouka()).sum();
@@ -197,58 +178,48 @@ public class MemberShip implements IShip, Serializable {
     }
 
     @JsonProperty(value = "api_karyoku")
-    @JSONField(ordinal = 20, name = "api_karyoku")
     public int[] returnKaryoku() {
         return getKaryoku().toArray();
     }
 
     @JsonProperty(value = "api_raisou")
-    @JSONField(ordinal = 21, name = "api_raisou")
     public int[] returnRaisou() {
         return getRaisou().toArray();
     }
 
     @JsonProperty(value = "api_taiku")
-    @JSONField(ordinal = 22, name = "api_taiku")
     public int[] returnTaiku() {
         return getTaiku().toArray();
     }
 
     @JsonProperty(value = "api_soukou")
-    @JSONField(ordinal = 23, name = "api_soukou")
     public int[] returnSoukou() {
         return getSoukou().toArray();
     }
 
     @JsonProperty(value = "api_kaihi")
-    @JSONField(ordinal = 24, name = "api_kaihi")
     public int[] returnKaihi() {
         return getKaihi().toArray();
     }
 
     @JsonProperty(value = "api_taisen")
-    @JSONField(ordinal = 25, name = "api_taisen")
     public int[] returnTaisen() {
         return getTaisen().toArray();
     }
 
     @JsonProperty(value = "api_sakuteki")
-    @JSONField(ordinal = 26, name = "api_sakuteki")
     public int[] returnSakuteki() {
         return getSakuteki().toArray();
     }
 
     @JsonProperty(value = "api_lucky")
-    @JSONField(ordinal = 27, name = "api_lucky")
     public int[] returnLuck() {
         return getLucky().toArray();
     }
 
-    @JsonProperty(value = "api_locked")
     @JsonSerialize(using = NumericBooleanSerializer.class)
     private boolean locked;
 
-    @JsonProperty(value = "api_locked_equip")
     @JsonSerialize(using = NumericBooleanSerializer.class)
     private boolean lockedEquip;
 
@@ -457,12 +428,12 @@ public class MemberShip implements IShip, Serializable {
         throw new UnsupportedOperationException();
     }
 
-    public int[] getApi_ndock_item() {
+    public int[] getNdockItem() {
         this.ndockItem = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getShipTypeId());
         return this.ndockItem;
     }
 
-    public void setApi_ndock_item(int[] api_ndock_item) {
+    public void setNdockItem(int[] ndockItem) {
         throw new UnsupportedOperationException();
     }
 
@@ -474,40 +445,27 @@ public class MemberShip implements IShip, Serializable {
         this.kyouka = kyouka;
     }
 
-    public long[] getApi_slot() {
-        return api_slot;
+    public long[] getSlotIds() {
+        return slotIds;
     }
 
-    public void setApi_slot(long[] api_slot) {
-        this.api_slot = api_slot;
+    public void setSlotIds(long[] slotIds) {
+        this.slotIds = slotIds;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MemberShip that = (MemberShip) o;
+
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
-        result = prime * result + (int) (memberShipId ^ (memberShipId >>> 32));
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        MemberShip other = (MemberShip) obj;
-        if (memberId == null) {
-            if (other.memberId != null)
-                return false;
-        } else if (!memberId.equals(other.memberId))
-            return false;
-        if (memberShipId != other.memberShipId)
-            return false;
-        return true;
+        return (int) (id ^ (id >>> 32));
     }
 
     @Override

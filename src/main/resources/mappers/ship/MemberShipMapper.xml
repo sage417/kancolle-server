@@ -3,8 +3,9 @@
 <mapper namespace="com.kancolle.server.dao.ship.MemberShipDao">
 
 	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
-		<id property="memberId" column="member_id" />
-		<id property="memberShipId" column="ID" />
+		<id property="id" column="IDX" />
+		<result property="memberId" column="member_id" />
+		<result property="memberShipId" column="ID" />
 		<result property="shipId" column="SHIP_ID" />
 		<result property="exp" column="EXP" typeHandler="LongJsonArrayHandler" />
 		<result property="nowHp" column="NOWHP" />
@@ -147,4 +148,10 @@
 		WHERE member_id = #{member_ship.memberId}
 		AND ID = #{member_ship.memberShipId}
 	</update>
-	</mapper>
+
+	<update id="updateSlot">
+		UPDATE t_member_ship
+			SET SLOT = #{slot, typeHandler=LongJsonArrayHandler}
+		WHERE `index` = #{id}
+	</update>
+</mapper>
