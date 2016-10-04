@@ -8,11 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 import com.google.common.math.DoubleMath;
-import com.kancolle.server.controller.kcsapi.form.ship.ExChangeSlotForm;
-import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
-import com.kancolle.server.controller.kcsapi.form.ship.ShipChargeForm;
-import com.kancolle.server.controller.kcsapi.form.ship.ShipPowerUpForm;
-import com.kancolle.server.controller.kcsapi.form.ship.ShipSetSlotForm;
+import com.kancolle.server.controller.kcsapi.form.ship.*;
 import com.kancolle.server.dao.ship.MemberShipDao;
 import com.kancolle.server.model.event.PowUpEvent;
 import com.kancolle.server.model.kcsapi.charge.ChargeModel;
@@ -501,13 +497,17 @@ public class MemberShipService {
         final MemberShip memberShip = getNonNullMemberShip(member_id, member_ship_id);
         final long[] memberSlot = memberShip.getSlotIds();
         checkArgument(memberSlot[src_idx] != -1L);
-        checkArgument(memberSlot[dst_idx] != -1L);
 
         final long[] slot = Arrays.copyOf(memberSlot, memberSlot.length);
 
-        long temp = memberSlot[dst_idx];
-        slot[dst_idx] = slot[src_idx];
-        slot[src_idx] = temp;
+        long temp = slot[src_idx];
+        if (slot[dst_idx] != -1L) {
+            slot[src_idx] = slot[dst_idx];
+            slot[dst_idx] = temp;
+        } else {
+            System.arraycopy(slot, src_idx + 1, slot, src_idx, dst_idx - src_idx - 1);
+            slot[dst_idx - 1] = temp;
+        }
 
         int updateCount = memberShipDao.updateSlot(memberShip.getId(), slot);
         checkState(updateCount == 1);
