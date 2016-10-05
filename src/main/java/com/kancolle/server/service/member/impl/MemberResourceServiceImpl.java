@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package com.kancolle.server.service.member.impl;
 
 import com.kancolle.server.dao.member.MemberResourceDao;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.service.member.MemberResourceService;
+import com.kancolle.server.utils.logic.MemberResourceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,10 +20,10 @@ import static com.kancolle.server.model.po.resource.Resource.MAX_RESOURCE_VALUE;
 /**
  * @author J.K.SAGE
  * @Date 2015年6月19日
- *
  */
 @Service
 public class MemberResourceServiceImpl implements MemberResourceService {
+
     @Autowired
     private MemberResourceDao memberResourceDao;
 
@@ -33,14 +34,24 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void consumeResource(String member_id, int chargeFuel, int chargeBull, int consumeSteel, int consumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem) {
-        Resource resource = getMemberResource(member_id);
-        if (!resource.hasEnoughFuel(chargeFuel) && !resource.hasEnoughBull(chargeBull) && !resource.hasEnoughSteel(consumeSteel) && !resource.hasEnoughBauxite(consumeBauxite) && !resource.hasEnoughFastRecovery(fastRecovery) && !resource.hasEnoughFastBuild(fastBuild)
-                && !resource.hasEnoughDevItem(DevItem) && !resource.hasEnoughEhItem(EhItem)) {
-            // TODO LOG
-            throw new IllegalArgumentException();
-        }
-        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -consumeSteel, -consumeBauxite, -fastRecovery, -fastBuild, -DevItem, -EhItem);
+    public void consumeResource(final String member_id, final int chargeFuel, final int chargeBull, final int consumeSteel, final int consumeBauxite,
+                                final int fastRecovery, final int fastBuild, final int devItem, final int ehItem) {
+
+        checkArgument(chargeFuel >= 0);
+        checkArgument(chargeBull >= 0);
+        checkArgument(consumeSteel >= 0);
+        checkArgument(consumeBauxite >= 0);
+        checkArgument(fastRecovery >= 0);
+        checkArgument(fastBuild >= 0);
+        checkArgument(devItem >= 0);
+        checkArgument(ehItem >= 0);
+
+        final Resource resource = getMemberResource(member_id);
+
+        checkArgument(MemberResourceUtils.hasEnoughResource(resource, chargeFuel, chargeBull, consumeSteel, consumeBauxite,
+                fastRecovery, fastBuild, devItem, ehItem));
+
+        memberResourceDao.updateMemberResource(member_id, -chargeFuel, -chargeBull, -consumeSteel, -consumeBauxite, -fastRecovery, -fastBuild, -devItem, -ehItem);
     }
 
     @Override
@@ -84,7 +95,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
 
     @Override
     public void increaseMaterial(String member_id, int[] increaseMaterials) {
-        increaseMaterial(member_id, increaseMaterials, new int[] { 0, 0, 0, 0 });
+        increaseMaterial(member_id, increaseMaterials, new int[]{0, 0, 0, 0});
     }
 
     @Override
@@ -101,6 +112,6 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     @Override
     public void initMemberResource(long member_id) {
         Resource resource = new Resource(member_id);
-        memberResourceDao.insertMemberRecource(resource);
+        memberResourceDao.insertMemberResource(resource);
     }
 }

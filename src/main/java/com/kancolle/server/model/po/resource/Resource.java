@@ -145,40 +145,4 @@ public class Resource implements Serializable{
         return String.format("Resource [memberId=%s, fuel=%s, bull=%s, steel=%s, bauxite=%s, fastRecovery=%s, fastBuild=%s, devItem=%s, ehItem=%s]", memberId, fuel, bull, steel, bauxite,
                 fastRecovery, fastBuild, devItem, ehItem);
     }
-
-    private boolean isEnough(int value, int target) {
-        return target > 0 && value >= target;
-    }
-
-    public boolean hasEnoughFuel(int target) {
-        return isEnough(this.fuel, target);
-    }
-
-    public boolean hasEnoughBull(int target) {
-        return isEnough(this.bull, target);
-    }
-
-    public boolean hasEnoughSteel(int target) {
-        return isEnough(this.steel, target);
-    }
-
-    public boolean hasEnoughBauxite(int target) {
-        return isEnough(this.bauxite, target);
-    }
-
-    public boolean hasEnoughFastRecovery(int target) {
-        return isEnough(this.fastRecovery, target);
-    }
-
-    public boolean hasEnoughFastBuild(int target) {
-        return isEnough(this.fastBuild, target);
-    }
-
-    public boolean hasEnoughDevItem(int target) {
-        return isEnough(this.devItem, target);
-    }
-
-    public boolean hasEnoughEhItem(int target) {
-        return isEnough(this.ehItem, target);
-    }
 }
