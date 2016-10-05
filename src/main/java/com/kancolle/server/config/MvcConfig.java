@@ -21,7 +21,7 @@ public class MvcConfig {
     @Bean
     public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter(@Autowired ObjectMapper objectMapper) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        jackson2HttpMessageConverter.setSupportedMediaTypes(Lists.newArrayList(MediaType.APPLICATION_JSON_UTF8));
+        jackson2HttpMessageConverter.setSupportedMediaTypes(Lists.newArrayList(MediaType.TEXT_HTML));
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);
         jackson2HttpMessageConverter.setJsonPrefix(JSON_PREFIX);
         return jackson2HttpMessageConverter;
