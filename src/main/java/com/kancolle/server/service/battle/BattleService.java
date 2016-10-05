@@ -55,6 +55,8 @@ import java.util.stream.IntStream;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.kancolle.server.model.kcsapi.battle.BattleResult.*;
+import static com.kancolle.server.model.kcsapi.battle.BattleSimulationResult.FIRST_START_INDEX;
+import static com.kancolle.server.model.kcsapi.battle.BattleSimulationResult.SECOND_START_INDEX;
 import static com.kancolle.server.service.battle.map.MapBattleService.*;
 import static com.kancolle.server.utils.logic.DeckPortUtils.FIRST_SHELL_SHIP_ORDER;
 import static com.kancolle.server.utils.logic.DeckPortUtils.getAttackShips;
@@ -116,8 +118,9 @@ public class BattleService extends BaseService {
         context.setUnderSeaShips(underSeaShips);
 
         // build ship idx map
-        Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
-        Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + 7, underSeaShips::get));
+        //Map<Integer, IShip> memberShipMap = memberShips.stream().collect(Collectors.toMap(s -> 1 + memberShips.indexOf(s), s -> s));
+        Map<Integer, IShip> memberShipMap = IntStream.range(0, memberShips.size()).boxed().collect(Collectors.toMap(i -> i + FIRST_START_INDEX, memberShips::get));
+        Map<Integer, IShip> underSeaShipMap = IntStream.range(0, underSeaShips.size()).boxed().collect(Collectors.toMap(i -> i + SECOND_START_INDEX, underSeaShips::get));
         ImmutableBiMap<Integer, IShip> shipMap = new ImmutableBiMap.Builder<Integer, IShip>().putAll(memberShipMap).putAll(underSeaShipMap).build();
         context.setShipMap(shipMap);
 
@@ -431,8 +434,8 @@ public class BattleService extends BaseService {
      */
     private WinRank getWinRank(BattleContext context, List<MemberShip> memberShips, List<UnderSeaShip> underSeaShips) {
         final int[] nowHps = context.getBattleResult().getApi_nowhps();
-        final int[] memberNowHps = Arrays.copyOfRange(nowHps, 1, 7);
-        final int[] underSeaNowHps = Arrays.copyOfRange(nowHps, 7, nowHps.length + 1);
+        final int[] memberNowHps = Arrays.copyOfRange(nowHps, FIRST_START_INDEX, SECOND_START_INDEX);
+        final int[] underSeaNowHps = Arrays.copyOfRange(nowHps, SECOND_START_INDEX, nowHps.length + 1);
 
         double memberLose = getLose(memberNowHps, context.getMemberShips());
         double enemyLose = getLose(underSeaNowHps, context.getUnderSeaShips());

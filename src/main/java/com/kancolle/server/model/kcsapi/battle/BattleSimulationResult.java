@@ -13,7 +13,6 @@ import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
@@ -21,7 +20,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 /**
  * @author J.K.SAGE
@@ -141,8 +140,8 @@ public class BattleSimulationResult {
         return hougekiResults.isEmpty() ? null : hougekiResults.iterator().next();
     }
 
-    public void addHougekiResult(HougekiResult hougekiResult){
-        this.hougekiResults.add( hougekiResult);
+    public void addHougekiResult(HougekiResult hougekiResult) {
+        this.hougekiResults.add(hougekiResult);
     }
 
     /** 炮击第二轮 */
@@ -153,7 +152,7 @@ public class BattleSimulationResult {
     }
 
     /** 炮击第三轮 */
-    @JSONField(name = "api_hougeki3",ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
+    @JSONField(name = "api_hougeki3", ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     @JsonProperty(value = "api_hougeki3")
     public HougekiResult getHougekiResult3() {
         return hougekiResults.size() > 2 ? hougekiResults.get(2) : null;
@@ -199,16 +198,32 @@ public class BattleSimulationResult {
         int enemyShipSize = underSeaShips.size();
         int memberShipSize = memberShips.size();
 
-        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_ship_ke[i] = underSeaShips.get(i - FIRST_START_INDEX).getShip().getShipId());
-        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_ship_lv[i] = underSeaShips.get(i - FIRST_START_INDEX).getShip().getLv());
-        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(memberShipSize).forEach(i -> this.api_nowhps[i] = memberShips.get(i - FIRST_START_INDEX).getNowHp());
-        Stream.iterate(SECOND_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_nowhps[i] = underSeaShips.get(i - SECOND_START_INDEX).getNowHp());
-        Stream.iterate(FIRST_START_INDEX, i -> ++i).limit(memberShipSize).forEach(i -> this.api_maxhps[i] = memberShips.get(i - FIRST_START_INDEX).getMaxHp());
-        Stream.iterate(SECOND_START_INDEX, i -> ++i).limit(enemyShipSize).forEach(i -> this.api_maxhps[i] = underSeaShips.get(i - SECOND_START_INDEX).getMaxHp());
+//        int[] ke = underSeaShips.stream().map(IShip::getShip).mapToInt(Ship::getShipId).toArray();
+//        System.arraycopy(ke, 0, this.api_ship_ke, FIRST_START_INDEX, ke.length);
+//
+//        int[] lv = underSeaShips.stream().mapToInt(IShip::getNowLv).toArray();
+//        System.arraycopy(lv, 0, this.api_ship_lv, FIRST_START_INDEX, lv.length);
+//
+//        int[] nowHps = memberShips.stream().mapToInt(IShip::getNowHp).toArray();
+//        System.arraycopy(nowHps, 0, this.api_nowhps, FIRST_START_INDEX, nowHps.length);
+//        int[] enowHps = underSeaShips.stream().mapToInt(IShip::getNowHp).toArray();
+//        System.arraycopy(enowHps, 0, this.api_nowhps, SECOND_START_INDEX, nowHps.length);
+//
+//        int[] maxHps = memberShips.stream().mapToInt(IShip::getMaxHp).toArray();
+//        System.arraycopy(maxHps, 0, this.api_maxhps, FIRST_START_INDEX, nowHps.length);
+//        int[] emaxHps = underSeaShips.stream().mapToInt(IShip::getMaxHp).toArray();
+//        System.arraycopy(emaxHps, 0, this.api_maxhps, SECOND_START_INDEX, nowHps.length);
+
+        IntStream.rangeClosed(FIRST_START_INDEX, enemyShipSize).forEach(i -> this.api_ship_ke[i] = underSeaShips.get(i - FIRST_START_INDEX).getShip().getShipId());
+        IntStream.rangeClosed(FIRST_START_INDEX, enemyShipSize).forEach(i -> this.api_ship_lv[i] = underSeaShips.get(i - FIRST_START_INDEX).getShip().getLv());
+        IntStream.rangeClosed(FIRST_START_INDEX, memberShipSize).forEach(i -> this.api_nowhps[i] = memberShips.get(i - FIRST_START_INDEX).getNowHp());
+        IntStream.range(SECOND_START_INDEX, SECOND_START_INDEX + enemyShipSize).forEach(i -> this.api_nowhps[i] = underSeaShips.get(i - SECOND_START_INDEX).getNowHp());
+        IntStream.rangeClosed(FIRST_START_INDEX, memberShipSize).forEach(i -> this.api_maxhps[i] = memberShips.get(i - FIRST_START_INDEX).getMaxHp());
+        IntStream.range(SECOND_START_INDEX, SECOND_START_INDEX + enemyShipSize).forEach(i -> this.api_maxhps[i] = underSeaShips.get(i - SECOND_START_INDEX).getMaxHp());
 
         this.api_midnight_flag = 0;
 
-        Stream.iterate(0, i -> ++i).limit(enemyShipSize).forEach(i -> {
+        IntStream.range(0, enemyShipSize).forEach(i -> {
             int[] slots = underSeaShips.get(i).getSlotItems().stream().mapToInt(AbstractSlotItem::getSlotItemId).toArray();
             slots = Ints.ensureCapacity(slots, 5, 0);
             Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);

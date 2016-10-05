@@ -34,7 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.*;
 
@@ -229,9 +229,9 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
         int slotTypeCount = slotItemService.getCountOfSlotItemTypes();
 
-        Map<String, Object> unslotMap = new LinkedHashMap<String, Object>(slotTypeCount);
+        Map<String, Object> unslotMap = new LinkedHashMap<>(slotTypeCount);
 
-        Stream.iterate(1, n -> ++n).limit(slotTypeCount).forEach(i -> {
+        IntStream.rangeClosed(1, slotTypeCount).forEach(i -> {
             List<Long> ids = unsetSlots.stream().filter(slotitem -> SlotItemUtils.getType(slotitem) == i).map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
             unslotMap.put(MessageFormat.format("api_slottype{0}", i), ids.isEmpty() ? -1 : ids);
         });
@@ -244,9 +244,9 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
         checkNotNull(memberSlotItem, "用户ID:%s请求不存在的装备ID:%s", member_id, slotitem_id);
 
-        Boolean lock = Boolean.valueOf(!memberSlotItem.isLocked());
+        boolean lock = !memberSlotItem.isLocked();
         memberSlotItemDao.updateMemberSlotItemLockStatue(member_id, slotitem_id, lock);
-        return new MemberSlotItemLockResult(lock.booleanValue());
+        return new MemberSlotItemLockResult(lock);
     }
 
     @Override
