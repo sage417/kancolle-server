@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
+import static com.kancolle.server.dao.ship.MemberShipDao.*;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_FAILED;
 import static com.kancolle.server.model.kcsapi.ship.MemberShipPowerUpResult.RESULT_SUCCESS;
 import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPropertiesViaSlot;
@@ -60,9 +61,6 @@ import static com.kancolle.server.utils.logic.MemberShipUtils.calMemberShipPrope
 public class MemberShipService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipService.class);
-    private static final String UPDATE_COLUMN_FUEL = "fuel";
-    private static final String UPDATE_COLUMN_BULL = "bull";
-    private static final String UPDATE_COLUMN_COND = "cond";
 
     @Autowired
     private MemberShipDao memberShipDao;

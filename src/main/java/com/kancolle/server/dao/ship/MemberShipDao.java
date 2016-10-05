@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
 @Repository
 public class MemberShipDao extends BaseDaoImpl<MemberShip> {
 
+    public static final String UPDATE_COLUMN_FUEL = "fuel";
+    public static final String UPDATE_COLUMN_BULL = "bull";
+    public static final String UPDATE_COLUMN_COND = "cond";
+
     @Override
     public void update(MemberShip memberShip, String... columns) {
         Map<String, Object> params = Maps.newHashMap();
