@@ -45,8 +45,8 @@ public abstract class DeckPortUtils {
             return 3;
         case ShipType.TYPE_CVL:
             return 4;
-        case ShipType.TYPE_BB1:
-        case ShipType.TYPE_BB2:
+        case ShipType.TYPE_FAST_BB:
+        case ShipType.TYPE_BB:
         case ShipType.TYPE_BBS:
         case ShipType.TYPE_BBV:
             return 5;

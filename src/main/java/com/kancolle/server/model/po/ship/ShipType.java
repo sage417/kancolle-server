@@ -28,9 +28,9 @@ public class ShipType implements Serializable {
 
     public static final int TYPE_CVL = 7;
 
-    public static final int TYPE_BB1 = 8;
+    public static final int TYPE_FAST_BB = 8;
 
-    public static final int TYPE_BB2 = 9;
+    public static final int TYPE_BB = 9;
 
     public static final int TYPE_BBV = 10;
 
@@ -41,6 +41,10 @@ public class ShipType implements Serializable {
     public static final int TYPE_SS = 13;
 
     public static final int TYPE_SSV = 14;
+    // 装甲空母
+    public static final int TYPE_CVB = 18;
+    // 工作舰
+    public static final int TYPE_AR = 19;
 
     @JsonProperty(value = "api_id")
     @JSONField(ordinal = 1, name = "api_id")
