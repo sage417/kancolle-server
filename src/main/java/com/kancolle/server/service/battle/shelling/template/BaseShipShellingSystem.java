@@ -38,9 +38,9 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
 
     public static final int CL_VALUE_MISS = 0;
     public static final int CL_VALUE_HIT = 1;
-    public static final int CL_VALUE_CRTICAL = 2;
+    public static final int CL_VALUE_CRITICAL = 2;
     /*------------暴击补正------------*/
-    public static final double SHELLING_CRTICAL_AUGMENTING = 1.5d;
+    public static final double SHELLING_CRITICAL_AUGMENTING = 1.5d;
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
     protected static final int ATTACK_TYPE_ANTISUBMARINE = 1;
@@ -65,7 +65,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected static final int NIGHT_HOUG_THRESHOLD = 300;
     protected static final int[] CL_SINGLE_MISS = new int[]{CL_VALUE_MISS};
     protected static final int[] CL_SINGLE_HIT = new int[]{CL_VALUE_HIT};
-    protected static final int[] CL_SINGLE_CRTICAL = new int[]{CL_VALUE_CRTICAL};
+    protected static final int[] CL_SINGLE_CRITICAL = new int[]{CL_VALUE_CRITICAL};
     /*------------伤害补正------------*/
     /*------------伤害补正------------*/
     protected static final double APAMMO_AUGMENTING = 1.08d;

@@ -272,9 +272,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
         //暴擊補正
         final int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
-        final boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
+        final boolean isCrtical = clArray[0] == CL_VALUE_CRITICAL;
         if (isCrtical) {
-            augmenting *= SHELLING_CRTICAL_AUGMENTING;
+            augmenting *= SHELLING_CRITICAL_AUGMENTING;
         }
 
         //TODO 熟練艦載機暴擊額外補正

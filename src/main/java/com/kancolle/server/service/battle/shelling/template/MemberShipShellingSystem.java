@@ -137,7 +137,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         if (!hit) {
             clArray = CL_SINGLE_MISS;
         } else {
-            clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRTICAL;
+            clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRITICAL;
         }
         hougekiResult.getApi_cl_list().add(clArray);
 
@@ -307,9 +307,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         //暴擊補正
         final int[] clArray = (int[]) getLast(hougekiResult.getApi_cl_list());
         // TODO double attack
-        final boolean isCrtical = clArray[0] == CL_VALUE_CRTICAL;
+        final boolean isCrtical = clArray[0] == CL_VALUE_CRITICAL;
         if (isCrtical) {
-            augmenting *= SHELLING_CRTICAL_AUGMENTING;
+            augmenting *= SHELLING_CRITICAL_AUGMENTING;
         }
 
         //TODO 熟練艦載機暴擊額外補正
