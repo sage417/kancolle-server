@@ -93,11 +93,9 @@ public class MemberShipService {
         int chargeKind = form.getApi_kind();
         int onslot = form.getApi_onslot();
 
-        List<MemberShip> memberShips = memberShipIds.stream().map(memberShipId -> getMemberShip(member_id, memberShipId)).filter(memberShip -> memberShip != null).collect(Collectors.toList());
-        if (memberShips.size() != form.getApi_id_items().size()) {
-            // TODO 记录
-            throw new IllegalArgumentException();
-        }
+        List<MemberShip> memberShips = memberShipIds.stream()
+                .map(memberShipId -> this.getNonNullMemberShip(member_id, memberShipId))
+                .collect(Collectors.toList());
 
         ChargeType chargeType = ChargeType.getChargeType(chargeKind);
 
@@ -194,7 +192,7 @@ public class MemberShipService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberShip getNonNullMemberShip(final String member_id, final Long member_ship_id) {
-        return Preconditions.checkNotNull(getMemberShip(member_id, member_ship_id), "查询不存在的舰娘ID:%d", member_ship_id);
+        return Preconditions.checkNotNull(this.getMemberShip(member_id, member_ship_id), "查询不存在的舰娘ID:%d", member_ship_id);
     }
 
 
