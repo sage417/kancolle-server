@@ -7,6 +7,7 @@ import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
+import com.kancolle.server.model.po.map.MapCellModel;
 import com.kancolle.server.model.po.map.MapCellNext;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.utils.CollectionsUtils;
@@ -27,9 +28,12 @@ public abstract class AbstractMapCell implements INormalMapCell {
     private MapCellMapper mapCellMapper;
 
     protected final MapNextResult getMapResult(int mapCellId, MemberDeckPort deckPort) {
-        MapCellNext cell = mapCellMapper.selectMapCellNextById(mapCellId);
-        MapNextResult result = new MapNextResult(cell);
-        return result;
+        final MapCellModel mapCell = mapCellMapper.selectMapCellById(mapCellId);
+        final MapCellNext nextInfo = mapCellMapper.selectMapCellNextById(mapCellId);
+        nextInfo.setMapinfoId(mapCell.getApi_mapinfo_no());
+        nextInfo.setMapareaId(mapCell.getApi_maparea_id());
+        nextInfo.setNo(mapCell.getApi_no());
+        return new MapNextResult(nextInfo);
     }
 
     protected final UnderSeaDeckPort getUnderSeaDeckPort(int mapCellId) {
