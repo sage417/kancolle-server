@@ -1,7 +1,5 @@
 package com.kancolle.server.model.kcsapi.ship;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.Arrays;
 
 /**

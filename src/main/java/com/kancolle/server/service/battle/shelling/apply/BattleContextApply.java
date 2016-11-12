@@ -2,7 +2,6 @@ package com.kancolle.server.service.battle.shelling.apply;
 
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.model.po.ship.MemberShip;
 
 import java.util.List;
 

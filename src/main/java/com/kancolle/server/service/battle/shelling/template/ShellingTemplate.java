@@ -1,6 +1,5 @@
 package com.kancolle.server.service.battle.shelling.template;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableBiMap;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.battle.BattleContext;

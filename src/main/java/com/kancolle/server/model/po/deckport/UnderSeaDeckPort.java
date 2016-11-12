@@ -3,11 +3,9 @@
  */
 package com.kancolle.server.model.po.deckport;
 
-import com.kancolle.server.model.po.ship.UnderSeaShip;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 /**

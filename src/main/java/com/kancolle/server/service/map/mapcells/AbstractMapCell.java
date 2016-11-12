@@ -10,7 +10,6 @@ import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.map.MapCellNext;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.utils.CollectionsUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
