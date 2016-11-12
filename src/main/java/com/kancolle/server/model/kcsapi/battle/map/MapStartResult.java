@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
+import com.kancolle.server.model.po.map.MapCellNext;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author J.K.SAGE
@@ -20,8 +22,6 @@ import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
 })
 public class MapStartResult {
 
-    /** 随机条件 **/
-
     // 罗盘
     @JsonProperty("api_rashin_flg")
     private int rashinFlag;
@@ -29,10 +29,6 @@ public class MapStartResult {
     // 妖精
     @JsonProperty("api_rashin_id")
     private int rashinId;
-
-    /** 随机条件 **/
-
-    /** 固定条件 **/
 
     @JsonProperty("api_maparea_id")
     private int mapareaId;
@@ -61,9 +57,6 @@ public class MapStartResult {
     @JsonProperty("api_bosscomp")
     private int bossComp;
 
-    /** 固定条件 **/
-
-    /** 外部条件 **/
     @JsonProperty("api_airsearch")
     private AirSearch airSearch = AirSearch.NO_AIR_SEARCH;
 
@@ -78,7 +71,10 @@ public class MapStartResult {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("api_itemget")
     private MapItemGet itemGet;
-    /** 外部条件 **/
+
+    public MapStartResult(final MapCellNext next) {
+        BeanUtils.copyProperties(next, this);
+    }
 
     public int getRashinFlag() {
         return rashinFlag;

@@ -2,6 +2,7 @@ package com.kancolle.server.model.kcsapi.battle.map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.kancolle.server.model.po.map.MapCellNext;
 
 /**
  * Created by J.K.SAGE on 2016/1/17.
@@ -19,6 +20,10 @@ public class MapNextResult extends MapStartResult {
 
     @JsonProperty("api_production_kind")
     private int productionKind;
+
+    public MapNextResult(final MapCellNext next) {
+        super(next);
+    }
 
     public int getCommentKind() {
         return commentKind;

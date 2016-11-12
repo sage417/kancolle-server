@@ -1,8 +1,10 @@
 package com.kancolle.server.mapper.map;
 
-import com.kancolle.server.model.po.map.MapCell;
+import com.kancolle.server.model.po.map.MapCellModel;
+import com.kancolle.server.model.po.map.MapCellNext;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,7 +13,12 @@ import java.util.Map;
 @Mapper
 public interface MapCellMapper {
 
-    MapCell selectMapCellById(int mapCellId);
+    List<MapCellModel> selectMapCells();
+    
+    MapCellModel selectMapCellById(int mapCellId);
+
+    MapCellNext selectMapCellNextById(int mapCellId);
 
     void replaceMapCell(Map<String, Object> stringObjectMap);
+
 }

@@ -1,12 +1,12 @@
 package com.kancolle.server.dao.start;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.item.PayItemMapper;
 import com.kancolle.server.mapper.map.MapAreaMapper;
 import com.kancolle.server.mapper.map.MapBGMMapper;
+import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.mapper.map.MapInfoMapper;
 import com.kancolle.server.mapper.ship.ShipGraphMapper;
 import com.kancolle.server.mapper.ship.ShipUpgradeMapper;
@@ -17,6 +17,7 @@ import com.kancolle.server.model.kcsapi.start.sub.*;
 import com.kancolle.server.model.po.furniture.BGM;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.map.MapArea;
+import com.kancolle.server.model.po.map.MapCellModel;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.ShipType;
@@ -61,6 +62,8 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private MapBGMMapper mapBGMMapper;
     @Autowired
     private MapInfoMapper mapInfoMapper;
+    @Autowired
+    private MapCellMapper mapCellMapper;
     @Autowired
     private ShipUpgradeMapper shipUpgradeMapper;
     @Autowired
@@ -119,7 +122,7 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     }
 
     public List<MapCellModel> getMstMapcell() {
-        return queryForModels(MapCellModel.class, MST_MAPCELL_TB);
+        return mapCellMapper.selectMapCells();
     }
 
     public List<MapInfoModel> getMstMapinfo() {

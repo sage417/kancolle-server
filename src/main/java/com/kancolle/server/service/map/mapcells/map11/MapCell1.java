@@ -4,6 +4,7 @@
 package com.kancolle.server.service.map.mapcells.map11;
 
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.map.mapcells.IStartMapCell;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class MapCell1 implements IStartMapCell {
     private AbstractMapCell nextPoint;
 
     @Override
-    public MapStartResult getMapStartResult() {
-        return nextPoint.getMapResult();
+    public MapStartResult getMapStartResult(MemberDeckPort deckPort) {
+        return nextPoint.getMapResult(deckPort);
     }
 
     @Override

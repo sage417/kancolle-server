@@ -2,20 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.mapper.map.MapCellMapper">
 
-    <resultMap type="MapCell" id="MapCellRM" autoMapping="true">
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
+		<property name="eternal" value="true"/>
+		<property name="maxEntriesLocalHeap" value="500"/>
+		<property name="strategy" value="NONE"/>
+	</cache>
+
+	<resultMap id="MapCellRM" type="MapCellModel" autoMapping="false">
+		<id property="api_id" column="ID"/>
+		<result property="api_map_no" column="MAP_NO" />
+		<result property="api_maparea_id" column="MAPAREA_ID" />
+		<result property="api_mapinfo_no" column="MAPINFO_NO" />
+		<result property="api_no" column="NO" />
+		<result property="api_color_no" column="COLOR_NO" />
+	</resultMap>
+
+    <resultMap type="MapCellNext" id="MapCellNextRM" autoMapping="false">
         <id property="cellId" column="CELL_ID"/>
-        <result property="rashinFlag" column="RASHIN_FLAG"/>
         <result property="mapareaId" column="MAPAREA_ID"/>
         <result property="mapinfoId" column="MAPINFO_ID"/>
-        <result property="rashinId" column="RASHIN_ID"/>
+        <result property="no" column="NO"/>
         <result property="colorNo" column="COLOR_NO"/>
         <result property="eventId" column="EVENT_ID"/>
         <result property="eventKind" column="EVENT_KIND"/>
+        <result property="bossCellNo" column="BOSS_CELL_NO"/>
         <result property="commentKind" column="COMMENT_KIND"/>
-        <result property="production_kind" column="PRODUCTION_KIND"/>
+        <result property="productionKind" column="PRODUCTION_KIND"/>
     </resultMap>
 
-    <select id="selectMapCellById" resultMap="MapCellRM">
+	<select id="selectMapCells" resultMap="MapCellRM">
+		SELECT ID, `NO`, COLOR_NO, MAP_NO, MAPAREA_ID, MAPINFO_NO
+		FROM t_map_cell
+	</select>
+
+	<select id="selectMapCellById" resultMap="MapCellRM">
+		SELECT ID, `NO`, COLOR_NO, MAP_NO, MAPAREA_ID, MAPINFO_NO
+		FROM t_map_cell WHERE ID = #{map_cell_id}
+	</select>
+
+    <select id="selectMapCellNextById" resultMap="MapCellNextRM">
 		SELECT
 			t.CELL_ID,
 			c.MAPAREA_ID,

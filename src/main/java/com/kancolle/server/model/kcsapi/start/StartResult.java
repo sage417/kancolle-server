@@ -6,6 +6,7 @@ import com.kancolle.server.model.kcsapi.start.sub.*;
 import com.kancolle.server.model.po.furniture.BGM;
 import com.kancolle.server.model.po.furniture.Furniture;
 import com.kancolle.server.model.po.map.MapArea;
+import com.kancolle.server.model.po.map.MapCellModel;
 import com.kancolle.server.model.po.mission.Mission;
 import com.kancolle.server.model.po.ship.BaseShip;
 import com.kancolle.server.model.po.ship.ShipType;

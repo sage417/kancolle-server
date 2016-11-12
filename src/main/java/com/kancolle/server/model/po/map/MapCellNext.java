@@ -7,8 +7,8 @@ import java.io.Serializable;
 /**
  * Created by J.K.SAGE on 2016/1/21 0021.
  */
-@Alias("MapCell")
-public class MapCell implements Serializable{
+@Alias("MapCellNext")
+public class MapCellNext implements Serializable{
 
     private int cellId;
 
@@ -18,21 +18,17 @@ public class MapCell implements Serializable{
 
     private int no;
 
-    private int rashinFlag;
-
-    private int rashinId;
-
     private int colorNo;
 
     private int eventId;
 
     private int eventKind;
 
-    private int next;
+    private int bossCellNo;
 
     private int commentKind;
 
-    private int production_kind;
+    private int productionKind;
 
     public int getCellId() {
         return cellId;
@@ -66,22 +62,6 @@ public class MapCell implements Serializable{
         this.no = no;
     }
 
-    public int getRashinFlag() {
-        return rashinFlag;
-    }
-
-    public void setRashinFlag(int rashinFlag) {
-        this.rashinFlag = rashinFlag;
-    }
-
-    public int getRashinId() {
-        return rashinId;
-    }
-
-    public void setRashinId(int rashinId) {
-        this.rashinId = rashinId;
-    }
-
     public int getColorNo() {
         return colorNo;
     }
@@ -106,12 +86,12 @@ public class MapCell implements Serializable{
         this.eventKind = eventKind;
     }
 
-    public int getNext() {
-        return next;
+    public int getBossCellNo() {
+        return bossCellNo;
     }
 
-    public void setNext(int next) {
-        this.next = next;
+    public void setBossCellNo(int bossCellNo) {
+        this.bossCellNo = bossCellNo;
     }
 
     public int getCommentKind() {
@@ -122,27 +102,11 @@ public class MapCell implements Serializable{
         this.commentKind = commentKind;
     }
 
-    public int getProduction_kind() {
-        return production_kind;
+    public int getProductionKind() {
+        return productionKind;
     }
 
-    public void setProduction_kind(int production_kind) {
-        this.production_kind = production_kind;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MapCell mapCell = (MapCell) o;
-
-        return cellId == mapCell.cellId;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return cellId;
+    public void setProductionKind(int productionKind) {
+        this.productionKind = productionKind;
     }
 }

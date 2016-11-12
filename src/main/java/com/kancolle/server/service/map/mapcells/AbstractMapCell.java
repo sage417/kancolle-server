@@ -5,8 +5,9 @@ package com.kancolle.server.service.map.mapcells;
 
 import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
-import com.kancolle.server.model.po.map.MapCell;
+import com.kancolle.server.model.po.map.MapCellNext;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.utils.CollectionsUtils;
 import org.springframework.beans.BeanUtils;
@@ -26,10 +27,9 @@ public abstract class AbstractMapCell implements INormalMapCell {
     @Autowired
     private MapCellMapper mapCellMapper;
 
-    protected final MapNextResult getMapResult(int mapCellId) {
-        MapNextResult result = new MapNextResult();
-        MapCell cell = mapCellMapper.selectMapCellById(mapCellId);
-        BeanUtils.copyProperties(cell, result);
+    protected final MapNextResult getMapResult(int mapCellId, MemberDeckPort deckPort) {
+        MapCellNext cell = mapCellMapper.selectMapCellNextById(mapCellId);
+        MapNextResult result = new MapNextResult(cell);
         return result;
     }
 
