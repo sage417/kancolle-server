@@ -3,7 +3,7 @@
  */
 package com.kancolle.server.model.kcsapi.battle.map;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
@@ -13,65 +13,72 @@ import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
  * @Date 2015年8月20日
  */
 @JsonPropertyOrder({
-        "api_rashin_flg","api_rashin_id","api_maparea_id","api_mapinfo_no",
-        "api_no","api_color_no","api_event_id","api_event_kind","api_next",
-        "api_bosscell_no","api_bosscomp","api_eventmap",
-        "api_itemget","api_happening","api_get_eo_rate","api_itemget_eo_result","api_itemget_eo_comment",
-        "api_select_route","api_airsearch"
+        "api_rashin_flg", "api_rashin_id", "api_maparea_id", "api_mapinfo_no",
+        "api_no", "api_color_no", "api_event_id", "api_event_kind",
+        "api_next", "api_bosscell_no", "api_bosscomp", "api_airsearch",
+        "api_ration_flag", "api_itemget"
 })
 public class MapStartResult {
 
-    @JSONField(ordinal = 1, name = "api_rashin_flg")
+    /** 随机条件 **/
+
+    // 罗盘
     @JsonProperty("api_rashin_flg")
     private int rashinFlag;
 
-    @JSONField(ordinal = 2, name = "api_rashin_id")
+    // 妖精
     @JsonProperty("api_rashin_id")
     private int rashinId;
 
-    @JSONField(ordinal = 3, name = "api_maparea_id")
+    /** 随机条件 **/
+
+    /** 固定条件 **/
+
     @JsonProperty("api_maparea_id")
     private int mapareaId;
 
-    @JSONField(ordinal = 4, name = "api_mapinfo_no")
     @JsonProperty("api_mapinfo_no")
     private int mapinfoId;
 
-    @JSONField(ordinal = 5, name = "api_no")
     @JsonProperty("api_no")
     private int no;
 
-    @JSONField(ordinal = 6, name = "api_color_no")
     @JsonProperty("api_color_no")
     private int colorNo;
 
-    @JSONField(ordinal = 7, name = "api_event_id")
     @JsonProperty("api_event_id")
     private int eventId;
 
-    @JSONField(ordinal = 8, name = "api_event_kind")
     @JsonProperty("api_event_kind")
     private int eventKind;
 
-    @JSONField(ordinal = 9, name = "api_next")
     @JsonProperty("api_next")
     private int next;
 
-    @JSONField(ordinal = 10, name = "api_bosscell_no")
     @JsonProperty("api_bosscell_no")
     private int bossCellNo;
 
-    @JSONField(ordinal = 11, name = "api_bosscomp")
     @JsonProperty("api_bosscomp")
     private int bossComp;
 
-    @JSONField(ordinal = 12, name = "api_airsearch")
-    @JsonProperty("api_airsearch")
-    private AirSearch airSearch = AirSearch.NO_AIRSEARCH;
+    /** 固定条件 **/
 
-    @JSONField(ordinal = 13, name = "api_itemget")
+    /** 外部条件 **/
+    @JsonProperty("api_airsearch")
+    private AirSearch airSearch = AirSearch.NO_AIR_SEARCH;
+
+    // 战斗食粮
+    @JsonProperty("api_ration_flag")
+    private int rationFlag;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("api_eventmap")
+    private MapEventMap eventMap;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("api_itemget")
     private MapItemGet itemGet;
+    /** 外部条件 **/
 
     public int getRashinFlag() {
         return rashinFlag;
@@ -167,6 +174,22 @@ public class MapStartResult {
 
     public void setAirSearch(AirSearch airSearch) {
         this.airSearch = airSearch;
+    }
+
+    public int getRationFlag() {
+        return rationFlag;
+    }
+
+    public void setRationFlag(int rationFlag) {
+        this.rationFlag = rationFlag;
+    }
+
+    public MapEventMap getEventMap() {
+        return eventMap;
+    }
+
+    public void setEventMap(MapEventMap eventMap) {
+        this.eventMap = eventMap;
     }
 
     public MapItemGet getItemGet() {
