@@ -58,7 +58,7 @@ public class DaoUtils {
 
     public static Class<?> getSuperClassGenricType(Class<?> clazz, int index) {
         Class<?> userClass = ClassUtils.getUserClass(clazz);
-        return ResolvableType.forClass(userClass).as(userClass.getSuperclass()).getGeneric(0).resolve();
+        return ResolvableType.forClass(userClass).as(userClass.getSuperclass()).getGeneric(index).resolve();
     }
 
     @SuppressWarnings("unchecked")
