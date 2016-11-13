@@ -41,23 +41,8 @@
 	</select>
 
     <select id="selectMapCellNextById" resultMap="MapCellNextRM">
-		SELECT
-			t.CELL_ID,
-			c.MAPAREA_ID,
-			c.MAPINFO_NO AS MAPINFO_ID,
-			c.NO,
-			t.RASHIN_FLAG,
-			t.RASHIN_ID,
-			t.COLOR_NO,
-			t.EVENT_ID,
-			t.EVENT_KIND,
-			t.NEXT,
-			t.COMMENT_KIND,
-			t.PRODUCTION_KIND
-		FROM t_map_cell_traveller t
-			INNER JOIN t_map_cell c ON t.CELL_ID = c.ID
-		WHERE t.CELL_ID = #{cellId}
-    </select>
+		SELECT * FROM t_map_cell_traveller t WHERE t.CELL_ID = #{cellId}
+	</select>
 
 	<insert id="replaceMapCell">
 		INSERT INTO `kancolle`.`t_map_cell` (`ID`, `NO`, `COLOR_NO`, `MAP_NO`, `MAPAREA_ID`, `MAPINFO_NO`) VALUES (#{ID}, #{NO}, #{COLOR_NO}, #{MAP_NO}, #{MAPAREA_ID}, #{MAPINFO_NO})

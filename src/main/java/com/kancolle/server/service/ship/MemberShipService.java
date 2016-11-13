@@ -101,7 +101,7 @@ public class MemberShipService {
 
         int chargeFuel = 0;
         int chargeBull = 0;
-        int comsumeBauxite = 0;
+        int consumeBauxite = 0;
 
         for (MemberShip memberShip : memberShips) {
             Ship ship = memberShip.getShip();
@@ -112,9 +112,9 @@ public class MemberShipService {
 
                 for (int i = 0; i < ship.getMaxEq().length; i++) {
                     if (ship.getMaxEq()[i] > 0) {
-                        int comsumePlaneCount = ship.getMaxEq()[i] - memberShip.getOnslot()[i];
-                        if (comsumePlaneCount > 0)
-                            comsumeBauxite += 5 * comsumePlaneCount;
+                        int consumePlaneCount = ship.getMaxEq()[i] - memberShip.getOnslot()[i];
+                        if (consumePlaneCount > 0)
+                            consumeBauxite += 5 * consumePlaneCount;
                     }
                 }
                 memberShip.setOnslot(memberShip.getShip().getMaxEq());
@@ -126,10 +126,10 @@ public class MemberShipService {
             }
 
         }
-        memberResourceService.consumeResource(member_id, chargeFuel, chargeBull, 0, comsumeBauxite, 0, 0, 0, 0);
+        memberResourceService.consumeResource(member_id, chargeFuel, chargeBull, 0, consumeBauxite, 0, 0, 0, 0);
         memberShipDao.chargeMemberShips(member_id, memberShipIds, chargeKind);
 
-        return new ChargeModel(memberShips, memberResourceService.getMemberResource(member_id), comsumeBauxite > 0);
+        return new ChargeModel(memberShips, memberResourceService.getMemberResource(member_id), consumeBauxite > 0);
     }
 
 
