@@ -1,6 +1,5 @@
 package com.kancolle.server.service.map.mapcells;
 
-import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 
 /**
@@ -8,6 +7,5 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
  */
 public interface IStartMapCell extends IMapCell {
 
-    MapStartResult getMapStartResult(MemberDeckPort deckPort);
-
+    INormalMapCell nextPoint(MemberDeckPort deckPort);
 }

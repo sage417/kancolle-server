@@ -10,20 +10,22 @@ import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
-import com.kancolle.server.service.map.MapTraveller;
 import com.kancolle.server.service.map.MemberMapService;
+import com.kancolle.server.service.map.traveller.MapTraveller;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年8月20日
  */
 @Service
-public class MapBattleService{
+public class MapBattleService {
 
     public static final String BATTLE_FLAG = "battleFlag";
 
@@ -41,6 +43,9 @@ public class MapBattleService{
 
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
+
+    @Autowired
+    private Map<String, MapTraveller> mapTravellers;
 
     /**
      * start表示从起始点出发到下一点的过程
@@ -65,7 +70,7 @@ public class MapBattleService{
 
         MapStartResult result = traveller.start(deckPort);
 
-        int mapCellId = traveller.getCurrentMapCell().getMapCellId();
+        int mapCellId = traveller.getToMapCell().getMapCellId();
 
         memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
@@ -83,13 +88,12 @@ public class MapBattleService{
         int mapCellId = state.getMapCellId();
 
         MapTraveller traveller = loadMapTraveller(travellerNo);
-        traveller.setMapCell(mapCellId);
 
         MemberDeckPort deckPort = state.getMemberDeckPort();
 
-        MapNextResult result = traveller.next(deckPort);
+        MapNextResult result = traveller.next(mapCellId, deckPort);
 
-        int nextMapCellId = traveller.getCurrentMapCell().getMapCellId();
+        int nextMapCellId = traveller.getToMapCell().getMapCellId();
 
         updateMemberMapCellInfo(member_id, nextMapCellId);
         state.setMapCellId(nextMapCellId);
@@ -99,7 +103,7 @@ public class MapBattleService{
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberMapBattleState selectMemberMapBattleState(String member_id){
+    public MemberMapBattleState selectMemberMapBattleState(String member_id) {
         return memberMapBattleMapper.selectMemberMapBattleState(member_id);
     }
 
@@ -109,8 +113,7 @@ public class MapBattleService{
     }
 
     private MapTraveller loadMapTraveller(int travellerNo) {
-        String travellerBeanName = String.format("map%dTraveller", travellerNo);
-        return SpringUtils.getBean(travellerBeanName, MapTraveller.class);
+        return mapTravellers.get(String.format("map%dTraveller", travellerNo));
     }
 
     private void updateMemberMapCellInfo(String memberId, int memberMapCellId) {

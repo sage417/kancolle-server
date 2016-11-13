@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.service.map.mapcells.map11;
 
-import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -30,12 +29,7 @@ public class MapCell2 extends AbstractMapCell{
     private AbstractMapCell NEXT_POINT2;
 
     @Override
-    public MapNextResult getMapResult(MemberDeckPort deckPort) {
-        return getMapResult(MAPCELL_ID, deckPort);
-    }
-
-    @Override
-    public AbstractMapCell nextPoint(){
+    public AbstractMapCell nextPoint(MemberDeckPort deckPort){
         int randomInt = RandomUtils.nextInt(0, 2);
         return  randomInt > 0 ? NEXT_POINT1 : NEXT_POINT2;
     }

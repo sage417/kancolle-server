@@ -6,12 +6,12 @@ package com.kancolle.server.service.map.impl;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
-import com.kancolle.server.service.map.MapTraveller;
+import com.kancolle.server.service.map.mapcells.IMapCell;
 import com.kancolle.server.service.map.mapcells.INormalMapCell;
 import com.kancolle.server.service.map.mapcells.IStartMapCell;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kancolle.server.service.map.traveller.AbstractMapTraveller;
+import com.kancolle.server.service.map.traveller.MapTraveller;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,80 +19,72 @@ import org.springframework.stereotype.Component;
  * @Date 2015年8月21日
  */
 @Component
-@Scope("prototype")
-public class Map11Traveller implements MapTraveller {
+public class Map11Traveller extends AbstractMapTraveller implements MapTraveller {
 
-    private IStartMapCell cell1;
+    private final IStartMapCell cell1;
 
-    private INormalMapCell cell2;
+    private final INormalMapCell cell2;
 
-    private INormalMapCell cell3;
+    private final INormalMapCell cell3;
 
-    private INormalMapCell cell4;
+    private final INormalMapCell cell4;
 
-    private INormalMapCell currentMapCell;
+    private IMapCell fromMapCell;
 
-    @Override
-    public MapStartResult start(MemberDeckPort deckPort) {
-        setMapCell(2);
-        return cell2.getMapResult(deckPort);
-    }
+    private INormalMapCell toMapCell;
 
-    @Override
-    public MapNextResult next(MemberDeckPort deckPort) {
-        INormalMapCell nextPoint = currentMapCell.nextPoint();
-        currentMapCell = nextPoint;
-        return nextPoint.getMapResult(deckPort);
-    }
-
-    @Override
-    public void setMapCell(int mapCellId) {
-        switch (mapCellId) {
-            case 2:
-                setCurrentMapCell(cell2);
-                break;
-            case 3:
-                setCurrentMapCell(cell3);
-                break;
-            case 4:
-                setCurrentMapCell(cell4);
-                break;
-            default:
-                throw new IllegalArgumentException("illegal mapCellId:" + mapCellId);
-        }
-    }
-
-
-    @Autowired
-    @Qualifier("mapCell1")
-    public void setCell1(IStartMapCell cell1) {
+    public Map11Traveller(
+            @Qualifier("mapCell1") IStartMapCell cell1,
+            @Qualifier("mapCell2") INormalMapCell cell2,
+            @Qualifier("mapCell3") INormalMapCell cell3,
+            @Qualifier("mapCell4") INormalMapCell cell4) {
         this.cell1 = cell1;
-    }
-
-    @Autowired
-    @Qualifier("mapCell2")
-    public void setCell2(INormalMapCell cell2) {
         this.cell2 = cell2;
-    }
-
-    @Autowired
-    @Qualifier("mapCell3")
-    public void setCell3(INormalMapCell cell3) {
         this.cell3 = cell3;
-    }
-
-    @Autowired
-    @Qualifier("mapCell4")
-    public void setCell4(INormalMapCell cell4) {
         this.cell4 = cell4;
     }
 
     @Override
-    public INormalMapCell getCurrentMapCell() {
-        return currentMapCell;
+    public MapStartResult start(MemberDeckPort deckPort) {
+        this.fromMapCell = cell1;
+        this.toMapCell = cell1.nextPoint(deckPort);
+        return super.generateMapStartResult(deckPort, cell1, cell2);
     }
 
-    public void setCurrentMapCell(INormalMapCell currentMapCell) {
-        this.currentMapCell = currentMapCell;
+    @Override
+    public MapNextResult next(int fromMapCellId, MemberDeckPort deckPort) {
+        this.fromMapCell = getCell(fromMapCellId);
+        this.toMapCell = ((INormalMapCell) this.fromMapCell).nextPoint(deckPort);
+        return super.generateMapNextResult(deckPort, this.fromMapCell, this.toMapCell);
+    }
+
+    @Override
+    public IMapCell getFromMapCell() {
+        return fromMapCell;
+    }
+
+    @Override
+    public INormalMapCell getToMapCell() {
+        return toMapCell;
+    }
+
+    @Override
+    public void setFromMapCell(int mapCellId) {
+        this.fromMapCell = getCell(mapCellId);
+    }
+
+    private IMapCell getCell(int mapCellId) {
+        switch (mapCellId) {
+            case 1:
+                return cell1;
+            case 2:
+                return cell2;
+            case 3:
+                return cell3;
+            case 4:
+                return cell4;
+            default:
+                throw new IllegalArgumentException("illegal cellId:" + mapCellId);
+        }
     }
 }

@@ -3,7 +3,6 @@
  */
 package com.kancolle.server.service.map.mapcells.map11;
 
-import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.map.mapcells.IStartMapCell;
@@ -23,8 +22,8 @@ public class MapCell1 implements IStartMapCell {
     private AbstractMapCell nextPoint;
 
     @Override
-    public MapStartResult getMapStartResult(MemberDeckPort deckPort) {
-        return nextPoint.getMapResult(deckPort);
+    public AbstractMapCell nextPoint(MemberDeckPort deckPort) {
+        return nextPoint;
     }
 
     @Override
