@@ -132,7 +132,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /* ---------------火力阈值--------------*/
 
     /* ---------------炮击火力阈值前补正-------------*/
-    protected final double basicAugmentBeforeThreshold(final IShip attackShip, final IShip defendShip , final BattleContext context) {
+    protected final double basicAugmentBeforeThreshold(final IShip attackShip, final IShip defendShip, final BattleContext context) {
         final int attackType = BattleContextUtils.getCurrentAttackType(context);
 
         double augmenting = 1d;
@@ -309,10 +309,11 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
             final int aerialState = context.getApply().getCurrentAerialState(context);
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
+            final int mainGunCount = slotItemInfo.getMainGunCount();
+            final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+
             if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
 
-                final int mainGunCount = slotItemInfo.getMainGunCount();
-                final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
                 final int radarCount = slotItemInfo.getRadarCount();
                 final int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
@@ -356,15 +357,15 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                     si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     break;
                 }
+            }
 
-                // 普通攻击
-                if (mainGunCount > 0) {
-                    si_list.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                } else if (secondaryGunCount > 0) {
-                    si_list.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                } else {
-                    si_list.add(Collections.singletonList(-1));
-                }
+            // 普通攻击
+            if (mainGunCount > 0) {
+                si_list.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+            } else if (secondaryGunCount > 0) {
+                si_list.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+            } else {
+                si_list.add(Collections.singletonList(-1));
             }
         } while (false);
 
