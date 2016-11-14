@@ -116,8 +116,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     @Override
     public int[] generateDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
         switch (attackType) {
-            case ATTACK_TYPE_ANTISUBMARINE:
-                return new int[]{1};
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:
             case ATTACK_TYPE_MAIN:

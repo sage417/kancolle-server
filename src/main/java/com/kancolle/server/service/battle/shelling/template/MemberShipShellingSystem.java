@@ -103,14 +103,13 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     @Override
     protected final int[] generateDamageResult(final MemberShip attackShip, final UnderSeaShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
         switch (attackType) {
-            case ATTACK_TYPE_ANTISUBMARINE:
-                return generateTaiSenDamageList(attackShip, defendShip, context);
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                return generateHougkekiDamageList(attackShip, defendShip, context);
+                return ShipFilter.ssFilter.test(defendShip) ? generateTaiSenDamageList(attackShip, defendShip, context)
+                        : generateHougkekiDamageList(attackShip, defendShip, context);
             case ATTACK_TYPE_DOUBLE:
                 return generateHougkekiDoubleDamageList(attackShip, defendShip, context);
             default:
@@ -232,13 +231,13 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     private int attackValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
-        final int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, context));
+        final int hougBeforeThreshold = daylightHougThreshold(augmentingBeforeThreshold(attackShip, defendShip, context));
         final double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
 
     private int taiSenValue(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
-        final int hougBeforeThreshold = taiSenHougThreshold(taiSenAugmentingBeforeThreshold(attackShip, context));
+        final int hougBeforeThreshold = taiSenHougThreshold(taiSenAugmentingBeforeThreshold(attackShip, defendShip, context));
         final double augmentingAfterThreshold = augmentingAfterThreshold(attackShip, context);
         return DoubleMath.roundToInt(hougBeforeThreshold * augmentingAfterThreshold, RoundingMode.DOWN);
     }
@@ -263,9 +262,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * <p>
      * 这里补正数值属于炮击战
      */
-    public double augmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
+    public double augmentingBeforeThreshold(final IShip attackShip, final IShip defendShip, final BattleContext context) {
         final int basicHoug = shellingBaiscHoug(attackShip);
-        double augmenting = basicAugmentBeforeThreshold(attackShip, context);
+        double augmenting = basicAugmentBeforeThreshold(attackShip, defendShip, context);
 
         if (augmenting < 0d) {
             augmenting = 0d;
@@ -275,9 +274,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         return augmenting * basicHoug + cLGunAugmenting(attackShip);
     }
 
-    public double taiSenAugmentingBeforeThreshold(final IShip attackShip, final BattleContext context) {
+    public double taiSenAugmentingBeforeThreshold(final IShip attackShip, final IShip defendShip, final BattleContext context) {
         final int taisenBasicHoug = taiSenBasicHoug(attackShip);
-        double augmenting = basicAugmentBeforeThreshold(attackShip, context);
+        double augmenting = basicAugmentBeforeThreshold(attackShip, defendShip, context);
 
         //反潜套补正
         final double taisenAugmenting = taisenShellingAugmenting(attackShip);

@@ -43,7 +43,7 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     public static final double SHELLING_CRITICAL_AUGMENTING = 1.5d;
     /* --------------------观测CI-------------------- */
     protected static final int ATTACK_TYPE_NORMAL = 0;
-    protected static final int ATTACK_TYPE_ANTISUBMARINE = 1;
+    protected static final int ATTACK_TYPE_LASER = 1;
     protected static final int ATTACK_TYPE_DOUBLE = 2;
     protected static final float ATTACK_TYPE_DOUBLE_FACTOR = 1.2f;
     protected static final int ATTACK_TYPE_SECONDARY = 3;
@@ -132,14 +132,14 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     /* ---------------火力阈值--------------*/
 
     /* ---------------炮击火力阈值前补正-------------*/
-    protected final double basicAugmentBeforeThreshold(final IShip attackShip, final BattleContext context) {
+    protected final double basicAugmentBeforeThreshold(final IShip attackShip, final IShip defendShip , final BattleContext context) {
         final int attackType = BattleContextUtils.getCurrentAttackType(context);
 
         double augmenting = 1d;
 
         //阵型补正
         final int formationIndex = context.getApply().getCurrentFormation(context);
-        final double formationAugmenting = formationShellingAugmenting(formationIndex, attackType);
+        final double formationAugmenting = formationShellingAugmenting(formationIndex, defendShip);
         augmenting *= formationAugmenting;
 
         //航向补正
@@ -168,8 +168,8 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         return 1.0d;
     }
 
-    protected final double formationShellingAugmenting(final int formationIndex, final int attackType) {
-        if (attackType == ATTACK_TYPE_ANTISUBMARINE) {
+    protected final double formationShellingAugmenting(final int formationIndex, final IShip defendShip) {
+        if (ShipFilter.ssFilter.test(defendShip)) {
             return FormationSystem.taiSenHougAugment(formationIndex);
         } else {
             return FormationSystem.shellingHougAugment(formationIndex);
@@ -306,11 +306,6 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         final List<Integer> si = Lists.newArrayListWithCapacity(4);
 
         do {
-            if (ShipFilter.ssFilter.test(defendShip)) {
-                attackType = ATTACK_TYPE_ANTISUBMARINE;
-                break;
-            }
-
             final int aerialState = context.getApply().getCurrentAerialState(context);
             // TODO cache slotItem info
             final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
