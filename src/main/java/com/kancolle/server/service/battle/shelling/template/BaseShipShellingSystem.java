@@ -305,15 +305,15 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
         int attackType = ATTACK_TYPE_NORMAL;
         final List<Integer> si = Lists.newArrayListWithCapacity(4);
 
-        do {
-            final int aerialState = context.getApply().getCurrentAerialState(context);
-            // TODO cache slotItem info
-            final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
-            final int mainGunCount = slotItemInfo.getMainGunCount();
-            final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
+        final int aerialState = context.getApply().getCurrentAerialState(context);
+        // TODO cache slotItem info
+        final SlotItemInfo slotItemInfo = SlotItemInfo.of(attackShip);
+        final int mainGunCount = slotItemInfo.getMainGunCount();
+        final int secondaryGunCount = slotItemInfo.getSecondaryGunCount();
 
-            if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(defendShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
+        if (canObservationShootingDecideByAerialState(aerialState) && ShipUtils.isBadlyDmg.test(attackShip) && canObservationShootingDecideBySlotItem(slotItemInfo)) {
 
+            do {
                 final int radarCount = slotItemInfo.getRadarCount();
                 final int apAmmoCount = slotItemInfo.getAPAmmoCount();
 
@@ -357,17 +357,25 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
                     si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     break;
                 }
-            }
+            } while (false);
+        }
 
-            // 普通攻击
-            if (mainGunCount > 0) {
-                si_list.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-            } else if (secondaryGunCount > 0) {
-                si_list.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-            } else {
-                si_list.add(Collections.singletonList(-1));
-            }
-        } while (false);
+        if (attackType == ATTACK_TYPE_NORMAL) {
+            do {
+                if (ShipFilter.ssFilter.test(defendShip) || (mainGunCount == 0 && secondaryGunCount == 0)) {
+                    si.add(-1);
+                    break;
+                }
+                if (mainGunCount > 0) {
+                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    break;
+                }
+                if (secondaryGunCount > 0) {
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    break;
+                }
+            } while (false);
+        }
 
         at_type_list.add(attackType);
         si_list.add(si);
