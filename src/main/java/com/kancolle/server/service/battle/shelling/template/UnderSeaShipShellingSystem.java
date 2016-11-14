@@ -66,9 +66,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     private void generateTaiSenDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final BattleContext context) {
     }
 
-    private boolean isTaisenAttack(final IShip attackShip, final List<? extends IShip> enemySSShips) {
-        return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
-    }
 
     @Override
     protected final double shipHoumRatios(final UnderSeaShip attackShip, final BattleContext context) {
@@ -118,9 +115,9 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
 
     @Override
     public int[] generateDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
-        int[] damageList = new int[0];
-
         switch (attackType) {
+            case ATTACK_TYPE_ANTISUBMARINE:
+                return new int[]{1};
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:
             case ATTACK_TYPE_MAIN:
@@ -128,15 +125,12 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             case ATTACK_TYPE_SECONDARY:
                 final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
                 final int damageValue = damageValue(hougAfterThreshold, defendShip);
-                damageList = new int[]{damageValue};
-                break;
+                return new int[]{damageValue};
             case ATTACK_TYPE_DOUBLE:
-                break;
+                return new int[]{0, 0};
             default:
                 throw new IllegalArgumentException("attack type error");
         }
-
-        return damageList;
     }
 
     /**
@@ -277,7 +271,6 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
             augmenting *= SHELLING_CRITICAL_AUGMENTING;
         }
 
-        //TODO 熟練艦載機暴擊額外補正
         //彈着觀測射撃補正
         switch (attackType) {
             case ATTACK_TYPE_MAIN:

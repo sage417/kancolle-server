@@ -13,7 +13,6 @@ import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.common.LvUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import com.kancolle.server.utils.logic.ship.ShipUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import static com.google.common.collect.Iterables.getLast;
@@ -57,10 +55,6 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
         final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
         Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
         damageSumMap.put(attackShip, memberShipDamageSum + damageSum);
-    }
-
-    private boolean isTaisenAttack(final IShip attackShip, final List<? extends IShip> enemySSShips) {
-        return !enemySSShips.isEmpty() && ShipFilter.antiSSShipFilter.test(attackShip);
     }
 
     @Override
@@ -108,57 +102,65 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
 
     @Override
     protected final int[] generateDamageResult(final MemberShip attackShip, final UnderSeaShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
-        int[] damageList = new int[0];
-
         switch (attackType) {
+            case ATTACK_TYPE_ANTISUBMARINE:
+                return generateTaiSenDamageList(attackShip, defendShip, context);
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:
             case ATTACK_TYPE_MAIN:
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
-                final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
-                final int damageValue = damageValue(hougAfterThreshold, defendShip);
-                damageList = new int[]{damageValue};
-                break;
+                return generateHougkekiDamageList(attackShip, defendShip, context);
             case ATTACK_TYPE_DOUBLE:
-                break;
+                return generateHougkekiDoubleDamageList(attackShip, defendShip, context);
             default:
                 throw new IllegalArgumentException("attack type error");
         }
-        return damageList;
     }
 
-    private void generateTaiSenDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
-        final HougekiResult hougekiResult = context.getNowHougekiResult();
-        int damageSum = 0;
-        final int[] clArray;
-
-        final boolean hit = isHit(shipHoumRatios(attackShip, context), shipKaihiRatio(defendShip, context));
-        if (!hit) {
-            clArray = CL_SINGLE_MISS;
-        } else {
-            clArray = RandomUtils.nextInt(0, 9) > 1 ? CL_SINGLE_HIT : CL_SINGLE_CRITICAL;
-        }
-        hougekiResult.getApi_cl_list().add(clArray);
-
+    /**
+     * 対潜伤害计算
+     *
+     * @param attackShip
+     * @param defendShip
+     * @param context
+     * @return
+     */
+    private int[] generateTaiSenDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
         final int hougAfterThreshold = taiSenValue(attackShip, defendShip, context);
         final int damageValue = damageValue(hougAfterThreshold, defendShip);
-        hougekiResult.getApi_damage().add(new int[]{damageValue});
-        damageSum += damageValue;
-
-        final Map<MemberShip, Integer> damageSumMap = context.getDamageSum();
-
-        Integer memberShipDamageSum = damageSumMap.getOrDefault(attackShip, 0);
-        memberShipDamageSum += damageSum;
-        damageSumMap.put(attackShip, memberShipDamageSum);
-
-        int nowHp = defendShip.getNowHp() - damageSum;
-        if (nowHp < 0) {
-            nowHp = 0;
-        }
-        defendShip.setNowHp(nowHp);
-
+        return new int[]{damageValue};
     }
+
+    /**
+     * 炮击伤害
+     *
+     * @param attackShip
+     * @param defendShip
+     * @param context
+     * @return
+     */
+    private int[] generateHougkekiDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+        final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
+        final int damageValue = damageValue(hougAfterThreshold, defendShip);
+        return new int[]{damageValue};
+    }
+
+    /**
+     * 炮击伤害
+     *
+     * @param attackShip
+     * @param defendShip
+     * @param context
+     * @return
+     */
+    private int[] generateHougkekiDoubleDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+        final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
+        final int damageValue1 = damageValue(hougAfterThreshold, defendShip);
+        final int damageValue2 = damageValue(hougAfterThreshold, defendShip);
+        return new int[]{damageValue1, damageValue2};
+    }
+
 
     /**
      * 基本攻擊力計算：

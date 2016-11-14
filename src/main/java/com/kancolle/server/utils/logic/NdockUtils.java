@@ -143,7 +143,7 @@ public abstract class NdockUtils {
                 break;
         }
 
-        return new Double(loseHp * base * mod).longValue() + 30L;
+        return (long) (loseHp * base * mod) + 30L;
     }
 
     public static int[] getNdockItem(int loseHp, int shipType) {
