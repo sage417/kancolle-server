@@ -26,7 +26,7 @@ import java.util.Map;
 import static com.google.common.collect.Iterables.getLast;
 
 @Service
-public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip, UnderSeaShip> {
+public class MemberShipShellingSystem extends AbstractShellingTemplate<MemberShip, UnderSeaShip> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberShipShellingSystem.class);
 
@@ -101,7 +101,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
     }
 
     @Override
-    protected final int[] generateDamageResult(final MemberShip attackShip, final UnderSeaShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
+    protected final int[] generateHougekiDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:
@@ -109,9 +109,9 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
             case ATTACK_TYPE_RADAR:
             case ATTACK_TYPE_SECONDARY:
                 return ShipFilter.ssFilter.test(defendShip) ? generateTaiSenDamageList(attackShip, defendShip, context)
-                        : generateHougkekiDamageList(attackShip, defendShip, context);
+                        : generateHougekiDamageList(attackShip, defendShip, context);
             case ATTACK_TYPE_DOUBLE:
-                return generateHougkekiDoubleDamageList(attackShip, defendShip, context);
+                return generateHougekiDoubleDamageList(attackShip, defendShip, context);
             default:
                 throw new IllegalArgumentException("attack type error");
         }
@@ -139,7 +139,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * @param context
      * @return
      */
-    private int[] generateHougkekiDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+    private int[] generateHougekiDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
         final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
         final int damageValue = damageValue(hougAfterThreshold, defendShip);
         return new int[]{damageValue};
@@ -153,7 +153,7 @@ public class MemberShipShellingSystem extends BaseShipShellingSystem<MemberShip,
      * @param context
      * @return
      */
-    private int[] generateHougkekiDoubleDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
+    private int[] generateHougekiDoubleDamageList(final MemberShip attackShip, final UnderSeaShip defendShip, final BattleContext context) {
         final int hougAfterThreshold = attackValue(attackShip, defendShip, context);
         final int damageValue1 = damageValue(hougAfterThreshold, defendShip);
         final int damageValue2 = damageValue(hougAfterThreshold, defendShip);

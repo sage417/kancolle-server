@@ -27,7 +27,7 @@ import java.util.List;
 import static com.google.common.collect.Iterables.getLast;
 
 @Service
-public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaShip, MemberShip> {
+public class UnderSeaShipShellingSystem extends AbstractShellingTemplate<UnderSeaShip, MemberShip> {
 
     @Autowired
     @Qualifier("underSeaBattleContextApply")
@@ -114,7 +114,7 @@ public class UnderSeaShipShellingSystem extends BaseShipShellingSystem<UnderSeaS
     }
 
     @Override
-    public int[] generateDamageResult(final UnderSeaShip attackShip, final MemberShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
+    public int[] generateHougekiDamageList(final UnderSeaShip attackShip, final MemberShip defendShip, final int attackType, final int[] criticals, final BattleContext context) {
         switch (attackType) {
             case ATTACK_TYPE_NORMAL:
             case ATTACK_TYPE_EXPOSEARMOR:

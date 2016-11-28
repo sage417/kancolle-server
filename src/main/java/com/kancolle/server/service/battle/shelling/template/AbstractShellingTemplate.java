@@ -23,7 +23,6 @@ import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.RoundingMode;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
  * @author J.K.SAGE
  * @Date 2015年11月1日
  */
-public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> extends ShellingTemplate<A, D> {
+public abstract class AbstractShellingTemplate<A extends IShip, D extends IShip> extends ShellingTemplate<A, D> {
 
     public static final int CL_VALUE_MISS = 0;
     public static final int CL_VALUE_HIT = 1;
@@ -453,6 +452,26 @@ public abstract class BaseShipShellingSystem<A extends IShip, D extends IShip> e
     protected final int cLGunAugmenting(final IShip ship) {
         return 0;
     }
+
+    @Override
+    protected final int[] generateDamageResult(A attackShip, D defendShip, int attackType, int[] criticals, BattleContext context) {
+        return ShipFilter.ssFilter.test(defendShip)
+                ? generateHougekiDamageTemplate(attackShip, defendShip, attackType, criticals, context)
+                : generateTaiSenDamageTemplate(attackShip, defendShip, criticals, context);
+    }
+
+    private int[] generateTaiSenDamageTemplate(A attackShip, D defendShip, int[] criticals, BattleContext context) {
+        final double attack = 0;
+        final double defend = 0;
+        final double bullAugement = 0;
+        return new int[]{DoubleMath.roundToInt((attack - defend) * bullAugement, RoundingMode.FLOOR)};
+    }
+
+    private int[] generateHougekiDamageTemplate(A attackShip, D defendShip, int attackType, int[] criticals, BattleContext context) {
+        return generateHougekiDamageList(attackShip, defendShip, attackType, criticals, context);
+    }
+
+    protected abstract int[] generateHougekiDamageList(A attackShip, D defendShip, int attackType, int[] criticals, BattleContext context);
 
     /**
      * 阵型命中项补正

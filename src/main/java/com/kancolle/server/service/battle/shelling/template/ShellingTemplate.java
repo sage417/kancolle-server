@@ -20,7 +20,7 @@ import static com.google.common.collect.Iterables.isEmpty;
  */
 public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
-    public final void generateHougkeResult(final A attackShip, final BattleContext context) {
+    public final void generateHougekiResult(final A attackShip, final BattleContext context) {
         prepareContext(context);
 
         final D attemptChooseShip = chooseTargetShip(attackShip, context);
@@ -118,7 +118,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
         final HougekiResult hougekiResult = context.getNowHougekiResult();
         final ImmutableBiMap<Integer, IShip> shipsMap = context.getShipMap();
         final int defShipIdx = shipsMap.inverse().get(defendShip);
-        final int[] defArr = attackType == BaseShipShellingSystem.ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
+        final int[] defArr = attackType == AbstractShellingTemplate.ATTACK_TYPE_DOUBLE ? new int[]{defShipIdx, defShipIdx} : new int[]{defShipIdx};
         hougekiResult.getApi_df_list().add(defArr);
     }
 
