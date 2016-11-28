@@ -35,9 +35,7 @@ public abstract class AbstractMapTraveller implements MapTraveller {
         final MapCellNext mapCellNext = mapCellMapper.selectMapCellNextById(cellId);
         fillInfo(mapCellNext);
 
-        final MapNextResult result = new MapNextResult(mapCellNext);
-        result.setNext(mapCellNext.getNo());
-        return result;
+        return new MapNextResult(mapCellNext);
     }
 
     private void fillInfo(final MapCellNext nextInfo) {

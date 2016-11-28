@@ -25,6 +25,7 @@
         <result property="colorNo" column="COLOR_NO"/>
         <result property="eventId" column="EVENT_ID"/>
         <result property="eventKind" column="EVENT_KIND"/>
+        <result property="next" column="NEXT"/>
         <result property="bossCellNo" column="BOSS_CELL_NO"/>
         <result property="commentKind" column="COMMENT_KIND"/>
         <result property="productionKind" column="PRODUCTION_KIND"/>

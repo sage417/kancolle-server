@@ -419,7 +419,7 @@ public class BattleService extends BaseService {
 
     private double getEnemyDeckPortLostRatio(List<UnderSeaShip> underSeaShips) {
         int shipCount = underSeaShips.size();
-        double loseCount = underSeaShips.stream().filter(ShipFilter.isAlive).count();
+        double loseCount = underSeaShips.stream().filter(ShipFilter.isAlive.negate()).count();
         return loseCount / shipCount;
     }
 
@@ -446,9 +446,9 @@ public class BattleService extends BaseService {
             return memberLose == 0d ? WinRank.SS : WinRank.S;
         } else if (enemyLostRatio >= 2d / 3d && !lost) {
             return WinRank.A;
-        } else if (enemyLose >= 2 * memberLose) {
+        } else if (enemyLose > 2 * memberLose) {
             return WinRank.B;
-        } else if (enemyLose >= memberLose) {
+        } else if (enemyLose > memberLose) {
             return WinRank.C;
         } else {
             return lost ? WinRank.E : WinRank.D;

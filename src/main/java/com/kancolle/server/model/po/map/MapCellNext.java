@@ -24,6 +24,8 @@ public class MapCellNext implements Serializable{
 
     private int eventKind;
 
+    private int next;
+
     private int bossCellNo;
 
     private int commentKind;
@@ -84,6 +86,14 @@ public class MapCellNext implements Serializable{
 
     public void setEventKind(int eventKind) {
         this.eventKind = eventKind;
+    }
+
+    public int getNext() {
+        return next;
+    }
+
+    public void setNext(int next) {
+        this.next = next;
     }
 
     public int getBossCellNo() {
