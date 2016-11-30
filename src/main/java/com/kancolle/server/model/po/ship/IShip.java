@@ -35,6 +35,9 @@ public interface IShip {
     /** 雷装 */
     int getShipRaisou();
 
+    /** 对空 */
+    int getShipTaiku();
+
     /** 装甲 */
     int getShipSoukou();
 

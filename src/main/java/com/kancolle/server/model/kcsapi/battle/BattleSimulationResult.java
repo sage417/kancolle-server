@@ -13,6 +13,7 @@ import com.google.common.primitives.Ints;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuResult;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
@@ -40,6 +41,8 @@ public class BattleSimulationResult {
     private static final int MAX_SHELLING_ROUND = 3;
     public static final int FIRST_START_INDEX = 1;
     public static final int SECOND_START_INDEX = 7;
+
+    private static final int[] PARAM = new int[]{0, 0, 0, 0};
 
     @JSONField(ordinal = 1)
     @JsonProperty(value = "api_dock_id")
@@ -74,10 +77,15 @@ public class BattleSimulationResult {
     @JsonProperty(value = "api_eKyouka")
     private int[][] api_eKyouka;
 
+    /*
+     * 味方艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
+     */
     @JSONField(ordinal = 9)
     @JsonProperty(value = "api_fParam")
     private int[][] api_fParam;
-
+    /*
+     * 敵艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
+     */
     @JSONField(ordinal = 10)
     @JsonProperty(value = "api_eParam")
     private int[][] api_eParam;
@@ -182,11 +190,11 @@ public class BattleSimulationResult {
         this.api_eKyouka = new int[6][4];
         Arrays.stream(this.api_eKyouka).forEach(values -> Arrays.fill(values, 0));
 
-        this.api_fParam = new int[6][4];
-        Arrays.stream(this.api_fParam).forEach(values -> Arrays.fill(values, 0));
-
-        this.api_eParam = new int[6][4];
-        Arrays.stream(this.api_eParam).forEach(values -> Arrays.fill(values, 0));
+//        this.api_fParam = new int[6][4];
+//        Arrays.stream(this.api_fParam).forEach(values -> Arrays.fill(values, 0));
+//
+//        this.api_eParam = new int[6][4];
+//        Arrays.stream(this.api_eParam).forEach(values -> Arrays.fill(values, 0));
     }
 
     public BattleSimulationResult(final MemberDeckPort memberDeckPort, final List<UnderSeaShip> underSeaShips) {
@@ -229,6 +237,9 @@ public class BattleSimulationResult {
             Arrays.fill(slots, ArrayUtils.indexOf(slots, 0), 5, -1);
             this.api_eSlot[i] = slots;
         });
+
+        this.api_fParam = Utils.getParam(memberShips);
+        this.api_eParam = Utils.getParam(underSeaShips);
     }
 
     public int getApi_dock_id() {
@@ -389,5 +400,27 @@ public class BattleSimulationResult {
 
     public void setApi_raigeki(Object api_raigeki) {
         this.api_raigeki = api_raigeki;
+    }
+
+
+    private static class Utils {
+
+        private static int[][] getParam(List<? extends IShip> ships) {
+            final int[][] param = new int[6][];
+
+            final int shipSize = ships.size();
+
+            IntStream.range(0, shipSize).forEach(i -> {
+                IShip ship = ships.get(i);
+                param[i] = new int[]{
+                        ship.getShipKaryoku(),
+                        ship.getShipRaisou(),
+                        ship.getShipTaiku(),
+                        ship.getShipSoukou()};
+            });
+
+            IntStream.range(shipSize, param.length).forEach(i -> param[i] = PARAM);
+            return param;
+        }
     }
 }

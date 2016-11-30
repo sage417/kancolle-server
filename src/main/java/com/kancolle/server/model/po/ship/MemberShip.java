@@ -520,6 +520,11 @@ public class MemberShip implements IShip, Serializable {
     }
 
     @Override
+    public int getShipTaiku() {
+        return getTaiku().getMinValue();
+    }
+
+    @Override
     public int getShipSakuteki() {
         return getSakuteki().getMinValue();
     }

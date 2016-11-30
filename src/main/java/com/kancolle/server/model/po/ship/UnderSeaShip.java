@@ -112,6 +112,11 @@ public class UnderSeaShip implements IShip, Serializable {
     }
 
     @Override
+    public int getShipTaiku() {
+        return this.ship.getTaik().getMinValue();
+    }
+
+    @Override
     public int getShipSakuteki() {
         return this.ship.getSakuteki().getMinValue();
     }
