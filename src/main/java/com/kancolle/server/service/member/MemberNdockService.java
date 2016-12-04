@@ -140,8 +140,14 @@ public class MemberNdockService {
         return memberNdockDao.selectMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
     }
 
-    public void checkIfInNdock(final String member_id, final long member_ship_id) {
+    /**
+     * 入渠状态舰娘不允许对其进行操作
+     *
+     * @param member_id
+     * @param member_ship_id
+     */
+    public void assertNotInNdock(final String member_id, final long member_ship_id) {
         MemberNdock ndock = getMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
-        checkArgument(ndock == null,"用户ID:%s操作正在入渠的舰娘");
+        checkArgument(ndock == null,"用户ID:%s 操作正在入渠的舰娘");
     }
 }

@@ -45,7 +45,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     public void updateMemberDeckPortShip(MemberDeckPort targetDeck) {
         List<Long> ship = targetDeck.getShips().stream().map(MemberShip::getMemberShipId).collect(Collectors.toList());
 
-        while (ship.size() < MemberDeckPort.SHIP_COUT_MAX) {
+        while (ship.size() < MemberDeckPort.MAX_SHIP_COUNT) {
             ship.add(-1L);
         }
 
@@ -74,6 +74,13 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         params.put("deck_id", targetDeck.getDeckId());
         params.put("removeShips", removeShips);
         getSqlSession().delete("deleteDeckPortShip", params);
+    }
+
+    private void clearDeckPortShipMapping(MemberDeckPort memberDeckPort) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
+        params.put("member_id", memberDeckPort.getMemberId());
+        params.put("deck_id", memberDeckPort.getDeckId());
+        getSqlSession().delete("clearDeckPortShipMapping", params);
     }
 
     @Override

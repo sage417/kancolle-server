@@ -1,9 +1,11 @@
 package com.kancolle.server.controller.kcsapi;
 
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
+import com.kancolle.server.controller.kcsapi.form.PresetSelectForm;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.ship.MemberShipLockResult;
+import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.PresetDeck;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
@@ -44,14 +46,24 @@ public class ReqHenseiController {
         return new APIResponse<MemberShipLockResult>().setApi_data(api_data);
     }
 
+    @RequestMapping("/preset_select")
+    APIResponse<PresetDeck> select(
+            @ModelAttribute(MEMBER_ID) final String member_id,
+            @Validated PresetSelectForm form,
+            BindingResult result) {
+        checkArgument(!result.hasErrors());
+
+        return new APIResponse.Builder<PresetDeck>().data(null).build();
+    }
+
     @RequestMapping("/preset_register")
-    APIResponse<PresetDeck> register(
+    APIResponse<MemberDeckPort> register(
             @ModelAttribute(MEMBER_ID) String member_id,
             @Validated PresetDeckRegisterFrom form,
             BindingResult result) {
         checkArgument(!result.hasErrors());
-        PresetDeck presetDeck = memberDeckPortService.registerMemberPresetDeck(member_id, form);
-        return new APIResponse.Builder<PresetDeck>().data(presetDeck).build();
+        MemberDeckPort deckPort = memberDeckPortService.selectMemberPresetDeck(member_id, form);
+        return new APIResponse.Builder<MemberDeckPort>().data(deckPort).build();
     }
 
     @RequestMapping("/preset_delete")

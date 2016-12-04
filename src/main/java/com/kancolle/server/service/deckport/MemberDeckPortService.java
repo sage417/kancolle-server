@@ -12,6 +12,7 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.PresetDeck;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
+import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class MemberDeckPortService {
     private MemberPresetDeckMapper memberPresetDeckMapper;
     @Autowired
     private MemberShipService memberShipService;
+    @Autowired
+    private MemberNdockService memberNdockService;
 
     public static final ImmutableList<Long> EMPTY_PRESET_DECK = ImmutableList.of(-1L, -1L, -1L, -1L, -1L, -1L);
 
@@ -94,7 +97,7 @@ public class MemberDeckPortService {
                 if (ship_idx < targetShips.size())
                     replaceDeckPortShip(targetDeck, ship_idx, memberShip);
                 else
-                    addDeckportShip(targetDeck, memberShip);
+                    addDeckPortShip(targetDeck, memberShip);
             }
         }
         return null;
@@ -112,7 +115,7 @@ public class MemberDeckPortService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
-    public void addDeckportShip(MemberDeckPort targetDeck, MemberShip memberShip) {
+    public void addDeckPortShip(MemberDeckPort targetDeck, MemberShip memberShip) {
         List<MemberShip> targetShips = targetDeck.getShips();
         targetShips.add(memberShip);
 
@@ -144,7 +147,7 @@ public class MemberDeckPortService {
             if (targetDeck.getDeckId() == 1 && otherShips.isEmpty())
                 throw new IllegalArgumentException("不能移除旗舰");
             removeDeckPortShips(targetDeck, Collections.singletonList(memberShip));
-            addDeckportShip(targetDeck, memberShip);
+            addDeckPortShip(targetDeck, memberShip);
         } else {
             memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
         }
@@ -277,5 +280,25 @@ public class MemberDeckPortService {
         final int update = memberPresetDeckMapper.updatePresetDeck(presetDeck);
         checkArgument(update == 1);
 
+    }
+
+    /**
+     *
+     * @param member_id
+     * @param form
+     * @return
+     */
+    public MemberDeckPort selectMemberPresetDeck(String member_id, PresetDeckRegisterFrom form) {
+        final int deck_id = form.getApi_deck_id();
+        final int preset_no = form.getApi_preset_no();
+
+        final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id,preset_no);
+
+        List<Long> ship_ids  = presetDeck.getShip().stream()
+                .filter(ship_id -> memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, ship_id) == null)
+                .collect(Collectors.toList());
+
+
+        return this.getUnNullableMemberDeckPort(member_id, deck_id);
     }
 }

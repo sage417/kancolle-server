@@ -67,6 +67,12 @@
 			#{memberShip.memberShipId}
 		</foreach>
 	</delete>
+
+	<delete id="clearDeckPortShipMapping">
+		DELETE FROM t_member_deckport_ship_mapping
+		WHERE member_id = #{member_id }
+		AND deck_id = #{deck_id}
+	</delete>
 	
 	<update id="updateDeckPortState" >
 		UPDATE t_member_deckport

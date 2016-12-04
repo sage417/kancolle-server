@@ -149,9 +149,7 @@ public class MemberShipService {
                     throw new IllegalStateException("不能解体远征舰队中的舰娘");
             }
 
-            MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, destroyShipId);
-            if (ndock != null)
-                throw new IllegalStateException("不能解体入渠中的舰娘");
+            memberNdockService.assertNotInNdock(member_id, destroyShipId);
 
             if (destroyShip.isLocked())
                 throw new IllegalStateException("不能解体上锁的舰娘");
@@ -313,8 +311,7 @@ public class MemberShipService {
         MemberDeckPort deckPort = memberDeckPortService.getMemberDeckPortContainsMemberShip(member_id, target_ship_id);
         checkState(deckPort == null || deckPort.getMission()[0] == 0, "用户ID:%s，强化的舰娘处于远征状态，ID:%d", member_id, target_ship_id);
         // 入渠检查
-        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, target_ship_id);
-        checkState(ndock == null, "用户ID:%s，强化的舰娘正在入渠，ID:%d", member_id, target_ship_id);
+        memberNdockService.assertNotInNdock(member_id, target_ship_id);
 
         int[] powUpMaxArray = MemberShipUtils.getShipPowupMaxArray(targetShip.getShip());
 
@@ -431,8 +428,7 @@ public class MemberShipService {
             throw new IllegalArgumentException(String.format("無法找到艦娘,member_id:%s,ship_id:%d", member_id, memberShipId));
 
         // 入渠检查
-        MemberNdock ndock = memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, memberShipId);
-        checkState(ndock == null, "用户ID:%s，改装的舰娘正在入渠，ID:%d", member_id, memberShipId);
+        memberNdockService.assertNotInNdock(member_id, memberShipId);
 
         List<MemberSlotItem> slotItems = memberShip.getSlot();
 
