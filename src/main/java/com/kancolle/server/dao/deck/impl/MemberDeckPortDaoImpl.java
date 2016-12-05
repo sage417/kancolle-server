@@ -21,8 +21,8 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     }
 
     @Override
-    public List<MemberDeckPort> selectMemberDeckPorts(String member_id) {
-        return getSqlSession().selectList("selectMemberDecksPortByCond", Collections.singletonMap("member_id", member_id));
+    public List<MemberDeckPort> selectMemberDeckPortsByMemberId(String member_id) {
+        return getSqlSession().selectList("selectMemberDeckPortsByMemberId", Collections.singletonMap("member_id", member_id));
     }
 
     @Override
@@ -30,11 +30,11 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("deck_id", deck_id);
-        return getSqlSession().selectOne("selectMemberDecksPortByCond", params);
+        return getSqlSession().selectOne("selectMemberDeckPortByMemberIdAndDeckId", params);
     }
 
     @Override
-    public MemberDeckPort selectMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id) {
+    public MemberDeckPort selectMemberDeckPortContainsMemberShip(String member_id, long member_ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("member_ship_id", member_ship_id);
@@ -54,44 +54,6 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         params.put("deck_id", targetDeck.getDeckId());
         params.put("ship", generateJsonArray(ship));
         getSqlSession().update("updateMemberDeckPortShip", params);
-    }
-
-    @Override
-    public void insertDeckPortShip(MemberDeckPort targetDeck, MemberShip memberShip) {
-        updateMemberDeckPortShip(targetDeck);
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
-        params.put("member_id", targetDeck.getMemberId());
-        params.put("deck_id", targetDeck.getDeckId());
-        params.put("member_ship_id", memberShip.getMemberShipId());
-        getSqlSession().insert("insertDeckPortShip", params);
-    }
-
-    @Override
-    public void deleteDeckPortShip(MemberDeckPort targetDeck, List<MemberShip> removeShips) {
-        updateMemberDeckPortShip(targetDeck);
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
-        params.put("member_id", targetDeck.getMemberId());
-        params.put("deck_id", targetDeck.getDeckId());
-        params.put("removeShips", removeShips);
-        getSqlSession().delete("deleteDeckPortShip", params);
-    }
-
-    private void clearDeckPortShipMapping(MemberDeckPort memberDeckPort) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
-        params.put("member_id", memberDeckPort.getMemberId());
-        params.put("deck_id", memberDeckPort.getDeckId());
-        getSqlSession().delete("clearDeckPortShipMapping", params);
-    }
-
-    @Override
-    public void updateDeckPortShip(MemberDeckPort targetDeck, MemberShip repalcedMemberShip, MemberShip memberShip) {
-        updateMemberDeckPortShip(targetDeck);
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(4);
-        params.put("member_id", targetDeck.getMemberId());
-        params.put("deck_id", targetDeck.getDeckId());
-        params.put("new_member_ship_id", memberShip.getMemberShipId());
-        params.put("member_ship_id", repalcedMemberShip.getMemberShipId());
-        getSqlSession().update("updateDeckPortShip", params);
     }
 
     @Override

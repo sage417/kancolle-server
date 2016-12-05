@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kancolle.server.mapper.deckport.MemberDeckPortShipMappingMapper">
+
+	<insert id="insertMemberDeckPortShipMapping">
+		insert into `t_member_deckport_ship_mapping` ( `member_id`, `deck_id`, `member_ship_id`) values ( #{member_id}, #{deck_id}, 0);
+	</insert>
+
+	<update id="addShipToDeckPortShipMapping">
+		UPDATE t_member_deckport_ship_mapping
+		SET member_ship_id = #{member_ship_id}
+		WHERE
+			member_id = #{member_id}
+			AND deck_id = #{deck_id}
+			AND id = (
+				SELECT id FROM (
+					SELECT id FROM
+						t_member_deckport_ship_mapping
+					WHERE member_id = #{member_id}
+					AND deck_id = #{deck_id}
+					AND member_ship_id = 0 LIMIT 0,1
+				) as temp
+			)
+	</update>
+	
+	<update id="replaceShipToDeckPortShipMapping">
+		UPDATE t_member_deckport_ship_mapping
+		SET member_ship_id = #{replace_member_ship_id}
+		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id = #{member_ship_id}
+	</update>
+
+	<update id="removeShipFromDeckPortShipMapping">
+		UPDATE t_member_deckport_ship_mapping
+		SET member_ship_id = 0
+		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id IN
+		<foreach collection="removeShips" item="memberShip" open="(" separator="," close=")">
+			#{memberShip.memberShipId}
+		</foreach>
+	</update>
+
+	<update id="clearDeckPortShipMapping">
+		UPDATE t_member_deckport_ship_mapping
+		SET member_ship_id = 0
+		WHERE member_id = #{member_id}
+		AND deck_id = #{deck_id}
+	</update>
+</mapper>

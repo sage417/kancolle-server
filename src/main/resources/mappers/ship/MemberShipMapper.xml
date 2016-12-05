@@ -45,15 +45,12 @@
 	</select>
 	
 	<select id="selectMemberDeckPortShips" resultMap="memberShipRM">
-		SELECT
-			s.*
-		FROM
-			t_member_deckport_ship_mapping m
-		INNER JOIN v_member_ship s ON m.member_id = s.member_id AND m.member_ship_id = s.ID
-		INNER JOIN t_member_deckport d ON d.member_id = m.member_id AND d.ID = m.deck_id
+		SELECT s.* FROM v_member_ship s
+		INNER JOIN v_member_deckport_ship_mapping m ON m.member_id = s.member_id AND m.member_ship_id = s.ID
+		INNER JOIN v_member_deckport d ON d.member_id = m.member_id AND d.ID = m.deck_id
 		WHERE
 			m.member_id = #{member_id}
-		AND m.deck_id = #{deck_id}
+			AND m.deck_id = #{deck_id}
 		ORDER BY POSITION(CONCAT(s.`ID`, ',') IN d.SHIP)
 	</select>
 	

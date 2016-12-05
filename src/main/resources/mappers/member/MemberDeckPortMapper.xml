@@ -11,12 +11,15 @@
 		<collection property="ships" ofType="MemberShip" column="{member_id=member_id,deck_id=ID}" select="com.kancolle.server.dao.ship.MemberShipDao.selectMemberDeckPortShips" />
 	</resultMap>
 
-	<select id="selectMemberDecksPortByCond" resultMap="MemberDeckPortRM">
+	<select id="selectMemberDeckPortByMemberIdAndDeckId" resultMap="MemberDeckPortRM">
 		SELECT * FROM v_member_deckport
-		<where>
-			<if test="member_id != null">member_id = #{member_id}</if>
-			<if test="deck_id != null">AND ID = #{deck_id}</if>
-		</where>
+		WHERE member_id = #{member_id}
+		AND ID = #{deck_id}
+	</select>
+
+	<select id="selectMemberDeckPortsByMemberId" resultMap="MemberDeckPortRM">
+		SELECT * FROM v_member_deckport
+		WHERE member_id = #{member_id}
 	</select>
 
 	<select id="selectMemberDeckPortContainsMemberShip" resultMap="MemberDeckPortRM">
@@ -24,7 +27,7 @@
 			dp.*
 		FROM
 			v_member_deckport dp
-		INNER JOIN t_member_deckport_ship_mapping m ON m.member_id = dp.member_id
+		INNER JOIN v_member_deckport_ship_mapping m ON m.member_id = dp.member_id
 		AND m.deck_id = dp.ID
 		WHERE
 			member_ship_id = #{member_ship_id}
@@ -34,22 +37,12 @@
 		INSERT INTO t_member_deckport (member_id, ID, `NAME`, SHIP, `LOCK`) VALUES
 		<foreach collection="list" item="deckPort" separator=",">(#{deckPort.memberId}, #{deckPort.deckId}, #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})</foreach>
 	</insert>
-
-	<insert id="insertDeckPortShip">
-		INSERT INTO t_member_deckport_ship_mapping (member_id, deck_id, member_ship_id) VALUES (#{member_id}, #{deck_id}, #{member_ship_id})
-	</insert>
 	
 	<update id="updateMemberDeckPortShip">
 		UPDATE v_member_deckport SET
 			SHIP = #{ship}
 		WHERE
 			member_id = #{member_id} AND ID = #{deck_id}
-	</update>
-	
-	<update id="updateDeckPortShip">
-		UPDATE t_member_deckport_ship_mapping SET
-			member_ship_id = #{new_member_ship_id}
-		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id = #{member_ship_id}
 	</update>
 	
 	<update id="updateDeckPortMission">
@@ -60,19 +53,6 @@
 			MISSION_FLAG = #{mission_flag}
 		WHERE member_id = #{member_id} AND ID = #{deck_id}
 	</update>
-	
-	<delete id="deleteDeckPortShip">
-		DELETE FROM t_member_deckport_ship_mapping WHERE member_id = #{member_id } AND deck_id = #{deck_id} AND member_ship_id IN
-		<foreach collection="removeShips" item="memberShip" open="(" separator="," close=")">
-			#{memberShip.memberShipId}
-		</foreach>
-	</delete>
-
-	<delete id="clearDeckPortShipMapping">
-		DELETE FROM t_member_deckport_ship_mapping
-		WHERE member_id = #{member_id }
-		AND deck_id = #{deck_id}
-	</delete>
 	
 	<update id="updateDeckPortState" >
 		UPDATE t_member_deckport

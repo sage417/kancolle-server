@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
+import com.kancolle.server.mapper.deckport.MemberDeckPortShipMappingMapper;
 import com.kancolle.server.mapper.deckport.MemberPresetDeckMapper;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
@@ -37,6 +38,8 @@ public class MemberDeckPortService {
     @Autowired
     private MemberDeckPortDao memberDeckPortDao;
     @Autowired
+    private MemberDeckPortShipMappingMapper memberDeckPortShipMappingMapper;
+    @Autowired
     private MemberPresetDeckMapper memberPresetDeckMapper;
     @Autowired
     private MemberShipService memberShipService;
@@ -47,7 +50,7 @@ public class MemberDeckPortService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public List<MemberDeckPort> getMemberDeckPorts(String member_id) {
-        return memberDeckPortDao.selectMemberDeckPorts(member_id);
+        return memberDeckPortDao.selectMemberDeckPortsByMemberId(member_id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
@@ -111,7 +114,8 @@ public class MemberDeckPortService {
             throw new IllegalArgumentException("不能移除旗舰");
         }
         targetShips.removeAll(removeShips);
-        memberDeckPortDao.deleteDeckPortShip(targetDeck, removeShips);
+        memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
+        memberDeckPortShipMappingMapper.removeShipFromDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),removeShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList()));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -121,7 +125,8 @@ public class MemberDeckPortService {
 
         checkDeckPort(targetShips);
 
-        memberDeckPortDao.insertDeckPortShip(targetDeck, memberShip);
+        memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
+        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -131,7 +136,8 @@ public class MemberDeckPortService {
 
         checkDeckPort(targetShips);
 
-        memberDeckPortDao.updateDeckPortShip(targetDeck, otherShip, memberShip);
+        memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
+        memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId(),otherShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -165,8 +171,10 @@ public class MemberDeckPortService {
             checkDeckPort(targetShips);
             checkDeckPort(otherShips);
 
-            memberDeckPortDao.updateDeckPortShip(targetDeck, replacedShip, memberShip);
-            memberDeckPortDao.updateDeckPortShip(otherDock, memberShip, replacedShip);
+            memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
+            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId(),replacedShip.getMemberShipId());
+            memberDeckPortDao.updateMemberDeckPortShip(otherDock);
+            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(otherDock.getMemberId(),otherDock.getDeckId(),replacedShip.getMemberShipId(),memberShip.getMemberShipId());
         } else {
 
             checkDeckPort(targetShips);
