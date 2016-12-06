@@ -2,14 +2,11 @@ package com.kancolle.server.service.deckport;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.mapper.deckport.MemberDeckPortShipMappingMapper;
 import com.kancolle.server.mapper.deckport.MemberPresetDeckMapper;
-import com.kancolle.server.model.event.MemberCreatedEvent;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -20,14 +17,12 @@ import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -51,14 +46,6 @@ public class MemberDeckPortService {
     private MemberShipService memberShipService;
     @Autowired
     private MemberNdockService memberNdockService;
-    @Autowired
-    @Qualifier("memberBus")
-    private EventBus memberEventBus;
-
-    @PostConstruct
-    private void init() {
-        this.memberEventBus.register(this);
-    }
 
     public static final ImmutableList<Long> EMPTY_PRESET_DECK = ImmutableList.of(-1L, -1L, -1L, -1L, -1L, -1L);
 
@@ -228,9 +215,7 @@ public class MemberDeckPortService {
         memberDeckPortDao.updateDeckPortState(member_id, deckport_id, false);
     }
 
-    @Subscribe
-    private void initMemberDeckPort(final MemberCreatedEvent event) {
-        final long member_id = event.getMemberId();
+    public void initMemberDeckPort(final long member_id) {
 
         List<MemberDeckPort> deckPorts = Lists.newArrayListWithCapacity(4);
 
@@ -255,13 +240,12 @@ public class MemberDeckPortService {
         return new PresetDeckResponse(3, map);
     }
 
-    @Subscribe
-    private void initMemberPresetDecks(final MemberCreatedEvent event) {
+    public void initMemberPresetDecks(final long member_id) {
         List<PresetDeck> presetDecks = Lists.newArrayListWithCapacity(3);
 
         for (int i = 1; i <= 3; i++) {
             final PresetDeck presetDeck = new PresetDeck();
-            presetDeck.setMember_id(event.getMemberId());
+            presetDeck.setMember_id(member_id);
             presetDeck.setNo(i);
             presetDeck.setName(StringUtils.EMPTY);
             presetDeck.setName_id(StringUtils.EMPTY);
@@ -313,7 +297,6 @@ public class MemberDeckPortService {
     }
 
     /**
-     *
      * @param member_id
      * @param form
      * @return

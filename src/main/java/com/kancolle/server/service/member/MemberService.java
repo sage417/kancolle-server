@@ -1,11 +1,9 @@
 package com.kancolle.server.service.member;
 
 import com.google.common.collect.Lists;
-import com.google.common.eventbus.EventBus;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.mapper.member.MemberLogMapper;
-import com.kancolle.server.model.event.MemberCreatedEvent;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -62,9 +60,6 @@ public class MemberService {
     @Autowired
     @Qualifier(value = "useItemIds")
     private int[] USE_ITEM_IDS;
-    @Autowired
-    @Qualifier("memberBus")
-    private EventBus memberBus;
 
     public Member getBasic(String member_id) {
         return getMember(member_id);
@@ -195,9 +190,8 @@ public class MemberService {
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
         memberMapService.initMemberMapCellInfo(member_id);
-
-        memberBus.post(new MemberCreatedEvent(member));
-
+        // 创建PresetDeck记录
+        memberDeckPortService.initMemberPresetDecks(member_id);
         return member;
     }
 }
