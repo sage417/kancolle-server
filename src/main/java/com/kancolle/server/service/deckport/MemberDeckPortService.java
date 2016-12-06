@@ -2,11 +2,14 @@ package com.kancolle.server.service.deckport;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.mapper.deckport.MemberDeckPortShipMappingMapper;
 import com.kancolle.server.mapper.deckport.MemberPresetDeckMapper;
+import com.kancolle.server.model.event.MemberCreatedEvent;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -17,13 +20,17 @@ import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.ship.MemberShipService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -34,7 +41,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Service
 public class MemberDeckPortService {
-
     @Autowired
     private MemberDeckPortDao memberDeckPortDao;
     @Autowired
@@ -45,6 +51,14 @@ public class MemberDeckPortService {
     private MemberShipService memberShipService;
     @Autowired
     private MemberNdockService memberNdockService;
+    @Autowired
+    @Qualifier("memberBus")
+    private EventBus memberEventBus;
+
+    @PostConstruct
+    private void init() {
+        this.memberEventBus.register(this);
+    }
 
     public static final ImmutableList<Long> EMPTY_PRESET_DECK = ImmutableList.of(-1L, -1L, -1L, -1L, -1L, -1L);
 
@@ -115,7 +129,7 @@ public class MemberDeckPortService {
         }
         targetShips.removeAll(removeShips);
         memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-        memberDeckPortShipMappingMapper.removeShipFromDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),removeShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList()));
+        memberDeckPortShipMappingMapper.removeShipFromDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), removeShips.stream().map(MemberShip::getMemberShipId).collect(Collectors.toList()));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -126,7 +140,7 @@ public class MemberDeckPortService {
         checkDeckPort(targetShips);
 
         memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId());
+        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), memberShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -137,7 +151,7 @@ public class MemberDeckPortService {
         checkDeckPort(targetShips);
 
         memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-        memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId(),otherShip.getMemberShipId());
+        memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), memberShip.getMemberShipId(), otherShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -172,9 +186,9 @@ public class MemberDeckPortService {
             checkDeckPort(otherShips);
 
             memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(),targetDeck.getDeckId(),memberShip.getMemberShipId(),replacedShip.getMemberShipId());
+            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), memberShip.getMemberShipId(), replacedShip.getMemberShipId());
             memberDeckPortDao.updateMemberDeckPortShip(otherDock);
-            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(otherDock.getMemberId(),otherDock.getDeckId(),replacedShip.getMemberShipId(),memberShip.getMemberShipId());
+            memberDeckPortShipMappingMapper.replaceShipToDeckPortShipMapping(otherDock.getMemberId(), otherDock.getDeckId(), replacedShip.getMemberShipId(), memberShip.getMemberShipId());
         } else {
 
             checkDeckPort(targetShips);
@@ -214,16 +228,24 @@ public class MemberDeckPortService {
         memberDeckPortDao.updateDeckPortState(member_id, deckport_id, false);
     }
 
-    public void initMemberDeckPort(long member_id) {
+    @Subscribe
+    private void initMemberDeckPort(final MemberCreatedEvent event) {
+        final long member_id = event.getMemberId();
+
         List<MemberDeckPort> deckPorts = Lists.newArrayListWithCapacity(4);
-        MemberDeckPort deckPort;
-        for (int id = 1; id < 5; id++) {
-            deckPort = id == 1 ?
-                    new MemberDeckPort(member_id, id, false) :
-                    new MemberDeckPort(member_id, id, true);
-            deckPorts.add(deckPort);
+
+        deckPorts.add(new MemberDeckPort(member_id, 1, false));
+        IntStream.rangeClosed(2, 4)
+                .mapToObj(deck_id -> new MemberDeckPort(member_id, deck_id, true))
+                .collect(() -> deckPorts, List::add, List::addAll);
+        int insertCount = memberDeckPortDao.insertMemberDeckPorts(deckPorts);
+        Assert.isTrue(insertCount == 4);
+
+        // 创建DeckPortMapping
+        for (int deck_id = 1; deck_id <= 4; deck_id++) {
+            boolean inserted = memberDeckPortShipMappingMapper.insertMemberDeckPortShipMapping(member_id, deck_id) == 1;
+            Assert.isTrue(inserted, "member_deck_port_mapping not insert");
         }
-        memberDeckPortDao.insertMemberDeckPorts(deckPorts);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -233,13 +255,13 @@ public class MemberDeckPortService {
         return new PresetDeckResponse(3, map);
     }
 
-    public void insertMemberPresetDecks(final long member_id) {
-
+    @Subscribe
+    private void initMemberPresetDecks(final MemberCreatedEvent event) {
         List<PresetDeck> presetDecks = Lists.newArrayListWithCapacity(3);
 
         for (int i = 1; i <= 3; i++) {
             final PresetDeck presetDeck = new PresetDeck();
-            presetDeck.setMember_id(member_id);
+            presetDeck.setMember_id(event.getMemberId());
             presetDeck.setNo(i);
             presetDeck.setName(StringUtils.EMPTY);
             presetDeck.setName_id(StringUtils.EMPTY);
@@ -300,9 +322,9 @@ public class MemberDeckPortService {
         final int deck_id = form.getApi_deck_id();
         final int preset_no = form.getApi_preset_no();
 
-        final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id,preset_no);
+        final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id, preset_no);
 
-        List<Long> ship_ids  = presetDeck.getShip().stream()
+        List<Long> ship_ids = presetDeck.getShip().stream()
                 .filter(ship_id -> memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, ship_id) == null)
                 .collect(Collectors.toList());
 

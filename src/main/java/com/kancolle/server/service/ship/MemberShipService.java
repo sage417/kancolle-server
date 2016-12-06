@@ -16,7 +16,6 @@ import com.kancolle.server.model.kcsapi.ship.*;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.member.Member;
-import com.kancolle.server.model.po.member.MemberNdock;
 import com.kancolle.server.model.po.resource.MemberResourceResult;
 import com.kancolle.server.model.po.resource.Resource;
 import com.kancolle.server.model.po.ship.MemberShip;
@@ -35,6 +34,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -84,8 +84,8 @@ public class MemberShipService {
     private MemberNdockService memberNdockService;
 
     @Autowired
+    @Qualifier("dutyBus")
     private EventBus eventBus;
-
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
     public ChargeModel chargeShips(String member_id, ShipChargeForm form) {

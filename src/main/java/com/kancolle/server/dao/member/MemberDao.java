@@ -23,5 +23,5 @@ public interface MemberDao extends BaseDao<Member> {
 
     void updateMemberToken(String member_id, String token);
 
-    void insert(Member member);
+    int insert(Member member);
 }

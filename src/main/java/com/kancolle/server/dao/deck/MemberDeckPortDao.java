@@ -20,5 +20,5 @@ public interface MemberDeckPortDao extends BaseDao<MemberDeckPort> {
 
     void updateDeckPortState(@Param("member_id") String member_id, @Param("deck_id") Integer deck_id, boolean lock);
 
-    void insertMemberDeckPorts(List<MemberDeckPort> deckPorts);
+    int insertMemberDeckPorts(List<MemberDeckPort> deckPorts);
 }

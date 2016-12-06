@@ -58,7 +58,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public void insert(Member member) {
-        getSqlSession().insert("insert", member);
+    public int insert(Member member) {
+        return getSqlSession().insert("insert", member);
     }
 }

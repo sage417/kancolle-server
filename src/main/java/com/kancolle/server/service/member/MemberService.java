@@ -1,9 +1,11 @@
 package com.kancolle.server.service.member;
 
 import com.google.common.collect.Lists;
+import com.google.common.eventbus.EventBus;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.mapper.member.MemberLogMapper;
+import com.kancolle.server.model.event.MemberCreatedEvent;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -59,6 +62,9 @@ public class MemberService {
     @Autowired
     @Qualifier(value = "useItemIds")
     private int[] USE_ITEM_IDS;
+    @Autowired
+    @Qualifier("memberBus")
+    private EventBus memberBus;
 
     public Member getBasic(String member_id) {
         return getMember(member_id);
@@ -166,8 +172,11 @@ public class MemberService {
     @Transactional
     public Member addMember(Member member) {
         // 创建member
-        memberDao.insert(member);
+        boolean isInsert = memberDao.insert(member) == 1;
+        Assert.isTrue(isInsert, "用户没有被创建");
+
         long member_id = member.getMemberId();
+
         // 创建资源记录
         memberResourceService.initMemberResource(member_id);
         // 创建舰队
@@ -186,8 +195,9 @@ public class MemberService {
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
         memberMapService.initMemberMapCellInfo(member_id);
-        // 创建PresetDeck记录
-        memberDeckPortService.insertMemberPresetDecks(member_id);
+
+        memberBus.post(new MemberCreatedEvent(member));
+
         return member;
     }
 }

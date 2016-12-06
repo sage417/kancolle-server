@@ -78,7 +78,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     }
 
     @Override
-    public void insertMemberDeckPorts(List<MemberDeckPort> deckPorts) {
-        getSqlSession().insert("insertMemberDeckPorts", deckPorts);
+    public int insertMemberDeckPorts(List<MemberDeckPort> deckPorts) {
+        return getSqlSession().insert("insertMemberDeckPorts", deckPorts);
     }
 }

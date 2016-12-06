@@ -27,11 +27,13 @@ import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,38 +44,32 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class MemberDutyServiceImpl implements MemberDutyService {
-
-    @Autowired
-    public void register(EventBus eventBus) {
-        eventBus.register(this);
-    }
-
     @Autowired
     private MemberDutyDao memberDutyDao;
-
     @Autowired
     private MemberResourceService memberResourceService;
-
     @Autowired
     private UseItemService useItemService;
-
     @Autowired
     private MemberUseItemService memberUseItemService;
-
     @Autowired
     private MemberDeckPortService memberDeckPortService;
-
     @Autowired
     private MemberService memberService;
-
     @Autowired
     private MemberShipService memberShipService;
-
     @Autowired
     private MemberSlotItemService memberSlotItemService;
-
     @Autowired
     private MemberFurnitureService memberFurnitureService;
+    @Autowired
+    @Qualifier("dutyBus")
+    private EventBus dutyBus;
+
+    @PostConstruct
+    private void init() {
+        this.dutyBus.register(this);
+    }
 
     @Override
     public MemberDutyPageList getMemberDutyList(String member_id, int pageNum) {

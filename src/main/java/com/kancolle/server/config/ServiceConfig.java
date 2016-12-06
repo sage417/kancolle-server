@@ -26,6 +26,11 @@ public class ServiceConfig {
         return new EventBus();
     }
 
+    @Bean(name = "memberBus")
+    public EventBus MemberEventBus() {
+        return new EventBus();
+    }
+
     @Bean(name = "springUtils")
     public static SpringUtils getSpringUtils() {
         return new SpringUtils();
