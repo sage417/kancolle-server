@@ -39,7 +39,7 @@
 	</insert>
 	
 	<update id="updateMemberDeckPortShip">
-		UPDATE v_member_deckport SET
+		UPDATE t_member_deckport SET
 			SHIP = #{ship}
 		WHERE
 			member_id = #{member_id} AND ID = #{deck_id}
@@ -58,5 +58,18 @@
 		UPDATE t_member_deckport
 		SET lock = #{lock}
 		WHERE member_id = #{member_id} AND ID = #{deck_id}
+	</update>
+
+	<update id="update">
+		UPDATE t_member_deckport
+		<set>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_SHIP)">SHIP = #{deckport.ship},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_STATUS)">MISSION_STATUS = #{deckport.mission_status},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_ID)">MISSION_ID = #{deckport.mission_id},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_COMPLETE_TIME)">MISSION_COMPLETE_TIME = #{deckport.mission_complete_time},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_FLAG)">MISSION_FLAG = #{deckport.mission_flag},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_LOCK)">lock = #{deckport.lock},</if>
+		</set>
+		WHERE member_id = #{deckport.member_id} AND ID = #{deckport.deck_id}
 	</update>
 </mapper>

@@ -15,9 +15,19 @@ import java.util.stream.Collectors;
 @Repository
 public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implements MemberDeckPortDao {
 
+    public static final String UPDATE_COLUMN_SHIP = "ship";
+    public static final String UPDATE_COLUMN_MISSION_STATUS = "mission_status";
+    public static final String UPDATE_COLUMN_MISSION_ID = "mission_id";
+    public static final String UPDATE_COLUMN_MISSION_COMPLETE_TIME = "mission_complete_time";
+    public static final String UPDATE_COLUMN_MISSION_FLAG = "mission_flag";
+    public static final String UPDATE_COLUMN_LOCK = "lock";
+
     @Override
-    public void update(MemberDeckPort deckport) {
-        throw new UnsupportedOperationException();
+    public void update(MemberDeckPort deckPort, String... columns) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("deckPort", deckPort);
+        params.put("columns", columns);
+        getSqlSession().update("update", params);
     }
 
     @Override

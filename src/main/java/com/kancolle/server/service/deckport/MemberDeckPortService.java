@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
+import com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl;
 import com.kancolle.server.mapper.deckport.MemberDeckPortShipMappingMapper;
 import com.kancolle.server.mapper.deckport.MemberPresetDeckMapper;
 import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
@@ -13,8 +14,8 @@ import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.PresetDeck;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
-import com.kancolle.server.service.member.MemberNdockService;
 import com.kancolle.server.service.ship.MemberShipService;
+import com.kancolle.server.utils.logic.MemberDeckPortShipUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,6 @@ public class MemberDeckPortService {
     private MemberPresetDeckMapper memberPresetDeckMapper;
     @Autowired
     private MemberShipService memberShipService;
-    @Autowired
-    private MemberNdockService memberNdockService;
 
     public static final ImmutableList<Long> EMPTY_PRESET_DECK = ImmutableList.of(-1L, -1L, -1L, -1L, -1L, -1L);
 
@@ -127,7 +126,7 @@ public class MemberDeckPortService {
         checkDeckPort(targetShips);
 
         memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), memberShip.getMemberShipId());
+        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(Long.toString(targetDeck.getMemberId()), targetDeck.getDeckId(), memberShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -305,12 +304,31 @@ public class MemberDeckPortService {
         final int deck_id = form.getApi_deck_id();
         final int preset_no = form.getApi_preset_no();
 
+        final MemberDeckPort memberDeckPort = this.getUnNullableMemberDeckPort(member_id, deck_id);
+
         final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id, preset_no);
 
+        // 跳过不存在和在其他舰队的舰娘
         List<Long> ship_ids = presetDeck.getShip().stream()
-                .filter(ship_id -> memberNdockService.getMemberNdockByMemberIdAndMemberShipId(member_id, ship_id) == null)
+                .filter(ship_id -> memberShipService.checkMemberShipExist(member_id, ship_id))
+                .filter(ship_id -> {
+                    MemberDeckPort deckPort = this.getMemberDeckPortContainsMemberShip(member_id, ship_id);
+                    return deckPort == null || deckPort.getDeckId() == deck_id;
+                })
                 .collect(Collectors.toList());
 
+        memberDeckPortShipMappingMapper.clearDeckPortShipMapping(member_id, deck_id);
+
+        for (Long ship_id : ship_ids) {
+            memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(member_id, deck_id, ship_id);
+        }
+
+        long[] old_deck_ships = memberDeckPort.getShip();
+        long[] new_deck_ships = MemberDeckPortShipUtils.fillMemberDeckPortShipArray(old_deck_ships);
+
+        memberDeckPort.setShip(new_deck_ships);
+
+        memberDeckPortDao.update(memberDeckPort, MemberDeckPortDaoImpl.UPDATE_COLUMN_SHIP);
 
         return this.getUnNullableMemberDeckPort(member_id, deck_id);
     }

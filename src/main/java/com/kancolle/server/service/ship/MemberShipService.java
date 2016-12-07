@@ -193,6 +193,9 @@ public class MemberShipService {
         return Preconditions.checkNotNull(this.getMemberShip(member_id, member_ship_id), "查询不存在的舰娘ID:%d", member_ship_id);
     }
 
+    public boolean checkMemberShipExist(final String member_id, final long member_ship_id) {
+        return getMemberShip(member_id, member_ship_id) != null;
+    }
 
     public List<MemberShip> getMemberShips(String memberId) {
         return memberShipDao.selectMemberShips(memberId);
