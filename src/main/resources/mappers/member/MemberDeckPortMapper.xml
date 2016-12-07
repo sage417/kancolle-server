@@ -63,7 +63,7 @@
 	<update id="update">
 		UPDATE t_member_deckport
 		<set>
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_SHIP)">SHIP = #{deckport.ship},</if>
+			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_SHIP)">SHIP = #{deckport.ship,typeHandler=LongJsonArrayHandler},</if>
 			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_STATUS)">MISSION_STATUS = #{deckport.mission_status},</if>
 			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_ID)">MISSION_ID = #{deckport.mission_id},</if>
 			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_COMPLETE_TIME)">MISSION_COMPLETE_TIME = #{deckport.mission_complete_time},</if>

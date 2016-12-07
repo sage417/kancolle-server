@@ -36,8 +36,31 @@
 		<result property="largeDock" column="large_dock" />
 	</resultMap>
 
+	<resultMap id="MemberMissionRM" type="MemberMission">
+		<id property="id" column="id"/>
+		<result property="member_id" column="member_id"/>
+		<result property="mission_id" column="mission_id"/>
+		<result property="state" column="state"/>
+	</resultMap>
+
+	<resultMap id="MemberMaterialRM" type="MemberMaterial">
+		<id property="memberId" column="member_id"/>
+		<result property="fuel" column="FUEL"/>
+		<result property="bull" column="BULL"/>
+		<result property="steal" column="STEEL"/>
+		<result property="bauxite" column="BAUXITE"/>
+		<result property="fast_rec" column="FAST_REC"/>
+		<result property="fast_build" column="FAST_BUILD"/>
+		<result property="dev_item" column="DEV_ITEM"/>
+		<result property="enh_item" column="ENH_ITEM"/>
+	</resultMap>
+
 	<select id="selectMemberById" resultMap="memberRM">
 		SELECT * FROM t_member WHERE member_id = #{member_id}
+	</select>
+
+	<select id="getMemberIdByApiToken" resultType="string">
+		SELECT member_id FROM t_member WHERE api_token = #{api_token}
 	</select>
 
 	<select id="selectNeedMemberExpByLevel" resultType="long">
@@ -46,6 +69,14 @@
 
 	<select id="selectMemberLVByExp" resultType="_int">
 		SELECT LV FROM t_exp_member WHERE #{exp} >= EXP ORDER BY EXP DESC LIMIT 1
+	</select>
+
+	<select id="selectMemberMission" resultMap="MemberMissionRM">
+		SELECT * FROM v_member_mission WHERE member_id = #{member_id}
+	</select>
+
+	<select id="selectMemberMaterial" resultMap="MemberMaterialRM">
+		SELECT * FROM t_member_material WHERE member_id = #{member_id}
 	</select>
 
 	<insert id="insert" parameterType="Member" useGeneratedKeys="true" keyProperty="memberId">

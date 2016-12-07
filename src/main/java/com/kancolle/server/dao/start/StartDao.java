@@ -46,8 +46,6 @@ import java.util.stream.StreamSupport;
 
 @Repository
 public class StartDao extends BaseDaoImpl<StartResult> {
-    private static final String MST_MAPCELL_TB = SELECT_ALL + "t_map_cell";
-
     @Autowired
     private ShipGraphMapper shipGraphMapper;
     @Autowired
@@ -70,7 +68,6 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private SlotItemEquipTypeMapper slotItemEquipTypeMapper;
     @Autowired
     private MongoClient mongoClient;
-
     @Autowired
     private SlotItemService slotItemService;
     @Autowired
@@ -83,7 +80,6 @@ public class StartDao extends BaseDaoImpl<StartResult> {
     private UseItemService useItemService;
     @Autowired
     private com.kancolle.server.service.bgm.BGMService BGMService;
-
     @Autowired
     private ObjectMapper objectMapper;
 

@@ -1,12 +1,13 @@
 package com.kancolle.server.model.kcsapi.member;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.dao.annotation.Column;
+import org.apache.ibatis.type.Alias;
 
+@Alias("MemberMission")
 @JsonPropertyOrder(value = {
-        "api_mission_id", "api_state",
+        "mission_id", "state",
 })
 public class MemberMission {
     public static final int STATUS_NEW = 0;
@@ -15,29 +16,47 @@ public class MemberMission {
 
     public static final int STATUS_COMPLETE = 2;
 
+    @JsonIgnore
+    private long id;
+
+    @JsonIgnore
+    private long member_id;
+
     @JsonProperty(value = "api_mission_id")
-    @JSONField(ordinal = 1)
-    private int api_mission_id;
+    private int mission_id;
 
     @JsonProperty(value = "api_state")
-    @JSONField(ordinal = 2)
-    private int api_state;
+    private int state;
 
-    public int getApi_mission_id() {
-        return api_mission_id;
+    public long getId() {
+        return id;
     }
 
-    public int getApi_state() {
-        return api_state;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    @Column(name = "mission_id", type = int.class)
-    public void setApi_mission_id(int api_mission_id) {
-        this.api_mission_id = api_mission_id;
+    public long getMember_id() {
+        return member_id;
     }
 
-    @Column(name = "state", type = int.class)
-    public void setApi_state(int api_state) {
-        this.api_state = api_state;
+    public void setMember_id(long member_id) {
+        this.member_id = member_id;
+    }
+
+    public int getMission_id() {
+        return mission_id;
+    }
+
+    public void setMission_id(int mission_id) {
+        this.mission_id = mission_id;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

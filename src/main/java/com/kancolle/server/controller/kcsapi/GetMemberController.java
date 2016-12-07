@@ -5,7 +5,6 @@ import com.kancolle.server.controller.kcsapi.form.map.MapCellForm;
 import com.kancolle.server.controller.kcsapi.form.picturebook.PictureBookForm;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
-import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
 import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
@@ -89,9 +88,6 @@ public class GetMemberController {
 
     @Autowired
     private StartService startService;
-
-    @Autowired
-    private PortDao portDao;
 
     @RequestMapping("/require_info")
     public APIResponse<RequireInfo> requireInfo(@ModelAttribute(MEMBER_ID) String member_id) {
@@ -187,7 +183,7 @@ public class GetMemberController {
 
     @RequestMapping("/material")
     public APIResponse<List<MemberMaterialDto>> material(@ModelAttribute(MEMBER_ID) String member_id) {
-        List<MemberMaterialDto> api_data = portDao.getMaterial(member_id);
+        List<MemberMaterialDto> api_data = memberService.selectMemberMaterial(member_id);
         return new APIResponse<List<MemberMaterialDto>>().setApi_data(api_data);
     }
 

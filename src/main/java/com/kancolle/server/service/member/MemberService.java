@@ -2,8 +2,8 @@ package com.kancolle.server.service.member;
 
 import com.google.common.collect.Lists;
 import com.kancolle.server.dao.member.MemberDao;
-import com.kancolle.server.dao.port.PortDao;
 import com.kancolle.server.mapper.member.MemberLogMapper;
+import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.MemberPort;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -35,8 +35,6 @@ public class MemberService {
 
     @Autowired
     private MemberDao memberDao;
-    @Autowired
-    private PortDao portDao;
     @Autowired
     private MemberLogMapper memberLogMapper;
     @Autowired
@@ -85,14 +83,14 @@ public class MemberService {
     }
 
     public List<MemberMission> getMission(String member_id) {
-        return memberDao.getMission(member_id);
+        return memberDao.selectMemberMission(member_id);
     }
 
     public MemberPort getPort(String member_id) {
         MemberPort port = new MemberPort();
         Member member = getBasic(member_id);
         port.setApi_basic(member);
-        port.setApi_material(portDao.getMaterial(member_id));
+        port.setApi_material(this.selectMemberMaterial(member_id));
         port.setApi_log(memberLogMapper.selectMemberLogs(member_id));
         port.setApi_ship(memberShipService.getMemberShips(member_id));
         port.setApi_deck_port(memberDeckPortService.getMemberDeckPorts(member_id));
@@ -193,5 +191,9 @@ public class MemberService {
         // 创建PresetDeck记录
         memberDeckPortService.initMemberPresetDecks(member_id);
         return member;
+    }
+
+    public List<MemberMaterialDto> selectMemberMaterial(String member_id) {
+        return memberDao.selectMemberMaterial(member_id);
     }
 }
