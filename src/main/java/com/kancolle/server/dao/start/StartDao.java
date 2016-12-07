@@ -1,6 +1,7 @@
 package com.kancolle.server.dao.start;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableList;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.mapper.furniture.FurnitureGraphMapper;
 import com.kancolle.server.mapper.item.PayItemMapper;
@@ -85,7 +86,7 @@ public class StartDao extends BaseDaoImpl<StartResult> {
 
     @Autowired
     @Qualifier("equip_exslot")
-    private int[] api_mst_equip_exslot;
+    private ImmutableList<Integer> api_mst_equip_exslot;
 
     public ConstModel getMstConst() {
         return ConstModel.getInstance();
@@ -145,7 +146,7 @@ public class StartDao extends BaseDaoImpl<StartResult> {
         return slotItemGraphMapper.selectSlotItemGraphs();
     }
 
-    public int[] getMstEquipExslot() {
+    public ImmutableList<Integer> getMstEquipExslot() {
         return api_mst_equip_exslot;
     }
 

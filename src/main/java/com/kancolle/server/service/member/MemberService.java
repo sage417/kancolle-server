@@ -1,6 +1,8 @@
 package com.kancolle.server.service.member;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Ints;
 import com.kancolle.server.dao.member.MemberDao;
 import com.kancolle.server.mapper.member.MemberLogMapper;
 import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
@@ -57,7 +59,7 @@ public class MemberService {
     private MissionService missionService;
     @Autowired
     @Qualifier(value = "useItemIds")
-    private int[] USE_ITEM_IDS;
+    private ImmutableList<Integer> USE_ITEM_IDS;
 
     public Member getBasic(String member_id) {
         return getMember(member_id);
@@ -183,7 +185,7 @@ public class MemberService {
         // 创建家具记录
         memberFurnitureService.initMemberFurniture(member_id);
         // 创建item记录
-        memberUseItemService.initMemberUseItem(member_id, USE_ITEM_IDS);
+        memberUseItemService.initMemberUseItem(member_id, Ints.toArray(USE_ITEM_IDS));
         // 创建MapInfo记录
         memberMapService.initMemberMapInfo(member_id);
         // 创建MapCell记录
