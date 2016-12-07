@@ -3,7 +3,6 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.dao.annotation.Column;
 
 import java.io.Serializable;
 
@@ -83,32 +82,26 @@ public class ShipUpgradeModel implements Serializable {
         return api_sortno;
     }
 
-    @Column(name = "DRAWING_COUNT", type = int.class)
     public void setApi_drawing_count(int api_drawing_count) {
         this.api_drawing_count = api_drawing_count;
     }
 
-    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    @Column(name = "ORIGINAL_SHIP_ID", type = int.class)
     public void setApi_original_ship_id(int api_original_ship_id) {
         this.api_original_ship_id = api_original_ship_id;
     }
 
-    @Column(name = "SORTNO", type = int.class)
     public void setApi_sortno(int api_sortno) {
         this.api_sortno = api_sortno;
     }
 
-    @Column(name = "UPGRADE_LEVEL", type = int.class)
     public void setApi_upgrade_level(int api_upgrade_level) {
         this.api_upgrade_level = api_upgrade_level;
     }
 
-    @Column(name = "UPGRADE_TYPE", type = int.class)
     public void setApi_upgrade_type(int api_upgrade_type) {
         this.api_upgrade_type = api_upgrade_type;
     }

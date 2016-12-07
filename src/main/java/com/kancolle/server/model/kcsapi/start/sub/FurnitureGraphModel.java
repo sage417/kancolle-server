@@ -3,7 +3,6 @@ package com.kancolle.server.model.kcsapi.start.sub;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.dao.annotation.Column;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -55,27 +54,22 @@ public class FurnitureGraphModel implements Serializable {
         return api_version;
     }
 
-    @Column(name = "FILENAME", type = String.class)
     public void setApi_filename(String api_filename) {
         this.api_filename = api_filename;
     }
 
-    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
     }
 
-    @Column(name = "TYPE", type = int.class)
     public void setApi_type(int api_type) {
         this.api_type = api_type;
     }
 
-    @Column(name = "VERSION", type = String.class)
     public void setApi_version(String api_version) {
         this.api_version = api_version;
     }

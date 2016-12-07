@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.dao.annotation.Column;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -58,22 +57,18 @@ public class MemberLog implements Serializable {
         return api_type;
     }
 
-    @Column(name = "MESSAGE", type = String.class)
     public void setApi_message(String api_message) {
         this.api_message = api_message;
     }
 
-    @Column(name = "NO", type = int.class)
     public void setApi_no(int api_no) {
         this.api_no = api_no;
     }
 
-    @Column(name = "STATE", type = String.class)
     public void setApi_state(String api_state) {
         this.api_state = api_state;
     }
 
-    @Column(name = "NO", type = int.class)
     public void setApi_type(String api_type) {
         this.api_type = api_type;
     }

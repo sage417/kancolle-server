@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
 
 public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoSupport implements BaseDao<T> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(BaseDaoImpl.class);
@@ -41,17 +40,6 @@ public abstract class BaseDaoImpl<T extends Serializable> extends SqlSessionDaoS
     }
 
     public void replace(T t) {
-    }
-
-    private <V> V setObject(Class<V> clazz, ResultSet rs) {
-        V instance = null;
-        try {
-            instance = clazz.newInstance();
-            DaoUtils.setObject(instance, rs);
-        } catch (Exception e) {
-            LOGGER.error("Error Happen when queryForSingleModel", e);
-        }
-        return instance;
     }
 
     protected String generateJsonArray(Iterable<?> parts) {

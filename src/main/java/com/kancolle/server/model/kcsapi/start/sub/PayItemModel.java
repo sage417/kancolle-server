@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kancolle.server.dao.annotation.Column;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -65,32 +64,26 @@ public class PayItemModel implements Serializable {
         return api_type;
     }
 
-    @Column(name = "DESCRIPTION", type = String.class)
     public void setApi_description(String api_description) {
         this.api_description = api_description;
     }
 
-    @Column(name = "ID", type = int.class)
     public void setApi_id(int api_id) {
         this.api_id = api_id;
     }
 
-    @Column(name = "ITEM", type = String.class)
     public void setApi_item(String api_item) {
         this.api_item = JSON.parseArray(api_item);
     }
 
-    @Column(name = "NAME", type = String.class)
     public void setApi_name(String api_name) {
         this.api_name = api_name;
     }
 
-    @Column(name = "PRICE", type = int.class)
     public void setApi_price(int api_price) {
         this.api_price = api_price;
     }
 
-    @Column(name = "TYPE", type = int.class)
     public void setApi_type(int api_type) {
         this.api_type = api_type;
     }
