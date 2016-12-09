@@ -658,7 +658,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_member_log`;
 CREATE TABLE `t_member_log` (
-  `createTime` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `member_id` bigint(20) unsigned NOT NULL,
   `TYPE` tinyint(4) NOT NULL,
   `STATE` tinyint(3) unsigned NOT NULL DEFAULT '0',
