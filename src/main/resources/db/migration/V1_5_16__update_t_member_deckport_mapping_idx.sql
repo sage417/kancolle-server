@@ -1,0 +1,1 @@
+ALTER TABLE `kancolle`.`t_member_deckport_ship_mapping` DROP INDEX `unique_index`, ADD INDEX `unique_index` USING BTREE (`member_id`, `deck_id`) comment '';
