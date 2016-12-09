@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -37,11 +36,11 @@ public class AdviceController {
             @RequestParam(value = "api_token") String token) {
         if (!StringUtils.equals(version, API_NOW_VERSION))
             throw new RuntimeException("version invalid");
-        try {
-            return memberService.getMemberByApiToken(token);
-        } catch (EmptyResultDataAccessException e) {
+        String member_id = memberService.getMemberByApiToken(token);
+        if (member_id == null) {
             throw new RuntimeException("token invalid");
         }
+        return member_id;
     }
 
     //@ResponseBody
