@@ -11,7 +11,7 @@
 		<result property="battleFlag" column="battle_flag"/>
 		<result property="resultFlag" column="result_flag"/>
 		<result property="session" column="session"/>
-		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDecksPortByCond"/>
+		<association property="memberDeckPort" column="{deck_id=deck_id,member_id=member_id}" select="com.kancolle.server.dao.member.MemberDeckPort.selectMemberDeckPortByMemberIdAndDeckId"/>
 	</resultMap>
 
 	<sql id="table_name">t_member_map_battle_status</sql>

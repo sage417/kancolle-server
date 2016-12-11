@@ -37,7 +37,7 @@ public class StartResult implements Serializable {
     private List<EquipTypeModel> api_mst_slotitem_equiptype;
 
     @JsonProperty(value = "api_mst_equip_exslot")
-    private int[] api_mst_equip_exslot;
+    private List<Integer> api_mst_equip_exslot;
 
     @JsonProperty(value = "api_mst_stype")
     private List<ShipType> api_mst_stype;
@@ -108,11 +108,11 @@ public class StartResult implements Serializable {
         this.api_mst_slotitem_equiptype = api_mst_slotitem_equiptype;
     }
 
-    public int[] getApi_mst_equip_exslot() {
+    public List<Integer> getApi_mst_equip_exslot() {
         return api_mst_equip_exslot;
     }
 
-    public void setApi_mst_equip_exslot(int[] api_mst_equip_exslot) {
+    public void setApi_mst_equip_exslot(List<Integer> api_mst_equip_exslot) {
         this.api_mst_equip_exslot = api_mst_equip_exslot;
     }
 
