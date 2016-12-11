@@ -59,11 +59,11 @@
 		SELECT * FROM t_member WHERE member_id = #{member_id}
 	</select>
 
-	<select id="getMemberIdByApiToken" resultType="string">
+	<select id="getMemberIdByApiToken" resultType="long">
 		SELECT member_id FROM t_member WHERE api_token = #{api_token}
 	</select>
 
-	<select id="selectNeedMemberExpByLevel" resultType="long">
+	<select id="selectNeedMemberExpByLevel" resultType="_long">
 		SELECT EXP FROM t_exp_member WHERE LV = #{level}
 	</select>
 

@@ -11,35 +11,44 @@ import java.io.Serializable;
 public class MemberMaterialDto implements Serializable {
 
     @JsonProperty(value = "api_member_id")
-    private long api_member_id;
+    private long member_id;
 
     @JsonProperty(value = "api_id")
-    private int api_id;
+    private int id;
 
     @JsonProperty(value = "api_value")
-    private int api_value;
+    private int value;
 
-    public int getApi_id() {
-        return api_id;
+    public MemberMaterialDto() {
     }
 
-    public long getApi_member_id() {
-        return api_member_id;
+    public MemberMaterialDto(long member_id, int id, int value) {
+        this.member_id = member_id;
+        this.id = id;
+        this.value = value;
     }
 
-    public int getApi_value() {
-        return api_value;
+    public int getId() {
+        return id;
     }
 
-    public void setApi_id(int api_id) {
-        this.api_id = api_id;
+    public long getMember_id() {
+        return member_id;
     }
 
-    public void setApi_member_id(long api_member_id) {
-        this.api_member_id = api_member_id;
+    public int getValue() {
+        return value;
     }
 
-    public void setApi_value(int api_value) {
-        this.api_value = api_value;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMember_id(long member_id) {
+        this.member_id = member_id;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
