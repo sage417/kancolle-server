@@ -37,12 +37,12 @@ public class MemberNdockService {
     @Autowired
     private MemberShipService memberShipService;
 
-    public List<MemberNdock> getMemberNdocks(String member_id) {
+    public List<MemberNdock> getMemberNdocks(long member_id) {
         return memberNdockDao.selectMemberNdocks(member_id);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberNdock getMemberNdockByCond(String member_id, int ndockId) {
+    public MemberNdock getMemberNdockByCond(long member_id, int ndockId) {
         return memberNdockDao.selectMemberNdock(member_id, ndockId);
     }
 
@@ -52,7 +52,7 @@ public class MemberNdockService {
     }
 
     @Transactional
-    public void start(String member_id, NdockStartForm form) {
+    public void start(long member_id, NdockStartForm form) {
         Long member_ship_id = form.getApi_ship_id();
         Integer ndock_id = form.getApi_ndock_id();
         boolean useHighSpeed = form.getApi_highspeed() == 1;
@@ -87,7 +87,7 @@ public class MemberNdockService {
     }
 
     @Transactional
-    public void speedChange(String member_id, int ndock_id) {
+    public void speedChange(long member_id, int ndock_id) {
         memberResourceService.consumeResource(member_id, 0, 0, 0, 0, 1, 0, 0, 0);
 
         MemberNdock memberNdock = checkNotNull(getMemberNdockByCond(member_id, ndock_id));
@@ -136,7 +136,7 @@ public class MemberNdockService {
      * @param member_ship_id
      * @return
      */
-    public MemberNdock getMemberNdockByMemberIdAndMemberShipId(final String member_id, final long member_ship_id) {
+    public MemberNdock getMemberNdockByMemberIdAndMemberShipId(final long member_id, final long member_ship_id) {
         return memberNdockDao.selectMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
     }
 
@@ -146,7 +146,7 @@ public class MemberNdockService {
      * @param member_id
      * @param member_ship_id
      */
-    public void assertNotInNdock(final String member_id, final long member_ship_id) {
+    public void assertNotInNdock(final long member_id, final long member_ship_id) {
         MemberNdock ndock = getMemberNdockByMemberIdAndMemberShipId(member_id, member_ship_id);
         checkArgument(ndock == null,"用户ID:%s 操作正在入渠的舰娘");
     }

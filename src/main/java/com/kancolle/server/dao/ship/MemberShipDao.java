@@ -28,22 +28,22 @@ public class MemberShipDao extends BaseDaoImpl<MemberShip> {
         getSqlSession().update("updateMemberShip", params);
     }
 
-    public MemberShip selectMemberShip(String member_id, Long ship_id) {
+    public MemberShip selectMemberShip(long member_id, Long ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("ship_id", ship_id);
         return getSqlSession().selectOne("selectMemberShipByCond", params);
     }
 
-    public List<MemberShip> selectMemberShips(String member_id) {
+    public List<MemberShip> selectMemberShips(long member_id) {
         return getSqlSession().selectList("selectMemberShipByCond", Collections.singletonMap("member_id", member_id));
     }
 
-    public int selectCountOfMemberShips(String member_id) {
+    public int selectCountOfMemberShips(long member_id) {
         return getSqlSession().selectOne("selectCountOfMemberShip", member_id);
     }
 
-    public void chargeMemberShips(String member_id, List<Long> memberShip_ids, int charge_kind) {
+    public void chargeMemberShips(long member_id, List<Long> memberShip_ids, int charge_kind) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", member_id);
         params.put("member_ship_ids", memberShip_ids);
@@ -138,7 +138,7 @@ public class MemberShipDao extends BaseDaoImpl<MemberShip> {
         getSqlSession().update("updateMemberShipValue", params);
     }
 
-    public void updateMemberShipLockStatue(String member_id, Long member_ship_id, Boolean lock) {
+    public void updateMemberShipLockStatue(long member_id, Long member_ship_id, Boolean lock) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", member_id);
         params.put("member_ship_id", member_ship_id);
@@ -146,7 +146,7 @@ public class MemberShipDao extends BaseDaoImpl<MemberShip> {
         getSqlSession().update("updateMemberShipLockStatue", params);
     }
 
-    public void deleteMemberShips(String member_id, List<Long> member_ship_ids) {
+    public void deleteMemberShips(long member_id, List<Long> member_ship_ids) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("member_ship_ids", member_ship_ids);
@@ -162,7 +162,7 @@ public class MemberShipDao extends BaseDaoImpl<MemberShip> {
         getSqlSession().update("updateMemberShipHpAndCond", params);
     }
 
-    public MemberShip createShip(String member_id, int createShipId) {
+    public MemberShip createShip(long member_id, int createShipId) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("create_ship_id", createShipId);

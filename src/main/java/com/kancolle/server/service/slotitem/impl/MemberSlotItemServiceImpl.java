@@ -63,7 +63,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public CreateItemResult createItem(String member_id, CreateItemForm form) {
+    public CreateItemResult createItem(long member_id, CreateItemForm form) {
         int fuel = form.getApi_item1();
         int bull = form.getApi_item2();
         int steel = form.getApi_item3();
@@ -169,13 +169,13 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public MemberSlotItem createSlotItem(String member_id, int slotitem_id) {
+    public MemberSlotItem createSlotItem(long member_id, int slotitem_id) {
         return memberSlotItemDao.createMemberSlotItem(member_id, slotitem_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems) {
+    public void destorySlotitems(long member_id, List<MemberSlotItem> removeSlotitems) {
         boolean allMatch = removeSlotitems.stream().allMatch(slotItem -> slotItem != null && !slotItem.isLocked());
         checkArgument(allMatch, "装备不符合移除条件");
         List<Long> slotitem_ids = removeSlotitems.stream().map(MemberSlotItem::getMemberSlotItemId).collect(Collectors.toList());
@@ -189,7 +189,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
      */
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberSlotItemDestoryResult destroyItemAndReturnResource(String member_id, List<Long> slotitem_ids) {
+    public MemberSlotItemDestoryResult destroyItemAndReturnResource(long member_id, List<Long> slotitem_ids) {
 
         List<MemberSlotItem> unSlots = getUnsetSlotList(member_id);
 
@@ -207,24 +207,24 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId) {
-        return memberSlotItemDao.selectMemberSlotItem(memberId, memberSlotItemId);
+    public MemberSlotItem getMemberSlotItem(long member_id, Long memberSlotItemId) {
+        return memberSlotItemDao.selectMemberSlotItem(member_id, memberSlotItemId);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<MemberSlotItem> getMemberSlotItems(String member_id) {
+    public List<MemberSlotItem> getMemberSlotItems(long member_id) {
         return memberSlotItemDao.selectMemberSlotItems(member_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<MemberSlotItem> getUnsetSlotList(String member_id) {
+    public List<MemberSlotItem> getUnsetSlotList(long member_id) {
         return memberSlotItemDao.selectMemberUnSlots(member_id);
     }
 
     @Override
-    public Map<String, Object> getUnsetSlotMap(String member_id) {
+    public Map<String, Object> getUnsetSlotMap(long member_id) {
         List<MemberSlotItem> unsetSlots = getUnsetSlotList(member_id);
 
         int slotTypeCount = slotItemService.getCountOfSlotItemTypes();
@@ -240,7 +240,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberSlotItemLockResult lock(String member_id, Long slotitem_id) {
+    public MemberSlotItemLockResult lock(long member_id, Long slotitem_id) {
         MemberSlotItem memberSlotItem = getMemberSlotItem(member_id, slotitem_id);
         checkNotNull(memberSlotItem, "用户ID:%s请求不存在的装备ID:%s", member_id, slotitem_id);
 
@@ -250,7 +250,7 @@ public class MemberSlotItemServiceImpl implements MemberSlotItemService {
     }
 
     @Override
-    public int getCountOfMemberSlotItem(String member_id) {
+    public int getCountOfMemberSlotItem(long member_id) {
         return memberSlotItemDao.selectCountOfMemberSlotItem(member_id);
     }
 }

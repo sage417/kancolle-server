@@ -95,9 +95,9 @@ public class ReqKousyouControllerTest {
 
     //@Test
     public void testDestoryShipInNdock() throws Exception {
-        final String member_id = "8006690";
-        final Long member_ship_id = Long.valueOf(1L);
-        final Integer ndock_id = Integer.valueOf(1);
+        final long member_id = 8006690L;
+        final Long member_ship_id = 1L;
+        final Integer ndock_id = 1;
 
         MemberShip memberShip = memberShipService.getMemberShip(member_id, member_ship_id);
         memberShip.setNowHp(1);

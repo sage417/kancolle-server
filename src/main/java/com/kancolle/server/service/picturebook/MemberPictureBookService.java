@@ -5,6 +5,6 @@ import com.kancolle.server.model.kcsapi.picturebook.ShipPictureBookResult;
 
 public interface MemberPictureBookService {
 
-    ShipPictureBookResult pictureBook(String member_id, PictureBookForm form);
+    ShipPictureBookResult pictureBook(long member_id, PictureBookForm form);
 
 }

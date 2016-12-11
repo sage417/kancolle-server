@@ -27,12 +27,12 @@ public class ReqMemberController {
     private MemberUseItemService memberUseItemService;
 
     @RequestMapping("/get_incentive")
-    public APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) String member_id) {
+    public APIResponse<Map<String, Object>> getIncentive(@ModelAttribute(MEMBER_ID) long member_id) {
         return svdata;
     }
 
     @RequestMapping("/itemuse")
-    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) String member_id, @Validated UseItemForm form, BindingResult result) {
+    public APIResponse<UseItemResult> itemUse(@ModelAttribute(MEMBER_ID) long member_id, @Validated UseItemForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         UseItemResult api_data = memberUseItemService.useItem(member_id, form);
         return new APIResponse<UseItemResult>().setApi_data(api_data);

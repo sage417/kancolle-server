@@ -88,7 +88,7 @@ public class MemberShipService {
     private EventBus eventBus;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public ChargeModel chargeShips(String member_id, ShipChargeForm form) {
+    public ChargeModel chargeShips(long member_id, ShipChargeForm form) {
         List<Long> memberShipIds = form.getApi_id_items();
         int chargeKind = form.getApi_kind();
         int onslot = form.getApi_onslot();
@@ -133,7 +133,7 @@ public class MemberShipService {
     }
 
 
-    public void destroyShips(String member_id, List<MemberShip> destoryShips) {
+    public void destroyShips(long member_id, List<MemberShip> destoryShips) {
 
         for (MemberShip destroyShip : destoryShips) {
             if (destroyShip == null) {
@@ -163,7 +163,7 @@ public class MemberShipService {
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberResourceResult destroyShipAndReturnResource(String member_id, Long member_ship_id) {
+    public MemberResourceResult destroyShipAndReturnResource(long member_id, Long member_ship_id) {
         MemberShip memberShip = getMemberShip(member_id, member_ship_id);
         if (memberShip == null) {
             throw new IllegalArgumentException();
@@ -178,31 +178,31 @@ public class MemberShipService {
     }
 
 
-    public int getCountOfMemberShip(String member_id) {
+    public int getCountOfMemberShip(long member_id) {
         return memberShipDao.selectCountOfMemberShips(member_id);
     }
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberShip getMemberShip(String member_id, Long ship_id) {
+    public MemberShip getMemberShip(long member_id, Long ship_id) {
         return memberShipDao.selectMemberShip(member_id, ship_id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberShip getNonNullMemberShip(final String member_id, final Long member_ship_id) {
+    public MemberShip getNonNullMemberShip(final long member_id, final Long member_ship_id) {
         return Preconditions.checkNotNull(this.getMemberShip(member_id, member_ship_id), "查询不存在的舰娘ID:%d", member_ship_id);
     }
 
-    public boolean checkMemberShipExist(final String member_id, final long member_ship_id) {
+    public boolean checkMemberShipExist(final long member_id, final long member_ship_id) {
         return getMemberShip(member_id, member_ship_id) != null;
     }
 
-    public List<MemberShip> getMemberShips(String memberId) {
-        return memberShipDao.selectMemberShips(memberId);
+    public List<MemberShip> getMemberShips(long member_id) {
+        return memberShipDao.selectMemberShips(member_id);
     }
 
 
-    public Ship3Result getShip3(String member_id, Ship3Form form) {
+    public Ship3Result getShip3(long member_id, Ship3Form form) {
         Long memberShipId = form.getApi_shipid();
         int sortKey = form.getApi_sort_key();
         int sort_order = form.getSpi_sort_order();
@@ -278,7 +278,7 @@ public class MemberShipService {
     }
 
 
-    public MemberShipLockResult lock(String member_id, Long member_ship_id) {
+    public MemberShipLockResult lock(long member_id, Long member_ship_id) {
         MemberShip memberShip = getMemberShip(member_id, member_ship_id);
         if (memberShip == null) {
             throw new IllegalArgumentException();
@@ -300,7 +300,7 @@ public class MemberShipService {
      */
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberShipPowerUpResult powerUp(String member_id, ShipPowerUpForm form) {
+    public MemberShipPowerUpResult powerUp(long member_id, ShipPowerUpForm form) {
         Long target_ship_id = form.getApi_id();
         List<Long> powup_ship_ids = form.getApi_id_items();
 
@@ -421,7 +421,7 @@ public class MemberShipService {
      */
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void setSlot(String member_id, ShipSetSlotForm form) {
+    public void setSlot(long member_id, ShipSetSlotForm form) {
         Long memberShipId = form.getApi_id();
         Long memberSlotItemId = form.getApi_item_id();
         int slotIndex = form.getApi_slot_idx();
@@ -471,7 +471,7 @@ public class MemberShipService {
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void unSetSlotsAll(String member_id, Long member_ship_id) {
+    public void unSetSlotsAll(long member_id, Long member_ship_id) {
         MemberShip memberShip = getNonNullMemberShip(member_id, member_ship_id);
         unSetAllSlotItems(memberShip);
         updateShipProperties(memberShip);
@@ -484,7 +484,7 @@ public class MemberShipService {
      * @param form
      */
     @Transactional
-    public ExchangeSlotResult exchangeIndex(String member_id, ExChangeSlotForm form) {
+    public ExchangeSlotResult exchangeIndex(long member_id, ExChangeSlotForm form) {
         final Long member_ship_id = form.getApi_id();
         final int src_idx = form.getApi_src_idx();
         final int dst_idx = form.getApi_dst_idx();
@@ -529,7 +529,7 @@ public class MemberShipService {
 
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public MemberShip createShip(String member_id, int createShipId) {
+    public MemberShip createShip(long member_id, int createShipId) {
         Member member = memberService.getMember(member_id);
         checkState(getCountOfMemberShip(member_id) < member.getMaxChara());
         return memberShipDao.createShip(member_id, createShipId);
@@ -543,7 +543,7 @@ public class MemberShipService {
     }
 
 
-    public ShipDeckResult getShipDeck(String member_id, int deckPortId) {
+    public ShipDeckResult getShipDeck(long member_id, int deckPortId) {
         MemberDeckPort deckPort = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deckPortId);
         return new ShipDeckResult(deckPort.getShips(), memberDeckPortService.getMemberDeckPorts(member_id));
     }

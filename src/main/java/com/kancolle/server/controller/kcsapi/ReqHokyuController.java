@@ -30,7 +30,7 @@ public class ReqHokyuController {
     private MemberShipService memberShipService;
 
     @RequestMapping("/charge")
-    public APIResponse<ChargeModel> charge(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipChargeForm form, BindingResult result) {
+    public APIResponse<ChargeModel> charge(@ModelAttribute(MEMBER_ID) long member_id, @Validated ShipChargeForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         ChargeModel api_data = memberShipService.chargeShips(member_id, form);
         return new APIResponse<ChargeModel>().setApi_data(api_data);

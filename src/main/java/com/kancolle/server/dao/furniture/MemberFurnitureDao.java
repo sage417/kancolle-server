@@ -16,17 +16,17 @@ import java.util.List;
  */
 public interface MemberFurnitureDao extends BaseDao<MemberFurniture> {
 
-    List<MemberFurniture> getFurniture(String member_id);
+    List<MemberFurniture> getFurniture(long member_id);
 
-    MemberFurniture selectMemberFurnitureById(String member_id, Integer furniture_id);
+    MemberFurniture selectMemberFurnitureById(long member_id, Integer furniture_id);
 
     Furniture selectFurnitureByTypeAndNo(Integer type, Integer no);
 
-    void insertMemberFurniture(String member_id, Integer furnitureId);
+    void insertMemberFurniture(long member_id, Integer furnitureId);
 
-    void changeMemberFurniture(String member_id, int[] furnitureIds);
+    void changeMemberFurniture(long member_id, int[] furnitureIds);
 
-    int selectCountOfMemberFurniture(String member_id);
+    int selectCountOfMemberFurniture(long member_id);
 
     void insertFurnituresForNewMember(long member_id);
 }

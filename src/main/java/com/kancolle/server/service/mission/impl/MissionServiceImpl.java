@@ -81,7 +81,7 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionReturn callbackMission(String member_id, int deck_id) {
+    public MissionReturn callbackMission(long member_id, int deck_id) {
         Instant now = Instant.now();
 
         MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
@@ -111,7 +111,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MissionResult calMissionResult(String member_id, Integer deck_id) {
+    public MissionResult calMissionResult(long member_id, Integer deck_id) {
         MemberDeckPort deckport = memberDeckPortService.getUnNullableMemberDeckPort(member_id, deck_id);
 
         Mission mission = getMission((int) deckport.getMission()[1]);
@@ -225,7 +225,7 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public MissionStart startMission(String member_id, MissionStartForm form) {
+    public MissionStart startMission(long member_id, MissionStartForm form) {
         Integer deck_id = form.getApi_deck_id();
         Integer mission_id = form.getApi_mission_id();
         // TODO

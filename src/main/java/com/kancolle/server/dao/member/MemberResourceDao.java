@@ -23,7 +23,7 @@ public class MemberResourceDao extends BaseDaoImpl<Resource>   {
         throw new UnsupportedOperationException();
     }
 
-    public Resource selectMemberResource(String member_id) {
+    public Resource selectMemberResource(long member_id) {
         return getSqlSession().selectOne("selectMemberResource", member_id);
     }
 
@@ -31,7 +31,7 @@ public class MemberResourceDao extends BaseDaoImpl<Resource>   {
         getSqlSession().insert("insertMemberResource", resource);
     }
 
-    public void updateMemberResource(String member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem) {
+    public void updateMemberResource(long member_id, int chargeFuel, int chargeBull, int comsumeSteel, int comsumeBauxite, int fastRecovery, int fastBuild, int devItem, int ehItem) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(9);
         params.put("member_id", member_id);
         params.put("fuel", chargeFuel);

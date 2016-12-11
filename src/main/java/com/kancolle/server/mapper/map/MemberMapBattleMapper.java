@@ -22,9 +22,9 @@ public interface MemberMapBattleMapper {
     String RESULT_FLAG = "resultFlag";
     String SESSION = "session";
 
-    void insertMemberMapBattleState(@Param("member_id") String member_id, @Param("deck_id") Integer deck_id, @Param("traveller_No") int traveller_No, @Param("map_no") int map_no);
+    void insertMemberMapBattleState(@Param("member_id") long member_id, @Param("deck_id") Integer deck_id, @Param("traveller_No") int traveller_No, @Param("map_no") int map_no);
 
-    MemberMapBattleState selectMemberMapBattleState(@Param("member_id") String member_id);
+    MemberMapBattleState selectMemberMapBattleState(@Param("member_id") long member_id);
 
     void update(@Param("state") MemberMapBattleState state, @Param("updateColumns") String... updateColumns);
 }

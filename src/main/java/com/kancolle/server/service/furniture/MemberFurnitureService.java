@@ -17,19 +17,19 @@ import java.util.List;
  */
 public interface MemberFurnitureService {
 
-    List<MemberFurniture> getFurniture(String member_id);
+    List<MemberFurniture> getFurniture(long member_id);
 
-    MemberFurniture getMemberFurniture(String member_id, Integer furniture_id);
+    MemberFurniture getMemberFurniture(long member_id, Integer furniture_id);
 
     Furniture getFurniture(Integer type, Integer no);
 
-    void changeFurniture(String member_id, FurnitureChangeForm form);
+    void changeFurniture(long member_id, FurnitureChangeForm form);
 
-    void buyFurniture(String member_id, FurnitureBuyForm form);
+    void buyFurniture(long member_id, FurnitureBuyForm form);
 
-    void createMemberFurniture(String member_id, Integer furniture_id);
+    void createMemberFurniture(long member_id, Integer furniture_id);
 
-    int getCountOfMemberFurniture(String member_id);
+    int getCountOfMemberFurniture(long member_id);
 
     void initMemberFurniture(long member_id);
 }

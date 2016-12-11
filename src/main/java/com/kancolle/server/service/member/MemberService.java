@@ -61,34 +61,34 @@ public class MemberService {
     @Qualifier(value = "useItemIds")
     private ImmutableList<Integer> USE_ITEM_IDS;
 
-    public Member getBasic(String member_id) {
+    public Member getBasic(long member_id) {
         return getMember(member_id);
     }
 
-    public Basic getBasic2(String member_id) {
+    public Basic getBasic2(long member_id) {
         Member member = getMember(member_id);
         return new Basic(member_id, member.getFirstFlag());
     }
 
-    public Member getMember(String memberId) {
-        return memberDao.getMemberById(memberId);
+    public Member getMember(long member_id) {
+        return memberDao.getMemberById(member_id);
     }
 
     /* @Cacheable(value = "token2MemberId", key = "#api_token") */
-    public String getMemberByApiToken(String api_token) {
+    public Long getMemberByApiToken(String api_token) {
         return memberDao.getMemberIdByApiToken(api_token);
     }
 
     /* @CachePut(value = "token2MemberId", key = "#result") */
-    public void updateMemberToken(String member_id) {
+    public void updateMemberToken(long member_id) {
         memberDao.updateMemberToken(member_id, LoginUtils.generateMemberToken());
     }
 
-    public List<MemberMission> getMission(String member_id) {
+    public List<MemberMission> getMission(long member_id) {
         return memberDao.selectMemberMission(member_id);
     }
 
-    public MemberPort getPort(String member_id) {
+    public MemberPort getPort(long member_id) {
         MemberPort port = new MemberPort();
         Member member = getBasic(member_id);
         port.setApi_basic(member);
@@ -100,7 +100,7 @@ public class MemberService {
         return port;
     }
 
-    public MemberRecord getRecord(String member_id) {
+    public MemberRecord getRecord(long member_id) {
         Member basic = getBasic(member_id);
         MemberRecord memberRecord = new MemberRecord();
         BeanUtils.copyProperties(basic, memberRecord);
@@ -158,7 +158,7 @@ public class MemberService {
         memberDao.update(member);
     }
 
-    public void openLargeDock(String member_id) {
+    public void openLargeDock(long member_id) {
         Member member = getMember(member_id);
         member.setLargeDock(true);
         updateMember(member);
@@ -195,7 +195,7 @@ public class MemberService {
         return member;
     }
 
-    public List<MemberMaterialDto> selectMemberMaterial(String member_id) {
+    public List<MemberMaterialDto> selectMemberMaterial(long member_id) {
         return memberDao.selectMemberMaterial(member_id);
     }
 }

@@ -35,33 +35,33 @@ public class ReqKaisouController {
     private MemberSlotItemService memberSlotItemService;
 
     @RequestMapping("/slotset")
-    public APIResponse<?> slotset(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipSetSlotForm form, BindingResult result) {
+    public APIResponse<?> slotset(@ModelAttribute(MEMBER_ID) long member_id, @Validated ShipSetSlotForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberShipService.setSlot(member_id, form);
         return new APIResponse<>();
     }
 
     @RequestMapping("/unsetslot_all")
-    public APIResponse<?> unsetslotAll(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_id", required = true) long memberShip_id) {
+    public APIResponse<?> unsetslotAll(@ModelAttribute(MEMBER_ID) long member_id, @RequestParam(value = "api_id", required = true) long memberShip_id) {
         memberShipService.unSetSlotsAll(member_id, memberShip_id);
         return new APIResponse<>();
     }
 
     @RequestMapping("/lock")
-    public APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) String member_id, @RequestParam(value = "api_slotitem_id", required = true) Long slotitem_id) {
+    public APIResponse<MemberSlotItemLockResult> lock(@ModelAttribute(MEMBER_ID) long member_id, @RequestParam(value = "api_slotitem_id", required = true) Long slotitem_id) {
         MemberSlotItemLockResult api_data = memberSlotItemService.lock(member_id, slotitem_id);
         return new APIResponse<MemberSlotItemLockResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/powerup")
-    public APIResponse<MemberShipPowerUpResult> powerup(@ModelAttribute(MEMBER_ID) String member_id, @Validated ShipPowerUpForm form, BindingResult result) {
+    public APIResponse<MemberShipPowerUpResult> powerup(@ModelAttribute(MEMBER_ID) long member_id, @Validated ShipPowerUpForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         MemberShipPowerUpResult api_data = memberShipService.powerUp(member_id, form);
         return new APIResponse<MemberShipPowerUpResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/slot_exchange_index")
-    public APIResponse<ExchangeSlotResult> slotExchangeIndex(@ModelAttribute(MEMBER_ID) String member_id, @Validated ExChangeSlotForm form, BindingResult result) {
+    public APIResponse<ExchangeSlotResult> slotExchangeIndex(@ModelAttribute(MEMBER_ID) long member_id, @Validated ExChangeSlotForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         final ExchangeSlotResult api_data = memberShipService.exchangeIndex(member_id, form);
         return new APIResponse.Builder<ExchangeSlotResult>().data(api_data).build();

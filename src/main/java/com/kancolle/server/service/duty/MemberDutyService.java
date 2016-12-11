@@ -9,18 +9,18 @@ import java.util.List;
 
 public interface MemberDutyService {
 
-    MemberDutyPageList getMemberDutyList(String member_id, int pageNum);
+    MemberDutyPageList getMemberDutyList(long member_id, int pageNum);
 
-    MemberDuty getMemberDuty(String member_id, Integer quest_id);
+    MemberDuty getMemberDuty(long member_id, Integer quest_id);
 
-    List<MemberDuty> getMemberDutysByState(String member_id, int stateProcessing);
+    List<MemberDuty> getMemberDutysByState(long member_id, int stateProcessing);
 
-    void start(String member_id, Integer quest_id);
+    void start(long member_id, Integer quest_id);
 
-    void stop(String member_id, Integer quest_id);
+    void stop(long member_id, Integer quest_id);
 
     void listenPowUpEvent(PowUpEvent event);
 
-    DutyItemGetResult clearitemget(String member_id, Integer quest_id);
+    DutyItemGetResult clearitemget(long member_id, Integer quest_id);
 
 }

@@ -31,12 +31,12 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     }
 
     @Override
-    public List<MemberDeckPort> selectMemberDeckPortsByMemberId(String member_id) {
+    public List<MemberDeckPort> selectMemberDeckPortsByMemberId(long member_id) {
         return getSqlSession().selectList("selectMemberDeckPortsByMemberId", Collections.singletonMap("member_id", member_id));
     }
 
     @Override
-    public MemberDeckPort selectMemberDeckPort(String member_id, Integer deck_id) {
+    public MemberDeckPort selectMemberDeckPort(long member_id, Integer deck_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("deck_id", deck_id);
@@ -44,7 +44,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     }
 
     @Override
-    public MemberDeckPort selectMemberDeckPortContainsMemberShip(String member_id, long member_ship_id) {
+    public MemberDeckPort selectMemberDeckPortContainsMemberShip(long member_id, long member_ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("member_ship_id", member_ship_id);
@@ -79,7 +79,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     }
 
     @Override
-    public void updateDeckPortState(String member_id, Integer deckport_id, boolean lock) {
+    public void updateDeckPortState(long member_id, Integer deckport_id, boolean lock) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(6);
         params.put("member_id", member_id);
         params.put("deck_id", deckport_id);

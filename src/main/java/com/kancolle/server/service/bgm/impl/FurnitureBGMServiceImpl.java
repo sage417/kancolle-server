@@ -43,7 +43,7 @@ public class FurnitureBGMServiceImpl implements FurnitureBGMService {
     }
 
     @Override
-    public FurnitureCoinResult musicPlay(String member_id, String music_id) {
+    public FurnitureCoinResult musicPlay(long member_id, String music_id) {
         FurnitureBGM bgm = checkNotNull(getFurnitureBGMByCond(music_id), NULL_BGM_ERR_MSG, member_id, music_id);
 
         int useCoin = bgm.getUseCoin();
@@ -63,7 +63,7 @@ public class FurnitureBGMServiceImpl implements FurnitureBGMService {
     }
 
     @Override
-    public void setPortBGM(String member_id, int music_id) {
+    public void setPortBGM(long member_id, int music_id) {
         FurnitureBGM bgm = checkNotNull(getFurnitureBGMByCond(String.valueOf(music_id)), NULL_BGM_ERR_MSG, member_id, music_id);
 
         Member basic = memberService.getMember(member_id);

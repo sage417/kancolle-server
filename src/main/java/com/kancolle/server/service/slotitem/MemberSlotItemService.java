@@ -20,28 +20,28 @@ import java.util.Map;
 public interface MemberSlotItemService {
 
     /** 开发 */
-    CreateItemResult createItem(String member_id, CreateItemForm form);
+    CreateItemResult createItem(long member_id, CreateItemForm form);
 
-    MemberSlotItem createSlotItem(String member_id, int slotitem_id);
+    MemberSlotItem createSlotItem(long member_id, int slotitem_id);
 
     /** 解体装备 */
-    void destorySlotitems(String member_id, List<MemberSlotItem> removeSlotitems);
+    void destorySlotitems(long member_id, List<MemberSlotItem> removeSlotitems);
 
     /** 解体装备并返回资源 */
-    MemberSlotItemDestoryResult destroyItemAndReturnResource(String member_id, List<Long> slotitem_ids);
+    MemberSlotItemDestoryResult destroyItemAndReturnResource(long member_id, List<Long> slotitem_ids);
 
-    MemberSlotItem getMemberSlotItem(String memberId, Long memberSlotItemId);
+    MemberSlotItem getMemberSlotItem(long member_id, Long memberSlotItemId);
 
-    List<MemberSlotItem> getMemberSlotItems(String member_id);
+    List<MemberSlotItem> getMemberSlotItems(long member_id);
 
     /** 获得所有未被舰娘装备的装备 */
-    List<MemberSlotItem> getUnsetSlotList(String member_id);
+    List<MemberSlotItem> getUnsetSlotList(long member_id);
 
-    Map<String, Object> getUnsetSlotMap(String member_id);
+    Map<String, Object> getUnsetSlotMap(long member_id);
 
     /** 裝備加鎖、解鎖 */
-    MemberSlotItemLockResult lock(String member_id, Long slotitem_id);
+    MemberSlotItemLockResult lock(long member_id, Long slotitem_id);
 
-    int getCountOfMemberSlotItem(String member_id);
+    int getCountOfMemberSlotItem(long member_id);
 
 }

@@ -16,15 +16,15 @@ import java.util.List;
  */
 public interface MemberKdockService {
 
-    List<MemberKdock> getMemberKdocks(String member_id);
+    List<MemberKdock> getMemberKdocks(long member_id);
 
-    MemberKdock getMemberKdockByCond(String member_id, Integer kdock_id);
+    MemberKdock getMemberKdockByCond(long member_id, Integer kdock_id);
 
-    MemberKdock createShip(String member_id, CreateShipForm form);
+    MemberKdock createShip(long member_id, CreateShipForm form);
 
-    void speedUp(String member_id, Integer kdock_id);
+    void speedUp(long member_id, Integer kdock_id);
 
-    GetShipResult getShip(String member_id, Integer kdock_id);
+    GetShipResult getShip(long member_id, Integer kdock_id);
 
     void initMemberKdock(long member_id);
 

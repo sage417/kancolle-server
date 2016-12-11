@@ -28,13 +28,13 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     private MemberResourceDao memberResourceDao;
 
     @Override
-    public Resource getMemberResource(String member_id) {
+    public Resource getMemberResource(long member_id) {
         return memberResourceDao.selectMemberResource(member_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.SUPPORTS)
-    public void consumeResource(final String member_id, final int chargeFuel, final int chargeBull, final int consumeSteel, final int consumeBauxite,
+    public void consumeResource(final long member_id, final int chargeFuel, final int chargeBull, final int consumeSteel, final int consumeBauxite,
                                 final int fastRecovery, final int fastBuild, final int devItem, final int ehItem) {
 
         checkArgument(chargeFuel >= 0);
@@ -55,7 +55,7 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     }
 
     @Override
-    public void increaseResource(String member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
+    public void increaseResource(long member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem, int increaseEhItem) {
         Resource resource = getMemberResource(member_id);
 
         if (resource.getFuel() + increaseFuel > MAX_RESOURCE_VALUE) {
@@ -94,12 +94,12 @@ public class MemberResourceServiceImpl implements MemberResourceService {
     }
 
     @Override
-    public void increaseMaterial(String member_id, int[] increaseMaterials) {
+    public void increaseMaterial(long member_id, int[] increaseMaterials) {
         increaseMaterial(member_id, increaseMaterials, new int[]{0, 0, 0, 0});
     }
 
     @Override
-    public void increaseMaterial(String member_id, int[] increaseMaterials, int[] increaseItems) {
+    public void increaseMaterial(long member_id, int[] increaseMaterials, int[] increaseItems) {
         for (int value : increaseMaterials) {
             checkArgument(value >= 0);
         }

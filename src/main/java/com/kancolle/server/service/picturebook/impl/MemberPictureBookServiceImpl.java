@@ -19,7 +19,7 @@ public class MemberPictureBookServiceImpl implements MemberPictureBookService {
     private MemberPictureBookDao memberPictureBookDao;
 
     @Override
-    public ShipPictureBookResult pictureBook(String member_id, PictureBookForm form) {
+    public ShipPictureBookResult pictureBook(long member_id, PictureBookForm form) {
         int type = form.getApi_type();
         int no = form.getApi_no();
 

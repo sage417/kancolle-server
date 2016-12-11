@@ -23,7 +23,7 @@ public class MemberShipServiceTest {
 
     @Test
     public void test() {
-        MemberShip mship = service.getMemberShip("8006690", 1L);
+        MemberShip mship = service.getMemberShip(8006690L, 1L);
         service.increaseMemberShipExp(mship, 1);
     }
 }

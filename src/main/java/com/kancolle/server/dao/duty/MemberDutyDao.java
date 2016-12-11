@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface MemberDutyDao extends BaseDao<MemberDuty> {
 
-    List<MemberDuty> selectMemberDutys(String member_id, int pageNum, int pageSize);
+    List<MemberDuty> selectMemberDutys(long member_id, int pageNum, int pageSize);
 
-    List<MemberDuty> selectMembersDutyByState(String member_id, int state);
+    List<MemberDuty> selectMembersDutyByState(long member_id, int state);
 
-    MemberDuty selectMemberDutyByCond(String member_id, Integer quest_id);
+    MemberDuty selectMemberDutyByCond(long member_id, Integer quest_id);
 
-    int selectCountOfMemberDutysByState(String member_id, int stateProcessing);
+    int selectCountOfMemberDutysByState(long member_id, int stateProcessing);
 
     void deleteDuty(MemberDuty duty);
 

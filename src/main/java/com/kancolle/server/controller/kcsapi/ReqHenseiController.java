@@ -31,7 +31,7 @@ public class ReqHenseiController {
 
     @RequestMapping("/change")
     public APIResponse<MemberDeckPortChangeResult> change(
-            @ModelAttribute(MEMBER_ID) String member_id,
+            @ModelAttribute(MEMBER_ID) long member_id,
             @Validated ShipChangeForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         MemberDeckPortChangeResult api_data = memberDeckPortService.changeShip(member_id, form);
@@ -40,7 +40,7 @@ public class ReqHenseiController {
 
     @RequestMapping("/lock")
     public APIResponse<MemberShipLockResult> lock(
-            @ModelAttribute(MEMBER_ID) String member_id,
+            @ModelAttribute(MEMBER_ID) long member_id,
             @RequestParam(value = "api_ship_id") Long member_ship_id) {
         MemberShipLockResult api_data = memberShipService.lock(member_id, member_ship_id);
         return new APIResponse<MemberShipLockResult>().setApi_data(api_data);
@@ -58,7 +58,7 @@ public class ReqHenseiController {
 
     @RequestMapping("/preset_register")
     APIResponse<MemberDeckPort> register(
-            @ModelAttribute(MEMBER_ID) String member_id,
+            @ModelAttribute(MEMBER_ID) long member_id,
             @Validated PresetDeckRegisterFrom form,
             BindingResult result) {
         checkArgument(!result.hasErrors());
@@ -68,7 +68,7 @@ public class ReqHenseiController {
 
     @RequestMapping("/preset_delete")
     APIResponse<?> delete(
-            @ModelAttribute(MEMBER_ID) String member_id,
+            @ModelAttribute(MEMBER_ID) long member_id,
             @Validated @Min(1L) int api_preset_no,
             BindingResult result) {
         checkArgument(!result.hasErrors());

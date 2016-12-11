@@ -10,21 +10,21 @@ import java.util.List;
 
 public interface MemberDao extends BaseDao<Member> {
 
-    String getMemberIdByApiToken(String api_token);
+    Long getMemberIdByApiToken(String api_token);
 
-    List<MemberMission> selectMemberMission(String member_id);
+    List<MemberMission> selectMemberMission(long member_id);
 
-    MemberRecord selectMemberRecord(String member_id);
+    MemberRecord selectMemberRecord(long member_id);
 
     long getNeedExpByLevel(int lv);
 
     int getMemberLVByExp(long afterExp);
 
-    Member getMemberById(String memberId);
+    Member getMemberById(long member_id);
 
-    void updateMemberToken(String member_id, String token);
+    void updateMemberToken(long member_id, String token);
 
     int insert(Member member);
 
-    List<MemberMaterialDto> selectMemberMaterial(String member_id);
+    List<MemberMaterialDto> selectMemberMaterial(long member_id);
 }

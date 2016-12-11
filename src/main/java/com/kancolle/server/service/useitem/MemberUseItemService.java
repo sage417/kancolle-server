@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface MemberUseItemService {
 
-    List<MemberUseItem> getMemberUseItems(String member_id);
+    List<MemberUseItem> getMemberUseItems(long member_id);
 
-    UseItemResult useItem(String member_id, UseItemForm form);
+    UseItemResult useItem(long member_id, UseItemForm form);
 
-    void addMemberUseItemCount(String member_id, int useitem_id, int addCount);
+    void addMemberUseItemCount(long member_id, int useitem_id, int addCount);
 
-    int getCountOfMemberUseItem(String member_id, Integer useItem_id);
+    int getCountOfMemberUseItem(long member_id, Integer useItem_id);
 
     void initMemberUseItem(long member_id, int[] useItemIds);
 }

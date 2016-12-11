@@ -19,16 +19,16 @@ public interface MemberNdockDao extends BaseDao<MemberNdock> {
      * @param member_id
      * @return
      */
-    List<MemberNdock> selectMemberNdocks(String member_id);
+    List<MemberNdock> selectMemberNdocks(long member_id);
 
     /**
      * @param member_id
      * @param ndockId
      * @return
      */
-    MemberNdock selectMemberNdock(String member_id, int ndockId);
+    MemberNdock selectMemberNdock(long member_id, int ndockId);
 
     void insertMemberNdocks(List<MemberNdock> ndocks);
 
-    MemberNdock selectMemberNdockByMemberIdAndMemberShipId(String member_id, long member_ship_id);
+    MemberNdock selectMemberNdockByMemberIdAndMemberShipId(long member_id, long member_ship_id);
 }

@@ -33,7 +33,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
             .build();
 
     @Override
-    public String getMemberIdByApiToken(String api_token) {
+    public Long getMemberIdByApiToken(String api_token) {
         return getSqlSession().selectOne("getMemberIdByApiToken", api_token);
     }
 
@@ -42,12 +42,12 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public List<MemberMission> selectMemberMission(String member_id) {
+    public List<MemberMission> selectMemberMission(long member_id) {
         return getSqlSession().selectList("selectMemberMission", getMemParamMap(member_id));
     }
 
     @Override
-    public MemberRecord selectMemberRecord(String member_id) {
+    public MemberRecord selectMemberRecord(long member_id) {
         return getSqlSession().selectOne("selectMemberRecord", member_id);
     }
 
@@ -62,13 +62,13 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public Member getMemberById(String memberId) {
-        return getSqlSession().selectOne("selectMemberById", memberId);
+    public Member getMemberById(long member_id) {
+        return getSqlSession().selectOne("selectMemberById", member_id);
     }
 
     @Override
-    public void updateMemberToken(String member_id, String token) {
-        Map<String, String> params = Maps.newHashMap();
+    public void updateMemberToken(long member_id, String token) {
+        Map<String, Object> params = Maps.newHashMap();
         params.put("member_id", member_id);
         params.put("token", token);
         getSqlSession().update("updateMemberToken", params);
@@ -80,7 +80,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     }
 
     @Override
-    public List<MemberMaterialDto> selectMemberMaterial(String member_id) {
+    public List<MemberMaterialDto> selectMemberMaterial(long member_id) {
         MemberMaterial memberMaterial = getSqlSession().selectOne("selectMemberMaterial", member_id);
         return toModel(memberMaterial);
     }

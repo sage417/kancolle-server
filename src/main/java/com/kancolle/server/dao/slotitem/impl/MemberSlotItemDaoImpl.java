@@ -27,17 +27,17 @@ public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public List<MemberSlotItem> selectMemberSlotItems(String member_id) {
+    public List<MemberSlotItem> selectMemberSlotItems(long member_id) {
         return getSqlSession().selectList("selectMemberSlotItem", Collections.singletonMap("member_id", member_id));
     }
 
     @Override
-    public List<MemberSlotItem> selectMemberUnSlots(String member_id) {
+    public List<MemberSlotItem> selectMemberUnSlots(long member_id) {
         return getSqlSession().selectList("selectMemberUnslot", member_id);
     }
 
     @Override
-    public MemberSlotItem selectMemberSlotItem(String member_id, Long member_slotitem_id) {
+    public MemberSlotItem selectMemberSlotItem(long member_id, Long member_slotitem_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("member_slotitem_id", member_slotitem_id);
@@ -45,7 +45,7 @@ public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public int updateMemberSlotItemLockStatue(String member_id, Long member_slotitem_id, Boolean lock) {
+    public int updateMemberSlotItemLockStatue(long member_id, Long member_slotitem_id, Boolean lock) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("member_id", member_id);
         params.put("member_slotitem_id", member_slotitem_id);
@@ -54,7 +54,7 @@ public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public void delete(String member_id, List<Long> slotitem_ids) {
+    public void delete(long member_id, List<Long> slotitem_ids) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("slotitem_ids", slotitem_ids);
@@ -62,7 +62,7 @@ public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public MemberSlotItem createMemberSlotItem(String member_id, int slotitem_id) {
+    public MemberSlotItem createMemberSlotItem(long member_id, int slotitem_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("slotitem_id", slotitem_id);
@@ -70,7 +70,7 @@ public class MemberSlotItemDaoImpl extends BaseDaoImpl<MemberSlotItem> implement
     }
 
     @Override
-    public int selectCountOfMemberSlotItem(String member_id) {
+    public int selectCountOfMemberSlotItem(long member_id) {
         return getSqlSession().selectOne("selectCountOfMemberSlotItem", member_id);
     }
 }

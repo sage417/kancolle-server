@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface MemberPictureBookDao extends BaseDao<ShipPictureBook> {
 
-    List<ShipPictureBook> selectPictureBook(String member_id, int type, int no, int pageSize);
+    List<ShipPictureBook> selectPictureBook(long member_id, int type, int no, int pageSize);
 
 }

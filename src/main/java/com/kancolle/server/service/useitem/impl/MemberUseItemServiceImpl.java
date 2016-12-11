@@ -38,13 +38,13 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
     private MemberService memberService;
 
     @Override
-    public List<MemberUseItem> getMemberUseItems(String member_id) {
+    public List<MemberUseItem> getMemberUseItems(long member_id) {
         return memberUseItemDao.selectMemberUseItems(member_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public UseItemResult useItem(String member_id, UseItemForm form) {
+    public UseItemResult useItem(long member_id, UseItemForm form) {
         Integer forceFlag = form.getApi_force_flag();
         Integer useItemId = form.getApi_useitem_id();
 
@@ -91,7 +91,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public int getCountOfMemberUseItem(String member_id, Integer useItem_id) {
+    public int getCountOfMemberUseItem(long member_id, Integer useItem_id) {
         return memberUseItemDao.countMemberItem(member_id, useItem_id);
     }
 
@@ -101,7 +101,7 @@ public class MemberUseItemServiceImpl implements MemberUseItemService {
     }
 
     @Override
-    public void addMemberUseItemCount(String member_id, int useitem_id, int addCount) {
+    public void addMemberUseItemCount(long member_id, int useitem_id, int addCount) {
         memberUseItemDao.addMemberUseItemCount(member_id, useitem_id, addCount);
     }
 }

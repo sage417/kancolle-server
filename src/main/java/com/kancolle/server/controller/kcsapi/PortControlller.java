@@ -24,7 +24,7 @@ public class PortControlller {
 
     @JsonView(Member.PortView.class)
     @RequestMapping("/port")
-    public APIResponse<MemberPort> port(@ModelAttribute(MEMBER_ID) String member_id) throws Exception {
+    public APIResponse<MemberPort> port(@ModelAttribute(MEMBER_ID) long member_id) throws Exception {
         battleService.updateAfterBattleResult(member_id);
         MemberPort api_data = memberService.getPort(member_id);
         return new APIResponse<MemberPort>().setApi_data(api_data);

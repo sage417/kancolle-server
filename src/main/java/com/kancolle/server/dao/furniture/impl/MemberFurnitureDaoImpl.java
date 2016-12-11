@@ -20,7 +20,7 @@ import java.util.Map;
 @Repository
 public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> implements MemberFurnitureDao {
 
-    private Map<String, Object> getMemberIdFurnitureIdParamMap(String member_id, Integer furniture_id) {
+    private Map<String, Object> getMemberIdFurnitureIdParamMap(long member_id, Integer furniture_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("furniture_id", furniture_id);
@@ -28,12 +28,12 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> impleme
     }
 
     @Override
-    public List<MemberFurniture> getFurniture(String member_id) {
+    public List<MemberFurniture> getFurniture(long member_id) {
         return getSqlSession().selectList("selectMemberFurnitures", member_id);
     }
 
     @Override
-    public void changeMemberFurniture(String member_id, int[] furnitureIds) {
+    public void changeMemberFurniture(long member_id, int[] furnitureIds) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("furniture", furnitureIds);
@@ -41,7 +41,7 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> impleme
     }
 
     @Override
-    public MemberFurniture selectMemberFurnitureById(String member_id, Integer furniture_id) {
+    public MemberFurniture selectMemberFurnitureById(long member_id, Integer furniture_id) {
         Map<String, Object> params = getMemberIdFurnitureIdParamMap(member_id, furniture_id);
         return getSqlSession().selectOne("selectMemberFurnitureByCond", params);
     }
@@ -55,13 +55,13 @@ public class MemberFurnitureDaoImpl extends BaseDaoImpl<MemberFurniture> impleme
     }
 
     @Override
-    public void insertMemberFurniture(String member_id, Integer furniture_id) {
+    public void insertMemberFurniture(long member_id, Integer furniture_id) {
         Map<String, Object> params = getMemberIdFurnitureIdParamMap(member_id, furniture_id);
         getSqlSession().insert("insertMemberFurniture", params);
     }
 
     @Override
-    public int selectCountOfMemberFurniture(String member_id) {
+    public int selectCountOfMemberFurniture(long member_id) {
         return getSqlSession().selectOne("selectCountOfMemberFurniture", member_id);
     }
 

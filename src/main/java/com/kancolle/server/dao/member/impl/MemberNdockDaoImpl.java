@@ -21,12 +21,12 @@ import java.util.Map;
 public class MemberNdockDaoImpl extends BaseDaoImpl<MemberNdock> implements MemberNdockDao {
 
     @Override
-    public List<MemberNdock> selectMemberNdocks(String member_id) {
+    public List<MemberNdock> selectMemberNdocks(long member_id) {
         return getSqlSession().selectList("selectMemberNdocks", member_id);
     }
 
     @Override
-    public MemberNdock selectMemberNdock(String member_id, int ndock_id) {
+    public MemberNdock selectMemberNdock(long member_id, int ndock_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("ndock_id", ndock_id);
@@ -39,7 +39,7 @@ public class MemberNdockDaoImpl extends BaseDaoImpl<MemberNdock> implements Memb
     }
 
     @Override
-    public MemberNdock selectMemberNdockByMemberIdAndMemberShipId(String member_id, long member_ship_id) {
+    public MemberNdock selectMemberNdockByMemberIdAndMemberShipId(long member_id, long member_ship_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("member_ship_id", member_ship_id);

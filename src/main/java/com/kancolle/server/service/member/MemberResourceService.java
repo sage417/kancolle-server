@@ -12,16 +12,16 @@ import com.kancolle.server.model.po.resource.Resource;
  */
 public interface MemberResourceService {
 
-    Resource getMemberResource(String member_id);
+    Resource getMemberResource(long member_id);
 
-    void consumeResource(String member_id, int chargeFuel, int chargeBull, int consumeSteel, int consumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem);
+    void consumeResource(long member_id, int chargeFuel, int chargeBull, int consumeSteel, int consumeBauxite, int fastRecovery, int fastBuild, int DevItem, int EhItem);
 
-    void increaseResource(String member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
+    void increaseResource(long member_id, int increaseFuel, int increaseBull, int consumeSteel, int increaseBauxite, int increaseFastRecovery, int increaseFastBuild, int increaseDevItem,
                           int increaseEhItem);
 
-    void increaseMaterial(String member_id, int[] increaseMaterials);
+    void increaseMaterial(long member_id, int[] increaseMaterials);
 
-    void increaseMaterial(String member_id, int[] material, int[] increaseItems);
+    void increaseMaterial(long member_id, int[] material, int[] increaseItems);
 
     void initMemberResource(long member_id);
 }

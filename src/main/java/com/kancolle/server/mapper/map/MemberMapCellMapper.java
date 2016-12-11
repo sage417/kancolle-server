@@ -17,9 +17,9 @@ import java.util.List;
 @Mapper
 public interface MemberMapCellMapper {
 
-    List<MemberMapCell> selectMemberMapCellInfos(@Param("member_id") String member_id, @Param("maparea_id") int mapareaId, @Param("map_no") int mapNo);
+    List<MemberMapCell> selectMemberMapCellInfos(@Param("member_id") long member_id, @Param("maparea_id") int mapareaId, @Param("map_no") int mapNo);
 
-    void updateMemberMapCellInfo(@Param("member_id") String member_id,@Param("mapcell_id") int mapcell_id, @Param("passFlag") boolean passFlag);
+    void updateMemberMapCellInfo(@Param("member_id") long member_id,@Param("mapcell_id") int mapcell_id, @Param("passFlag") boolean passFlag);
 
     void insertMemberMapCellInfos(@Param("member_id")long member_id);
 }

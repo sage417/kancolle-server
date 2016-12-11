@@ -31,14 +31,14 @@ public class ReqSortieController {
     private BattleService battleService;
 
     @RequestMapping("/battle")
-    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) String member_id, @Validated BattleForm form, BindingResult result) {
+    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) long member_id, @Validated BattleForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         BattleSimulationResult api_data = battleService.battle(member_id, form);
         return new APIResponse<BattleSimulationResult>().setApi_data(api_data);
     }
 
     @RequestMapping("/battleresult")
-    public APIResponse<BattleResult> battleResult(@ModelAttribute(MEMBER_ID) String member_id) {
+    public APIResponse<BattleResult> battleResult(@ModelAttribute(MEMBER_ID) long member_id) {
         BattleResult api_data = battleService.battleresult(member_id);
         return new APIResponse<BattleResult>().setApi_data(api_data);
     }

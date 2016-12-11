@@ -59,12 +59,12 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
 
     @Override
-    public List<MemberFurniture> getFurniture(String member_id) {
+    public List<MemberFurniture> getFurniture(long member_id) {
         return memberFurnitureDao.getFurniture(member_id);
     }
 
     @Override
-    public void changeFurniture(final String member_id, final FurnitureChangeForm form) {
+    public void changeFurniture(final long member_id, final FurnitureChangeForm form) {
         final FurnitureType[] furnitureTypes = FurnitureType.values();
 
         int[] furnitureIds = Arrays.stream(furnitureTypes).mapToInt(type -> {
@@ -83,7 +83,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void buyFurniture(String member_id, FurnitureBuyForm form) {
+    public void buyFurniture(long member_id, FurnitureBuyForm form) {
 
         Integer furnitureType = form.getApi_type();
         Integer furnitureNo = form.getApi_no();
@@ -124,13 +124,13 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     }
 
     @Override
-    public void createMemberFurniture(String member_id, Integer furniture_id) {
+    public void createMemberFurniture(long member_id, Integer furniture_id) {
         memberFurnitureDao.insertMemberFurniture(member_id, furniture_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberFurniture getMemberFurniture(String member_id, Integer furniture_id) {
+    public MemberFurniture getMemberFurniture(long member_id, Integer furniture_id) {
         return memberFurnitureDao.selectMemberFurnitureById(member_id, furniture_id);
     }
 
@@ -141,7 +141,7 @@ public class MemberFurnitureServiceImpl implements MemberFurnitureService {
     }
 
     @Override
-    public int getCountOfMemberFurniture(String member_id) {
+    public int getCountOfMemberFurniture(long member_id) {
         return memberFurnitureDao.selectCountOfMemberFurniture(member_id);
     }
 

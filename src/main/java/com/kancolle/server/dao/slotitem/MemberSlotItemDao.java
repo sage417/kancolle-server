@@ -15,18 +15,18 @@ import java.util.List;
  */
 public interface MemberSlotItemDao extends BaseDao<MemberSlotItem> {
 
-    List<MemberSlotItem> selectMemberSlotItems(String member_id);
+    List<MemberSlotItem> selectMemberSlotItems(long member_id);
 
-    List<MemberSlotItem> selectMemberUnSlots(String member_id);
+    List<MemberSlotItem> selectMemberUnSlots(long member_id);
 
-    MemberSlotItem selectMemberSlotItem(String member_id, Long member_slotitem_id);
+    MemberSlotItem selectMemberSlotItem(long member_id, Long member_slotitem_id);
 
-    int updateMemberSlotItemLockStatue(String member_id, Long member_slotitem_id, Boolean lock);
+    int updateMemberSlotItemLockStatue(long member_id, Long member_slotitem_id, Boolean lock);
 
-    void delete(String member_id, List<Long> slotitem_ids);
+    void delete(long member_id, List<Long> slotitem_ids);
 
-    MemberSlotItem createMemberSlotItem(String member_id, int slotItem_id);
+    MemberSlotItem createMemberSlotItem(long member_id, int slotItem_id);
 
-    int selectCountOfMemberSlotItem(String member_id);
+    int selectCountOfMemberSlotItem(long member_id);
 
 }

@@ -14,11 +14,11 @@ public interface MissionService {
 
     Mission getMission(Integer mission_id);
 
-    MissionStart startMission(String member_id, MissionStartForm form);
+    MissionStart startMission(long member_id, MissionStartForm form);
 
-    MissionResult calMissionResult(String member_id, Integer deck_id);
+    MissionResult calMissionResult(long member_id, Integer deck_id);
 
-    MissionReturn callbackMission(String member_id, int deck_id);
+    MissionReturn callbackMission(long member_id, int deck_id);
 
     void initMemberMission(long member_id);
 }

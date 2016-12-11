@@ -22,12 +22,12 @@ import java.util.Map;
 public class MemberKdockDaoImpl extends BaseDaoImpl<MemberKdock> implements MemberKdockDao {
 
     @Override
-    public List<MemberKdock> selectMemberKdocks(String member_id) {
+    public List<MemberKdock> selectMemberKdocks(long member_id) {
         return getSqlSession().selectList("selectMemberKdockByCond", Collections.singletonMap("member_id", member_id));
     }
 
     @Override
-    public MemberKdock selectMemberKdockByCond(String member_id, Integer kdock_id) {
+    public MemberKdock selectMemberKdockByCond(long member_id, Integer kdock_id) {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("member_id", member_id);
         params.put("kdock_id", kdock_id);

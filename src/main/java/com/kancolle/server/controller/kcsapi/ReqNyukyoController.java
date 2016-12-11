@@ -29,14 +29,14 @@ public class ReqNyukyoController {
     private MemberNdockService memberNdockService;
 
     @RequestMapping("/start")
-    public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) String member_id, NdockStartForm form, BindingResult result) {
+    public APIResponse<Object> start(@ModelAttribute(MEMBER_ID) long member_id, NdockStartForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
         memberNdockService.start(member_id, form);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }
 
     @RequestMapping("/speedchange")
-    public APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) String member_id, int api_ndock_id) {
+    public APIResponse<Object> speedchange(@ModelAttribute(MEMBER_ID) long member_id, int api_ndock_id) {
         memberNdockService.speedChange(member_id, api_ndock_id);
         return APIResponse.EMPTY_SUCCESS_RESPONSE;
     }

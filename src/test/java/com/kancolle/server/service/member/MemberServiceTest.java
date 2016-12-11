@@ -46,7 +46,7 @@ public class MemberServiceTest {
 
     @Test
     public void testUpdateToken() {
-        String memberId = "9007383";
+        long memberId = 9007383L;
         Member member = memberService.getMember(memberId);
         String token = member.getToken();
         memberService.updateMemberToken(memberId);

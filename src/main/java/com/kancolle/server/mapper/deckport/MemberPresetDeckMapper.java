@@ -12,9 +12,9 @@ import java.util.List;
 @Mapper
 public interface MemberPresetDeckMapper {
 
-    List<PresetDeck> selectPresetDeckByMemberId(@Param("member_id") String member_id);
+    List<PresetDeck> selectPresetDeckByMemberId(@Param("member_id") long member_id);
 
-    PresetDeck getPresetDeckByMemberIdAndNo(@Param("member_id") String member_id, @Param("preset_no") int api_preset_no);
+    PresetDeck getPresetDeckByMemberIdAndNo(@Param("member_id") long member_id, @Param("preset_no") int api_preset_no);
 
     int updatePresetDeck(PresetDeck presetDeck);
 

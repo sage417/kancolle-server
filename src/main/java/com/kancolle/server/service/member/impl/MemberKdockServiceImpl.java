@@ -51,19 +51,19 @@ public class MemberKdockServiceImpl implements MemberKdockService {
     private MemberShipService memberShipService;
 
     @Override
-    public List<MemberKdock> getMemberKdocks(String member_id) {
+    public List<MemberKdock> getMemberKdocks(long member_id) {
         return memberKdockDao.selectMemberKdocks(member_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberKdock getMemberKdockByCond(String member_id, Integer kdock_id) {
+    public MemberKdock getMemberKdockByCond(long member_id, Integer kdock_id) {
         return memberKdockDao.selectMemberKdockByCond(member_id, kdock_id);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberKdock createShip(String member_id, CreateShipForm form) {
+    public MemberKdock createShip(long member_id, CreateShipForm form) {
         Instant now = Instant.now();
 
         Member member = memberService.getMember(member_id);
@@ -123,7 +123,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void speedUp(String member_id, Integer kdock_id) {
+    public void speedUp(long member_id, Integer kdock_id) {
         MemberKdock kdock = getMemberKdockByCond(member_id, kdock_id);
         if (kdock == null || kdock.getState() != MemberKdock.STATUS_BUILDING) {
             throw new IllegalStateException();
@@ -140,7 +140,7 @@ public class MemberKdockServiceImpl implements MemberKdockService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public GetShipResult getShip(String member_id, Integer kdock_id) {
+    public GetShipResult getShip(long member_id, Integer kdock_id) {
         List<MemberKdock> kdocks = getMemberKdocks(member_id);
 
         Optional<MemberKdock> optional = kdocks.stream().filter(memberKdock -> memberKdock.getKdockId() == kdock_id.intValue()).findFirst();

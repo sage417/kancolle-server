@@ -34,7 +34,7 @@ public class StartService {
         return startResult;
     }
 
-    public RequireInfo getRequireInfo(String member_id) {
+    public RequireInfo getRequireInfo(long member_id) {
         RequireInfo requireInfo = new RequireInfo();
 
         requireInfo.setApi_basic(memberService.getBasic2(member_id));

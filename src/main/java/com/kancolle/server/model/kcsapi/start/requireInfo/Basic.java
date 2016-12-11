@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Basic {
 
     @JsonProperty(value = "api_member_id")
-    private String member_id;
+    private long member_id;
 
     @JsonProperty(value = "api_firstflag")
     private int firstFlag;
@@ -20,16 +20,16 @@ public class Basic {
     public Basic() {
     }
 
-    public Basic(final String member_id, final int firstFlag) {
+    public Basic(final long member_id, final int firstFlag) {
         this.member_id = member_id;
         this.firstFlag = firstFlag;
     }
 
-    public String getMember_id() {
+    public long getMember_id() {
         return member_id;
     }
 
-    public void setMember_id(String member_id) {
+    public void setMember_id(long member_id) {
         this.member_id = member_id;
     }
 

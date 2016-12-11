@@ -19,8 +19,8 @@ public interface FurnitureBGMService {
 
     FurnitureBGM getFurnitureBGMByCond(String music_id);
 
-    FurnitureCoinResult musicPlay(String member_id, String music_id);
+    FurnitureCoinResult musicPlay(long member_id, String music_id);
 
-    void setPortBGM(String member_id, int music_id);
+    void setPortBGM(long member_id, int music_id);
 
 }

@@ -32,16 +32,19 @@ public class AdviceController {
     private MemberService memberService;
 
     @ModelAttribute(MEMBER_ID)
-    public String checkParams(
+    public long checkParams(
             @RequestParam(value = "api_verno", defaultValue = API_NOW_VERSION) String version,
             @RequestParam(value = "api_token") String token) {
         if (!StringUtils.equals(version, API_NOW_VERSION))
             throw new RuntimeException("version invalid");
-        try {
-            return memberService.getMemberByApiToken(token);
-        } catch (EmptyResultDataAccessException e) {
-            throw new RuntimeException("token invalid");
-        }
+
+        final Long member_id = memberService.getMemberByApiToken(token);
+
+        if (member_id == null)
+            throw new IllegalArgumentException("token invalid");
+
+        return member_id;
+
     }
 
     //@ResponseBody

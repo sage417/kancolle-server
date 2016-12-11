@@ -16,6 +16,6 @@ public interface MemberLogMapper {
 
     int insertMemberLog(MemberLog log);
 
-    List<MemberLog> selectMemberLogs(@Param("member_id") String member_id);
+    List<MemberLog> selectMemberLogs(@Param("member_id") long member_id);
 
 }

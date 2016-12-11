@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface MemberKdockDao extends BaseDao<MemberKdock> {
 
-    List<MemberKdock> selectMemberKdocks(String member_id);
+    List<MemberKdock> selectMemberKdocks(long member_id);
 
-    MemberKdock selectMemberKdockByCond(String member_id, Integer kdock_id);
+    MemberKdock selectMemberKdockByCond(long member_id, Integer kdock_id);
 
     void insertMemberKdocks(List<MemberKdock> kdocks);
 }

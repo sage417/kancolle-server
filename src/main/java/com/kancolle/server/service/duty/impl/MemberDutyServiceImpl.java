@@ -72,26 +72,26 @@ public class MemberDutyServiceImpl implements MemberDutyService {
     }
 
     @Override
-    public MemberDutyPageList getMemberDutyList(String member_id, int pageNum) {
+    public MemberDutyPageList getMemberDutyList(long member_id, int pageNum) {
         int count_of_duty_om_process = memberDutyDao.selectCountOfMemberDutysByState(member_id, STATE_PROCESSING);
         return new MemberDutyPageList((Page<MemberDuty>) memberDutyDao.selectMemberDutys(member_id, pageNum, 5), count_of_duty_om_process);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberDuty getMemberDuty(String member_id, Integer quest_id) {
+    public MemberDuty getMemberDuty(long member_id, Integer quest_id) {
         return checkNotNull(memberDutyDao.selectMemberDutyByCond(member_id, quest_id));
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<MemberDuty> getMemberDutysByState(String member_id, int state) {
+    public List<MemberDuty> getMemberDutysByState(long member_id, int state) {
         return memberDutyDao.selectMembersDutyByState(member_id, state);
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void start(String member_id, Integer quest_id) {
+    public void start(long member_id, Integer quest_id) {
         MemberDuty memberDuty = getMemberDuty(member_id, quest_id);
         checkState(memberDuty.getState() == STATE_AVILABLE);
         memberDuty.setState(STATE_PROCESSING);
@@ -100,7 +100,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public void stop(String member_id, Integer quest_id) {
+    public void stop(long member_id, Integer quest_id) {
         MemberDuty memberDuty = getMemberDuty(member_id, quest_id);
         checkState(memberDuty.getState() == STATE_PROCESSING);
         memberDuty.setState(STATE_AVILABLE);
@@ -128,7 +128,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public DutyItemGetResult clearitemget(String member_id, Integer quest_id) {
+    public DutyItemGetResult clearitemget(long member_id, Integer quest_id) {
         MemberDuty memberDuty = getMemberDuty(member_id, quest_id);
         Duty duty = memberDuty.getDuty();
 

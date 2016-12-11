@@ -14,7 +14,7 @@ import java.util.Map;
 public class MemberPictureBookDaoImpl extends BaseDaoImpl<ShipPictureBook>implements MemberPictureBookDao {
 
     @Override
-    public List<ShipPictureBook> selectPictureBook(String member_id, int type, int no, int pageSize) {
+    public List<ShipPictureBook> selectPictureBook(long member_id, int type, int no, int pageSize) {
         PageHelper.startPage(no, pageSize);
         Map<String, Object> params = Maps.newHashMap();
         params.put("member_id", member_id);

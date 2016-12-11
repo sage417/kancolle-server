@@ -29,19 +29,19 @@ public class MemberMapServiceImpl implements MemberMapService {
     private MemberMapCellMapper memberMapCellMapper;
 
     @Override
-    public List<MemberMapInfo> getMemberMapInfos(String member_id) {
+    public List<MemberMapInfo> getMemberMapInfos(long member_id) {
         return memberMapInfoMapper.selectMemberMapInfosByMemberId(member_id);
     }
 
     @Override
-    public List<MemberMapCell> getMemberCellInfos(String member_id, MapCellForm form) {
+    public List<MemberMapCell> getMemberCellInfos(long member_id, MapCellForm form) {
         int maparea_id = form.getApi_maparea_id();
         int map_no = form.getApi_mapinfo_no();
         return memberMapCellMapper.selectMemberMapCellInfos(member_id, maparea_id, map_no);
     }
 
     @Override
-    public void updateMemberCellPassFlag(String member_id, int mapcell_id, boolean passFlag) {
+    public void updateMemberCellPassFlag(long member_id, int mapcell_id, boolean passFlag) {
         memberMapCellMapper.updateMemberMapCellInfo(member_id, mapcell_id, passFlag);
     }
 

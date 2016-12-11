@@ -20,13 +20,13 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
     }
 
     @Override
-    public List<MemberDuty> selectMemberDutys(String member_id, int pageNum, int pageSize) {
+    public List<MemberDuty> selectMemberDutys(long member_id, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return getSqlSession().selectList("selectMemberDutys", member_id);
     }
 
     @Override
-    public int selectCountOfMemberDutysByState(String member_id, int state) {
+    public int selectCountOfMemberDutysByState(long member_id, int state) {
         Map<String, Object> params = newHashMap();
         params.put("member_id", member_id);
         params.put("state", state);
@@ -34,7 +34,7 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
     }
 
     @Override
-    public MemberDuty selectMemberDutyByCond(String member_id, Integer quest_id) {
+    public MemberDuty selectMemberDutyByCond(long member_id, Integer quest_id) {
         Map<String, Object> params = newHashMap();
         params.put("member_id", member_id);
         params.put("quest_id", quest_id);
@@ -42,7 +42,7 @@ public class MemberDutyDaoImpl extends BaseDaoImpl<MemberDuty>implements MemberD
     }
 
     @Override
-    public List<MemberDuty> selectMembersDutyByState(String member_id, int state) {
+    public List<MemberDuty> selectMembersDutyByState(long member_id, int state) {
         Map<String, Object> params = newHashMap();
         params.put("member_id", member_id);
         params.put("state", state);

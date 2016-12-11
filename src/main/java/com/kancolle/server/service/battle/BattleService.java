@@ -92,7 +92,7 @@ public class BattleService extends BaseService {
     @Autowired
     private MemberShipService memberShipService;
 
-    public BattleSimulationResult battle(String member_id, BattleForm form) {
+    public BattleSimulationResult battle(long member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(!battleState.isBattleFlag());
 
@@ -250,7 +250,7 @@ public class BattleService extends BaseService {
     }
 
     @Transactional
-    public BattleResult battleresult(String member_id) {
+    public BattleResult battleresult(long member_id) {
         MemberMapBattleState state = mapBattleService.selectMemberMapBattleState(member_id);
         checkState(state.isBattleFlag());
         checkState(!state.isResultFlag());
@@ -343,7 +343,7 @@ public class BattleService extends BaseService {
         mapBattleService.updateMemberMapBattleStatus(state, BATTLE_FLAG, RESULT_FLAG, SESSION);
     }
 
-    public void updateAfterBattleResult(String member_id) {
+    public void updateAfterBattleResult(long member_id) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
         if (battleState != null) {
             updateAfterResult(battleState);

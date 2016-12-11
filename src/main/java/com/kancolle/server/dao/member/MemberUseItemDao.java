@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface MemberUseItemDao extends BaseDao<MemberUseItem> {
 
-    List<MemberUseItem> selectMemberUseItems(String member_id);
+    List<MemberUseItem> selectMemberUseItems(long member_id);
 
-    int countMemberItem(String member_id, Integer useItem_id);
+    int countMemberItem(long member_id, Integer useItem_id);
 
-    void addMemberUseItemCount(String member_id, int useitem_id, int addCount);
+    void addMemberUseItemCount(long member_id, int useitem_id, int addCount);
 
     void insertMemberUseItems(long member_id, int[] useItemIds);
 }

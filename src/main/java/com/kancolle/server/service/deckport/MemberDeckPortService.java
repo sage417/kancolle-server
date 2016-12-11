@@ -49,17 +49,17 @@ public class MemberDeckPortService {
     public static final ImmutableList<Long> EMPTY_PRESET_DECK = ImmutableList.of(-1L, -1L, -1L, -1L, -1L, -1L);
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public List<MemberDeckPort> getMemberDeckPorts(String member_id) {
+    public List<MemberDeckPort> getMemberDeckPorts(long member_id) {
         return memberDeckPortDao.selectMemberDeckPortsByMemberId(member_id);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberDeckPort getUnNullableMemberDeckPort(String member_id, Integer deck_id) {
+    public MemberDeckPort getUnNullableMemberDeckPort(long member_id, Integer deck_id) {
         return checkNotNull(memberDeckPortDao.selectMemberDeckPort(member_id, deck_id));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
-    public MemberDeckPortChangeResult changeShip(String member_id, ShipChangeForm form) {
+    public MemberDeckPortChangeResult changeShip(long member_id, ShipChangeForm form) {
         Integer fleet_id = form.getApi_id();
         long member_ship_id = form.getApi_ship_id();
         int ship_idx = form.getApi_ship_idx();
@@ -126,7 +126,7 @@ public class MemberDeckPortService {
         checkDeckPort(targetShips);
 
         memberDeckPortDao.updateMemberDeckPortShip(targetDeck);
-        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(Long.toString(targetDeck.getMemberId()), targetDeck.getDeckId(), memberShip.getMemberShipId());
+        memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(targetDeck.getMemberId(), targetDeck.getDeckId(), memberShip.getMemberShipId());
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.REQUIRED)
@@ -202,7 +202,7 @@ public class MemberDeckPortService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberDeckPort getMemberDeckPortContainsMemberShip(String member_id, Long member_ship_id) {
+    public MemberDeckPort getMemberDeckPortContainsMemberShip(long member_id, Long member_ship_id) {
         return memberDeckPortDao.selectMemberDeckPortContainsMemberShip(member_id, member_ship_id);
     }
 
@@ -210,7 +210,7 @@ public class MemberDeckPortService {
         memberDeckPortDao.updateDeckPortMission(deckport);
     }
 
-    public void openDeckPort(String member_id, Integer deckport_id) {
+    public void openDeckPort(long member_id, Integer deckport_id) {
         memberDeckPortDao.updateDeckPortState(member_id, deckport_id, false);
     }
 
@@ -233,7 +233,7 @@ public class MemberDeckPortService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public PresetDeckResponse getMemberPresetDeckResponse(String member_id) {
+    public PresetDeckResponse getMemberPresetDeckResponse(long member_id) {
         List<PresetDeck> presetDecks = memberPresetDeckMapper.selectPresetDeckByMemberId(member_id);
         Map<String, PresetDeck> map = presetDecks.stream().collect(Collectors.toMap(p -> Integer.toString(p.getNo()), p -> p));
         return new PresetDeckResponse(3, map);
@@ -258,7 +258,7 @@ public class MemberDeckPortService {
     }
 
     @Transactional
-    public PresetDeck registerMemberPresetDeck(final String member_id, final PresetDeckRegisterFrom form) {
+    public PresetDeck registerMemberPresetDeck(final long member_id, final PresetDeckRegisterFrom form) {
 
         final int api_preset_no = form.getApi_preset_no();
 
@@ -281,7 +281,7 @@ public class MemberDeckPortService {
     }
 
     @Transactional
-    public void deleteMemberPresetDeck(String member_id, int api_preset_no) {
+    public void deleteMemberPresetDeck(long member_id, int api_preset_no) {
 
         final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id, api_preset_no);
         Objects.requireNonNull(presetDeck, "preset deck not exist! memmber_id:" + member_id + " preset_no:" + api_preset_no);
@@ -300,7 +300,7 @@ public class MemberDeckPortService {
      * @param form
      * @return
      */
-    public MemberDeckPort selectMemberPresetDeck(String member_id, PresetDeckRegisterFrom form) {
+    public MemberDeckPort selectMemberPresetDeck(long member_id, PresetDeckRegisterFrom form) {
         final int deck_id = form.getApi_deck_id();
         final int preset_no = form.getApi_preset_no();
 

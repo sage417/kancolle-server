@@ -57,7 +57,7 @@ public class MapBattleService {
      * @return
      */
     @Transactional
-    public MapStartResult start(String member_id, MapStartForm form) {
+    public MapStartResult start(long member_id, MapStartForm form) {
 
         Integer deckId = form.getApi_deck_id();
         int mapareaId = form.getApi_maparea_id();
@@ -80,7 +80,7 @@ public class MapBattleService {
     }
 
     @Transactional
-    public MapNextResult next(String member_id, int recoverType) {
+    public MapNextResult next(long member_id, int recoverType) {
 
         MemberMapBattleState state = memberMapBattleMapper.selectMemberMapBattleState(member_id);
 
@@ -103,7 +103,7 @@ public class MapBattleService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public MemberMapBattleState selectMemberMapBattleState(String member_id) {
+    public MemberMapBattleState selectMemberMapBattleState(long member_id) {
         return memberMapBattleMapper.selectMemberMapBattleState(member_id);
     }
 
@@ -116,7 +116,7 @@ public class MapBattleService {
         return mapTravellers.get(String.format("map%dTraveller", travellerNo));
     }
 
-    private void updateMemberMapCellInfo(String memberId, int memberMapCellId) {
-        memberMapService.updateMemberCellPassFlag(memberId, memberMapCellId, true);
+    private void updateMemberMapCellInfo(long member_id, int memberMapCellId) {
+        memberMapService.updateMemberCellPassFlag(member_id, memberMapCellId, true);
     }
 }

@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface MemberMapService {
 
-    List<MemberMapInfo> getMemberMapInfos(String member_id);
+    List<MemberMapInfo> getMemberMapInfos(long member_id);
 
-    List<MemberMapCell> getMemberCellInfos(String member_id, MapCellForm form);
+    List<MemberMapCell> getMemberCellInfos(long member_id, MapCellForm form);
 
-    void updateMemberCellPassFlag(String member_id, int mapCell_id, boolean passFlag);
+    void updateMemberCellPassFlag(long member_id, int mapCell_id, boolean passFlag);
 
     void initMemberMapCellInfo(long member_id);
 
