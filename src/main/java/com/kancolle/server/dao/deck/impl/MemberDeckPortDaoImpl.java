@@ -27,7 +27,7 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
         params.put("deckPort", deckPort);
         params.put("columns", columns);
-        getSqlSession().update("update", params);
+        getSqlSession().update("updateMemberDeckPort", params);
     }
 
     @Override
@@ -76,15 +76,6 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
         params.put("mission_complete_time", deckport.getMission()[2]);
         params.put("mission_flag", deckport.getMission()[3]);
         getSqlSession().update("updateDeckPortMission", params);
-    }
-
-    @Override
-    public void updateDeckPortState(long member_id, Integer deckport_id, boolean lock) {
-        Map<String, Object> params = Maps.newHashMapWithExpectedSize(6);
-        params.put("member_id", member_id);
-        params.put("deck_id", deckport_id);
-        params.put("lock", lock);
-        getSqlSession().update("updateDeckPortState", params);
     }
 
     @Override

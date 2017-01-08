@@ -63,8 +63,8 @@ public class MemberDeckPort implements Serializable {
     public MemberDeckPort() {
     }
 
-    public MemberDeckPort(long member_id_str, int id, boolean lock) {
-        this(member_id_str);
+    public MemberDeckPort(long member_id, int id, boolean lock) {
+        this(member_id);
         this.setDeckId(id);
         this.setName(String.format("第%d艦隊", id));
         this.setShip(EMPTY_SHIPS);

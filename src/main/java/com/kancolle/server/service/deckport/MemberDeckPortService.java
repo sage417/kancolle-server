@@ -3,6 +3,7 @@ package com.kancolle.server.service.deckport;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.kancolle.server.controller.kcsapi.form.PresetDeckRegisterFrom;
+import com.kancolle.server.controller.kcsapi.form.PresetSelectForm;
 import com.kancolle.server.controller.kcsapi.form.deckport.ShipChangeForm;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl;
@@ -206,27 +207,30 @@ public class MemberDeckPortService {
         return memberDeckPortDao.selectMemberDeckPortContainsMemberShip(member_id, member_ship_id);
     }
 
-    public void updateDeckPortMission(MemberDeckPort deckport) {
-        memberDeckPortDao.updateDeckPortMission(deckport);
+    public void updateDeckPortMission(MemberDeckPort memberDeckPort) {
+        memberDeckPortDao.updateDeckPortMission(memberDeckPort);
     }
 
-    public void openDeckPort(long member_id, Integer deckport_id) {
-        memberDeckPortDao.updateDeckPortState(member_id, deckport_id, false);
+    public void openDeckPort(long member_id, int deckPort_id) {
+        final MemberDeckPort memberDeckPort = new MemberDeckPort(member_id, deckPort_id, false);
+        memberDeckPortDao.update(memberDeckPort, MemberDeckPortDaoImpl.UPDATE_COLUMN_LOCK);
     }
 
     public void initMemberDeckPort(final long member_id) {
 
         List<MemberDeckPort> deckPorts = Lists.newArrayListWithCapacity(4);
-
         deckPorts.add(new MemberDeckPort(member_id, 1, false));
-        IntStream.rangeClosed(2, 4)
+
+        List<MemberDeckPort> lockedMemberDeckPorts = IntStream.rangeClosed(2, 4)
                 .mapToObj(deck_id -> new MemberDeckPort(member_id, deck_id, true))
-                .collect(() -> deckPorts, List::add, List::addAll);
+                .collect(Collectors.toList());
+        deckPorts.addAll(lockedMemberDeckPorts);
+
         int insertCount = memberDeckPortDao.insertMemberDeckPorts(deckPorts);
         Assert.isTrue(insertCount == 4);
 
         // 创建DeckPortMapping
-        for (int deck_id = 1; deck_id <= 4; deck_id++) {
+        for (int deck_id = 1; deck_id <= insertCount; deck_id++) {
             boolean inserted = memberDeckPortShipMappingMapper.insertMemberDeckPortShipMapping(member_id, deck_id) == 1;
             Assert.isTrue(inserted, "member_deck_port_mapping not insert");
         }
@@ -300,22 +304,25 @@ public class MemberDeckPortService {
      * @param form
      * @return
      */
-    public MemberDeckPort selectMemberPresetDeck(long member_id, PresetDeckRegisterFrom form) {
+    public MemberDeckPort selectMemberPresetDeck(long member_id, PresetSelectForm form) {
         final int deck_id = form.getApi_deck_id();
         final int preset_no = form.getApi_preset_no();
 
         final MemberDeckPort memberDeckPort = this.getUnNullableMemberDeckPort(member_id, deck_id);
+        Assert.notNull(memberDeckPort);
 
         final PresetDeck presetDeck = memberPresetDeckMapper.getPresetDeckByMemberIdAndNo(member_id, preset_no);
 
         // 跳过不存在和在其他舰队的舰娘
-        List<Long> ship_ids = presetDeck.getShip().stream()
+        long[] ship_ids = presetDeck.getShip().stream()
                 .filter(ship_id -> memberShipService.checkMemberShipExist(member_id, ship_id))
                 .filter(ship_id -> {
                     MemberDeckPort deckPort = this.getMemberDeckPortContainsMemberShip(member_id, ship_id);
                     return deckPort == null || deckPort.getDeckId() == deck_id;
                 })
-                .collect(Collectors.toList());
+                .mapToLong(ship_id->ship_id)
+                .toArray();
+        Assert.isTrue(ship_ids.length > 0);
 
         memberDeckPortShipMappingMapper.clearDeckPortShipMapping(member_id, deck_id);
 
@@ -323,13 +330,10 @@ public class MemberDeckPortService {
             memberDeckPortShipMappingMapper.addShipToDeckPortShipMapping(member_id, deck_id, ship_id);
         }
 
-        long[] old_deck_ships = memberDeckPort.getShip();
-        long[] new_deck_ships = MemberDeckPortShipUtils.fillMemberDeckPortShipArray(old_deck_ships);
-
+        long[] new_deck_ships = MemberDeckPortShipUtils.fillMemberDeckPortShipArray(ship_ids);
         memberDeckPort.setShip(new_deck_ships);
 
         memberDeckPortDao.update(memberDeckPort, MemberDeckPortDaoImpl.UPDATE_COLUMN_SHIP);
-
         return this.getUnNullableMemberDeckPort(member_id, deck_id);
     }
 }

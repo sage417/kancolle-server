@@ -30,11 +30,11 @@
 		<logger name="com.kancolle.server.service" level="DEBUG" additivity="false">
 			<appender-ref ref="Console" />
 		</logger>
-		<!--<logger name="com.kancolle.server.dao" level="DEBUG" additivity="false">-->
-			<!--<appender-ref ref="Console" />-->
-		<!--</logger>-->
-		<!--<logger name="com.kancolle.server.mapper" level="DEBUG" additivity="false">-->
-			<!--<appender-ref ref="Console" />-->
-		<!--</logger>-->
+		<logger name="com.kancolle.server.dao" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="com.kancolle.server.mapper" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+		</logger>
 	</Loggers>
 </Configuration>

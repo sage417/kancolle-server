@@ -45,6 +45,10 @@ public class APIResponse<T> {
         this.api_data = builder.api_data;
     }
 
+    public static <T> APIResponse.Builder<T> builder() {
+        return new APIResponse.Builder<>();
+    }
+
     public T getApi_data() {
         return api_data;
     }

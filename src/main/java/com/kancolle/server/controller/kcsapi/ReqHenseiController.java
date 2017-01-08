@@ -47,23 +47,23 @@ public class ReqHenseiController {
     }
 
     @RequestMapping("/preset_select")
-    APIResponse<PresetDeck> select(
-            @ModelAttribute(MEMBER_ID) final String member_id,
+    APIResponse<MemberDeckPort> select(
+            @ModelAttribute(MEMBER_ID) final long member_id,
             @Validated PresetSelectForm form,
             BindingResult result) {
         checkArgument(!result.hasErrors());
-
-        return new APIResponse.Builder<PresetDeck>().data(null).build();
+        MemberDeckPort memberDeckPort = memberDeckPortService.selectMemberPresetDeck(member_id, form);
+        return APIResponse.<MemberDeckPort>builder().data(memberDeckPort).build();
     }
 
     @RequestMapping("/preset_register")
-    APIResponse<MemberDeckPort> register(
+    APIResponse<PresetDeck> register(
             @ModelAttribute(MEMBER_ID) long member_id,
             @Validated PresetDeckRegisterFrom form,
             BindingResult result) {
         checkArgument(!result.hasErrors());
-        MemberDeckPort deckPort = memberDeckPortService.selectMemberPresetDeck(member_id, form);
-        return new APIResponse.Builder<MemberDeckPort>().data(deckPort).build();
+        PresetDeck presetDeck = memberDeckPortService.registerMemberPresetDeck(member_id, form);
+        return APIResponse.<PresetDeck>builder().data(presetDeck).build();
     }
 
     @RequestMapping("/preset_delete")

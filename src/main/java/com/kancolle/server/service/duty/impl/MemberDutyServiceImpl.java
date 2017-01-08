@@ -143,7 +143,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
             switch (bonusType) {
             case Duty.BONUS_TYPE_RESOURCE:
                 if (count > 0) {
-                    UseItem useitem = useItemService.getUseItemById(Integer.valueOf(itemId));
+                    UseItem useitem = useItemService.getUseItemById(itemId);
                     checkNotNull(useitem);
                     api_bounus.add(new DutyBonusResult(bonusType, count, itemId, useitem.getName()));
                     // 5高速建造,6高速修复,7开发紫菜,8修改资材
@@ -166,13 +166,12 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                 }
                 break;
             case Duty.BONUS_TYPE_OPEN_DECK:
-                Integer deckport_id = Integer.valueOf(itemId);
-                memberDeckPortService.openDeckPort(member_id, deckport_id);
+                memberDeckPortService.openDeckPort(member_id, itemId);
                 api_bounus.add(new DutyBonusResult(bonusType, 0, 0, String.format("第%d艦隊", itemId)));
                 break;
             case Duty.BONUS_TYPE_FURNITUREBOX:
                 if (count > 0) {
-                    UseItem useitem = useItemService.getUseItemById(Integer.valueOf(itemId));
+                    UseItem useitem = useItemService.getUseItemById(itemId);
                     api_bounus.add(new DutyBonusResult(bonusType, count, itemId, useitem.getName()));
                     memberUseItemService.addMemberUseItemCount(member_id, itemId, count);
                 }
@@ -201,7 +200,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
                 break;
             case Duty.BONUS_TYPE_FURNITURE:
                 checkArgument(count == 1);
-                memberFurnitureService.createMemberFurniture(member_id, Integer.valueOf(itemId));
+                memberFurnitureService.createMemberFurniture(member_id, itemId);
                 api_bounus.add(new DutyBonusResult(bonusType, count, itemId, EMPTY));
                 break;
             case Duty.BONUS_TYPE_MODEL_CHANGE:
