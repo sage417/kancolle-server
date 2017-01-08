@@ -3,11 +3,13 @@
  */
 package com.kancolle.server.controller.kcsapi;
 
+import com.kancolle.server.KancolleApp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -26,13 +28,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author J.K.SAGE
  * @Date 2015年7月13日
  */
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = KancolleApp.class)
 @WebAppConfiguration
-@ContextHierarchy({
-        @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
-        @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
-})
 @Sql(value = {"classpath:sql/kancolle-dump.sql"})
 public class BattleControllerTest {
 

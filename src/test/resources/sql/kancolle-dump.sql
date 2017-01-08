@@ -565,15 +565,38 @@ CREATE TABLE `t_member_deckport_ship_mapping` (
   `deck_id` tinyint(3) unsigned NOT NULL,
   `member_ship_id` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_index` (`member_id`,`deck_id`,`member_ship_id`) USING BTREE,
+  KEY `unique_index` (`member_id`,`deck_id`) USING BTREE,
   CONSTRAINT `t_member_deckport_ship_mapping_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `t_member` (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `t_member_deckport_ship_mapping`
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_member_deckport_ship_mapping` VALUES ('47', '8006690', '1', '4'), ('59', '8006690', '2', '9');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('1', '8006690', '1', '4');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('2', '8006690', '1', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('3', '8006690', '1', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('4', '8006690', '1', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('5', '8006690', '1', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('6', '8006690', '1', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('7', '8006690', '2', '9');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('8', '8006690', '2', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('9', '8006690', '2', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('10', '8006690', '2', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('11', '8006690', '2', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('12', '8006690', '2', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('13', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('14', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('15', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('16', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('17', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('18', '8006690', '3', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('19', '8006690', '4', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('20', '8006690', '4', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('21', '8006690', '4', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('22', '8006690', '4', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('23', '8006690', '4', '0');
+INSERT INTO `t_member_deckport_ship_mapping` VALUES ('24', '8006690', '4', '0');
 COMMIT;
 
 -- ----------------------------

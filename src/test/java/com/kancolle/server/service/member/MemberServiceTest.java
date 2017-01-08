@@ -1,12 +1,14 @@
 package com.kancolle.server.service.member;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.kancolle.server.KancolleApp;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.utils.LoginUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -22,16 +24,13 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
  * Author: mac
  * Date: 16/3/24
  */
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy({
-        @ContextConfiguration(name = "parent", locations = "classpath:spring/spring-context.xml"),
-        @ContextConfiguration(name = "child", locations = "classpath:spring/spring-mvc.xml")
-})
+@SpringApplicationConfiguration(classes = KancolleApp.class)
 @Sql(value = {"classpath:sql/kancolle-dump.sql"})
 public class MemberServiceTest {
 
