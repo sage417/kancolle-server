@@ -5,7 +5,7 @@
 	<resultMap type="MemberMapInfo" id="MemberMapInfoRM" autoMapping="true">
 		<id property="memberId" column="member_id" />
 		<id property="mapId" column="MAPINFO_ID" />
-		<result property="isCleared" column="CLEAR_FLAG" />
+		<result property="cleared" column="CLEAR_FLAG" />
 		<result property="exBossFlag" column="EXBOSS_FLAG" />
 		<result property="defeatCount" column="DEFEATED_COUNT" />
 	</resultMap>

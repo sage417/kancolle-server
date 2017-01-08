@@ -7,6 +7,7 @@ import com.kancolle.server.controller.kcsapi.form.ship.Ship2Form;
 import com.kancolle.server.controller.kcsapi.form.ship.Ship3Form;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.kcsapi.duty.MemberDutyPageList;
+import com.kancolle.server.model.kcsapi.member.MemberMapInfoResult;
 import com.kancolle.server.model.kcsapi.member.MemberMaterialDto;
 import com.kancolle.server.model.kcsapi.member.MemberMission;
 import com.kancolle.server.model.kcsapi.member.record.MemberRecord;
@@ -194,9 +195,9 @@ public class GetMemberController {
     }
 
     @RequestMapping("/mapinfo")
-    public APIResponse<List<MemberMapInfo>> mapInfo(@ModelAttribute(MEMBER_ID) long member_id) {
-        List<MemberMapInfo> api_data = memberMapService.getMemberMapInfos(member_id);
-        return new APIResponse<List<MemberMapInfo>>().setApi_data(api_data);
+    public APIResponse<MemberMapInfoResult> mapInfo(@ModelAttribute(MEMBER_ID) final long member_id) {
+        final List<MemberMapInfo> memberMapInfos = memberMapService.getMemberMapInfos(member_id);
+        return APIResponse.<MemberMapInfoResult>builder().data(new MemberMapInfoResult(memberMapInfos)).build();
     }
 
     @RequestMapping("/mapcell")
