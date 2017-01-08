@@ -83,7 +83,7 @@ public class MemberDaoImpl extends BaseDaoImpl<Member> implements MemberDao {
     @Override
     public List<MemberMaterialDto> selectMemberMaterial(long member_id) {
         MemberMaterial memberMaterial = getSqlSession().selectOne("selectMemberMaterial", member_id);
-        return IntStream.rangeClosed(1, methodList.size())
+        return IntStream.range(1, methodList.size())
                 .mapToObj(i -> new MemberMaterialDto(member_id, i, methodList.get(i).apply(memberMaterial)))
                 .collect(Collectors.toList());
     }
