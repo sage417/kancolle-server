@@ -33,8 +33,8 @@
 		UPDATE t_member_deckport_ship_mapping
 		SET member_ship_id = 0
 		WHERE member_id = #{member_id} AND deck_id = #{deck_id} AND member_ship_id IN
-		<foreach collection="removeShips" item="memberShip" open="(" separator="," close=")">
-			#{memberShip.memberShipId}
+		<foreach collection="remove_ship_ids" item="member_ship_id" open="(" separator="," close=")">
+			#{member_ship_id}
 		</foreach>
 	</update>
 

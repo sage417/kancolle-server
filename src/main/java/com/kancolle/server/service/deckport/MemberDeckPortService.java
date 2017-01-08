@@ -333,7 +333,7 @@ public class MemberDeckPortService {
         long[] new_deck_ships = MemberDeckPortShipUtils.fillMemberDeckPortShipArray(ship_ids);
         memberDeckPort.setShip(new_deck_ships);
 
-        memberDeckPortDao.update(memberDeckPort, MemberDeckPortDaoImpl.UPDATE_COLUMN_SHIP);
+        memberDeckPortDao.updateMemberDeckPortShip(memberDeckPort);
         return this.getUnNullableMemberDeckPort(member_id, deck_id);
     }
 }

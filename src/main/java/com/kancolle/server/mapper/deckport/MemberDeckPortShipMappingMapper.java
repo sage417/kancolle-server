@@ -15,7 +15,7 @@ public interface MemberDeckPortShipMappingMapper {
 
     int replaceShipToDeckPortShipMapping(@Param("member_id") long member_id, @Param("deck_id") int deck_id, @Param("replace_member_ship_id") long replace_member_ship_id, @Param("member_ship_id") long member_ship_id);
 
-    int removeShipFromDeckPortShipMapping(@Param("member_id") long member_id, @Param("deck_id") int deck_id, @Param("removeShips") List<Long> member_ship_id);
+    int removeShipFromDeckPortShipMapping(@Param("member_id") long member_id, @Param("deck_id") int deck_id, @Param("remove_ship_ids") List<Long> removeShipIds);
 
     int clearDeckPortShipMapping(@Param("member_id") long member_id, @Param("deck_id") int deck_id);
 }
