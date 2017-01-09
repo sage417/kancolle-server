@@ -13,6 +13,7 @@
 
     <build>
         <finalName>kancolle-server-${project.version}</finalName>
+
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
@@ -22,6 +23,13 @@
                 </excludes>
             </resource>
         </resources>
+
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
 
         <plugins>
             <plugin>
@@ -46,33 +54,28 @@
         <profile>
             <id>dev</id>
             <properties>
-                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.host>localhost</jdbc.host>
-                <jdbc.port>3306</jdbc.port>
-                <jdbc.database>kancolle</jdbc.database>
-                <jdbc.user>kancolle</jdbc.user>
-                <jdbc.pass>OzKoQs3rYTpoXrdv9hjViybUmD5fTpGollOCiad6flZffa7G9ZGHb8V2PjS32DMTqtIWzxtByysukXebEJ8JCA==
-                </jdbc.pass>
-                <config.decrypt>true</config.decrypt>
-                <config.decrypt.key>
-                    MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIzeBDdOBNu1m5sTKKnuP/BiU1q4LW9IUUCj5vsanveFrPBaTLoWihje0fjYfTGMmdoMXJJx1vgUcs41zSGAO9sCAwEAAQ==
-                </config.decrypt.key>
+                <spring.profiles.active>dev</spring.profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
         <profile>
-            <id>product</id>
+            <id>test</id>
             <properties>
-                <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-                <jdbc.host>localhost</jdbc.host>
-                <jdbc.port>3306</jdbc.port>
-                <jdbc.database>kancolle</jdbc.database>
-                <jdbc.user>kancolle-dev</jdbc.user>
-                <jdbc.pass>RKexlRD8dnes5NUFSzdl+O0F4JfEOFISSejQYIs1nk9ndIqMdtVZrbh/Q7hMOoir4qauqClUHmqqNxahlXpHiw==
-                </jdbc.pass>
-                <config.decrypt>true</config.decrypt>
+                <spring.profiles.active>test</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <spring.profiles.active>ci</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
     </profiles>

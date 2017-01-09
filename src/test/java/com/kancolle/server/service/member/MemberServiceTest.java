@@ -24,7 +24,6 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
  * Author: mac
  * Date: 16/3/24
  */
-@ActiveProfiles("test")
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,

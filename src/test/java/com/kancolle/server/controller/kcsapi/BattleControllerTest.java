@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
  * @author J.K.SAGE
  * @Date 2015年7月13日
  */
-@ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = KancolleApp.class)
 @WebAppConfiguration
