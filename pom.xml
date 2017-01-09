@@ -5,11 +5,24 @@
 
     <groupId>com.kancolle</groupId>
     <artifactId>kancolle-server</artifactId>
+    <version>2.0.3-SNAPSHOT</version>
 
     <name>kancolle-server Maven Webapp</name>
-    <url>http://niso.moe</url>
+    <url>http://yamato.moe</url>
+    <description>kancolle-server</description>
 
-    <version>2.0.3-SNAPSHOT</version>
+    <scm>
+        <url>https://github.com/sage417/kancolle-server</url>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <spring.version>4.3.2.RELEASE</spring.version>
+    </properties>
 
     <build>
         <finalName>kancolle-server-${project.version}</finalName>
@@ -79,15 +92,6 @@
             </properties>
         </profile>
     </profiles>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring.version>4.3.2.RELEASE</spring.version>
-    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -236,4 +240,15 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <developers>
+        <developer>
+            <id>sage417</id>
+            <name>J.K.SAGE</name>
+            <email>sage417 at foxmail.com</email>
+            <roles>
+                <role>Project lead</role>
+            </roles>
+        </developer>
+    </developers>
 </project>
