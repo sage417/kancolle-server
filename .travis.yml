@@ -5,9 +5,10 @@ services:
     - redis-server
     - mysql
     - mongodb
-before_install:
-  - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
 before_script:
-  - mongoimport -d kancolle -c shop ./mongo_init/shop.dat
+  - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
+  - mongoimport -d kancolle -c shop ./mongo_init/shop.
+script:
+  - mvn test -B -Dspring.profiles.active=ci
 os:
   - linux
