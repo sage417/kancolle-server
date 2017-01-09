@@ -7,7 +7,8 @@ services:
     - mongodb
 before_script:
   - mysql -e "create database IF NOT EXISTS kancolle;" -uroot
-  - mongoimport -d kancolle -c shop ./mongo_init/shop.
+  - mongoimport -d kancolle -c shop ./mongo_init/shop.dat
+  - mongoimport -d kancolle -c stype ./mongo_init/stype.dat
 script:
   - mvn test -B -Dspring.profiles.active=ci
 os:
