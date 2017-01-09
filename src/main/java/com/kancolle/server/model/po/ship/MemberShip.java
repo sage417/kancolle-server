@@ -428,7 +428,7 @@ public class MemberShip implements IShip, Serializable {
     }
 
     public int[] getNdockItem() {
-        this.ndockItem = NdockUtils.getNdockItem(getMaxHp() - getNowHp(), getShip().getShipTypeId());
+        this.ndockItem = NdockUtils.getNdockItem(this);
         return this.ndockItem;
     }
 

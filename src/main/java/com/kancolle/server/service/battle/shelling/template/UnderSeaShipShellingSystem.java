@@ -9,7 +9,7 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.FormationSystem;
+import com.kancolle.server.service.battle.formation.FormationSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;

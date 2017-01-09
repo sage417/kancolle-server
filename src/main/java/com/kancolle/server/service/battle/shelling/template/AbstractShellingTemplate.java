@@ -12,7 +12,7 @@ import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.FormationSystem;
+import com.kancolle.server.service.battle.formation.FormationSystem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
 import com.kancolle.server.utils.CollectionsUtils;
