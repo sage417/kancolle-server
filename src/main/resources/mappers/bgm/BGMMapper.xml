@@ -14,5 +14,5 @@
 
 	<select id="selectBGMs" resultMap="BGMRM">
 		SELECT * FROM t_bgm
-	</select>
+	</select
 </mapper>
