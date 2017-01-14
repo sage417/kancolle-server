@@ -7,5 +7,19 @@ package com.kancolle.server.model.po.slotitem;
  */
 public interface ISlotItem {
 
+    int getSlotItemId();
+
+    int getCategoryId();
+
+    int getLevel();
+
     int getTaiSen();
+
+    int getTaik();
+
+    int getHoum();
+
+    int getBaku();
+
+    int getSaku();
 }

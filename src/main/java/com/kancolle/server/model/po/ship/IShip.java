@@ -1,6 +1,6 @@
 package com.kancolle.server.model.po.ship;
 
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface IShip {
 
     Ship getShip();
 
-    List<? extends AbstractSlotItem> getSlotItems();
+    List<? extends ISlotItem> getSlotItems();
 
     int[] getCurrentEQ();
 

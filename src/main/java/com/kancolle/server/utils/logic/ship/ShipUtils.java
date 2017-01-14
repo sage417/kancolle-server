@@ -2,7 +2,7 @@ package com.kancolle.server.utils.logic.ship;
 
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 import java.math.RoundingMode;
@@ -37,20 +37,20 @@ public abstract class ShipUtils {
 
     public static int getTaiSenValue(IShip ship) {
         int shipTaiSen = IntMath.sqrt(ship.getShipTaiSen(), RoundingMode.DOWN);
-        List<? extends AbstractSlotItem> slots = ship.getSlotItems();
-        int slotTaiSen = slots.stream().mapToInt(AbstractSlotItem::getTaiSen).sum();
+        List<? extends ISlotItem> slots = ship.getSlotItems();
+        int slotTaiSen = slots.stream().mapToInt(ISlotItem::getTaiSen).sum();
         return shipTaiSen + slotTaiSen;
     }
 
     public static int getBakuValue(IShip ship) {
-        List<? extends AbstractSlotItem> items = ship.getSlotItems();
-        return items.stream().mapToInt(AbstractSlotItem::getBaku).sum();
+        List<? extends ISlotItem> items = ship.getSlotItems();
+        return items.stream().mapToInt(ISlotItem::getBaku).sum();
     }
 
     public static int getSearchPlaneIndex(IShip ship) {
-        List<? extends AbstractSlotItem> slotItems = ship.getSlotItems();
+        List<? extends ISlotItem> slotItems = ship.getSlotItems();
         for (int i = 0; i < slotItems.size(); i++) {
-            AbstractSlotItem slotItem = slotItems.get(i);
+            ISlotItem slotItem = slotItems.get(i);
             if (SlotItemUtils.isSearchPlane(slotItem) && ship.getCurrentEQ()[i] > 0)
                 return i;
         }
@@ -59,7 +59,7 @@ public abstract class ShipUtils {
 
     public static int getShipSearchValue(IShip ship) {
         int ex_sakuteki = 0;
-        for (AbstractSlotItem slotItem : ship.getSlotItems()) {
+        for (ISlotItem slotItem : ship.getSlotItems()) {
             int slotItem_saku = slotItem.getSaku();
             ex_sakuteki += SlotItemUtils.isSearchPlane(slotItem) ? 2 * slotItem_saku : slotItem_saku;
         }

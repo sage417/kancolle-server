@@ -9,8 +9,9 @@ import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.formation.FormationSystem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.service.battle.formation.FormationSystem;
 import com.kancolle.server.service.battle.shelling.apply.BattleContextApply;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -235,7 +236,7 @@ public class UnderSeaShipShellingSystem extends AbstractShellingTemplate<UnderSe
         }
 
         //反潜套补正
-        final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        final List<? extends ISlotItem> slots = attackShip.getSlotItems();
         final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
         final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         if (hasHydrophone && hasDepthCharge) {

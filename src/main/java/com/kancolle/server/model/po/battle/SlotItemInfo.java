@@ -6,7 +6,7 @@ package com.kancolle.server.model.po.battle;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 import java.util.List;
@@ -18,23 +18,23 @@ import java.util.List;
 public class SlotItemInfo {
 
     // 主炮
-    private final ImmutableList<AbstractSlotItem> mainGuns;
+    private final ImmutableList<ISlotItem> mainGuns;
 
     // 副炮
-    private final ImmutableList<AbstractSlotItem> secondaryGuns;
+    private final ImmutableList<ISlotItem> secondaryGuns;
 
     // 侦察机
-    private final ImmutableList<AbstractSlotItem> searchPlanes;
+    private final ImmutableList<ISlotItem> searchPlanes;
 
     // 雷达
-    private final ImmutableList<AbstractSlotItem> radars;
+    private final ImmutableList<ISlotItem> radars;
 
     // 撤甲弹
-    private final ImmutableList<AbstractSlotItem> apAmmos;
+    private final ImmutableList<ISlotItem> apAmmos;
 
-    private SlotItemInfo(final ImmutableList<AbstractSlotItem> mainGuns, final ImmutableList<AbstractSlotItem> secondaryGuns,
-                         final ImmutableList<AbstractSlotItem> searchPlanes, final ImmutableList<AbstractSlotItem> radars,
-                         final ImmutableList<AbstractSlotItem> apAmmos) {
+    private SlotItemInfo(final ImmutableList<ISlotItem> mainGuns, final ImmutableList<ISlotItem> secondaryGuns,
+                         final ImmutableList<ISlotItem> searchPlanes, final ImmutableList<ISlotItem> radars,
+                         final ImmutableList<ISlotItem> apAmmos) {
         this.mainGuns = mainGuns;
         this.secondaryGuns = secondaryGuns;
         this.searchPlanes = searchPlanes;
@@ -44,15 +44,15 @@ public class SlotItemInfo {
 
     public static SlotItemInfo of(final IShip ship) {
 
-        final List<AbstractSlotItem> mainGunIds = Lists.newArrayListWithCapacity(4);
-        final List<AbstractSlotItem> secondaryGunIds = Lists.newArrayListWithCapacity(4);
-        final List<AbstractSlotItem> radarIds = Lists.newArrayListWithCapacity(4);
-        final List<AbstractSlotItem> searchPlaneIds = Lists.newArrayListWithCapacity(4);
-        final List<AbstractSlotItem> apAmmoIds = Lists.newArrayListWithCapacity(4);
+        final List<ISlotItem> mainGunIds = Lists.newArrayListWithCapacity(4);
+        final List<ISlotItem> secondaryGunIds = Lists.newArrayListWithCapacity(4);
+        final List<ISlotItem> radarIds = Lists.newArrayListWithCapacity(4);
+        final List<ISlotItem> searchPlaneIds = Lists.newArrayListWithCapacity(4);
+        final List<ISlotItem> apAmmoIds = Lists.newArrayListWithCapacity(4);
 
         int EQIdx = 0;
 
-        for (final AbstractSlotItem slotItem : ship.getSlotItems()) {
+        for (final ISlotItem slotItem : ship.getSlotItems()) {
             final int slotType = SlotItemUtils.getType(slotItem);
             switch (slotType) {
                 case 1:
@@ -107,23 +107,23 @@ public class SlotItemInfo {
         return apAmmos.size();
     }
 
-    public ImmutableList<AbstractSlotItem> getMainGuns() {
+    public ImmutableList<ISlotItem> getMainGuns() {
         return mainGuns;
     }
 
-    public ImmutableList<AbstractSlotItem> getSecondaryGuns() {
+    public ImmutableList<ISlotItem> getSecondaryGuns() {
         return secondaryGuns;
     }
 
-    public ImmutableList<AbstractSlotItem> getSearchPlanes() {
+    public ImmutableList<ISlotItem> getSearchPlanes() {
         return searchPlanes;
     }
 
-    public ImmutableList<AbstractSlotItem> getRadars() {
+    public ImmutableList<ISlotItem> getRadars() {
         return radars;
     }
 
-    public ImmutableList<AbstractSlotItem> getApAmmos() {
+    public ImmutableList<ISlotItem> getApAmmos() {
         return apAmmos;
     }
 

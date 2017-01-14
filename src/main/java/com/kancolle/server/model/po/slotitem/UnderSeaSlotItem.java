@@ -21,4 +21,9 @@ public class UnderSeaSlotItem extends AbstractSlotItem implements ISlotItem, Ser
     public int getTaiSen() {
         return getTais();
     }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
 }

@@ -2,7 +2,7 @@ package com.kancolle.server.service.battle.aerial;
 
 import com.google.common.math.IntMath;
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class AerialBattleSystem implements IAerialBattleSystem {
 
         for (IShip ship : ships) {
             for (int i = 0; i < ship.getSlotItems().size(); i++) {
-                AbstractSlotItem slot = ship.getSlotItems().get(i);
+                ISlotItem slot = ship.getSlotItems().get(i);
 
                 int currentEQ = ship.getCurrentEQ()[i];
                 int slotType = SlotItemUtils.getType(slot);

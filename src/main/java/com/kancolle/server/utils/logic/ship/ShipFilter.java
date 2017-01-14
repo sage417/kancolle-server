@@ -4,7 +4,7 @@
 package com.kancolle.server.utils.logic.ship;
 
 import com.kancolle.server.model.po.ship.IShip;
-import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.utils.logic.slot.SlotItemUtils;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class ShipFilter {
     public final static Predicate<IShip> isAlive = s -> s != null && s.getNowHp() > 0;
 
     /** 返回是否有指定类型的飞机，并且要有搭载 */
-    public final static Function<Predicate<AbstractSlotItem>, Predicate<IShip>> hasTargetPlaneFilter = cond ->
+    public final static Function<Predicate<ISlotItem>, Predicate<IShip>> hasTargetPlaneFilter = cond ->
          ship -> ship.getSlotItems().stream().anyMatch(slotItem -> getCurrentEQ(ship, slotItem) > 0 && cond.test(slotItem));
 
     /**
@@ -65,8 +65,8 @@ public abstract class ShipFilter {
         return shipType == 8 || shipType == 10;
     };
 
-    private static int getCurrentEQ(IShip ship, AbstractSlotItem slotItem) {
-        List<? extends AbstractSlotItem> slotItems = ship.getSlotItems();
+    private static int getCurrentEQ(IShip ship, ISlotItem slotItem) {
+        List<? extends ISlotItem> slotItems = ship.getSlotItems();
         int index = slotItems.indexOf(slotItem);
         return ship.getCurrentEQ()[index];
     }

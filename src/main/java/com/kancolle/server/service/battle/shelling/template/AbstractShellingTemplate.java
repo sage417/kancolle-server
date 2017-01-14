@@ -12,9 +12,10 @@ import com.kancolle.server.model.po.battle.SlotItemInfo;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.slotitem.AbstractSlotItem;
-import com.kancolle.server.service.battle.formation.FormationSystem;
+import com.kancolle.server.model.po.slotitem.ISlotItem;
 import com.kancolle.server.service.battle.aerial.AerialBattleSystem;
 import com.kancolle.server.service.battle.course.CourseEnum;
+import com.kancolle.server.service.battle.formation.FormationSystem;
 import com.kancolle.server.utils.CollectionsUtils;
 import com.kancolle.server.utils.logic.battle.BattleContextUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
@@ -176,7 +177,7 @@ public abstract class AbstractShellingTemplate<A extends IShip, D extends IShip>
     }
 
     protected final double taisenShellingAugmenting(final IShip attackShip) {
-        final List<? extends AbstractSlotItem> slots = attackShip.getSlotItems();
+        final List<? extends ISlotItem> slots = attackShip.getSlotItems();
         final boolean hasHydrophone = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_HYDRO_PHONE);
         final boolean hasDepthCharge = slots.stream().anyMatch(slot -> SlotItemUtils.getType(slot) == AbstractSlotItem.TYPE_DEPTH_CHARGE);
         return hasHydrophone && hasDepthCharge ? 1.15d : 1d;
@@ -213,7 +214,7 @@ public abstract class AbstractShellingTemplate<A extends IShip, D extends IShip>
         final int lucky = attackShip.getNowLuck();
         final double luckyRatios = lucky * HIT_LUCK_AUGMENTING;
 
-        final int slotHoum = attackShip.getSlotItems().stream().mapToInt(AbstractSlotItem::getHoum).sum();
+        final int slotHoum = attackShip.getSlotItems().stream().mapToInt(s->s.getHoum()).sum();
         final double slotRatios = slotHoum * HIT_SLOT_AUGMENTING;
         return levelRatios + luckyRatios + slotRatios;
     }
@@ -319,41 +320,41 @@ public abstract class AbstractShellingTemplate<A extends IShip, D extends IShip>
                 // 主炮CI(主主+撤甲)
                 if (mainGunCount > 1 && apAmmoCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_MAIN, aerialState, context)) {
                     attackType = ATTACK_TYPE_MAIN;
-                    si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
-                    si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.addAll(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
+                    si.add(slotItemInfo.getApAmmos().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 主副CI(主副)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_SECONDARY, aerialState, context)) {
                     attackType = ATTACK_TYPE_SECONDARY;
-                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 电探CI(主副+电探)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && radarCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_RADAR, aerialState, context)) {
                     attackType = ATTACK_TYPE_RADAR;
-                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                    si.add(slotItemInfo.getRadars().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getRadars().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 撤甲弹CI(主副+撤甲)
                 if (mainGunCount > 0 && secondaryGunCount > 0 && apAmmoCount > 0 && doObservationShooting(attackShip, ATTACK_TYPE_EXPOSEARMOR, aerialState, context)) {
                     attackType = ATTACK_TYPE_EXPOSEARMOR;
-                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
-                    si.add(slotItemInfo.getApAmmos().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getApAmmos().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
 
                 // 连击(主主)
                 if (mainGunCount > 1 && doObservationShooting(attackShip, ATTACK_TYPE_DOUBLE, aerialState, context)) {
                     attackType = ATTACK_TYPE_DOUBLE;
-                    si.addAll(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
+                    si.addAll(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(2L).collect(Collectors.toList()));
                     break;
                 }
             } while (false);
@@ -366,11 +367,11 @@ public abstract class AbstractShellingTemplate<A extends IShip, D extends IShip>
                     break;
                 }
                 if (mainGunCount > 0) {
-                    si.add(slotItemInfo.getMainGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getMainGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
                 if (secondaryGunCount > 0) {
-                    si.add(slotItemInfo.getSecondaryGuns().stream().map(AbstractSlotItem::getSlotItemId).limit(1L).iterator().next());
+                    si.add(slotItemInfo.getSecondaryGuns().stream().map(ISlotItem::getSlotItemId).limit(1L).iterator().next());
                     break;
                 }
             } while (false);
