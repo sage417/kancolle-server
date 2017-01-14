@@ -45,10 +45,10 @@ public class Map11Traveller extends AbstractMapTraveller implements MapTraveller
     }
 
     @Override
-    public MapStartResult start(MemberDeckPort deckPort) {
+    public MapStartResult start(MemberDeckPort deckPort, int mapareaId,int  mapinfoNo) {
         this.fromMapCell = cell1;
         this.toMapCell = cell1.nextPoint(deckPort);
-        return super.generateMapStartResult(deckPort, cell1, cell2);
+        return super.generateMapStartResult(deckPort, cell1, cell2,mapareaId, mapinfoNo);
     }
 
     @Override

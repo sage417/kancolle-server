@@ -10,17 +10,23 @@ import com.kancolle.server.model.kcsapi.battle.plane.AirSearch;
 import com.kancolle.server.model.po.map.MapCellNext;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 /**
  * @author J.K.SAGE
  * @Date 2015年8月20日
  */
 @JsonPropertyOrder({
+        "api_cell_data",
         "api_rashin_flg", "api_rashin_id", "api_maparea_id", "api_mapinfo_no",
         "api_no", "api_color_no", "api_event_id", "api_event_kind",
         "api_next", "api_bosscell_no", "api_bosscomp", "api_airsearch",
         "api_ration_flag", "api_itemget"
 })
 public class MapStartResult {
+
+    @JsonProperty("api_cell_data")
+    private List<MemberMapCellView> cell_data;
 
     // 罗盘
     @JsonProperty("api_rashin_flg")
@@ -74,6 +80,14 @@ public class MapStartResult {
 
     public MapStartResult(final MapCellNext next) {
         BeanUtils.copyProperties(next, this);
+    }
+
+    public List<MemberMapCellView> getCell_data() {
+        return cell_data;
+    }
+
+    public void setCell_data(List<MemberMapCellView> cell_data) {
+        this.cell_data = cell_data;
     }
 
     public int getRashinFlag() {

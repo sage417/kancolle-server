@@ -19,7 +19,7 @@ public interface MemberMapCellMapper {
 
     List<MemberMapCell> selectMemberMapCellInfos(@Param("member_id") long member_id, @Param("maparea_id") int mapareaId, @Param("map_no") int mapNo);
 
-    void updateMemberMapCellInfo(@Param("member_id") long member_id,@Param("mapcell_id") int mapcell_id, @Param("passFlag") boolean passFlag);
+    void updateMemberMapCellInfo(@Param("member_id") long member_id,@Param("mapcell_id") int mapcell_id, @Param("passed") boolean passed);
 
     void insertMemberMapCellInfos(@Param("member_id")long member_id);
 }

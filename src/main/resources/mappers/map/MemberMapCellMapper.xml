@@ -5,7 +5,7 @@
 	<resultMap type="MemberMapCell" id="MemberMapCellRM" autoMapping="true">
 		<id property="memberId" column="member_id"/>
 		<id property="mapCellId" column="MAPCELL_ID"/>
-		<result property="passFlag"  column="PASS_FLAG"/>
+		<result property="passed"  column="PASS_FLAG"/>
 	</resultMap>
 
 	<select id="selectMemberMapCellInfos" resultMap="MemberMapCellRM">
@@ -19,7 +19,7 @@
 	</insert>
 
 	<update id="updateMemberMapCellInfo">
-		UPDATE t_member_mapcell_info SET PASS_FLAG = #{passFlag}
+		UPDATE t_member_mapcell_info SET PASS_FLAG = #{passed}
 		WHERE member_id = #{member_id} AND MAPCELL_ID = #{mapcell_id}
 	</update>
 </mapper>

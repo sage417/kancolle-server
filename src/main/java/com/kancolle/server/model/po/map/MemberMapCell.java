@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @Date 2015年8月19日
  */
 @JsonPropertyOrder(value = {
-        "mapCellId", "passFlag"
+        "mapCellId", "passed"
 })
 @Alias("MemberMapCell")
 public class MemberMapCell implements Serializable {
@@ -35,7 +35,7 @@ public class MemberMapCell implements Serializable {
 
     @JsonProperty(value = "api_passed")
     @JsonSerialize(using = NumericBooleanSerializer.class)
-    private boolean passFlag;
+    private boolean passed;
 
     public String getMemberId() {
         return memberId;
@@ -53,11 +53,11 @@ public class MemberMapCell implements Serializable {
         this.mapCellId = mapCellId;
     }
 
-    public boolean isPassFlag() {
-        return passFlag;
+    public boolean isPassed() {
+        return passed;
     }
 
-    public void setPassFlag(boolean passFlag) {
-        this.passFlag = passFlag;
+    public void setPassed(boolean passed) {
+        this.passed = passed;
     }
 }

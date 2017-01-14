@@ -68,7 +68,7 @@ public class MapBattleService {
 
         MapTraveller traveller = loadMapTraveller(travellerNo);
 
-        MapStartResult result = traveller.start(deckPort);
+        MapStartResult result = traveller.start(deckPort, mapareaId, mapinfoNo);
 
         int mapCellId = traveller.getToMapCell().getMapCellId();
 

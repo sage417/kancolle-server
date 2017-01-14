@@ -15,7 +15,7 @@ import com.kancolle.server.service.map.mapcells.INormalMapCell;
  */
 public interface MapTraveller {
 
-    MapStartResult start(MemberDeckPort deckPort);
+    MapStartResult start(MemberDeckPort deckPort, int mapareaId, int mapinfoNo);
 
     MapNextResult next(int fromMapCellId, MemberDeckPort deckPort);
 
