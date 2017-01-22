@@ -21,6 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <flyway.version>4.0.3</flyway.version>
     </properties>
 
     <build>
@@ -31,7 +32,7 @@
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
                 <excludes>
-                    <exclude>db/migration/**</exclude>
+                    <exclude>db/migration/**.properties</exclude>
                 </excludes>
             </resource>
         </resources>
@@ -54,7 +55,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>4.0.3</version>
+                <version>${flyway.version}</version>
                 <configuration>
                     <configFile>src/main/resources/db/migration/flyway.properties</configFile>
                 </configuration>
@@ -110,6 +111,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
             <version>4.1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
 
         <dependency>
