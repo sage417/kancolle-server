@@ -14,7 +14,7 @@ before_script:
   - mongoimport -d kancolle -c stype ./mongo_init/stype.dat
 
 script:
-  - mvn test -B -P ci
+  - ./mvnw test -B -P ci
 
 os:
   - linux
