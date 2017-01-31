@@ -2,85 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.ship.MemberShipDao">
 
-	<resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
-		<id property="id" column="IDX" />
-		<result property="memberId" column="member_id" />
-		<result property="memberShipId" column="ID" />
-		<result property="shipId" column="SHIP_ID" />
-		<result property="exp" column="EXP" typeHandler="LongJsonArrayHandler" />
-		<result property="nowHp" column="NOWHP" />
-		<result property="maxHp" column="MAXHP" />
-		<result property="slotIds" column="SLOT" typeHandler="LongJsonArrayHandler" />
-		<result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler" />
-		<result property="kyouka" column="KYOUKA" typeHandler="IntJsonArrayHandler"/>
-		<result property="ndockTime" column="NDOCK_TIME" />
-		<result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHandler" />
-		<result property="karyoku" column="KARYOKU" typeHandler="MaxMinValueHandler" />
-		<result property="raisou" column="RAISOU" typeHandler="MaxMinValueHandler" />
-		<result property="taiku" column="TAIKU" typeHandler="MaxMinValueHandler" />
-		<result property="soukou" column="SOUKOU" typeHandler="MaxMinValueHandler" />
-		<result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler" />
-		<result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler" />
-		<result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler" />
-		<result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler" />
-		<result property="lockedEquip" column="LOCKED_EQUIP" />
-		<association property="ship" column="SHIP_ID" javaType="Ship" select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond" />
-		<collection property="slot" ofType="MemberSlotItem" column="{member_id=member_id,ship_id=ID}" select="com.kancolle.server.dao.slotitem.MemberSlotItemDao.selectMemberShipSlots"/>
-	</resultMap>
+    <resultMap type="MemberShip" id="memberShipRM" autoMapping="true">
+        <id property="id" column="IDX"/>
+        <result property="memberId" column="member_id"/>
+        <result property="memberShipId" column="ID"/>
+        <result property="shipId" column="SHIP_ID"/>
+        <result property="exp" column="EXP" typeHandler="LongJsonArrayHandler"/>
+        <result property="nowHp" column="NOWHP"/>
+        <result property="maxHp" column="MAXHP"/>
+        <result property="slotIds" column="SLOT" typeHandler="LongJsonArrayHandler"/>
+        <result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler"/>
+        <result property="kyouka" column="KYOUKA" typeHandler="IntJsonArrayHandler"/>
+        <result property="ndockTime" column="NDOCK_TIME"/>
+        <result property="ndockItem" column="NDOCK_ITEM" typeHandler="IntJsonArrayHandler"/>
+        <result property="karyoku" column="KARYOKU" typeHandler="MaxMinValueHandler"/>
+        <result property="raisou" column="RAISOU" typeHandler="MaxMinValueHandler"/>
+        <result property="taiku" column="TAIKU" typeHandler="MaxMinValueHandler"/>
+        <result property="soukou" column="SOUKOU" typeHandler="MaxMinValueHandler"/>
+        <result property="kaihi" column="KAIHI" typeHandler="MaxMinValueHandler"/>
+        <result property="taisen" column="TAISEN" typeHandler="MaxMinValueHandler"/>
+        <result property="sakuteki" column="SAKUTEKI" typeHandler="MaxMinValueHandler"/>
+        <result property="lucky" column="LUCKY" typeHandler="MaxMinValueHandler"/>
+        <result property="lockedEquip" column="LOCKED_EQUIP"/>
+        <association property="ship" column="SHIP_ID" javaType="Ship"
+                     select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond" fetchType="eager"/>
+        <collection property="slot" ofType="MemberSlotItem" column="{member_id=member_id,ship_id=ID}"
+                    select="com.kancolle.server.dao.slotitem.MemberSlotItemDao.selectMemberShipSlots"/>
+    </resultMap>
 
-	<select id="selectMemberShipByCond" resultMap="memberShipRM">
-		SELECT * FROM v_member_ship
-		<where>
-			<if test="ship_id != null">
-				ID = #{ship_id}
-			</if>
-			<if test="member_id != null">
-				AND member_id = #{member_id}
-			</if>
-		</where>
-	</select>
+    <resultMap type="SlimShip" id="SlimShipRM" autoMapping="false">
+        <id property="id" column="IDX"/>
+        <result property="shipId" column="SHIP_ID"/>
+        <result property="memberShipId" column="ID"/>
+        <result property="lv" column="LV"/>
+        <result property="nowHp" column="NOWHP"/>
+        <result property="maxHp" column="MAXHP"/>
+        <result property="leng" column="LENG"/>
+        <result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler"/>
+        <result property="karyoku" column="KARYOKU" typeHandler="MinValueHandler"/>
+        <result property="raisou" column="RAISOU" typeHandler="MinValueHandler"/>
+        <result property="taiku" column="TAIKU" typeHandler="MinValueHandler"/>
+        <result property="soukou" column="SOUKOU" typeHandler="MinValueHandler"/>
+        <result property="kaihi" column="KAIHI" typeHandler="MinValueHandler"/>
+        <result property="taisen" column="TAISEN" typeHandler="MinValueHandler"/>
+        <result property="sakuteki" column="SAKUTEKI" typeHandler="MinValueHandler"/>
+        <result property="lucky" column="LUCKY" typeHandler="MinValueHandler"/>
+        <association property="ship" column="SHIP_ID" javaType="Ship"
+                     select="com.kancolle.server.mapper.ship.ShipMapper.selectShipsByCond" fetchType="eager"/>
+        <collection property="slot" ofType="MemberSlotItem" column="{member_id=member_id,ship_id=ID}"
+                    select="com.kancolle.server.dao.slotitem.MemberSlotItemDao.selectMemberShipSlots"
+                    fetchType="eager"/>
+    </resultMap>
 
-	<select id="selectCountOfMemberShip" resultType="_int">
+    <select id="selectMemberShipByCond" resultMap="memberShipRM">
+        SELECT * FROM v_member_ship
+        <where>
+            <if test="ship_id != null">
+                ID = #{ship_id}
+            </if>
+            <if test="member_id != null">
+                AND member_id = #{member_id}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCountOfMemberShip" resultType="_int">
 		SELECT COUNT(*) FROM v_member_ship WHERE member_id = #{member_id}
 	</select>
-	
-	<select id="selectMemberDeckPortShips" resultMap="memberShipRM">
-		SELECT s.* FROM v_member_ship s
-		INNER JOIN v_member_deckport_ship_mapping m ON m.member_id = s.member_id AND m.member_ship_id = s.ID
-		INNER JOIN v_member_deckport d ON d.member_id = m.member_id AND d.ID = m.deck_id
-		WHERE
-			m.member_id = #{member_id}
-			AND m.deck_id = #{deck_id}
-		ORDER BY POSITION(CONCAT(s.`ID`, ',') IN d.SHIP)
-	</select>
-	
-	<update id="chargeMemberShips">
-		UPDATE t_member_ship ms, t_ship s
-		<set>
-			<if test="charge_kind == 1 or charge_kind == 3">ms.FUEL = s.FUEL_MAX, ms.ONSLOT = s.MAXEQ,</if>
-			<if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX,</if>
-		</set>
-		WHERE ms.`SHIP_ID` = s.ID
-		AND ms.member_id = #{member_id}
-		AND ms.ID IN <foreach collection="member_ship_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
-	</update>
-	
-	<update id="updateMemberExp">
+
+    <sql id="sql_selectMemberDeckPortShips">
+        SELECT s.* FROM v_member_ship s
+        INNER JOIN v_member_deckport_ship_mapping m ON m.member_id = s.member_id AND m.member_ship_id = s.ID
+        INNER JOIN v_member_deckport d ON d.member_id = m.member_id AND d.ID = m.deck_id
+        WHERE
+        m.member_id = #{member_id}
+        AND m.deck_id = #{deck_id}
+        ORDER BY POSITION(CONCAT(s.`ID`, ',') IN d.SHIP)
+    </sql>
+
+    <select id="selectMemberDeckPortShips" resultMap="memberShipRM">
+        <include refid="sql_selectMemberDeckPortShips"></include>
+    </select>
+
+    <select id="selectEagerMemberDeckPortShips" resultMap="SlimShipRM">
+        <include refid="sql_selectMemberDeckPortShips"></include>
+    </select>
+
+    <update id="chargeMemberShips">
+        UPDATE t_member_ship ms, t_ship s
+        <set>
+            <if test="charge_kind == 1 or charge_kind == 3">ms.FUEL = s.FUEL_MAX, ms.ONSLOT = s.MAXEQ,</if>
+            <if test="charge_kind == 2 or charge_kind == 3">ms.BULL = s.BULL_MAX,</if>
+        </set>
+        WHERE ms.`SHIP_ID` = s.ID
+        AND ms.member_id = #{member_id}
+        AND ms.ID IN
+        <foreach collection="member_ship_ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </update>
+
+    <update id="updateMemberExp">
 		UPDATE t_member_ship SET
 			LV = #{lv},
 			EXP = #{exp, typeHandler=LongJsonArrayHandler}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
-	
-	<update id="updateMemberShipSlot">
+
+    <update id="updateMemberShipSlot">
 		UPDATE t_member_ship SET
 			LENG = #{length},
 			LOCKED_EQUIP = #{lockedEquip},
 			SLOT = #{slot}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
-	
-	<update id="updateMemberShipValue">
+
+    <update id="updateMemberShipValue">
 		UPDATE t_member_ship SET
 			SOUKOU = #{soukou, typeHandler=MaxMinValueHandler},
 			KARYOKU = #{karyoku, typeHandler=MaxMinValueHandler},
@@ -93,28 +128,28 @@
 			KYOUKA = #{kyouka}
 		WHERE member_id = #{member_id} AND ID = #{member_ship_id}
 	</update>
-	
-	<update id="updateMemberShipLockStatue">
+
+    <update id="updateMemberShipLockStatue">
 		UPDATE t_member_ship SET
 			LOCKED = #{lock}
 		WHERE
 			member_id = #{member_id}
 			AND ID = #{member_ship_id}
 	</update>
-	
-	<update id="deleteMemberShips">
-		UPDATE t_member_ship SET
-			DELETED = 1,
-			DELETED_TIME = NOW()
-		WHERE
-			member_id = #{member_id}
-			AND ID IN
-		<foreach collection="member_ship_ids" item="member_ship_id" open="(" separator="," close=")">
-			${member_ship_id}
-		</foreach>
-	</update>
-	
-	<update id="updateMemberShipHpAndCond">
+
+    <update id="deleteMemberShips">
+        UPDATE t_member_ship SET
+        DELETED = 1,
+        DELETED_TIME = NOW()
+        WHERE
+        member_id = #{member_id}
+        AND ID IN
+        <foreach collection="member_ship_ids" item="member_ship_id" open="(" separator="," close=")">
+            ${member_ship_id}
+        </foreach>
+    </update>
+
+    <update id="updateMemberShipHpAndCond">
 		UPDATE t_member_ship SET
 			NOWHP = #{nowHp},
 			COND = #{cond}
@@ -122,12 +157,12 @@
 			member_id = #{member_id}
 			AND ID = #{member_ship_id}
 	</update>
-	
-	<select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM" flushCache="true">
+
+    <select id="createMemberShip" statementType="CALLABLE" resultMap="memberShipRM" flushCache="true">
 		{call create_ship(#{member_id}, #{create_ship_id})}
 	</select>
-	
-	<update id="updateShipOnSlot">
+
+    <update id="updateShipOnSlot">
 		UPDATE t_member_ship
 			SET ONSLOT = #{onslot, typeHandler=IntJsonArrayHandler}
 		WHERE
@@ -135,18 +170,24 @@
 			AND ID = #{member_ship_id}
 	</update>
 
-	<update id="updateMemberShip">
-		UPDATE t_member_ship
-		<set>
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_FUEL)">FUEL = #{member_ship.fuel},</if>
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_BULL)">BULL = #{member_ship.bull},</if>
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_COND)">COND = #{member_ship.cond},</if>
-		</set>
-		WHERE member_id = #{member_ship.memberId}
-		AND ID = #{member_ship.memberShipId}
-	</update>
+    <update id="updateMemberShip">
+        UPDATE t_member_ship
+        <set>
+            <if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_FUEL)">
+                FUEL = #{member_ship.fuel},
+            </if>
+            <if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_BULL)">
+                BULL = #{member_ship.bull},
+            </if>
+            <if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.ship.MemberShipDao@UPDATE_COLUMN_COND)">
+                COND = #{member_ship.cond},
+            </if>
+        </set>
+        WHERE member_id = #{member_ship.memberId}
+        AND ID = #{member_ship.memberShipId}
+    </update>
 
-	<update id="updateSlot">
+    <update id="updateSlot">
 		UPDATE t_member_ship
 			SET SLOT = #{slot, typeHandler=LongJsonArrayHandler}
 		WHERE `index` = #{id}

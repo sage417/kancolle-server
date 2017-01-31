@@ -7,18 +7,23 @@ import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
+import com.kancolle.server.model.mongo.MemberBattleFleet;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.service.map.traveller.MapTraveller;
-import com.kancolle.server.utils.SpringUtils;
+import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author J.K.SAGE
@@ -37,15 +42,14 @@ public class MapBattleService {
 
     @Autowired
     private MemberDeckPortService memberDeckPortService;
-
     @Autowired
     private MemberMapService memberMapService;
-
     @Autowired
     private MemberMapBattleMapper memberMapBattleMapper;
-
     @Autowired
     private Map<String, MapTraveller> mapTravellers;
+    @Autowired
+    private Datastore datastore;
 
     /**
      * start表示从起始点出发到下一点的过程
@@ -75,6 +79,26 @@ public class MapBattleService {
         memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
         updateMemberMapCellInfo(member_id, mapCellId);
+
+        MemberBattleFleet memberBattleFleet = memberBattleFleet(member_id, travellerNo, mapCellId, deckId);
+        datastore.save(memberBattleFleet);
+
+        return result;
+    }
+
+
+    private MemberBattleFleet memberBattleFleet(long member_id, int traveller_no, int map_cell_no, int... deck_ids) {
+        MemberBattleFleet result = new MemberBattleFleet();
+        result.setMemberId(member_id);
+        result.setTravellerNo(traveller_no);
+        result.setMapCellNo(map_cell_no);
+
+        List<SlimDeckPort> memberDeckPorts =
+                Arrays.stream(deck_ids)
+                        .mapToObj(deck_id -> memberDeckPortService.getEagerUnNullableMemberDeckPort(member_id, deck_id))
+                        .collect(Collectors.toList());
+
+        result.setFleets(memberDeckPorts);
 
         return result;
     }

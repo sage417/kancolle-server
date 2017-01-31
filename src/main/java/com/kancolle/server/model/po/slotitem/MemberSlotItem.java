@@ -3,11 +3,12 @@
  */
 package com.kancolle.server.model.po.slotitem;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.ibatis.type.Alias;
+import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Transient;
 
 import java.io.Serializable;
 
@@ -22,25 +23,20 @@ import java.io.Serializable;
 public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Serializable {
 
     private static final long serialVersionUID = -7169523354675835935L;
-
+    @Transient
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
     private String memberId;
-
+    @Property
     @JsonProperty(value = "api_id")
-    @JSONField(ordinal = 1, name = "api_id")
     private long memberSlotItemId;
-
+    @Property
     @JsonProperty(value = "api_slotitem_id")
-    @JSONField(ordinal = 2, name = "api_slotitem_id")
     private int slotItemId;
-
+    @Transient
     @JsonProperty(value = "api_locked")
-    @JSONField(ordinal = 3, name = "api_locked")
     private boolean locked;
-
+    @Property
     @JsonProperty(value = "api_level")
-    @JSONField(ordinal = 4, name = "api_level")
     private int level;
 
     public String getMemberId() {

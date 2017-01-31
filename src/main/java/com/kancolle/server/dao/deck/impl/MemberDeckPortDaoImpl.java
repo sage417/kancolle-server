@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.kancolle.server.dao.base.impl.BaseDaoImpl;
 import com.kancolle.server.dao.deck.MemberDeckPortDao;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +34,14 @@ public class MemberDeckPortDaoImpl extends BaseDaoImpl<MemberDeckPort> implement
     @Override
     public List<MemberDeckPort> selectMemberDeckPortsByMemberId(long member_id) {
         return getSqlSession().selectList("selectMemberDeckPortsByMemberId", Collections.singletonMap("member_id", member_id));
+    }
+
+    @Override
+    public SlimDeckPort selectEagerMemberDeckPortByMemberIdAndDeckId(long member_id, Integer deck_id) {
+        Map<String, Object> params = Maps.newHashMapWithExpectedSize(2);
+        params.put("member_id", member_id);
+        params.put("deck_id", deck_id);
+        return getSqlSession().selectOne("selectEagerMemberDeckPortByMemberIdAndDeckId", params);
     }
 
     @Override

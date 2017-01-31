@@ -178,6 +178,12 @@ public class SlotItem implements Serializable {
     @JsonProperty(value = "api_distance", defaultValue = "0")
     private int distance;
 
+    @JsonIgnore
+    private int btype;
+
+    @JsonIgnore
+    private int atype;
+
     public int getSlotItemId() {
         return slotItemId;
     }
@@ -432,6 +438,22 @@ public class SlotItem implements Serializable {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    public int getBtype() {
+        return btype;
+    }
+
+    public void setBtype(int btype) {
+        this.btype = btype;
+    }
+
+    public int getAtype() {
+        return atype;
+    }
+
+    public void setAtype(int atype) {
+        this.atype = atype;
     }
 
     @Override

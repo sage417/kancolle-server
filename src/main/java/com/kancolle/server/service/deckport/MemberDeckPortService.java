@@ -13,6 +13,7 @@ import com.kancolle.server.model.kcsapi.deck.MemberDeckPortChangeResult;
 import com.kancolle.server.model.kcsapi.deck.PresetDeckResponse;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.PresetDeck;
+import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.Ship;
 import com.kancolle.server.service.ship.MemberShipService;
@@ -57,6 +58,11 @@ public class MemberDeckPortService {
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
     public MemberDeckPort getUnNullableMemberDeckPort(long member_id, Integer deck_id) {
         return checkNotNull(memberDeckPortDao.selectMemberDeckPort(member_id, deck_id));
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = true, propagation = Propagation.SUPPORTS)
+    public SlimDeckPort getEagerUnNullableMemberDeckPort(long member_id, Integer deck_id) {
+        return checkNotNull(memberDeckPortDao.selectEagerMemberDeckPortByMemberIdAndDeckId(member_id, deck_id));
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, readOnly = false, propagation = Propagation.REQUIRED)
@@ -320,7 +326,7 @@ public class MemberDeckPortService {
                     MemberDeckPort deckPort = this.getMemberDeckPortContainsMemberShip(member_id, ship_id);
                     return deckPort == null || deckPort.getDeckId() == deck_id;
                 })
-                .mapToLong(ship_id->ship_id)
+                .mapToLong(ship_id -> ship_id)
                 .toArray();
         Assert.isTrue(ship_ids.length > 0);
 

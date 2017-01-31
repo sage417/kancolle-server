@@ -2,27 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.member.MemberDeckPort">
 
-	<resultMap type="MemberDeckPort" id="MemberDeckPortRM" autoMapping="true">
-		<id property="memberId" column="member_id" />
-		<id property="deckId" column="ID" />
-		<result property="name_id" column="NAME_ID" />
-		<result property="mission" column="MISSION" typeHandler="LongJsonArrayHandler" />
-		<result property="ship" column="SHIP" typeHandler="LongJsonArrayHandler" />
-		<collection property="ships" ofType="MemberShip" column="{member_id=member_id,deck_id=ID}" select="com.kancolle.server.dao.ship.MemberShipDao.selectMemberDeckPortShips" />
-	</resultMap>
+    <resultMap type="MemberDeckPort" id="MemberDeckPortRM" autoMapping="true">
+        <id property="memberId" column="member_id"/>
+        <id property="deckId" column="ID"/>
+        <result property="name_id" column="NAME_ID"/>
+        <result property="mission" column="MISSION" typeHandler="LongJsonArrayHandler"/>
+        <result property="ship" column="SHIP" typeHandler="LongJsonArrayHandler"/>
+        <collection property="ships" ofType="MemberShip" column="{member_id=member_id,deck_id=ID}"
+                    select="com.kancolle.server.dao.ship.MemberShipDao.selectMemberDeckPortShips"/>
+    </resultMap>
 
-	<select id="selectMemberDeckPortByMemberIdAndDeckId" resultMap="MemberDeckPortRM">
+    <resultMap type="SlimDeckPort" id="eagerMemberDeckPortRM" autoMapping="false">
+        <id property="deckId" column="ID"/>
+        <collection property="ships"
+                    column="{member_id=member_id,deck_id=ID}"
+                    ofType="SlimShip"
+                    select="com.kancolle.server.dao.ship.MemberShipDao.selectEagerMemberDeckPortShips"
+                    fetchType="eager"/>
+    </resultMap>
+
+    <sql id="sql_selectMemberDeckPortByMemberIdAndDeckId">
 		SELECT * FROM v_member_deckport
 		WHERE member_id = #{member_id}
 		AND ID = #{deck_id}
-	</select>
+    </sql>
 
-	<select id="selectMemberDeckPortsByMemberId" resultMap="MemberDeckPortRM">
+    <select id="selectMemberDeckPortByMemberIdAndDeckId" resultMap="MemberDeckPortRM">
+        <include refid="sql_selectMemberDeckPortByMemberIdAndDeckId"></include>
+    </select>
+
+    <select id="selectEagerMemberDeckPortByMemberIdAndDeckId" resultMap="eagerMemberDeckPortRM">
+        <include refid="sql_selectMemberDeckPortByMemberIdAndDeckId"></include>
+    </select>
+
+    <select id="selectMemberDeckPortsByMemberId" resultMap="MemberDeckPortRM">
 		SELECT * FROM v_member_deckport
 		WHERE member_id = #{member_id}
 	</select>
 
-	<select id="selectMemberDeckPortContainsMemberShip" resultMap="MemberDeckPortRM">
+    <select id="selectMemberDeckPortContainsMemberShip" resultMap="MemberDeckPortRM">
 		SELECT
 			dp.*
 		FROM
@@ -33,19 +51,21 @@
 			member_ship_id = #{member_ship_id}
 	</select>
 
-	<insert id="insertMemberDeckPorts">
-		INSERT INTO t_member_deckport (member_id, ID, `NAME`, SHIP, `LOCK`) VALUES
-		<foreach collection="list" item="deckPort" separator=",">(#{deckPort.memberId}, #{deckPort.deckId}, #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})</foreach>
-	</insert>
-	
-	<update id="updateMemberDeckPortShip">
+    <insert id="insertMemberDeckPorts">
+        INSERT INTO t_member_deckport (member_id, ID, `NAME`, SHIP, `LOCK`) VALUES
+        <foreach collection="list" item="deckPort" separator=",">(#{deckPort.memberId}, #{deckPort.deckId},
+            #{deckPort.name}, #{deckPort.ship,typeHandler=LongJsonArrayHandler}, #{deckPort.lock})
+        </foreach>
+    </insert>
+
+    <update id="updateMemberDeckPortShip">
 		UPDATE t_member_deckport SET
 			SHIP = #{ship}
 		WHERE
 			member_id = #{member_id} AND ID = #{deck_id}
 	</update>
-	
-	<update id="updateDeckPortMission">
+
+    <update id="updateDeckPortMission">
 		UPDATE t_member_deckport SET
 			MISSION_STATUS = #{mission_status},
 			MISSION_ID = #{mission_id},
@@ -53,23 +73,27 @@
 			MISSION_FLAG = #{mission_flag}
 		WHERE member_id = #{member_id} AND ID = #{deck_id}
 	</update>
-	
-	<update id="updateDeckPortState" >
+
+    <update id="updateDeckPortState">
 		UPDATE t_member_deckport
 		SET lock = #{lock}
 		WHERE member_id = #{member_id} AND ID = #{deck_id}
 	</update>
 
-	<update id="updateMemberDeckPort">
-		UPDATE t_member_deckport
-		<set>
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_SHIP)">SHIP = #{deckPort.ship,typeHandler=LongJsonArrayHandler},</if>
-			<!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_STATUS)">MISSION_STATUS = #{deckPort.mission_status},</if>-->
-			<!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_ID)">MISSION_ID = #{deckPort.mission_id},</if>-->
-			<!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_COMPLETE_TIME)">MISSION_COMPLETE_TIME = #{deckPort.mission_complete_time},</if>-->
-			<!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_FLAG)">MISSION_FLAG = #{deckPort.mission_flag},</if>-->
-			<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_LOCK)">lock = #{deckPort.lock},</if>
-		</set>
-		WHERE member_id = #{deckPort.memberId} AND ID = #{deckPort.deckId}
-	</update>
+    <update id="updateMemberDeckPort">
+        UPDATE t_member_deckport
+        <set>
+            <if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_SHIP)">
+                SHIP = #{deckPort.ship,typeHandler=LongJsonArrayHandler},
+            </if>
+            <!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_STATUS)">MISSION_STATUS = #{deckPort.mission_status},</if>-->
+            <!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_ID)">MISSION_ID = #{deckPort.mission_id},</if>-->
+            <!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_COMPLETE_TIME)">MISSION_COMPLETE_TIME = #{deckPort.mission_complete_time},</if>-->
+            <!--<if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_MISSION_FLAG)">MISSION_FLAG = #{deckPort.mission_flag},</if>-->
+            <if test="@org.apache.commons.lang3.ArrayUtils@contains(columns, @com.kancolle.server.dao.deck.impl.MemberDeckPortDaoImpl@UPDATE_COLUMN_LOCK)">
+                lock = #{deckPort.lock},
+            </if>
+        </set>
+        WHERE member_id = #{deckPort.memberId} AND ID = #{deckPort.deckId}
+    </update>
 </mapper>

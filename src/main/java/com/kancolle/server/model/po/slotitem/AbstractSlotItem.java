@@ -4,6 +4,7 @@
 package com.kancolle.server.model.po.slotitem;
 
 import com.kancolle.server.model.po.common.ResourceValue;
+import org.mongodb.morphia.annotations.Transient;
 
 import java.io.Serializable;
 
@@ -15,7 +16,7 @@ public abstract class AbstractSlotItem implements ISlotItem, Serializable {
 
     public static final int TYPE_HYDRO_PHONE = 14;
     public static final int TYPE_DEPTH_CHARGE = 15;
-
+    @Transient
     private SlotItem slotItem;
 
     public SlotItem getSlotItem() {

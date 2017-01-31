@@ -2,24 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kancolle.server.dao.slotitem.MemberSlotItemDao">
 
-	<resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
-		<id property="memberId" column="member_id"/>
-		<id property="memberSlotItemId" column="ID" />
-		<result property="slotItemId" column="SLOTITEM_ID" />
-		<association property="slotItem" column="SLOTITEM_ID"
-					 select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectSlotItemsByCond"/>
-	</resultMap>
-	
-	<!-- 查询指定装备 -->
-	<select id="selectMemberSlotItem" resultMap="memberSlotItemRM">
-		SELECT * FROM v_member_slotitem
-		<where>
-			<if test="member_id != null">member_id = #{member_id}</if>
-			<if test="member_slotitem_id != null">AND ID = #{member_slotitem_id}</if>
-		</where>
-	</select>
+    <resultMap type="MemberSlotItem" id="memberSlotItemRM" autoMapping="true">
+        <id property="memberId" column="member_id"/>
+        <id property="memberSlotItemId" column="ID"/>
+        <result property="slotItemId" column="SLOTITEM_ID"/>
+        <association property="slotItem" column="SLOTITEM_ID"
+                     select="com.kancolle.server.mapper.slotItem.SlotItemMapper.selectSlotItemsByCond"
+                     fetchType="eager"/>
+    </resultMap>
 
-	<select id="selectMemberShipSlots" resultMap="memberSlotItemRM">
+    <!-- 查询指定装备 -->
+    <select id="selectMemberSlotItem" resultMap="memberSlotItemRM">
+        SELECT * FROM v_member_slotitem
+        <where>
+            <if test="member_id != null">member_id = #{member_id}</if>
+            <if test="member_slotitem_id != null">AND ID = #{member_slotitem_id}</if>
+        </where>
+    </select>
+
+    <select id="selectMemberShipSlots" resultMap="memberSlotItemRM">
 		SELECT mem_slot.* FROM v_member_slotitem mem_slot 
 			INNER JOIN t_member_ship_slotitem_mapping m ON mem_slot.`member_id` = m.`member_id` 	AND mem_slot.`ID` = m.`member_slotitem_id`
 			INNER JOIN v_member_ship mem_ship ON mem_ship.`member_id` = m.`member_id` AND mem_ship.`ID` = m.`member_ship_id`
@@ -28,36 +29,36 @@
 			AND m.`member_ship_id` = #{ship_id}
 		ORDER BY POSITION(CONCAT(mem_slot.`ID`, ',') IN mem_ship.`SLOT`)
 	</select>
-	
-	<select id="selectMemberUnslot"  resultMap="memberSlotItemRM">
+
+    <select id="selectMemberUnslot" resultMap="memberSlotItemRM">
 		SELECT * FROM v_member_slotitem WHERE ID NOT IN (SELECT member_slotitem_id from t_member_ship_slotitem_mapping WHERE member_id = #{member_id})
 	</select>
-	
-	<update id="updateMemberSlotItemLockStatue">
+
+    <update id="updateMemberSlotItemLockStatue">
 		UPDATE t_member_slotitem SET
 			LOCKED = #{lock}
 		WHERE
 			member_id = #{member_id}
 			AND ID = #{member_slotitem_id}
 	</update>
-	
-	<update id="deleteMemberSlotitems">
-		UPDATE t_member_slotitem SET
-			DELETED = 1,
-			DELETED_TIME = NOW()
-		WHERE
-			member_id = #{member_id}
-			AND ID IN
-			<foreach collection="slotitem_ids" item="slotitem_id" open="(" separator="," close=")">
-				${slotitem_id}
-			</foreach>
-	</update>
-	
-	<select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM" flushCache="true">
+
+    <update id="deleteMemberSlotitems">
+        UPDATE t_member_slotitem SET
+        DELETED = 1,
+        DELETED_TIME = NOW()
+        WHERE
+        member_id = #{member_id}
+        AND ID IN
+        <foreach collection="slotitem_ids" item="slotitem_id" open="(" separator="," close=")">
+            ${slotitem_id}
+        </foreach>
+    </update>
+
+    <select id="createMemberSlotItem" statementType="CALLABLE" resultMap="memberSlotItemRM" flushCache="true">
 		{call create_slotitem(#{member_id}, #{slotitem_id})}
 	</select>
-	
-	<select id="selectCountOfMemberSlotItem" resultType="_int">
+
+    <select id="selectCountOfMemberSlotItem" resultType="_int">
 		SELECT COUNT(*) FROM t_member_slotitem WHERE member_id = #{member_id}
 	</select>
 </mapper>

@@ -18,6 +18,16 @@ public class AerialBattleSystem implements IAerialBattleSystem {
     public static final int AIR_BATTLE_DISADVANTAGE = 3;
     public static final int AIR_BATTLE_LOST = 4;
 
+    public final int A_HAGUN = 1;
+    public final int A_AAFD = 2;
+    public final int A_HAFD = 3;
+    public final int A_MAINGUNL = 4;
+    public final int A_TYPE3SHELL = 5;
+    public final int A_AIRRADAR = 6;
+    public final int A_AAGUN = 7;
+    public final int A_GUN = 8;
+    public final int A_XLGUN = 9;
+
     private static final int GUARANTEE_RATE = 2;
     private static final int ADVANTAGE_RATE = 3 / 2;
 
