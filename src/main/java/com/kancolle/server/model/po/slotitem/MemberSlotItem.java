@@ -26,16 +26,16 @@ public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Seria
     @Transient
     @JsonIgnore
     private String memberId;
-    @Property
+    @Property("mid")
     @JsonProperty(value = "api_id")
     private long memberSlotItemId;
-    @Property
+    @Property("id")
     @JsonProperty(value = "api_slotitem_id")
     private int slotItemId;
     @Transient
     @JsonProperty(value = "api_locked")
     private boolean locked;
-    @Property
+    @Property("level")
     @JsonProperty(value = "api_level")
     private int level;
 

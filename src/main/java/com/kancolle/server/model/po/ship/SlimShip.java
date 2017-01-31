@@ -19,74 +19,70 @@ import java.util.List;
 public class SlimShip {
     @Transient
     private long id;
-    @Property
+    @Property("id")
     private int shipId;
     @Transient
     private Ship ship;
-    @Property
+    @Property("mid")
     private long memberShipId;
-    @Property
+    @Property("LVL")
     private int lv;
-    @Property
+    @Property("HP")
     private int nowHp;
-    @Property
+    @Property("maxHP")
     private int maxHp;
-    @Property
+    @Property("RNG")
     private int leng;
-    @Embedded
+    @Embedded("equips")
     private List<MemberSlotItem> slot;
-    @Property
+    @Property("planeslots")
     private int[] onslot;
-    @Property
+    @Property("fuelleft")
     private int fuel;
-    @Property
+    @Property("ammoleft")
     private int bull;
-    @Property
+    @Property("morale")
     private int cond;
     /**
      * 火力
      */
-    @Property
+    @Property("FP")
     private int karyoku;
     /**
      * 雷装
      */
-    @Property
+    @Property("TP")
     private int raisou;
     /**
      * 对空
      */
-    @Property
+    @Property("AA")
     private int taiku;
     /**
      * 装甲
      */
-    @Property
+    @Property("AR")
     private int soukou;
     /**
      * 回避
      */
-    @Property
+    @Property("EV")
     private int kaihi;
     /**
      * 对潜
      */
-    @Property
+    @Property("ASW")
     private int taisen;
     /**
      * 索敌
      */
-    @Property
+    @Property("LOS")
     private int sakuteki;
     /**
      * 运
      */
-    @Property
+    @Property("LUK")
     private int lucky;
-    @Transient
-    private boolean locked;
-    @Transient
-    private boolean lockedEquip;
 
     public long getId() {
         return id;
@@ -256,21 +252,6 @@ public class SlimShip {
         this.lucky = lucky;
     }
 
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public boolean isLockedEquip() {
-        return lockedEquip;
-    }
-
-    public void setLockedEquip(boolean lockedEquip) {
-        this.lockedEquip = lockedEquip;
-    }
 
     @Override
     public boolean equals(Object o) {
