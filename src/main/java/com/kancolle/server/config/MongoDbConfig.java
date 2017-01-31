@@ -26,7 +26,13 @@ public class MongoDbConfig {
         return new MongoClient(ImmutableList.of(new ServerAddress("192.168.1.100", 40000), new ServerAddress("192.168.1.100", 40001)));
     }
 
-    @Profile({"prod", "ci"})
+    @Profile("ci")
+    @Bean(name = "mongoClient", destroyMethod = "close")
+    MongoClient getCIMongoClient() {
+        return new MongoClient("127.0.0.1");
+    }
+
+    @Profile("prod")
     @Bean(name = "mongoClient", destroyMethod = "close")
     MongoClient getProdMongoClient() {
         return new MongoClient("mongodb");
