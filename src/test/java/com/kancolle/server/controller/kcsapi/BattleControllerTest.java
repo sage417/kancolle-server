@@ -31,8 +31,9 @@ public class BattleControllerTest {
 
     @Test
     public void testMapTraveller() throws Exception {
+        final String api_token = "de1d61f922ae5604a0c479914813d8a18d5c9b6f";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_map/start")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
+                .param("api_token", api_token)
                 .param("api_deck_id", "1")
                 .param("api_mapinfo_no", "1")
                 .param("api_maparea_id", "1")
@@ -40,25 +41,25 @@ public class BattleControllerTest {
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battle")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
+                .param("api_token", api_token)
                 .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battleresult")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f"))
+                .param("api_token", api_token))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_map/next")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f"))
+                .param("api_token", api_token))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battle")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
+                .param("api_token", api_token)
                 .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
         result = mockMvc.perform(MockMvcRequestBuilders.post("/kcsapi/api_req_sortie/battleresult")
-                .param("api_token", "de1d61f922ae5604a0c479914813d8a18d5c9b6f")
+                .param("api_token", api_token)
                 .param("api_formation", "1"))
                 .andReturn();
         Assert.assertEquals(HttpServletResponse.SC_OK, result.getResponse().getStatus());
