@@ -26,7 +26,6 @@ import java.util.stream.IntStream;
 /**
  * @author J.K.SAGE
  * @Date 2015年8月22日
- *
  */
 @JsonPropertyOrder(value = {
         "api_dock_id", "api_ship_ke", "api_ship_lv", "api_nowhps",
@@ -48,7 +47,9 @@ public class BattleSimulationResult {
     @JsonProperty(value = "api_dock_id")
     private int api_dock_id;
 
-    /** 敌舰队舰船ID，-1开始，-1结束，空舰船ID为-1 */
+    /**
+     * 敌舰队舰船ID，-1开始，-1结束，空舰船ID为-1
+     */
     @JSONField(ordinal = 2)
     @JsonProperty(value = "api_ship_ke")
     private int[] api_ship_ke;
@@ -106,12 +107,16 @@ public class BattleSimulationResult {
     @JsonProperty(value = "api_formation")
     private int[] api_formation;
 
-    /** 航空戦flag */
+    /**
+     * 航空戦flag
+     */
     @JSONField(ordinal = 13)
     @JsonProperty(value = "api_stage_flag")
     private int[] api_stage_flag;
 
-    /** 航空戦情報 */
+    /**
+     * 航空戦情報
+     */
     @JSONField(ordinal = 14)
     @JsonProperty(value = "api_kouku")
     private KouKuResult api_kouku;
@@ -132,41 +137,28 @@ public class BattleSimulationResult {
     @JsonProperty(value = "api_opening_atack")
     private Object api_opening_atack;
 
-    /** 炮击战flag */
+    /**
+     * 炮击战flag
+     */
     @JSONField(ordinal = 19)
     @JsonProperty(value = "api_hourai_flag")
     private int[] api_hourai_flag;
 
     @JsonIgnore
-    @JSONField(serialize = false, deserialize = false)
-    private final List<HougekiResult> hougekiResults = Lists.newArrayListWithCapacity(MAX_SHELLING_ROUND);
+    private transient List<HougekiResult> hougekiResults = Lists.newArrayListWithExpectedSize(3);
 
-    /** 炮击第一轮 */
-    @JSONField(name = "api_hougeki1", ordinal = 20, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     @JsonProperty(value = "api_hougeki1")
-    public HougekiResult getHougekiResult1() {
-        return hougekiResults.isEmpty() ? null : hougekiResults.iterator().next();
-    }
+    private HougekiResult api_hougeki1;
 
-    public void addHougekiResult(HougekiResult hougekiResult) {
-        this.hougekiResults.add(hougekiResult);
-    }
-
-    /** 炮击第二轮 */
-    @JSONField(name = "api_hougeki2", ordinal = 21, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     @JsonProperty(value = "api_hougeki2")
-    public HougekiResult getHougekiResult2() {
-        return hougekiResults.size() > 1 ? hougekiResults.get(1) : null;
-    }
+    private HougekiResult api_hougeki2;
 
-    /** 炮击第三轮 */
-    @JSONField(name = "api_hougeki3", ordinal = 22, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     @JsonProperty(value = "api_hougeki3")
-    public HougekiResult getHougekiResult3() {
-        return hougekiResults.size() > 2 ? hougekiResults.get(2) : null;
-    }
+    private HougekiResult api_hougeki3;
 
-    /** 闭幕雷击 */
+    /**
+     * 闭幕雷击
+     */
     @JSONField(ordinal = 23, serialzeFeatures = SerializerFeature.WriteMapNullValue)
     @JsonProperty(value = "api_raigeki")
     private Object api_raigeki;
@@ -402,6 +394,42 @@ public class BattleSimulationResult {
         this.api_raigeki = api_raigeki;
     }
 
+    public HougekiResult getApi_hougeki1() {
+        return api_hougeki1;
+    }
+
+    public void setApi_hougeki1(HougekiResult api_hougeki1) {
+        this.api_hougeki1 = api_hougeki1;
+    }
+
+    public HougekiResult getApi_hougeki2() {
+        return api_hougeki2;
+    }
+
+    public void setApi_hougeki2(HougekiResult api_hougeki2) {
+        this.api_hougeki2 = api_hougeki2;
+    }
+
+    public HougekiResult getApi_hougeki3() {
+        return api_hougeki3;
+    }
+
+    public void setApi_hougeki3(HougekiResult api_hougeki3) {
+        this.api_hougeki3 = api_hougeki3;
+    }
+
+    public void addHougekiResult(HougekiResult hougekiResult) {
+        this.hougekiResults.add(hougekiResult);
+        switch (this.hougekiResults.size()) {
+            case 1:
+                this.api_hougeki1 = hougekiResult;
+            case 2:
+                this.api_hougeki2 = hougekiResult;
+            case 3:
+                this.api_hougeki3 = hougekiResult;
+            default:
+        }
+    }
 
     private static class Utils {
 

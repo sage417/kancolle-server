@@ -43,9 +43,11 @@ import com.kancolle.server.utils.SpringUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.RoundingMode;
 import java.util.*;
@@ -68,7 +70,7 @@ import static com.kancolle.server.utils.logic.ship.ShipFilter.*;
  */
 @Service
 public class BattleService extends BaseService {
-
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(BattleService.class);
     @Autowired
     private MapBattleService mapBattleService;
     @Autowired
@@ -91,10 +93,14 @@ public class BattleService extends BaseService {
     private MemberService memberService;
     @Autowired
     private MemberShipService memberShipService;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Value("api.battle.url")
+    private String battle_api_url;
 
     public BattleSimulationResult battle(long member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
-        checkState(!battleState.isBattleFlag());
+        //checkState(!battleState.isBattleFlag());
 
         int formation = form.getApi_formation();
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
@@ -245,7 +251,11 @@ public class BattleService extends BaseService {
         session.setWin_rank(getWinRank(context, memberShips, underSeaShips).name());
 
         updateAfterBattle(battleState, session);
-
+        try {
+            result = restTemplate.getForObject(battle_api_url + "/?api_member_id={member_id}&api_formation={formation}&api_recover_type={recover_type}", BattleSimulationResult.class, member_id, form.getApi_formation(), form.getApi_recovery_type());
+        } catch (RuntimeException e) {
+            LOGGER.error("error when apply kancolle-battle-api", e);
+        }
         return result;
     }
 
