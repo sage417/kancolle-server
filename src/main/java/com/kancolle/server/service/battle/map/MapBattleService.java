@@ -4,6 +4,7 @@
 package com.kancolle.server.service.battle.map;
 
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
+import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
@@ -11,6 +12,7 @@ import com.kancolle.server.model.mongo.MemberBattleFleet;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
 import com.kancolle.server.model.po.deckport.SlimDeckPort;
+import com.kancolle.server.model.po.map.MapCellModel;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MemberMapService;
 import com.kancolle.server.service.map.traveller.MapTraveller;
@@ -74,24 +76,25 @@ public class MapBattleService {
 
         MapStartResult result = traveller.start(deckPort, mapareaId, mapinfoNo);
 
-        int mapCellId = traveller.getToMapCell().getMapCellId();
+        final MapCellModel mapCell = traveller.getToMapCell().getMapCell();
+        final int mapCellId = mapCell.getApi_id();
 
         memberMapBattleMapper.insertMemberMapBattleState(member_id, deckId, travellerNo, mapCellId);
 
         updateMemberMapCellInfo(member_id, mapCellId);
 
-        MemberBattleFleet memberBattleFleet = memberBattleFleet(member_id, travellerNo, mapCellId, deckId);
+        MemberBattleFleet memberBattleFleet = memberBattleFleet(member_id, travellerNo, mapCell, deckId);
         datastore.save(memberBattleFleet);
 
         return result;
     }
 
-
-    private MemberBattleFleet memberBattleFleet(long member_id, int traveller_no, int map_cell_no, int... deck_ids) {
+    private MemberBattleFleet memberBattleFleet(long member_id, int traveller_no, MapCellModel map_cell, int... deck_ids) {
         MemberBattleFleet result = new MemberBattleFleet();
         result.setMemberId(member_id);
         result.setTravellerNo(traveller_no);
-        result.setMapCellNo(map_cell_no);
+        result.setMapCellNo(map_cell.getApi_id());
+        result.setMapCellName(map_cell.getName());
 
         List<SlimDeckPort> memberDeckPorts =
                 Arrays.stream(deck_ids)

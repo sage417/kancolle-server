@@ -11,6 +11,7 @@
 	<resultMap id="MapCellRM" type="MapCellModel" autoMapping="false">
 		<id property="api_id" column="ID"/>
 		<result property="api_map_no" column="MAP_NO" />
+		<result property="name" column="NAME" />
 		<result property="api_maparea_id" column="MAPAREA_ID" />
 		<result property="api_mapinfo_no" column="MAPINFO_NO" />
 		<result property="api_no" column="NO" />
@@ -31,14 +32,16 @@
         <result property="productionKind" column="PRODUCTION_KIND"/>
     </resultMap>
 
+	<sql id="selectMapCell">
+		SELECT ID, `NO`, `NAME`, COLOR_NO, MAP_NO, MAPAREA_ID, MAPINFO_NO FROM t_map_cell
+	</sql>
+
 	<select id="selectMapCells" resultMap="MapCellRM">
-		SELECT ID, `NO`, COLOR_NO, MAP_NO, MAPAREA_ID, MAPINFO_NO
-		FROM t_map_cell
+		<include refid="selectMapCell"/>
 	</select>
 
 	<select id="selectMapCellById" resultMap="MapCellRM">
-		SELECT ID, `NO`, COLOR_NO, MAP_NO, MAPAREA_ID, MAPINFO_NO
-		FROM t_map_cell WHERE ID = #{map_cell_id}
+		<include refid="selectMapCell"/> WHERE ID = #{map_cell_id}
 	</select>
 
     <select id="selectMapCellNextById" resultMap="MapCellNextRM">

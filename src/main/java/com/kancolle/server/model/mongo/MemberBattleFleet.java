@@ -23,6 +23,8 @@ public class MemberBattleFleet {
     private int travellerNo;
     @Property("map_cell_no")
     private int mapCellNo;
+    @Property("map_cell_name")
+    private String mapCellName;
     @Embedded("fleets")
     private List<SlimDeckPort> fleets;
 
@@ -56,6 +58,14 @@ public class MemberBattleFleet {
 
     public void setMapCellNo(int mapCellNo) {
         this.mapCellNo = mapCellNo;
+    }
+
+    public String getMapCellName() {
+        return mapCellName;
+    }
+
+    public void setMapCellName(String mapCellName) {
+        this.mapCellName = mapCellName;
     }
 
     public List<SlimDeckPort> getFleets() {
