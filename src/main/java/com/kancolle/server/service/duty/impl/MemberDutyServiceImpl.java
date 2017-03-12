@@ -25,7 +25,6 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.slotitem.MemberSlotItemService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
-import com.kancolle.server.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.*;
@@ -65,6 +65,8 @@ public class MemberDutyServiceImpl implements MemberDutyService {
     @Autowired
     @Qualifier("dutyBus")
     private EventBus dutyBus;
+    @Autowired
+    private Map<String, DutyResultChecker> dutyResultCheckers;
 
     @PostConstruct
     private void init() {
@@ -114,7 +116,7 @@ public class MemberDutyServiceImpl implements MemberDutyService {
         List<MemberDuty> eventDutys = accecptDutys.stream().filter(memberDuty -> memberDuty.getDuty().getOperate() == OPERATE_TYPE_POWUP).collect(Collectors.toList());
         for (MemberDuty memberDuty : eventDutys) {
             memberDuty.setCounter(memberDuty.getCounter() + 1);
-            DutyResultChecker checker = SpringUtils.getBean(String.format("duty%dResultChecker", memberDuty.getDutyNo()), DutyResultChecker.class);
+            DutyResultChecker checker = dutyResultCheckers.get(String.format("duty%dResultChecker", memberDuty.getDutyNo()));
             if (checker.checkCond(memberDuty)) {
                 // 任务完成
                 memberDuty.setProgressFlag(0);

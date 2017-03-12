@@ -24,7 +24,6 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.useitem.MemberUseItemService;
 import com.kancolle.server.service.useitem.UseItemService;
 import com.kancolle.server.utils.DateUtils;
-import com.kancolle.server.utils.SpringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static com.kancolle.server.model.kcsapi.misson.MissionResult.*;
@@ -56,24 +56,20 @@ public class MissionServiceImpl implements MissionService {
 
     @Autowired
     private MissionDao missionDao;
-
     @Autowired
     private MemberMissionRecordMapper memberMissionRecordMapper;
-
     @Autowired
     private MemberDeckPortService memberDeckPortService;
-
     @Autowired
     private MemberService memberService;
-
     @Autowired
-    private MemberShipService memberShipSerivce;
-
+    private MemberShipService memberShipService;
     @Autowired
     private UseItemService useItemService;
-
     @Autowired
     private MemberUseItemService memberUseItemService;
+    @Autowired
+    private Map<String, MissionResultChecker> checkers;
 
     @Override
     public List<Mission> getMissions() {
@@ -128,7 +124,7 @@ public class MissionServiceImpl implements MissionService {
         int ship_exp = missionExp.getShipExp();
         int member_exp = missionExp.getMemberExp();
 
-        MissionCondResult mr = SpringUtils.getBean(String.format("mission%dResultChecker", mission.getMissionId()), MissionResultChecker.class).getResult(deckport);
+        MissionCondResult mr = checkers.get(String.format("mission%dResultChecker", mission.getMissionId())).getResult(deckport);
 
         switch (mr) {
         case CALL_BACK:
@@ -214,9 +210,9 @@ public class MissionServiceImpl implements MissionService {
 
     private void missionIncreaseMemberShipExp(List<MemberShip> deck_ships, int exp) {
         // 旗舰获得1.5倍经验值
-        memberShipSerivce.increaseMemberShipExp(deck_ships.get(0), exp * 3 / 2);
+        memberShipService.increaseMemberShipExp(deck_ships.get(0), exp * 3 / 2);
         // 其余获得正常经验值
-        deck_ships.stream().skip(1L).forEach(memberShip -> memberShipSerivce.increaseMemberShipExp(memberShip, exp));
+        deck_ships.stream().skip(1L).forEach(memberShip -> memberShipService.increaseMemberShipExp(memberShip, exp));
     }
 
     @Override

@@ -39,7 +39,6 @@ import com.kancolle.server.service.map.mapcells.AbstractMapCell;
 import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
-import com.kancolle.server.utils.SpringUtils;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +96,8 @@ public class BattleService extends BaseService {
     private RestTemplate restTemplate;
     @Value("api.battle.url")
     private String battle_api_url;
+    @Autowired
+    private Map<String, AbstractMapCell> mapcells;
 
     public BattleSimulationResult battle(long member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
@@ -113,7 +114,7 @@ public class BattleService extends BaseService {
         context.setMemberDeckPort(memberDeckPort);
 
         int mapCellId = battleState.getMapCellId();
-        AbstractMapCell mapCell = SpringUtils.getBean(String.format("mapCell%d", mapCellId), AbstractMapCell.class);
+        AbstractMapCell mapCell =mapcells.get(String.format("mapCell%d", mapCellId));
 
         UnderSeaDeckPort underSeaDeckPort = mapCell.getUnderSeaDeckPort();
         context.setUnderSeaDeckPort(underSeaDeckPort);
