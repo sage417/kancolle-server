@@ -17,9 +17,11 @@ import com.kancolle.server.mapper.ship.ShipTypeMapper;
 import com.kancolle.server.mapper.ship.ShipUpgradeMapper;
 import com.kancolle.server.mapper.slotItem.SlotItemMapper;
 import com.kancolle.server.mapper.useItem.UseItemMapper;
+import io.reactivex.Single;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
 /**
  * Created by J.K.SAGE on 2016/8/8 0008.
  */
+@Profile("dev")
 @RestController
 @RequestMapping("/update")
 public class UpdateController {
@@ -63,6 +66,18 @@ public class UpdateController {
     private ShipUpgradeMapper shipUpgradeMapper;
     @Autowired
     private MapInfoMapper mapInfoMapper;
+    @Autowired
+    private ObserverService observerService;
+
+    @GetMapping("/sayHelloAsync")
+    Single<String> sayHello() {
+        return observerService.sayHello();
+    }
+
+    @GetMapping("/sayHello")
+    String say() {
+        return observerService.helloWorld();
+    }
 
     @GetMapping("/ship")
     void updateShip() throws IOException {
