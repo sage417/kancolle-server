@@ -8,6 +8,7 @@ import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleSimulationResult;
 import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.battle.BattleService;
+import io.reactivex.Single;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -31,10 +32,9 @@ public class ReqSortieController {
     private BattleService battleService;
 
     @RequestMapping("/battle")
-    public APIResponse<BattleSimulationResult> battle(@ModelAttribute(MEMBER_ID) long member_id, @Validated BattleForm form, BindingResult result) {
+    public Single<APIResponse<BattleSimulationResult>> battle(@ModelAttribute(MEMBER_ID) long member_id, @Validated BattleForm form, BindingResult result) {
         checkArgument(!result.hasErrors());
-        BattleSimulationResult api_data = battleService.battle(member_id, form);
-        return new APIResponse<BattleSimulationResult>().setApi_data(api_data);
+        return battleService.battleSingle(member_id, form);
     }
 
     @RequestMapping("/battleresult")

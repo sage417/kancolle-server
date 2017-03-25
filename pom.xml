@@ -214,8 +214,8 @@
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver</artifactId>
-            <version>3.4.0</version>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.4.2</version>
         </dependency>
 
         <!-- JSON -->
