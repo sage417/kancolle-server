@@ -39,6 +39,9 @@
         <result property="maxHp" column="MAXHP"/>
         <result property="leng" column="LENG"/>
         <result property="onslot" column="ONSLOT" typeHandler="IntJsonArrayHandler"/>
+        <result property="fuel" column="FUEL"/>
+        <result property="bull" column="BULL"/>
+        <result property="cond" column="COND"/>
         <result property="karyoku" column="KARYOKU" typeHandler="MinValueHandler"/>
         <result property="raisou" column="RAISOU" typeHandler="MinValueHandler"/>
         <result property="taiku" column="TAIKU" typeHandler="MinValueHandler"/>

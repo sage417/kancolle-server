@@ -5,6 +5,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.mapping.Mapper;
+import org.mongodb.morphia.mapping.MapperOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,11 +45,12 @@ public class MongoDbConfig {
         // tell Morphia where to find your classes
         // can be called multiple times with different packages or classes
         morphia.mapPackage("com.kancolle.server.model.mongo");
-//        MapperOptions options = new MapperOptions();
-//        options.setStoreNulls(true);
-//        options.setStoreEmpties(true);
+
+        MapperOptions options = new MapperOptions();
+        options.setStoreNulls(true);
+        options.setStoreEmpties(true);
         // create the Datastore connecting to the default port on the local host
-        final Datastore datastore = morphia.createDatastore(mongoClient, "kancolle");
+        final Datastore datastore = morphia.createDatastore(mongoClient,new Mapper(options),"kancolle");
         datastore.ensureIndexes();
         return datastore;
     }

@@ -17,11 +17,13 @@ import com.kancolle.server.model.kcsapi.battle.houku.KouKuStage2;
 import com.kancolle.server.model.kcsapi.battle.houku.KouKuStage3;
 import com.kancolle.server.model.kcsapi.battle.ship.HougekiResult;
 import com.kancolle.server.model.kcsapi.start.sub.MapInfoModel;
+import com.kancolle.server.model.mongo.MemberBattleFleet;
 import com.kancolle.server.model.po.battle.BattleContext;
 import com.kancolle.server.model.po.battle.BattleSession;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.common.MaxMinValue;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
+import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.IShip;
@@ -33,6 +35,7 @@ import com.kancolle.server.service.battle.course.ICourseSystem;
 import com.kancolle.server.service.battle.map.MapBattleService;
 import com.kancolle.server.service.battle.reconnaissance.ReconnaissanceAircraftSystem;
 import com.kancolle.server.service.battle.shelling.template.ShellingTemplate;
+import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.deckport.UnderSeaDeckPortService;
 import com.kancolle.server.service.map.impl.MapService;
 import com.kancolle.server.service.map.mapcells.AbstractMapCell;
@@ -41,6 +44,7 @@ import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
 import org.apache.commons.lang3.ArrayUtils;
+import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -85,6 +89,8 @@ public class BattleService extends BaseService {
     @Autowired
     private MapService mapService;
     @Autowired
+    private MemberDeckPortService memberDeckPortService;
+    @Autowired
     private UnderSeaDeckPortService underSeaDeckPortService;
     @Autowired
     private ShipService shipService;
@@ -98,6 +104,8 @@ public class BattleService extends BaseService {
     private String battle_api_url;
     @Autowired
     private Map<String, AbstractMapCell> mapcells;
+    @Autowired
+    private Datastore datastore;
 
     public BattleSimulationResult battle(long member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
@@ -116,7 +124,7 @@ public class BattleService extends BaseService {
         context.setMemberDeckPort(memberDeckPort);
 
         int mapCellId = battleState.getMapCellId();
-        AbstractMapCell mapCell =mapcells.get(String.format("mapCell%d", mapCellId));
+        AbstractMapCell mapCell = mapcells.get(String.format("mapCell%d", mapCellId));
 
         UnderSeaDeckPort underSeaDeckPort = mapCell.getUnderSeaDeckPort();
         context.setUnderSeaDeckPort(underSeaDeckPort);
@@ -254,6 +262,9 @@ public class BattleService extends BaseService {
         session.setWin_rank(getWinRank(context, memberShips, underSeaShips).name());
 
         updateAfterBattle(battleState, session);
+
+        saveMemberBattleFleet(member_id, memberDeckPort.getDeckId());
+
         try {
             result = restTemplate.getForObject(battle_api_url + "/?api_member_id={member_id}&api_formation={formation}&api_recover_type={recover_type}", BattleSimulationResult.class, member_id, form.getApi_formation(), form.getApi_recovery_type());
         } catch (RuntimeException e) {
@@ -265,6 +276,17 @@ public class BattleService extends BaseService {
         // 擊沉
 
         return result;
+    }
+
+    private void saveMemberBattleFleet(long member_id, int... deck_ids) {
+        List<SlimDeckPort> memberDeckPorts =
+                Arrays.stream(deck_ids)
+                        .mapToObj(deck_id -> memberDeckPortService.getEagerUnNullableMemberDeckPort(member_id, deck_id))
+                        .collect(Collectors.toList());
+
+        datastore.updateFirst(datastore.createQuery(MemberBattleFleet.class)
+                        .field("member_id").equal(member_id).project("_id", true),
+                datastore.createUpdateOperations(MemberBattleFleet.class).set("fleets", memberDeckPorts));
     }
 
     @Transactional

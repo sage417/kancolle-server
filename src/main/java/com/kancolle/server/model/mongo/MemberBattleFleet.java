@@ -6,12 +6,11 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by J.K.SAGE on 2017/1/31.
  */
-@Entity("member_battle_fleet")
+@Entity(value = "member_battle_fleet", noClassnameStored = true)
 @Indexes(
         @Index(fields = @Field("memberId"), options = @IndexOptions(unique = true))
 )
@@ -19,15 +18,17 @@ public class MemberBattleFleet {
     @Id
     private ObjectId id;
     @Property("member_id")
-    private long memberId;
+    private Long memberId;
     @Property("traveller_no")
-    private int travellerNo;
+    private Integer travellerNo;
     @Property("map_cell_no")
-    private int mapCellNo;
+    private Integer mapCellNo;
     @Property("map_cell_name")
     private String mapCellName;
     @Embedded("fleets")
     private List<SlimDeckPort> fleets;
+    @Embedded("battle_result")
+    private BattleResult battleResult;
 
     public ObjectId getId() {
         return id;
@@ -37,27 +38,27 @@ public class MemberBattleFleet {
         this.id = id;
     }
 
-    public long getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 
-    public int getTravellerNo() {
+    public Integer getTravellerNo() {
         return travellerNo;
     }
 
-    public void setTravellerNo(int travellerNo) {
+    public void setTravellerNo(Integer travellerNo) {
         this.travellerNo = travellerNo;
     }
 
-    public int getMapCellNo() {
+    public Integer getMapCellNo() {
         return mapCellNo;
     }
 
-    public void setMapCellNo(int mapCellNo) {
+    public void setMapCellNo(Integer mapCellNo) {
         this.mapCellNo = mapCellNo;
     }
 
@@ -77,17 +78,12 @@ public class MemberBattleFleet {
         this.fleets = fleets;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MemberBattleFleet that = (MemberBattleFleet) o;
-        return Objects.equals(id, that.id);
+    public BattleResult getBattleResult() {
+        return battleResult;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setBattleResult(BattleResult battleResult) {
+        this.battleResult = battleResult;
     }
 
     @Override
@@ -99,6 +95,7 @@ public class MemberBattleFleet {
                 .add("mapCellNo", mapCellNo)
                 .add("mapCellName", mapCellName)
                 .add("fleets", fleets)
+                .add("battleResult", battleResult)
                 .toString();
     }
 }

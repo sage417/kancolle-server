@@ -7,6 +7,7 @@ import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;
+import com.kancolle.server.model.mongo.BattleResult;
 import com.kancolle.server.model.mongo.MemberBattleFleet;
 import com.kancolle.server.model.po.battle.MemberMapBattleState;
 import com.kancolle.server.model.po.deckport.MemberDeckPort;
@@ -83,32 +84,34 @@ public class MapBattleService {
 
         updateMemberMapCellInfo(member_id, mapCellId);
 
-        MemberBattleFleet dbMemberBattleFleet = datastore.createQuery(MemberBattleFleet.class).field("member_id").equal(member_id).project("_id",true).get();
-
-        MemberBattleFleet memberBattleFleet = memberBattleFleet(dbMemberBattleFleet, member_id, travellerNo, mapCell, deckId);
-        datastore.save(memberBattleFleet);
+        saveMemberBattleFleet(member_id, travellerNo, mapCell, deckId);
 
         return result;
     }
 
-    private MemberBattleFleet memberBattleFleet(MemberBattleFleet db, long member_id, int traveller_no, MapCellModel map_cell, int... deck_ids) {
-        MemberBattleFleet result = new MemberBattleFleet();
-        result.setMemberId(member_id);
-        result.setTravellerNo(traveller_no);
-        result.setMapCellNo(map_cell.getApi_id());
-        result.setMapCellName(map_cell.getName());
+    private void saveMemberBattleFleet(long member_id, int traveller_no, MapCellModel map_cell, int... deck_ids) {
+        MemberBattleFleet dbMemberBattleFleet = datastore.createQuery(MemberBattleFleet.class).field("member_id").equal(member_id).project("_id", true).get();
 
-        if (db != null) {
-            result.setId(db.getId());
+        MemberBattleFleet memberBattleFleet = new MemberBattleFleet();
+        if (dbMemberBattleFleet != null) {
+            memberBattleFleet.setId(dbMemberBattleFleet.getId());
         }
+
+        memberBattleFleet.setMemberId(member_id);
+        memberBattleFleet.setTravellerNo(traveller_no);
+        memberBattleFleet.setMapCellNo(map_cell.getApi_id());
+        memberBattleFleet.setMapCellName(map_cell.getName());
+
         List<SlimDeckPort> memberDeckPorts =
                 Arrays.stream(deck_ids)
                         .mapToObj(deck_id -> memberDeckPortService.getEagerUnNullableMemberDeckPort(member_id, deck_id))
                         .collect(Collectors.toList());
 
-        result.setFleets(memberDeckPorts);
+        memberBattleFleet.setFleets(memberDeckPorts);
 
-        return result;
+        memberBattleFleet.setBattleResult(new BattleResult());
+
+        datastore.save(memberBattleFleet);
     }
 
     @Transactional
