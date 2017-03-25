@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 @Entity("member_battle_fleet")
 @Indexes(
-        @Index(fields = @Field("memberId"))
+        @Index(fields = @Field("memberId"), options = @IndexOptions(unique = true))
 )
 public class MemberBattleFleet {
     @Id

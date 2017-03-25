@@ -4,7 +4,6 @@
 package com.kancolle.server.service.battle.map;
 
 import com.kancolle.server.controller.kcsapi.battle.form.MapStartForm;
-import com.kancolle.server.mapper.map.MapCellMapper;
 import com.kancolle.server.mapper.map.MemberMapBattleMapper;
 import com.kancolle.server.model.kcsapi.battle.map.MapNextResult;
 import com.kancolle.server.model.kcsapi.battle.map.MapStartResult;

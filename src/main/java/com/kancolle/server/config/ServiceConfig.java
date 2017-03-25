@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -27,7 +26,6 @@ import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSIO
  * Date: 16/7/27
  */
 @Configuration
-@EnableTransactionManagement
 @MapperScan(basePackages = {"com.kancolle.server.mapper"})
 @ImportResource(value = {"classpath:spring/spring-cache.xml", "classpath:spring/db-context.xml"})
 public class ServiceConfig {

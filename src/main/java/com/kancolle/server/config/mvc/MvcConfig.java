@@ -29,7 +29,7 @@ public class MvcConfig {
     private static final String JSON_PREFIX = "svdata=";
 
     @Bean
-    public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter(@Autowired ObjectMapper objectMapper) {
+    public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter(ObjectMapper objectMapper) {
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         jackson2HttpMessageConverter.setSupportedMediaTypes(Lists.newArrayList(MediaType.TEXT_HTML));
         jackson2HttpMessageConverter.setObjectMapper(objectMapper);

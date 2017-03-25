@@ -1,5 +1,7 @@
 /target/
 /.idea/
+/log/
+src/main/web/kcs/
 
 *.json
 *.iml

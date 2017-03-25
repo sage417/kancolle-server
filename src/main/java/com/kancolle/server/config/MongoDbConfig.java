@@ -1,7 +1,6 @@
 package com.kancolle.server.config;
 
 import com.google.common.collect.ImmutableList;
-import com.kancolle.server.model.mongo.MemberBattleFleet;
 import com.mongodb.MongoClient;
 import com.mongodb.ServerAddress;
 import org.mongodb.morphia.Datastore;
@@ -43,7 +42,10 @@ public class MongoDbConfig {
         final Morphia morphia = new Morphia();
         // tell Morphia where to find your classes
         // can be called multiple times with different packages or classes
-        morphia.map(MemberBattleFleet.class);
+        morphia.mapPackage("com.kancolle.server.model.mongo");
+//        MapperOptions options = new MapperOptions();
+//        options.setStoreNulls(true);
+//        options.setStoreEmpties(true);
         // create the Datastore connecting to the default port on the local host
         final Datastore datastore = morphia.createDatastore(mongoClient, "kancolle");
         datastore.ensureIndexes();
