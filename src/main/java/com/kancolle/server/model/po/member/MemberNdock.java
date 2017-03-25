@@ -172,9 +172,7 @@ public class MemberNdock implements Serializable{
         MemberNdock other = (MemberNdock) obj;
         if (dockId != other.dockId)
             return false;
-        if (memberId != other.memberId)
-            return false;
-        return true;
+        return memberId == other.memberId;
     }
 
     @Override

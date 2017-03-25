@@ -124,9 +124,7 @@ public class FurnitureBGM implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         FurnitureBGM other = (FurnitureBGM) obj;
-        if (id != other.id)
-            return false;
-        return true;
+        return id == other.id;
     }
 
     @Override

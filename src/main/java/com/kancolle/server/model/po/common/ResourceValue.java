@@ -78,9 +78,7 @@ public class ResourceValue implements Serializable {
             return false;
         if (fuel != other.fuel)
             return false;
-        if (steel != other.steel)
-            return false;
-        return true;
+        return steel == other.steel;
     }
 
     @Override

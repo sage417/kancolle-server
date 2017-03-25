@@ -130,9 +130,7 @@ public class BaseShip implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         BaseShip other = (BaseShip) obj;
-        if (shipId != other.shipId)
-            return false;
-        return true;
+        return shipId == other.shipId;
     }
 
     @Override

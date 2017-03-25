@@ -88,9 +88,7 @@ public class MemberFurniture implements Serializable {
                 return false;
         } else if (!furniture.equals(other.furniture))
             return false;
-        if (member_id != other.member_id)
-            return false;
-        return true;
+        return member_id == other.member_id;
     }
 
     @Override

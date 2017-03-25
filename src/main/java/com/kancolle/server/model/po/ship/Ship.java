@@ -484,8 +484,6 @@ public class Ship extends BaseShip implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Ship other = (Ship) obj;
-        if (getShipId() != other.getShipId())
-            return false;
-        return true;
+        return getShipId() == other.getShipId();
     }
 }

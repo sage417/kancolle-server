@@ -167,9 +167,7 @@ public class Duty implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Duty other = (Duty) obj;
-        if (no != other.no)
-            return false;
-        return true;
+        return no == other.no;
     }
 
     @Override

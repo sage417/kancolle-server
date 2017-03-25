@@ -214,9 +214,7 @@ public class Mission implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Mission other = (Mission) obj;
-        if (missionId != other.missionId)
-            return false;
-        return true;
+        return missionId == other.missionId;
     }
 
     @Override

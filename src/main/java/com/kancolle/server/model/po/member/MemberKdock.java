@@ -186,9 +186,7 @@ public class MemberKdock implements Serializable {
         MemberKdock other = (MemberKdock) obj;
         if (createShipId != other.createShipId)
             return false;
-        if (memberId != other.memberId)
-            return false;
-        return true;
+        return memberId == other.memberId;
     }
 
     @Override

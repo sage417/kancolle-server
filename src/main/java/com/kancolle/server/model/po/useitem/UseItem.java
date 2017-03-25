@@ -99,9 +99,7 @@ public class UseItem implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         UseItem other = (UseItem) obj;
-        if (useitemId != other.useitemId)
-            return false;
-        return true;
+        return useitemId == other.useitemId;
     }
 
     @Override

@@ -63,9 +63,7 @@ public class BGM implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         BGM other = (BGM) obj;
-        if (bgmId != other.bgmId)
-            return false;
-        return true;
+        return bgmId == other.bgmId;
     }
 
     @Override

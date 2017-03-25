@@ -103,9 +103,7 @@ public class MemberSlotItem extends AbstractSlotItem implements ISlotItem, Seria
                 return false;
         } else if (!memberId.equals(other.memberId))
             return false;
-        if (memberSlotItemId != other.memberSlotItemId)
-            return false;
-        return true;
+        return memberSlotItemId == other.memberSlotItemId;
     }
 
     @Override

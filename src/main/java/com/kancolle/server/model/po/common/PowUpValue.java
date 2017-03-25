@@ -85,9 +85,7 @@ public class PowUpValue implements Serializable {
             return false;
         if (souk != other.souk)
             return false;
-        if (tyku != other.tyku)
-            return false;
-        return true;
+        return tyku == other.tyku;
     }
 
     @Override

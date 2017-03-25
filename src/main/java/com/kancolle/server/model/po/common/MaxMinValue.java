@@ -64,9 +64,7 @@ public class MaxMinValue implements Serializable {
         MaxMinValue other = (MaxMinValue) obj;
         if (maxValue != other.maxValue)
             return false;
-        if (minValue != other.minValue)
-            return false;
-        return true;
+        return minValue == other.minValue;
     }
 
     @Override

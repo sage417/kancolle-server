@@ -169,9 +169,7 @@ public class Furniture implements Serializable {
             return false;
         if (season != other.season)
             return false;
-        if (type != other.type)
-            return false;
-        return true;
+        return type == other.type;
     }
 
     @Override

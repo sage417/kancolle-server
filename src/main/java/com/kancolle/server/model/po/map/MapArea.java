@@ -75,9 +75,7 @@ public class MapArea implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         MapArea other = (MapArea) obj;
-        if (mapareaId != other.mapareaId)
-            return false;
-        return true;
+        return mapareaId == other.mapareaId;
     }
 
     @Override

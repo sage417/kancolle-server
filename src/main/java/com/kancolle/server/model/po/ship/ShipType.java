@@ -135,9 +135,7 @@ public class ShipType implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         ShipType other = (ShipType) obj;
-        if (shipTypeId != other.shipTypeId)
-            return false;
-        return true;
+        return shipTypeId == other.shipTypeId;
     }
 
     @Override

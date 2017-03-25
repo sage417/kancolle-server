@@ -135,9 +135,7 @@ public class Resource implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Resource other = (Resource) obj;
-        if (memberId != other.memberId)
-            return false;
-        return true;
+        return memberId == other.memberId;
     }
 
     @Override

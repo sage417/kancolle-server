@@ -167,9 +167,7 @@ public class MemberDeckPort implements Serializable {
         MemberDeckPort other = (MemberDeckPort) obj;
         if (deckId != other.deckId)
             return false;
-        if (memberId != other.memberId)
-            return false;
-        return true;
+        return memberId == other.memberId;
     }
 
     @Override

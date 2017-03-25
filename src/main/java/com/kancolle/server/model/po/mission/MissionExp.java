@@ -64,9 +64,7 @@ public class MissionExp implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         MissionExp other = (MissionExp) obj;
-        if (missionId != other.missionId)
-            return false;
-        return true;
+        return missionId == other.missionId;
     }
 
     @Override
