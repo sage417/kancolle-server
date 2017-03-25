@@ -1,5 +1,6 @@
 package com.kancolle.server.model.mongo;
 
+import com.google.common.base.MoreObjects;
 import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
@@ -87,5 +88,17 @@ public class MemberBattleFleet {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("memberId", memberId)
+                .add("travellerNo", travellerNo)
+                .add("mapCellNo", mapCellNo)
+                .add("mapCellName", mapCellName)
+                .add("fleets", fleets)
+                .toString();
     }
 }

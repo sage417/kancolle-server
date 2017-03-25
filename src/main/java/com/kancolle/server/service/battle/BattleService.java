@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.math.DoubleMath;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.kancolle.server.controller.kcsapi.battle.form.BattleForm;
 import com.kancolle.server.model.kcsapi.battle.BattleResult;
 import com.kancolle.server.model.kcsapi.battle.BattleResult.*;
@@ -28,7 +27,6 @@ import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
-import com.kancolle.server.model.response.APIResponse;
 import com.kancolle.server.service.base.BaseService;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
 import com.kancolle.server.service.battle.course.ICourseSystem;
@@ -42,9 +40,6 @@ import com.kancolle.server.service.member.MemberService;
 import com.kancolle.server.service.ship.MemberShipService;
 import com.kancolle.server.service.ship.ShipService;
 import com.kancolle.server.utils.logic.ship.ShipFilter;
-import io.reactivex.Single;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,8 +50,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -106,25 +99,15 @@ public class BattleService extends BaseService {
     @Autowired
     private Map<String, AbstractMapCell> mapcells;
 
-    private Executor executor = Executors.newScheduledThreadPool(200, new ThreadFactoryBuilder().setNameFormat("battle-service").build());
-
-    public Single<APIResponse<BattleSimulationResult>> battleSingle(long member_id, BattleForm form) {
-        return Single
-                .create((SingleOnSubscribe<APIResponse<BattleSimulationResult>>) e -> e.onSuccess(toResponse(battle(member_id, form))))
-                .subscribeOn(Schedulers.from(executor));
-    }
-
-    private APIResponse<BattleSimulationResult> toResponse(BattleSimulationResult result) {
-        return APIResponse.<BattleSimulationResult>builder().data(result).build();
-    }
-
-    private BattleSimulationResult battle(long member_id, BattleForm form) {
+    public BattleSimulationResult battle(long member_id, BattleForm form) {
         MemberMapBattleState battleState = mapBattleService.selectMemberMapBattleState(member_id);
         //checkState(!battleState.isBattleFlag());
 
         int formation = form.getApi_formation();
         /* 旗艦大破進撃フラグ 0=通常, 1=応急修理要員を利用して進撃?, 2=応急修理女神を利用して進撃? */
         int recovery_type = form.getApi_recovery_type();
+
+        // TODO 消耗損管
 
         // create battle context
         BattleContext context = new BattleContext();
@@ -276,6 +259,11 @@ public class BattleService extends BaseService {
         } catch (RuntimeException e) {
             LOGGER.error("error when apply kancolle-battle-api", e);
         }
+
+        // 消耗損管
+
+        // 擊沉
+
         return result;
     }
 

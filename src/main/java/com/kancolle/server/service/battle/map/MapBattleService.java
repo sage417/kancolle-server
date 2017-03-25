@@ -14,6 +14,7 @@ import com.kancolle.server.model.po.deckport.SlimDeckPort;
 import com.kancolle.server.model.po.map.MapCellModel;
 import com.kancolle.server.service.deckport.MemberDeckPortService;
 import com.kancolle.server.service.map.MemberMapService;
+import com.kancolle.server.service.map.mapcells.INormalMapCell;
 import com.kancolle.server.service.map.traveller.MapTraveller;
 import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,19 +83,24 @@ public class MapBattleService {
 
         updateMemberMapCellInfo(member_id, mapCellId);
 
-        MemberBattleFleet memberBattleFleet = memberBattleFleet(member_id, travellerNo, mapCell, deckId);
+        MemberBattleFleet dbMemberBattleFleet = datastore.createQuery(MemberBattleFleet.class).field("member_id").equal(member_id).project("_id",true).get();
+
+        MemberBattleFleet memberBattleFleet = memberBattleFleet(dbMemberBattleFleet, member_id, travellerNo, mapCell, deckId);
         datastore.save(memberBattleFleet);
 
         return result;
     }
 
-    private MemberBattleFleet memberBattleFleet(long member_id, int traveller_no, MapCellModel map_cell, int... deck_ids) {
+    private MemberBattleFleet memberBattleFleet(MemberBattleFleet db, long member_id, int traveller_no, MapCellModel map_cell, int... deck_ids) {
         MemberBattleFleet result = new MemberBattleFleet();
         result.setMemberId(member_id);
         result.setTravellerNo(traveller_no);
         result.setMapCellNo(map_cell.getApi_id());
         result.setMapCellName(map_cell.getName());
 
+        if (db != null) {
+            result.setId(db.getId());
+        }
         List<SlimDeckPort> memberDeckPorts =
                 Arrays.stream(deck_ids)
                         .mapToObj(deck_id -> memberDeckPortService.getEagerUnNullableMemberDeckPort(member_id, deck_id))
@@ -119,11 +125,15 @@ public class MapBattleService {
 
         MapNextResult result = traveller.next(mapCellId, deckPort);
 
-        int nextMapCellId = traveller.getToMapCell().getMapCellId();
+        final INormalMapCell toMapCell = traveller.getToMapCell();
+        int nextMapCellId = toMapCell.getMapCellId();
 
         updateMemberMapCellInfo(member_id, nextMapCellId);
         state.setMapCellId(nextMapCellId);
         memberMapBattleMapper.update(state, MAPCELL_ID);
+
+        datastore.updateFirst(datastore.createQuery(MemberBattleFleet.class).field("member_id").equal(member_id),
+                datastore.createUpdateOperations(MemberBattleFleet.class).set("map_cell_no", toMapCell.getMapCell().getApi_id()).set("map_cell_name", toMapCell.getMapCell().getName()));
 
         return result;
     }

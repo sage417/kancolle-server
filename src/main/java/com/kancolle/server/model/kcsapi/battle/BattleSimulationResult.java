@@ -43,51 +43,41 @@ public class BattleSimulationResult {
 
     private static final int[] PARAM = new int[]{0, 0, 0, 0};
 
-    @JSONField(ordinal = 1)
     @JsonProperty(value = "api_dock_id")
     private int api_dock_id;
 
     /**
      * 敌舰队舰船ID，-1开始，-1结束，空舰船ID为-1
      */
-    @JSONField(ordinal = 2)
     @JsonProperty(value = "api_ship_ke")
     private int[] api_ship_ke;
 
-    @JSONField(ordinal = 3)
     @JsonProperty(value = "api_ship_lv")
     private int[] api_ship_lv;
 
-    @JSONField(ordinal = 4)
     @JsonProperty(value = "api_nowhps")
     private int[] api_nowhps;
 
-    @JSONField(ordinal = 5)
     @JsonProperty(value = "api_maxhps")
     private int[] api_maxhps;
 
-    @JSONField(ordinal = 6)
     @JsonProperty(value = "api_midnight_flag")
     private int api_midnight_flag = 0;
 
-    @JSONField(ordinal = 7)
     @JsonProperty(value = "api_eSlot")
     private int[][] api_eSlot;
 
-    @JSONField(ordinal = 8)
     @JsonProperty(value = "api_eKyouka")
     private int[][] api_eKyouka;
 
     /*
      * 味方艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
      */
-    @JSONField(ordinal = 9)
     @JsonProperty(value = "api_fParam")
     private int[][] api_fParam;
     /*
      * 敵艦船基礎ステータス [0]=火力, [1]=雷装, [2]=対空, [3]=装甲
      */
-    @JSONField(ordinal = 10)
     @JsonProperty(value = "api_eParam")
     private int[][] api_eParam;
 
@@ -95,7 +85,6 @@ public class BattleSimulationResult {
      * 索敵成否 [0]=味方, [1]=敵 1=成功, 2=成功(未帰還機あり), 3=失敗+未帰還, 4=失敗, 5=成功(艦載機使用せず),
      * 6=失敗(艦載機使用せず)
      */
-    @JSONField(ordinal = 11)
     @JsonProperty(value = "api_search")
     private int[] api_search;
 
@@ -103,25 +92,21 @@ public class BattleSimulationResult {
      * 陣形/交戦形態 [0]=味方, [1]=敵, [2]=交戦形態 [0|1]：1=単縦陣 2=複縦陣, 3=輪形陣, 4=梯形陣, 5=単横陣
      * [2]：1=同航戦, 2=反航戦, 3=T字有利, 4=T字不利
      */
-    @JSONField(ordinal = 12)
     @JsonProperty(value = "api_formation")
     private int[] api_formation;
 
     /**
      * 航空戦flag
      */
-    @JSONField(ordinal = 13)
     @JsonProperty(value = "api_stage_flag")
     private int[] api_stage_flag;
 
     /**
      * 航空戦情報
      */
-    @JSONField(ordinal = 14)
     @JsonProperty(value = "api_kouku")
     private KouKuResult api_kouku;
 
-    @JSONField(ordinal = 15)
     @JsonProperty(value = "api_support_flag")
     private int api_support_flag;
 
@@ -129,7 +114,6 @@ public class BattleSimulationResult {
     @JsonProperty(value = "api_support_info")
     private Object api_support_info;
 
-    @JSONField(ordinal = 17)
     @JsonProperty(value = "api_opening_flag")
     private int api_opening_flag;
 
@@ -140,7 +124,6 @@ public class BattleSimulationResult {
     /**
      * 炮击战flag
      */
-    @JSONField(ordinal = 19)
     @JsonProperty(value = "api_hourai_flag")
     private int[] api_hourai_flag;
 
