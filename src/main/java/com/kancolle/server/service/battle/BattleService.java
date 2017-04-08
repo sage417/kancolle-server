@@ -266,7 +266,12 @@ public class BattleService extends BaseService {
         saveMemberBattleFleet(member_id, memberDeckPort.getDeckId());
 
         try {
-            result = restTemplate.getForObject(battle_api_url + "/?api_member_id={member_id}&api_formation={formation}&api_recover_type={recover_type}", BattleSimulationResult.class, member_id, form.getApi_formation(), form.getApi_recovery_type());
+            result = restTemplate.getForObject(
+                    battle_api_url + "/?api_member_id={member_id}&api_formation={formation}&api_recover_type={recover_type}",
+                    BattleSimulationResult.class,
+                    member_id,
+                    form.getApi_formation(),
+                    form.getApi_recovery_type());
         } catch (RuntimeException e) {
             LOGGER.error("error when apply kancolle-battle-api", e);
         }
