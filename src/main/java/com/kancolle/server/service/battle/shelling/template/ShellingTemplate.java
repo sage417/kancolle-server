@@ -82,16 +82,17 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
      * @return
      */
     private D chooseTargetShip(final A attackShip, final BattleContext context) {
-        List<? extends IShip> attackableShips = null;
         final List<? extends IShip> enemySSShips = context.getEnemySSShips();
-        if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
-            attackableShips = enemySSShips;
-        }
         final List<? extends IShip> enemyNormalShips = context.getEnemyNormalShips();
-        if (!isEmpty(enemyNormalShips)) {
-            attackableShips = enemyNormalShips;
+
+        List<D> targetShips = null;
+        if (ShipFilter.antiSSShipFilter.test(attackShip) && !isEmpty(enemySSShips)) {
+        // if (ShipFilter.antiSSShipFilter.test(attackShip) && (aswLast || isEmpty(enemyNormalShips)) && !isEmpty(enemySSShips)) {
+            targetShips = (List<D>) enemySSShips;
+        } else if (!isEmpty(enemyNormalShips)) {
+            targetShips = (List<D>) enemyNormalShips;
         }
-        return attackableShips == null ? null : (D) CollectionsUtils.randomGet(attackableShips);
+        return targetShips == null ? null : CollectionsUtils.randomGet(targetShips);
     }
 
     protected abstract D callBackAfterChooseTargetShip(final A attackShip, final D defendShip, final BattleContext context);
@@ -158,6 +159,7 @@ public abstract class ShellingTemplate<A extends IShip, D extends IShip> {
 
     /**
      * 转为援护伤害
+     *
      * @param damages
      * @return
      */

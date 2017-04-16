@@ -214,10 +214,6 @@ public class BattleService extends BaseService {
 
         /*--------------------------5.炮击战---------------------------*/
 
-        boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || underSeaShips.stream().anyMatch(BBShipFilter);
-        int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
-        result.setApi_hourai_flag(api_hourai_flag);
-
         List<MemberShip> aliveMemberDefendShips = memberShips.stream().filter(ShipFilter.isAlive).collect(Collectors.toList());
         List<UnderSeaShip> aliveUnderSeaDefendShips = underSeaShips.stream().filter(ShipFilter.isAlive).collect(Collectors.toList());
 
@@ -234,6 +230,10 @@ public class BattleService extends BaseService {
         // 敌方非潜艇队列，无法被攻击的舰船将被移除
         List<UnderSeaShip> aliveUnderSeaNormalShip = getTargetShips(aliveUnderSeaDefendShips, ssFilter.negate());
         context.setAliveUnderSeaNormalShips(aliveUnderSeaNormalShip);
+
+        boolean hasBB = memberShips.stream().anyMatch(BBShipFilter) || underSeaShips.stream().anyMatch(BBShipFilter);
+        int[] api_hourai_flag = {1, hasBB ? 1 : 0, 0, 0};
+        result.setApi_hourai_flag(api_hourai_flag);
 
         int shellingRound = hasBB ? 2 : 1;
 
