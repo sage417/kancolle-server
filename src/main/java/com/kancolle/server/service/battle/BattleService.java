@@ -28,6 +28,7 @@ import com.kancolle.server.model.po.deckport.UnderSeaDeckPort;
 import com.kancolle.server.model.po.member.Member;
 import com.kancolle.server.model.po.ship.IShip;
 import com.kancolle.server.model.po.ship.MemberShip;
+import com.kancolle.server.model.po.ship.SlimShip;
 import com.kancolle.server.model.po.ship.UnderSeaShip;
 import com.kancolle.server.service.base.BaseService;
 import com.kancolle.server.service.battle.aerial.IAerialBattleSystem;
@@ -276,9 +277,28 @@ public class BattleService extends BaseService {
             LOGGER.error("error when apply kancolle-battle-api", e);
         }
 
-        // 消耗損管
+        final List<SlimDeckPort> fleets = loadMemberBattleFleet(member_id);
 
-        // 擊沉
+        // TODO 消耗損管
+
+
+        Map<Boolean, List<SlimShip>> slimShips = fleets.stream()
+                .map(SlimDeckPort::getShips)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy((ss) -> ss.getNowHp() > 0));
+
+        slimShips.get(Boolean.TRUE).stream().map(
+                slimShip -> {
+                    final MemberShip memberShip = memberShipService.getMemberShip(member_id, slimShip.getMemberShipId());
+                    memberShip.setNowHp(slimShip.getNowHp());
+                    return memberShip;
+                }
+        ).forEach(memberShip -> memberShipService.updateHpAndCond(memberShip));
+
+        memberShipService.destroyShips(member_id, slimShips.get(Boolean.FALSE)
+                .stream()
+                .map(slimShip -> memberShipService.getMemberShip(member_id, slimShip.getMemberShipId()))
+                .collect(Collectors.toList()));
 
         return result;
     }
@@ -292,6 +312,12 @@ public class BattleService extends BaseService {
         datastore.updateFirst(datastore.createQuery(MemberBattleFleet.class)
                         .field("member_id").equal(member_id).project("_id", true),
                 datastore.createUpdateOperations(MemberBattleFleet.class).set("fleets", memberDeckPorts));
+    }
+
+    private List<SlimDeckPort> loadMemberBattleFleet(long member_id) {
+        MemberBattleFleet memberBattleFleet = datastore.createQuery(MemberBattleFleet.class).field("member_id").equal(member_id).project("fleets", true).get();
+        Objects.requireNonNull(memberBattleFleet, () -> String.format("memberBattleFleet is null, memberId:%d", member_id));
+        return memberBattleFleet.getFleets();
     }
 
     @Transactional
