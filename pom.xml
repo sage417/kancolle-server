@@ -60,6 +60,79 @@
                     <configFile>src/main/resources/db/migration/flyway.properties</configFile>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.3</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>validate-the-git-infos</id>
+                        <goals>
+                            <goal>validateRevision</goal>
+                        </goals>
+                        <!-- *NOTE*: The default phase of validateRevision is verify, but in case you want to change it, you can do so by adding the phase here -->
+                        <!--<phase>package</phase>-->
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <!--
+                        If you'd like to tell the plugin where your .git directory is,
+                        use this setting, otherwise we'll perform a search trying to
+                        figure out the right directory. It's better to add it explicitly IMHO.
+                    -->
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+
+                    <!-- @since 2.1.10 -->
+                    <!--
+                      false is default here, if set to true it uses native `git` executable for extracting all data.
+                      This usually has better performance than the default (jgit) implementation, but requires you to
+                      have git available as executable for the build as well as *might break unexpectedly* when you
+                      upgrade your system-wide git installation.
+
+                      As rule of thumb - stay on `jgit` (keep this `false`) until you notice performance problems.
+                    -->
+                    <useNativeGit>false</useNativeGit>
+
+                    <!-- @since 2.2.2 -->
+                    <!--
+                        Since version **2.2.2** the maven-git-commit-id-plugin comes equipped with an additional validation utility which can be used to verify if your project properties are set as you would like to have them set.
+                        *Note*: This configuration will only be taken into account when the additional goal `validateRevision` is configured inside an execution.
+                    -->
+                    <validationProperties>
+                        <validationProperty>
+                            <!--
+                                 A descriptive name that will be used to be able to identify the validation that does not match up (will be displayed in the error message).
+                            -->
+                            <name>validating project version</name>
+                            <!--
+                                 the value that needs the validation
+                                 *Note* : In order to be able to validate the generated git-properties inside the pom itself you may need to set the configuration `<injectAllReactorProjects>true</injectAllReactorProjects>`.
+                            -->
+                            <value>${project.version}</value>
+                            <!--
+                                the expected value
+                            -->
+                            <shouldMatchTo><![CDATA[^.*(?<!-SNAPSHOT)$]]></shouldMatchTo>
+                        </validationProperty>
+                        <!-- the next validationProperty you would like to validate -->
+                    </validationProperties>
+                    <!-- @since 2.2.2 -->
+                    <!--
+                        true by default, controls whether the validation will fail if *at least one* of the validationProperties does not match with it's expected values.
+                        If you don't care about this, you may want to set this value to false (this makes the configuration of validationProperties useless).
+                        *Note*: This configuration will only be taken into account when the additional goal `validateRevision` is configured inside an execution and at least one validationProperty is defined.
+                    -->
+                    <validationShouldFailIfNoMatch>true</validationShouldFailIfNoMatch>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

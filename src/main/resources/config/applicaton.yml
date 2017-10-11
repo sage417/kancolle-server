@@ -1,0 +1,21 @@
+git:
+  tags: @git.tags@
+  branch: @git.branch@
+  dirty: @git.dirty@
+  remote-origin-url: @git.remote.origin.url@
+  commit-id: @git.commit.id@
+  commit-id-abbrev: @git.commit.id.abbrev@
+  describe: @git.commit.id.describe@
+  describe-short: @git.commit.id.describe-short@
+  commit-user-name: @git.commit.user.name@
+  commit-user-email: @git.commit.user.email@
+  commit-message-full: @git.commit.message.full@
+  commit-message-short: @git.commit.message.short@
+  commit-time: @git.commit.time@
+  closest-tag-name: @git.closest.tag.name@
+  clost-tag-commit-count: @git.closest.tag.commit.count@
+  build-user-name: @git.build.user.name@
+  build-user-email: @git.build.user.email@
+  build-time: @git.build.time@
+  build-host: @git.build.host@
+  build-version: @git.build.version@
